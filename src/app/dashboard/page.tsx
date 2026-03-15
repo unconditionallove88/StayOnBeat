@@ -28,7 +28,7 @@ import HeartStatusAura from '@/components/dashboard/HeartStatusAura';
 import LoveCircle from '@/components/dashboard/LoveCircle';
 import { CoCreation } from '@/components/dashboard/CoCreation';
 import { WearablesSync } from '@/components/dashboard/WearablesSync';
-import { AiSafetyChat } from '@/components/chat/AiSafetyChat';
+import { AssistantPortal } from '@/components/chat/AssistantPortal';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { useUser, useFirestore, useDoc, useMemoFirebase, useAuth } from '@/firebase';
@@ -281,8 +281,8 @@ export default function Dashboard() {
 
       <Dialog open={aiBotOpen} onOpenChange={setAiBotOpen}>
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh]">
-          <DialogTitle className="sr-only">AI Safety Advisor</DialogTitle>
-          <AiSafetyChat userProfile={firestoreProfile} />
+          <DialogTitle className="sr-only">AI Assistant Portal</DialogTitle>
+          <AssistantPortal userProfile={firestoreProfile} onClose={() => setAiBotOpen(false)} />
         </DialogContent>
       </Dialog>
 
