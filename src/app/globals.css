@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 4%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 2%;
+    --popover-foreground: 0 0% 100%;
+    /* Sophisticated Emerald Green (#10B981) */
+    --primary: 161 64% 43%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 161 30% 30%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 63.9%;
+    /* Bright Yellow-Green (#EBFB3B) */
+    --accent: 65 96% 61%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 161 64% 43%;
+    --radius: 2.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-none;
+  }
+  html, body {
+    @apply bg-black text-foreground font-body antialiased;
+    height: 100%;
+    overflow-x: hidden;
+  }
+
+  h1 { @apply text-[28px] font-black tracking-tighter font-headline; }
+  h2 { @apply text-[22px] font-bold tracking-tight font-headline; }
+  h3 { @apply text-[18px] font-bold tracking-tight font-headline; }
+}
+
+@keyframes pulse-heart {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes flash-red {
+  0%, 100% { background-color: rgba(220, 38, 38, 0.1); border-color: rgba(220, 38, 38, 0.5); }
+  50% { background-color: rgba(220, 38, 38, 0.3); border-color: rgba(220, 38, 38, 1); }
+}
+
+@keyframes alert-pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.02); opacity: 0.9; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-pulse-heart {
+  animation: pulse-heart 1.5s ease-in-out infinite;
+}
+
+.animate-flash-red {
+  animation: flash-red 1s infinite;
+}
+
+.animate-alert-pulse {
+  animation: alert-pulse 0.5s infinite;
+}
+
+.neon-glow {
+  box-shadow: 0 0 20px hsl(var(--primary) / 0.4), 0 0 5px hsl(var(--primary) / 0.6);
+}
+
+.pill-button {
+  @apply rounded-full px-8 py-5 font-bold transition-all duration-300 flex items-center justify-center;
+  height: 64px;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.3);
+  border-radius: 10px;
+}
+
+.glow-green {
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+}

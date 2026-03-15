@@ -1,0 +1,188 @@
+
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Stores a user's personal profile information, legal agreements, and safety status.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": ["string", "null"] },
+        "name": { "type": "string" },
+        "sosActive": { "type": "boolean" },
+        "trustLevel": { "type": "string", "enum": ["unverified", "verified_adult"] },
+        "guardActive": { "type": "boolean" },
+        "secretWord": { "type": "string" },
+        "sessionStatus": {
+          "type": "object",
+          "properties": {
+            "isLocked": { "type": "boolean" },
+            "lockReason": { "type": "string" },
+            "lockedAt": { "type": "string", "format": "date-time" },
+            "unlockAt": { "type": "string", "format": "date-time" },
+            "lastHeartRate": { "type": "number" },
+            "activeSubstances": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "pulseBaseline": {
+          "type": "object",
+          "properties": {
+            "restingBPM": { "type": "number" },
+            "source": { "type": "string" },
+            "recordedAt": { "type": "string", "format": "date-time" },
+            "status": { "type": "string" }
+          }
+        },
+        "legal": {
+          "type": "object",
+          "properties": {
+            "harmReductionAccepted": { "type": "boolean" },
+            "medicalDisclaimerAccepted": { "type": "boolean" },
+            "gdprAccepted": { "type": "boolean" },
+            "safetyNetworkEnabled": { "type": "boolean" },
+            "termsAcceptedAt": { "type": "string", "format": "date-time" }
+          }
+        },
+        "biometrics": {
+          "type": "object",
+          "properties": {
+            "ageGroup": { "type": "string" },
+            "weightKg": { "type": "number" },
+            "heightCm": { "type": "number" }
+          }
+        },
+        "verification": {
+          "type": "object",
+          "properties": {
+            "isAgeVerified": { "type": "boolean" },
+            "method": { "type": "string" },
+            "stripeCustomerId": { "type": "string" },
+            "verifiedAt": { "type": "string", "format": "date-time" }
+          }
+        },
+        "vibe": {
+          "type": "object",
+          "properties": {
+            "current": { "type": "string" },
+            "currentEmoji": { "type": "string" },
+            "currentLabel": { "type": "string" },
+            "lastUpdated": { "type": "string", "format": "date-time" },
+            "history": {
+              "type": "array",
+              "items": { "type": "object" }
+            }
+          }
+        },
+        "goals": { "type": "array", "items": { "type": "string" } },
+        "healthConditions": { "type": "array", "items": { "type": "string" } },
+        "medications": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "SafetyContact": {
+      "title": "SafetyContact",
+      "description": "A trusted person in the user's safety network.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "relationship": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "notifyBySMS": { "type": "boolean" },
+        "notifyByEmail": { "type": "boolean" },
+        "addedAt": { "type": "string", "format": "date-time" },
+        "addedWithLove": { "type": "boolean" }
+      },
+      "required": ["name", "relationship"]
+    },
+    "SOSEvent": {
+      "title": "SOSEvent",
+      "description": "A local log of an SOS trigger.",
+      "type": "object",
+      "properties": {
+        "triggeredAt": { "type": "string", "format": "date-time" },
+        "status": { "type": "string" },
+        "message": { "type": "string" },
+        "resolvedAt": { ["string", "null"], "format": "date-time" }
+      }
+    },
+    "GlobalSOSAlert": {
+      "title": "GlobalSOSAlert",
+      "description": "A dispatch alert for the awareness team and safety circle.",
+      "type": "object",
+      "properties": {
+        "fromUid": { "type": "string" },
+        "toContact": { "type": "object" },
+        "sentAt": { "type": "string", "format": "date-time" },
+        "status": { "type": "string" },
+        "message": { "type": "string" }
+      }
+    },
+    "ModerationLog": {
+      "title": "ModerationLog",
+      "description": "Logs of flagged or reported content.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userAlias": { "type": "string" },
+        "content": { "type": "string" },
+        "reason": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "type": { "type": "string", "enum": ["AI_FLAGGED", "USER_REPORT"] }
+      }
+    },
+    "ChatGroup": {
+      "title": "ChatGroup",
+      "description": "A group of 'Holders' who have mutually confirmed each other.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "members": { "type": "array", "items": { "type": "string" } },
+        "pendingInvites": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Feedback": {
+      "title": "Feedback",
+      "description": "User co-creation feedback and resonance logs.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "language": { "type": "string" },
+        "type": { "type": "string" },
+        "message": { "type": "string" },
+        "vibeAtMoment": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "auth": {
+    "providers": ["anonymous"]
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/backend/entities/UserProfile" },
+      "description": "Stores user profile and safety status."
+    },
+    "/users/{userId}/safetyNetwork/{contactId}": {
+      "schema": { "$ref": "#/backend/entities/SafetyContact" },
+      "description": "User's trusted contacts."
+    },
+    "/users/{userId}/sosEvents/{eventId}": {
+      "schema": { "$ref": "#/backend/entities/SOSEvent" },
+      "description": "Local user SOS log."
+    },
+    "/moderation_logs/{logId}": {
+      "schema": { "$ref": "#/backend/entities/ModerationLog" },
+      "description": "Logs of flagged/reported content for moderators."
+    },
+    "/chatGroups/{groupId}": {
+      "schema": { "$ref": "#/backend/entities/ChatGroup" },
+      "description": "Private group chats for Holders."
+    },
+    "/feedback/{feedbackId}": {
+      "schema": { "$ref": "#/backend/entities/Feedback" },
+      "description": "User submitted feedback and resonance."
+    }
+  }
+}

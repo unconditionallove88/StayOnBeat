@@ -1,0 +1,43 @@
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Sanctuary Protocol: Users have absolute sovereignty over their own profile and sub-circles
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Includes Love Circle, Substance Logs, and Love Letters
+      match /{allPaths=**} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // Party Circle (Public Sanctuary): Moderated space for all authenticated souls
+    match /partyCircle/{messageId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Global SOS Alerts: Accessible for emergency coordination and awareness dispatch
+    match /sosAlerts/{alertId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Event Rooms: For coordinated care and moderated event-wide communications
+    match /eventRooms/{roomId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Legacy Support for global chat structures
+    match /globalChat/{messageId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Co-Creation Feedback: Authenticated users can submit resonance and feedback
+    match /feedback/{feedbackId} {
+      allow create: if request.auth != null;
+      allow read: if false; // Privacy: Only system admins can review feedback
+    }
+  }
+}

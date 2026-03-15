@@ -1,0 +1,252 @@
+'use client';
+
+import React, { useState, useEffect, useRef } from 'react';
+import { Sprout, Send, Heart, CheckCircle2, Loader2, Globe, Mic, MicOff } from 'lucide-react';
+import { useFirestore, useUser, useDoc, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
+import { collection, serverTimestamp, doc } from 'firebase/firestore';
+import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
+
+/**
+ * @fileOverview Co-Creation Component.
+ * Color theme: Light Green #90EE90 for the Sprout icon.
+ */
+
+const i18n = {
+  en: {
+    title: "Co-Creation",
+    subtitle: "Your voice shapes this sanctuary.",
+    types: [
+      { key: "resonance", label: "What resonates? 💚", placeholder: "What feels right, warm, or true to you in this app..." },
+      { key: "dissonance", label: "Where is the dissonance? 🌊", placeholder: "What feels off, missing, or could be more human..." },
+      { key: "evolution", label: "What would you add? 🌱", placeholder: "A feature, a word, a feeling you wish was here..." },
+      { key: "safety", label: "Do you feel like YOU are cared for here? 🫀", placeholder: "Tell us honestly. Feeling cared for is our foundation..." },
+    ],
+    send: "Send from the Heart",
+    sending: "Sending...",
+    successTitle: "Heard. 💚",
+    successMsg: "Your words have been received with love. They will help this space grow.",
+    shareMore: "Share more 🌱",
+    voiceError: "Voice input interrupted. Please try again.",
+    voiceNotSupported: "Your browser does not support voice input.",
+  },
+  de: {
+    title: "Ko-Kreation",
+    subtitle: "Deine Stimme gestaltet diesen Raum.",
+    types: [
+      { key: "resonance", label: "Was resoniert? 💚", placeholder: "Was fühlt sich richtig, warm oder wahr an in dieser App..." },
+      { key: "dissonance", label: "Wo ist der Dissonanz? 🌊", placeholder: "Was fühlt sich falsch an, fehlt oder könnte menschlicher sein..." },
+      { key: "evolution", label: "Was würdest du hinzufügen? 🌱", placeholder: "Eine Funktion, ein Wort, ein Gefühl, das du dir hier wünschst..." },
+      { key: "safety", label: "Hast du das Gefühl, dass DU hier umsorgt wirst? 🫀", placeholder: "Sag es uns ehrlich. Das Gefühl, umsorgt zu werden, ist unser Fundament..." },
+    ],
+    send: "Von Herzen senden",
+    sending: "Wird gesendet...",
+    successTitle: "Gehört. 💚",
+    successMsg: "Deine Worte wurden mit Liebe empfangen. Sie helfen diesem Raum zu wachsen.",
+    shareMore: "Mehr teilen 🌱",
+    voiceError: "Spracheingabe unterbrochen. Bitte versuchen Sie es erneut.",
+    voiceNotSupported: "Ihr Browser unterstützt keine Spracheingabe.",
+  },
+};
+
+export function CoCreation({ onComplete }: { onComplete?: () => void }) {
+  const { toast } = useToast();
+  const { user } = useUser();
+  const firestore = useFirestore();
+  const [lang, setLang] = useState<"en" | "de">("en");
+  const [activeType, setActiveType] = useState(0);
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const recognitionRef = useRef<any>(null);
+
+  const userDocRef = useMemoFirebase(() => {
+    if (!firestore || !user?.uid) return null;
+    return doc(firestore, 'users', user.uid);
+  }, [firestore, user?.uid]);
+  
+  const { data: profile } = useDoc(userDocRef);
+
+  useEffect(() => {
+    const savedLang = localStorage.getItem('stayonbeat_lang');
+    if (savedLang === 'DE') setLang('de');
+
+    if (typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = false;
+      recognitionRef.current.interimResults = false;
+      recognitionRef.current.lang = lang === 'en' ? 'en-US' : 'de-DE';
+
+      recognitionRef.current.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setMessage(prev => (prev ? `${prev} ${transcript}` : transcript));
+        setIsListening(false);
+      };
+
+      recognitionRef.current.onerror = (event: any) => {
+        console.error('Speech recognition error:', event.error);
+        setIsListening(false);
+        if (event.error !== 'no-speech') {
+          toast({
+            variant: 'destructive',
+            title: 'Voice Input Error',
+            description: i18n[lang].voiceError,
+          });
+        }
+      };
+
+      recognitionRef.current.onend = () => {
+        setIsListening(false);
+      };
+    }
+  }, [lang, toast]);
+
+  const toggleListening = () => {
+    if (isListening) {
+      recognitionRef.current?.stop();
+    } else {
+      if (recognitionRef.current) {
+        setIsListening(true);
+        recognitionRef.current.start();
+      } else {
+        toast({
+          title: 'Speech Not Supported',
+          description: i18n[lang].voiceNotSupported,
+        });
+      }
+    }
+  };
+
+  const t = i18n[lang];
+
+  const handleSend = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!message.trim() || !firestore) return;
+    setLoading(true);
+
+    const payload = {
+      userId: user?.uid || "anonymous",
+      language: lang,
+      type: t.types[activeType].key,
+      message: message.trim(),
+      vibeAtMoment: profile?.vibe?.currentLabel || "Unknown",
+      status: "heard",
+      createdAt: serverTimestamp(),
+    };
+
+    try {
+      const feedbackRef = collection(firestore, "feedback");
+      addDocumentNonBlocking(feedbackRef, payload);
+      setSent(true);
+      setMessage("");
+    } catch (error) {
+      console.error("Feedback error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (sent) {
+    return (
+      <div className="w-full min-h-[400px] flex flex-col items-center justify-center p-10 text-center animate-in fade-in zoom-in-95 duration-500 font-headline bg-black rounded-[3rem]">
+        <div className="w-20 h-20 bg-[#90EE90]/10 rounded-full flex items-center justify-center mb-8 border-2 border-[#90EE90]/20 shadow-[0_0_40px_rgba(144,238,144,0.1)]">
+          <CheckCircle2 size={48} className="text-[#90EE90]" />
+        </div>
+        <h3 className="text-white font-black text-3xl mb-4 uppercase tracking-tighter">{t.successTitle}</h3>
+        <p className="text-white/60 text-base font-bold leading-relaxed max-xs mx-auto mb-10">{t.successMsg}</p>
+        <div className="flex flex-col gap-4 w-full max-w-xs">
+          <button
+            onClick={() => setSent(false)}
+            className="w-full py-5 bg-[#90EE90] text-black rounded-2xl font-black text-sm uppercase tracking-widest active:scale-95 transition-all shadow-lg shadow-[#90EE90]/10"
+          >
+            {t.shareMore}
+          </button>
+          <button onClick={onComplete} className="text-[10px] font-black uppercase text-white/20 tracking-0.4em hover:text-white transition-colors">Close Sanctuary</button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full bg-black p-8 font-headline">
+      <div className="flex items-start justify-between mb-8">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-[#90EE90]/10 border border-[#90EE90]/20">
+            <Sprout size={28} className="text-[#90EE90]" />
+          </div>
+          <div>
+            <h3 className="text-white font-black text-2xl uppercase tracking-tighter leading-none">{t.title}</h3>
+            <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mt-1.5">{t.subtitle}</p>
+          </div>
+        </div>
+        <button
+          onClick={() => setLang(lang === "en" ? "de" : "en")}
+          className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-xl border border-white/10 text-white/40 hover:text-[#90EE90] hover:border-[#90EE90]/30 transition-all"
+        >
+          <Globe size={12} />
+          {lang === "en" ? "DE" : "EN"}
+        </button>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 mb-8">
+        {t.types.map((type, i) => (
+          <button
+            key={type.key}
+            type="button"
+            onClick={() => setActiveType(i)}
+            className={cn(
+              "p-4 rounded-2xl border-2 text-left transition-all duration-300 group h-20",
+              activeType === i 
+                ? "bg-[#90EE90]/10 border-[#90EE90] shadow-[0_0_20px_rgba(144,238,144,0.15)]" 
+                : "bg-white/5 border-white/5 hover:border-white/20"
+            )}
+          >
+            <span className={cn(
+              "text-[10px] font-black uppercase tracking-widest leading-tight block",
+              activeType === i ? "text-[#90EE90]" : "text-white/40 group-hover:text-white/60"
+            )}>
+              {type.label}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <form onSubmit={handleSend} className="space-y-6">
+        <div className="relative group">
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder={t.types[activeType].placeholder}
+            className="w-full h-48 px-6 py-5 pr-16 rounded-[2rem] border-2 border-white/10 bg-white/5 text-white text-base font-bold outline-none resize-none placeholder:text-white/10 focus:border-[#90EE90] transition-all leading-relaxed shadow-inner"
+            required
+          />
+          <button
+            type="button"
+            onClick={toggleListening}
+            className={cn(
+              "absolute bottom-6 right-6 p-4 rounded-2xl transition-all duration-300",
+              isListening 
+                ? "bg-red-600 text-white animate-pulse shadow-[0_0_20px_rgba(220,38,38,0.4)]" 
+                : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white border border-white/5"
+            )}
+          >
+            {isListening ? <MicOff size={20} /> : <Mic size={20} />}
+          </button>
+        </div>
+
+        <div className="space-y-4">
+          <button
+            type="submit"
+            disabled={loading || !message.trim()}
+            className="w-full h-20 bg-[#90EE90] text-black rounded-[1.5rem] font-black text-xl uppercase tracking-widest flex items-center justify-center gap-3 transition-all active:scale-[0.98] disabled:opacity-30 neon-glow"
+          >
+            {loading ? <><Loader2 size={24} className="animate-spin" /> {t.sending}</> : <><Send size={20} /> {t.send}</>}
+          </button>
+          <p className="text-center text-[8px] text-white/20 font-black uppercase tracking-0.5em">Received with Unconditional Love 💚</p>
+        </div>
+      </form>
+    </div>
+  );
+}
