@@ -1,6 +1,6 @@
 'use server';
 /**
- * @fileOverview A Genkit flow for answering substance safety questions with conversational memory.
+ * @fileOverview A Genkit flow for answering substance safety questions with conversational memory and recovery reminders.
  *
  * - aiSafetyChat - A function that handles substance safety queries.
  * - AiSafetyChatInput - The input type for the aiSafetyChat function.
@@ -18,7 +18,7 @@ const ChatMessageSchema = z.object({
 export type ChatMessage = z.infer<typeof ChatMessageSchema>;
 
 const AiSafetyChatInputSchema = z.object({
-  substance: z.string().describe('The substance(s) the user is asking about.'),
+  substance: z.string().describe('The substance(s) the user has already taken or is asking about.'),
   question: z.string().describe('The user\'s specific safety question.'),
   history: z.array(ChatMessageSchema).optional().describe('Previous chat history for context.'),
   userProfile: z.object({
@@ -42,9 +42,9 @@ const prompt = ai.definePrompt({
   input: {schema: AiSafetyChatInputSchema},
   output: {schema: AiSafetyChatOutputSchema},
   prompt: `You are a harm reduction AI expert.
-The user is asking a question about: {{{substance}}}
+The user's current session intake is: {{{substance}}}
 
-User Profile:
+User Profile Context:
 - Meds: {{#each userProfile.medications}}{{{this}}}, {{/each}}
 - Conditions: {{#each userProfile.healthConditions}}{{{this}}}, {{/each}}
 
@@ -57,12 +57,14 @@ Previous Conversation:
 
 Current Question: {{{question}}}
 
-Provide highly concise, bulleted safety advice. 
-Give clear, direct responses that prioritize immediate safety.
-Limit responses to a maximum of 3 sentences or 4 bullet points. 
-Use standard Sentence case for the majority of the text. 
-Use **BOLD ALL-CAPS** strictly for **CRITICAL WARNINGS** or **SUBSTANCE NAMES** to maintain visual hierarchy.
-Keep the total response under 100 words.`,
+Guidelines:
+1. Provide highly concise, bulleted safety advice based on the SPECIFIC substances logged.
+2. ALWAYS include a reminder about hydration (water) and electrolyte/nutrient support (magnesium or bananas) if relevant to stimulants or physical exertion.
+3. Give clear, direct responses that prioritize immediate safety and interaction risks.
+4. Limit responses to a maximum of 4 bullet points. 
+5. Use standard Sentence case. 
+6. Use **BOLD ALL-CAPS** strictly for **CRITICAL WARNINGS** or **SUBSTANCE NAMES**.
+7. Keep the total response under 100 words.`,
 });
 
 const aiSafetyChatFlow = ai.defineFlow(

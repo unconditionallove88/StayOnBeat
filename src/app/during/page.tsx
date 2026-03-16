@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -10,17 +9,25 @@ import { ArrowLeft, Loader2, Heart } from "lucide-react";
 
 /**
  * @fileOverview Phase: During.
- * High-fidelity access to the Live Safety Advisor Chat.
+ * Access to the Live Safety Advisor with substance-aware context.
  */
 export default function DuringPhase() {
   const router = useRouter();
   const { user, isUserLoading } = useUser();
   const firestore = useFirestore();
   const [lang, setLang] = useState<'en' | 'de'>('en');
+  const [activeIntake, setActiveIntake] = useState<string>("");
 
   useEffect(() => {
     const savedLang = localStorage.getItem('stayonbeat_lang');
     if (savedLang === 'DE') setLang('de');
+
+    // Fetch local intake logs for context
+    const logs = JSON.parse(localStorage.getItem('stayonbeat_logs') || '[]');
+    if (logs.length > 0) {
+      const substanceNames = logs.map((l: any) => l.name).join(', ');
+      setActiveIntake(substanceNames);
+    }
   }, []);
 
   const userDocRef = useMemoFirebase(() => {
@@ -50,7 +57,7 @@ export default function DuringPhase() {
         </button>
         <div>
           <h1 className="text-xl font-black uppercase tracking-tighter">
-            {lang === 'en' ? 'Live Safety Advisor' : 'Live Sicherheits-Berater'}
+            {lang === 'en' ? 'Safety Advisor' : 'Sicherheits-Berater'}
           </h1>
           <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em]">
             {lang === 'en' ? 'Phase: During' : 'Phase: Währenddessen'}
@@ -59,7 +66,10 @@ export default function DuringPhase() {
       </header>
 
       <div className="flex-1 overflow-hidden">
-        <AiSafetyChat userProfile={profile} />
+        <AiSafetyChat 
+          userProfile={profile} 
+          currentIntake={activeIntake} 
+        />
       </div>
     </main>
   );

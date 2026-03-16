@@ -1,13 +1,23 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, User, Bot, Loader2, Sparkles, Mic, MicOff } from 'lucide-react';
+import { Send, User, Bot, Loader2, Sparkles, Mic, MicOff, Info } from 'lucide-react';
 import { aiSafetyChat, type ChatMessage } from '@/ai/flows/substance-safety-chat';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 
-export function AiSafetyChat({ userProfile }: { userProfile: any }) {
+/**
+ * @fileOverview AiSafetyChat Component.
+ * Enhanced with current intake context and vital reminders.
+ */
+
+interface Props {
+  userProfile: any;
+  currentIntake?: string;
+}
+
+export function AiSafetyChat({ userProfile, currentIntake }: Props) {
   const { toast } = useToast();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
@@ -79,7 +89,7 @@ export function AiSafetyChat({ userProfile }: { userProfile: any }) {
     try {
       const response = await aiSafetyChat({
         question: input,
-        substance: 'Current session data',
+        substance: currentIntake || 'General awareness',
         history: messages,
         userProfile: {
           medications: userProfile?.medications || [],
@@ -97,18 +107,18 @@ export function AiSafetyChat({ userProfile }: { userProfile: any }) {
 
   return (
     <div className="flex flex-col h-full bg-black font-body">
-      {/* ChatGPT Style Header */}
-      <div className="px-8 py-6 border-b border-white/5 bg-black/80 backdrop-blur-xl flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 bg-blue-600/20 rounded-full flex items-center justify-center border border-blue-500/30">
-            <Sparkles className="w-5 h-5 text-blue-500" />
+      {/* Context Awareness Bar */}
+      {currentIntake && (
+        <div className="bg-blue-600/10 border-b border-blue-500/20 px-8 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Info size={14} className="text-blue-400" />
+            <span className="text-[9px] font-black uppercase tracking-widest text-blue-400">
+              Active intake context: {currentIntake}
+            </span>
           </div>
-          <div>
-            <h2 className="text-[18px] font-bold">Safety Advisor</h2>
-            <p className="text-[10px] text-[#3EB489] font-bold uppercase tracking-widest">Context Aware Active</p>
-          </div>
+          <Sparkles size={14} className="text-blue-400 animate-pulse" />
         </div>
-      </div>
+      )}
 
       <ScrollArea className="flex-1 px-8 py-10" ref={scrollRef}>
         <div className="space-y-8 max-w-2xl mx-auto">
@@ -119,7 +129,17 @@ export function AiSafetyChat({ userProfile }: { userProfile: any }) {
               </div>
               <div className="space-y-2">
                 <p className="text-lg font-bold text-white/80">How can I help you stay safe tonight?</p>
-                <p className="text-sm text-white/40">Ask about interactions, hydration, or recovery.</p>
+                <p className="text-sm text-white/40">I'm aware of your profile and intake. Ask me anything.</p>
+              </div>
+              
+              {/* Vital reminders chip */}
+              <div className="flex flex-wrap gap-2 justify-center pt-4">
+                <div className="px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full flex items-center gap-2">
+                  <span className="text-[10px] font-black uppercase text-blue-400">💧 Water check</span>
+                </div>
+                <div className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 rounded-full flex items-center gap-2">
+                  <span className="text-[10px] font-black uppercase text-yellow-400">🍌 Banana / Magnesium</span>
+                </div>
               </div>
             </div>
           )}
@@ -160,7 +180,6 @@ export function AiSafetyChat({ userProfile }: { userProfile: any }) {
         </div>
       </ScrollArea>
 
-      {/* ChatGPT Style Sticky Footer Input */}
       <div className="px-6 py-8 bg-black border-t border-white/5">
         <div className="relative flex items-center max-w-2xl mx-auto gap-3">
           <div className="relative flex-1">

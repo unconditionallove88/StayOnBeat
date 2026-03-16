@@ -13,7 +13,8 @@ import {
   Bot,
   Sprout,
   ArrowRight,
-  Watch
+  Watch,
+  Shield
 } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6SubstanceLab';
@@ -37,7 +38,7 @@ import { checkSafetyStatus } from '@/lib/guardian';
 
 /**
  * @fileOverview High-Fidelity Dashboard Sanctuary Hub.
- * Localized affirmations and synced heart logic.
+ * Optimized 2x2 grid for essential safety tools.
  */
 
 const AFFIRMATIONS = {
@@ -137,9 +138,7 @@ export default function Dashboard() {
             </h1>
           </div>
           <div className="flex items-center gap-2">
-            {/* ORGANIC MOOD CHIP */}
             <VibeMirror vibe={firestoreProfile?.vibe} />
-            
             <button onClick={() => setCoCreationOpen(true)} className="p-2.5 bg-[#90EE90]/10 rounded-full border border-[#90EE90]/30 hover:border-[#90EE90] transition-colors">
               <Sprout className="w-5 h-5 text-[#90EE90]" />
             </button>
@@ -238,34 +237,31 @@ export default function Dashboard() {
 
               <button 
                 onClick={() => setSyncOpen(true)} 
-                className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-purple-500/30 hover:bg-purple-500/5 transition-all text-left shadow-xl col-span-2"
+                className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-purple-500/30 hover:bg-purple-500/5 transition-all text-left shadow-xl"
               >
                 <div className="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center border border-purple-500/20">
                   <Watch size={28} className="text-purple-400" />
                 </div>
                 <div>
                   <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'Pulse Sync' : 'Pulse Sync'}</p>
-                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Wearable Calibration' : 'Wearable-Abgleich'}</p>
+                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Calibration' : 'Kalibrierung'}</p>
+                </div>
+              </button>
+
+              <button 
+                onClick={() => setShowSOS(true)}
+                className="group bg-red-600/10 rounded-[2.5rem] border border-red-600/20 p-6 flex flex-col items-start gap-4 hover:bg-red-600 transition-all text-left shadow-xl group active:scale-[0.98]"
+              >
+                <div className="w-14 h-14 bg-red-600 text-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <Shield size={28} />
+                </div>
+                <div>
+                  <p className="text-xl font-black uppercase tracking-tight group-hover:text-white transition-colors">{lang === 'en' ? 'Support' : 'Hilfe'}</p>
+                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1 group-hover:text-white/60 transition-colors">{lang === 'en' ? 'Instant SOS' : 'Sofort SOS'}</p>
                 </div>
               </button>
             </div>
           </div>
-
-          <button
-            onClick={() => setShowSOS(true)}
-            className="w-full flex items-center justify-between p-8 bg-red-600/10 border-2 border-red-600/20 rounded-[2.5rem] hover:bg-red-600 hover:text-white transition-all group active:scale-0.98 shadow-2xl"
-          >
-            <div className="flex items-center gap-6">
-              <div className="w-16 h-16 bg-red-600 text-white rounded-2xl flex items-center justify-center shadow-lg">
-                <ShieldAlert size={32} />
-              </div>
-              <div>
-                <p className="text-2xl font-black uppercase tracking-tighter">{lang === 'en' ? 'Immediate Support' : 'Soforthilfe'}</p>
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-60 mt-1">{lang === 'en' ? 'Instant Alert To Your Circle' : 'Sofort-Alarm an deinen Kreis'}</p>
-              </div>
-            </div>
-            <ArrowRight size={24} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-          </button>
         </div>
       </ScrollArea>
 
