@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -78,7 +77,7 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
       header: "Das Wichtigste",
       subtext: "Bitte lesen und stimme dem Folgenden zu",
       agree: "Zustimmen & weiter",
-      understand: "Ich verstehe",
+      understand: "Ich stimme zu",
       sections: [
         { 
           id: 'harmReduction', 
