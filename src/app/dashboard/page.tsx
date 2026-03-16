@@ -268,7 +268,7 @@ export default function Dashboard() {
                   <Shield size={28} />
                 </div>
                 <div>
-                  <p className="text-xl font-black uppercase tracking-tight group-hover:text-white transition-colors">{lang === 'en' ? 'Support' : 'Hilfe'}</p>
+                  <p className="text-xl font-black uppercase tracking-tight group-hover:text-white transition-colors">{lang === 'en' ? 'Immediate Help' : 'Sofort-Hilfe'}</p>
                   <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1 group-hover:text-white/60 transition-colors">{lang === 'en' ? 'Instant SOS' : 'Sofort SOS'}</p>
                 </div>
               </button>
