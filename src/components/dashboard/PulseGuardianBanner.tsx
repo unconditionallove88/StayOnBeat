@@ -1,32 +1,57 @@
 "use client";
 
 import React, { useState } from "react";
-import { Shield, X, Activity, Bluetooth, Brain, Database } from "lucide-react";
+import { Shield, X, Activity, Bluetooth, Database } from "lucide-react";
 
-export default function PulseGuardianBanner({ lang = "en" }: { lang?: "en" | "de" }) {
+/**
+ * @fileOverview PulseGuardianBanner Component.
+ * Supports two variants: 
+ * - 'banner' (default): A wide, informative banner for lists or labs.
+ * - 'icon': A high-fidelity circular header button.
+ */
+
+interface PulseGuardianBannerProps {
+  lang?: "en" | "de";
+  variant?: "banner" | "icon";
+}
+
+export default function PulseGuardianBanner({ 
+  lang = "en", 
+  variant = "banner" 
+}: PulseGuardianBannerProps) {
   const [open, setOpen] = useState(false);
   const isEn = lang === "en";
 
   return (
     <>
-      {/* THE CLICKABLE BANNER */}
-      <button
-        onClick={() => setOpen(true)}
-        className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl mb-6 border border-emerald-900/40 bg-emerald-950/30 text-left transition hover:border-emerald-700/60 active:scale-[0.99]"
-      >
-        <Shield size={18} className="text-emerald-500 shrink-0" />
-        <div className="flex-1">
-          <p className="text-emerald-400 text-xs font-black uppercase tracking-widest">
-            Pulse Guardian
-          </p>
-          <p className="text-slate-500 text-[10px] mt-0.5">
-            {isEn
-              ? "Integrated Safety Engine. Tap to see how I protect you."
-              : "Integrierte Sicherheits-Engine. Tippe um zu sehen, wie ich dich schütze."}
-          </p>
-        </div>
-        <span className="text-slate-600 text-[10px]">›</span>
-      </button>
+      {/* THE TRIGGER */}
+      {variant === "banner" ? (
+        <button
+          onClick={() => setOpen(true)}
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl mb-6 border border-emerald-900/40 bg-emerald-950/30 text-left transition hover:border-emerald-700/60 active:scale-[0.99]"
+        >
+          <Shield size={18} className="text-emerald-500 shrink-0" />
+          <div className="flex-1">
+            <p className="text-emerald-400 text-xs font-black uppercase tracking-widest">
+              Pulse Guardian
+            </p>
+            <p className="text-slate-500 text-[10px] mt-0.5">
+              {isEn
+                ? "Integrated Safety Engine. Tap to see how I protect you."
+                : "Integrierte Sicherheits-Engine. Tippe um zu sehen, wie ich dich schütze."}
+            </p>
+          </div>
+          <span className="text-slate-600 text-[10px]">›</span>
+        </button>
+      ) : (
+        <button 
+          onClick={() => setOpen(true)} 
+          className="p-2.5 bg-emerald-600/10 rounded-full border border-emerald-500/30 hover:border-emerald-500 transition-colors"
+          title="Pulse Guardian"
+        >
+          <Shield className="w-5 h-5 text-emerald-500" />
+        </button>
+      )}
 
       {/* THE INFO SHEET (Bottom Drawer) */}
       {open && (

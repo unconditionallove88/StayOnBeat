@@ -157,6 +157,10 @@ export default function Dashboard() {
             <button onClick={() => setAiBotOpen(true)} className="p-2.5 bg-blue-600/10 rounded-full border border-blue-500/30 transition-colors">
               <Bot className="w-5 h-5 text-blue-400" />
             </button>
+            
+            {/* Pulse Guardian relocated to header action group */}
+            <PulseGuardianBanner lang={lang} variant="icon" />
+
             <Link href="/profile" className="p-2.5 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all">
               <User className="w-5 h-5 text-white/40" />
             </Link>
@@ -171,7 +175,6 @@ export default function Dashboard() {
         <div className="max-w-4xl mx-auto px-6 py-8 space-y-8 pb-32">
           
           <div className="space-y-3">
-            <PulseGuardianBanner lang={lang} />
             <GuardianStatusBar 
               status={guardianStatus} 
               heartRate={simHeartRate} 
