@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -80,7 +79,9 @@ export function Step2WhoAreYou({
       sub: "Biometric calibration",
       text: "Your data helps us calibrate safety metrics and is stored locally.",
       nameLabel: "Username",
+      namePlaceholder: "ENTER NAME",
       dobLabel: "Date of birth",
+      dobPlaceholder: "DD / MM / YYYY",
       weightLabel: "Weight (KG)",
       heightLabel: "Height (CM)",
       underageError: "Error: You must be 18+ to access.",
@@ -93,7 +94,9 @@ export function Step2WhoAreYou({
       sub: "Biometrische Kalibrierung",
       text: "Deine Daten helfen uns, Sicherheitsmetriken zu kalibrieren, und werden lokal gespeichert.",
       nameLabel: "Benutzername",
+      namePlaceholder: "NAME EINGEBEN",
       dobLabel: "Geburtsdatum",
+      dobPlaceholder: "TT / MM / JJJJ",
       weightLabel: "Gewicht (KG)",
       heightLabel: "Größe (CM)",
       underageError: "Fehler: Du musst 18+ sein, um beizutreten.",
@@ -102,6 +105,8 @@ export function Step2WhoAreYou({
     }
   };
 
+  const t = content[lang];
+
   return (
     <div className="w-full min-h-[85vh] flex flex-col items-center justify-center max-w-xl font-headline mx-auto px-4 relative">
       {onBack && (
@@ -109,52 +114,52 @@ export function Step2WhoAreYou({
           onClick={onBack}
           className="absolute top-0 left-4 text-white/40 hover:text-white transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest z-50"
         >
-          <ArrowLeft className="w-4 h-4" /> {content[lang].back}
+          <ArrowLeft className="w-4 h-4" /> {t.back}
         </button>
       )}
 
       <div className="text-center mb-8 mt-12">
         <h2 className="text-[22px] font-black uppercase mb-1 text-white tracking-tighter leading-none">
-          {content[lang].header}
+          {t.header}
         </h2>
         <p className="text-white/40 font-black uppercase tracking-[0.3em] text-[10px] mb-4">
-          {content[lang].sub}
+          {t.sub}
         </p>
         <p className="text-[9px] font-black text-white/30 uppercase tracking-widest max-w-[280px] mx-auto leading-relaxed">
-          {content[lang].text}
+          {t.text}
         </p>
       </div>
 
       <div className="w-full space-y-4 mb-10">
         <div className="space-y-2">
-          <Label className="uppercase font-black tracking-[0.3em] text-[10px] text-white/40 block">{content[lang].nameLabel}</Label>
+          <Label className="uppercase font-black tracking-[0.3em] text-[10px] text-white/40 block">{t.nameLabel}</Label>
           <Input 
             value={form.name}
             onChange={(e) => setForm(prev => ({...prev, name: e.target.value.toUpperCase()}))}
             className="bg-[#0a0a0a] border-2 border-white/20 h-16 px-6 rounded-[1rem] focus:border-[#3EB489] text-2xl transition-all font-black uppercase text-white"
-            placeholder="ENTER NAME"
+            placeholder={t.namePlaceholder}
           />
         </div>
 
         <div className="space-y-2">
-          <Label className="uppercase font-black tracking-[0.3em] text-[10px] text-white/40 block">{content[lang].dobLabel}</Label>
+          <Label className="uppercase font-black tracking-[0.3em] text-[10px] text-white/40 block">{t.dobLabel}</Label>
           <Input 
             type="text"
-            placeholder="DD / MM / YYYY"
+            placeholder={t.dobPlaceholder}
             value={form.dob}
             onChange={(e) => handleDobInput(e.target.value)}
             className={`bg-[#0a0a0a] border-2 h-16 px-6 rounded-[1rem] focus:border-[#3EB489] text-2xl transition-all font-black text-white ${isUnderage ? 'border-red-600 focus:border-red-600' : 'border-white/20'}`}
           />
           {isUnderage && (
             <p className="text-red-600 font-black uppercase tracking-widest text-[10px] mt-2 animate-pulse">
-              {content[lang].underageError}
+              {t.underageError}
             </p>
           )}
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label className="uppercase font-black tracking-[0.3em] text-[10px] text-white/40 block">{content[lang].weightLabel}</Label>
+            <Label className="uppercase font-black tracking-[0.3em] text-[10px] text-white/40 block">{t.weightLabel}</Label>
             <Input 
               value={form.weight}
               onChange={(e) => setForm(prev => ({...prev, weight: e.target.value.replace(/\D/g, '')}))}
@@ -163,7 +168,7 @@ export function Step2WhoAreYou({
             />
           </div>
           <div className="space-y-2">
-            <Label className="uppercase font-black tracking-[0.3em] text-[10px] text-white/40 block">{content[lang].heightLabel}</Label>
+            <Label className="uppercase font-black tracking-[0.3em] text-[10px] text-white/40 block">{t.heightLabel}</Label>
             <Input 
               value={form.height}
               onChange={(e) => setForm(prev => ({...prev, height: e.target.value.replace(/\D/g, '')}))}
@@ -184,11 +189,11 @@ export function Step2WhoAreYou({
               : 'bg-white/10 text-white/10 cursor-not-allowed border-2 border-white/5 opacity-50'
           }`}
         >
-          {content[lang].confirm}
+          {t.confirm}
         </button>
         {onSkip && (
           <button onClick={onSkip} className="text-[10px] font-black uppercase text-white/20 tracking-[0.5em] hover:text-white transition-colors">
-            {content[lang].skip}
+            {t.skip}
           </button>
         )}
       </div>
