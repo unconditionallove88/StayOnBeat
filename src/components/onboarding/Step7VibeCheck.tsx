@@ -15,6 +15,7 @@ const VIBE_OPTIONS = [
     label: 'Radiant',
     de: 'Strahlend',
     description: 'Your light is shining bright today',
+    deDescription: 'Dein Licht leuchtet heute hell',
     color: 'border-purple-500/20 text-purple-400',
     activeColor: 'bg-purple-500/10 border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.3)]',
   },
@@ -24,6 +25,7 @@ const VIBE_OPTIONS = [
     label: 'In Harmony',
     de: 'In Harmonie',
     description: 'You are aligned with your rhythm',
+    deDescription: 'Du bist im Einklang mit deinem Rhythmus',
     color: 'border-yellow-500/20 text-yellow-400',
     activeColor: 'bg-yellow-500/10 border-yellow-500 shadow-[0_0_20px_rgba(234,179,8,0.3)]',
   },
@@ -33,6 +35,7 @@ const VIBE_OPTIONS = [
     label: 'Calm',
     de: 'Ruhig',
     description: 'Peace looks beautiful on you',
+    deDescription: 'Frieden steht dir gut',
     color: 'border-[#10B981]/20 text-[#10B981]',
     activeColor: 'bg-[#10B981]/10 border-[#10B981] shadow-[0_0_20px_rgba(16,185,129,0.3)]',
   },
@@ -42,6 +45,7 @@ const VIBE_OPTIONS = [
     label: 'Hazy',
     de: 'Verschwommen',
     description: 'It is okay to rest and be still',
+    deDescription: 'Es ist okay, sich auszuruhen',
     color: 'border-gray-500/20 text-gray-400',
     activeColor: 'bg-gray-500/10 border-gray-500 shadow-[0_0_20px_rgba(107,114,128,0.3)]',
   },
@@ -51,6 +55,7 @@ const VIBE_OPTIONS = [
     label: 'Overwhelmed',
     de: 'Überwältigt',
     description: 'You are held. Your circle is here.',
+    deDescription: 'Du wirst gehalten. Dein Kreis ist hier.',
     color: 'border-blue-500/20 text-blue-400',
     activeColor: 'bg-blue-500/10 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)]',
   },
@@ -179,8 +184,12 @@ export function Step7VibeCheck({
     return (
       <div className="w-full min-h-[80vh] flex flex-col items-center justify-center text-center px-6 font-headline animate-in fade-in zoom-in-95 duration-1000">
         <div className="text-[10rem] mb-8 animate-bounce drop-shadow-[0_0_30px_rgba(16,185,129,0.4)]">{active?.emoji}</div>
-        <h2 className="text-4xl font-black uppercase tracking-tighter text-[#10B981] mb-4">Heart calibrated 💚</h2>
-        <p className="text-white/60 text-lg font-bold max-w-sm leading-tight">StayOnBeat sees you. I am loved. 💚</p>
+        <h2 className="text-4xl font-black uppercase tracking-tighter text-[#10B981] mb-4">
+          {lang === 'EN' ? 'Heart calibrated 💚' : 'Herz kalibriert 💚'}
+        </h2>
+        <p className="text-white/60 text-lg font-bold max-w-sm leading-tight">
+          {lang === 'EN' ? 'StayOnBeat sees you. I am loved. 💚' : 'StayOnBeat sieht dich. Ich werde geliebt. 💚'}
+        </p>
       </div>
     );
   }
@@ -189,15 +198,17 @@ export function Step7VibeCheck({
     <div className="w-full min-h-[80vh] flex flex-col items-center justify-center font-headline max-xl mx-auto px-4 text-center relative">
       {onBack && (
         <button onClick={onBack} disabled={isSaving} className="absolute top-0 left-4 text-white/40 hover:text-white transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest z-50">
-          <ArrowLeft className="w-4 h-4" /> BACK
+          <ArrowLeft className="w-4 h-4" /> {lang === 'EN' ? 'BACK' : 'ZURÜCK'}
         </button>
       )}
 
       <div className="mt-12 mb-10">
         <div className="text-5xl mb-4 animate-pulse">💚</div>
-        <h2 className="text-[28px] font-black uppercase mb-2 text-white leading-none tracking-tighter">How is your heart today?</h2>
+        <h2 className="text-[28px] font-black uppercase mb-2 text-white leading-none tracking-tighter">
+          {lang === 'EN' ? 'How is your heart today?' : 'Wie geht es deinem Herzen heute?'}
+        </h2>
         <p className="text-white/40 font-bold tracking-widest text-[10px] max-w-[280px] mx-auto uppercase">
-          {lang === 'EN' ? 'Your feelings are valid and seen. This is a safe space.' : 'Deine Gefühle sind wichtig. Dies ist ein sicherer Raum.'}
+          {lang === 'EN' ? 'Your feelings are valid and seen. This is a safe space.' : 'Deine Gefühle sind wichtig und werden gesehen. Dies ist ein sicherer Raum.'}
         </p>
       </div>
 
@@ -217,7 +228,9 @@ export function Step7VibeCheck({
               <span className={cn("font-black text-lg uppercase tracking-tight", selected === vibe.id ? "text-white" : "text-white/60")}>
                 {lang === 'EN' ? vibe.label : vibe.de}
               </span>
-              <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest leading-none">{vibe.description}</span>
+              <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest leading-none">
+                {lang === 'EN' ? vibe.description : vibe.deDescription}
+              </span>
             </div>
           </button>
         ))}
@@ -231,7 +244,7 @@ export function Step7VibeCheck({
           selected && !isSaving ? 'bg-[#10B981] text-black neon-glow' : 'bg-white/10 text-white/10 cursor-not-allowed opacity-50'
         )}
       >
-        {isSaving ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : 'CONTINUE WITH LOVE 💚'}
+        {isSaving ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : (lang === 'EN' ? 'CONTINUE WITH LOVE 💚' : 'MIT LIEBE WEITER 💚')}
       </button>
     </div>
   );

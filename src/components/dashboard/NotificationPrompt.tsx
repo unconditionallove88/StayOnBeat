@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Bell, Heart, X } from "lucide-react";
 import { askForNotificationPermission } from "@/lib/notifications";
 import { cn } from "@/lib/utils";
@@ -12,19 +12,53 @@ interface NotificationPromptProps {
 export default function NotificationPrompt({ onClose }: NotificationPromptProps) {
   const [preferredHour, setPreferredHour] = useState(10);
   const [isEnabled, setIsEnabled] = useState(false);
+  const [lang, setLang] = useState<'EN' | 'DE'>('EN');
 
-  const TIME_OPTIONS = [
-    { label: "Morning 🌅 (8am)", value: 8 },
-    { label: "Mid-Morning ☀️ (10am)", value: 10 },
-    { label: "Afternoon 🌿 (2pm)", value: 14 },
-    { label: "Evening 🌙 (7pm)", value: 19 },
-  ];
+  useEffect(() => {
+    const savedLang = localStorage.getItem('stayonbeat_lang');
+    if (savedLang === 'DE' || savedLang === 'EN') {
+      setLang(savedLang as 'EN' | 'DE');
+    }
+  }, []);
 
   const handleEnable = async () => {
     await askForNotificationPermission(preferredHour);
     setIsEnabled(true);
     setTimeout(onClose, 2000);
   };
+
+  const content = {
+    EN: {
+      successTitle: "Reminders active 💚",
+      successSub: "We will check in on your heart every day with kindness.",
+      header: "Daily Heart Check-in",
+      sub: "Choose when you would like us to check in. 💚",
+      enable: "Enable Reminders 💚",
+      later: "Maybe later",
+      times: [
+        { label: "Morning 🌅 (8am)", value: 8 },
+        { label: "Mid-Morning ☀️ (10am)", value: 10 },
+        { label: "Afternoon 🌿 (2pm)", value: 14 },
+        { label: "Evening 🌙 (7pm)", value: 19 },
+      ]
+    },
+    DE: {
+      successTitle: "Erinnerungen aktiv 💚",
+      successSub: "Wir werden jeden Tag liebevoll nach deinem Herzen sehen.",
+      header: "Täglicher Heart Check-in",
+      sub: "Wähle aus, wann wir bei dir nachfragen sollen. 💚",
+      enable: "Erinnerungen aktivieren 💚",
+      later: "Vielleicht später",
+      times: [
+        { label: "Morgens 🌅 (8:00)", value: 8 },
+        { label: "Vormittags ☀️ (10:00)", value: 10 },
+        { label: "Nachmittags 🌿 (14:00)", value: 14 },
+        { label: "Abends 🌙 (19:00)", value: 19 },
+      ]
+    }
+  };
+
+  const t = content[lang];
 
   if (isEnabled) {
     return (
@@ -34,10 +68,10 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
             <Heart size={48} fill="#3EB489" className="text-[#3EB489] animate-pulse-heart" />
           </div>
           <h2 className="text-3xl font-black uppercase tracking-tighter text-[#3EB489] mb-4">
-            Reminders active 💚
+            {t.successTitle}
           </h2>
           <p className="text-white/60 text-lg font-bold leading-tight">
-            We will check in on your heart every day with kindness.
+            {t.successSub}
           </p>
         </div>
       </div>
@@ -63,16 +97,16 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
             <Bell size={32} className="text-[#3EB489]" />
           </div>
           <h2 className="text-3xl font-black uppercase tracking-tighter text-white leading-none">
-            Daily Heart <br/> Check-in
+            {t.header}
           </h2>
           <p className="text-white/40 text-sm font-bold mt-4 leading-tight">
-            Choose when you would like us to check in. 💚
+            {t.sub}
           </p>
         </div>
 
         {/* Time Picker */}
         <div className="grid grid-cols-2 gap-3 mb-10">
-          {TIME_OPTIONS.map((option) => (
+          {t.times.map((option) => (
             <button
               key={option.value}
               onClick={() => setPreferredHour(option.value)}
@@ -93,13 +127,13 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
             onClick={handleEnable}
             className="w-full h-20 bg-[#3EB489] text-black rounded-[1.5rem] font-black text-xl uppercase tracking-widest transition-all active:scale-95 neon-glow shadow-lg"
           >
-            Enable Reminders 💚
+            {t.enable}
           </button>
           <button
             onClick={onClose}
             className="w-full h-14 text-white/20 text-[10px] font-black uppercase tracking-[0.4em] hover:text-white transition-colors"
           >
-            Maybe later
+            {t.later}
           </button>
         </div>
       </div>
