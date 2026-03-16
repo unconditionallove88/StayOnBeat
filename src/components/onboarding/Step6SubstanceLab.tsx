@@ -11,7 +11,6 @@ import {
   Trash2,
   Calendar,
   ArrowLeft,
-  HeartHandshake
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -25,7 +24,7 @@ import PoppersCard from '@/components/lab/cards/PoppersCard';
 /**
  * @fileOverview Pulse Lab component.
  * Calibrated for high-fidelity scrolling and real-time safety monitoring.
- * Rebranded to "Pulse Lab" and fixed frozen grid scrolling.
+ * Features 2C-B and LSD. Poppers info hidden by default.
  */
 
 const SUBSTANCES = [
@@ -38,6 +37,7 @@ const SUBSTANCES = [
   { id: 'ghb', emoji: '💧', name: 'GHB/GBL', unit: 'ml', inputType: 'manual' },
   { id: 'speed', emoji: '⚡', name: 'Speed', unit: 'g', inputType: 'manual' },
   { id: 'lsd', emoji: '🌈', name: 'LSD', unit: 'ug', inputType: 'manual' },
+  { id: '2cb', emoji: '🎡', name: '2C-B', unit: 'mg', inputType: 'manual' },
   { id: 'psilocybin', emoji: '🍄', name: 'Psilocybin', unit: 'g', inputType: 'manual' },
   { id: 'poppers', emoji: '🟡', name: 'Poppers', unit: 'hits', inputType: 'manual' },
   { id: 'viagra', emoji: '💊', name: 'Sildenafil', unit: 'pills', inputType: 'manual' },
@@ -143,6 +143,12 @@ export function Step6SubstanceLab({
   const lastHR = userData?.sessionStatus?.lastHeartRate || 0;
   const guardianStatus: 'safe' | 'caution' | 'locked' = isLocked ? 'locked' : (lastHR > 110 ? 'caution' : 'safe');
 
+  // Poppers Card logic: Hide by default. Show if selected, searched, or already intake logged.
+  const showPoppersCard = 
+    searchTerm.toLowerCase().includes('poppers') || 
+    activeSubstance?.id === 'poppers' || 
+    isSubstanceActive('poppers');
+
   if (isLocked) {
     return (
       <div className="flex flex-col h-full bg-black font-body max-w-2xl mx-auto p-6 relative overflow-hidden">
@@ -188,8 +194,8 @@ export function Step6SubstanceLab({
       {/* Fluid Scrollable Viewport */}
       <div className="flex-1 overflow-y-auto custom-scrollbar px-6 pb-40 space-y-8 pt-6">
         
-        {/* Poppers Feature Card */}
-        {(searchTerm.toLowerCase().includes('poppers') || searchTerm === '') && (
+        {/* Poppers Feature Card - Hidden by default */}
+        {showPoppersCard && (
           <div className="animate-in fade-in duration-500">
             <PoppersCard lang={lang} />
           </div>

@@ -1,9 +1,9 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import { Heart, Battery, Droplets, Moon, Zap, ArrowRight, X, Bot } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { AiSafetyChat } from './AiSafetyChat';
 import { useRouter } from 'next/navigation';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
@@ -49,7 +49,6 @@ const i18n = {
 
 export function AssistantPortal({ userProfile, onClose }: AssistantPortalProps) {
   const router = useRouter();
-  const [view, setView] = useState<'home' | 'chat'>('home');
   const [lang, setLang] = useState<'en' | 'de'>('en');
 
   useEffect(() => {
@@ -65,14 +64,14 @@ export function AssistantPortal({ userProfile, onClose }: AssistantPortalProps) 
       icon: <Battery className="text-emerald-400" size={24} />, 
       desc: t.phases[0].desc, 
       color: "bg-emerald-500/5 hover:bg-emerald-500/10 border-emerald-500/20 hover:border-emerald-500/40",
-      action: () => router.push('/session-check-in')
+      action: () => router.push('/before')
     },
     { 
       title: t.phases[1].title, 
       icon: <Zap className="text-amber-400" size={24} />, 
       desc: t.phases[1].desc, 
       color: "bg-amber-500/5 hover:bg-amber-500/10 border-amber-500/20 hover:border-amber-500/40",
-      action: () => setView('chat')
+      action: () => router.push('/during')
     },
     { 
       title: t.phases[2].title, 
@@ -82,25 +81,6 @@ export function AssistantPortal({ userProfile, onClose }: AssistantPortalProps) 
       action: () => router.push('/recovery')
     }
   ];
-
-  if (view === 'chat') {
-    return (
-      <div className="flex flex-col h-full bg-black">
-        <div className="p-4 flex items-center gap-4 bg-black border-b border-white/5 shrink-0">
-          <button onClick={() => setView('home')} className="p-2 text-white/40 hover:text-white transition-colors">
-            <ArrowRight className="rotate-180" size={20} />
-          </button>
-          <div>
-            <p className="text-[10px] font-black uppercase text-[#10B981] tracking-widest">{t.activeSession}</p>
-            <h2 className="text-sm font-black uppercase">{t.liveAdvisor}</h2>
-          </div>
-        </div>
-        <div className="flex-1 overflow-hidden">
-          <AiSafetyChat userProfile={userProfile} />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="h-full bg-black text-white flex flex-col font-headline relative overflow-hidden">
