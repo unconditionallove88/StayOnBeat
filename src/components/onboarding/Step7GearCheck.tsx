@@ -1,25 +1,60 @@
 "use client"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Label } from '@/components/ui/label';
 import { Flame, Check, ArrowLeft } from 'lucide-react';
 
-const ITEMS = [
-  'Enough sleep or rest',
-  'Drink enough water',
-  'Take electrolytes',
-  'Healthy snacks',
-  'Sunglasses',
-  'Gum',
-  'Fidget toys',
-  'Earplugs',
-  'Vitamins',
-  'Comfy shoes',
-  'Tissues',
-  'Power bank and cable',
-  'ID and cash or card',
-  'Hand sanitizer',
-];
+const ITEMS_CONTENT = {
+  EN: [
+    'Enough sleep or rest',
+    'Drink enough water',
+    'Take electrolytes',
+    'Healthy snacks',
+    'Sunglasses',
+    'Gum',
+    'Fidget toys',
+    'Earplugs',
+    'Vitamins',
+    'Comfy shoes',
+    'Tissues',
+    'Power bank and cable',
+    'ID and cash or card',
+    'Hand sanitizer',
+  ],
+  DE: [
+    'Genug Schlaf oder Ruhe',
+    'Ausreichend Wasser trinken',
+    'Elektrolyte einnehmen',
+    'Gesunde Snacks',
+    'Sonnenbrille',
+    'Kaugummi',
+    'Fidget-Spielzeug',
+    'Ohrstöpsel',
+    'Vitamine',
+    'Bequeme Schuhe',
+    'Taschentücher',
+    'Powerbank und Kabel',
+    'Ausweis und Bargeld/Karte',
+    'Desinfektionsmittel',
+  ]
+};
+
+const UI_CONTENT = {
+  EN: {
+    header: "Gear check",
+    sub: "Prepare your kit for the party",
+    streak: "Safety streak",
+    boost: "Check 5+ items to boost your safety streak! 🔥",
+    button: "I'm ready"
+  },
+  DE: {
+    header: "Ausrüstungs-Check",
+    sub: "Bereite dein Kit für die Party vor",
+    streak: "Sicherheits-Streak",
+    boost: "Prüfe 5+ Artikel, um deinen Sicherheits-Streak zu steigern! 🔥",
+    button: "Ich bin bereit"
+  }
+};
 
 export function Step7GearCheck({ 
   onComplete,
@@ -29,6 +64,14 @@ export function Step7GearCheck({
   onBack?: () => void
 }) {
   const [checked, setChecked] = useState<string[]>([]);
+  const [lang, setLang] = useState<'EN' | 'DE'>('EN');
+
+  useEffect(() => {
+    const savedLang = localStorage.getItem('stayonbeat_lang');
+    if (savedLang === 'DE' || savedLang === 'EN') {
+      setLang(savedLang as 'EN' | 'DE');
+    }
+  }, []);
 
   const toggle = (item: string) => {
     setChecked(prev => 
@@ -37,25 +80,27 @@ export function Step7GearCheck({
   };
 
   const streakBoost = checked.length >= 5;
+  const t = UI_CONTENT[lang];
+  const items = ITEMS_CONTENT[lang];
 
   return (
-    <div className="w-full min-h-[85vh] flex flex-col items-center justify-center font-headline max-w-xl mx-auto px-4 text-center relative">
+    <div className="w-full min-h-[85vh] flex flex-col items-center justify-center font-headline max-xl mx-auto px-4 text-center relative">
       {onBack && (
         <button 
           onClick={onBack}
           className="absolute top-0 left-4 text-white/40 hover:text-white transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest z-50"
         >
-          <ArrowLeft className="w-4 h-4" /> Back
+          <ArrowLeft className="w-4 h-4" /> {lang === 'EN' ? 'BACK' : 'ZURÜCK'}
         </button>
       )}
 
       <div className="mt-12 mb-8 relative w-full">
         <div className="flex flex-col items-center gap-2">
           <h2 className="text-[22px] font-black text-white leading-tight tracking-tighter">
-            Gear check
+            {t.header}
           </h2>
           <p className="text-white/40 text-[10px] font-black uppercase tracking-widest">
-            Prepare your kit for the party
+            {t.sub}
           </p>
         </div>
         
@@ -65,7 +110,7 @@ export function Step7GearCheck({
             : 'bg-white/5 border-white/10 text-white/40'
         }`}>
           <Flame className={`w-3.5 h-3.5 ${streakBoost ? 'text-orange-500 fill-orange-500' : 'text-white/20'}`} />
-          <span className="font-headline font-black uppercase text-[8px] tracking-[0.1em]">Safety streak</span>
+          <span className="font-headline font-black uppercase text-[8px] tracking-[0.1em]">{t.streak}</span>
         </div>
       </div>
 
@@ -73,12 +118,12 @@ export function Step7GearCheck({
         <p className={`text-[10px] font-black uppercase tracking-[0.1em] transition-all duration-500 ${
           streakBoost ? 'text-[#3EB489] animate-pulse' : 'text-white/30'
         }`}>
-          Check 5+ items to boost your safety streak! 🔥
+          {t.boost}
         </p>
       </div>
 
       <div className="flex-1 w-full overflow-y-auto max-h-[45vh] custom-scrollbar pr-2 mb-8 space-y-3">
-        {ITEMS.map((item) => {
+        {items.map((item) => {
           const isChecked = checked.includes(item);
           return (
             <div 
@@ -110,7 +155,7 @@ export function Step7GearCheck({
           onClick={onComplete}
           className="pill-button w-full max-w-sm bg-[#3EB489] text-black text-xl font-black neon-glow active:scale-95 transition-all h-[64px]"
         >
-          I'm ready
+          {t.button}
         </button>
       </div>
     </div>

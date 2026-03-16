@@ -37,16 +37,25 @@ import { checkSafetyStatus } from '@/lib/guardian';
 
 /**
  * @fileOverview High-Fidelity Dashboard Sanctuary Hub.
- * Optimized Mood Chip integration and AI Assistant functionality.
+ * Localized affirmations and synced heart logic.
  */
 
-const AFFIRMATIONS = [
-  "I love, accept and respect myself unconditionally. 💚",
-  "I am exactly where I need to be. I am safe. 🌿",
-  "My presence is a gift to this circle. ✨",
-  "I honor my boundaries and my heart's needs. 🌊",
-  "I am worthy of care, rest, and joyful connection. 🌈"
-];
+const AFFIRMATIONS = {
+  EN: [
+    "I love, accept and respect myself unconditionally. 💚",
+    "I am exactly where I need to be. I am safe. 🌿",
+    "My presence is a gift to this circle. ✨",
+    "I honor my boundaries and my heart's needs. 🌊",
+    "I am worthy of care, rest, and joyful connection. 🌈"
+  ],
+  DE: [
+    "Ich liebe, akzeptiere und respektiere mich bedingungslos. 💚",
+    "Ich bin genau dort, wo ich sein muss. Ich bin sicher. 🌿",
+    "Meine Anwesenheit ist ein Geschenk für diesen Kreis. ✨",
+    "Ich achte meine Grenzen und die Bedürfnisse meines Herzens. 🌊",
+    "Ich bin es wert, umsorgt zu werden, mich auszuruhen und Freude zu teilen. 🌈"
+  ]
+};
 
 export default function Dashboard() {
   const router = useRouter();
@@ -65,11 +74,12 @@ export default function Dashboard() {
 
   useEffect(() => {
     setMounted(true);
-    setAffirmation(AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)]);
     const savedLang = localStorage.getItem('stayonbeat_lang');
-    if (savedLang === 'DE' || savedLang === 'EN') {
-      setLang(savedLang.toLowerCase() as 'en' | 'de');
-    }
+    const currentLang = (savedLang === 'DE' || savedLang === 'EN' ? savedLang.toLowerCase() : 'en') as 'en' | 'de';
+    setLang(currentLang);
+
+    const pool = AFFIRMATIONS[currentLang.toUpperCase() as 'EN' | 'DE'];
+    setAffirmation(pool[Math.floor(Math.random() * pool.length)]);
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) router.replace("/auth");
@@ -119,8 +129,12 @@ export default function Dashboard() {
       <div className="px-6 py-10 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
         <header className="flex justify-between items-start max-w-4xl mx-auto w-full">
           <div className="space-y-1">
-            <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">Sanctuary Hub</p>
-            <h1 className="text-3xl font-black uppercase tracking-tighter">Hello, {displayName} 🌿</h1>
+            <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">
+              {lang === 'en' ? 'Sanctuary Hub' : 'Sanctuary Hub'}
+            </p>
+            <h1 className="text-3xl font-black uppercase tracking-tighter">
+              {lang === 'en' ? `Hello, ${displayName} 🌿` : `Hallo, ${displayName} 🌿`}
+            </h1>
           </div>
           <div className="flex items-center gap-2">
             {/* ORGANIC MOOD CHIP */}
@@ -155,13 +169,15 @@ export default function Dashboard() {
           </div>
 
           <div className="space-y-4 text-center">
-            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">My Heart</h2>
+            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
+              {lang === 'en' ? 'My Heart' : 'Mein Herz'}
+            </h2>
             <Link href="/heart-status" className="block active:scale-[0.98] transition-all">
               <div className="flex flex-col items-center gap-4">
                 <HeartStatusAura 
                   heartRate={simHeartRate} 
                   activeSubstances={activeSubstances} 
-                  mood={firestoreProfile?.vibe?.currentLabel || "Steady"}
+                  mood={firestoreProfile?.vibe?.currentLabel || (lang === 'en' ? "Steady" : "Stabil")}
                   lang={lang} 
                 />
                 <span className="text-[9px] uppercase tracking-widest text-slate-600 font-bold">
@@ -193,15 +209,17 @@ export default function Dashboard() {
           <LoveCircle lang={lang} />
 
           <div className="space-y-4">
-            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">Essential Tools</h2>
+            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
+              {lang === 'en' ? 'Essential Tools' : 'Wichtige Tools'}
+            </h2>
             <div className="grid grid-cols-2 gap-4">
               <Link href="/map" className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-xl">
                 <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20">
                   <RadiatingThirdEye size={32} color="#3b82f6" />
                 </div>
                 <div>
-                  <p className="text-xl font-black uppercase tracking-tight">The Pulse</p>
-                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">Live Map</p>
+                  <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'The Pulse' : 'The Pulse'}</p>
+                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Live Map' : 'Live Karte'}</p>
                 </div>
               </Link>
 
@@ -213,8 +231,8 @@ export default function Dashboard() {
                   <Beaker size={28} className="text-[#10B981]" />
                 </div>
                 <div>
-                  <p className="text-xl font-black uppercase tracking-tight">Pulse Lab</p>
-                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">Dose Analysis</p>
+                  <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'Pulse Lab' : 'Pulse Lab'}</p>
+                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Dose Analysis' : 'Dosis-Check'}</p>
                 </div>
               </button>
 
@@ -226,8 +244,8 @@ export default function Dashboard() {
                   <Watch size={28} className="text-purple-400" />
                 </div>
                 <div>
-                  <p className="text-xl font-black uppercase tracking-tight">Pulse Sync</p>
-                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">Wearable Calibration</p>
+                  <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'Pulse Sync' : 'Pulse Sync'}</p>
+                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Wearable Calibration' : 'Wearable-Abgleich'}</p>
                 </div>
               </button>
             </div>
@@ -242,8 +260,8 @@ export default function Dashboard() {
                 <ShieldAlert size={32} />
               </div>
               <div>
-                <p className="text-2xl font-black uppercase tracking-tighter">Immediate Support</p>
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-60 mt-1">Instant Alert To Your Circle</p>
+                <p className="text-2xl font-black uppercase tracking-tighter">{lang === 'en' ? 'Immediate Support' : 'Soforthilfe'}</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-60 mt-1">{lang === 'en' ? 'Instant Alert To Your Circle' : 'Sofort-Alarm an deinen Kreis'}</p>
               </div>
             </div>
             <ArrowRight size={24} className="opacity-0 group-hover:opacity-100 transition-opacity" />

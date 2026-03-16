@@ -103,6 +103,7 @@ export function Step7VibeCheck({
     setIsSaving(true);
     const selectedVibe = VIBE_OPTIONS.find(v => v.id === selected);
     const nowISO = new Date().toISOString();
+    const localizedLabel = lang === 'EN' ? selectedVibe?.label : selectedVibe?.de;
 
     let payload: any;
 
@@ -132,7 +133,7 @@ export function Step7VibeCheck({
         vibe: {
           current: selected,
           currentEmoji: selectedVibe?.emoji,
-          currentLabel: selectedVibe?.label,
+          currentLabel: localizedLabel,
           lastUpdated: serverTimestamp(),
           history: [{
             value: selected,
@@ -152,7 +153,7 @@ export function Step7VibeCheck({
         vibe: {
           current: selected,
           currentEmoji: selectedVibe?.emoji,
-          currentLabel: selectedVibe?.label,
+          currentLabel: localizedLabel,
           lastUpdated: serverTimestamp(),
           history: arrayUnion({
             value: selected,
@@ -187,7 +188,7 @@ export function Step7VibeCheck({
         <h2 className="text-4xl font-black uppercase tracking-tighter text-[#10B981] mb-4">
           {lang === 'EN' ? 'Heart calibrated 💚' : 'Herz kalibriert 💚'}
         </h2>
-        <p className="text-white/60 text-lg font-bold max-w-sm leading-tight">
+        <p className="text-white/60 text-lg font-bold max-sm leading-tight">
           {lang === 'EN' ? 'StayOnBeat sees you. I am loved. 💚' : 'StayOnBeat sieht dich. Ich werde geliebt. 💚'}
         </p>
       </div>
