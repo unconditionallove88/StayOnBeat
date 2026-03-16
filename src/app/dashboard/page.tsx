@@ -38,7 +38,7 @@ import { checkSafetyStatus } from '@/lib/guardian';
 
 /**
  * @fileOverview High-Fidelity Dashboard Sanctuary Hub.
- * Optimized 2x2 grid for essential safety tools.
+ * Pulse Guardian aggregates data from all tools (Sync, Lab, Profile).
  */
 
 const AFFIRMATIONS = {
@@ -101,10 +101,22 @@ export default function Dashboard() {
   const [syncOpen, setSyncOpen] = useState(false);
   const [showSOS, setShowSOS] = useState(false);
 
-  // GUARDIAN LOGIC SYNC
-  const safetyStatus = checkSafetyStatus({ heartRate: simHeartRate }, activeSubstances, firestoreProfile?.pulseBaseline?.restingBPM);
+  // GUARDIAN LOGIC SYNC: Aggregating Vitals, Intake, and Profile
+  const medicalProfile = {
+    healthConditions: firestoreProfile?.healthConditions || [],
+    medications: firestoreProfile?.medications || []
+  };
+
+  const safetyStatus = checkSafetyStatus(
+    { heartRate: simHeartRate }, 
+    activeSubstances, 
+    firestoreProfile?.pulseBaseline?.restingBPM,
+    medicalProfile
+  );
+
   const isLocked = safetyStatus.isLocked;
-  const isCaution = !isLocked && (simHeartRate > 100 || activeSubstances.length >= 3);
+  const cautionThreshold = 100 / (safetyStatus.riskMultiplier || 1.0);
+  const isCaution = !isLocked && (simHeartRate > cautionThreshold || activeSubstances.length >= 3);
   const guardianStatus: 'safe' | 'caution' | 'locked' = isLocked ? 'locked' : isCaution ? 'caution' : 'safe';
 
   const handleLogout = async () => {
@@ -125,13 +137,13 @@ export default function Dashboard() {
   const displayName = firestoreProfile?.name || "Valued Soul";
 
   return (
-    <main className="min-h-screen bg-black text-white font-headline flex flex-col h-screen overflow-hidden">
+    <main className="min-h-screen bg-black text-white flex flex-col h-screen overflow-hidden font-headline">
       {/* Header Sanctuary */}
       <div className="px-6 py-10 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
         <header className="flex justify-between items-start max-w-4xl mx-auto w-full">
           <div className="space-y-1">
             <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">
-              {lang === 'en' ? 'Sanctuary Hub' : 'Sanctuary Hub'}
+              Sanctuary Hub
             </p>
             <h1 className="text-3xl font-black uppercase tracking-tighter">
               {lang === 'en' ? `Hello, ${displayName} 🌿` : `Hallo, ${displayName} 🌿`}
@@ -250,7 +262,7 @@ export default function Dashboard() {
 
               <button 
                 onClick={() => setShowSOS(true)}
-                className="group bg-red-600/10 rounded-[2.5rem] border border-red-600/20 p-6 flex flex-col items-start gap-4 hover:bg-red-600 transition-all text-left shadow-xl group active:scale-[0.98]"
+                className="group bg-red-600/10 rounded-[2.5rem] border border-red-600/20 p-6 flex flex-col items-start gap-4 hover:bg-red-600 transition-all text-left shadow-xl active:scale-[0.98]"
               >
                 <div className="w-14 h-14 bg-red-600 text-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                   <Shield size={28} />

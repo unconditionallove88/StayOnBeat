@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Shield, X, Activity, Bluetooth, Brain } from "lucide-react";
+import { Shield, X, Activity, Bluetooth, Brain, Database } from "lucide-react";
 
 export default function PulseGuardianBanner({ lang = "en" }: { lang?: "en" | "de" }) {
   const [open, setOpen] = useState(false);
@@ -21,8 +21,8 @@ export default function PulseGuardianBanner({ lang = "en" }: { lang?: "en" | "de
           </p>
           <p className="text-slate-500 text-[10px] mt-0.5">
             {isEn
-              ? "Your AI safety companion. Tap to learn more."
-              : "Dein KI-Sicherheitsbegleiter. Tippe für mehr."}
+              ? "Integrated Safety Engine. Tap to see how I protect you."
+              : "Integrierte Sicherheits-Engine. Tippe um zu sehen, wie ich dich schütze."}
           </p>
         </div>
         <span className="text-slate-600 text-[10px]">›</span>
@@ -49,33 +49,33 @@ export default function PulseGuardianBanner({ lang = "en" }: { lang?: "en" | "de
             {/* Description */}
             <p className="text-slate-400 text-sm leading-relaxed mb-8">
               {isEn
-                ? "Pulse Guardian is your personal AI safety companion inside StayOnBeat. It watches over your session in real time — combining your substance intake, your vitals from Pulse Sync, and your personal health profile to keep you safe."
-                : "Pulse Guardian ist dein persönlicher KI-Sicherheitsbegleiter in StayOnBeat. Er überwacht deine Sitzung in Echtzeit — kombiniert deine Substanzaufnahme, deine Vitalwerte aus Pulse Sync und dein persönliches Gesundheitsprofil, um dich zu schützen."}
+                ? "Pulse Guardian is your sanctuary's central intelligence. I continuously aggregate data from all tools to ensure your journey stays safe and resonant."
+                : "Pulse Guardian ist die zentrale Intelligenz deines Refugiums. Ich sammle kontinuierlich Daten aus allen Tools, um sicherzustellen, dass deine Reise sicher und resonant bleibt."}
             </p>
 
-            {/* 3 Pillars */}
+            {/* Integration Pillars */}
             <div className="space-y-3">
               {[
                 {
-                  icon: <Brain size={16} />,
-                  title: isEn ? "Medical Knowledge" : "Medizinisches Wissen",
-                  desc: isEn
-                    ? "Clinically reviewed harm reduction guidance."
-                    : "Klinisch geprüfte Schadensminimierungshinweise.",
-                },
-                {
                   icon: <Bluetooth size={16} />,
-                  title: isEn ? "Pulse Sync" : "Pulse Sync",
+                  title: isEn ? "Pulse Sync Integration" : "Pulse Sync Integration",
                   desc: isEn
-                    ? "Real-time vitals from your Apple Watch, Oura Ring or Whoop."
-                    : "Echtzeit-Vitalwerte von deiner Apple Watch, Oura Ring oder Whoop.",
+                    ? "Reads live vitals from your wearable to monitor physiological stress."
+                    : "Liest Live-Vitalwerte von deinem Wearable, um physiologischen Stress zu überwachen.",
                 },
                 {
                   icon: <Activity size={16} />,
-                  title: isEn ? "Session Lock" : "Sitzungssperre",
+                  title: isEn ? "Pulse Lab Awareness" : "Pulse Lab Bewusstsein",
                   desc: isEn
-                    ? "If your body signals danger, the Pulse Lab pauses automatically."
-                    : "Wenn dein Körper Gefahr signalisiert, pausiert das Pulse Lab automatisch.",
+                    ? "Automatically recalibrates safety limits based on your substance intake logs."
+                    : "Kalibriert Sicherheitslimits automatisch basierend auf deinen Substanz-Protokollen.",
+                },
+                {
+                  icon: <Database size={16} />,
+                  title: isEn ? "Profile Calibration" : "Profil-Kalibrierung",
+                  desc: isEn
+                    ? "Adjusts thresholds based on your health conditions and medications."
+                    : "Passt Schwellenwerte basierend auf deinen Gesundheitszuständen und Medikamenten an.",
                 },
               ].map((item, i) => (
                 <div
@@ -93,8 +93,8 @@ export default function PulseGuardianBanner({ lang = "en" }: { lang?: "en" | "de
 
             <p className="text-center text-[10px] text-slate-600 mt-6 uppercase tracking-widest">
               {isEn
-                ? "Not medical advice. Harm reduction guidance only."
-                : "Keine medizinische Beratung. Nur Schadensminimierungshinweise."}
+                ? "Data is processed locally and with love."
+                : "Daten werden lokal und mit Liebe verarbeitet."}
             </p>
           </div>
         </div>
