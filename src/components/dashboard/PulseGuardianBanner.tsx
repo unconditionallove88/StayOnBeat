@@ -1,8 +1,8 @@
-
 "use client";
 
 import React, { useState } from "react";
 import { Shield, X, Activity, Bluetooth, Database } from "lucide-react";
+import { GuardianLogo } from "@/components/ui/guardian-logo";
 import { cn } from "@/lib/utils";
 
 /**
@@ -30,11 +30,11 @@ export default function PulseGuardianBanner({
       {variant === "banner" ? (
         <button
           onClick={() => setOpen(true)}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl mb-6 border border-[#10B981]/20 bg-[#10B981]/5 text-left transition hover:border-[#10B981]/40 active:scale-[0.99]"
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl mb-6 border border-[#A855F7]/20 bg-[#A855F7]/5 text-left transition hover:border-[#A855F7]/40 active:scale-[0.99]"
         >
-          <Shield size={18} className="text-[#10B981] shrink-0" />
+          <GuardianLogo size={24} className="shrink-0" />
           <div className="flex-1">
-            <p className="text-[#10B981] text-[10px] font-black uppercase tracking-widest leading-none">
+            <p className="text-[#A855F7] text-[10px] font-black uppercase tracking-widest leading-none">
               Pulse Guardian
             </p>
             <p className="text-white/40 text-[9px] mt-1 font-bold uppercase tracking-widest">
@@ -48,10 +48,10 @@ export default function PulseGuardianBanner({
       ) : (
         <button 
           onClick={() => setOpen(true)} 
-          className="p-2.5 bg-[#10B981]/10 rounded-full border border-[#10B981]/30 hover:border-[#10B981] transition-all active:scale-95"
+          className="p-2 bg-[#A855F7]/10 rounded-full border border-[#A855F7]/30 hover:border-[#A855F7] transition-all active:scale-95 flex items-center justify-center"
           title="Pulse Guardian"
         >
-          <Shield className="w-5 h-5 text-[#10B981]" />
+          <GuardianLogo size={28} />
         </button>
       )}
 
@@ -61,17 +61,17 @@ export default function PulseGuardianBanner({
           <div className="w-full max-w-md bg-[#0a0a0a] border border-white/10 rounded-[3rem] p-8 pb-12 shadow-2xl animate-in slide-in-from-top-10 duration-500 relative overflow-hidden font-headline">
             
             {/* Ambient Background Glow */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-[#10B981]/5 blur-3xl -z-10" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[#A855F7]/5 blur-3xl -z-10" />
 
             {/* Header */}
             <div className="flex justify-between items-center mb-8">
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-[#10B981]/10 border border-[#10B981]/20 flex items-center justify-center shadow-lg">
-                  <Shield size={28} className="text-[#10B981]" />
+                <div className="w-14 h-14 rounded-2xl bg-[#A855F7]/10 border border-[#A855F7]/20 flex items-center justify-center shadow-lg">
+                  <GuardianLogo size={32} />
                 </div>
                 <div>
                   <h3 className="text-white font-black text-2xl uppercase tracking-tighter leading-none">Pulse Guardian</h3>
-                  <p className="text-[9px] text-[#10B981] font-black uppercase tracking-[0.3em] mt-1.5">Central Intelligence</p>
+                  <p className="text-[9px] text-[#A855F7] font-black uppercase tracking-[0.3em] mt-1.5">Central Intelligence</p>
                 </div>
               </div>
               <button 
@@ -94,6 +94,8 @@ export default function PulseGuardianBanner({
               {[
                 {
                   icon: <Bluetooth size={18} />,
+                  color: "text-[#EBFB3B]",
+                  bg: "bg-[#EBFB3B]/10",
                   title: isEn ? "Pulse Sync Integration" : "Pulse Sync Integration",
                   desc: isEn
                     ? "Reads live vitals from your wearable to monitor physiological stress."
@@ -101,6 +103,8 @@ export default function PulseGuardianBanner({
                 },
                 {
                   icon: <Activity size={18} />,
+                  color: "text-[#10B981]",
+                  bg: "bg-[#10B981]/10",
                   title: isEn ? "Pulse Lab Awareness" : "Pulse Lab Bewusstsein",
                   desc: isEn
                     ? "Automatically recalibrates safety limits based on your substance intake logs."
@@ -108,6 +112,8 @@ export default function PulseGuardianBanner({
                 },
                 {
                   icon: <Database size={18} />,
+                  color: "text-blue-400",
+                  bg: "bg-blue-400/10",
                   title: isEn ? "Profile Calibration" : "Profil-Kalibrierung",
                   desc: isEn
                     ? "Adjusts thresholds based on your health conditions and medications."
@@ -118,7 +124,7 @@ export default function PulseGuardianBanner({
                   key={i}
                   className="flex items-start gap-5 p-5 rounded-[1.5rem] bg-white/5 border border-white/5 transition-all hover:bg-white/10"
                 >
-                  <div className="text-[#10B981] mt-0.5 shrink-0 p-2 bg-[#10B981]/10 rounded-lg">{item.icon}</div>
+                  <div className={cn(item.color, "mt-0.5 shrink-0 p-2 rounded-lg", item.bg)}>{item.icon}</div>
                   <div className="space-y-1">
                     <p className="text-white text-[11px] font-black uppercase tracking-tight">{item.title}</p>
                     <p className="text-white/30 text-[9px] font-bold uppercase tracking-widest leading-relaxed">{item.desc}</p>

@@ -83,11 +83,11 @@ export default function MyHeartPage() {
         
         {/* 2. BASELINE INFO CARD */}
         {profile?.pulseBaseline ? (
-          <div className="w-full max-w-sm bg-white/5 border border-[#10B981]/20 rounded-[2rem] p-6 animate-in slide-in-from-bottom-4 duration-700">
+          <div className="w-full max-w-sm bg-white/5 border border-[#EBFB3B]/20 rounded-[2rem] p-6 animate-in slide-in-from-bottom-4 duration-700">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
-                <Watch className="text-[#10B981] w-5 h-5" />
-                <span className="text-[10px] font-black uppercase text-[#10B981] tracking-widest">Pulse Baseline</span>
+                <Watch className="text-[#EBFB3B] w-5 h-5" />
+                <span className="text-[10px] font-black uppercase text-[#EBFB3B] tracking-widest">Pulse Baseline</span>
               </div>
               <span className="text-[8px] font-bold text-white/30 uppercase tracking-widest px-2 py-1 bg-white/5 rounded-full">Set via {profile.pulseBaseline.source.replace('_', ' ')}</span>
             </div>
@@ -96,7 +96,7 @@ export default function MyHeartPage() {
               <span className="text-xs font-bold text-white/40 mb-1">RESTING BPM</span>
             </div>
             <div className="mt-4 pt-4 border-t border-white/5 flex items-start gap-3">
-              <Info size={14} className="text-[#10B981] mt-0.5" />
+              <Info size={14} className="text-[#EBFB3B] mt-0.5" />
               <p className="text-[9px] text-white/40 font-bold uppercase leading-relaxed tracking-wide">
                 Your Guardian is calibrated to this baseline. Thresholds adjust dynamically based on your resting rhythm. 🌿
               </p>
@@ -120,7 +120,7 @@ export default function MyHeartPage() {
       <div className="space-y-6 shrink-0 relative z-10 mt-12">
         <button 
           onClick={() => router.push('/dashboard?sync=true')}
-          className="w-full py-6 rounded-[1.5rem] bg-[#10B981] text-black text-sm font-black uppercase tracking-widest flex items-center justify-center gap-3 active:scale-95 transition-all shadow-[0_0_30px_rgba(16,185,129,0.3)]"
+          className="w-full py-6 rounded-[1.5rem] bg-[#EBFB3B] text-black text-sm font-black uppercase tracking-widest flex items-center justify-center gap-3 active:scale-95 transition-all shadow-[0_0_30px_rgba(235,251,59,0.3)]"
         >
           <Activity size={18} />
           Recalibrate Baseline

@@ -7,12 +7,9 @@ import {
   Heart, 
   User, 
   LogOut,
-  Beaker,
   Loader2,
-  ShieldAlert,
   Bot,
   Sprout,
-  ArrowRight,
   Watch,
   Shield
 } from 'lucide-react';
@@ -21,6 +18,8 @@ import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6Subs
 import { VibeMirror } from '@/components/dashboard/VibeMirror';
 import { SOSAlert } from '@/components/dashboard/SOSAlert';
 import { RadiatingThirdEye } from '@/components/ui/radiating-third-eye';
+import { ShieldPulseIcon } from '@/components/ui/shield-pulse-icon';
+import { GuardianLogo } from '@/components/ui/guardian-logo';
 import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
 import GuardianSimulator from '@/components/dashboard/GuardianSimulator';
@@ -158,7 +157,7 @@ export default function Dashboard() {
               <Bot className="w-5 h-5 text-blue-400" />
             </button>
             
-            {/* Pulse Guardian relocated to header action group */}
+            {/* Pulse Guardian Header Action */}
             <PulseGuardianBanner lang={lang} variant="icon" />
 
             <Link href="/profile" className="p-2.5 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all">
@@ -242,7 +241,7 @@ export default function Dashboard() {
                 className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all text-left shadow-xl"
               >
                 <div className="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20">
-                  <Beaker size={28} className="text-[#10B981]" />
+                  <ShieldPulseIcon size={32} color="#10B981" />
                 </div>
                 <div>
                   <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'Pulse Lab' : 'Pulse Lab'}</p>
@@ -252,10 +251,10 @@ export default function Dashboard() {
 
               <button 
                 onClick={() => setSyncOpen(true)} 
-                className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-purple-500/30 hover:bg-purple-500/5 transition-all text-left shadow-xl"
+                className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-[#EBFB3B]/30 hover:bg-[#EBFB3B]/5 transition-all text-left shadow-xl"
               >
-                <div className="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center border border-purple-500/20">
-                  <Watch size={28} className="text-purple-400" />
+                <div className="w-14 h-14 bg-[#EBFB3B]/10 rounded-2xl flex items-center justify-center border border-[#EBFB3B]/20">
+                  <Watch size={28} className="text-[#EBFB3B]" />
                 </div>
                 <div>
                   <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'Pulse Sync' : 'Pulse Sync'}</p>

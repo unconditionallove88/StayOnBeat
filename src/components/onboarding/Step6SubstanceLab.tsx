@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -15,6 +14,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { AiSafetyChat } from '@/components/chat/AiSafetyChat';
+import { ShieldPulseIcon } from '@/components/ui/shield-pulse-icon';
 import CareShield from '@/components/dashboard/CareShield';
 import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
@@ -24,7 +24,6 @@ import PoppersCard from '@/components/lab/cards/PoppersCard';
 /**
  * @fileOverview Pulse Lab component.
  * Calibrated for high-fidelity scrolling and real-time safety monitoring.
- * Features 2C-B and LSD. Poppers info hidden by default.
  */
 
 const SUBSTANCES = [
@@ -143,7 +142,7 @@ export function Step6SubstanceLab({
   const lastHR = userData?.sessionStatus?.lastHeartRate || 0;
   const guardianStatus: 'safe' | 'caution' | 'locked' = isLocked ? 'locked' : (lastHR > 110 ? 'caution' : 'safe');
 
-  // Poppers Card logic: Hide by default. Show if selected, searched, or already intake logged.
+  // Poppers Card logic
   const showPoppersCard = 
     searchTerm.toLowerCase().includes('poppers') || 
     activeSubstance?.id === 'poppers' || 
@@ -165,7 +164,7 @@ export function Step6SubstanceLab({
   }
 
   return (
-    <div className="flex flex-col h-full bg-black font-body max-w-2xl mx-auto relative overflow-hidden">
+    <div className="flex flex-col h-full bg-black font-headline max-w-2xl mx-auto relative overflow-hidden">
       {/* Fixed Header */}
       <div className="px-6 pt-12 pb-4 space-y-4 flex flex-col shrink-0 bg-black z-20 border-b border-white/5 shadow-2xl">
         {onBack && (
@@ -174,8 +173,13 @@ export function Step6SubstanceLab({
           </button>
         )}
         
-        <div className="space-y-2">
-          <h1 className="text-2xl font-black tracking-tighter uppercase leading-none">Pulse Lab</h1>
+        <div className="space-y-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-[#10B981]/10 flex items-center justify-center border border-[#10B981]/20">
+              <ShieldPulseIcon size={32} color="#10B981" />
+            </div>
+            <h1 className="text-2xl font-black tracking-tighter uppercase leading-none">Pulse Lab</h1>
+          </div>
           <PulseGuardianBanner lang={lang} />
           <GuardianStatusBar status={guardianStatus} heartRate={lastHR > 0 ? lastHR : 98} lang={lang} />
         </div>
@@ -191,10 +195,9 @@ export function Step6SubstanceLab({
         </div>
       </div>
 
-      {/* Fluid Scrollable Viewport */}
+      {/* Viewport */}
       <div className="flex-1 overflow-y-auto custom-scrollbar px-6 pb-40 space-y-8 pt-6">
         
-        {/* Poppers Feature Card - Hidden by default */}
         {showPoppersCard && (
           <div className="animate-in fade-in duration-500">
             <PoppersCard lang={lang} />
@@ -261,7 +264,6 @@ export function Step6SubstanceLab({
         )}
       </div>
 
-      {/* Pins Footer */}
       <footer className="shrink-0 h-[100px] bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-50">
         <button 
           onClick={() => onComplete(sessionLogs)} 
