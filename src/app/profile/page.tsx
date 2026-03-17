@@ -24,8 +24,17 @@ import {
   Leaf,
   Lock,
   ChevronRight,
-  Loader2
+  Loader2,
+  ShieldCheck
 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 /**
  * @fileOverview Your Sanctuary (Profile Page).
@@ -39,6 +48,7 @@ export default function ProfilePage() {
   const { user, isUserLoading } = useUser();
   const [successMessage, setSuccessMessage] = useState("");
   const [mounted, setMounted] = useState(false);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
 
   // Auth Protection
   useEffect(() => {
@@ -222,7 +232,10 @@ export default function ProfilePage() {
              <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest leading-relaxed">
                Your data is a sacred trust. We use high-fidelity encryption to ensure your journey remains private and protected. 💚
              </p>
-             <button className="text-[8px] font-black text-[#10B981] uppercase tracking-[0.3em] hover:underline underline-offset-8">
+             <button 
+               onClick={() => setPrivacyOpen(true)}
+               className="text-[8px] font-black text-[#10B981] uppercase tracking-[0.3em] hover:underline underline-offset-8"
+             >
                View Privacy Commitment
              </button>
           </div>
@@ -236,6 +249,58 @@ export default function ProfilePage() {
           </button>
         </div>
       </div>
+
+      {/* Privacy Commitment Dialog */}
+      <Dialog open={privacyOpen} onOpenChange={setPrivacyOpen}>
+        <DialogContent className="bg-[#050505] border-white/10 max-w-lg p-0 rounded-[3rem] overflow-hidden flex flex-col font-headline">
+          <div className="p-8 pb-4 shrink-0">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20">
+                <ShieldCheck size={32} className="text-[#10B981]" />
+              </div>
+              <DialogTitle className="text-2xl font-black uppercase tracking-tighter text-white">Privacy Commitment</DialogTitle>
+            </div>
+          </div>
+          
+          <ScrollArea className="flex-1 px-8 pb-10">
+            <div className="space-y-8">
+              <section className="space-y-3">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">Data Sovereignty</h4>
+                <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">
+                  I love and respect my privacy. My data is my own. StayOnBeat is built on the principle that your personal journey is a sacred trust.
+                </p>
+              </section>
+
+              <section className="space-y-3">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">High-Fidelity Encryption</h4>
+                <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">
+                  All biometric signals, health profiles, and location logs are protected by industry-leading encryption. We ensure that your sensitive information is visible only to you and those you explicitly trust.
+                </p>
+              </section>
+
+              <section className="space-y-3">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">No Third-Party Sharing</h4>
+                <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">
+                  We never sell, rent, or trade your data. Your resonance remains within the sanctuary. Our mission is pure support, not commercial exploitation.
+                </p>
+              </section>
+
+              <section className="space-y-3">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">Unconditional Acceptance</h4>
+                <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">
+                  We collect only the information necessary to keep you safe and provide high-fidelity support. Every data point is used to calibrate your protection and nurture your well-being.
+                </p>
+              </section>
+
+              <div className="pt-6 border-t border-white/5 text-center">
+                <p className="text-[8px] font-black text-white/20 uppercase tracking-[0.5em]">
+                  Encrypted with Love • Protected by Sanctuary Protocol
+                </p>
+              </div>
+            </div>
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
     </main>
   );
 }
