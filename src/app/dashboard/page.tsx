@@ -13,7 +13,9 @@ import {
   Sprout,
   Watch,
   Shield,
-  Sun
+  Sun,
+  Moon,
+  Sparkles
 } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6SubstanceLab';
@@ -45,8 +47,43 @@ import {
 
 /**
  * @fileOverview High-Fidelity Dashboard Sanctuary Hub.
- * Updated greeting to "SHINE" with a sun icon.
+ * Features a dynamic celestial greeting icon (Sun/Moon cycle).
  */
+
+function SkyIcon() {
+  const [icon, setIcon] = useState<React.ReactNode>(null);
+
+  useEffect(() => {
+    const hour = new Date().getHours();
+    const isDay = hour >= 6 && hour < 18;
+
+    if (isDay) {
+      setIcon(<Sun className="w-6 h-6 text-yellow-400 fill-yellow-400 animate-pulse" />);
+    } else {
+      // Approximate Moon Phase
+      // LP is the lunar synodic period in seconds
+      const lp = 2551443;
+      // Ref date for a new moon (approx Jan 1 2021)
+      const now = new Date().getTime() / 1000;
+      const phase = ((now - 1609459200) % lp) / lp;
+
+      if (phase > 0.4 && phase < 0.6) {
+        // Full Moon
+        setIcon(
+          <div className="relative">
+            <div className="w-6 h-6 bg-slate-100 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.5)]" />
+            <Sparkles className="absolute -top-1 -right-1 w-3 h-3 text-white animate-pulse" />
+          </div>
+        );
+      } else {
+        // Young / Other Moon
+        setIcon(<Moon className="w-6 h-6 text-slate-300" />);
+      }
+    }
+  }, []);
+
+  return icon;
+}
 
 const AFFIRMATIONS = {
   EN: [
@@ -171,9 +208,9 @@ export default function Dashboard() {
               <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">
                 Sanctuary Hub
               </p>
-              <h1 className="text-3xl font-black uppercase tracking-tighter flex items-center gap-2">
+              <h1 className="text-3xl font-black uppercase tracking-tighter flex items-center gap-3">
                 {lang === 'en' ? `SHINE, ${displayName}` : `STRAHLE, ${displayName}`}
-                <Sun className="w-6 h-6 text-yellow-400 fill-yellow-400 animate-pulse" />
+                <SkyIcon />
               </h1>
             </div>
             <div className="flex items-center gap-2">
@@ -391,14 +428,14 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={coCreationOpen} onOpenChange={setCoCreationOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-lg p-0 rounded-[3rem] overflow-hidden">
+        <DialogContent className="bg-black border-white/10 max-lg p-0 rounded-[3rem] overflow-hidden">
           <DialogTitle className="sr-only">Co-Creation</DialogTitle>
           <CoCreation onComplete={() => setCoCreationOpen(false)} />
         </DialogContent>
       </Dialog>
 
       <Dialog open={syncOpen} onOpenChange={setSyncOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-md p-0 rounded-[3rem] overflow-hidden">
+        <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden">
           <DialogTitle className="sr-only">Pulse Sync</DialogTitle>
           <WearablesSync onComplete={() => setSyncOpen(false)} />
         </DialogContent>
