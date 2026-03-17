@@ -242,7 +242,7 @@ export function Step7VibeCheck({
               <span className={cn("font-black text-lg uppercase tracking-tight", selected === vibe.id ? "text-white" : "text-white/60")}>
                 {lang === 'EN' ? vibe.label : vibe.de}
               </span>
-              <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest leading-none">
+              <span className="text-[10px] font-bold text-[#10B981] uppercase tracking-widest leading-none">
                 {lang === 'EN' ? vibe.description : vibe.deDescription}
               </span>
             </div>

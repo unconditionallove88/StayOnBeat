@@ -189,7 +189,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
                   )}>
                     {lang === 'EN' ? v.label : v.de}
                   </span>
-                  <span className="text-[9px] font-bold text-white/30 uppercase tracking-widest leading-none mt-1">
+                  <span className="text-[9px] font-bold text-[#10B981] uppercase tracking-widest leading-none mt-1">
                     {lang === 'EN' ? v.affirmation : v.deAffirmation}
                   </span>
                 </div>
