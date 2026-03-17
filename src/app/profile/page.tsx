@@ -135,13 +135,13 @@ export default function ProfilePage() {
           <div className="bg-white/5 rounded-[2.5rem] border border-white/10 p-8 space-y-8 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#10B981]/5 blur-3xl -z-10" />
             
-            <h3 className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] flex items-center gap-3">
+            <h3 className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3">
               <Leaf size={14} className="text-[#10B981]" /> Your Essence
             </h3>
             
             <div className="space-y-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase text-white/20 tracking-widest ml-1">Username</label>
+                <label className="text-[10px] font-black uppercase text-[#10B981] tracking-widest ml-1">Username</label>
                 <input 
                   type="text" 
                   defaultValue={profile?.name}
@@ -153,7 +153,7 @@ export default function ProfilePage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-white/20 tracking-widest ml-1">Weight (kg)</label>
+                  <label className="text-[10px] font-black uppercase text-[#10B981] tracking-widest ml-1">Weight (kg)</label>
                   <input 
                     type="number" 
                     defaultValue={profile?.biometrics?.weightKg}
@@ -163,7 +163,7 @@ export default function ProfilePage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-white/20 tracking-widest ml-1">Height (cm)</label>
+                  <label className="text-[10px] font-black uppercase text-[#10B981] tracking-widest ml-1">Height (cm)</label>
                   <input 
                     type="number" 
                     defaultValue={profile?.biometrics?.heightCm}
@@ -178,7 +178,7 @@ export default function ProfilePage() {
 
           {/* Group 2: Safety & Support */}
           <div className="bg-white/5 rounded-[2.5rem] border border-white/10 p-8 space-y-6">
-            <h3 className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] flex items-center gap-3">
+            <h3 className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3">
               <Shield size={14} className="text-[#10B981]" /> Safety & Support
             </h3>
             

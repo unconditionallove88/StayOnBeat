@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
@@ -142,7 +143,7 @@ function AuthContent() {
 
         <form onSubmit={handleAuth} className="space-y-5">
           <div className="space-y-1.5">
-            <label className="text-[9px] font-black uppercase tracking-[0.3em] text-white/20 ml-2">Email Address</label>
+            <label className="text-[9px] font-black uppercase tracking-[0.3em] text-[#10B981] ml-2">Email Address</label>
             <input
               type="text"
               value={email}
@@ -154,7 +155,7 @@ function AuthContent() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[9px] font-black uppercase tracking-[0.3em] text-white/20 ml-2">Password</label>
+            <label className="text-[9px] font-black uppercase tracking-[0.3em] text-[#10B981] ml-2">Password</label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}

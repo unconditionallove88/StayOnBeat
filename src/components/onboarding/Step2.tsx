@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -122,7 +123,7 @@ export function Step2WhoAreYou({
         <h2 className="text-[22px] font-black uppercase mb-1 text-white tracking-tighter leading-none">
           {t.header}
         </h2>
-        <p className="text-white/40 font-black uppercase tracking-[0.3em] text-[10px] mb-4">
+        <p className="text-[#10B981] font-black uppercase tracking-[0.3em] text-[10px] mb-4">
           {t.sub}
         </p>
         <p className="text-[9px] font-black text-white/30 uppercase tracking-widest max-w-[280px] mx-auto leading-relaxed">
@@ -132,7 +133,7 @@ export function Step2WhoAreYou({
 
       <div className="w-full space-y-4 mb-10">
         <div className="space-y-2">
-          <Label className="uppercase font-black tracking-[0.3em] text-[10px] text-white/40 block">{t.nameLabel}</Label>
+          <Label className="uppercase font-black tracking-[0.3em] text-[10px] text-[#10B981] block">{t.nameLabel}</Label>
           <Input 
             value={form.name}
             onChange={(e) => setForm(prev => ({...prev, name: e.target.value.toUpperCase()}))}
@@ -142,7 +143,7 @@ export function Step2WhoAreYou({
         </div>
 
         <div className="space-y-2">
-          <Label className="uppercase font-black tracking-[0.3em] text-[10px] text-white/40 block">{t.dobLabel}</Label>
+          <Label className="uppercase font-black tracking-[0.3em] text-[10px] text-[#10B981] block">{t.dobLabel}</Label>
           <Input 
             type="text"
             placeholder={t.dobPlaceholder}
@@ -159,7 +160,7 @@ export function Step2WhoAreYou({
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label className="uppercase font-black tracking-[0.3em] text-[10px] text-white/40 block">{t.weightLabel}</Label>
+            <Label className="uppercase font-black tracking-[0.3em] text-[10px] text-[#10B981] block">{t.weightLabel}</Label>
             <Input 
               value={form.weight}
               onChange={(e) => setForm(prev => ({...prev, weight: e.target.value.replace(/\D/g, '')}))}
@@ -168,7 +169,7 @@ export function Step2WhoAreYou({
             />
           </div>
           <div className="space-y-2">
-            <Label className="uppercase font-black tracking-[0.3em] text-[10px] text-white/40 block">{t.heightLabel}</Label>
+            <Label className="uppercase font-black tracking-[0.3em] text-[10px] text-[#10B981] block">{t.heightLabel}</Label>
             <Input 
               value={form.height}
               onChange={(e) => setForm(prev => ({...prev, height: e.target.value.replace(/\D/g, '')}))}

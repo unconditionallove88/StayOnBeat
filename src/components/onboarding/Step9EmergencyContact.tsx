@@ -68,12 +68,12 @@ export function Step9EmergencyContact({
 
       <div className="text-center mb-16 mt-12">
         <h2 className="text-5xl font-black uppercase mb-4 text-white tracking-tighter">{content[lang].header}</h2>
-        <p className="text-white/40 font-bold uppercase tracking-[0.2em] text-sm">{content[lang].sub}</p>
+        <p className="text-[#10B981] font-bold uppercase tracking-[0.2em] text-sm">{content[lang].sub}</p>
       </div>
 
       <div className="w-full max-w-xl space-y-12 mb-16">
         <div className="space-y-4">
-          <Label className="uppercase font-black tracking-[0.3em] text-sm text-white/40 block">{content[lang].nameLabel}</Label>
+          <Label className="uppercase font-black tracking-[0.3em] text-sm text-[#10B981] block">{content[lang].nameLabel}</Label>
           <Input 
             value={form.name}
             onChange={(e) => setForm(prev => ({ ...prev, name: e.target.value }))}
@@ -83,7 +83,7 @@ export function Step9EmergencyContact({
         </div>
 
         <div className="space-y-4">
-          <Label className="uppercase font-black tracking-[0.3em] text-sm text-white/40 block">{content[lang].phoneLabel}</Label>
+          <Label className="uppercase font-black tracking-[0.3em] text-sm text-[#10B981] block">{content[lang].phoneLabel}</Label>
           <Input 
             type="text"
             value={form.phone}
