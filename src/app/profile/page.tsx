@@ -25,7 +25,8 @@ import {
   Lock,
   ChevronRight,
   Loader2,
-  ShieldCheck
+  ShieldCheck,
+  HelpCircle
 } from "lucide-react";
 import {
   Dialog,
@@ -35,6 +36,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { CoCreation } from "@/components/dashboard/CoCreation";
 
 /**
  * @fileOverview Your Sanctuary (Profile Page).
@@ -49,6 +51,7 @@ export default function ProfilePage() {
   const [successMessage, setSuccessMessage] = useState("");
   const [mounted, setMounted] = useState(false);
   const [privacyOpen, setPrivacyOpen] = useState(false);
+  const [coCreationOpen, setCoCreationOpen] = useState(false);
 
   // Auth Protection
   useEffect(() => {
@@ -252,7 +255,7 @@ export default function ProfilePage() {
 
       {/* Privacy Commitment Dialog */}
       <Dialog open={privacyOpen} onOpenChange={setPrivacyOpen}>
-        <DialogContent className="bg-[#050505] border-white/10 max-w-lg p-0 rounded-[3rem] overflow-hidden flex flex-col font-headline max-h-[90vh]">
+        <DialogContent className="bg-[#050505] border-white/10 max-w-lg p-0 rounded-[3rem] overflow-hidden flex flex-col font-headline h-[90vh] max-h-[90vh]">
           <div className="p-8 pb-4 shrink-0">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20">
@@ -262,7 +265,7 @@ export default function ProfilePage() {
             </div>
           </div>
           
-          <ScrollArea className="flex-1 px-8 pb-10">
+          <ScrollArea className="flex-1 px-8 pb-6">
             <div className="space-y-8">
               <section className="space-y-3">
                 <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">Data Sovereignty</h4>
@@ -292,13 +295,33 @@ export default function ProfilePage() {
                 </p>
               </section>
 
-              <div className="pt-6 border-t border-white/5 text-center">
-                <p className="text-[8px] font-black text-white/20 uppercase tracking-[0.5em]">
+              <section className="pt-10 border-t border-white/5 text-center space-y-6 pb-8">
+                <div className="flex flex-col items-center gap-2">
+                  <p className="text-[10px] text-white/20 font-bold uppercase tracking-widest">Have more questions?</p>
+                  <button 
+                    onClick={() => {
+                      setPrivacyOpen(false);
+                      setCoCreationOpen(true);
+                    }}
+                    className="flex items-center gap-3 bg-[#10B981]/10 border border-[#10B981]/20 px-8 py-4 rounded-2xl text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em] hover:bg-[#10B981]/20 transition-all active:scale-95"
+                  >
+                    <HelpCircle size={14} />
+                    Questions?
+                  </button>
+                </div>
+                <p className="text-[8px] font-black text-white/10 uppercase tracking-[0.5em]">
                   Encrypted with Love • Protected by Sanctuary Protocol
                 </p>
-              </div>
+              </section>
             </div>
           </ScrollArea>
+        </DialogContent>
+      </Dialog>
+
+      {/* Co-Creation Dialog (Redirect Target) */}
+      <Dialog open={coCreationOpen} onOpenChange={setCoCreationOpen}>
+        <DialogContent className="bg-black border-white/10 max-lg p-0 rounded-[3rem] overflow-hidden">
+          <CoCreation onComplete={() => setCoCreationOpen(false)} />
         </DialogContent>
       </Dialog>
     </main>

@@ -173,7 +173,7 @@ export default function Dashboard() {
   const isLocked = safetyStatus.isLocked;
   const cautionThreshold = 100 / (safetyStatus.riskMultiplier || 1.0);
   const isCaution = !isLocked && (simHeartRate > cautionThreshold || activeSubstances.length >= 3);
-  const guardianStatus: 'safe' | 'caution' | 'locked' = isLocked ? 'locked' : isCaution ? 'caution' : 'safe';
+  const guardianStatus: 'safe' | 'caution' | 'locked' = isLocked ? 'locked' : 'caution' ? 'caution' : 'safe';
 
   const handleLogout = async () => {
     await auth.signOut();

@@ -324,7 +324,7 @@ export function Step6SubstanceLab({
             )}
             <button 
               onClick={saveLog}
-              className="w-full h-16 bg-[#3EB489] text-black rounded-2xl font-black uppercase tracking-widest neon-glow active:scale-95"
+              className="w-full h-16 bg-[#3EB489] text-black rounded-2xl font-black uppercase tracking-widest neon-glow active:scale-[0.98]"
             >
               Log intake
             </button>
