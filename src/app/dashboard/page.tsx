@@ -178,7 +178,9 @@ export default function Dashboard() {
             <div className="flex items-center gap-2">
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <div><VibeMirror vibe={firestoreProfile?.vibe} /></div>
+                  <div className="cursor-pointer">
+                    <VibeMirror vibe={firestoreProfile?.vibe} />
+                  </div>
                 </TooltipTrigger>
                 <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-white font-bold uppercase text-[9px] tracking-widest px-4 py-2">
                   {t.vibe}
@@ -384,7 +386,7 @@ export default function Dashboard() {
       <Dialog open={aiBotOpen} onOpenChange={setAiBotOpen}>
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh]">
           <DialogTitle className="sr-only">AI Assistant Portal</DialogTitle>
-          <AssistantPortal userProfile={firestoreProfile} onClose={() => setAiBotOpen(false)} />
+          <AssistantPortal userProfile={firestoreProfile} onClose={() => aiBotOpen(false)} />
         </DialogContent>
       </Dialog>
 

@@ -16,7 +16,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
@@ -106,37 +105,38 @@ export default function PulseGuardianBanner({
 
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        {variant === "banner" ? (
-          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl mb-6 border border-[#A855F7]/20 bg-[#A855F7]/5 text-left transition hover:border-[#A855F7]/40 active:scale-[0.99]">
-            <GuardianLogo size={24} className="shrink-0" />
-            <div className="flex-1">
-              <p className="text-[#A855F7] text-[10px] font-black uppercase tracking-widest leading-none">
-                Pulse Guardian
-              </p>
-              <p className="text-white/40 text-[9px] mt-1 font-bold uppercase tracking-widest">
-                {isEn
-                  ? "Integrated Safety Engine. Tap to see how I protect you."
-                  : "Integrierte Sicherheits-Engine. Tippe um zu sehen, wie ich dich schütze."}
-              </p>
-            </div>
-            <span className="text-white/20 text-[10px]">›</span>
-          </button>
-        ) : (
-          <Tooltip>
-            <TooltipTrigger asChild>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <SheetTrigger asChild>
+            {variant === "banner" ? (
+              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl mb-6 border border-[#A855F7]/20 bg-[#A855F7]/5 text-left transition hover:border-[#A855F7]/40 active:scale-[0.99]">
+                <GuardianLogo size={24} className="shrink-0" />
+                <div className="flex-1">
+                  <p className="text-[#A855F7] text-[10px] font-black uppercase tracking-widest leading-none">
+                    Pulse Guardian
+                  </p>
+                  <p className="text-white/40 text-[9px] mt-1 font-bold uppercase tracking-widest">
+                    {isEn
+                      ? "Integrated Safety Engine. Tap to see how I protect you."
+                      : "Integrierte Sicherheits-Engine. Tippe um zu sehen, wie ich dich schütze."}
+                  </p>
+                </div>
+                <span className="text-white/20 text-[10px]">›</span>
+              </button>
+            ) : (
               <button 
+                type="button"
                 className="p-2 bg-[#A855F7]/10 rounded-full border border-[#A855F7]/30 hover:border-[#A855F7] transition-all active:scale-95 flex items-center justify-center group"
               >
                 <GuardianLogo size={28} className="group-hover:scale-110 transition-transform" />
               </button>
-            </TooltipTrigger>
-            <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-[#A855F7] font-bold uppercase text-[9px] tracking-widest px-4 py-2">
-              {guardianLabel}
-            </TooltipContent>
-          </Tooltip>
-        )}
-      </SheetTrigger>
+            )}
+          </SheetTrigger>
+        </TooltipTrigger>
+        <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-[#A855F7] font-bold uppercase text-[9px] tracking-widest px-4 py-2">
+          {guardianLabel}
+        </TooltipContent>
+      </Tooltip>
 
       <SheetContent 
         side="top" 
