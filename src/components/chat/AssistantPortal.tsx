@@ -95,7 +95,12 @@ export function AssistantPortal({ userProfile, onClose }: AssistantPortalProps) 
           </div>
           <h1 className="text-xl font-black uppercase tracking-tighter">{t.title}</h1>
         </div>
-        {/* Radix DialogClose will handle closing, custom X removed to avoid double buttons */}
+        <button 
+          onClick={onClose}
+          className="p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white transition-all active:scale-95"
+        >
+          <X size={20} />
+        </button>
       </header>
 
       <ScrollArea className="flex-1 px-8 relative z-10">
@@ -107,7 +112,7 @@ export function AssistantPortal({ userProfile, onClose }: AssistantPortalProps) 
           <h2 className="text-4xl font-black uppercase tracking-tighter leading-none mb-4">
             {t.question.split(' ').slice(0, -1).join(' ')} <br /> <span className="text-emerald-500">{t.question.split(' ').pop()}</span>
           </h2>
-          <p className="text-white/40 text-sm font-bold leading-relaxed max-w-[280px]">
+          <p className="text-[#10B981] text-sm font-bold leading-relaxed max-w-[280px] uppercase tracking-widest">
             {t.subtitle}
           </p>
         </section>

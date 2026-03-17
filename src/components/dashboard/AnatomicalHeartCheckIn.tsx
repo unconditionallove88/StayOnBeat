@@ -64,7 +64,7 @@ export function AnatomicalHeartCheckIn() {
   return (
     <div className="flex flex-col items-center p-8 bg-[#0a0a0a] rounded-[3rem] border border-white/10 shadow-2xl font-headline w-full max-w-lg mx-auto">
       <h3 className="text-white font-black text-2xl mb-2 uppercase tracking-tighter leading-none text-center">Heart Check-in</h3>
-      <p className="text-white/40 text-[10px] mb-8 uppercase tracking-[0.4em] font-bold text-center">How is your heart today?</p>
+      <p className="text-[#10B981] text-[10px] mb-8 uppercase tracking-[0.4em] font-black text-center">How is your heart today?</p>
 
       <div className="relative w-64 h-80 flex items-center justify-center">
         <svg viewBox="0 0 200 250" className="absolute w-full h-full drop-shadow-[0_0_15px_rgba(16,185,129,0.2)]">

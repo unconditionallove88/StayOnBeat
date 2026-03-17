@@ -161,7 +161,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
             <SheetTitle className="text-center text-xl font-black uppercase tracking-tighter text-white">
               {lang === 'EN' ? 'Heart Check-in' : 'Herz Check-in'}
             </SheetTitle>
-            <p className="text-center text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">
+            <p className="text-center text-[10px] font-black uppercase tracking-widest mt-1 text-[#10B981]">
               {lang === 'EN' ? 'How are you feeling right now?' : 'Wie fühlst du dich gerade?'}
             </p>
           </SheetHeader>
@@ -189,7 +189,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
                   )}>
                     {lang === 'EN' ? v.label : v.de}
                   </span>
-                  <span className="text-[9px] font-bold text-[#10B981] uppercase tracking-widest leading-none mt-1">
+                  <span className="text-[9px] font-black text-[#10B981] uppercase tracking-widest leading-none mt-1">
                     {lang === 'EN' ? v.affirmation : v.deAffirmation}
                   </span>
                 </div>

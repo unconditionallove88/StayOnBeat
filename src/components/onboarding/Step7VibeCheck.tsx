@@ -219,7 +219,7 @@ export function Step7VibeCheck({
         <h2 className="text-[28px] font-black uppercase mb-2 text-white leading-none tracking-tighter">
           {lang === 'EN' ? 'How is your heart today?' : 'Wie geht es deinem Herzen heute?'}
         </h2>
-        <p className="text-white/40 font-bold tracking-widest text-[10px] max-w-[280px] mx-auto uppercase">
+        <p className="text-[#10B981] font-black uppercase tracking-widest text-[10px] max-w-[280px] mx-auto">
           {lang === 'EN' ? 'Your feelings are valid and seen. This is a safe space.' : 'Deine Gefühle sind wichtig und werden gesehen. Dies ist ein sicherer Raum.'}
         </p>
       </div>
@@ -231,7 +231,7 @@ export function Step7VibeCheck({
             onClick={() => setSelected(vibe.id)}
             disabled={isSaving}
             className={cn(
-              "p-5 rounded-[2rem] border-2 flex items-center gap-6 transition-all active:scale-95 text-left",
+              "p-5 rounded-[2rem] border-2 flex items-center gap-6 transition-all active:scale-[0.98] text-left",
               selected === vibe.id ? vibe.activeColor : cn("bg-[#0a0a0a] border-white/5 hover:border-white/20", vibe.color.split(' ')[0])
             )}
           >
@@ -242,7 +242,7 @@ export function Step7VibeCheck({
               <span className={cn("font-black text-lg uppercase tracking-tight", selected === vibe.id ? "text-white" : "text-white/60")}>
                 {lang === 'EN' ? vibe.label : vibe.de}
               </span>
-              <span className="text-[10px] font-bold text-[#10B981] uppercase tracking-widest leading-none">
+              <span className="text-[10px] font-black text-[#10B981] uppercase tracking-widest leading-none">
                 {lang === 'EN' ? vibe.description : vibe.deDescription}
               </span>
             </div>
