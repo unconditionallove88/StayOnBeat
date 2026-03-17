@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -60,14 +61,11 @@ function SkyIcon() {
       setIcon(<Sun className="w-6 h-6 text-yellow-400 fill-yellow-400 animate-pulse" />);
     } else {
       // Approximate Moon Phase
-      // LP is the lunar synodic period in seconds
       const lp = 2551443;
-      // Ref date for a new moon (approx Jan 1 2021)
       const now = new Date().getTime() / 1000;
       const phase = ((now - 1609459200) % lp) / lp;
 
       if (phase > 0.4 && phase < 0.6) {
-        // Full Moon
         setIcon(
           <div className="relative">
             <div className="w-6 h-6 bg-slate-100 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.5)]" />
@@ -75,7 +73,6 @@ function SkyIcon() {
           </div>
         );
       } else {
-        // Young / Other Moon
         setIcon(<Moon className="w-6 h-6 text-slate-300" />);
       }
     }
@@ -86,18 +83,18 @@ function SkyIcon() {
 
 const AFFIRMATIONS = {
   EN: [
-    "I love, accept and respect myself unconditionally. 💚",
-    "I am exactly where I need to be. I am safe. 🌿",
-    "My presence is a gift to this circle. ✨",
-    "I honor my boundaries and my heart's needs. 🌊",
-    "I am worthy of care, rest, and joyful connection. 🌈"
+    "I love, accept and respect myself and everyone unconditionally.",
+    "Unity and purity flow through my presence.",
+    "I am filled with love, joy and happiness.",
+    "Acceptance and tolerance define my state of being.",
+    "I honor the respect and light in all souls."
   ],
   DE: [
-    "Ich liebe, akzeptiere und respektiere mich bedingungslos. 💚",
-    "Ich bin genau dort, wo ich sein muss. Ich bin sicher. 🌿",
-    "Meine Anwesenheit ist ein Geschenk für diesen Kreis. ✨",
-    "Ich achte meine Grenzen und die Bedürfnisse meines Herzens. 🌊",
-    "Ich bin es wert, umsorgt zu werden, mich auszuruhen und Freude zu teilen. 🌈"
+    "Ich liebe, akzeptiere und respektiere mich und alle bedingungslos.",
+    "Einheit und Reinheit fließen durch meine Gegenwart.",
+    "Ich bin erfüllt von Liebe, Freude und Glückseligkeit.",
+    "Akzeptanz und Toleranz definieren mein Sein.",
+    "Ich ehre den Respekt und das Licht in allen Seelen."
   ]
 };
 
@@ -128,7 +125,6 @@ export default function Dashboard() {
   const [affirmation, setAffirmation] = useState("");
   const [lang, setLang] = useState<'en' | 'de'>('en');
   
-  // GLOBAL SIMULATION STATE
   const [simHeartRate, setSimHeartRate] = useState(75);
   const [simSubstanceCount, setSimSubstanceCount] = useState(0);
   const [activeSubstances, setActiveSubstances] = useState<string[]>([]);
@@ -161,7 +157,6 @@ export default function Dashboard() {
   const [syncOpen, setSyncOpen] = useState(false);
   const [showSOS, setShowSOS] = useState(false);
 
-  // GUARDIAN LOGIC SYNC: Aggregating Vitals, Intake, and Profile
   const medicalProfile = {
     healthConditions: firestoreProfile?.healthConditions || [],
     medications: firestoreProfile?.medications || []
@@ -200,7 +195,6 @@ export default function Dashboard() {
   return (
     <main className="min-h-screen bg-black text-white flex flex-col h-screen overflow-hidden font-headline">
       <TooltipProvider delayDuration={300}>
-        {/* Header Sanctuary */}
         <div className="px-6 py-10 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
           <header className="flex justify-between items-start max-w-4xl mx-auto w-full">
             <div className="space-y-1">

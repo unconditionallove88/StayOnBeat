@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -8,17 +9,17 @@ import { Heart, Loader2, Sparkles, ShieldCheck, Phone, CheckCircle2, X } from 'l
 import { cn } from '@/lib/utils';
 
 const SAFETY_LAYER_MESSAGES = [
-  "Your body might need support.",
-  "It’s okay to ask for help.",
-  "You are not alone."
+  "Love and respect guide this moment.",
+  "Acceptance and support are present.",
+  "Unity ensures safety for all."
 ];
 
 const LOVE_MESSAGES = [
-  "I love, accept and respect myself enough to ask for help. 💚",
-  "Reaching out is an act of deep self-respect. I am loved. 🌿",
-  "I am worthy of safety and support. Help is on the way. 🌊",
-  "My well-being matters. I am making the bravest choice. ✨",
-  "I honor my life by allowing my circle to hold me. 🌈",
+  "I love, accept and respect myself and everyone unconditionally.",
+  "Love and purity are my foundation.",
+  "Acceptance flows through this sanctuary.",
+  "I honor the light and purity in every soul.",
+  "Unity and support define this circle.",
 ];
 
 interface SOSAlertProps {
@@ -81,8 +82,8 @@ export function SOSAlert({ onClose }: SOSAlertProps) {
           status: 'pending_delivery',
           priority: priority,
           message: priority === 'urgent' 
-            ? 'URGENT EMERGENCY: Your person has requested immediate help and is calling emergency services. 🔴' 
-            : 'CARE ALERT: Your person needs support. They are safe but need your presence. 🫶',
+            ? 'URGENT EMERGENCY: Your person has requested immediate help and is calling emergency services.' 
+            : 'CARE ALERT: Your person needs support. They are safe but need your presence.',
         });
       });
     } catch (e) {
@@ -102,7 +103,7 @@ export function SOSAlert({ onClose }: SOSAlertProps) {
           <Sparkles className="absolute -top-4 -right-4 text-[#10B981] w-6 h-6 animate-pulse" />
         </div>
         <h1 className="text-4xl font-black uppercase tracking-tighter text-white mb-4 leading-none">
-          I am loved <br/> <span className="text-[#10B981]">and being taken care of 💚</span>
+          I am loved <br/> <span className="text-[#10B981]">and being taken care of</span>
         </h1>
         <p className="text-white/60 text-lg font-bold mb-10 leading-tight max-xs italic">
           "{loveMessage}"
@@ -129,7 +130,7 @@ export function SOSAlert({ onClose }: SOSAlertProps) {
       <div className="fixed inset-0 bg-black/95 z-[4000] flex flex-col items-center justify-center px-8 text-center font-headline">
         <Loader2 size={80} className="text-[#10B981] animate-spin mb-8" />
         <h1 className="text-3xl font-black uppercase tracking-tighter text-white mb-2">Connecting...</h1>
-        <p className="text-[#10B981] font-black uppercase tracking-[0.3em] text-[10px]">Honoring your request for care 💚</p>
+        <p className="text-[#10B981] font-black uppercase tracking-[0.3em] text-[10px]">Honoring your request for care</p>
       </div>
     );
   }

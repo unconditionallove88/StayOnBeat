@@ -1,3 +1,4 @@
+
 'use client';
 
 /**
@@ -6,12 +7,12 @@
  */
 
 export const LOVE_REMINDERS = [
-  "💚 How is your heart today? StayOnBeat is here for you.",
-  "🌿 A gentle reminder: your feelings matter. Check in when you're ready.",
-  "✨ You showed up yesterday. You can show up today too. We believe in you.",
-  "🌊 No pressure, just love. How are you feeling right now?",
-  "🌈 Your daily heart check-in is waiting. Take your time. 💚",
-  "🍃 Breathe. You are safe. How is your heart today?",
+  "I love, accept and respect myself and everyone unconditionally.",
+  "Unity and love are present. Check in when you're ready.",
+  "I honor the purity and joy within myself today.",
+  "Happiness and acceptance are my natural state.",
+  "Pure joy flows through this circle of love.",
+  "Respect and tolerance guide my presence today.",
 ];
 
 /** Request permission for push notifications */
@@ -69,7 +70,7 @@ export const sendLoveNotification = (): void => {
 
   const message = LOVE_REMINDERS[Math.floor(Math.random() * LOVE_REMINDERS.length)];
 
-  const notification = new Notification("StayOnBeat 💚", {
+  const notification = new Notification("StayOnBeat", {
     body: message,
     tag: "daily-vibe-check",
     silent: false,
