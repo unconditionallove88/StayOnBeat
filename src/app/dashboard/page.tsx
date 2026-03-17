@@ -7,15 +7,16 @@ import { useRouter } from 'next/navigation';
 import { 
   Heart, 
   User, 
-  LogOut,
-  Loader2,
-  Bot,
-  Sprout,
-  Watch,
-  Shield,
-  Sun,
-  Moon,
-  Sparkles
+  LogOut, 
+  Loader2, 
+  Bot, 
+  Sprout, 
+  Watch, 
+  Shield, 
+  Sun, 
+  Moon, 
+  Sparkles,
+  Microscope
 } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6SubstanceLab';
@@ -347,7 +348,7 @@ export default function Dashboard() {
                   className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all text-left shadow-xl"
                 >
                   <div className="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20">
-                    <ShieldPulseIcon size={32} color="#10B981" />
+                    <Microscope size={32} className="text-white" />
                   </div>
                   <div>
                     <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'Pulse Lab' : 'Pulse Lab'}</p>

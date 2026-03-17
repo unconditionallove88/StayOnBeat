@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -10,6 +11,7 @@ import {
   Trash2,
   Calendar,
   ArrowLeft,
+  Microscope
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -176,7 +178,7 @@ export function Step6SubstanceLab({
         <div className="space-y-4">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-[#10B981]/10 flex items-center justify-center border border-[#10B981]/20">
-              <ShieldPulseIcon size={32} color="#10B981" />
+              <Microscope size={32} className="text-white" />
             </div>
             <h1 className="text-2xl font-black tracking-tighter uppercase leading-none">Pulse Lab</h1>
           </div>
