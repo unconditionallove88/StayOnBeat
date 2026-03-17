@@ -22,7 +22,7 @@ const i18n = {
   en: {
     title: "StayOnBeat",
     personalAssistant: "Personal Assistant",
-    question: "How is your heart?",
+    question: "How is your inner state?",
     subtitle: "Select your current phase for high-fidelity, tailored support. 🌿",
     phases: [
       { title: "Before", desc: "Prepare your body & mind" },
@@ -35,7 +35,7 @@ const i18n = {
   de: {
     title: "StayOnBeat",
     personalAssistant: "Persönlicher Assistent",
-    question: "Wie geht es deinem Herzen?",
+    question: "Wie ist dein innerer Zustand?",
     subtitle: "Wähle deine aktuelle Phase für maßgeschneiderte Unterstützung. 🌿",
     phases: [
       { title: "Vorher", desc: "Körper & Geist vorbereiten" },
@@ -95,9 +95,7 @@ export function AssistantPortal({ userProfile, onClose }: AssistantPortalProps) 
           </div>
           <h1 className="text-xl font-black uppercase tracking-tighter">{t.title}</h1>
         </div>
-        <button onClick={onClose} className="p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white transition-all">
-          <X size={20} />
-        </button>
+        {/* Radix DialogClose will handle closing, custom X removed to avoid double buttons */}
       </header>
 
       <ScrollArea className="flex-1 px-8 relative z-10">

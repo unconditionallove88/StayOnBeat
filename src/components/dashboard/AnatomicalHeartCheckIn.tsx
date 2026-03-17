@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -33,7 +34,7 @@ export function AnatomicalHeartCheckIn() {
     { id: "elevated", label: "Elevated", color: "#F59E0B", emoji: "⚡" },
     { id: "heavy", label: "Heavy", color: "#3B82F6", emoji: "🌊" },
     { id: "fluttering", label: "Fluttering", color: "#EC4899", emoji: "🦋" },
-    { id: "harmony", label: "In Harmony", color: "#8B5CF6", emoji: "☯️", customIcon: <HarmonyYinYangIcon size={16} /> },
+    { id: "harmony", label: "In Harmony", color: "#EBFB3B", emoji: "☯️", customIcon: <HarmonyYinYangIcon size={16} className="text-[#EBFB3B]" /> },
   ];
 
   const handleSelect = (s: typeof statuses[0]) => {
@@ -85,9 +86,10 @@ export function AnatomicalHeartCheckIn() {
               onClick={() => handleSelect(s)}
               className={`px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-500 border-2 flex items-center gap-2 ${
                 status === s.label 
-                ? "bg-[#10B981] text-black border-[#10B981] scale-110 shadow-[0_0_20px_rgba(16,185,129,0.4)]" 
+                ? "bg-white/10 border-white/40 scale-110 shadow-xl" 
                 : "bg-black/40 text-white/40 border-white/5 hover:border-white/20"
               }`}
+              style={status === s.label ? { borderColor: s.color, color: s.color } : {}}
             >
               {s.customIcon ? s.customIcon : <span>{s.emoji}</span>}
               <span>{s.label}</span>

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -35,12 +36,12 @@ const VIBES = [
     emoji: "☯️", 
     label: "In Harmony", 
     de: "In Harmonie",
-    customIcon: <HarmonyYinYangIcon size={32} className="text-yellow-400" />,
+    customIcon: <HarmonyYinYangIcon size={32} className="text-[#EBFB3B]" />,
     affirmation: "You are aligned with your inner rhythm.", 
     deAffirmation: "Du bist im Einklang mit deinem Rhythmus.",
-    color: "text-yellow-400", 
-    bg: "bg-yellow-500/10", 
-    border: "border-yellow-500/30",
+    color: "text-[#EBFB3B]", 
+    bg: "bg-[#EBFB3B]/10", 
+    border: "border-[#EBFB3B]/30",
   },
   { 
     key: "calm", 
