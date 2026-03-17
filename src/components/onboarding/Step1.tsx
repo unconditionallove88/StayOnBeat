@@ -29,7 +29,6 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
   const handleComplete = () => {
     if (!allAgreed) return;
 
-    // Structured data precisely matching the requested audit format
     const legalData: LegalAgreements = {
       agreedToHarmReduction: agreements.harmReduction,
       agreedToMedicalDisclaimer: agreements.medicalAdvice,
@@ -48,7 +47,7 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
       header: "The important stuff",
       subtext: "Please read and agree to the following",
       agree: "I agree & continue",
-      understand: "I understand",
+      understand: "I accept, respect and understand",
       sections: [
         { 
           id: 'harmReduction', 
@@ -77,7 +76,7 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
       header: "Das Wichtigste",
       subtext: "Bitte lesen und stimme dem Folgenden zu",
       agree: "Zustimmen & weiter",
-      understand: "Ich stimme zu",
+      understand: "Ich akzeptiere, respektiere und verstehe",
       sections: [
         { 
           id: 'harmReduction', 

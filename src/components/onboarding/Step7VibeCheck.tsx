@@ -5,6 +5,7 @@ import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useFirestore, useUser, setDocumentNonBlocking } from '@/firebase';
 import { doc, serverTimestamp, arrayUnion } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
+import { HarmonyYinYangIcon } from '@/components/ui/harmony-yin-yang-icon';
 import type { OnboardingData } from '@/app/onboarding/page';
 import NotificationPrompt from '@/components/dashboard/NotificationPrompt';
 
@@ -21,9 +22,10 @@ const VIBE_OPTIONS = [
   },
   {
     id: 'harmony',
-    emoji: '✨',
+    emoji: '☯️',
     label: 'In Harmony',
     de: 'In Harmonie',
+    customIcon: <HarmonyYinYangIcon size={48} className="text-yellow-400" />,
     description: 'You are aligned with your rhythm',
     deDescription: 'Du bist im Einklang mit deinem Rhythmus',
     color: 'border-yellow-500/20 text-yellow-400',
@@ -31,11 +33,11 @@ const VIBE_OPTIONS = [
   },
   {
     id: 'calm',
-    emoji: '🍃',
-    label: 'Calm',
-    de: 'Ruhig',
-    description: 'Peace looks beautiful on you',
-    deDescription: 'Frieden steht dir gut',
+    emoji: '🤲',
+    label: 'OK',
+    de: 'OK',
+    description: 'Everything is balanced and clear',
+    deDescription: 'Alles ist im Gleichgewicht und klar',
     color: 'border-[#10B981]/20 text-[#10B981]',
     activeColor: 'bg-[#10B981]/10 border-[#10B981] shadow-[0_0_20px_rgba(16,185,129,0.3)]',
   },
@@ -184,7 +186,9 @@ export function Step7VibeCheck({
     const active = VIBE_OPTIONS.find(v => v.id === selected);
     return (
       <div className="w-full min-h-[80vh] flex flex-col items-center justify-center text-center px-6 font-headline animate-in fade-in zoom-in-95 duration-1000">
-        <div className="text-[10rem] mb-8 animate-bounce drop-shadow-[0_0_30px_rgba(16,185,129,0.4)]">{active?.emoji}</div>
+        <div className="w-48 h-48 flex items-center justify-center mb-8 drop-shadow-[0_0_30px_rgba(16,185,129,0.4)] animate-bounce">
+          {active?.customIcon ? active.customIcon : <span className="text-[10rem]">{active?.emoji}</span>}
+        </div>
         <h2 className="text-4xl font-black uppercase tracking-tighter text-[#10B981] mb-4">
           {lang === 'EN' ? 'Heart calibrated 💚' : 'Herz kalibriert 💚'}
         </h2>
@@ -224,7 +228,9 @@ export function Step7VibeCheck({
               selected === vibe.id ? vibe.activeColor : cn("bg-[#0a0a0a] border-white/5 hover:border-white/20", vibe.color.split(' ')[0])
             )}
           >
-            <span className="text-4xl">{vibe.emoji}</span>
+            <div className="w-12 flex justify-center">
+              {vibe.customIcon ? React.cloneElement(vibe.customIcon as React.ReactElement, { size: 40 }) : <span className="text-4xl">{vibe.emoji}</span>}
+            </div>
             <div className="flex flex-col">
               <span className={cn("font-black text-lg uppercase tracking-tight", selected === vibe.id ? "text-white" : "text-white/60")}>
                 {lang === 'EN' ? vibe.label : vibe.de}

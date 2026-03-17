@@ -5,6 +5,7 @@ import { useFirestore, useUser, updateDocumentNonBlocking } from '@/firebase';
 import { doc, serverTimestamp } from 'firebase/firestore';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { HarmonyYinYangIcon } from '@/components/ui/harmony-yin-yang-icon';
 import {
   Sheet,
   SheetContent,
@@ -14,7 +15,7 @@ import {
 
 /**
  * @fileOverview Vibe Mirror Component (Mood Chip).
- * Uses a Bottom Sheet (Sheet component) for an organic, mobile-native selection experience.
+ * Features updated Yin-Yang icon for Harmony and "OK" name for Calm.
  */
 
 const VIBES = [
@@ -31,9 +32,10 @@ const VIBES = [
   },
   { 
     key: "harmony", 
-    emoji: "✨", 
+    emoji: "☯️", 
     label: "In Harmony", 
     de: "In Harmonie",
+    customIcon: <HarmonyYinYangIcon size={32} className="text-yellow-400" />,
     affirmation: "You are aligned with your inner rhythm.", 
     deAffirmation: "Du bist im Einklang mit deinem Rhythmus.",
     color: "text-yellow-400", 
@@ -42,11 +44,11 @@ const VIBES = [
   },
   { 
     key: "calm", 
-    emoji: "🍃", 
-    label: "Calm", 
-    de: "Ruhig",
-    affirmation: "Peace looks beautiful on you. 🍃", 
-    deAffirmation: "Frieden steht dir gut. 🍃",
+    emoji: "🤲", 
+    label: "OK", 
+    de: "OK",
+    affirmation: "Everything is exactly as it should be. 🤲", 
+    deAffirmation: "Alles ist genau so, wie es sein soll. 🤲",
     color: "text-[#10B981]", 
     bg: "bg-[#10B981]/10", 
     border: "border-[#10B981]/30",
@@ -113,7 +115,6 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
       updateDocumentNonBlocking(userRef, { vibe: newVibeData });
       onVibeUpdate?.({ ...newVibeData, lastUpdated: new Date().toISOString() });
       
-      // Artificial delay for feel
       setTimeout(() => {
         setIsSaving(false);
         setIsOpen(false);
@@ -125,7 +126,6 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
 
   return (
     <>
-      {/* THE MOOD CHIP */}
       <button 
         onClick={() => setIsOpen(true)}
         className={cn(
@@ -135,19 +135,18 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
           "hover:bg-white/5"
         )}
       >
-        <span className="text-lg leading-none group-hover:scale-110 transition-transform">
-          {vibe?.currentEmoji || "🍃"}
+        <span className="text-lg leading-none group-hover:scale-110 transition-transform flex items-center justify-center">
+          {currentTheme.key === 'harmony' ? <HarmonyYinYangIcon size={18} className={currentTheme.color} /> : (vibe?.currentEmoji || "🤲")}
         </span>
         <span className={cn(
           "text-[10px] font-black uppercase tracking-widest hidden sm:block",
           currentTheme.color
         )}>
-          {vibe?.currentLabel || (lang === 'EN' ? "Calm" : "Ruhig")}
+          {vibe?.currentLabel || (lang === 'EN' ? "OK" : "OK")}
         </span>
         <ChevronDown size={12} className={cn("opacity-40", currentTheme.color)} />
       </button>
 
-      {/* THE BOTTOM SHEET SELECTION */}
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetContent side="bottom" className="bg-black border-white/10 p-8 rounded-t-[3rem] h-auto max-h-[85vh] overflow-y-auto">
           <SheetHeader className="mb-8">
@@ -172,7 +171,9 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
                     : "bg-[#0a0a0a] border-white/5 hover:border-white/20"
                 )}
               >
-                <span className="text-4xl group-hover:scale-110 transition-transform">{v.emoji}</span>
+                <div className="w-12 flex justify-center group-hover:scale-110 transition-transform">
+                  {v.customIcon ? v.customIcon : <span className="text-4xl">{v.emoji}</span>}
+                </div>
                 <div className="flex flex-col">
                   <span className={cn(
                     "font-black text-sm uppercase tracking-tight",
