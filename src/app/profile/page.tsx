@@ -109,7 +109,7 @@ export default function ProfilePage() {
         </div>
       </nav>
 
-      <div className="px-6 py-10 max-w-xl mx-auto space-y-10">
+      <div className="px-6 py-10 max-xl mx-auto space-y-10">
         {/* Identity Section */}
         <section className="text-center space-y-6">
           <div className="relative inline-block">
@@ -252,7 +252,7 @@ export default function ProfilePage() {
 
       {/* Privacy Commitment Dialog */}
       <Dialog open={privacyOpen} onOpenChange={setPrivacyOpen}>
-        <DialogContent className="bg-[#050505] border-white/10 max-w-lg p-0 rounded-[3rem] overflow-hidden flex flex-col font-headline">
+        <DialogContent className="bg-[#050505] border-white/10 max-w-lg p-0 rounded-[3rem] overflow-hidden flex flex-col font-headline max-h-[90vh]">
           <div className="p-8 pb-4 shrink-0">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20">
