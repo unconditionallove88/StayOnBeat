@@ -1,5 +1,4 @@
-
-"use client"
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Loader2, Leaf } from 'lucide-react';
