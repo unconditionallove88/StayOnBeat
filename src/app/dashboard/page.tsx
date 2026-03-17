@@ -1,8 +1,7 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import Link from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { 
   Heart, 
@@ -42,7 +41,6 @@ import { checkSafetyStatus } from '@/lib/guardian';
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
@@ -173,7 +171,7 @@ export default function Dashboard() {
   const isLocked = safetyStatus.isLocked;
   const cautionThreshold = 100 / (safetyStatus.riskMultiplier || 1.0);
   const isCaution = !isLocked && (simHeartRate > cautionThreshold || activeSubstances.length >= 3);
-  const guardianStatus: 'safe' | 'caution' | 'locked' = isLocked ? 'locked' : 'caution' ? 'caution' : 'safe';
+  const guardianStatus: 'safe' | 'caution' | 'locked' = isLocked ? 'locked' : (isCaution ? 'caution' : 'safe');
 
   const handleLogout = async () => {
     await auth.signOut();
@@ -195,197 +193,195 @@ export default function Dashboard() {
 
   return (
     <main className="min-h-screen bg-black text-white flex flex-col h-screen overflow-hidden font-headline">
-      <TooltipProvider delayDuration={300}>
-        <div className="px-6 py-10 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
-          <header className="flex justify-between items-start max-w-4xl mx-auto w-full">
-            <div className="space-y-1">
-              <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">
-                Sanctuary Hub
-              </p>
-              <h1 className="text-3xl font-black uppercase tracking-tighter flex items-center gap-3">
-                {lang === 'en' ? `SHINE, ${displayName}` : `STRAHLE, ${displayName}`}
-                <SkyIcon />
-              </h1>
-            </div>
-            <div className="flex items-center gap-2">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="cursor-pointer">
-                    <VibeMirror vibe={firestoreProfile?.vibe} />
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-white font-bold uppercase text-[9px] tracking-widest px-4 py-2">
-                  {t.vibe}
-                </TooltipContent>
-              </Tooltip>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button 
-                    onClick={() => setCoCreationOpen(true)} 
-                    className="p-2.5 bg-[#90EE90]/10 rounded-full border border-[#90EE90]/30 hover:border-[#90EE90] transition-colors active:scale-95"
-                  >
-                    <Sprout className="w-5 h-5 text-[#90EE90]" />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-[#90EE90] font-bold uppercase text-[9px] tracking-widest px-4 py-2">
-                  {t.cocreation}
-                </TooltipContent>
-              </Tooltip>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button 
-                    onClick={() => setAiBotOpen(true)} 
-                    className="p-2.5 bg-blue-600/10 rounded-full border border-blue-500/30 transition-colors active:scale-95"
-                  >
-                    <Bot className="w-5 h-5 text-blue-400" />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-blue-400 font-bold uppercase text-[9px] tracking-widest px-4 py-2">
-                  {t.assistant}
-                </TooltipContent>
-              </Tooltip>
-              
-              <PulseGuardianBanner lang={lang} variant="icon" />
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link href="/profile" className="p-2.5 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all active:scale-95">
-                    <User className="w-5 h-5 text-white/40" />
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-white/60 font-bold uppercase text-[9px] tracking-widest px-4 py-2">
-                  {t.profile}
-                </TooltipContent>
-              </Tooltip>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button 
-                    onClick={handleLogout} 
-                    className="p-2.5 bg-red-600/10 rounded-full border border-red-500/30 transition-colors active:scale-95"
-                  >
-                    <LogOut className="w-5 h-5 text-red-500" />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-red-500 font-bold uppercase text-[9px] tracking-widest px-4 py-2">
-                  {t.logout}
-                </TooltipContent>
-              </Tooltip>
-            </div>
-          </header>
-        </div>
-
-        <ScrollArea className="flex-1">
-          <div className="max-w-4xl mx-auto px-6 py-8 space-y-8 pb-32">
-            
-            <div className="space-y-3">
-              <GuardianStatusBar 
-                status={guardianStatus} 
-                heartRate={simHeartRate} 
-                lang={lang} 
-              />
-            </div>
-
-            <div className="space-y-4 text-center">
-              <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
-                {lang === 'en' ? 'My Heart' : 'Mein Herz'}
-              </h2>
-              <Link href="/heart-status" className="block active:scale-[0.98] transition-all">
-                <div className="flex flex-col items-center gap-4">
-                  <HeartStatusAura 
-                    heartRate={simHeartRate} 
-                    activeSubstances={activeSubstances} 
-                    mood={firestoreProfile?.vibe?.currentLabel || (lang === 'en' ? "Steady" : "Stabil")}
-                    lang={lang} 
-                  />
-                  <span className="text-[9px] uppercase tracking-widest text-slate-600 font-bold">
-                    Demo Mode · Simulated Data
-                  </span>
+      <div className="px-6 py-10 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
+        <header className="flex justify-between items-start max-w-4xl mx-auto w-full">
+          <div className="space-y-1">
+            <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">
+              Sanctuary Hub
+            </p>
+            <h1 className="text-3xl font-black uppercase tracking-tighter flex items-center gap-3">
+              {lang === 'en' ? `SHINE, ${displayName}` : `STRAHLE, ${displayName}`}
+              <SkyIcon />
+            </h1>
+          </div>
+          <div className="flex items-center gap-2">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="cursor-pointer">
+                  <VibeMirror vibe={firestoreProfile?.vibe} />
                 </div>
-              </Link>
-            </div>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-white font-bold uppercase text-[9px] tracking-widest px-4 py-2">
+                {t.vibe}
+              </TooltipContent>
+            </Tooltip>
 
-            <div className="bg-[#10B981]/5 border border-[#10B981]/20 rounded-[2rem] p-6 text-center relative overflow-hidden group">
-              <p className="text-base font-black uppercase tracking-tight text-white/80 italic">"{affirmation}"</p>
-            </div>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button 
+                  onClick={() => setCoCreationOpen(true)} 
+                  className="p-2.5 bg-[#90EE90]/10 rounded-full border border-[#90EE90]/30 hover:border-[#90EE90] transition-colors active:scale-95"
+                >
+                  <Sprout className="w-5 h-5 text-[#90EE90]" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-[#90EE90] font-bold uppercase text-[9px] tracking-widest px-4 py-2">
+                {t.cocreation}
+              </TooltipContent>
+            </Tooltip>
 
-            <GuardianSimulator 
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button 
+                  onClick={() => setAiBotOpen(true)} 
+                  className="p-2.5 bg-blue-600/10 rounded-full border border-blue-500/30 transition-colors active:scale-95"
+                >
+                  <Bot className="w-5 h-5 text-blue-400" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-blue-400 font-bold uppercase text-[9px] tracking-widest px-4 py-2">
+                {t.assistant}
+              </TooltipContent>
+            </Tooltip>
+            
+            <PulseGuardianBanner lang={lang} variant="icon" />
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link href="/profile" className="p-2.5 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all active:scale-95">
+                  <User className="w-5 h-5 text-white/40" />
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-white/60 font-bold uppercase text-[9px] tracking-widest px-4 py-2">
+                {t.profile}
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button 
+                  onClick={handleLogout} 
+                  className="p-2.5 bg-red-600/10 rounded-full border border-red-500/30 transition-colors active:scale-95"
+                >
+                  <LogOut className="w-5 h-5 text-red-500" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-red-500 font-bold uppercase text-[9px] tracking-widest px-4 py-2">
+                {t.logout}
+              </TooltipContent>
+            </Tooltip>
+          </div>
+        </header>
+      </div>
+
+      <ScrollArea className="flex-1">
+        <div className="max-w-4xl mx-auto px-6 py-8 space-y-8 pb-32">
+          
+          <div className="space-y-3">
+            <GuardianStatusBar 
+              status={guardianStatus} 
               heartRate={simHeartRate} 
-              setHeartRate={setSimHeartRate}
-              substanceCount={simSubstanceCount}
-              setSubstanceCount={(count) => {
-                setSimSubstanceCount(count);
-                const mockSubstances = Array(count).fill('Substance');
-                if (count >= 1) mockSubstances[0] = 'Alcohol';
-                if (count >= 2) mockSubstances[1] = 'MDMA';
-                if (count >= 3) mockSubstances[2] = 'Poppers';
-                setActiveSubstances(mockSubstances);
-              }}
               lang={lang} 
             />
+          </div>
 
-            <LoveCircle lang={lang} />
-
-            <div className="space-y-4">
-              <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
-                {lang === 'en' ? 'Essential Tools' : 'Wichtige Tools'}
-              </h2>
-              <div className="grid grid-cols-2 gap-4">
-                <Link href="/map" className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-xl">
-                  <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20">
-                    <RadiatingThirdEye size={32} color="#3b82f6" />
-                  </div>
-                  <div>
-                    <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'The Pulse' : 'The Pulse'}</p>
-                    <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Live Map' : 'Live Karte'}</p>
-                  </div>
-                </Link>
-
-                <button 
-                  onClick={() => setLabOpen(true)} 
-                  className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all text-left shadow-xl"
-                >
-                  <div className="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20">
-                    <Microscope size={32} className="text-white" />
-                  </div>
-                  <div>
-                    <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'Pulse Lab' : 'Pulse Lab'}</p>
-                    <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Dose Analysis' : 'Dosis-Check'}</p>
-                  </div>
-                </button>
-
-                <button 
-                  onClick={() => setSyncOpen(true)} 
-                  className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-[#EBFB3B]/30 hover:bg-[#EBFB3B]/5 transition-all text-left shadow-xl"
-                >
-                  <div className="w-14 h-14 bg-[#EBFB3B]/10 rounded-2xl flex items-center justify-center border border-[#EBFB3B]/20">
-                    <Watch size={28} className="text-[#EBFB3B]" />
-                  </div>
-                  <div>
-                    <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'Pulse Sync' : 'Pulse Sync'}</p>
-                    <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Calibration' : 'Kalibrierung'}</p>
-                  </div>
-                </button>
-
-                <button 
-                  onClick={() => setShowSOS(true)}
-                  className="group bg-red-600/10 rounded-[2.5rem] border border-red-600/20 p-6 flex flex-col items-start gap-4 hover:bg-red-600 transition-all text-left shadow-xl active:scale-[0.98]"
-                >
-                  <div className="w-14 h-14 bg-red-600 text-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                    <Shield size={28} />
-                  </div>
-                  <div>
-                    <p className="text-xl font-black uppercase tracking-tight group-hover:text-white transition-colors">{lang === 'en' ? 'Immediate Help' : 'Sofort-Hilfe'}</p>
-                    <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1 group-hover:text-white/60 transition-colors">{lang === 'en' ? 'Instant SOS' : 'Sofort SOS'}</p>
-                  </div>
-                </button>
+          <div className="space-y-4 text-center">
+            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
+              {lang === 'en' ? 'My Heart' : 'Mein Herz'}
+            </h2>
+            <Link href="/heart-status" className="block active:scale-[0.98] transition-all">
+              <div className="flex flex-col items-center gap-4">
+                <HeartStatusAura 
+                  heartRate={simHeartRate} 
+                  activeSubstances={activeSubstances} 
+                  mood={firestoreProfile?.vibe?.currentLabel || (lang === 'en' ? "Steady" : "Stabil")}
+                  lang={lang} 
+                />
+                <span className="text-[9px] uppercase tracking-widest text-slate-600 font-bold">
+                  Demo Mode · Simulated Data
+                </span>
               </div>
+            </Link>
+          </div>
+
+          <div className="bg-[#10B981]/5 border border-[#10B981]/20 rounded-[2rem] p-6 text-center relative overflow-hidden group">
+            <p className="text-base font-black uppercase tracking-tight text-white/80 italic">"{affirmation}"</p>
+          </div>
+
+          <GuardianSimulator 
+            heartRate={simHeartRate} 
+            setHeartRate={setSimHeartRate}
+            substanceCount={simSubstanceCount}
+            setSubstanceCount={(count) => {
+              setSimSubstanceCount(count);
+              const mockSubstances = Array(count).fill('Substance');
+              if (count >= 1) mockSubstances[0] = 'Alcohol';
+              if (count >= 2) mockSubstances[1] = 'MDMA';
+              if (count >= 3) mockSubstances[2] = 'Poppers';
+              setActiveSubstances(mockSubstances);
+            }}
+            lang={lang} 
+          />
+
+          <LoveCircle lang={lang} />
+
+          <div className="space-y-4">
+            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
+              {lang === 'en' ? 'Essential Tools' : 'Wichtige Tools'}
+            </h2>
+            <div className="grid grid-cols-2 gap-4">
+              <Link href="/map" className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-xl">
+                <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20">
+                  <RadiatingThirdEye size={32} color="#3b82f6" />
+                </div>
+                <div>
+                  <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'The Pulse' : 'The Pulse'}</p>
+                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Live Map' : 'Live Karte'}</p>
+                </div>
+              </Link>
+
+              <button 
+                onClick={() => setLabOpen(true)} 
+                className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all text-left shadow-xl"
+              >
+                <div className="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20">
+                  <Microscope size={32} className="text-white" />
+                </div>
+                <div>
+                  <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'Pulse Lab' : 'Pulse Lab'}</p>
+                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Dose Analysis' : 'Dosis-Check'}</p>
+                </div>
+              </button>
+
+              <button 
+                onClick={() => setSyncOpen(true)} 
+                className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-[#EBFB3B]/30 hover:bg-[#EBFB3B]/5 transition-all text-left shadow-xl"
+              >
+                <div className="w-14 h-14 bg-[#EBFB3B]/10 rounded-2xl flex items-center justify-center border border-[#EBFB3B]/20">
+                  <Watch size={28} className="text-[#EBFB3B]" />
+                </div>
+                <div>
+                  <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'Pulse Sync' : 'Pulse Sync'}</p>
+                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Calibration' : 'Kalibrierung'}</p>
+                </div>
+              </button>
+
+              <button 
+                onClick={() => setShowSOS(true)}
+                className="group bg-red-600/10 rounded-[2.5rem] border border-red-600/20 p-6 flex flex-col items-start gap-4 hover:bg-red-600 transition-all text-left shadow-xl active:scale-[0.98]"
+              >
+                <div className="w-14 h-14 bg-red-600 text-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <Shield size={28} />
+                </div>
+                <div>
+                  <p className="text-xl font-black uppercase tracking-tight group-hover:text-white transition-colors">{lang === 'en' ? 'Immediate Help' : 'Sofort-Hilfe'}</p>
+                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1 group-hover:text-white/60 transition-colors">{lang === 'en' ? 'Instant SOS' : 'Sofort SOS'}</p>
+                </div>
+              </button>
             </div>
           </div>
-        </ScrollArea>
-      </TooltipProvider>
+        </div>
+      </ScrollArea>
 
       {showSOS && <SOSAlert onClose={() => setShowSOS(false)} />}
       
