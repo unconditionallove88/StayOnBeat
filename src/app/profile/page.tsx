@@ -281,7 +281,7 @@ export default function ProfilePage() {
               <section className="space-y-3">
                 <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">No Third-Party Sharing</h4>
                 <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">
-                  We never sell, rent, or trade your data. Your resonance remains within the sanctuary. Our mission is pure support, not commercial exploitation.
+                  love, care and harm reduction.
                 </p>
               </section>
 
