@@ -13,12 +13,18 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 /**
  * @fileOverview PulseGuardianBanner Component.
  * Supports two variants: 
  * - 'banner': A wide, informative banner for lists or labs.
- * - 'icon': A high-fidelity circular header button.
+ * - 'icon': A high-fidelity circular header button with localized hover info.
  * Uses a Top Sheet for a true "drop down" intelligence feed.
  */
 
@@ -96,6 +102,8 @@ export default function PulseGuardianBanner({
     </div>
   );
 
+  const guardianLabel = isEn ? "Pulse Guardian: Central Intelligence" : "Pulse Guardian: Zentrale Intelligenz";
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -115,12 +123,18 @@ export default function PulseGuardianBanner({
             <span className="text-white/20 text-[10px]">›</span>
           </button>
         ) : (
-          <button 
-            className="p-2 bg-[#A855F7]/10 rounded-full border border-[#A855F7]/30 hover:border-[#A855F7] transition-all active:scale-95 flex items-center justify-center group"
-            title="Pulse Guardian"
-          >
-            <GuardianLogo size={28} className="group-hover:scale-110 transition-transform" />
-          </button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button 
+                className="p-2 bg-[#A855F7]/10 rounded-full border border-[#A855F7]/30 hover:border-[#A855F7] transition-all active:scale-95 flex items-center justify-center group"
+              >
+                <GuardianLogo size={28} className="group-hover:scale-110 transition-transform" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-[#A855F7] font-bold uppercase text-[9px] tracking-widest px-4 py-2">
+              {guardianLabel}
+            </TooltipContent>
+          </Tooltip>
         )}
       </SheetTrigger>
 
