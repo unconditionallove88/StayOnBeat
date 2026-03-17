@@ -2,13 +2,18 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2, Leaf } from 'lucide-react';
 import { useFirestore, useUser, setDocumentNonBlocking } from '@/firebase';
 import { doc, serverTimestamp, arrayUnion } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
 import { HarmonyYinYangIcon } from '@/components/ui/harmony-yin-yang-icon';
 import type { OnboardingData } from '@/app/onboarding/page';
 import NotificationPrompt from '@/components/dashboard/NotificationPrompt';
+
+/**
+ * @fileOverview Vibe Check Onboarding Step.
+ * Features updated Yin-Yang icon for Harmony (Yellow) and Leaf icon for Calm (Emerald).
+ */
 
 const VIBE_OPTIONS = [
   {
@@ -34,9 +39,10 @@ const VIBE_OPTIONS = [
   },
   {
     id: 'calm',
-    emoji: '🤲',
-    label: 'OK',
-    de: 'OK',
+    emoji: '🍃',
+    label: 'Calm',
+    de: 'Beruhigt',
+    customIcon: <Leaf size={48} className="text-[#10B981]" />,
     description: 'Everything is balanced and clear',
     deDescription: 'Alles ist im Gleichgewicht und klar',
     color: 'border-[#10B981]/20 text-[#10B981]',
@@ -188,7 +194,7 @@ export function Step7VibeCheck({
     return (
       <div className="w-full min-h-[80vh] flex flex-col items-center justify-center text-center px-6 font-headline animate-in fade-in zoom-in-95 duration-1000">
         <div className="w-48 h-48 flex items-center justify-center mb-8 drop-shadow-[0_0_30px_rgba(16,185,129,0.4)] animate-bounce">
-          {active?.customIcon ? active.customIcon : <span className="text-[10rem]">{active?.emoji}</span>}
+          {active?.customIcon ? React.cloneElement(active.customIcon as React.ReactElement, { size: 120 }) : <span className="text-[10rem]">{active?.emoji}</span>}
         </div>
         <h2 className="text-4xl font-black uppercase tracking-tighter text-[#10B981] mb-4">
           {lang === 'EN' ? 'Heart calibrated 💚' : 'Herz kalibriert 💚'}

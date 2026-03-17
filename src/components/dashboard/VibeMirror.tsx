@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useFirestore, useUser, updateDocumentNonBlocking } from '@/firebase';
 import { doc, serverTimestamp } from 'firebase/firestore';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Leaf } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { HarmonyYinYangIcon } from '@/components/ui/harmony-yin-yang-icon';
 import {
@@ -16,7 +16,7 @@ import {
 
 /**
  * @fileOverview Vibe Mirror Component (Mood Chip).
- * Features updated Yin-Yang icon for Harmony and "OK" name for Calm.
+ * Features updated Yin-Yang icon for Harmony (Yellow) and Leaf icon for Calm (Emerald).
  */
 
 const VIBES = [
@@ -45,11 +45,12 @@ const VIBES = [
   },
   { 
     key: "calm", 
-    emoji: "🤲", 
-    label: "OK", 
-    de: "OK",
-    affirmation: "Everything is exactly as it should be. 🤲", 
-    deAffirmation: "Alles ist genau so, wie es sein soll. 🤲",
+    emoji: "🍃", 
+    label: "Calm", 
+    de: "Beruhigt",
+    customIcon: <Leaf size={32} className="text-[#10B981]" />,
+    affirmation: "Everything is exactly as it should be. 🍃", 
+    deAffirmation: "Alles ist genau so, wie es sein soll. 🍃",
     color: "text-[#10B981]", 
     bg: "bg-[#10B981]/10", 
     border: "border-[#10B981]/30",
@@ -137,13 +138,19 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
         )}
       >
         <span className="text-lg leading-none group-hover:scale-110 transition-transform flex items-center justify-center">
-          {currentTheme.key === 'harmony' ? <HarmonyYinYangIcon size={18} className={currentTheme.color} /> : (vibe?.currentEmoji || "🤲")}
+          {currentTheme.key === 'harmony' ? (
+            <HarmonyYinYangIcon size={18} className={currentTheme.color} />
+          ) : currentTheme.key === 'calm' ? (
+            <Leaf size={18} className={currentTheme.color} />
+          ) : (
+            (vibe?.currentEmoji || "🤲")
+          )}
         </span>
         <span className={cn(
           "text-[10px] font-black uppercase tracking-widest hidden sm:block",
           currentTheme.color
         )}>
-          {vibe?.currentLabel || (lang === 'EN' ? "OK" : "OK")}
+          {vibe?.currentLabel || (lang === 'EN' ? "Calm" : "Beruhigt")}
         </span>
         <ChevronDown size={12} className={cn("opacity-40", currentTheme.color)} />
       </button>
@@ -168,7 +175,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
                 className={cn(
                   "flex items-center gap-6 p-5 rounded-[2rem] border-2 transition-all active:scale-[0.98] text-left group",
                   vibe?.current === v.key 
-                    ? "bg-white/5 border-[#10B981] shadow-[0_0_20px_rgba(16,185,129,0.15)]" 
+                    ? `bg-white/5 ${v.key === 'harmony' ? 'border-[#EBFB3B]' : 'border-[#10B981]'} shadow-lg` 
                     : "bg-[#0a0a0a] border-white/5 hover:border-white/20"
                 )}
               >

@@ -5,10 +5,11 @@ import React, { useState, useEffect } from "react";
 import { useUser, useFirestore, updateDocumentNonBlocking, useDoc, useMemoFirebase } from "@/firebase";
 import { doc, serverTimestamp, arrayUnion } from "firebase/firestore";
 import { HarmonyYinYangIcon } from "@/components/ui/harmony-yin-yang-icon";
+import { Leaf } from "lucide-react";
 
 /**
  * @fileOverview AnatomicalHeartCheckIn Component.
- * Features updated symbols for "In Harmony" and "OK".
+ * Features updated Yin-Yang icon for Harmony (Yellow) and Leaf icon for Calm (Emerald).
  */
 
 export function AnatomicalHeartCheckIn() {
@@ -21,7 +22,7 @@ export function AnatomicalHeartCheckIn() {
   }, [firestore, user?.uid]);
 
   const { data: profile } = useDoc(userDocRef);
-  const [status, setStatus] = useState("OK");
+  const [status, setStatus] = useState("Calm");
 
   useEffect(() => {
     if (profile?.vibe?.currentLabel) {
@@ -30,7 +31,7 @@ export function AnatomicalHeartCheckIn() {
   }, [profile?.vibe?.currentLabel]);
 
   const statuses = [
-    { id: "steady", label: "OK", color: "#10B981", emoji: "🤲" },
+    { id: "calm", label: "Calm", color: "#10B981", emoji: "🍃", customIcon: <Leaf size={16} className="text-[#10B981]" /> },
     { id: "elevated", label: "Elevated", color: "#F59E0B", emoji: "⚡" },
     { id: "heavy", label: "Heavy", color: "#3B82F6", emoji: "🌊" },
     { id: "fluttering", label: "Fluttering", color: "#EC4899", emoji: "🦋" },
@@ -100,7 +101,7 @@ export function AnatomicalHeartCheckIn() {
 
       <div className="mt-8 text-center">
         <p className="text-[10px] text-white/20 uppercase tracking-[0.5em] font-black mb-1">Current State</p>
-        <p className="text-[#10B981] font-black text-2xl animate-pulse uppercase tracking-tighter">{status}</p>
+        <p className={cn("font-black text-2xl animate-pulse uppercase tracking-tighter", status === 'In Harmony' ? 'text-[#EBFB3B]' : 'text-[#10B981]')}>{status}</p>
       </div>
     </div>
   );
