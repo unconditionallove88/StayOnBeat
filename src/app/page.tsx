@@ -33,14 +33,14 @@ export default function Home() {
     EN: {
       slogan: "Unconditional love for your journey. 🌿",
       valueProp: "A safe sanctuary for harm reduction, health monitoring, and your circle of love.",
-      getStarted: "Join the Circle 💚",
+      getStarted: "Join the Circle",
       signIn: "Welcome Home (Sign In)",
       footer: "Protected by GDPR • Encrypted with Love"
     },
     DE: {
       slogan: "Bedingungslose Liebe für deine Reise. 🌿",
       valueProp: "Ein sicheres Refugium für Schadensminimierung, Gesundheitsmonitoring und deinen Circle of Love.",
-      getStarted: "Werde Teil des Kreises 💚",
+      getStarted: "Werde Teil des Kreises",
       signIn: "Willkommen Zuhause (Anmelden)",
       footer: "DSGVO-geschützt • Mit Liebe verschlüsselt"
     }

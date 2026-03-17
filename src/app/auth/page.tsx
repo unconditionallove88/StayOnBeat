@@ -116,13 +116,13 @@ function AuthContent() {
 
         <div className="text-center mb-10 mt-4">
           <div className="w-20 h-20 bg-[#10B981]/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-[#10B981]/20 shadow-[0_0_30px_rgba(16,185,129,0.1)]">
-            <Heart size={40} fill="#10B981" className="text-[#10B981] animate-pulse-heart" />
+            <ShieldCheck size={40} className="text-[#10B981]" />
           </div>
           <h1 className="text-4xl font-black text-white tracking-tighter uppercase leading-none mb-2">
             {isSignUp ? "Create Sanctuary" : "Welcome Home"}
           </h1>
           <p className="text-[#10B981] text-[10px] font-black uppercase tracking-[0.4em]">
-            Prototype Mode: Any credentials work 💚
+            Prototype Mode: Any credentials work 🔒
           </p>
         </div>
 
@@ -195,7 +195,7 @@ function AuthContent() {
               </>
             ) : (
               <span className="flex items-center gap-3">
-                {isSignUp ? "Begin Journey" : "Enter Sanctuary"} 💚
+                {isSignUp ? "Begin Journey" : "Enter Sanctuary"}
               </span>
             )}
           </button>
