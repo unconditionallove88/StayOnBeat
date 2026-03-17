@@ -103,9 +103,9 @@ export default function MyHeartPage() {
             </div>
           </div>
         ) : (
-          <div className="w-full max-w-sm bg-white/5 border border-dashed border-white/10 rounded-[2rem] p-8 text-center opacity-40">
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white">No Baseline Set</p>
-            <p className="text-[8px] font-bold text-white/40 uppercase tracking-widest mt-2">Connect a wearable to calibrate your safety thresholds</p>
+          <div className="w-full max-w-sm bg-[#10B981]/5 border border-dashed border-[#10B981]/20 rounded-[2rem] p-8 text-center animate-in fade-in duration-1000">
+            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">No Baseline Set</p>
+            <p className="text-[8px] font-bold text-[#10B981]/60 uppercase tracking-widest mt-2">Connect a wearable to calibrate your safety thresholds</p>
           </div>
         )}
 
