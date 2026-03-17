@@ -279,7 +279,7 @@ export default function ProfilePage() {
               </section>
 
               <section className="space-y-3">
-                <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">No Third-Party Sharing</h4>
+                <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">Data sharing</h4>
                 <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">
                   love, care and harm reduction.
                 </p>
