@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -423,7 +422,7 @@ export default function Dashboard() {
       <Dialog open={aiBotOpen} onOpenChange={setAiBotOpen}>
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh]">
           <DialogTitle className="sr-only">AI Assistant Portal</DialogTitle>
-          <AssistantPortal userProfile={firestoreProfile} onClose={() => setAiBotOpen(false)} />
+          <AssistantPortal userProfile={firestoreProfile} />
         </DialogContent>
       </Dialog>
 

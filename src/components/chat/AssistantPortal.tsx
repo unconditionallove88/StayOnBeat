@@ -1,8 +1,7 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Heart, Battery, Droplets, Moon, Zap, ArrowRight, X, Bot } from 'lucide-react';
+import { Heart, Battery, Droplets, Moon, Zap, ArrowRight, Bot } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -11,11 +10,11 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * @fileOverview AssistantPortal Component.
  * A high-fidelity, phase-based entry screen for the AI Safety Advisor.
  * Fully localized for English and German.
+ * Refined to remove redundant Close action and highlight inner state.
  */
 
 interface AssistantPortalProps {
   userProfile: any;
-  onClose?: () => void;
 }
 
 const i18n = {
@@ -47,7 +46,7 @@ const i18n = {
   }
 };
 
-export function AssistantPortal({ userProfile, onClose }: AssistantPortalProps) {
+export function AssistantPortal({ userProfile }: AssistantPortalProps) {
   const router = useRouter();
   const [lang, setLang] = useState<'en' | 'de'>('en');
 
@@ -95,12 +94,6 @@ export function AssistantPortal({ userProfile, onClose }: AssistantPortalProps) 
           </div>
           <h1 className="text-xl font-black uppercase tracking-tighter">{t.title}</h1>
         </div>
-        <button 
-          onClick={onClose}
-          className="p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white transition-all active:scale-95"
-        >
-          <X size={20} />
-        </button>
       </header>
 
       <ScrollArea className="flex-1 px-8 relative z-10">
