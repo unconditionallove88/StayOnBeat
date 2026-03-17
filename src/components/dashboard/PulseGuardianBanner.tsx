@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import { X, Activity, Bluetooth, Database } from "lucide-react";
+import { X, Activity, Bluetooth, Database, PhoneCall } from "lucide-react";
 import { GuardianLogo } from "@/components/ui/guardian-logo";
 import { cn } from "@/lib/utils";
 import {
@@ -21,10 +21,7 @@ import {
 
 /**
  * @fileOverview PulseGuardianBanner Component.
- * Supports two variants: 
- * - 'banner': A wide, informative banner for lists or labs.
- * - 'icon': A high-fidelity circular header button with localized hover info.
- * Uses a Top Sheet for a true "drop down" intelligence feed.
+ * Intelligence Feed updated to describe connection to Immediate Help.
  */
 
 interface PulseGuardianBannerProps {
@@ -40,7 +37,6 @@ export default function PulseGuardianBanner({
 
   const InfoContent = () => (
     <div className="w-full max-w-2xl mx-auto pb-12 font-headline relative">
-      {/* Description */}
       <p className="text-white/60 text-sm font-bold leading-relaxed mb-10 uppercase tracking-wide px-2">
         {isEn
           ? "Pulse Guardian is your sanctuary's central intelligence. I continuously aggregate data from all tools to ensure your journey stays safe and resonant."
@@ -76,6 +72,15 @@ export default function PulseGuardianBanner({
             desc: isEn
               ? "Adjusts thresholds based on your health conditions and medications."
               : "Passt Schwellenwerte basierend auf deinen Gesundheitszuständen und Medikamenten an.",
+          },
+          {
+            icon: <PhoneCall size={18} />,
+            color: "text-red-500",
+            bg: "bg-red-500/10",
+            title: isEn ? "Immediate Help Connection" : "Sofort-Hilfe Verbindung",
+            desc: isEn
+              ? "Triggers emergency protocols and the Protection Window if thresholds are breached."
+              : "Aktiviert Notfallprotokolle und das Schutzfenster, falls Schwellenwerte überschritten werden.",
           },
         ].map((item, i) => (
           <div

@@ -12,7 +12,8 @@ import {
   Bot,
   Sprout,
   Watch,
-  Shield
+  Shield,
+  Sun
 } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6SubstanceLab';
@@ -44,8 +45,7 @@ import {
 
 /**
  * @fileOverview High-Fidelity Dashboard Sanctuary Hub.
- * Pulse Guardian aggregates data from all tools (Sync, Lab, Profile).
- * Header actions now feature localized tooltips for hover information.
+ * Updated greeting to "SHINE" with a sun icon.
  */
 
 const AFFIRMATIONS = {
@@ -171,8 +171,9 @@ export default function Dashboard() {
               <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">
                 Sanctuary Hub
               </p>
-              <h1 className="text-3xl font-black uppercase tracking-tighter">
-                {lang === 'en' ? `Hello, ${displayName} 🌿` : `Hallo, ${displayName} 🌿`}
+              <h1 className="text-3xl font-black uppercase tracking-tighter flex items-center gap-2">
+                {lang === 'en' ? `SHINE, ${displayName}` : `STRAHLE, ${displayName}`}
+                <Sun className="w-6 h-6 text-yellow-400 fill-yellow-400 animate-pulse" />
               </h1>
             </div>
             <div className="flex items-center gap-2">
@@ -215,7 +216,6 @@ export default function Dashboard() {
                 </TooltipContent>
               </Tooltip>
               
-              {/* Pulse Guardian Header Action - Internal Tooltip handled in component */}
               <PulseGuardianBanner lang={lang} variant="icon" />
 
               <Tooltip>
