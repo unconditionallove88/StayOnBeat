@@ -22,6 +22,7 @@ import {
 /**
  * @fileOverview PulseGuardianBanner Component.
  * Intelligence Feed updated to describe connection to Immediate Help.
+ * Fixed scrolling behavior to ensure all 4 pillars are visible.
  */
 
 interface PulseGuardianBannerProps {
@@ -145,7 +146,7 @@ export default function PulseGuardianBanner({
 
       <SheetContent 
         side="top" 
-        className="bg-black border-white/10 p-0 rounded-b-[3.5rem] h-auto max-h-[90vh] overflow-hidden flex flex-col shadow-[0_30px_100px_rgba(0,0,0,0.8)]"
+        className="bg-black border-white/10 p-0 rounded-b-[3.5rem] h-[90vh] max-h-[90vh] overflow-hidden flex flex-col shadow-[0_30px_100px_rgba(0,0,0,0.8)] z-[5000]"
       >
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#A855F7]/5 blur-[100px] -z-10 pointer-events-none" />
         
@@ -163,7 +164,7 @@ export default function PulseGuardianBanner({
           </div>
         </SheetHeader>
 
-        <ScrollArea className="flex-1 px-8">
+        <ScrollArea className="flex-1 px-8 pb-10">
           <InfoContent />
         </ScrollArea>
       </SheetContent>
