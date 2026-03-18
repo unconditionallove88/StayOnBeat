@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -66,8 +67,8 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
         },
         { 
           id: 'safetyNetwork', 
-          title: 'Safety network', 
-          text: 'By enabling the safety network, your location may be shared with designated awareness teams in case of an SOS alert.' 
+          title: 'Immediate help', 
+          text: 'In need of support, you can notify your Love Circle or the Awareness Team. Alerts to the Awareness Team are handled with absolute discretion and privacy, as your health and well-being are our only priority.' 
         },
       ]
     },
@@ -95,8 +96,8 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
         },
         { 
           id: 'safetyNetwork', 
-          title: 'Sicherheitsnetzwerk', 
-          text: 'Durch die Aktivierung des Sicherheitsnetzwerks kann dein Standort im Falle eines SOS-Alarms an designierte Awareness-Teams weitergegeben werden.' 
+          title: 'Soforthilfe', 
+          text: 'Wenn du Hilfe benötigst, kannst du deinen Love Circle oder das Awareness-Team benachrichtigen. Meldungen an das Awareness-Team werden absolut diskret und vertraulich behandelt, da deine Gesundheit und dein Wohlbefinden unsere einzige Priorität sind.' 
         },
       ]
     }
