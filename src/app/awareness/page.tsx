@@ -1,12 +1,30 @@
+
 "use client"
 
 import { useState } from 'react';
-import { ArrowLeft, AlertCircle, MapPin, Activity, Beaker, ShieldAlert, CheckCircle2, History, Users, PhoneCall, Watch } from 'lucide-react';
+import { 
+  ArrowLeft, 
+  AlertCircle, 
+  MapPin, 
+  Activity, 
+  Beaker, 
+  ShieldAlert, 
+  CheckCircle2, 
+  History, 
+  Users, 
+  PhoneCall, 
+  Watch,
+  Navigation,
+  Target,
+  LocateFixed
+} from 'lucide-react';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 /**
  * @fileOverview Awareness Staff Dashboard.
  * Tactical overview of active user Support alerts, biometrics, and intake logs.
+ * Updated with high-fidelity location tracking and navigation tools.
  */
 const INITIAL_ALERTS = [
   { 
@@ -18,7 +36,8 @@ const INITIAL_ALERTS = [
     health: ['SSRI medication', 'Mild asthma'],
     vitals: { bpm: 118, o2: '96%', device: 'Apple Watch' },
     time: '2m ago',
-    coords: '52.5200° N, 13.4050° E'
+    coords: '52.5200° N, 13.4050° E',
+    accuracy: '±3m'
   },
   { 
     id: '2', 
@@ -29,7 +48,8 @@ const INITIAL_ALERTS = [
     health: ['No chronic conditions'],
     vitals: null,
     time: '5m ago',
-    coords: '52.5210° N, 13.4060° E'
+    coords: '52.5210° N, 13.4060° E',
+    accuracy: '±8m'
   },
 ];
 
@@ -73,7 +93,7 @@ export default function AwarenessDashboard() {
         </div>
       </div>
 
-      <div className="px-6 py-10 max-w-xl mx-auto space-y-12">
+      <div className="px-6 py-10 max-xl mx-auto space-y-12">
         {/* Active Emergency Alerts Section */}
         <section className="space-y-6">
           <div className="flex items-center justify-between px-2">
@@ -82,19 +102,44 @@ export default function AwarenessDashboard() {
             </h2>
           </div>
 
-          <div className="grid gap-6">
+          <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto w-full">
             {activeAlerts.length > 0 ? (
               activeAlerts.map((alert) => (
                 <div key={alert.id} className="bg-[#0a0a0a] border-2 border-red-600 rounded-[2.5rem] p-8 shadow-[0_0_40px_rgba(220,38,38,0.15)] animate-in slide-in-from-bottom-4 duration-500">
                   <div className="space-y-8">
+                    {/* Header: Identity & Time */}
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-3xl font-black uppercase tracking-tighter">{alert.user}</h3>
-                        <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest mt-1 flex items-center gap-2">
-                          <MapPin className="w-3 h-3 text-red-500" /> {alert.location}
-                        </p>
+                        <h3 className="text-4xl font-black uppercase tracking-tighter">{alert.user}</h3>
+                        <div className="flex items-center gap-2 mt-2">
+                          <span className="text-[9px] font-black bg-red-600 text-white px-3 py-1 rounded-full uppercase">{alert.time}</span>
+                          <span className="text-[9px] font-black border border-white/10 text-white/40 px-3 py-1 rounded-full uppercase">ID: {alert.id}</span>
+                        </div>
                       </div>
-                      <span className="text-[10px] font-black bg-red-600 text-white px-3 py-1 rounded-full uppercase">{alert.time}</span>
+                      <div className="w-16 h-16 bg-red-600/10 rounded-2xl flex items-center justify-center border border-red-600/30">
+                        <AlertCircle className="w-8 h-8 text-red-600" />
+                      </div>
+                    </div>
+
+                    {/* Navigation & Location Card */}
+                    <div className="bg-red-600/5 border-2 border-red-600/20 rounded-[2rem] p-6 space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <MapPin className="text-red-500 w-5 h-5" />
+                          <span className="text-lg font-black uppercase tracking-tight text-white">{alert.location}</span>
+                        </div>
+                        <span className="text-[8px] font-black text-red-500/60 uppercase tracking-widest">{alert.accuracy} GPS Accuracy</span>
+                      </div>
+                      
+                      <div className="flex flex-col sm:flex-row gap-4 items-center">
+                        <div className="flex-1 bg-black/40 rounded-xl p-4 border border-white/5 w-full">
+                          <span className="block text-[8px] font-black text-white/20 uppercase tracking-widest mb-1">Tactical Grid</span>
+                          <span className="font-mono text-xs text-red-400 font-bold">{alert.coords}</span>
+                        </div>
+                        <button className="w-full sm:w-auto h-14 px-8 bg-red-600 text-white rounded-xl font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-3 active:scale-95 transition-all shadow-lg shadow-red-600/20">
+                          <Navigation className="w-4 h-4" /> Navigate to Soul
+                        </button>
+                      </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -181,7 +226,7 @@ export default function AwarenessDashboard() {
                     </div>
                     <div>
                       <p className="text-sm font-black uppercase text-white">{alert.user}</p>
-                      <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest">Closed at {alert.resolvedAt}</p>
+                      <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest">Closed at {alert.resolvedAt} • {alert.location}</p>
                     </div>
                   </div>
                   <button className="text-[8px] font-black text-white/40 uppercase tracking-widest px-4 py-2 border border-white/10 rounded-full">Archive</button>
