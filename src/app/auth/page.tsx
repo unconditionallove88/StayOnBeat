@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
@@ -23,7 +22,7 @@ import { cn } from "@/lib/utils";
 /**
  * @fileOverview Access Sanctuary (Auth) Page - Prototype Mode.
  * Bypasses real credential checks to allow any email/password for testing.
- * Uses Anonymous Auth to provide a functional UID for Firestore.
+ * Special Bypass: Email 'awareness@love.com' redirects to Staff Console.
  */
 
 function AuthContent() {
@@ -41,17 +40,6 @@ function AuthContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Automatically redirect if a session is already active
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // If we are on the auth page but already have a user, head to dashboard
-        // Unless we just clicked signup/signin, let the handler manage redirects
-      }
-    });
-    return () => unsubscribe();
-  }, [auth]);
-
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -60,18 +48,23 @@ function AuthContent() {
 
     try {
       // PROTOTYPE BYPASS: Sign in anonymously regardless of credentials
-      // This gives us a real Firebase UID to work with Firestore
       const cred = await signInAnonymously(auth);
       
-      const userEmail = email || "prototype@stayonbeat.app";
+      const userEmail = email.toLowerCase().trim();
       const userName = userEmail.split("@")[0].toUpperCase();
 
-      // Initialize/Update Profile Baseline
+      // Check for Awareness Staff Role
+      if (userEmail === 'awareness@love.com') {
+        router.push("/awareness");
+        return;
+      }
+
+      // Standard User Setup
       setDocumentNonBlocking(
         doc(db, "users", cred.user.uid), 
         {
           uid: cred.user.uid,
-          email: userEmail,
+          email: userEmail || "prototype@stayonbeat.app",
           name: userName,
           createdAt: serverTimestamp(),
           trustLevel: isSignUp ? "unverified" : "verified_adult",
@@ -79,9 +72,6 @@ function AuthContent() {
             current: "calm", 
             currentEmoji: "🍃", 
             currentLabel: "Calm" 
-          },
-          verification: { 
-            isAgeVerified: !isSignUp // Assume verified if just signing in for prototype
           }
         },
         { merge: true }
@@ -102,7 +92,6 @@ function AuthContent() {
 
   return (
     <main className="min-h-screen bg-black flex flex-col items-center justify-center px-6 font-headline relative overflow-hidden">
-      {/* Ambient background glows */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#10B981]/5 blur-[120px] rounded-full" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#EBFB3B]/5 blur-[120px] rounded-full" />
 
@@ -123,23 +112,9 @@ function AuthContent() {
             {isSignUp ? "Create Sanctuary" : "Welcome Home"}
           </h1>
           <p className="text-[#10B981] text-[10px] font-black uppercase tracking-[0.4em]">
-            Prototype Mode: Any credentials work 🔒
+            Prototype Mode Active 🔒
           </p>
         </div>
-
-        {isSignUp && (
-          <div className="mb-8 p-6 bg-[#10B981]/5 rounded-[2rem] border border-[#10B981]/20 flex items-start gap-4">
-            <ShieldCheck className="text-[#10B981] mt-0.5 flex-shrink-0" size={20} />
-            <div className="space-y-1">
-              <p className="text-[11px] text-[#10B981] font-black uppercase tracking-widest leading-relaxed">
-                Development Access Active
-              </p>
-              <p className="text-[10px] text-white/40 font-bold leading-relaxed uppercase">
-                Auth validation is bypassed for prototyping. Proceed to test onboarding. 🔒
-              </p>
-            </div>
-          </div>
-        )}
 
         <form onSubmit={handleAuth} className="space-y-5">
           <div className="space-y-1.5">
@@ -212,7 +187,7 @@ function AuthContent() {
 
         <div className="mt-12 pt-8 border-t border-white/5">
           <p className="text-center text-[8px] text-white/10 uppercase tracking-[0.5em] font-black">
-            StayOnBeat • Prototype Mode Active
+            StayOnBeat • Staff Access via awareness@love.com
           </p>
         </div>
       </div>
