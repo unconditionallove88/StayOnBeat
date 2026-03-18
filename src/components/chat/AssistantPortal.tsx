@@ -10,7 +10,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * @fileOverview AssistantPortal Component.
  * A high-fidelity, phase-based entry screen for the AI Safety Advisor.
  * Fully localized for English and German.
- * Refined to remove redundant Close action and highlight inner state.
+ * Features an active Vitality Bar for quick-access to hydration, pulse, and rest protocols.
  */
 
 interface AssistantPortalProps {
@@ -125,7 +125,7 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
               </div>
               <div className="flex-1">
                 <h3 className="text-lg font-black uppercase tracking-tight">{phase.title}</h3>
-                <p className="text-[10px] font-bold text-[#10B981] uppercase tracking-widest mt-1">{phase.desc}</p>
+                <p className="text-[10px] font-black text-[#10B981] uppercase tracking-widest mt-1">{phase.desc}</p>
               </div>
               <ArrowRight size={18} className="text-white/10 group-hover:text-white group-hover:translate-x-1 transition-all" />
             </button>
@@ -133,16 +133,33 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
         </div>
       </ScrollArea>
 
+      {/* Vitality Bar - Active Status Protocols */}
       <footer className="absolute bottom-8 left-8 right-8 z-20 pointer-events-none">
         <div className="bg-zinc-900/80 backdrop-blur-md border border-white/10 p-4 rounded-full flex justify-around items-center shadow-2xl pointer-events-auto">
-          <button className="p-3 text-zinc-500 hover:text-[#10B981] transition-colors"><Droplets size={24} /></button>
-          <div className="relative">
+          <button 
+            onClick={() => router.push('/before')}
+            className="p-3 text-zinc-500 hover:text-blue-400 transition-colors active:scale-90"
+            title="Hydration Status"
+          >
+            <Droplets size={24} />
+          </button>
+          <button 
+            onClick={() => router.push('/heart-status')}
+            className="relative active:scale-90 transition-transform"
+            title="Heart Status"
+          >
             <div className="absolute inset-0 bg-emerald-500/20 blur-xl rounded-full animate-pulse" />
-            <div className="relative w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20 transition-transform active:scale-90">
+            <div className="relative w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
               <Heart className="text-black" fill="black" size={24} />
             </div>
-          </div>
-          <button className="p-3 text-zinc-500 hover:text-emerald-400 transition-colors"><Battery size={24} /></button>
+          </button>
+          <button 
+            onClick={() => router.push('/before')}
+            className="p-3 text-zinc-500 hover:text-emerald-400 transition-colors active:scale-90"
+            title="Energy & Rest"
+          >
+            <Battery size={24} />
+          </button>
         </div>
       </footer>
     </div>

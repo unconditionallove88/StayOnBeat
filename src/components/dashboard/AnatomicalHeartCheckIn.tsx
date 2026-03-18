@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -9,7 +8,8 @@ import { Leaf, Heart } from "lucide-react";
 
 /**
  * @fileOverview MoodCheckIn Component.
- * renamed from AnatomicalHeartCheckIn to reflect focus on Mood.
+ * Grounded self-care interface focused on your current emotional resonance.
+ * "should" removed from all guidance.
  */
 
 export function AnatomicalHeartCheckIn() {
@@ -104,7 +104,7 @@ export function AnatomicalHeartCheckIn() {
 
       <div className="mt-8 text-center">
         <p className="text-[10px] text-white/20 uppercase tracking-[0.5em] font-black mb-1">Current State</p>
-        <p className={cn("font-black text-2xl animate-pulse uppercase tracking-tighter", status === 'In Harmony' ? 'text-[#EBFB3B]' : 'text-[#10B981]')}>{status}</p>
+        <p className={cn("font-black text-2xl animate-pulse uppercase tracking-tighter text-[#10B981]")}>{status}</p>
       </div>
     </div>
   );
