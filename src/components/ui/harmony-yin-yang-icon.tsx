@@ -1,11 +1,13 @@
 import React from "react";
 
 /**
- * @fileOverview HarmonyYinYangIcon Component.
- * A bespoke icon representing the balance of Brain (Logic) and Heart (Emotion).
+ * @fileOverview HarmonyIcon Component.
+ * A high-fidelity bespoke icon representing the "In Harmony" state.
+ * Features a brain and a heart connected by a glowing line of unconditional love.
+ * Rendered in vibrant yellow (#EBFB3B).
  */
 
-interface HarmonyYinYangIconProps {
+interface HarmonyIconProps {
   size?: number;
   className?: string;
 }
@@ -13,7 +15,7 @@ interface HarmonyYinYangIconProps {
 export const HarmonyYinYangIcon = ({ 
   size = 24, 
   className 
-}: HarmonyYinYangIconProps) => (
+}: HarmonyIconProps) => (
   <svg 
     width={size} 
     height={size} 
@@ -24,44 +26,48 @@ export const HarmonyYinYangIcon = ({
   >
     <defs>
       <filter id="harmonyGlow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="2" result="blur" />
+        <feGaussianBlur stdDeviation="3" result="blur" />
         <feComposite in="SourceGraphic" in2="blur" operator="over" />
       </filter>
+      <linearGradient id="loveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stopColor="currentColor" stopOpacity="0.8" />
+        <stop offset="50%" stopColor="currentColor" stopOpacity="1" />
+        <stop offset="100%" stopColor="currentColor" stopOpacity="0.8" />
+      </linearGradient>
     </defs>
     
-    {/* Outer Circle */}
-    <circle cx="60" cy="60" r="50" stroke="currentColor" strokeWidth="4" filter="url(#harmonyGlow)" />
-    
-    {/* S-Curve Separator */}
+    {/* Central Connecting Pulse (Unconditional Love) */}
     <path 
-      d="M60 10C60 10 90 30 90 60C90 90 60 110 60 110" 
-      stroke="currentColor" 
-      strokeWidth="4" 
-      strokeLinecap="round"
-    />
-    <path 
-      d="M60 10C60 10 30 30 30 60C30 90 60 110 60 110" 
-      stroke="currentColor" 
-      strokeWidth="4" 
-      strokeLinecap="round" 
+      d="M45 60 Q60 30 75 60 T105 60" 
+      stroke="url(#loveGradient)" 
+      strokeWidth="2" 
+      strokeDasharray="4 4" 
+      className="animate-pulse"
       opacity="0.3"
     />
 
-    {/* The Brain Side (Right) */}
-    <path 
-      d="M75 40c-3 0-6 2-6 5s3 5 6 5c0 3 3 5 6 5" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      strokeLinecap="round"
-    />
-    <circle cx="75" cy="70" r="4" fill="currentColor" />
+    {/* The Brain (Intellect & Logic) - Left Side */}
+    <g filter="url(#harmonyGlow)" stroke="currentColor" strokeWidth="4" strokeLinecap="round">
+      <path d="M50 40c-5-5-15-5-20 0-5 5-5 15 0 20 0 5 5 10 10 10" />
+      <path d="M40 50c-3 0-6 2-6 5s3 5 6 5" strokeWidth="2" opacity="0.6" />
+      <path d="M30 65c0 5 5 10 15 10" />
+    </g>
 
-    {/* The Heart Side (Left) */}
+    {/* The Heart (Emotion & Love) - Right Side */}
+    <g filter="url(#harmonyGlow)" stroke="currentColor" strokeWidth="4" strokeLinecap="round">
+      <path d="M70 45c5-10 25-10 30 5 2 10-10 25-20 30-10-5-22-20-20-30 1-5 5-5 10-5z" fill="currentColor" fillOpacity="0.1" />
+    </g>
+
+    {/* The Bridge Connection */}
     <path 
-      d="M45 45c-2-3-5-3-7-1-2 2-1 5 1 7l6 4 6-4c2-2 3-5 1-7-2-2-5-2-7 1" 
-      fill="currentColor" 
-      opacity="0.8"
+      d="M50 60 H70" 
+      stroke="currentColor" 
+      strokeWidth="3" 
+      strokeLinecap="round"
+      filter="url(#harmonyGlow)"
     />
-    <circle cx="45" cy="80" r="4" fill="none" stroke="currentColor" strokeWidth="2" />
+    
+    {/* Love Spark (Center) */}
+    <circle cx="60" cy="60" r="3" fill="currentColor" filter="url(#harmonyGlow)" className="animate-pulse" />
   </svg>
 );
