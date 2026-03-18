@@ -1,4 +1,3 @@
-
 'use client';
 
 /**
@@ -7,12 +6,12 @@
  */
 
 export const LOVE_REMINDERS = [
-  "I love, accept and respect myself and everyone unconditionally.",
-  "Unity and love are present. Check in when you're ready.",
-  "I honor the purity and joy within myself today.",
-  "Happiness and acceptance are my natural state.",
-  "Pure joy flows through this circle of love.",
-  "Respect and tolerance guide my presence today.",
+  "I am loved.",
+  "Joy is now.",
+  "Pure heart now.",
+  "Love is life.",
+  "Unity is joy.",
+  "Truth is peace.",
 ];
 
 /** Request permission for push notifications */

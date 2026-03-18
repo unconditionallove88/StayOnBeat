@@ -82,18 +82,18 @@ function SkyIcon() {
 
 const AFFIRMATIONS = {
   EN: [
-    "I love, accept and respect myself and everyone unconditionally.",
-    "Unity and purity flow through my presence.",
-    "I am filled with love, joy and happiness.",
-    "Acceptance and tolerance define my state of being.",
-    "I honor the respect and light in all souls."
+    "I am loved.",
+    "Truth is love.",
+    "Joy is now.",
+    "I accept all.",
+    "Unity is peace."
   ],
   DE: [
-    "Ich liebe, akzeptiere und respektiere mich und alle bedingungslos.",
-    "Einheit und Reinheit fließen durch meine Gegenwart.",
-    "Ich bin erfüllt von Liebe, Freude und Glückseligkeit.",
-    "Akzeptanz und Toleranz definieren mein Sein.",
-    "Ich ehre den Respekt und das Licht in allen Seelen."
+    "Ich bin geliebt.",
+    "Wahrheit ist liebe.",
+    "Freude ist jetzt.",
+    "Ich akzeptiere alles.",
+    "Einheit ist frieden."
   ]
 };
 

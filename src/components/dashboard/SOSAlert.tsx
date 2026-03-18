@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -9,17 +8,17 @@ import { Heart, Loader2, Sparkles, ShieldCheck, Phone, CheckCircle2, X } from 'l
 import { cn } from '@/lib/utils';
 
 const SAFETY_LAYER_MESSAGES = [
-  "Love and respect guide this moment.",
-  "Acceptance and support are present.",
-  "Unity ensures safety for all."
+  "Love guides us.",
+  "Support is here.",
+  "Unity brings safety."
 ];
 
 const LOVE_MESSAGES = [
-  "I love, accept and respect myself and everyone unconditionally.",
-  "Love and purity are my foundation.",
-  "Acceptance flows through this sanctuary.",
-  "I honor the light and purity in every soul.",
-  "Unity and support define this circle.",
+  "Love protects me.",
+  "I am safe.",
+  "Truth is peace.",
+  "Unity is truth.",
+  "Pure love here.",
 ];
 
 interface SOSAlertProps {
