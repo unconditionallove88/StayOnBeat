@@ -16,7 +16,8 @@ import {
   Sun, 
   Moon, 
   Sparkles,
-  Microscope
+  Microscope,
+  ArrowLeft
 } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6SubstanceLab';
@@ -381,7 +382,9 @@ export default function Dashboard() {
                 </div>
                 <div>
                   <p className="text-xl font-black uppercase tracking-tight group-hover:text-white transition-colors">{lang === 'en' ? 'Immediate Help' : 'Sofort-Hilfe'}</p>
-                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1 group-hover:text-white/60 transition-colors">{lang === 'en' ? 'Instant SOS' : 'Sofort SOS'}</p>
+                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1 group-hover:text-white/60 transition-colors">
+                    {lang === 'en' ? 'Notify Love Circle & Awareness Team' : 'Love Circle & Awareness benachrichtigen'}
+                  </p>
                 </div>
               </button>
             </div>
