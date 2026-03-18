@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -321,6 +320,7 @@ export default function ProfilePage() {
       {/* Co-Creation Dialog (Redirect Target) */}
       <Dialog open={coCreationOpen} onOpenChange={setCoCreationOpen}>
         <DialogContent className="bg-black border-white/10 max-lg p-0 rounded-[3rem] overflow-hidden">
+          <DialogTitle className="sr-only">Co-Creation</DialogTitle>
           <CoCreation onComplete={() => setCoCreationOpen(false)} />
         </DialogContent>
       </Dialog>

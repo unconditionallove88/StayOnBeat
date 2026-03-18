@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -277,7 +276,10 @@ export function Step6SubstanceLab({
 
       <Dialog open={!!activeSubstance} onOpenChange={() => setActiveSubstance(null)}>
         <DialogContent className="bg-black border-white/10 max-w-md p-8 rounded-[3rem]">
-          <DialogTitle className="text-center text-2xl font-black uppercase tracking-tighter mb-6">{activeSubstance?.name}</DialogTitle>
+          <DialogTitle className="sr-only">{activeSubstance?.name}</DialogTitle>
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-black uppercase tracking-tighter text-white">{activeSubstance?.name}</h2>
+          </div>
           <div className="space-y-6">
             {activeSubstance?.id === 'alcohol' ? (
               <div className="space-y-4">
@@ -317,7 +319,7 @@ export function Step6SubstanceLab({
                   type="number"
                   value={manualValue}
                   onChange={(e) => setManualValue(e.target.value)}
-                  className="w-full h-16 bg-white/5 border border-white/10 rounded-2xl px-6 text-2xl font-black outline-none focus:border-[#3EB489] transition-all"
+                  className="w-full h-16 bg-white/5 border border-white/10 rounded-2xl px-6 text-2xl font-black outline-none focus:border-[#3EB489] transition-all text-white"
                   placeholder="0.00"
                 />
               </div>

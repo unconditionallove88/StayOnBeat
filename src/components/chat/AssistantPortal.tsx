@@ -125,7 +125,7 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
               </div>
               <div className="flex-1">
                 <h3 className="text-lg font-black uppercase tracking-tight">{phase.title}</h3>
-                <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{phase.desc}</p>
+                <p className="text-[10px] font-bold text-[#10B981] uppercase tracking-widest mt-1">{phase.desc}</p>
               </div>
               <ArrowRight size={18} className="text-white/10 group-hover:text-white group-hover:translate-x-1 transition-all" />
             </button>

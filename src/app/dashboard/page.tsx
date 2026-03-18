@@ -330,7 +330,7 @@ export default function Dashboard() {
               {lang === 'en' ? 'Essential Tools' : 'Wichtige Tools'}
             </h2>
             <div className="grid grid-cols-2 gap-4">
-              <Link href="/map" className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-xl">
+              <Link href="/map" className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-xl text-left">
                 <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20">
                   <RadiatingThirdEye size={32} color="#3b82f6" />
                 </div>
