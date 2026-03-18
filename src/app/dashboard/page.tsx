@@ -100,14 +100,14 @@ const AFFIRMATIONS = {
 
 const TOOLTIPS = {
   en: {
-    vibe: "Heart Vibe Check-in",
+    vibe: "Mood Check-in",
     cocreation: "Co-Creation: Shape the Sanctuary",
     assistant: "Personal AI Assistant & Advisor",
     profile: "My Sanctuary Profile",
     logout: "Step away for a moment"
   },
   de: {
-    vibe: "Herz-Vibe Check-in",
+    vibe: "Stimmungs Check-in",
     cocreation: "Ko-Kreation: Den Raum gestalten",
     assistant: "Persönlicher KI-Assistent & Berater",
     profile: "Mein Refugium-Profil",
@@ -136,13 +136,18 @@ export default function Dashboard() {
     setLang(currentLang);
 
     const pool = AFFIRMATIONS[currentLang.toUpperCase() as 'EN' | 'DE'];
-    setAffirmation(pool[Math.floor(Math.random() * pool.length)]);
+    setAffirmation(pool[Math.floor(rm() * pool.length)]);
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) router.replace("/auth");
     });
     return () => unsubscribe();
   }, [auth, router]);
+
+  // Helper for stable random
+  const rm = () => {
+    return Math.random();
+  }
 
   const userDocRef = useMemoFirebase(() => {
     if (!firestore || !user?.uid) return null;
