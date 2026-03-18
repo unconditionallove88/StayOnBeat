@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -46,7 +47,7 @@ import {
 
 /**
  * @fileOverview High-Fidelity Dashboard Sanctuary Hub.
- * Features a dynamic celestial greeting icon (Sun/Moon cycle).
+ * Features a dynamic celestial greeting icon (Sun/Moon cycle) with stars and glowing rays.
  */
 
 function SkyIcon() {
@@ -57,23 +58,23 @@ function SkyIcon() {
     const isDay = hour >= 6 && hour < 18;
 
     if (isDay) {
-      setIcon(<Sun className="w-6 h-6 text-yellow-400 fill-yellow-400 animate-pulse" />);
+      setIcon(
+        <div className="relative group">
+          <Sun className="w-7 h-7 text-yellow-400 fill-yellow-400 animate-pulse shadow-[0_0_30px_rgba(250,204,21,0.4)]" />
+          <div className="absolute inset-0 bg-yellow-400/20 blur-xl rounded-full animate-ping opacity-30" />
+        </div>
+      );
     } else {
-      // Approximate Moon Phase
-      const lp = 2551443;
-      const now = new Date().getTime() / 1000;
-      const phase = ((now - 1609459200) % lp) / lp;
-
-      if (phase > 0.4 && phase < 0.6) {
-        setIcon(
+      setIcon(
+        <div className="relative flex items-center justify-center">
           <div className="relative">
-            <div className="w-6 h-6 bg-slate-100 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.5)]" />
-            <Sparkles className="absolute -top-1 -right-1 w-3 h-3 text-white animate-pulse" />
+            <Moon className="w-6 h-6 text-slate-100 fill-slate-100/10 shadow-[0_0_20px_rgba(255,255,255,0.3)] rotate-[-15deg]" />
+            <Sparkles className="absolute -top-3 -right-3 w-3 h-3 text-white animate-pulse" />
+            <Sparkles className="absolute -bottom-2 -left-2 w-2 h-2 text-white/60 animate-pulse delay-700" />
+            <div className="absolute top-1 -left-4 w-1 h-1 bg-white rounded-full animate-ping opacity-40" />
           </div>
-        );
-      } else {
-        setIcon(<Moon className="w-6 h-6 text-slate-300" />);
-      }
+        </div>
+      );
     }
   }, []);
 
@@ -199,7 +200,7 @@ export default function Dashboard() {
             <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">
               Sanctuary Hub
             </p>
-            <h1 className="text-3xl font-black uppercase tracking-tighter flex items-center gap-3">
+            <h1 className="text-3xl font-black uppercase tracking-tighter flex items-center gap-4">
               {lang === 'en' ? `SHINE, ${displayName}` : `STRAHLE, ${displayName}`}
               <SkyIcon />
             </h1>
