@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -41,6 +42,7 @@ import { CoCreation } from "@/components/dashboard/CoCreation";
  * @fileOverview Your Sanctuary (Profile Page).
  * A high-fidelity space for biometric calibration and privacy.
  * Features Emerald theme and route protection.
+ * "should" removed from all guidance.
  */
 export default function ProfilePage() {
   const router = useRouter();

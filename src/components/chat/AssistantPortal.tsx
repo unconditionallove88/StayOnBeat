@@ -12,6 +12,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * A high-fidelity, phase-based entry screen for the AI Safety Advisor.
  * Fully localized for English and German.
  * Features an active Vitality Bar for quick-access to hydration, pulse, and rest protocols.
+ * "should" removed from all guidance.
  */
 
 interface AssistantPortalProps {
