@@ -16,6 +16,7 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
     medicalAdvice: false,
     privacy: false,
     safetyNetwork: false,
+    immediateHelp: false,
   });
   
   useEffect(() => {
@@ -35,6 +36,7 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
       agreedToMedicalDisclaimer: agreements.medicalAdvice,
       agreedToGDPR: agreements.privacy,
       agreedToSafetyNetwork: agreements.safetyNetwork,
+      agreedToImmediateHelp: agreements.immediateHelp,
       termsAcceptedAt: new Date().toISOString(),
       appVersion: "1.0.0"
     };
@@ -67,6 +69,11 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
         },
         { 
           id: 'safetyNetwork', 
+          title: 'Safety network', 
+          text: 'StayOnBeat allows you to create a safety network of trusted contacts who can be notified in case of an emergency.' 
+        },
+        { 
+          id: 'immediateHelp', 
           title: 'Immediate help', 
           text: 'In need of support, you can notify your Love Circle or the Awareness Team. Alerts to the Awareness Team are handled with absolute discretion and privacy, as your health and well-being are our only priority.' 
         },
@@ -96,6 +103,11 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
         },
         { 
           id: 'safetyNetwork', 
+          title: 'Sicherheitsnetzwerk', 
+          text: 'StayOnBeat ermöglicht es dir, ein Sicherheitsnetzwerk aus vertrauenswürdigen Kontakten zu erstellen, die im Notfall benachrichtigt werden können.' 
+        },
+        { 
+          id: 'immediateHelp', 
           title: 'Soforthilfe', 
           text: 'Wenn du Hilfe benötigst, kannst du deinen Love Circle oder das Awareness-Team benachrichtigen. Meldungen an das Awareness-Team werden absolut diskret und vertraulich behandelt, da deine Gesundheit und dein Wohlbefinden unsere einzige Priorität sind.' 
         },

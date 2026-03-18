@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -124,6 +125,7 @@ export function Step7VibeCheck({
           medicalDisclaimerAccepted: finalOnboardingData.legalAgreements?.agreedToMedicalDisclaimer ?? true,
           gdprAccepted: finalOnboardingData.legalAgreements?.agreedToGDPR ?? true,
           safetyNetworkEnabled: finalOnboardingData.legalAgreements?.agreedToSafetyNetwork ?? false,
+          immediateHelpAccepted: finalOnboardingData.legalAgreements?.agreedToImmediateHelp ?? false,
           termsAcceptedAt: serverTimestamp(),
         },
         biometrics: {

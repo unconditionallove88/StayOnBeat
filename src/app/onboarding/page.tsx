@@ -18,6 +18,7 @@ export type LegalAgreements = {
   agreedToMedicalDisclaimer: boolean;
   agreedToGDPR: boolean;
   agreedToSafetyNetwork: boolean;
+  agreedToImmediateHelp: boolean;
   termsAcceptedAt: string;
   appVersion: string;
 };
