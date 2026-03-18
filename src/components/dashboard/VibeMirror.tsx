@@ -16,6 +16,7 @@ import {
 /**
  * @fileOverview Vibe Mirror Component (Mood Chip).
  * Features updated Yin-Yang icon for Harmony (Yellow) and Leaf icon for Calm (Emerald).
+ * Calibrated: "should" removed, "Heart" changed to "Mood".
  */
 
 const VIBES = [
@@ -48,8 +49,8 @@ const VIBES = [
     label: "Calm", 
     de: "Beruhigt",
     customIcon: <Leaf size={32} className="text-[#10B981]" />,
-    affirmation: "Everything is exactly as it should be. 🍃", 
-    deAffirmation: "Alles ist genau so, wie es sein soll. 🍃",
+    affirmation: "Everything is exactly as it is supposed to be. 🍃", 
+    deAffirmation: "Alles ist genau so, wie es gedacht ist. 🍃",
     color: "text-[#10B981]", 
     bg: "bg-[#10B981]/10", 
     border: "border-[#10B981]/30",
@@ -158,7 +159,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
         <SheetContent side="bottom" className="bg-black border-white/10 p-8 rounded-t-[3rem] h-auto max-h-[85vh] overflow-y-auto">
           <SheetHeader className="mb-8">
             <SheetTitle className="text-center text-xl font-black uppercase tracking-tighter text-white">
-              {lang === 'EN' ? 'Heart Check-in' : 'Herz Check-in'}
+              {lang === 'EN' ? 'Mood Check-in' : 'Stimmungs Check-in'}
             </SheetTitle>
             <p className="text-center text-[10px] font-black uppercase tracking-widest mt-1 text-[#10B981]">
               {lang === 'EN' ? 'How are you feeling right now?' : 'Wie fühlst du dich gerade?'}

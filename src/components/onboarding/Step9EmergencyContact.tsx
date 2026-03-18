@@ -1,10 +1,14 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ShieldCheck, ArrowLeft } from 'lucide-react';
+
+/**
+ * @fileOverview Emergency Contact Onboarding Step.
+ * Calibrated: "should" removed.
+ */
 
 export function Step9EmergencyContact({ 
   onComplete,
@@ -38,7 +42,7 @@ export function Step9EmergencyContact({
     EN: {
       back: "BACK",
       header: "Emergency contact",
-      sub: "Who should we call in an emergency?",
+      sub: "Who do we call in an emergency?",
       nameLabel: "Contact name",
       phoneLabel: "Phone number",
       disclaimer: "This information is only used if you trigger an SOS alert or are unresponsive. Data is protected by end-to-end encryption.",
@@ -47,7 +51,7 @@ export function Step9EmergencyContact({
     DE: {
       back: "ZURÜCK",
       header: "Notfallkontakt",
-      sub: "Wen sollen wir im Notfall anrufen?",
+      sub: "Wen rufen wir im Notfall an?",
       nameLabel: "Name des Kontakts",
       phoneLabel: "Telefonnummer",
       disclaimer: "Diese Informationen werden nur verwendet, wenn du einen SOS-Alarm auslöst oder nicht ansprechbar bist. Deine Daten sind durch Ende-zu-Ende-Verschlüsselung geschützt.",

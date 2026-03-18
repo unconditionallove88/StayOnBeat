@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -11,8 +10,9 @@ import type { OnboardingData } from '@/app/onboarding/page';
 import NotificationPrompt from '@/components/dashboard/NotificationPrompt';
 
 /**
- * @fileOverview Vibe Check Onboarding Step.
+ * @fileOverview Mood Check-in Onboarding Step.
  * Features updated Yin-Yang icon for Harmony (Yellow) and Leaf icon for Calm (Emerald).
+ * Calibrated: "should" removed, "Heart" changed to "Mood".
  */
 
 const VIBE_OPTIONS = [
@@ -43,7 +43,7 @@ const VIBE_OPTIONS = [
     label: 'Calm',
     de: 'Beruhigt',
     customIcon: <Leaf size={48} className="text-[#10B981]" />,
-    description: 'Everything is balanced and clear',
+    description: 'Everything is exactly as it is supposed to be',
     deDescription: 'Alles ist im Gleichgewicht und klar',
     color: 'border-[#10B981]/20 text-[#10B981]',
     activeColor: 'bg-[#10B981]/10 border-[#10B981] shadow-[0_0_20px_rgba(16,185,129,0.3)]',
@@ -198,7 +198,7 @@ export function Step7VibeCheck({
           {active?.customIcon ? React.cloneElement(active.customIcon as React.ReactElement, { size: 120 }) : <span className="text-[10rem]">{active?.emoji}</span>}
         </div>
         <h2 className="text-4xl font-black uppercase tracking-tighter text-[#10B981] mb-4">
-          {lang === 'EN' ? 'Heart calibrated 💚' : 'Herz kalibriert 💚'}
+          {lang === 'EN' ? 'Mood calibrated 💚' : 'Stimmung kalibriert 💚'}
         </h2>
         <p className="text-white/60 text-lg font-bold max-sm leading-tight">
           {lang === 'EN' ? 'StayOnBeat sees you. I am loved. 💚' : 'StayOnBeat sieht dich. Ich werde geliebt. 💚'}
@@ -218,7 +218,7 @@ export function Step7VibeCheck({
       <div className="mt-12 mb-10">
         <div className="text-5xl mb-4 animate-pulse">💚</div>
         <h2 className="text-[28px] font-black uppercase mb-2 text-white leading-none tracking-tighter">
-          {lang === 'EN' ? 'How is your heart today?' : 'Wie geht es deinem Herzen heute?'}
+          {lang === 'EN' ? 'How is your mood today?' : 'Wie ist deine Stimmung heute?'}
         </h2>
         <p className="text-[#10B981] font-black uppercase tracking-widest text-[10px] max-w-[280px] mx-auto">
           {lang === 'EN' ? 'Your feelings are valid and seen. This is a safe space.' : 'Deine Gefühle sind wichtig und werden gesehen. Dies ist ein sicherer Raum.'}
