@@ -25,6 +25,7 @@ import PoppersCard from '@/components/lab/cards/PoppersCard';
 /**
  * @fileOverview Pulse Lab component.
  * Calibrated for high-fidelity scrolling and real-time safety monitoring.
+ * Features persistent Safety Advisor access connected to intake context.
  */
 
 const SUBSTANCES = [
@@ -81,7 +82,6 @@ export function Step6SubstanceLab({
   const handleSelectSubstance = (substance: any) => {
     const currentHR = userData?.sessionStatus?.lastHeartRate || 75;
     
-    // Guardian Warning Logic for Poppers
     if (substance.id === "poppers" && currentHR > 100) {
       toast({
         variant: "destructive",
@@ -137,13 +137,13 @@ export function Step6SubstanceLab({
 
   const filtered = SUBSTANCES.filter(s => s.name.toLowerCase().includes(searchTerm.toLowerCase()));
   const isSubstanceActive = (id: string) => sessionLogs.some(log => log.id === id);
+  const intakeContext = sessionLogs.map(l => l.name).join(', ');
 
   if (!mounted) return null;
 
   const lastHR = userData?.sessionStatus?.lastHeartRate || 0;
   const guardianStatus: 'safe' | 'caution' | 'locked' = isLocked ? 'locked' : (lastHR > 110 ? 'caution' : 'safe');
 
-  // Poppers Card logic
   const showPoppersCard = 
     searchTerm.toLowerCase().includes('poppers') || 
     activeSubstance?.id === 'poppers' || 
@@ -181,12 +181,31 @@ export function Step6SubstanceLab({
             </div>
             <h1 className="text-2xl font-black tracking-tighter uppercase leading-none">Pulse Lab</h1>
           </div>
-          <PulseGuardianBanner lang={lang} />
-          <GuardianStatusBar status={guardianStatus} heartRate={lastHR > 0 ? lastHR : 98} lang={lang} />
+          
+          {/* Persistent Guardian Console */}
+          <div className="space-y-3">
+            <PulseGuardianBanner lang={lang} />
+            <GuardianStatusBar status={guardianStatus} heartRate={lastHR > 0 ? lastHR : 98} lang={lang} />
+            
+            {/* Safety Advisor Persistence */}
+            <button 
+              onClick={() => setChatOpen(true)}
+              className="w-full bg-blue-600/10 border border-blue-500/30 rounded-2xl py-3 px-4 flex items-center justify-between group hover:bg-blue-600/20 transition-all text-left shadow-lg"
+            >
+              <div className="flex items-center gap-3">
+                <Sparkles size={16} className="text-blue-400 animate-pulse" />
+                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-400">Open Safety Advisor</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[8px] font-bold text-blue-500/60 uppercase tracking-widest">Contextual check</span>
+                <ArrowRight size={12} className="text-blue-500 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </button>
+          </div>
         </div>
 
-        <div className="relative w-full">
-          <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
+        <div className="relative w-full pt-2">
+          <Search className="absolute left-6 top-[calc(50%+4px)] -translate-y-1/2 w-4 h-4 text-white/20" />
           <input 
             placeholder="Search substances..."
             value={searchTerm}
@@ -223,22 +242,6 @@ export function Step6SubstanceLab({
             );
           })}
         </div>
-
-        <button 
-          onClick={() => setChatOpen(true)}
-          className="w-full bg-blue-600/10 border-2 border-blue-500/30 rounded-[2rem] p-8 flex items-center justify-between group hover:bg-blue-600/20 transition-all text-left shadow-2xl"
-        >
-          <div className="flex items-center gap-6">
-            <div className="p-4 bg-blue-600 rounded-2xl shadow-[0_0_20px_rgba(59,130,246,0.4)]">
-              <Sparkles className="w-8 h-8 text-white" />
-            </div>
-            <div>
-              <h3 className="text-xl font-black uppercase tracking-tight text-white">Safety Advisor</h3>
-              <p className="text-[10px] font-bold text-blue-400 uppercase tracking-widest mt-1">Contextual interaction check</p>
-            </div>
-          </div>
-          <ArrowRight className="w-6 h-6 text-blue-500 group-hover:translate-x-2 transition-transform" />
-        </button>
 
         {showDiary && sessionLogs.length > 0 && (
           <div className="space-y-4">
@@ -337,7 +340,7 @@ export function Step6SubstanceLab({
       <Dialog open={chatOpen} onOpenChange={setChatOpen}>
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh] mx-4">
           <DialogTitle className="sr-only">AI Safety Advisor Chat</DialogTitle>
-          <AiSafetyChat userProfile={userData} />
+          <AiSafetyChat userProfile={userData} currentIntake={intakeContext} />
         </DialogContent>
       </Dialog>
     </div>
