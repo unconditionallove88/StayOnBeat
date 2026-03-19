@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -10,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 /**
  * @fileOverview AiSafetyChat Component.
  * Enhanced with current intake context and vital reminders.
+ * Mobile scrolling optimized for iPhone browsers.
  */
 
 interface Props {
@@ -106,10 +108,10 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-black font-body">
+    <div className="flex flex-col h-full bg-black font-body overflow-hidden">
       {/* Context Awareness Bar */}
       {currentIntake && (
-        <div className="bg-blue-600/10 border-b border-blue-500/20 px-8 py-3 flex items-center justify-between">
+        <div className="bg-blue-600/10 border-b border-blue-500/20 px-8 py-3 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <Info size={14} className="text-blue-400" />
             <span className="text-[9px] font-black uppercase tracking-widest text-blue-400">
@@ -121,7 +123,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
       )}
 
       <ScrollArea className="flex-1 px-8 py-10" ref={scrollRef}>
-        <div className="space-y-8 max-w-2xl mx-auto">
+        <div className="space-y-8 max-w-2xl mx-auto pb-10">
           {messages.length === 0 && (
             <div className="flex flex-col items-center justify-center py-20 text-center space-y-6">
               <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center border border-white/10">
@@ -132,7 +134,6 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
                 <p className="text-sm text-white/40">I'm aware of your profile and intake. Ask me anything.</p>
               </div>
               
-              {/* Vital reminders chip */}
               <div className="flex flex-wrap gap-2 justify-center pt-4">
                 <div className="px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full flex items-center gap-2">
                   <span className="text-[10px] font-black uppercase text-blue-400">💧 Water check</span>
@@ -148,7 +149,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
             <div
               key={i}
               className={cn(
-                "flex gap-6 items-start",
+                "flex gap-6 items-start animate-in slide-in-from-bottom-2 duration-300",
                 msg.role === 'user' ? "flex-row-reverse" : "flex-row"
               )}
             >
@@ -159,8 +160,8 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
                 {msg.role === 'user' ? <User className="w-5 h-5" /> : <Sparkles className="w-5 h-5" />}
               </div>
               <div className={cn(
-                "p-5 rounded-3xl text-sm leading-relaxed max-w-[80%]",
-                msg.role === 'user' ? "bg-white/5 text-white rounded-tr-none" : "bg-white/10 text-white/90 rounded-tl-none border border-white/5 shadow-sm"
+                "p-5 rounded-3xl text-sm leading-relaxed max-w-[80%] shadow-lg",
+                msg.role === 'user' ? "bg-white/5 text-white rounded-tr-none" : "bg-white/10 text-white/90 rounded-tl-none border border-white/5"
               )}>
                 {msg.content}
               </div>
@@ -180,7 +181,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
         </div>
       </ScrollArea>
 
-      <div className="px-6 py-8 bg-black border-t border-white/5">
+      <div className="px-6 py-8 bg-black border-t border-white/5 shrink-0">
         <div className="relative flex items-center max-w-2xl mx-auto gap-3">
           <div className="relative flex-1">
             <input

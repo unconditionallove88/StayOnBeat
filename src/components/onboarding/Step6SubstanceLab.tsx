@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -26,6 +27,7 @@ import PoppersCard from '@/components/lab/cards/PoppersCard';
  * @fileOverview Pulse Lab component.
  * Calibrated for high-fidelity scrolling and real-time safety monitoring.
  * Features persistent Safety Advisor access connected to intake context.
+ * Enhanced for mobile Safari scrolling.
  */
 
 const SUBSTANCES = [
@@ -151,7 +153,7 @@ export function Step6SubstanceLab({
 
   if (isLocked) {
     return (
-      <div className="flex flex-col h-full bg-black font-body max-w-2xl mx-auto p-6 relative overflow-hidden">
+      <div className="flex flex-col h-full bg-black font-body max-w-2xl mx-auto p-6 relative overflow-hidden overflow-y-auto">
         <GuardianStatusBar status="locked" heartRate={lastHR > 0 ? lastHR : 128} lang={lang} />
         <CareShield 
           reason={userData?.sessionStatus?.lockReason || 'manual'}
@@ -182,12 +184,10 @@ export function Step6SubstanceLab({
             <h1 className="text-2xl font-black tracking-tighter uppercase leading-none">Pulse Lab</h1>
           </div>
           
-          {/* Persistent Guardian Console */}
           <div className="space-y-3">
             <PulseGuardianBanner lang={lang} />
             <GuardianStatusBar status={guardianStatus} heartRate={lastHR > 0 ? lastHR : 98} lang={lang} />
             
-            {/* Safety Advisor Persistence */}
             <button 
               onClick={() => setChatOpen(true)}
               className="w-full bg-blue-600/10 border border-blue-500/30 rounded-2xl py-3 px-4 flex items-center justify-between group hover:bg-blue-600/20 transition-all text-left shadow-lg"
@@ -215,8 +215,8 @@ export function Step6SubstanceLab({
         </div>
       </div>
 
-      {/* Viewport */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar px-6 pb-40 space-y-8 pt-6">
+      {/* Viewport - Momentum scrolling for iPhone */}
+      <div className="flex-1 overflow-y-auto custom-scrollbar px-6 pb-40 space-y-8 pt-6 touch-pan-y">
         
         {showPoppersCard && (
           <div className="animate-in fade-in duration-500">
@@ -278,7 +278,7 @@ export function Step6SubstanceLab({
       </footer>
 
       <Dialog open={!!activeSubstance} onOpenChange={() => setActiveSubstance(null)}>
-        <DialogContent className="bg-black border-white/10 max-w-md p-8 rounded-[3rem]">
+        <DialogContent className="bg-black border-white/10 max-w-md p-8 rounded-[3rem] h-auto max-h-[85dvh] overflow-y-auto">
           <DialogTitle className="sr-only">{activeSubstance?.name}</DialogTitle>
           <div className="text-center mb-6">
             <h2 className="text-2xl font-black uppercase tracking-tighter text-white">{activeSubstance?.name}</h2>
@@ -338,7 +338,7 @@ export function Step6SubstanceLab({
       </Dialog>
 
       <Dialog open={chatOpen} onOpenChange={setChatOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh] mx-4">
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] mx-4">
           <DialogTitle className="sr-only">AI Safety Advisor Chat</DialogTitle>
           <AiSafetyChat userProfile={userData} currentIntake={intakeContext} />
         </DialogContent>

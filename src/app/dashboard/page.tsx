@@ -173,7 +173,7 @@ export default function Dashboard() {
 
   return (
     <main className="min-h-screen bg-black text-white flex flex-col h-screen overflow-hidden font-headline">
-      <div className="px-6 py-6 md:py-10 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
+      <div className="px-6 py-6 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
         <header className="flex justify-between items-start max-w-4xl mx-auto w-full">
           <div className="space-y-1">
             <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">
@@ -267,7 +267,7 @@ export default function Dashboard() {
 
           <div className="space-y-4 text-center">
             <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
-              {lang === 'en' ? 'Love Circle' : 'Love Circle'}
+              Love Circle
             </h2>
             <Link href="/heart-status" className="block transition-all active:scale-95">
               <div className="flex flex-col items-center gap-4">
@@ -312,7 +312,6 @@ export default function Dashboard() {
               {lang === 'en' ? 'Essential Tools' : 'Wichtige Tools'}
             </h2>
             <div className="grid grid-cols-2 gap-4 md:gap-8 max-w-2xl mx-auto">
-              {/* THE PULSE CIRCLE */}
               <Link href="/map" className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 md:gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-2xl group active:scale-95 text-center p-4 md:p-6">
                 <div className="w-12 h-12 md:w-16 md:h-16 bg-blue-500/10 rounded-full flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform">
                   <RadiatingThirdEye size={32} className="md:w-10 md:h-10" color="#3b82f6" />
@@ -323,7 +322,6 @@ export default function Dashboard() {
                 </div>
               </Link>
 
-              {/* PULSE LAB CIRCLE */}
               <button 
                 onClick={() => setLabOpen(true)} 
                 className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 md:gap-4 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all shadow-2xl group active:scale-95 text-center p-4 md:p-6"
@@ -337,7 +335,6 @@ export default function Dashboard() {
                 </div>
               </button>
 
-              {/* PULSE SYNC CIRCLE */}
               <button 
                 onClick={() => setSyncOpen(true)} 
                 className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 md:gap-4 hover:border-[#EBFB3B]/30 hover:bg-[#EBFB3B]/5 transition-all shadow-2xl group active:scale-95 text-center p-4 md:p-6"
@@ -351,7 +348,6 @@ export default function Dashboard() {
                 </div>
               </button>
 
-              {/* IMMEDIATE HELP CIRCLE */}
               <button 
                 onClick={() => setShowSOS(true)}
                 className="aspect-square rounded-full bg-red-600/10 border border-red-600/20 flex flex-col items-center justify-center gap-3 md:gap-4 hover:bg-red-600 transition-all shadow-2xl group active:scale-95 text-center p-4 md:p-6"
@@ -372,48 +368,54 @@ export default function Dashboard() {
       {showSOS && <SOSAlert onClose={() => setShowSOS(false)} />}
       
       <Dialog open={labOpen} onOpenChange={setLabOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[90vh]">
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[90dvh] max-h-[90dvh]">
           <DialogTitle className="sr-only">Pulse Lab</DialogTitle>
-          <PulseLab 
-            userData={{ 
-              ...firestoreProfile, 
-              sessionStatus: { 
-                isLocked, 
-                lastHeartRate: simHeartRate, 
-                lockReason: safetyStatus.lockReason, 
-                unlockAt: safetyStatus.unlockAt 
-              } 
-            }} 
-            onComplete={(logs) => {
-              const names = logs.map((l: any) => l.name);
-              setActiveSubstances(names);
-              setSimSubstanceCount(logs.length);
-              setLabOpen(false);
-            }} 
-            showDiary={true} 
-            isLocked={isLocked} 
-          />
+          <div className="flex-1 overflow-y-auto">
+            <PulseLab 
+              userData={{ 
+                ...firestoreProfile, 
+                sessionStatus: { 
+                  isLocked, 
+                  lastHeartRate: simHeartRate, 
+                  lockReason: safetyStatus.lockReason, 
+                  unlockAt: safetyStatus.unlockAt 
+                } 
+              }} 
+              onComplete={(logs) => {
+                const names = logs.map((l: any) => l.name);
+                setActiveSubstances(names);
+                setSimSubstanceCount(logs.length);
+                setLabOpen(false);
+              }} 
+              showDiary={true} 
+              isLocked={isLocked} 
+            />
+          </div>
         </DialogContent>
       </Dialog>
 
       <Dialog open={aiBotOpen} onOpenChange={setAiBotOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh]">
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] max-h-[85dvh]">
           <DialogTitle className="sr-only">AI Assistant Portal</DialogTitle>
           <AssistantPortal userProfile={firestoreProfile} />
         </DialogContent>
       </Dialog>
 
       <Dialog open={coCreationOpen} onOpenChange={setCoCreationOpen}>
-        <DialogContent className="bg-black border-white/10 max-lg p-0 rounded-[3rem] overflow-hidden">
+        <DialogContent className="bg-black border-white/10 max-w-lg p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85dvh]">
           <DialogTitle className="sr-only">Co-Creation</DialogTitle>
-          <CoCreation onComplete={() => setCoCreationOpen(false)} />
+          <div className="flex-1 overflow-y-auto">
+            <CoCreation onComplete={() => setCoCreationOpen(false)} />
+          </div>
         </DialogContent>
       </Dialog>
 
       <Dialog open={syncOpen} onOpenChange={setSyncOpen}>
-        <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden">
+        <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85dvh]">
           <DialogTitle className="sr-only">Pulse Sync</DialogTitle>
-          <WearablesSync onComplete={() => setSyncOpen(false)} />
+          <div className="flex-1 overflow-y-auto">
+            <WearablesSync onComplete={() => setSyncOpen(false)} />
+          </div>
         </DialogContent>
       </Dialog>
     </main>

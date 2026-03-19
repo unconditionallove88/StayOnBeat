@@ -12,7 +12,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * A high-fidelity, phase-based entry screen for the AI Safety Advisor.
  * Fully localized for English and German.
  * Features an active Vitality Bar for quick-access to hydration, pulse, and rest protocols.
- * "should" removed from all guidance.
+ * Enhanced for mobile scrolling on iPhone.
  */
 
 interface AssistantPortalProps {
@@ -98,7 +98,7 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
         </div>
       </header>
 
-      <ScrollArea className="flex-1 px-8 relative z-10">
+      <ScrollArea className="flex-1 px-8 relative z-10 touch-pan-y">
         <section className="mb-8 pt-4">
           <div className="flex items-center gap-3 mb-2">
             <Bot className="text-emerald-500" size={20} />
