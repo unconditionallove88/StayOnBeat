@@ -52,7 +52,7 @@ import {
 
 /**
  * @fileOverview High-Fidelity Dashboard Sanctuary Hub.
- * Features entry points for The Witnesses and The Holders chats.
+ * Social sanctuary ports consolidated into the Love Circle component.
  */
 
 function SkyIcon() {
@@ -336,18 +336,12 @@ export default function Dashboard() {
             lang={lang} 
           />
 
-          <div 
-            onClick={() => setHoldersOpen(true)} 
-            className="w-full text-left active:scale-[0.99] transition-all cursor-pointer group"
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                setHoldersOpen(true);
-              }
-            }}
-          >
-            <LoveCircle lang={lang} />
+          <div className="w-full">
+            <LoveCircle 
+              lang={lang} 
+              onHoldersClick={() => setHoldersOpen(true)}
+              onWitnessesClick={() => setWitnessesOpen(true)}
+            />
           </div>
 
           <div className="space-y-4">
@@ -355,28 +349,15 @@ export default function Dashboard() {
               {lang === 'en' ? 'Essential Tools' : 'Wichtige Tools'}
             </h2>
             <div className="grid grid-cols-2 gap-4">
-              <Link href="/map" className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-xl text-left">
+              <Link href="/map" className="col-span-2 group bg-white/5 rounded-[2.5rem] border border-white/10 p-8 flex flex-col items-start gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-xl text-left">
                 <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20">
                   <RadiatingThirdEye size={32} color="#3b82f6" />
                 </div>
                 <div>
-                  <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'The Pulse' : 'The Pulse'}</p>
-                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Live Map' : 'Live Karte'}</p>
+                  <p className="text-2xl font-black uppercase tracking-tight">{lang === 'en' ? 'The Pulse' : 'The Pulse'}</p>
+                  <p className="text-xs font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Live Map & Navigation' : 'Live Karte & Navigation'}</p>
                 </div>
               </Link>
-
-              <button 
-                onClick={() => setWitnessesOpen(true)} 
-                className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-amber-500/30 hover:bg-amber-500/5 transition-all text-left shadow-xl"
-              >
-                <div className="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center border border-amber-500/20">
-                  <Users2 size={32} className="text-amber-500" />
-                </div>
-                <div>
-                  <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'The Witnesses' : 'The Witnesses'}</p>
-                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Collective Care' : 'Kollektive Fürsorge'}</p>
-                </div>
-              </button>
 
               <button 
                 onClick={() => setLabOpen(true)} 

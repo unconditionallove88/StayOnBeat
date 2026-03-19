@@ -2,14 +2,26 @@
 "use client";
 
 import React from "react";
-import { Users } from "lucide-react";
+import { Users, Shield, Users2, ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview Love Circle Component.
  * High-fidelity representation of the user's inner support network.
+ * Now serves as the primary portal for both The Holders and The Witnesses chats.
  */
 
-export default function LoveCircle({ lang = "en" }: { lang?: "en" | "de" }) {
+interface LoveCircleProps {
+  lang?: "en" | "de";
+  onHoldersClick?: () => void;
+  onWitnessesClick?: () => void;
+}
+
+export default function LoveCircle({ 
+  lang = "en", 
+  onHoldersClick, 
+  onWitnessesClick 
+}: LoveCircleProps) {
   const isEn = lang === "en";
   
   const circle = [
@@ -19,7 +31,7 @@ export default function LoveCircle({ lang = "en" }: { lang?: "en" | "de" }) {
   ];
 
   return (
-    <div className="w-full bg-white/5 border border-white/10 rounded-[2.5rem] p-8 shadow-2xl transition-all hover:border-[#10B981]/20">
+    <div className="w-full bg-white/5 border border-white/10 rounded-[2.5rem] p-8 shadow-2xl transition-all hover:border-[#10B981]/20 group">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-[#90EE90]/10 rounded-lg">
@@ -52,13 +64,49 @@ export default function LoveCircle({ lang = "en" }: { lang?: "en" | "de" }) {
         </button>
       </div>
 
-      <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
+      <div className="bg-white/5 rounded-2xl p-4 border border-white/5 mb-6">
         <p className="text-white/60 text-[11px] leading-relaxed font-bold uppercase tracking-wide">
           {isEn 
             ? "Sarah and Marc are notified if your rhythm changes. You are cared for. 💚"
             : "Sarah und Marc werden benachrichtigt, wenn sich dein Rhythmus ändert. Du bist umsorgt. 💚"}
         </p>
       </div>
+
+      {/* Social Sanctuary Portals */}
+      {(onHoldersClick || onWitnessesClick) && (
+        <div className="grid grid-cols-2 gap-3 pt-2">
+          {onHoldersClick && (
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                onHoldersClick();
+              }}
+              className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-[#10B981]/10 border border-[#10B981]/20 hover:border-[#10B981]/40 transition-all active:scale-[0.98] group/btn"
+            >
+              <Shield size={20} className="text-[#10B981]" />
+              <div className="text-center">
+                <span className="block text-[9px] font-black uppercase text-white tracking-tight">The Holders</span>
+                <span className="text-[7px] font-bold text-[#10B981] uppercase tracking-widest">Bond of Care</span>
+              </div>
+            </button>
+          )}
+          {onWitnessesClick && (
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                onWitnessesClick();
+              }}
+              className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 hover:border-amber-500/40 transition-all active:scale-[0.98] group/btn"
+            >
+              <Users2 size={20} className="text-amber-500" />
+              <div className="text-center">
+                <span className="block text-[9px] font-black uppercase text-white tracking-tight">The Witnesses</span>
+                <span className="text-[7px] font-bold text-amber-500 uppercase tracking-widest">Collective Care</span>
+              </div>
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }
