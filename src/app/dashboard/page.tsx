@@ -17,29 +17,21 @@ import {
   Moon, 
   Sparkles,
   Microscope,
-  ArrowLeft,
-  Users2,
-  Users
 } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6SubstanceLab';
 import { VibeMirror } from '@/components/dashboard/VibeMirror';
 import { SOSAlert } from '@/components/dashboard/SOSAlert';
 import { RadiatingThirdEye } from '@/components/ui/radiating-third-eye';
-import { ShieldPulseIcon } from '@/components/ui/shield-pulse-icon';
-import { GuardianLogo } from '@/components/ui/guardian-logo';
-import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
+import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 import GuardianSimulator from '@/components/dashboard/GuardianSimulator';
 import HeartStatusAura from '@/components/dashboard/HeartStatusAura';
 import LoveCircleList from '@/components/dashboard/LoveCircle';
 import { CoCreation } from '@/components/dashboard/CoCreation';
 import { WearablesSync } from '@/components/dashboard/WearablesSync';
 import { AssistantPortal } from '@/components/chat/AssistantPortal';
-import { LoveCircleChat } from '@/components/chat/LoveCircleChat';
-import { PartyCircleChat } from '@/components/chat/PartyCircleChat';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useToast } from '@/hooks/use-toast';
 import { useUser, useFirestore, useDoc, useMemoFirebase, useAuth } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -105,7 +97,6 @@ const TOOLTIPS = {
 
 export default function Dashboard() {
   const router = useRouter();
-  const { toast } = useToast();
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
   const firestore = useFirestore();
@@ -144,8 +135,6 @@ export default function Dashboard() {
   const [coCreationOpen, setCoCreationOpen] = useState(false);
   const [syncOpen, setSyncOpen] = useState(false);
   const [showSOS, setShowSOS] = useState(false);
-  const [holdersOpen, setHoldersOpen] = useState(false);
-  const [witnessesOpen, setWitnessesOpen] = useState(false);
 
   const medicalProfile = {
     healthConditions: firestoreProfile?.healthConditions || [],
@@ -280,21 +269,19 @@ export default function Dashboard() {
             <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
               {lang === 'en' ? 'Love Circle' : 'Love Circle'}
             </h2>
-            <div className="block transition-all">
+            <Link href="/heart-status" className="block transition-all active:scale-95">
               <div className="flex flex-col items-center gap-4">
                 <HeartStatusAura 
                   heartRate={simHeartRate} 
                   activeSubstances={activeSubstances} 
                   mood={firestoreProfile?.vibe?.currentLabel || (lang === 'en' ? "Steady" : "Stabil")}
                   lang={lang} 
-                  onHoldersClick={() => setHoldersOpen(true)}
-                  onWitnessesClick={() => setWitnessesOpen(true)}
                 />
                 <span className="text-[9px] uppercase tracking-widest text-slate-600 font-bold">
                   Demo Mode · Simulated Data
                 </span>
               </div>
-            </div>
+            </Link>
           </div>
 
           <div className="bg-[#10B981]/5 border border-[#10B981]/20 rounded-[2rem] p-6 text-center relative overflow-hidden group">
@@ -427,20 +414,6 @@ export default function Dashboard() {
         <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden">
           <DialogTitle className="sr-only">Pulse Sync</DialogTitle>
           <WearablesSync onComplete={() => setSyncOpen(false)} />
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={holdersOpen} onOpenChange={setHoldersOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh]">
-          <DialogTitle className="sr-only">The Holders</DialogTitle>
-          <LoveCircleChat />
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={witnessesOpen} onOpenChange={setWitnessesOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh]">
-          <DialogTitle className="sr-only">The Witnesses</DialogTitle>
-          <PartyCircleChat />
         </DialogContent>
       </Dialog>
     </main>

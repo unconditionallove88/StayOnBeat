@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import { HeartHandshake, Shield, Users2 } from "lucide-react";
+import { HeartHandshake } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -10,22 +10,18 @@ interface Props {
   activeSubstances: string[];
   lang?: "en" | "de";
   mood?: string;
-  onHoldersClick?: () => void;
-  onWitnessesClick?: () => void;
 }
 
 /**
  * @fileOverview Love Circle Visualization.
- * Transitions "My Heart" to "Love Circle".
- * Features interactive nodes for The Holders and The Witnesses inside the heart aura.
+ * Serves as a pure, radiant visual of the user's inner rhythm.
+ * Interactive nodes moved to the detailed status page for visual clarity.
  */
 export default function HeartStatusAura({ 
   heartRate, 
   activeSubstances, 
   mood = "Steady", 
-  lang = "en",
-  onHoldersClick,
-  onWitnessesClick
+  lang = "en"
 }: Props) {
   const normalizedSubs = activeSubstances.map(s => s.toLowerCase());
   const hasPoppers = normalizedSubs.some(s => s.includes('poppers'));
@@ -39,16 +35,16 @@ export default function HeartStatusAura({
   const pulseDuration = isHighRisk ? "1s" : isElevated ? "2s" : "4s";
 
   return (
-    <div className="flex flex-col items-center justify-center p-8 relative font-headline">
+    <div className="flex flex-col items-center justify-center p-8 relative font-headline cursor-pointer group">
       {/* The Breathing Aura */}
       <div 
-        className="absolute w-64 h-64 rounded-full blur-3xl opacity-20 animate-pulse transition-all duration-1000"
+        className="absolute w-64 h-64 rounded-full blur-3xl opacity-20 animate-pulse transition-all duration-1000 group-hover:opacity-30"
         style={{ backgroundColor: stateColor, animationDuration: pulseDuration }}
       />
       
       {/* The Central Heart Container */}
       <div 
-        className="relative z-10 w-48 h-48 rounded-full flex items-center justify-center border-4 shadow-2xl transition-all duration-1000"
+        className="relative z-10 w-48 h-48 rounded-full flex items-center justify-center border-4 shadow-2xl transition-all duration-1000 group-hover:scale-105"
         style={{ 
           borderColor: `${stateColor}40`, 
           backgroundColor: `${stateColor}10`,
@@ -56,33 +52,6 @@ export default function HeartStatusAura({
         }}
       >
         <HeartHandshake size={80} style={{ color: stateColor }} className="drop-shadow-lg opacity-40 absolute inset-0 m-auto" />
-
-        {/* INTERACTIVE NODES INSIDE AURA */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          {/* HOLDERS NODE */}
-          <button 
-            onClick={(e) => {
-              e.stopPropagation();
-              onHoldersClick?.();
-            }}
-            className="absolute top-4 left-1/2 -translate-x-1/2 w-14 h-14 bg-black/80 border-2 border-[#10B981] rounded-full flex flex-col items-center justify-center text-[#10B981] shadow-lg shadow-[#10B981]/20 active:scale-90 transition-all pointer-events-auto hover:bg-[#10B981] hover:text-black group"
-          >
-            <Shield size={18} className="group-hover:scale-110 transition-transform" />
-            <span className="text-[6px] font-black uppercase tracking-widest mt-0.5">Holders</span>
-          </button>
-
-          {/* WITNESSES NODE */}
-          <button 
-            onClick={(e) => {
-              e.stopPropagation();
-              onWitnessesClick?.();
-            }}
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 w-14 h-14 bg-black/80 border-2 border-amber-500 rounded-full flex flex-col items-center justify-center text-amber-500 shadow-lg shadow-amber-500/20 active:scale-90 transition-all pointer-events-auto hover:bg-amber-500 hover:text-black group"
-          >
-            <Users2 size={18} className="group-hover:scale-110 transition-transform" />
-            <span className="text-[6px] font-black uppercase tracking-widest mt-0.5">Witnesses</span>
-          </button>
-        </div>
       </div>
 
       {/* Status Text */}

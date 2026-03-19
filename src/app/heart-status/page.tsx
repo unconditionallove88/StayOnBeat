@@ -4,15 +4,17 @@
 import { useState, useEffect } from 'react';
 import HeartStatusAura from "@/components/dashboard/HeartStatusAura";
 import LoveCircleList from "@/components/dashboard/LoveCircle";
-import { Activity, ArrowLeft, Watch, Info } from "lucide-react";
+import { Activity, ArrowLeft, Watch, Info, Shield, Users2 } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { LoveCircleChat } from '@/components/chat/LoveCircleChat';
+import { PartyCircleChat } from '@/components/chat/PartyCircleChat';
 
 /**
  * @fileOverview Love Circle Detailed Rhythm Page.
- * Visualizes the high-fidelity living pulse and baseline data.
- * Calibrated: "should" removed, renamed to Love Circle.
+ * Visualizes the high-fidelity living pulse and provides entry to Holders and Witnesses.
  */
 export default function MyHeartPage() {
   const router = useRouter();
@@ -21,6 +23,9 @@ export default function MyHeartPage() {
   const [heartRate, setHeartRate] = useState(75);
   const [mounted, setMounted] = useState(false);
   const [lang, setLang] = useState<'en' | 'de'>('en');
+  
+  const [holdersOpen, setHoldersOpen] = useState(false);
+  const [witnessesOpen, setWitnessesOpen] = useState(false);
 
   const userDocRef = useMemoFirebase(() => {
     if (!firestore || !user?.uid) return null;
@@ -40,12 +45,11 @@ export default function MyHeartPage() {
     const interval = setInterval(() => {
       setHeartRate(prev => {
         const drift = Math.random() > 0.5 ? 1 : -1;
-        const target = profile?.pulseBaseline?.restingBPM ? profile.pulseBaseline.restingBPM + 15 : 75;
         return Math.max(50, Math.min(160, prev + drift));
       });
     }, 3000);
     return () => clearInterval(interval);
-  }, [profile?.pulseBaseline?.restingBPM]);
+  }, []);
 
   if (!mounted) return null;
 
@@ -70,7 +74,7 @@ export default function MyHeartPage() {
       </header>
 
       <div className="flex-1 flex flex-col items-center justify-center relative z-10 gap-8">
-        {/* 1. THE AURA */}
+        {/* 1. THE AURA (Visual Only Now) */}
         <div className="flex flex-col items-center gap-4">
           <HeartStatusAura 
             heartRate={heartRate} 
@@ -82,8 +86,37 @@ export default function MyHeartPage() {
             Demo Mode · Simulated Data
           </span>
         </div>
+
+        {/* 2. CHAT ENTRY POINTS - EXCLUSIVE TO THIS PAGE */}
+        <div className="grid grid-cols-2 gap-6 w-full max-w-sm">
+          <button 
+            onClick={() => setHoldersOpen(true)}
+            className="aspect-square rounded-[2.5rem] bg-white/5 border border-[#10B981]/20 flex flex-col items-center justify-center gap-4 hover:bg-[#10B981]/5 hover:border-[#10B981] transition-all group shadow-2xl"
+          >
+            <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 group-hover:scale-110 transition-transform">
+              <Shield size={28} className="text-[#10B981]" />
+            </div>
+            <div className="text-center">
+              <p className="text-sm font-black uppercase tracking-tight">The Holders</p>
+              <p className="text-[8px] font-bold text-[#10B981] uppercase tracking-widest">Private Bonds</p>
+            </div>
+          </button>
+
+          <button 
+            onClick={() => setWitnessesOpen(true)}
+            className="aspect-square rounded-[2.5rem] bg-white/5 border border-amber-500/20 flex flex-col items-center justify-center gap-4 hover:bg-amber-500/5 hover:border-amber-500 transition-all group shadow-2xl"
+          >
+            <div className="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center border border-amber-500/20 group-hover:scale-110 transition-transform">
+              <Users2 size={28} className="text-amber-500" />
+            </div>
+            <div className="text-center">
+              <p className="text-sm font-black uppercase tracking-tight">The Witnesses</p>
+              <p className="text-[8px] font-bold text-amber-500 uppercase tracking-widest">Public Care</p>
+            </div>
+          </button>
+        </div>
         
-        {/* 2. BASELINE INFO CARD */}
+        {/* 3. BASELINE INFO CARD */}
         {profile?.pulseBaseline ? (
           <div className="w-full max-w-sm bg-white/5 border border-[#EBFB3B]/20 rounded-[2rem] p-6 animate-in slide-in-from-bottom-4 duration-700">
             <div className="flex items-center justify-between mb-4">
@@ -98,25 +131,13 @@ export default function MyHeartPage() {
               <span className="text-xs font-bold text-white/40 mb-1">RESTING BPM</span>
             </div>
             <div className="mt-4 pt-4 border-t border-white/5 flex items-start gap-3">
-              <Info size={14} className="text-[#EBFB3B] mt-0.5" />
+              <span className="text-[#EBFB3B] mt-0.5"><Info size={14} /></span>
               <p className="text-[9px] text-white/40 font-bold uppercase leading-relaxed tracking-wide">
                 Your Guardian is calibrated to this baseline. Thresholds adjust dynamically based on your resting rhythm. 🌿
               </p>
             </div>
           </div>
-        ) : (
-          <div className="w-full max-w-sm bg-[#10B981]/5 border border-dashed border-[#10B981]/20 rounded-[2rem] p-8 text-center animate-in fade-in duration-1000">
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">No Baseline Set</p>
-            <p className="text-[8px] font-bold text-[#10B981]/60 uppercase tracking-widest mt-2">Connect a wearable to calibrate your safety thresholds</p>
-          </div>
-        )}
-
-        {/* 3. LIVE EKG VISUAL */}
-        <div className="w-full max-w-xs h-20 opacity-20 relative overflow-hidden border-y border-white/5">
-           <div className="absolute inset-0 flex items-center justify-center">
-             <div className="w-full h-[2px] bg-[#10B981] shadow-[0_0_15px_#10B981] animate-pulse" />
-           </div>
-        </div>
+        ) : null}
       </div>
 
       <div className="space-y-6 shrink-0 relative z-10 mt-12">
@@ -130,6 +151,21 @@ export default function MyHeartPage() {
 
         <LoveCircleList lang={lang} />
       </div>
+
+      {/* Chat Dialogs */}
+      <Dialog open={holdersOpen} onOpenChange={setHoldersOpen}>
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh]">
+          <DialogTitle className="sr-only">The Holders</DialogTitle>
+          <LoveCircleChat />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={witnessesOpen} onOpenChange={setWitnessesOpen}>
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh]">
+          <DialogTitle className="sr-only">The Witnesses</DialogTitle>
+          <PartyCircleChat />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
