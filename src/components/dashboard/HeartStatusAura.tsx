@@ -57,7 +57,7 @@ export default function HeartStatusAura({
       {/* Status Text */}
       <div className="mt-12 text-center z-10">
         <p className="text-white/30 text-[10px] uppercase tracking-[0.4em] font-black mb-2">
-          {lang === "en" ? `Love Circle: ${mood}` : `Love Circle: ${mood}`}
+          {lang === "en" ? `My Mood: ${mood}` : `Meine Stimmung: ${mood}`}
         </p>
         <h2 className="text-white text-3xl font-black uppercase tracking-tighter leading-none">
           {isHighRisk ? (lang === 'en' ? "Intense" : "Intensiv") : isElevated ? (lang === 'en' ? "Elevated" : "Erhöht") : (lang === 'en' ? "Steady" : "Stetig")}
