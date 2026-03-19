@@ -1,15 +1,16 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
 import HeartStatusAura from "@/components/dashboard/HeartStatusAura";
-import LoveCircle from "@/components/dashboard/LoveCircle";
+import LoveCircleList from "@/components/dashboard/LoveCircle";
 import { Activity, ArrowLeft, Watch, Info } from "lucide-react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'navigation';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 
 /**
- * @fileOverview My Heart Detailed Rhythm Page.
+ * @fileOverview Love Circle Detailed Rhythm Page.
  * Visualizes the high-fidelity living pulse and baseline data.
  */
 export default function MyHeartPage() {
@@ -62,7 +63,7 @@ export default function MyHeartPage() {
           <ArrowLeft size={20} />
         </button>
         <div>
-          <h1 className="text-2xl font-black uppercase tracking-tighter">My Heart</h1>
+          <h1 className="text-2xl font-black uppercase tracking-tighter">Love Circle</h1>
           <p className="text-[10px] text-[#10B981] font-black uppercase tracking-[0.3em]">Sanctuary Pulse Analytics</p>
         </div>
       </header>
@@ -126,7 +127,7 @@ export default function MyHeartPage() {
           Recalibrate Baseline
         </button>
 
-        <LoveCircle lang={lang} />
+        <LoveCircleList lang={lang} />
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
 import GuardianSimulator from '@/components/dashboard/GuardianSimulator';
 import HeartStatusAura from '@/components/dashboard/HeartStatusAura';
-import LoveCircle from '@/components/dashboard/LoveCircle';
+import LoveCircleList from '@/components/dashboard/LoveCircle';
 import { CoCreation } from '@/components/dashboard/CoCreation';
 import { WearablesSync } from '@/components/dashboard/WearablesSync';
 import { AssistantPortal } from '@/components/chat/AssistantPortal';
@@ -266,7 +266,7 @@ export default function Dashboard() {
       </div>
 
       <ScrollArea className="flex-1">
-        <div className="max-w-4xl mx-auto px-6 py-8 space-y-8 pb-32">
+        <div className="max-w-4xl mx-auto px-6 py-8 space-y-12 pb-32">
           
           <div className="space-y-3">
             <GuardianStatusBar 
@@ -278,7 +278,7 @@ export default function Dashboard() {
 
           <div className="space-y-4 text-center">
             <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
-              {lang === 'en' ? 'My Heart' : 'Mein Herz'}
+              {lang === 'en' ? 'Love Circle' : 'Love Circle'}
             </h2>
             <div className="block transition-all">
               <div className="flex flex-col items-center gap-4">
@@ -317,62 +317,64 @@ export default function Dashboard() {
           />
 
           <div className="w-full">
-            <LoveCircle lang={lang} />
+            <LoveCircleList lang={lang} />
           </div>
 
-          <div className="space-y-4">
-            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
+          <div className="space-y-8">
+            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2 text-center">
               {lang === 'en' ? 'Essential Tools' : 'Wichtige Tools'}
             </h2>
-            <div className="grid grid-cols-2 gap-4">
-              <Link href="/map" className="col-span-2 group bg-white/5 rounded-[2.5rem] border border-white/10 p-8 flex flex-col items-start gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-xl text-left">
-                <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20">
-                  <RadiatingThirdEye size={32} color="#3b82f6" />
+            <div className="grid grid-cols-2 gap-8 max-w-2xl mx-auto">
+              {/* THE PULSE CIRCLE */}
+              <Link href="/map" className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-2xl group active:scale-95 text-center p-6">
+                <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform">
+                  <RadiatingThirdEye size={40} color="#3b82f6" />
                 </div>
-                <div>
-                  <p className="text-2xl font-black uppercase tracking-tight">{lang === 'en' ? 'The Pulse' : 'The Pulse'}</p>
-                  <p className="text-xs font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Live Map & Navigation' : 'Live Karte & Navigation'}</p>
+                <div className="space-y-1">
+                  <p className="text-xl font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'The Pulse' : 'The Pulse'}</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Map</p>
                 </div>
               </Link>
 
+              {/* PULSE LAB CIRCLE */}
               <button 
                 onClick={() => setLabOpen(true)} 
-                className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all text-left shadow-xl"
+                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all shadow-2xl group active:scale-95 text-center p-6"
               >
-                <div className="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20">
-                  <Microscope size={32} className="text-white" />
+                <div className="w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center border border-emerald-500/20 group-hover:scale-110 transition-transform">
+                  <Microscope size={40} className="text-white" />
                 </div>
-                <div>
-                  <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'Pulse Lab' : 'Pulse Lab'}</p>
-                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Dose Analysis' : 'Dosis-Check'}</p>
+                <div className="space-y-1">
+                  <p className="text-xl font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'Pulse Lab' : 'Pulse Lab'}</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Dose</p>
                 </div>
               </button>
 
+              {/* PULSE SYNC CIRCLE */}
               <button 
                 onClick={() => setSyncOpen(true)} 
-                className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-[#EBFB3B]/30 hover:bg-[#EBFB3B]/5 transition-all text-left shadow-xl"
+                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-[#EBFB3B]/30 hover:bg-[#EBFB3B]/5 transition-all shadow-2xl group active:scale-95 text-center p-6"
               >
-                <div className="w-14 h-14 bg-[#EBFB3B]/10 rounded-2xl flex items-center justify-center border border-[#EBFB3B]/20">
-                  <Watch size={28} className="text-[#EBFB3B]" />
+                <div className="w-16 h-16 bg-[#EBFB3B]/10 rounded-full flex items-center justify-center border border-[#EBFB3B]/20 group-hover:scale-110 transition-transform">
+                  <Watch size={36} className="text-[#EBFB3B]" />
                 </div>
-                <div>
-                  <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'Pulse Sync' : 'Pulse Sync'}</p>
-                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Calibration' : 'Kalibrierung'}</p>
+                <div className="space-y-1">
+                  <p className="text-xl font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'Pulse Sync' : 'Pulse Sync'}</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Vitals</p>
                 </div>
               </button>
 
+              {/* IMMEDIATE HELP CIRCLE */}
               <button 
                 onClick={() => setShowSOS(true)}
-                className="col-span-2 group bg-red-600/10 rounded-[2.5rem] border border-red-600/20 p-6 flex items-center gap-6 hover:bg-red-600 transition-all text-left shadow-xl active:scale-[0.98]"
+                className="aspect-square rounded-full bg-red-600/10 border border-red-600/20 flex flex-col items-center justify-center gap-4 hover:bg-red-600 transition-all shadow-2xl group active:scale-95 text-center p-6"
               >
-                <div className="w-14 h-14 bg-red-600 text-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform shrink-0">
-                  <Shield size={28} />
+                <div className="w-16 h-16 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <Shield size={36} />
                 </div>
-                <div>
-                  <p className="text-xl font-black uppercase tracking-tight group-hover:text-white transition-colors">{lang === 'en' ? 'Immediate Help' : 'Sofort-Hilfe'}</p>
-                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1 group-hover:text-white/60 transition-colors">
-                    {lang === 'en' ? 'Instant SOS & Support' : 'Sofort SOS & Support'}
-                  </p>
+                <div className="space-y-1">
+                  <p className="text-xl font-black uppercase tracking-tight leading-none group-hover:text-white transition-colors">{lang === 'en' ? 'Immediate Help' : 'Sofort-Hilfe'}</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors">Support</p>
                 </div>
               </button>
             </div>
