@@ -1,6 +1,8 @@
+
 'use server';
 /**
  * @fileOverview A Genkit flow for answering substance safety questions with conversational memory and recovery reminders.
+ * Deeply integrated with Pulse Lab data and monitored by Pulse Guardian.
  *
  * - aiSafetyChat - A function that handles substance safety queries.
  * - AiSafetyChatInput - The input type for the aiSafetyChat function.
@@ -18,7 +20,7 @@ const ChatMessageSchema = z.object({
 export type ChatMessage = z.infer<typeof ChatMessageSchema>;
 
 const AiSafetyChatInputSchema = z.object({
-  substance: z.string().describe('The substance(s) the user has already taken or is asking about.'),
+  substance: z.string().describe('The substance(s) the user has already taken or is asking about from Pulse Lab.'),
   question: z.string().describe('The user\'s specific safety question.'),
   history: z.array(ChatMessageSchema).optional().describe('Previous chat history for context.'),
   userProfile: z.object({
@@ -41,12 +43,15 @@ const prompt = ai.definePrompt({
   name: 'aiSafetyChatPrompt',
   input: {schema: AiSafetyChatInputSchema},
   output: {schema: AiSafetyChatOutputSchema},
-  prompt: `You are a harm reduction AI expert.
-The user's current session intake is: {{{substance}}}
+  prompt: `You are the StayOnBeat Safety Advisor, acting as the voice of the Pulse Guardian.
+Your goal is to provide clinical yet compassionate harm reduction advice based on the user's Pulse Lab logs and health profile.
 
-User Profile Context:
-- Meds: {{#each userProfile.medications}}{{{this}}}, {{/each}}
+Context from Pulse Lab & Guardian:
+- Current Session Intake: {{{substance}}}
+- User Meds: {{#each userProfile.medications}}{{{this}}}, {{/each}}
 - Conditions: {{#each userProfile.healthConditions}}{{{this}}}, {{/each}}
+
+User Question: {{{question}}}
 
 {{#if history}}
 Previous Conversation:
@@ -55,15 +60,13 @@ Previous Conversation:
 {{/each}}
 {{/if}}
 
-Current Question: {{{question}}}
-
-Guidelines:
-1. Provide highly concise, bulleted safety advice based on the SPECIFIC substances logged.
-2. ALWAYS include a reminder about hydration (water) and electrolyte/nutrient support (magnesium or bananas) if relevant to stimulants or physical exertion.
-3. Give clear, direct responses that prioritize immediate safety and interaction risks.
-4. Limit responses to a maximum of 4 bullet points. 
-5. Use standard Sentence case. 
-6. Use **BOLD ALL-CAPS** strictly for **CRITICAL WARNINGS** or **SUBSTANCE NAMES**.
+CRITICAL HARM REDUCTION GUIDELINES:
+1. If the user asks about MIXING substances (e.g., Alcohol + GHB, Stimulant + Stimulant, SSRIs + MDMA), provide an immediate, unambiguous **CRITICAL WARNING** in all-caps.
+2. Reference their specific Pulse Lab intake in every response to show you are "connected."
+3. Mention that your analysis is monitored by the Pulse Guardian protocol.
+4. Always include hydration and electrolyte reminders for physical sessions.
+5. Limit responses to 4 concise bullet points. 
+6. Use standard Sentence case. 
 7. Keep the total response under 100 words.`,
 });
 

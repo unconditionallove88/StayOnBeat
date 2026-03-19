@@ -50,11 +50,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-/**
- * @fileOverview High-Fidelity Dashboard Sanctuary Hub.
- * Social sanctuary ports consolidated into the Love Circle component.
- */
-
 function SkyIcon() {
   const [icon, setIcon] = useState<React.ReactNode>(null);
 
@@ -87,20 +82,8 @@ function SkyIcon() {
 }
 
 const AFFIRMATIONS = {
-  EN: [
-    "I am loved.",
-    "Truth is love.",
-    "Joy is now.",
-    "I accept all.",
-    "Unity is peace."
-  ],
-  DE: [
-    "Ich bin geliebt.",
-    "Wahrheit ist liebe.",
-    "Freude ist jetzt.",
-    "Ich akzeptiere alles.",
-    "Einheit ist frieden."
-  ]
+  EN: ["I am loved.", "Truth is love.", "Joy is now.", "I accept all.", "Unity is peace."],
+  DE: ["Ich bin geliebt.", "Wahrheit ist liebe.", "Freude ist jetzt.", "Ich akzeptiere alles.", "Einheit ist frieden."]
 };
 
 const TOOLTIPS = {
@@ -141,18 +124,13 @@ export default function Dashboard() {
     setLang(currentLang);
 
     const pool = AFFIRMATIONS[currentLang.toUpperCase() as 'EN' | 'DE'];
-    setAffirmation(pool[Math.floor(rm() * pool.length)]);
+    setAffirmation(pool[Math.floor(Math.random() * pool.length)]);
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) router.replace("/auth");
     });
     return () => unsubscribe();
   }, [auth, router]);
-
-  // Helper for stable random
-  const rm = () => {
-    return Math.random();
-  }
 
   const userDocRef = useMemoFirebase(() => {
     if (!firestore || !user?.uid) return null;
@@ -302,19 +280,21 @@ export default function Dashboard() {
             <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
               {lang === 'en' ? 'My Heart' : 'Mein Herz'}
             </h2>
-            <Link href="/heart-status" className="block active:scale-[0.98] transition-all">
+            <div className="block transition-all">
               <div className="flex flex-col items-center gap-4">
                 <HeartStatusAura 
                   heartRate={simHeartRate} 
                   activeSubstances={activeSubstances} 
                   mood={firestoreProfile?.vibe?.currentLabel || (lang === 'en' ? "Steady" : "Stabil")}
                   lang={lang} 
+                  onHoldersClick={() => setHoldersOpen(true)}
+                  onWitnessesClick={() => setWitnessesOpen(true)}
                 />
                 <span className="text-[9px] uppercase tracking-widest text-slate-600 font-bold">
                   Demo Mode · Simulated Data
                 </span>
               </div>
-            </Link>
+            </div>
           </div>
 
           <div className="bg-[#10B981]/5 border border-[#10B981]/20 rounded-[2rem] p-6 text-center relative overflow-hidden group">
@@ -337,11 +317,7 @@ export default function Dashboard() {
           />
 
           <div className="w-full">
-            <LoveCircle 
-              lang={lang} 
-              onHoldersClick={() => setHoldersOpen(true)}
-              onWitnessesClick={() => setWitnessesOpen(true)}
-            />
+            <LoveCircle lang={lang} />
           </div>
 
           <div className="space-y-4">
@@ -395,7 +371,7 @@ export default function Dashboard() {
                 <div>
                   <p className="text-xl font-black uppercase tracking-tight group-hover:text-white transition-colors">{lang === 'en' ? 'Immediate Help' : 'Sofort-Hilfe'}</p>
                   <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1 group-hover:text-white/60 transition-colors">
-                    {lang === 'en' ? 'Notify Love Circle & Awareness Team' : 'Love Circle & Awareness benachrichtigen'}
+                    {lang === 'en' ? 'Instant SOS & Support' : 'Sofort SOS & Support'}
                   </p>
                 </div>
               </button>
