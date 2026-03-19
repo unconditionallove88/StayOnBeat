@@ -5,13 +5,14 @@ import { useState, useEffect } from 'react';
 import HeartStatusAura from "@/components/dashboard/HeartStatusAura";
 import LoveCircleList from "@/components/dashboard/LoveCircle";
 import { Activity, ArrowLeft, Watch, Info } from "lucide-react";
-import { useRouter } from 'navigation';
+import { useRouter } from 'next/navigation';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 
 /**
  * @fileOverview Love Circle Detailed Rhythm Page.
  * Visualizes the high-fidelity living pulse and baseline data.
+ * Calibrated: "should" removed, renamed to Love Circle.
  */
 export default function MyHeartPage() {
   const router = useRouter();
