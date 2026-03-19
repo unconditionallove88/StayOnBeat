@@ -17,7 +17,9 @@ import {
   Moon, 
   Sparkles,
   Microscope,
-  ArrowLeft
+  ArrowLeft,
+  Users2,
+  Users
 } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6SubstanceLab';
@@ -34,6 +36,8 @@ import LoveCircle from '@/components/dashboard/LoveCircle';
 import { CoCreation } from '@/components/dashboard/CoCreation';
 import { WearablesSync } from '@/components/dashboard/WearablesSync';
 import { AssistantPortal } from '@/components/chat/AssistantPortal';
+import { LoveCircleChat } from '@/components/chat/LoveCircleChat';
+import { PartyCircleChat } from '@/components/chat/PartyCircleChat';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { useUser, useFirestore, useDoc, useMemoFirebase, useAuth } from '@/firebase';
@@ -48,7 +52,7 @@ import {
 
 /**
  * @fileOverview High-Fidelity Dashboard Sanctuary Hub.
- * Features a dynamic celestial greeting icon (Sun/Moon cycle) with stars and glowing rays.
+ * Features entry points for The Witnesses and The Holders chats.
  */
 
 function SkyIcon() {
@@ -162,6 +166,8 @@ export default function Dashboard() {
   const [coCreationOpen, setCoCreationOpen] = useState(false);
   const [syncOpen, setSyncOpen] = useState(false);
   const [showSOS, setShowSOS] = useState(false);
+  const [holdersOpen, setHoldersOpen] = useState(false);
+  const [witnessesOpen, setWitnessesOpen] = useState(false);
 
   const medicalProfile = {
     healthConditions: firestoreProfile?.healthConditions || [],
@@ -330,7 +336,9 @@ export default function Dashboard() {
             lang={lang} 
           />
 
-          <LoveCircle lang={lang} />
+          <button onClick={() => setHoldersOpen(true)} className="w-full text-left active:scale-[0.99] transition-all">
+            <LoveCircle lang={lang} />
+          </button>
 
           <div className="space-y-4">
             <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
@@ -346,6 +354,19 @@ export default function Dashboard() {
                   <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Live Map' : 'Live Karte'}</p>
                 </div>
               </Link>
+
+              <button 
+                onClick={() => setWitnessesOpen(true)} 
+                className="group bg-white/5 rounded-[2.5rem] border border-white/10 p-6 flex flex-col items-start gap-4 hover:border-amber-500/30 hover:bg-amber-500/5 transition-all text-left shadow-xl"
+              >
+                <div className="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center border border-amber-500/20">
+                  <Users2 size={32} className="text-amber-500" />
+                </div>
+                <div>
+                  <p className="text-xl font-black uppercase tracking-tight">{lang === 'en' ? 'The Witnesses' : 'The Witnesses'}</p>
+                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">{lang === 'en' ? 'Collective Care' : 'Kollektive Fürsorge'}</p>
+                </div>
+              </button>
 
               <button 
                 onClick={() => setLabOpen(true)} 
@@ -375,9 +396,9 @@ export default function Dashboard() {
 
               <button 
                 onClick={() => setShowSOS(true)}
-                className="group bg-red-600/10 rounded-[2.5rem] border border-red-600/20 p-6 flex flex-col items-start gap-4 hover:bg-red-600 transition-all text-left shadow-xl active:scale-[0.98]"
+                className="col-span-2 group bg-red-600/10 rounded-[2.5rem] border border-red-600/20 p-6 flex items-center gap-6 hover:bg-red-600 transition-all text-left shadow-xl active:scale-[0.98]"
               >
-                <div className="w-14 h-14 bg-red-600 text-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                <div className="w-14 h-14 bg-red-600 text-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform shrink-0">
                   <Shield size={28} />
                 </div>
                 <div>
@@ -437,6 +458,20 @@ export default function Dashboard() {
         <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden">
           <DialogTitle className="sr-only">Pulse Sync</DialogTitle>
           <WearablesSync onComplete={() => setSyncOpen(false)} />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={holdersOpen} onOpenChange={setHoldersOpen}>
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh]">
+          <DialogTitle className="sr-only">The Holders</DialogTitle>
+          <LoveCircleChat />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={witnessesOpen} onOpenChange={setWitnessesOpen}>
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh]">
+          <DialogTitle className="sr-only">The Witnesses</DialogTitle>
+          <PartyCircleChat />
         </DialogContent>
       </Dialog>
     </main>
