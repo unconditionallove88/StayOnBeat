@@ -15,7 +15,7 @@ interface Props {
 /**
  * @fileOverview Love Circle Visualization.
  * Serves as a pure, radiant visual of the user's inner rhythm.
- * Interactive nodes moved to the detailed status page for visual clarity.
+ * Calibrated for mobile responsiveness with dynamic scaling.
  */
 export default function HeartStatusAura({ 
   heartRate, 
@@ -35,31 +35,31 @@ export default function HeartStatusAura({
   const pulseDuration = isHighRisk ? "1s" : isElevated ? "2s" : "4s";
 
   return (
-    <div className="flex flex-col items-center justify-center p-8 relative font-headline cursor-pointer group">
+    <div className="flex flex-col items-center justify-center p-4 md:p-8 relative font-headline cursor-pointer group">
       {/* The Breathing Aura */}
       <div 
-        className="absolute w-64 h-64 rounded-full blur-3xl opacity-20 animate-pulse transition-all duration-1000 group-hover:opacity-30"
+        className="absolute w-56 h-56 md:w-64 md:h-64 rounded-full blur-3xl opacity-20 animate-pulse transition-all duration-1000 group-hover:opacity-30"
         style={{ backgroundColor: stateColor, animationDuration: pulseDuration }}
       />
       
       {/* The Central Heart Container */}
       <div 
-        className="relative z-10 w-48 h-48 rounded-full flex items-center justify-center border-4 shadow-2xl transition-all duration-1000 group-hover:scale-105"
+        className="relative z-10 w-40 h-40 md:w-48 md:h-48 rounded-full flex items-center justify-center border-4 shadow-2xl transition-all duration-1000 group-hover:scale-105"
         style={{ 
           borderColor: `${stateColor}40`, 
           backgroundColor: `${stateColor}10`,
           boxShadow: `0 0 60px ${stateColor}20` 
         }}
       >
-        <HeartHandshake size={80} style={{ color: stateColor }} className="drop-shadow-lg opacity-40 absolute inset-0 m-auto" />
+        <HeartHandshake className="w-16 h-16 md:w-20 md:h-20 drop-shadow-lg opacity-40 absolute inset-0 m-auto" style={{ color: stateColor }} />
       </div>
 
       {/* Status Text */}
-      <div className="mt-12 text-center z-10">
-        <p className="text-white/30 text-[10px] uppercase tracking-[0.4em] font-black mb-2">
+      <div className="mt-8 md:mt-12 text-center z-10">
+        <p className="text-white/30 text-[9px] md:text-[10px] uppercase tracking-[0.4em] font-black mb-2">
           {lang === "en" ? `My Mood: ${mood}` : `Meine Stimmung: ${mood}`}
         </p>
-        <h2 className="text-white text-3xl font-black uppercase tracking-tighter leading-none">
+        <h2 className="text-white text-2xl md:text-3xl font-black uppercase tracking-tighter leading-none">
           {isHighRisk ? (lang === 'en' ? "Intense" : "Intensiv") : isElevated ? (lang === 'en' ? "Elevated" : "Erhöht") : (lang === 'en' ? "Steady" : "Stetig")}
         </h2>
       </div>
