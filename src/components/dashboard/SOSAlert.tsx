@@ -46,7 +46,8 @@ export function SOSAlert({ onClose }: SOSAlertProps) {
     if (!auth.currentUser || !firestore) return;
     
     if (priority === 'urgent') {
-      window.location.href = 'tel:112'; 
+      // In a real scenario, this might initiate a call or high-priority dispatch
+      console.log("Notifying Awareness Team...");
     }
 
     setStep('sending');
@@ -61,7 +62,7 @@ export function SOSAlert({ onClose }: SOSAlertProps) {
       triggeredAt: serverTimestamp(),
       status: 'sent',
       priority: priority,
-      message: `User triggered ${priority === 'urgent' ? 'EMERGENCY' : 'CARE'} support alert - Sanctuary UX Protocol`,
+      message: `User triggered ${priority === 'urgent' ? 'AWARENESS' : 'FRIENDS'} support alert - Sanctuary UX Protocol`,
       resolvedAt: null,
     });
 
@@ -81,8 +82,8 @@ export function SOSAlert({ onClose }: SOSAlertProps) {
           status: 'pending_delivery',
           priority: priority,
           message: priority === 'urgent' 
-            ? 'URGENT EMERGENCY: Your person has requested immediate help and is calling emergency services.' 
-            : 'CARE ALERT: Your person needs support. They are safe but need your presence.',
+            ? 'URGENT ALERT: Your person has requested immediate help from the Awareness Team.' 
+            : 'CARE ALERT: Your person needs your presence and support.',
         });
       });
     } catch (e) {
@@ -110,11 +111,11 @@ export function SOSAlert({ onClose }: SOSAlertProps) {
         <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 w-full max-w-sm mb-8 space-y-4 text-left">
           <div className="flex items-center gap-4 text-white/80">
             <CheckCircle2 size={18} className="text-[#10B981]" />
-            <p className="text-xs font-bold uppercase tracking-widest leading-tight">Your circle has been notified.</p>
+            <p className="text-xs font-bold uppercase tracking-widest leading-tight">Support nodes notified.</p>
           </div>
           <div className="flex items-center gap-4 text-white/80">
             <ShieldCheck size={18} className="text-[#10B981]" />
-            <p className="text-xs font-bold uppercase tracking-widest leading-tight">Awareness staff are aware.</p>
+            <p className="text-xs font-bold uppercase tracking-widest leading-tight">Privacy protected.</p>
           </div>
         </div>
         <button onClick={onClose} className="text-white/20 hover:text-white transition-colors text-[10px] font-black uppercase tracking-widest underline underline-offset-8">
@@ -171,16 +172,16 @@ export function SOSAlert({ onClose }: SOSAlertProps) {
             className="w-full h-24 bg-[#DC2626] text-white rounded-[1.5rem] font-black text-xl uppercase tracking-widest transition-all active:scale-95 shadow-[0_0_40px_rgba(220,38,38,0.3)] flex flex-col items-center justify-center leading-none"
           >
             <span className="flex items-center gap-3">
-              🔴 CALL FOR HELP NOW
+              NOTIFY AWARENESS TEAM
             </span>
-            <span className="text-[8px] font-bold mt-2 opacity-60 uppercase tracking-widest">Triggers Emergency Services & Care Team</span>
+            <span className="text-[8px] font-bold mt-2 opacity-60 uppercase tracking-widest">Handled with absolute discretion & privacy</span>
           </button>
           
           <button 
             onClick={() => handleSendSOS('standard')} 
             className="w-full h-20 bg-[#F59E0B] text-black rounded-[1.5rem] font-black text-lg uppercase tracking-[0.1em] transition-all active:scale-95 shadow-lg shadow-amber-500/10 flex items-center justify-center gap-3"
           >
-            🫶 Notify Care Team
+            Notify Friends
           </button>
 
           <div className="pt-4 text-center">
