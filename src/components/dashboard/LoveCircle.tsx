@@ -44,7 +44,10 @@ export default function LoveCircle({ lang = "en" }: { lang?: "en" | "de" }) {
             {person.name[0]}
           </div>
         ))}
-        <button className="w-14 h-14 rounded-full border-4 border-black bg-white/5 flex items-center justify-center text-white/20 hover:text-[#10B981] hover:bg-[#10B981]/10 transition-all font-black text-xl">
+        <button 
+          onClick={(e) => e.stopPropagation()}
+          className="w-14 h-14 rounded-full border-4 border-black bg-white/5 flex items-center justify-center text-white/20 hover:text-[#10B981] hover:bg-[#10B981]/10 transition-all font-black text-xl"
+        >
           +
         </button>
       </div>

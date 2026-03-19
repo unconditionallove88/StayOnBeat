@@ -336,9 +336,19 @@ export default function Dashboard() {
             lang={lang} 
           />
 
-          <button onClick={() => setHoldersOpen(true)} className="w-full text-left active:scale-[0.99] transition-all">
+          <div 
+            onClick={() => setHoldersOpen(true)} 
+            className="w-full text-left active:scale-[0.99] transition-all cursor-pointer group"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                setHoldersOpen(true);
+              }
+            }}
+          >
             <LoveCircle lang={lang} />
-          </button>
+          </div>
 
           <div className="space-y-4">
             <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
