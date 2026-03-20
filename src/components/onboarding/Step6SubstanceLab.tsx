@@ -126,7 +126,6 @@ export function Step6SubstanceLab({
       entry = {
         id: 'alcohol',
         name: 'Alcohol',
-        icon: Wine,
         items: activeItems,
         timestamp: new Date().toISOString(),
       };
@@ -135,7 +134,6 @@ export function Step6SubstanceLab({
       entry = {
         id: activeSubstance.id,
         name: activeSubstance.name,
-        icon: activeSubstance.icon,
         value: manualValue,
         unit: activeSubstance.unit,
         timestamp: new Date().toISOString(),
@@ -271,22 +269,26 @@ export function Step6SubstanceLab({
               <Calendar className="w-4 h-4" /> Session diary
             </h3>
             <div className="grid gap-3">
-              {sessionLogs.slice().reverse().map((log, i) => (
-                <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between shadow-lg">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center">
-                      <log.icon size={20} className="text-[#3EB489]" />
+              {sessionLogs.slice().reverse().map((log, i) => {
+                const substance = SUBSTANCES.find(s => s.id === log.id);
+                const Icon = substance?.icon || FlaskConical;
+                return (
+                  <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between shadow-lg">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center">
+                        <Icon size={20} className="text-[#3EB489]" />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <span className="text-sm font-black uppercase text-white">{log.name}</span>
+                        <span className="text-[10px] font-bold text-[#3EB489]">
+                          {log.id === 'alcohol' ? log.items.map((it: any) => `${it.count}x ${it.type}`).join(', ') : `${log.value}${log.unit}`}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <span className="text-sm font-black uppercase text-white">{log.name}</span>
-                      <span className="text-[10px] font-bold text-[#3EB489]">
-                        {log.id === 'alcohol' ? log.items.map((it: any) => `${it.count}x ${it.type}`).join(', ') : `${log.value}${log.unit}`}
-                      </span>
-                    </div>
+                    <button onClick={() => removeLog(sessionLogs.length - 1 - i)} className="p-2 text-white/20 hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
                   </div>
-                  <button onClick={() => removeLog(sessionLogs.length - 1 - i)} className="p-2 text-white/20 hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
