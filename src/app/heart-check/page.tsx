@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { Heart, Sparkles } from "lucide-react";
+import { Heart } from "lucide-react";
 
 /**
  * @fileOverview Heart Check Redirect Page.
  * A high-fidelity transitional loading state after successful authentication.
+ * Glowing star removed to maintain a grounded, monolithic brand focus.
  */
 export default function HeartCheckRedirect() {
   const router = useRouter();
@@ -46,7 +47,6 @@ export default function HeartCheckRedirect() {
             stroke="#3EB489"
             className="animate-pulse-heart drop-shadow-[0_0_30px_rgba(62,180,137,0.5)]"
           />
-          <Sparkles className="absolute -top-4 -right-4 text-[#3EB489] w-6 h-6 animate-pulse" />
         </div>
         
         <div className="space-y-2">

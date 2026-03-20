@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Heart, Sparkles, ShieldCheck } from "lucide-react";
+import { Heart, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -82,7 +82,6 @@ export default function Home() {
                 className="text-primary animate-pulse-heart drop-shadow-[0_0_20px_rgba(16,185,129,0.5)]"
               />
             </div>
-            <Sparkles className="absolute -top-2 -right-2 text-accent animate-pulse" size={28} />
           </div>
           <h1 className="mt-8 text-5xl md:text-6xl font-black tracking-tighter uppercase leading-none text-white text-center">
             STAY<span className="text-primary">ON</span>BEAT
