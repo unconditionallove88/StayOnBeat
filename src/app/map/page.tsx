@@ -15,8 +15,8 @@ import LoveCircle from '@/components/dashboard/LoveCircle';
 
 /**
  * @fileOverview High-Fidelity Radar Map ("The Pulse").
- * Refined: Tactical sidebar for web version to prevent map overlap. 
- * Organic bottom layout for iPhone screens.
+ * Refined: Love Circle reimagined as a floating Sanctuary Orb radar.
+ * Optimised for organic interaction on iPhone and clear tactical viewing on Web.
  */
 
 function MapContent() {
@@ -138,10 +138,10 @@ function MapContent() {
           </div>
         </div>
         
-        {/* Main Interface Wrapper: Splits between Side Sidebar (Web) and Bottom Stack (Mobile) */}
-        <div className="flex-1 flex flex-col md:flex-row justify-end items-end md:items-start gap-6 w-full max-w-7xl mx-auto pointer-events-none pt-6">
+        {/* Main Interface Wrapper: Floating ORB Layout */}
+        <div className="flex-1 flex flex-col md:flex-row justify-end items-end gap-6 w-full max-w-7xl mx-auto pointer-events-none pt-6">
           
-          {/* Side Info Panel (Left side on Web, Hidden on Mobile if info is active) */}
+          {/* Side Info Panel (Left side on Web) */}
           {!isFriendDistress && showPulseInfo && (
             <div className="mt-auto md:mt-0 md:mr-auto pointer-events-auto bg-black/90 backdrop-blur-md p-6 rounded-[2rem] border border-white/10 max-w-[240px] animate-in fade-in slide-in-from-left-4 duration-1000 space-y-2 relative">
               <button 
@@ -158,12 +158,12 @@ function MapContent() {
             </div>
           )}
 
-          {/* Tactical Sidebar (Web) / Bottom Console (Mobile) */}
-          <div className="w-full md:w-80 space-y-4 pointer-events-auto mt-auto md:mt-0 pb-6 md:pb-0">
+          {/* Floating Radar Console */}
+          <div className="w-full md:w-auto flex flex-col items-center md:items-end gap-4 pointer-events-auto mt-auto md:mt-0 pb-6 md:pb-0">
             
-            {/* Friend SOS Banner */}
+            {/* Friend SOS Banner - Tactical stack */}
             {isFriendDistress && (
-              <div className="bg-red-600 border-2 border-white/20 rounded-[2.5rem] p-6 shadow-[0_0_50px_rgba(220,38,38,0.4)] animate-in slide-in-from-right-4 duration-500 space-y-4">
+              <div className="bg-red-600 border-2 border-white/20 rounded-[2.5rem] p-6 shadow-[0_0_50px_rgba(220,38,38,0.4)] animate-in slide-in-from-right-4 duration-500 space-y-4 max-w-xs">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center border border-white/30 shrink-0">
                     <AlertTriangle size={24} className="text-white animate-pulse" />
@@ -183,20 +183,17 @@ function MapContent() {
               </div>
             )}
 
-            {/* The Love Circle & SOS Action */}
-            <div className="space-y-4">
-              <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-[2.5rem] overflow-hidden">
-                <div className="max-h-[300px] md:max-h-[450px] overflow-y-auto custom-scrollbar">
-                  <LoveCircle lang={lang} />
-                </div>
-              </div>
-
+            {/* The Circular Love Circle Orb */}
+            <div className="relative group">
+              <LoveCircle lang={lang} variant="map" />
+              
+              {/* Overlay SOS button - Floating outside or inside the orb context */}
               {!isFriendDistress && (
                 <button 
                   onClick={() => setSosActive(true)} 
-                  className="w-full bg-red-600 h-20 rounded-full font-black uppercase text-xs tracking-widest flex items-center justify-center gap-3 shadow-[0_0_40px_rgba(220,38,38,0.3)] active:scale-95 transition-all"
+                  className="absolute -top-4 -left-4 md:-top-6 md:-left-6 w-16 h-16 md:w-20 md:h-20 bg-red-600 rounded-full border-2 border-white flex items-center justify-center shadow-[0_0_40px_rgba(220,38,38,0.4)] active:scale-95 transition-all z-20"
                 >
-                  <Shield className="w-6 h-6" /> Need Immediate Support
+                  <Shield className="w-8 h-8 md:w-10 md:h-10 text-white" />
                 </button>
               )}
             </div>

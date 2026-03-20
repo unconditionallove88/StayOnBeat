@@ -2,14 +2,15 @@
 "use client";
 
 import React from "react";
-import { Users, AlertTriangle, Navigation, Heart, Sparkles } from "lucide-react";
+import { Users, AlertTriangle, Navigation, Heart, Sparkles, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 /**
- * @fileOverview Love Circle Component.
- * High-fidelity representation of your inner support network.
- * Features high-fidelity radiant status rings and tactical distress alerts.
+ * @fileOverview Love Circle Component (The Sanctuary Orb).
+ * Redesigned as a high-fidelity circular console for organic navigation.
+ * Features radiant status rings and tactical distress alerts within a circular manifest.
  */
 
 interface Friend {
@@ -21,10 +22,12 @@ interface Friend {
 
 interface LoveCircleProps {
   lang?: "en" | "de";
+  variant?: "dashboard" | "map";
 }
 
 export default function LoveCircle({ 
-  lang = "en"
+  lang = "en",
+  variant = "dashboard"
 }: LoveCircleProps) {
   const isEn = lang === "en";
   const router = useRouter();
@@ -42,97 +45,104 @@ export default function LoveCircle({
     }
   };
 
+  const hasDistress = circle.some(p => p.status !== 'steady');
+
   return (
-    <div className="w-full bg-white/5 border border-white/10 rounded-[2.5rem] p-6 md:p-8 shadow-2xl transition-all hover:border-[#10B981]/20 group font-headline relative overflow-hidden">
+    <div className={cn(
+      "relative aspect-square rounded-full flex flex-col items-center justify-center transition-all duration-700 font-headline group overflow-hidden",
+      variant === "map" 
+        ? "w-[280px] md:w-[320px] bg-black/60 border-2 border-white/10 backdrop-blur-2xl shadow-2xl" 
+        : "w-full max-w-[380px] mx-auto bg-white/5 border-2 border-[#10B981]/20 shadow-[0_0_60px_rgba(16,185,129,0.1)]"
+    )}>
+      {/* Background Radiant Glow */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#10B981]/5 to-transparent opacity-40 pointer-events-none" />
       <div className="absolute top-0 right-0 w-32 h-32 bg-[#10B981]/5 blur-3xl -z-10" />
       
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-[#10B981]/10 rounded-xl border border-[#10B981]/20">
-            <Users size={20} className="text-[#10B981]" />
+      {/* Header - Circular Arced positioning */}
+      <div className="pt-8 mb-4 text-center z-10 shrink-0">
+        <div className="flex flex-col items-center gap-1">
+          <div className="p-2 bg-[#10B981]/10 rounded-full border border-[#10B981]/20 mb-1">
+            <Users size={16} className="text-[#10B981]" />
           </div>
-          <div>
-            <h3 className="text-white text-[10px] font-black uppercase tracking-[0.3em]">
-              {isEn ? "Love Circle" : "Dein Love Circle"}
-            </h3>
-            <p className="text-[8px] font-bold text-[#10B981] uppercase tracking-widest mt-0.5">3 Hearts Active</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Sparkles size={12} className="text-[#10B981] animate-pulse" />
+          <h3 className="text-white text-[9px] font-black uppercase tracking-[0.4em]">
+            {isEn ? "Love Circle" : "Love Circle"}
+          </h3>
+          <p className="text-[7px] font-bold text-[#10B981] uppercase tracking-widest leading-none">
+            {circle.length} Active Souls
+          </p>
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-6 mb-8">
-        {circle.map((person, i) => (
-          <div key={i} className="flex flex-col items-center gap-3">
-            <button 
-              onClick={() => handleFriendClick(person)}
-              className={cn(
-                "relative w-16 h-16 rounded-full border-[3px] border-black flex items-center justify-center text-xs font-black text-black shadow-lg transition-all hover:scale-110 active:scale-95 group/avatar",
-                person.status === 'intense' && "animate-pulse shadow-[0_0_30px_rgba(220,38,38,0.6)]",
-                person.status === 'elevated' && "shadow-[0_0_20px_rgba(245,158,11,0.4)]"
-              )}
-              style={{ backgroundColor: person.status === 'intense' ? '#DC2626' : person.status === 'elevated' ? '#F59E0B' : '#10B981' }}
-            >
-              {/* RADIANT STATUS RINGS */}
-              {person.status !== 'steady' && (
-                <div className={cn(
-                  "absolute inset-[-6px] rounded-full border-2 opacity-40 animate-[ping_2s_infinite]",
-                  person.status === 'intense' ? "border-red-600" : "border-amber-500"
-                )} />
-              )}
-              {person.status === 'intense' && (
-                <div className="absolute inset-[-10px] rounded-full border-2 border-red-600/20 animate-[ping_3s_infinite]" />
-              )}
-
-              <span className="group-hover/avatar:scale-110 transition-transform relative z-10">{person.avatar}</span>
-              
-              {person.status !== 'steady' && (
-                <div className="absolute -top-1 -right-1 w-6 h-6 bg-black rounded-full border border-white/20 flex items-center justify-center shadow-lg z-20">
-                  <AlertTriangle size={12} className="text-white" />
-                </div>
-              )}
-            </button>
-            <span className={cn(
-              "text-[9px] font-black uppercase tracking-widest",
-              person.status === 'intense' ? "text-red-500" : person.status === 'elevated' ? "text-amber-500" : "text-white/40"
-            )}>
-              {person.name}
-            </span>
-          </div>
-        ))}
-        <button 
-          className="w-16 h-16 rounded-full border-4 border-black bg-white/5 flex items-center justify-center text-white/20 hover:text-[#10B981] hover:bg-[#10B981]/10 transition-all font-black text-xl"
-        >
-          +
-        </button>
-      </div>
-
-      {/* Distress Insight - High Fidelity Action */}
-      {circle.some(p => p.status !== 'steady') && (
-        <div className="bg-red-600/10 rounded-[2rem] p-6 border border-red-600/20 animate-in slide-in-from-bottom-2 shadow-inner">
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 bg-red-600/20 rounded-xl flex items-center justify-center border border-red-600/30 shrink-0">
-              <Heart className="w-5 h-5 text-red-500 animate-pulse" />
-            </div>
-            <div className="space-y-2 flex-1">
-              <p className="text-white text-[11px] font-black uppercase tracking-tight leading-none">Distress Detected</p>
-              <p className="text-white/60 text-[10px] leading-relaxed font-bold uppercase tracking-wide">
-                {isEn 
-                  ? "A circle member's rhythm is intense. Navigate to them on the Pulse to notify Awareness."
-                  : "Der Rhythmus eines Circle-Mitglieds ist intensiv. Navigiere auf dem Pulse zu ihnen."}
-              </p>
+      {/* Main Avatars Area - Scrollable but circular */}
+      <div className="flex-1 w-full flex items-center justify-center px-8 z-10 overflow-hidden">
+        <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+          {circle.map((person, i) => (
+            <div key={i} className="flex flex-col items-center gap-2">
               <button 
-                onClick={() => router.push('/map?focus=max&status=intense')}
-                className="flex items-center gap-2 bg-[#10B981] text-black px-4 py-2.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] mt-2 active:scale-95 transition-all shadow-lg shadow-[#10B981]/20"
+                onClick={() => handleFriendClick(person)}
+                className={cn(
+                  "relative w-14 h-14 md:w-16 md:h-16 rounded-full border-[3px] border-black flex items-center justify-center text-xs font-black text-black shadow-lg transition-all hover:scale-110 active:scale-95 group/avatar",
+                  person.status === 'intense' && "animate-pulse shadow-[0_0_30px_rgba(220,38,38,0.6)]",
+                  person.status === 'elevated' && "shadow-[0_0_20px_rgba(245,158,11,0.4)]"
+                )}
+                style={{ backgroundColor: person.status === 'intense' ? '#DC2626' : person.status === 'elevated' ? '#F59E0B' : '#10B981' }}
               >
-                <Navigation size={12} /> {isEn ? "Navigate to Soul" : "Zum Seelenort"}
+                {/* RADIANT STATUS RINGS */}
+                {person.status !== 'steady' && (
+                  <div className={cn(
+                    "absolute inset-[-6px] rounded-full border-2 opacity-40 animate-[ping_2s_infinite]",
+                    person.status === 'intense' ? "border-red-600" : "border-amber-500"
+                  )} />
+                )}
+                {person.status === 'intense' && (
+                  <div className="absolute inset-[-10px] rounded-full border-2 border-red-600/20 animate-[ping_3s_infinite]" />
+                )}
+
+                <span className="group-hover/avatar:scale-110 transition-transform relative z-10 uppercase">{person.avatar}</span>
+                
+                {person.status !== 'steady' && (
+                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-black rounded-full border border-white/20 flex items-center justify-center shadow-lg z-20">
+                    <AlertTriangle size={10} className="text-white" />
+                  </div>
+                )}
               </button>
+              <span className={cn(
+                "text-[8px] font-black uppercase tracking-widest",
+                person.status === 'intense' ? "text-red-500" : person.status === 'elevated' ? "text-amber-500" : "text-white/40"
+              )}>
+                {person.name}
+              </span>
             </div>
-          </div>
+          ))}
+          
+          <button 
+            className="w-14 h-14 md:w-16 md:h-16 rounded-full border-4 border-dashed border-white/10 bg-white/5 flex items-center justify-center text-white/20 hover:text-[#10B981] hover:border-[#10B981]/30 hover:bg-[#10B981]/5 transition-all"
+          >
+            <Plus size={20} />
+          </button>
         </div>
-      )}
+      </div>
+
+      {/* Bottom Action - Appears within the circle if distress detected */}
+      <div className="pb-8 px-8 w-full z-10 shrink-0">
+        {hasDistress ? (
+          <button 
+            onClick={() => router.push('/map?focus=max&status=intense')}
+            className="w-full bg-red-600/20 hover:bg-red-600/30 border border-red-600/40 py-3 rounded-full flex flex-col items-center justify-center gap-1 transition-all active:scale-95 group/sos animate-in slide-in-from-bottom-2"
+          >
+            <div className="flex items-center gap-2">
+              <Navigation size={10} className="text-red-500 animate-pulse" />
+              <span className="text-[8px] font-black uppercase tracking-widest text-red-500">Distress Detected</span>
+            </div>
+            <span className="text-[7px] font-bold text-white/40 uppercase tracking-widest">Navigate to Soul</span>
+          </button>
+        ) : (
+          <div className="text-center">
+            <Sparkles size={12} className="text-white/10 mx-auto animate-pulse" />
+            <p className="text-[7px] font-black text-white/10 uppercase tracking-[0.5em] mt-2">Collective Care Sync</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

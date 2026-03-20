@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -28,7 +29,7 @@ import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
 import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 import GuardianSimulator from '@/components/dashboard/GuardianSimulator';
 import HeartStatusAura from '@/components/dashboard/HeartStatusAura';
-import LoveCircleList from '@/components/dashboard/LoveCircle';
+import LoveCircle from '@/components/dashboard/LoveCircle';
 import { CoCreation } from '@/components/dashboard/CoCreation';
 import { WearablesSync } from '@/components/dashboard/WearablesSync';
 import { AssistantPortal } from '@/components/chat/AssistantPortal';
@@ -307,8 +308,8 @@ export default function Dashboard() {
             </Link>
           </div>
 
-          <div className="w-full">
-            <LoveCircleList lang={lang} />
+          <div className="w-full flex justify-center">
+            <LoveCircle lang={lang} variant="dashboard" />
           </div>
 
           <div className="space-y-6">
