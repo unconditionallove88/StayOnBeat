@@ -16,6 +16,8 @@ import {
   Moon, 
   Sparkles,
   Microscope,
+  Settings2,
+  ChevronDown
 } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6SubstanceLab';
@@ -35,11 +37,17 @@ import { useUser, useFirestore, useDoc, useMemoFirebase, useAuth } from '@/fireb
 import { doc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { checkSafetyStatus } from '@/lib/guardian';
+import { playHeartbeat } from '@/lib/resonance';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 function SkyIcon() {
   const [icon, setIcon] = useState<React.ReactNode>(null);
@@ -79,17 +87,17 @@ const AFFIRMATIONS = {
 const TOOLTIPS = {
   en: {
     vibe: "Mood Check-in",
-    cocreation: "Co-Creation: Shape the Sanctuary",
-    assistant: "Personal AI Assistant & Advisor",
-    profile: "My Sanctuary Profile",
-    logout: "Step away for a moment"
+    cocreation: "Co-Creation",
+    assistant: "AI Assistant",
+    profile: "My Profile",
+    logout: "Step away"
   },
   de: {
     vibe: "Stimmungs Check-in",
-    cocreation: "Ko-Kreation: Den Raum gestalten",
-    assistant: "Persönlicher KI-Assistent & Berater",
-    profile: "Mein Refugium-Profil",
-    logout: "Einen Moment wegtreten"
+    cocreation: "Ko-Kreation",
+    assistant: "KI-Assistent",
+    profile: "Mein Profil",
+    logout: "Abmelden"
   }
 };
 
@@ -105,6 +113,7 @@ export default function Dashboard() {
   const [simHeartRate, setSimHeartRate] = useState(75);
   const [simSubstanceCount, setSimSubstanceCount] = useState(0);
   const [activeSubstances, setActiveSubstances] = useState<string[]>([]);
+  const [isSimulatorOpen, setIsSimulatorOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -152,9 +161,15 @@ export default function Dashboard() {
   const guardianStatus: 'safe' | 'caution' | 'locked' = isLocked ? 'locked' : (isCaution ? 'caution' : 'safe');
 
   const handleLogout = async () => {
+    playHeartbeat();
     await auth.signOut();
     localStorage.clear();
     router.push('/');
+  };
+
+  const handlePortalClick = (action: () => void) => {
+    playHeartbeat();
+    action();
   };
 
   if (!mounted || isUserLoading || isProfileLoading) {
@@ -186,7 +201,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-1 md:gap-2 flex-shrink-0">
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="cursor-pointer">
+                <div onClick={() => playHeartbeat()}>
                   <VibeMirror vibe={firestoreProfile?.vibe} />
                 </div>
               </TooltipTrigger>
@@ -198,7 +213,7 @@ export default function Dashboard() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <button 
-                  onClick={() => setCoCreationOpen(true)} 
+                  onClick={() => handlePortalClick(() => setCoCreationOpen(true))} 
                   className="p-1.5 md:p-2.5 bg-[#90EE90]/10 rounded-full border border-[#90EE90]/30 hover:border-[#90EE90] transition-colors active:scale-95"
                 >
                   <Sprout className="w-4 h-4 md:w-5 md:h-5 text-[#90EE90]" />
@@ -212,7 +227,7 @@ export default function Dashboard() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <button 
-                  onClick={() => setAiBotOpen(true)} 
+                  onClick={() => handlePortalClick(() => setAiBotOpen(true))} 
                   className="p-1.5 md:p-2.5 bg-blue-600/10 rounded-full border border-blue-500/30 transition-colors active:scale-95"
                 >
                   <Bot className="w-4 h-4 md:w-5 md:h-5 text-blue-400" />
@@ -223,11 +238,17 @@ export default function Dashboard() {
               </TooltipContent>
             </Tooltip>
             
-            <PulseGuardianBanner lang={lang} variant="icon" />
+            <div onClick={() => playHeartbeat()}>
+              <PulseGuardianBanner lang={lang} variant="icon" />
+            </div>
 
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link href="/profile" className="p-1.5 md:p-2.5 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all active:scale-95">
+                <Link 
+                  href="/profile" 
+                  onClick={() => playHeartbeat()}
+                  className="p-1.5 md:p-2.5 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all active:scale-95"
+                >
                   <User className="w-4 h-4 md:w-5 md:h-5 text-white/40" />
                 </Link>
               </TooltipTrigger>
@@ -254,7 +275,7 @@ export default function Dashboard() {
       </div>
 
       <ScrollArea className="flex-1">
-        <div className="max-w-4xl mx-auto px-6 py-6 md:py-8 space-y-10 md:space-y-12 pb-32">
+        <div className="max-w-4xl mx-auto px-6 py-4 md:py-8 space-y-8 md:space-y-12 pb-32">
           
           <div className="space-y-3">
             <GuardianStatusBar 
@@ -264,54 +285,41 @@ export default function Dashboard() {
             />
           </div>
 
-          <div className="space-y-4 text-center">
+          <div className="space-y-2 text-center">
             <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
               {lang === 'en' ? 'My Rhythm' : 'Mein Rhythmus'}
             </h2>
-            <Link href="/heart-status" className="block transition-all active:scale-95">
-              <div className="flex flex-col items-center gap-4">
+            <Link 
+              href="/heart-status" 
+              onClick={() => playHeartbeat()}
+              className="block transition-all active:scale-95"
+            >
+              <div className="flex flex-col items-center gap-2">
                 <HeartStatusAura 
                   heartRate={simHeartRate} 
                   activeSubstances={activeSubstances} 
                   mood={firestoreProfile?.vibe?.currentLabel || (lang === 'en' ? "Steady" : "Stabil")}
                   lang={lang} 
                 />
-                <span className="text-[9px] uppercase tracking-widest text-slate-600 font-bold">
-                  Demo Mode · Simulated Data
-                </span>
+                <p className="text-[11px] font-black uppercase tracking-tight text-white/60 italic">"{affirmation}"</p>
               </div>
             </Link>
           </div>
-
-          <div className="bg-[#10B981]/5 border border-[#10B981]/20 rounded-[2rem] p-6 text-center relative overflow-hidden group">
-            <p className="text-sm md:text-base font-black uppercase tracking-tight text-white/80 italic">"{affirmation}"</p>
-          </div>
-
-          <GuardianSimulator 
-            heartRate={simHeartRate} 
-            setHeartRate={setSimHeartRate}
-            substanceCount={simSubstanceCount}
-            setSubstanceCount={(count) => {
-              setSimSubstanceCount(count);
-              const mockSubstances = Array(count).fill('Substance');
-              if (count >= 1) mockSubstances[0] = 'Alcohol';
-              if (count >= 2) mockSubstances[1] = 'MDMA';
-              if (count >= 3) mockSubstances[2] = 'Poppers';
-              setActiveSubstances(mockSubstances);
-            }}
-            lang={lang} 
-          />
 
           <div className="w-full">
             <LoveCircleList lang={lang} />
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-6">
             <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2 text-center">
               {lang === 'en' ? 'Essential Tools' : 'Wichtige Tools'}
             </h2>
             <div className="grid grid-cols-2 gap-4 md:gap-8 max-w-2xl mx-auto">
-              <Link href="/map" className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 md:gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-2xl group active:scale-95 text-center p-4 md:p-6">
+              <Link 
+                href="/map" 
+                onClick={() => playHeartbeat()}
+                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 md:gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-2xl group active:scale-95 text-center p-4 md:p-6"
+              >
                 <div className="w-12 h-12 md:w-16 md:h-16 bg-blue-500/10 rounded-full flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform">
                   <RadiatingThirdEye size={32} className="md:w-10 md:h-10" color="#3b82f6" />
                 </div>
@@ -322,7 +330,7 @@ export default function Dashboard() {
               </Link>
 
               <button 
-                onClick={() => setLabOpen(true)} 
+                onClick={() => handlePortalClick(() => setLabOpen(true))} 
                 className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 md:gap-4 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all shadow-2xl group active:scale-95 text-center p-4 md:p-6"
               >
                 <div className="w-12 h-12 md:w-16 md:h-16 bg-emerald-500/10 rounded-full flex items-center justify-center border border-emerald-500/20 group-hover:scale-110 transition-transform">
@@ -335,7 +343,7 @@ export default function Dashboard() {
               </button>
 
               <button 
-                onClick={() => setSyncOpen(true)} 
+                onClick={() => handlePortalClick(() => setSyncOpen(true))} 
                 className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 md:gap-4 hover:border-[#EBFB3B]/30 hover:bg-[#EBFB3B]/5 transition-all shadow-2xl group active:scale-95 text-center p-4 md:p-6"
               >
                 <div className="w-12 h-12 md:w-16 md:h-16 bg-[#EBFB3B]/10 rounded-full flex items-center justify-center border border-[#EBFB3B]/20 group-hover:scale-110 transition-transform">
@@ -348,7 +356,7 @@ export default function Dashboard() {
               </button>
 
               <button 
-                onClick={() => setShowSOS(true)}
+                onClick={() => handlePortalClick(() => setShowSOS(true))}
                 className="aspect-square rounded-full bg-red-600/10 border border-red-600/20 flex flex-col items-center justify-center gap-3 md:gap-4 hover:bg-red-600 transition-all shadow-2xl group active:scale-95 text-center p-4 md:p-6"
               >
                 <div className="w-12 h-12 md:w-16 md:h-16 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
@@ -360,6 +368,37 @@ export default function Dashboard() {
                 </div>
               </button>
             </div>
+          </div>
+
+          <div className="pt-8">
+            <Collapsible open={isSimulatorOpen} onOpenChange={setIsSimulatorOpen}>
+              <CollapsibleTrigger asChild>
+                <button 
+                  onClick={() => playHeartbeat()}
+                  className="w-full flex items-center justify-center gap-2 py-4 text-[9px] font-black uppercase text-white/10 hover:text-white/40 transition-colors"
+                >
+                  <Settings2 size={12} />
+                  {lang === 'en' ? 'Lab Calibration (Dev Access)' : 'Labor-Kalibrierung (Dev-Zugriff)'}
+                  <ChevronDown className={cn("transition-transform", isSimulatorOpen && "rotate-180")} size={12} />
+                </button>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="pt-4">
+                <GuardianSimulator 
+                  heartRate={simHeartRate} 
+                  setHeartRate={setSimHeartRate}
+                  substanceCount={simSubstanceCount}
+                  setSubstanceCount={(count) => {
+                    setSimSubstanceCount(count);
+                    const mockSubstances = Array(count).fill('Substance');
+                    if (count >= 1) mockSubstances[0] = 'Alcohol';
+                    if (count >= 2) mockSubstances[1] = 'MDMA';
+                    if (count >= 3) mockSubstances[2] = 'Poppers';
+                    setActiveSubstances(mockSubstances);
+                  }}
+                  lang={lang} 
+                />
+              </CollapsibleContent>
+            </Collapsible>
           </div>
         </div>
       </ScrollArea>
