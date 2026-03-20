@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuth, useFirestore } from '@/firebase';
 import { collection, doc, serverTimestamp } from 'firebase/firestore';
 import { addDocumentNonBlocking, setDocumentNonBlocking } from '@/firebase';
@@ -42,6 +43,7 @@ interface SOSAlertProps {
 export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
   const auth = useAuth();
   const firestore = useFirestore();
+  const router = useRouter();
   const [step, setStep] = useState<'confirm' | 'sending' | 'sent'>('confirm');
   const [countdown, setCountdown] = useState(15);
   const isFriendMode = !!friendName;
@@ -59,13 +61,14 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
 
   const handleSendSOS = async (priority: 'urgent' | 'standard' | 'grounding') => {
     playHeartbeat();
-    if (!auth.currentUser || !firestore) return;
     
     if (priority === 'grounding') {
       onClose();
+      router.push('/self-care');
       return;
     }
 
+    if (!auth.currentUser || !firestore) return;
     setStep('sending');
 
     const userUid = auth.currentUser.uid;
@@ -111,7 +114,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
             </div>
             <div className="flex items-center gap-4 text-white/80">
               <ShieldCheck size={18} className="text-[#10B981]" />
-              <p className="text-xs font-bold uppercase tracking-widest leading-tight">Privacy protocols active.</p>
+              <p className="text-xs font-bold uppercase tracking-widest rendering-tight">Privacy protocols active.</p>
             </div>
           </div>
         </div>
@@ -139,7 +142,6 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
     <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[4000] flex items-end sm:items-center justify-center p-0 sm:p-6 animate-in fade-in duration-500 font-headline">
       <div className="bg-[#0a0a0a] w-full max-w-2xl rounded-t-[3.5rem] sm:rounded-[3.5rem] border-t-2 sm:border-2 border-white/10 flex flex-col h-[95dvh] sm:h-[90vh] max-h-[95dvh] sm:max-h-[90vh] shadow-[0_-20px_100px_rgba(0,0,0,0.5)] relative overflow-hidden">
         
-        {/* Floating Close Button */}
         <button 
           onClick={() => { playHeartbeat(); onClose(); }}
           className="absolute top-8 right-8 p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white transition-all z-[100]"
@@ -218,7 +220,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                 <div className="p-6 bg-emerald-500/5 border-2 border-emerald-500/20 rounded-[2rem] space-y-4">
                   <div className="flex items-center gap-4">
                     <div className="p-3 bg-emerald-500/20 rounded-xl">
-                      <Moon className="text-emerald-500" size={24} />
+                      <Wind className="text-emerald-500" size={24} />
                     </div>
                     <div>
                       <p className="text-sm font-black uppercase text-white tracking-tight">Grounding Path</p>
