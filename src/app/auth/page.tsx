@@ -1,15 +1,14 @@
+
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, Suspense } from "react";
-import { useAuth, useFirestore, setDocumentNonBlocking } from "@/firebase";
+import { useAuth, useFirestore, updateDocumentNonBlocking, setDocumentNonBlocking } from "@/firebase";
 import { 
   signInAnonymously,
-  onAuthStateChanged
 } from "firebase/auth";
 import { doc, serverTimestamp } from "firebase/firestore";
 import { 
-  Heart, 
   Eye, 
   EyeOff, 
   Loader2, 
@@ -20,10 +19,45 @@ import {
 import { cn } from "@/lib/utils";
 
 /**
- * @fileOverview Access Sanctuary (Auth) Page - Prototype Mode.
- * Bypasses real credential checks to allow any email/password for testing.
- * Special Bypass: Email 'awareness@love.com' redirects to Staff Console.
+ * @fileOverview Access Sanctuary (Auth) Page.
+ * Features high-fidelity localization for English and German.
+ * Bypasses real credential checks for prototype mode.
  */
+
+const CONTENT = {
+  en: {
+    welcome: "Welcome Home",
+    create: "Create Sanctuary",
+    prototype: "Prototype Mode Active 🔒",
+    emailLabel: "Email Address",
+    emailPlaceholder: "soul@stayonbeat.com",
+    passwordLabel: "Password",
+    passwordPlaceholder: "••••••••",
+    entering: "Entering...",
+    begin: "Begin Journey",
+    enter: "Enter Sanctuary",
+    alreadyAccount: "Already have an account? Sign In",
+    newHere: "New here? Join the circle",
+    staffAccess: "StayOnBeat • Staff Access via awareness@love.com",
+    errorMsg: "The sanctuary is calibrating... please try again. 🌿"
+  },
+  de: {
+    welcome: "Willkommen Zuhause",
+    create: "Refugium erstellen",
+    prototype: "Prototyp-Modus Aktiv 🔒",
+    emailLabel: "E-Mail-Adresse",
+    emailPlaceholder: "seele@stayonbeat.com",
+    passwordLabel: "Passwort",
+    passwordPlaceholder: "••••••••",
+    entering: "Eintritt...",
+    begin: "Reise beginnen",
+    enter: "Refugium betreten",
+    alreadyAccount: "Bereits ein Konto? Anmelden",
+    newHere: "Neu hier? Werde Teil des Kreises",
+    staffAccess: "StayOnBeat • Team-Zugang über awareness@love.com",
+    errorMsg: "Das Refugium kalibriert sich... bitte versuche es erneut. 🌿"
+  }
+};
 
 function AuthContent() {
   const router = useRouter();
@@ -39,6 +73,14 @@ function AuthContent() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lang, setLang] = useState<'en' | 'de'>('en');
+
+  useEffect(() => {
+    const savedLang = localStorage.getItem('stayonbeat_lang');
+    if (savedLang === 'DE') setLang('de');
+  }, []);
+
+  const t = CONTENT[lang];
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,7 +113,7 @@ function AuthContent() {
           vibe: { 
             current: "calm", 
             currentEmoji: "🍃", 
-            currentLabel: "Calm" 
+            currentLabel: lang === 'en' ? "Calm" : "Beruhigt" 
           }
         },
         { merge: true }
@@ -84,7 +126,7 @@ function AuthContent() {
         router.push("/dashboard");
       }
     } catch (err: any) {
-      setError("The sanctuary is calibrating... please try again. 🌿");
+      setError(t.errorMsg);
     } finally {
       setIsLoading(false);
     }
@@ -109,35 +151,35 @@ function AuthContent() {
             <ShieldCheck size={40} className="text-[#10B981]" />
           </div>
           <h1 className="text-4xl font-black text-white tracking-tighter uppercase leading-none mb-2">
-            {isSignUp ? "Create Sanctuary" : "Welcome Home"}
+            {isSignUp ? t.create : t.welcome}
           </h1>
           <p className="text-[#10B981] text-[10px] font-black uppercase tracking-[0.4em]">
-            Prototype Mode Active 🔒
+            {t.prototype}
           </p>
         </div>
 
         <form onSubmit={handleAuth} className="space-y-5">
           <div className="space-y-1.5">
-            <label className="text-[9px] font-black uppercase tracking-[0.3em] text-[#10B981] ml-2">Email Address</label>
+            <label className="text-[9px] font-black uppercase tracking-[0.3em] text-[#10B981] ml-2">{t.emailLabel}</label>
             <input
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full h-16 px-8 rounded-2xl border-2 border-white/5 bg-white/5 text-white placeholder:text-white/10 focus:border-[#10B981] focus:bg-white/10 outline-none transition-all font-bold text-base shadow-inner"
-              placeholder="soul@stayonbeat.com"
+              placeholder={t.emailPlaceholder}
               required
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[9px] font-black uppercase tracking-[0.3em] text-[#10B981] ml-2">Password</label>
+            <label className="text-[9px] font-black uppercase tracking-[0.3em] text-[#10B981] ml-2">{t.passwordLabel}</label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full h-16 px-8 rounded-2xl border-2 border-white/5 bg-white/5 text-white placeholder:text-white/10 focus:border-[#10B981] focus:bg-white/10 outline-none transition-all font-bold text-base shadow-inner"
-                placeholder="••••••••"
+                placeholder={t.passwordPlaceholder}
                 required
               />
               <button 
@@ -167,11 +209,11 @@ function AuthContent() {
             {isLoading ? (
               <>
                 <Loader2 size={24} className="animate-spin" />
-                <span>Entering...</span>
+                <span>{t.entering}</span>
               </>
             ) : (
               <span className="flex items-center gap-3">
-                {isSignUp ? "Begin Journey" : "Enter Sanctuary"}
+                {isSignUp ? t.begin : t.enter}
               </span>
             )}
           </button>
@@ -181,13 +223,13 @@ function AuthContent() {
           onClick={() => router.push(isSignUp ? "/auth?mode=signin" : "/auth?mode=signup")}
           className="w-full mt-10 text-[9px] font-black text-white/20 hover:text-[#10B981] transition-colors uppercase tracking-[0.4em] flex items-center justify-center gap-2"
         >
-          {isSignUp ? "Already have an account? Sign In" : "New here? Join the circle"}
+          {isSignUp ? t.alreadyAccount : t.newHere}
           <Sparkles size={12} />
         </button>
 
         <div className="mt-12 pt-8 border-t border-white/5">
           <p className="text-center text-[8px] text-white/10 uppercase tracking-[0.5em] font-black">
-            StayOnBeat • Staff Access via awareness@love.com
+            {t.staffAccess}
           </p>
         </div>
       </div>

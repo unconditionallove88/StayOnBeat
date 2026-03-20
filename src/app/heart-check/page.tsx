@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -8,16 +9,33 @@ import { Heart } from "lucide-react";
 
 /**
  * @fileOverview Heart Check Redirect Page.
- * A high-fidelity transitional loading state after successful authentication.
- * Glowing star removed to maintain a grounded, monolithic brand focus.
+ * Transitions users into the sanctuary with high-fidelity localization.
  */
+
+const CONTENT = {
+  en: {
+    title: "Your heart",
+    highlight: "is home 💚",
+    sub: "Preparing your sanctuary..."
+  },
+  de: {
+    title: "Dein Herz",
+    highlight: "ist dein Zuhause 💚",
+    sub: "Dein Refugium wird vorbereitet..."
+  }
+};
+
 export default function HeartCheckRedirect() {
   const router = useRouter();
   const auth = useAuth();
   const [mounted, setMounted] = useState(false);
+  const [lang, setLang] = useState<'en' | 'de'>('en');
 
   useEffect(() => {
     setMounted(true);
+    const savedLang = localStorage.getItem('stayonbeat_lang');
+    if (savedLang === 'DE') setLang('de');
+
     if (!auth) return;
 
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -33,6 +51,8 @@ export default function HeartCheckRedirect() {
   }, [auth, router]);
 
   if (!mounted) return null;
+
+  const t = CONTENT[lang];
 
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center text-center px-6 font-headline overflow-hidden relative">
@@ -51,10 +71,10 @@ export default function HeartCheckRedirect() {
         
         <div className="space-y-2">
           <h1 className="text-4xl font-black uppercase tracking-tighter text-white leading-none">
-            Your heart <br /> <span className="text-[#3EB489]">is home 💚</span>
+            {t.title} <br /> <span className="text-[#3EB489]">{t.highlight}</span>
           </h1>
           <p className="text-[#3EB489] text-[10px] font-black uppercase tracking-[0.4em] opacity-60">
-            Preparing your sanctuary...
+            {t.sub}
           </p>
         </div>
       </div>
