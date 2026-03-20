@@ -24,11 +24,13 @@ import {
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { playHeartbeat } from '@/lib/resonance';
 
 /**
  * @fileOverview Immediate Help (SOS) Portal.
  * Redesigned into a high-fidelity, categorized support center.
  * Framing: I love and respect my state of being. Support is a choice.
+ * Calibrated for iPhone scrolling integrity.
  */
 
 interface SOSAlertProps {
@@ -45,6 +47,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
   const isFriendMode = !!friendName;
 
   useEffect(() => {
+    playHeartbeat();
     let timer: NodeJS.Timeout;
     if (step === 'sent' && countdown > 0) {
       timer = setInterval(() => setCountdown(c => c - 1), 1000);
@@ -55,6 +58,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
   }, [step, countdown, onClose]);
 
   const handleSendSOS = async (priority: 'urgent' | 'standard' | 'grounding') => {
+    playHeartbeat();
     if (!auth.currentUser || !firestore) return;
     
     if (priority === 'grounding') {
@@ -133,39 +137,39 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[4000] flex items-end sm:items-center justify-center p-0 sm:p-6 animate-in fade-in duration-500 font-headline">
-      <div className="bg-[#0a0a0a] w-full max-w-2xl rounded-t-[3.5rem] sm:rounded-[3.5rem] border-t-2 sm:border-2 border-white/10 flex flex-col max-h-[95dvh] sm:max-h-[90vh] shadow-[0_-20px_100px_rgba(0,0,0,0.5)] relative overflow-hidden">
+      <div className="bg-[#0a0a0a] w-full max-w-2xl rounded-t-[3.5rem] sm:rounded-[3.5rem] border-t-2 sm:border-2 border-white/10 flex flex-col h-[95dvh] sm:h-[90vh] max-h-[95dvh] sm:max-h-[90vh] shadow-[0_-20px_100px_rgba(0,0,0,0.5)] relative overflow-hidden">
         
         {/* Floating Close Button */}
         <button 
-          onClick={onClose}
+          onClick={() => { playHeartbeat(); onClose(); }}
           className="absolute top-8 right-8 p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white transition-all z-[100]"
         >
           <X size={18} />
         </button>
 
-        <div className="p-10 pb-6 text-center shrink-0">
-          <div className="w-20 h-20 bg-red-600/10 border-2 border-red-600/30 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl">
-            <Heart size={40} className="text-[#DC2626]" fill="#DC2626" />
+        <div className="p-10 pb-4 text-center shrink-0">
+          <div className="w-16 h-16 bg-red-600/10 border-2 border-red-600/30 rounded-full flex items-center justify-center mx-auto mb-4 shadow-2xl">
+            <Heart size={32} className="text-[#DC2626]" fill="#DC2626" />
           </div>
-          <h2 className="text-4xl font-black uppercase tracking-tighter text-white leading-none">
+          <h2 className="text-3xl font-black uppercase tracking-tighter text-white leading-none">
             Do you need help?
           </h2>
-          <p className="text-white/40 text-[10px] font-black uppercase mt-4 tracking-[0.3em]">
+          <p className="text-white/40 text-[9px] font-black uppercase mt-3 tracking-[0.3em]">
             Choose the pathway that resonates now.
           </p>
         </div>
 
-        <ScrollArea className="flex-1 px-6 pb-10">
-          <div className="max-w-md mx-auto w-full">
+        <ScrollArea className="flex-1 px-6">
+          <div className="max-w-md mx-auto w-full pb-32">
             <Tabs defaultValue="emergency" className="w-full">
-              <TabsList className="w-full h-16 bg-white/5 border border-white/10 rounded-full p-1.5 mb-8">
-                <TabsTrigger value="emergency" className="flex-1 rounded-full text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-red-600 data-[state=active]:text-white">Emergency</TabsTrigger>
-                <TabsTrigger value="support" className="flex-1 rounded-full text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-[#F59E0B] data-[state=active]:text-black">Circle</TabsTrigger>
-                <TabsTrigger value="stillness" className="flex-1 rounded-full text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-[#10B981] data-[state=active]:text-black">Stillness</TabsTrigger>
+              <TabsList className="w-full h-14 bg-white/5 border border-white/10 rounded-full p-1.5 mb-6">
+                <TabsTrigger value="emergency" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-red-600 data-[state=active]:text-white">Emergency</TabsTrigger>
+                <TabsTrigger value="support" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-[#F59E0B] data-[state=active]:text-black">Circle</TabsTrigger>
+                <TabsTrigger value="stillness" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-[#10B981] data-[state=active]:text-black">Stillness</TabsTrigger>
               </TabsList>
 
-              <TabsContent value="emergency" className="space-y-4 animate-in fade-in slide-in-from-bottom-2">
-                <div className="p-6 bg-red-600/5 border border-red-600/20 rounded-[2rem] space-y-4">
+              <TabsContent value="emergency" className="space-y-4 animate-in fade-in slide-in-from-bottom-2 focus-visible:outline-none">
+                <div className="p-6 bg-red-600/5 border-2 border-red-600/20 rounded-[2rem] space-y-4">
                   <div className="flex items-center gap-4">
                     <div className="p-3 bg-red-600/20 rounded-xl">
                       <PhoneCall className="text-red-500" size={24} />
@@ -187,8 +191,8 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                 </div>
               </TabsContent>
 
-              <TabsContent value="support" className="space-y-4 animate-in fade-in slide-in-from-bottom-2">
-                <div className="p-6 bg-amber-500/5 border border-amber-500/20 rounded-[2rem] space-y-4">
+              <TabsContent value="support" className="space-y-4 animate-in fade-in slide-in-from-bottom-2 focus-visible:outline-none">
+                <div className="p-6 bg-amber-500/5 border-2 border-amber-500/20 rounded-[2rem] space-y-4">
                   <div className="flex items-center gap-4">
                     <div className="p-3 bg-amber-500/20 rounded-xl">
                       <Users className="text-amber-500" size={24} />
@@ -210,8 +214,8 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                 </div>
               </TabsContent>
 
-              <TabsContent value="stillness" className="space-y-4 animate-in fade-in slide-in-from-bottom-2">
-                <div className="p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-[2rem] space-y-4">
+              <TabsContent value="stillness" className="space-y-4 animate-in fade-in slide-in-from-bottom-2 focus-visible:outline-none">
+                <div className="p-6 bg-emerald-500/5 border-2 border-emerald-500/20 rounded-[2rem] space-y-4">
                   <div className="flex items-center gap-4">
                     <div className="p-3 bg-emerald-500/20 rounded-xl">
                       <Moon className="text-emerald-500" size={24} />
@@ -234,9 +238,9 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
               </TabsContent>
             </Tabs>
 
-            <div className="mt-10 pt-10 border-t border-white/5 text-center">
+            <div className="mt-6 pt-6 border-t border-white/5 text-center">
               <button 
-                onClick={onClose}
+                onClick={() => { playHeartbeat(); onClose(); }}
                 className="text-[#10B981] font-black text-xs uppercase tracking-[0.4em] hover:underline underline-offset-8 transition-all active:scale-95"
               >
                 All is well
