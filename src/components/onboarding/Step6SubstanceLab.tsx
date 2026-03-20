@@ -2,7 +2,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { 
   Loader2, 
   Search, 
@@ -23,12 +22,14 @@ import {
   Orbit, 
   Pill, 
   Diamond,
-  Wind
+  Wind,
+  CheckCircle2,
+  X
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { AiSafetyChat } from '@/components/chat/AiSafetyChat';
-import { ShieldPulseIcon } from '@/components/ui/shield-pulse-icon';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import CareShield from '@/components/dashboard/CareShield';
 import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
@@ -187,7 +188,7 @@ export function Step6SubstanceLab({
   return (
     <div className="flex flex-col h-full bg-black font-headline max-w-2xl mx-auto relative overflow-hidden">
       {/* Fixed Header */}
-      <div className="px-6 pt-12 pb-4 space-y-4 flex flex-col shrink-0 bg-black z-20 border-b border-white/5 shadow-2xl">
+      <header className="px-6 pt-12 pb-4 space-y-4 flex flex-col shrink-0 bg-black/95 backdrop-blur-md z-[60] border-b border-white/5 shadow-2xl">
         {onBack && (
           <button onClick={onBack} className="absolute top-4 left-4 text-white/40 hover:text-white transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest z-50">
             <ArrowLeft className="w-4 h-4" /> BACK
@@ -231,11 +232,50 @@ export function Step6SubstanceLab({
             className="w-full bg-white/5 border border-white/10 h-16 pl-14 rounded-3xl focus:border-[#3EB489] text-base outline-none transition-all shadow-inner"
           />
         </div>
-      </div>
+      </header>
 
-      {/* Viewport - Momentum scrolling for iPhone */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar px-6 pb-40 space-y-8 pt-6 touch-pan-y">
+      {/* Main Content Viewport - momentum scrolling */}
+      <div className="flex-1 overflow-y-auto custom-scrollbar px-6 pt-6 pb-40 space-y-8 touch-pan-y relative z-10">
         
+        {/* Session Diary - High visibility at top of scroll */}
+        {showDiary && sessionLogs.length > 0 && (
+          <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-500">
+            <div className="flex items-center justify-between px-2">
+              <h3 className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3">
+                <Calendar className="w-3 h-3" /> Session Diary
+              </h3>
+              <span className="text-[8px] font-bold text-white/20 uppercase tracking-widest">{sessionLogs.length} Records</span>
+            </div>
+            <div className="grid gap-3">
+              {sessionLogs.slice().reverse().map((log, i) => {
+                const substance = SUBSTANCES.find(s => s.id === log.id);
+                const Icon = substance?.icon || FlaskConical;
+                return (
+                  <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between shadow-lg group">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center border border-white/10">
+                        <Icon size={20} className="text-[#3EB489]" />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <span className="text-sm font-black uppercase text-white">{log.name}</span>
+                        <span className="text-[10px] font-bold text-[#3EB489]">
+                          {log.id === 'alcohol' ? log.items.map((it: any) => `${it.count}x ${it.type}`).join(', ') : `${log.value}${log.unit}`}
+                        </span>
+                      </div>
+                    </div>
+                    <button 
+                      onClick={() => removeLog(sessionLogs.length - 1 - i)} 
+                      className="p-2 text-white/10 hover:text-red-500 transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {showPoppersCard && (
           <div className="animate-in fade-in duration-500">
             <PoppersCard lang={lang} />
@@ -262,110 +302,103 @@ export function Step6SubstanceLab({
             );
           })}
         </div>
-
-        {showDiary && sessionLogs.length > 0 && (
-          <div className="space-y-4">
-            <h3 className="text-[12px] font-black text-white/30 uppercase tracking-[0.2em] flex items-center gap-3 px-2">
-              <Calendar className="w-4 h-4" /> Session diary
-            </h3>
-            <div className="grid gap-3">
-              {sessionLogs.slice().reverse().map((log, i) => {
-                const substance = SUBSTANCES.find(s => s.id === log.id);
-                const Icon = substance?.icon || FlaskConical;
-                return (
-                  <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between shadow-lg">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center">
-                        <Icon size={20} className="text-[#3EB489]" />
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <span className="text-sm font-black uppercase text-white">{log.name}</span>
-                        <span className="text-[10px] font-bold text-[#3EB489]">
-                          {log.id === 'alcohol' ? log.items.map((it: any) => `${it.count}x ${it.type}`).join(', ') : `${log.value}${log.unit}`}
-                        </span>
-                      </div>
-                    </div>
-                    <button onClick={() => removeLog(sessionLogs.length - 1 - i)} className="p-2 text-white/20 hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
       </div>
 
-      <footer className="shrink-0 h-[100px] bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-50">
+      {/* Persistent Footer */}
+      <footer className="shrink-0 h-[100px] bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-[70]">
         <button 
           onClick={() => onComplete(sessionLogs)} 
-          className="w-full max-w-sm py-6 bg-[#3EB489] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-[#3EB489]/20"
+          className="w-full max-w-sm py-6 bg-[#3EB489] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-[#3EB489]/20 flex items-center justify-center gap-3"
         >
-           Sync session diary
+           <CheckCircle2 size={24} /> Sync Session
         </button>
       </footer>
 
-      <Dialog open={!!activeSubstance} onOpenChange={() => setActiveSubstance(null)}>
-        <DialogContent className="bg-black border-white/10 max-w-md p-8 rounded-[3rem] h-auto max-h-[85dvh] overflow-y-auto">
-          <DialogTitle className="sr-only">{activeSubstance?.name}</DialogTitle>
-          <div className="text-center mb-6">
-            <div className={cn("w-20 h-20 mx-auto rounded-3xl bg-white/5 flex items-center justify-center mb-4", activeSubstance?.color)}>
-              {activeSubstance && <activeSubstance.icon size={40} />}
-            </div>
-            <h2 className="text-2xl font-black uppercase tracking-tighter text-white">{activeSubstance?.name}</h2>
-          </div>
-          <div className="space-y-6">
-            {activeSubstance?.id === 'alcohol' ? (
-              <div className="space-y-4">
-                {alcoholCart.map((item, idx) => (
-                  <div key={idx} className="flex items-center justify-between bg-white/5 p-4 rounded-2xl border border-white/10">
-                    <span className="text-xs font-black uppercase tracking-widest">{item.type}</span>
-                    <div className="flex items-center gap-4">
-                      <button 
-                        onClick={() => {
-                          const next = [...alcoholCart];
-                          next[idx].count = Math.max(0, next[idx].count - 1);
-                          setAlcoholCart(next);
-                        }}
-                        className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center"
-                      >
-                        -
-                      </button>
-                      <span className="w-4 text-center font-black">{item.count}</span>
-                      <button 
-                        onClick={() => {
-                          const next = [...alcoholCart];
-                          next[idx].count += 1;
-                          setAlcoholCart(next);
-                        }}
-                        className="w-8 h-8 rounded-full bg-[#3EB489] text-black flex items-center justify-center"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <label className="text-[10px] font-black uppercase tracking-widest text-white/40 block ml-2">Enter amount ({activeSubstance?.unit})</label>
-                <input 
-                  type="number"
-                  value={manualValue}
-                  onChange={(e) => setManualValue(e.target.value)}
-                  className="w-full h-16 bg-white/5 border border-white/10 rounded-2xl px-6 text-2xl font-black outline-none focus:border-[#3EB489] transition-all text-white"
-                  placeholder="0.00"
-                />
-              </div>
-            )}
-            <button 
-              onClick={saveLog}
-              className="w-full h-16 bg-[#3EB489] text-black rounded-2xl font-black uppercase tracking-widest neon-glow active:scale-[0.98]"
-            >
-              Log intake
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Integrated Intake Portal Overlay */}
+      {activeSubstance && (
+        <div className="absolute inset-0 bg-black/90 backdrop-blur-md z-[100] animate-in fade-in duration-300 flex flex-col p-8 font-headline">
+          <button 
+            onClick={() => setActiveSubstance(null)}
+            className="absolute top-8 right-8 p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white"
+          >
+            <X size={20} />
+          </button>
 
+          <div className="flex-1 flex flex-col items-center justify-center space-y-10 max-w-md mx-auto w-full">
+            <div className="text-center space-y-4">
+              <div className={cn("w-24 h-24 mx-auto rounded-3xl bg-white/5 flex items-center justify-center border border-white/10 shadow-2xl", activeSubstance.color)}>
+                <activeSubstance.icon size={48} />
+              </div>
+              <h2 className="text-4xl font-black uppercase tracking-tighter text-white">{activeSubstance.name}</h2>
+              <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">Log Intake Entry</p>
+            </div>
+
+            <div className="w-full space-y-8">
+              {activeSubstance.id === 'alcohol' ? (
+                <div className="space-y-3">
+                  {alcoholCart.map((item, idx) => (
+                    <div key={idx} className="flex items-center justify-between bg-white/5 p-5 rounded-2xl border border-white/10">
+                      <span className="text-sm font-black uppercase tracking-widest text-white/80">{item.type}</span>
+                      <div className="flex items-center gap-6">
+                        <button 
+                          onClick={() => {
+                            const next = [...alcoholCart];
+                            next[idx].count = Math.max(0, next[idx].count - 1);
+                            setAlcoholCart(next);
+                          }}
+                          className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 active:bg-white/10"
+                        >
+                          -
+                        </button>
+                        <span className="w-6 text-center font-black text-xl">{item.count}</span>
+                        <button 
+                          onClick={() => {
+                            const next = [...alcoholCart];
+                            next[idx].count += 1;
+                            setAlcoholCart(next);
+                          }}
+                          className="w-10 h-10 rounded-full bg-[#3EB489] text-black flex items-center justify-center active:scale-90 transition-transform shadow-lg"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-white/40 block ml-2">Amount ({activeSubstance.unit})</label>
+                  <input 
+                    type="number"
+                    value={manualValue}
+                    onChange={(e) => setManualValue(e.target.value)}
+                    autoFocus
+                    className="w-full h-24 bg-white/5 border-2 border-white/10 rounded-3xl px-8 text-5xl font-black outline-none focus:border-[#3EB489] transition-all text-white text-center shadow-inner"
+                    placeholder="0.00"
+                  />
+                </div>
+              )}
+            </div>
+
+            <div className="w-full space-y-4 pt-6">
+              <button 
+                onClick={saveLog}
+                className="w-full h-20 bg-[#3EB489] text-black rounded-[1.5rem] font-black uppercase tracking-widest neon-glow active:scale-95 shadow-2xl flex items-center justify-center gap-3 text-lg"
+              >
+                <CheckCircle2 size={24} /> Confirm & Log Intake
+              </button>
+              <button 
+                onClick={() => setActiveSubstance(null)}
+                className="w-full h-14 text-white/20 font-black uppercase text-[10px] tracking-[0.4em] hover:text-white transition-colors"
+              >
+                Cancel Entry
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Safety Advisor Modal */}
       <Dialog open={chatOpen} onOpenChange={setChatOpen}>
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] mx-4">
           <DialogTitle className="sr-only">AI Safety Advisor Chat</DialogTitle>
