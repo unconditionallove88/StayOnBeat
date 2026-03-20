@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect, Suspense } from 'react';
@@ -17,7 +16,7 @@ import { useToast } from '@/hooks/use-toast';
 /**
  * @fileOverview High-Fidelity Radar Map ("The Pulse").
  * Enhanced: Friend SOS mode. If focused on a friend in trouble, allows Holders to notify the Awareness Team.
- * Framing: I love and respect my boundaries. Navigation provided for collective care.
+ * Refined: Integrated contextual naming for SOSAlert.
  */
 
 function MapContent() {
@@ -55,10 +54,6 @@ function MapContent() {
   }, []);
 
   const handleNotifyAwarenessForFriend = () => {
-    toast({
-      title: "Awareness Notified 🛡️",
-      description: `Tactical team dispatched to ${focusName}'s last known location.`,
-    });
     setSosActive(true);
   };
 
@@ -112,7 +107,7 @@ function MapContent() {
                <Heart size={14} className="text-white fill-white" />
              </div>
              <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-black/80 px-3 py-1 rounded-full border border-white/10 whitespace-nowrap">
-               <span className="text-[8px] font-black uppercase">{focusName === 'max' ? "Max (INTENSE)" : "Max (Holder)"}</span>
+               <span className="text-[8px] font-black uppercase">{focusName ? `${focusName.toUpperCase()} (${focusStatus?.toUpperCase()})` : "Circle"}</span>
              </div>
           </div>
         )}
@@ -156,7 +151,7 @@ function MapContent() {
                 </div>
                 <div>
                   <h3 className="text-2xl font-black uppercase tracking-tighter leading-none">{focusName} needs care</h3>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/60 mt-1">Pulse Intense • Location Verified</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/60 mt-1">Pulse {focusStatus} • Location Verified</p>
                 </div>
               </div>
               
@@ -165,7 +160,7 @@ function MapContent() {
                   onClick={handleNotifyAwarenessForFriend}
                   className="w-full h-20 bg-white text-red-600 rounded-2xl font-black uppercase text-xs tracking-widest flex items-center justify-center gap-3 shadow-lg active:scale-95 transition-all"
                 >
-                  <PhoneCall size={20} /> NOTIFY AWARENESS TEAM FOR {focusName}
+                  <PhoneCall size={20} /> NOTIFY AWARENESS TEAM FOR {focusName?.toUpperCase()}
                 </button>
                 <p className="text-[8px] font-black uppercase tracking-[0.3em] text-white/40 text-center">
                   Only use this if {focusName} is unresponsive or in immediate danger.
@@ -198,7 +193,13 @@ function MapContent() {
           )}
         </div>
       </div>
-      {sosActive && <SOSAlert onClose={() => setSosActive(false)} />}
+      {sosActive && (
+        <SOSAlert 
+          onClose={() => setSosActive(false)} 
+          friendName={focusName || undefined}
+          friendStatus={focusStatus || undefined}
+        />
+      )}
     </main>
   );
 }
