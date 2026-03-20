@@ -2,7 +2,7 @@
 "use client"
 
 import { useState, useEffect, Suspense } from 'react';
-import { ArrowLeft, Target, Shield, Loader2, Heart, PhoneCall, AlertTriangle, X } from 'lucide-react';
+import { ArrowLeft, Shield, Loader2, PhoneCall, AlertTriangle, X, Lock, Sparkles, Navigation } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Switch } from '@/components/ui/switch';
@@ -14,9 +14,9 @@ import { doc } from 'firebase/firestore';
 import LoveCircle from '@/components/dashboard/LoveCircle';
 
 /**
- * @fileOverview High-Fidelity Radar Map ("The Pulse").
- * Refined: Love Circle repositioned to bottom-left corner for iPhone ergonomics.
- * Dynamic Resonance: Orb pulses green/amber/red based on circle safety.
+ * @fileOverview High-Fidelity Organic Radar ("The Pulse").
+ * Redesigned for concentration and simplicity. 
+ * Chaos removed: Minimalist controls, tactical focus, and organic transitions.
  */
 
 function MapContent() {
@@ -25,7 +25,6 @@ function MapContent() {
   const firestore = useFirestore();
   const [sosActive, setSosActive] = useState(false);
   const [isSharing, setIsSharing] = useState(true);
-  const [showPulseInfo, setShowPulseInfo] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [lang, setLang] = useState<'en' | 'de'>('en');
   
@@ -48,158 +47,145 @@ function MapContent() {
       setLang(savedLang.toLowerCase() as 'en' | 'de');
     }
 
-    const timer = setTimeout(() => setIsLoading(false), 1500);
+    const timer = setTimeout(() => setIsLoading(false), 1200);
     return () => clearTimeout(timer);
   }, []);
-
-  const handleNotifyAwarenessForFriend = () => {
-    setSosActive(true);
-  };
 
   if (isLoading) {
     return (
       <main className="h-screen bg-black flex flex-col items-center justify-center gap-4">
         <div className="relative">
-          <div className="absolute inset-0 animate-ping rounded-full bg-emerald-500/20" />
-          <Loader2 className="w-12 h-12 animate-spin text-emerald-500 relative z-10" />
+          <div className="absolute inset-0 animate-ping rounded-full bg-emerald-500/10" />
+          <Loader2 className="w-10 h-10 animate-spin text-emerald-500 relative z-10" />
         </div>
-        <p className="text-emerald-500 font-black uppercase tracking-widest text-[10px] animate-pulse">Tuning into the collective pulse...</p>
+        <p className="text-emerald-500/40 font-black uppercase tracking-[0.4em] text-[9px] animate-pulse">Calibrating Resonance</p>
       </main>
     );
   }
 
   return (
-    <main className="h-screen bg-black text-white relative overflow-hidden font-headline animate-in fade-in duration-700">
-      <div className="absolute inset-0 bg-[#080808]">
-        {/* Radar Grid */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
+    <main className="h-screen bg-black text-white relative overflow-hidden font-headline animate-in fade-in duration-1000">
+      {/* Expansive Map Layer */}
+      <div className="absolute inset-0 bg-[#050505]">
+        {/* Subtle Rhythmic Grid */}
+        <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
           <svg width="100%" height="100%">
-            <pattern id="radarGrid" width="80" height="80" patternUnits="userSpaceOnUse">
-              <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#3EB489" strokeWidth="0.5" />
+            <pattern id="radarGrid" width="100" height="100" patternUnits="userSpaceOnUse">
+              <circle cx="1" cy="1" r="1" fill="#3EB489" />
             </pattern>
             <rect width="100%" height="100%" fill="url(#radarGrid)" />
           </svg>
         </div>
 
-        {/* User Pointer - Centered but tactical */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center transition-all duration-1000">
-          <div className={cn("transition-all duration-1000", !isSharing && "grayscale opacity-50")}>
-            <div className="relative flex items-center justify-center w-24 h-24 md:w-32 md:h-32">
-              <div className={cn("absolute w-full h-full rounded-full opacity-20 animate-ping", isGuardActive ? "bg-red-500" : "bg-emerald-400")} />
-              <div className="relative z-10 bg-black/40 p-3 md:p-4 rounded-full backdrop-blur-sm border border-white/10">
-                <RadiatingThirdEye size={48} className="md:w-16 md:h-16" color={isGuardActive ? "#ef4444" : "#10b981"} />
+        {/* User Presence (The Center) */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
+          <div className={cn("transition-all duration-1000 scale-90 md:scale-100", !isSharing && "grayscale opacity-30")}>
+            <div className="relative flex items-center justify-center w-32 h-32 md:w-40 md:h-40">
+              <div className={cn("absolute w-full h-full rounded-full opacity-10 animate-ping", isGuardActive ? "bg-red-500" : "bg-emerald-400")} />
+              <div className="relative z-10 bg-black/40 p-4 rounded-full backdrop-blur-md border border-white/5">
+                <RadiatingThirdEye size={56} className="md:w-20 md:h-20" color={isGuardActive ? "#ef4444" : "#10b981"} />
               </div>
             </div>
           </div>
-          <div className="mt-3 bg-black/80 px-3 py-1 rounded-full border border-white/10 inline-block">
-            <span className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-white whitespace-nowrap">I am here. 💚</span>
+          <div className="mt-4 bg-black/60 px-4 py-1.5 rounded-full border border-white/5 inline-block backdrop-blur-sm">
+            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/60">I am here 🌿</span>
           </div>
         </div>
 
-        {/* Friend Node: Max (Intense Status) */}
-        {isSharing && (
-          <div className="absolute top-[25%] left-[30%] animate-bounce" style={{ animationDuration: '3000ms' }}>
-             <div className={cn(
-               "w-6 h-6 md:w-8 md:h-8 rounded-full border-[2px] md:border-[3px] border-white shadow-[0_0_30px_rgba(220,38,38,0.6)] flex items-center justify-center",
-               isFriendDistress ? "bg-red-600 animate-pulse" : "bg-[#3EB489]"
-             )}>
-               <Heart size={10} className="text-white fill-white md:w-3.5 md:h-3.5" />
-             </div>
-             <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 px-2 py-0.5 rounded-full border border-white/10 whitespace-nowrap">
-               <span className="text-[7px] md:text-[8px] font-black uppercase">{focusName ? `${focusName.toUpperCase()} (${focusStatus?.toUpperCase()})` : "Circle"}</span>
+        {/* Dynamic Friend Nodes (Only if sharing is active) */}
+        {isSharing && !isFriendDistress && (
+          <div className="absolute top-[35%] left-[25%] animate-pulse">
+             <div className="w-4 h-4 rounded-full bg-[#3EB489] border-2 border-white shadow-[0_0_15px_#3EB489]" />
+             <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-black/40 px-2 py-0.5 rounded-full border border-white/5 whitespace-nowrap">
+               <span className="text-[7px] font-black uppercase text-white/40 tracking-tighter">Sarah</span>
              </div>
           </div>
         )}
 
-        {/* Safety Hubs */}
-        <div className="absolute bottom-[35%] right-[20%]">
-           <div className="w-10 h-10 md:w-12 md:h-12 bg-emerald-600 rounded-2xl flex items-center justify-center border-2 border-white shadow-[0_0_30px_rgba(16,185,129,0.5)] animate-pulse">
-             <Shield className="w-5 h-5 md:w-6 md:h-6 text-white" />
-           </div>
-           <div className="absolute top-12 left-1/2 -translate-x-1/2 bg-emerald-600/20 px-3 py-1.5 rounded-xl border border-emerald-500/40 whitespace-nowrap">
-             <span className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-[#10B981]">Safety Hub A</span>
+        {/* Safety Hub (Steady Anchor) */}
+        <div className="absolute bottom-[30%] right-[30%] opacity-40">
+           <div className="w-8 h-8 bg-emerald-600/20 rounded-xl flex items-center justify-center border border-emerald-500/40">
+             <Shield className="w-4 h-4 text-emerald-500" />
            </div>
         </div>
       </div>
 
-      <div className="relative z-10 p-4 md:p-8 flex flex-col h-full pointer-events-none">
-        {/* Top Nav: Back and Privacy */}
-        <div className="flex justify-between items-start pointer-events-auto w-full max-w-7xl mx-auto shrink-0">
-          <Link href="/dashboard" className="bg-black/80 backdrop-blur-xl p-3 md:p-4 rounded-full border border-white/10 hover:border-[#3EB489] transition-all">
-            <ArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
+      {/* Interface Overlays */}
+      <div className="relative z-10 p-6 flex flex-col h-full pointer-events-none">
+        
+        {/* Simplified Top Navigation */}
+        <header className="flex justify-between items-center pointer-events-auto w-full max-w-5xl mx-auto shrink-0 animate-in slide-in-from-top-4 duration-700">
+          <Link href="/dashboard" className="bg-black/60 backdrop-blur-xl p-4 rounded-full border border-white/10 hover:border-[#3EB489] transition-all group active:scale-95">
+            <ArrowLeft className="w-5 h-5 text-white/40 group-hover:text-white" />
           </Link>
           
-          <div className="bg-black/80 backdrop-blur-md px-4 py-3 md:px-6 md:py-4 rounded-[2rem] border border-white/10 flex items-center gap-4">
-            <div className="flex flex-col items-end gap-1">
-              <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-white/40">Presence</span>
-              <span className={cn("text-[8px] md:text-[10px] font-bold uppercase", isSharing ? "text-[#3EB489]" : "text-white/40")}>{isSharing ? "Sharing" : "Private"}</span>
+          <div className="bg-black/60 backdrop-blur-md px-5 py-3 rounded-full border border-white/10 flex items-center gap-4 transition-all hover:border-white/20 shadow-xl">
+            <div className="flex items-center gap-2 pr-2 border-r border-white/10">
+              {isSharing ? <Sparkles size={14} className="text-[#3EB489]" /> : <Lock size={14} className="text-white/20" />}
+              <span className={cn("text-[9px] font-black uppercase tracking-widest", isSharing ? "text-[#3EB489]" : "text-white/20")}>
+                {isSharing ? "Visible" : "Hidden"}
+              </span>
             </div>
-            <Switch checked={isSharing} onCheckedChange={setIsSharing} className="data-[state=checked]:bg-[#3EB489] scale-75 md:scale-100" />
+            <Switch checked={isSharing} onCheckedChange={setIsSharing} className="data-[state=checked]:bg-[#3EB489] scale-90" />
           </div>
-        </div>
+        </header>
         
-        {/* Main Interface Wrapper: Floating Sanctuary Layout */}
-        <div className="flex-1 flex flex-col md:flex-row justify-between items-end gap-6 w-full max-w-7xl mx-auto pointer-events-none pt-6 pb-6">
+        <div className="flex-1 flex flex-col justify-end gap-6 w-full max-w-5xl mx-auto pb-10">
           
-          {/* Bottom Left Corner: Circular Love Circle (Radar) */}
-          <div className="pointer-events-auto flex flex-col items-start gap-4">
-            {/* Pulsing Love Circle Orb */}
-            <div className="relative group">
-              <LoveCircle lang={lang} variant="map" />
-              
-              {/* Emergency Overlay Button associated with the Circle */}
-              {!isFriendDistress && (
-                <button 
-                  onClick={() => setSosActive(true)} 
-                  className="absolute -top-3 -right-3 w-14 h-14 md:w-16 md:h-16 bg-red-600 rounded-full border-2 border-white flex items-center justify-center shadow-[0_0_30px_rgba(220,38,38,0.4)] active:scale-95 transition-all z-20"
-                >
-                  <Shield className="w-6 h-6 md:w-8 md:h-8 text-white" />
-                </button>
+          <div className="flex flex-col md:flex-row items-end justify-between gap-6">
+            
+            {/* Corner A: The Love Circle Lens (Bottom Left) */}
+            <div className="pointer-events-auto flex flex-col items-start">
+              <div className="relative">
+                <LoveCircle lang={lang} variant="map" />
+                
+                {/* Secondary Emergency Toggle (Associated with Circle) */}
+                {!isFriendDistress && (
+                  <button 
+                    onClick={() => setSosActive(true)} 
+                    className="absolute -top-2 -right-2 w-14 h-14 bg-red-600 rounded-full border-2 border-white flex items-center justify-center shadow-2xl shadow-red-600/40 active:scale-90 transition-all z-20"
+                  >
+                    <Shield className="w-6 h-6 text-white" />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Corner B: The Priority Pathway (Bottom Right) */}
+            <div className="w-full md:w-auto pointer-events-auto flex flex-col items-center md:items-end">
+              {isFriendDistress ? (
+                /* Singular Concentration: Friend SOS */
+                <div className="bg-red-600 border border-white/20 rounded-[2.5rem] p-6 shadow-2xl shadow-red-600/40 animate-in slide-in-from-right-4 duration-500 space-y-5 w-full max-w-sm">
+                  <div className="flex items-start gap-4">
+                    <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center border border-white/30 shrink-0">
+                      <AlertTriangle size={32} className="text-white animate-pulse" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-black uppercase tracking-tighter leading-none text-white">{focusName} needs care</h3>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-white/60 mt-2">Current Pulse: {focusStatus}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={() => setSosActive(true)}
+                      className="flex-1 h-16 bg-white text-red-600 rounded-2xl font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-3 shadow-lg active:scale-95 transition-all"
+                    >
+                      <PhoneCall size={16} /> Notify Awareness
+                    </button>
+                    <button className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center border border-white/20 hover:bg-white/20 transition-all">
+                      <Navigation size={20} className="text-white" />
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                /* Expansive Info Chip */
+                <div className="hidden md:flex bg-black/60 backdrop-blur-md px-6 py-4 rounded-[2rem] border border-white/5 items-center gap-4 animate-in fade-in duration-1000">
+                  <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[#3EB489]">I respect my state 🌿</span>
+                  <p className="text-[10px] font-bold text-white/40 leading-tight uppercase tracking-widest">Privacy is my sanctuary.</p>
+                </div>
               )}
             </div>
-          </div>
-
-          {/* Bottom Right / Right Side: Alerts & Info */}
-          <div className="w-full md:w-auto flex flex-col items-center md:items-end gap-4 pointer-events-auto">
-            
-            {/* Friend SOS Banner - Tactical stack */}
-            {isFriendDistress && (
-              <div className="bg-red-600 border-2 border-white/20 rounded-[2.5rem] p-6 shadow-[0_0_50px_rgba(220,38,38,0.4)] animate-in slide-in-from-right-4 duration-500 space-y-4 max-w-xs">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center border border-white/30 shrink-0">
-                    <AlertTriangle size={24} className="text-white animate-pulse" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-black uppercase tracking-tighter leading-none">{focusName} needs care</h3>
-                    <p className="text-[8px] font-bold uppercase tracking-widest text-white/60 mt-1">Pulse {focusStatus}</p>
-                  </div>
-                </div>
-                
-                <button 
-                  onClick={handleNotifyAwarenessForFriend}
-                  className="w-full h-14 bg-white text-red-600 rounded-xl font-black uppercase text-[9px] tracking-widest flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
-                >
-                  <PhoneCall size={14} /> NOTIFY AWARENESS FOR {focusName?.toUpperCase()}
-                </button>
-              </div>
-            )}
-
-            {/* Side Info Panel */}
-            {!isFriendDistress && showPulseInfo && (
-              <div className="bg-black/90 backdrop-blur-md p-6 rounded-[2rem] border border-white/10 max-w-[240px] animate-in fade-in slide-in-from-right-4 duration-1000 space-y-2 relative">
-                <button 
-                  onClick={() => setShowPulseInfo(false)}
-                  className="absolute top-4 right-4 text-white/20 hover:text-white"
-                >
-                  <X size={14} />
-                </button>
-                <div className="flex items-center gap-2">
-                  <Target className="w-3 h-3 text-[#3EB489]" />
-                  <span className="text-[8px] font-black uppercase text-[#3EB489] tracking-widest">I respect my limits</span>
-                </div>
-                <p className="text-[11px] font-bold leading-tight text-white/80">I love and respect myself enough to decide when I want to be seen. 💚</p>
-              </div>
-            )}
           </div>
         </div>
       </div>
