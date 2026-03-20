@@ -2,14 +2,14 @@
 "use client";
 
 import React from "react";
-import { Users, AlertTriangle, Navigation, Heart } from "lucide-react";
+import { Users, AlertTriangle, Navigation, Heart, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 /**
  * @fileOverview Love Circle Component.
  * High-fidelity representation of your inner support network.
- * Optimized for mobile layout with responsive padding and icon scaling.
+ * Features radiant status rings and tactical distress alerts.
  */
 
 interface Friend {
@@ -31,7 +31,7 @@ export default function LoveCircle({
   
   // Mock circle data for the prototype
   const circle: Friend[] = [
-    { name: "Sarah", status: "steady", color: "#90EE90", avatar: "S" }, 
+    { name: "Sarah", status: "steady", color: "#10B981", avatar: "S" }, 
     { name: "Max", status: "intense", color: "#DC2626", avatar: "M" },
     { name: "Marc", status: "elevated", color: "#F59E0B", avatar: "M" }
   ];
@@ -43,44 +43,47 @@ export default function LoveCircle({
   };
 
   return (
-    <div className="w-full bg-white/5 border border-white/10 rounded-[2rem] md:rounded-[2.5rem] p-5 md:p-8 shadow-2xl transition-all hover:border-[#10B981]/20 group font-headline">
-      <div className="flex items-center justify-between mb-4 md:mb-8">
-        <div className="flex items-center gap-2 md:gap-3">
-          <div className="p-1.5 md:p-2 bg-[#90EE90]/10 rounded-lg">
-            <Users size={16} className="text-[#90EE90] md:w-5 md:h-5" />
+    <div className="w-full bg-white/5 border border-white/10 rounded-[2.5rem] p-6 md:p-8 shadow-2xl transition-all hover:border-[#10B981]/20 group font-headline relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-[#10B981]/5 blur-3xl -z-10" />
+      
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-[#10B981]/10 rounded-xl border border-[#10B981]/20">
+            <Users size={20} className="text-[#10B981]" />
           </div>
-          <h3 className="text-white text-[10px] md:text-sm font-black uppercase tracking-[0.2em]">
-            {isEn ? "Love Circle" : "Dein Love Circle"}
-          </h3>
+          <div>
+            <h3 className="text-white text-[10px] font-black uppercase tracking-[0.3em]">
+              {isEn ? "Love Circle" : "Dein Love Circle"}
+            </h3>
+            <p className="text-[8px] font-bold text-[#10B981] uppercase tracking-widest mt-0.5">3 Hearts Active</p>
+          </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-[8px] md:text-[10px] text-[#10B981] font-black uppercase tracking-widest bg-[#10B981]/10 px-2 md:px-3 py-1 rounded-full border border-[#10B981]/20">
-            3 ACTIVE
-          </span>
+          <Sparkles size={12} className="text-[#10B981] animate-pulse" />
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-4 md:gap-6 mb-4 md:mb-8">
+      <div className="flex flex-wrap gap-6 mb-8">
         {circle.map((person, i) => (
-          <div key={i} className="flex flex-col items-center gap-2 md:gap-3">
+          <div key={i} className="flex flex-col items-center gap-3">
             <button 
               onClick={() => handleFriendClick(person)}
               className={cn(
-                "relative w-12 h-12 md:w-16 md:h-16 rounded-full border-4 border-black flex items-center justify-center text-[10px] md:text-xs font-black text-black shadow-lg transition-all hover:scale-110 active:scale-95",
-                person.status === 'intense' && "animate-pulse ring-2 md:ring-4 ring-red-600/40 ring-offset-2 md:ring-offset-4 ring-offset-black",
-                person.status === 'elevated' && "ring-2 md:ring-4 ring-amber-500/30 ring-offset-2 md:ring-offset-4 ring-offset-black"
+                "relative w-16 h-16 rounded-full border-4 border-black flex items-center justify-center text-xs font-black text-black shadow-lg transition-all hover:scale-110 active:scale-95 group/avatar",
+                person.status === 'intense' && "animate-pulse ring-4 ring-red-600/40 ring-offset-4 ring-offset-black",
+                person.status === 'elevated' && "ring-4 ring-amber-500/30 ring-offset-4 ring-offset-black"
               )}
-              style={{ backgroundColor: person.status === 'intense' ? '#DC2626' : person.status === 'elevated' ? '#F59E0B' : '#90EE90' }}
+              style={{ backgroundColor: person.status === 'intense' ? '#DC2626' : person.status === 'elevated' ? '#F59E0B' : '#10B981' }}
             >
-              {person.avatar}
+              <span className="group-hover/avatar:scale-110 transition-transform">{person.avatar}</span>
               {person.status !== 'steady' && (
-                <div className="absolute -top-1 -right-1 w-5 h-5 md:w-6 md:h-6 bg-black rounded-full border border-white/20 flex items-center justify-center shadow-lg">
-                  <AlertTriangle size={10} className="text-white md:w-3 md:h-3" />
+                <div className="absolute -top-1 -right-1 w-6 h-6 bg-black rounded-full border border-white/20 flex items-center justify-center shadow-lg">
+                  <AlertTriangle size={12} className="text-white" />
                 </div>
               )}
             </button>
             <span className={cn(
-              "text-[7px] md:text-[9px] font-black uppercase tracking-widest",
+              "text-[9px] font-black uppercase tracking-widest",
               person.status === 'intense' ? "text-red-500" : person.status === 'elevated' ? "text-amber-500" : "text-white/40"
             )}>
               {person.name}
@@ -88,29 +91,31 @@ export default function LoveCircle({
           </div>
         ))}
         <button 
-          className="w-12 h-12 md:w-16 md:h-16 rounded-full border-4 border-black bg-white/5 flex items-center justify-center text-white/20 hover:text-[#10B981] hover:bg-[#10B981]/10 transition-all font-black text-lg md:text-xl"
+          className="w-16 h-16 rounded-full border-4 border-black bg-white/5 flex items-center justify-center text-white/20 hover:text-[#10B981] hover:bg-[#10B981]/10 transition-all font-black text-xl"
         >
           +
         </button>
       </div>
 
-      {/* Distress Insight - More compact for mobile */}
+      {/* Distress Insight - High Fidelity Action */}
       {circle.some(p => p.status !== 'steady') && (
-        <div className="bg-red-600/10 rounded-xl md:rounded-2xl p-4 md:p-5 border border-red-600/20 animate-in slide-in-from-bottom-2">
-          <div className="flex items-start gap-3 md:gap-4">
-            <Heart className="w-4 h-4 md:w-5 md:h-5 text-red-500 mt-0.5 shrink-0" />
-            <div className="space-y-1.5 md:space-y-2">
-              <p className="text-white text-[9px] md:text-[11px] font-black uppercase tracking-tight leading-none">Distress Detected</p>
-              <p className="text-white/60 text-[8px] md:text-[10px] leading-relaxed font-bold uppercase tracking-wide">
+        <div className="bg-red-600/10 rounded-[2rem] p-6 border border-red-600/20 animate-in slide-in-from-bottom-2">
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 bg-red-600/20 rounded-xl flex items-center justify-center border border-red-600/30 shrink-0">
+              <Heart className="w-5 h-5 text-red-500 animate-pulse" />
+            </div>
+            <div className="space-y-2 flex-1">
+              <p className="text-white text-[11px] font-black uppercase tracking-tight leading-none">Distress Detected</p>
+              <p className="text-white/60 text-[10px] leading-relaxed font-bold uppercase tracking-wide">
                 {isEn 
-                  ? "Max's heart is intense. Tap his circle to find him and notify Awareness."
-                  : "Max's Herzrhythmus ist intensiv. Tippe auf seinen Kreis, um ihn zu finden."}
+                  ? "Max's rhythm is intense. You can find him on the Pulse and notify the Team."
+                  : "Max's Herzrhythmus ist intensiv. Du findest ihn auf dem Pulse."}
               </p>
               <button 
                 onClick={() => router.push('/map?focus=max&status=intense')}
-                className="flex items-center gap-1.5 text-[8px] md:text-[9px] font-black text-[#10B981] uppercase tracking-[0.2em] pt-1"
+                className="flex items-center gap-2 bg-[#10B981] text-black px-4 py-2.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] mt-2 active:scale-95 transition-all shadow-lg shadow-[#10B981]/20"
               >
-                <Navigation size={10} className="md:w-3 md:h-3" /> {isEn ? "Navigate to Soul" : "Zum Seelenort navigieren"}
+                <Navigation size={12} /> {isEn ? "Navigate to Soul" : "Zum Seelenort"}
               </button>
             </div>
           </div>
