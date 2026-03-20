@@ -74,7 +74,7 @@ export default function MyHeartPage() {
       </header>
 
       <div className="flex-1 flex flex-col items-center justify-center relative z-10 gap-8">
-        {/* 1. THE AURA (Visual Only Now) */}
+        {/* 1. THE AURA (Visual Individual State) */}
         <div className="flex flex-col items-center gap-4">
           <HeartStatusAura 
             heartRate={heartRate} 
@@ -83,7 +83,7 @@ export default function MyHeartPage() {
             lang={lang}
           />
           <span className="text-[9px] uppercase tracking-widest text-slate-600 font-bold">
-            Demo Mode · Simulated Data
+            Demo Mode · My Rhythm
           </span>
         </div>
 

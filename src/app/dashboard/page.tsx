@@ -267,7 +267,7 @@ export default function Dashboard() {
 
           <div className="space-y-4 text-center">
             <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
-              Love Circle
+              {lang === 'en' ? 'My Rhythm' : 'Mein Rhythmus'}
             </h2>
             <Link href="/heart-status" className="block transition-all active:scale-95">
               <div className="flex flex-col items-center gap-4">

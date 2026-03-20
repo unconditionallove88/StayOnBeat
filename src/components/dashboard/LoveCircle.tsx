@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 /**
  * @fileOverview Love Circle Component.
  * High-fidelity representation of your inner support network.
- * Features radiant status rings and tactical distress alerts.
+ * Features high-fidelity radiant status rings and tactical distress alerts.
  */
 
 interface Friend {
@@ -69,15 +69,27 @@ export default function LoveCircle({
             <button 
               onClick={() => handleFriendClick(person)}
               className={cn(
-                "relative w-16 h-16 rounded-full border-4 border-black flex items-center justify-center text-xs font-black text-black shadow-lg transition-all hover:scale-110 active:scale-95 group/avatar",
-                person.status === 'intense' && "animate-pulse ring-4 ring-red-600/40 ring-offset-4 ring-offset-black",
-                person.status === 'elevated' && "ring-4 ring-amber-500/30 ring-offset-4 ring-offset-black"
+                "relative w-16 h-16 rounded-full border-[3px] border-black flex items-center justify-center text-xs font-black text-black shadow-lg transition-all hover:scale-110 active:scale-95 group/avatar",
+                person.status === 'intense' && "animate-pulse shadow-[0_0_30px_rgba(220,38,38,0.6)]",
+                person.status === 'elevated' && "shadow-[0_0_20px_rgba(245,158,11,0.4)]"
               )}
               style={{ backgroundColor: person.status === 'intense' ? '#DC2626' : person.status === 'elevated' ? '#F59E0B' : '#10B981' }}
             >
-              <span className="group-hover/avatar:scale-110 transition-transform">{person.avatar}</span>
+              {/* RADIANT STATUS RINGS */}
               {person.status !== 'steady' && (
-                <div className="absolute -top-1 -right-1 w-6 h-6 bg-black rounded-full border border-white/20 flex items-center justify-center shadow-lg">
+                <div className={cn(
+                  "absolute inset-[-6px] rounded-full border-2 opacity-40 animate-[ping_2s_infinite]",
+                  person.status === 'intense' ? "border-red-600" : "border-amber-500"
+                )} />
+              )}
+              {person.status === 'intense' && (
+                <div className="absolute inset-[-10px] rounded-full border-2 border-red-600/20 animate-[ping_3s_infinite]" />
+              )}
+
+              <span className="group-hover/avatar:scale-110 transition-transform relative z-10">{person.avatar}</span>
+              
+              {person.status !== 'steady' && (
+                <div className="absolute -top-1 -right-1 w-6 h-6 bg-black rounded-full border border-white/20 flex items-center justify-center shadow-lg z-20">
                   <AlertTriangle size={12} className="text-white" />
                 </div>
               )}
@@ -99,7 +111,7 @@ export default function LoveCircle({
 
       {/* Distress Insight - High Fidelity Action */}
       {circle.some(p => p.status !== 'steady') && (
-        <div className="bg-red-600/10 rounded-[2rem] p-6 border border-red-600/20 animate-in slide-in-from-bottom-2">
+        <div className="bg-red-600/10 rounded-[2rem] p-6 border border-red-600/20 animate-in slide-in-from-bottom-2 shadow-inner">
           <div className="flex items-start gap-4">
             <div className="w-10 h-10 bg-red-600/20 rounded-xl flex items-center justify-center border border-red-600/30 shrink-0">
               <Heart className="w-5 h-5 text-red-500 animate-pulse" />
@@ -108,8 +120,8 @@ export default function LoveCircle({
               <p className="text-white text-[11px] font-black uppercase tracking-tight leading-none">Distress Detected</p>
               <p className="text-white/60 text-[10px] leading-relaxed font-bold uppercase tracking-wide">
                 {isEn 
-                  ? "Max's rhythm is intense. You can find him on the Pulse and notify the Team."
-                  : "Max's Herzrhythmus ist intensiv. Du findest ihn auf dem Pulse."}
+                  ? "A circle member's rhythm is intense. Navigate to them on the Pulse to notify Awareness."
+                  : "Der Rhythmus eines Circle-Mitglieds ist intensiv. Navigiere auf dem Pulse zu ihnen."}
               </p>
               <button 
                 onClick={() => router.push('/map?focus=max&status=intense')}
