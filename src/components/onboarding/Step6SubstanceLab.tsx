@@ -40,7 +40,7 @@ import PoppersCard from '@/components/lab/cards/PoppersCard';
  * @fileOverview Pulse Lab component.
  * Calibrated for high-fidelity scrolling and real-time safety monitoring.
  * Features persistent Safety Advisor access connected to intake context.
- * Enhanced for mobile Safari scrolling with aesthetic icons.
+ * Enhanced for mobile Safari scrolling with aesthetic icons and Viagra support.
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -64,7 +64,7 @@ const SUBSTANCES = [
   { id: '2cb', icon: Orbit, name: '2C-B', color: 'text-orange-400', bg: 'bg-orange-400/10', unit: 'mg', inputType: 'manual' },
   { id: 'psilocybin', icon: MushroomIcon, name: 'Psilocybin', color: 'text-emerald-400', bg: 'bg-emerald-400/10', unit: 'g', inputType: 'manual' },
   { id: 'poppers', icon: Wind, name: 'Poppers', color: 'text-amber-400', bg: 'bg-amber-400/10', unit: 'hits', inputType: 'manual' },
-  { id: 'viagra', icon: Pill, name: 'Sildenafil', color: 'text-blue-500', bg: 'bg-blue-500/10', unit: 'pills', inputType: 'manual' },
+  { id: 'viagra', icon: Pill, name: 'Viagra', color: 'text-blue-500', bg: 'bg-blue-500/10', unit: 'pills', inputType: 'manual' },
   { id: '2mmc', icon: Diamond, name: '2-MMC', color: 'text-sky-300', bg: 'bg-sky-300/10', unit: 'g', inputType: 'manual' },
   { id: '3mmc', icon: Diamond, name: '3-MMC', color: 'text-sky-400', bg: 'bg-sky-400/10', unit: 'g', inputType: 'manual' },
   { id: '4mmc', icon: Diamond, name: '4-MMC', color: 'text-sky-500', bg: 'bg-sky-500/10', unit: 'g', inputType: 'manual' },
@@ -308,7 +308,7 @@ export function Step6SubstanceLab({
       <footer className="shrink-0 h-[100px] bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-[70]">
         <button 
           onClick={() => onComplete(sessionLogs)} 
-          className="w-full max-w-sm py-6 bg-[#3EB489] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-[#3EB489]/20 flex items-center justify-center gap-3"
+          className="w-full max-sm py-6 bg-[#3EB489] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-[#3EB489]/20 flex items-center justify-center gap-3"
         >
            <CheckCircle2 size={24} /> Sync Session
         </button>
@@ -383,7 +383,7 @@ export function Step6SubstanceLab({
             <div className="w-full space-y-4 pt-6">
               <button 
                 onClick={saveLog}
-                className="w-full h-20 bg-[#3EB489] text-black rounded-[1.5rem] font-black uppercase tracking-widest neon-glow active:scale-95 shadow-2xl flex items-center justify-center gap-3 text-lg"
+                className="w-full h-20 bg-[#3EB489] text-black rounded-[1.5rem] font-black uppercase tracking-widest neon-glow active:scale-[0.98] shadow-2xl flex items-center justify-center gap-3 text-lg"
               >
                 <CheckCircle2 size={24} /> Confirm & Log Intake
               </button>
