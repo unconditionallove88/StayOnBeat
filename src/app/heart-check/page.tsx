@@ -21,7 +21,7 @@ const CONTENT = {
   de: {
     title: "Dein Herz",
     highlight: "ist dein Zuhause 💚",
-    sub: "Dein Refugium wird vorbereitet..."
+    sub: "Dein Sanctuary wird vorbereitet..."
   }
 };
 

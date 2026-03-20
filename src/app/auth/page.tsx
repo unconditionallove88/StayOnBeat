@@ -43,7 +43,7 @@ const CONTENT = {
   },
   de: {
     welcome: "Willkommen Zuhause",
-    create: "Refugium erstellen",
+    create: "Sanctuary erstellen",
     prototype: "Prototyp-Modus Aktiv 🔒",
     emailLabel: "E-Mail-Adresse",
     emailPlaceholder: "seele@stayonbeat.com",
@@ -51,11 +51,11 @@ const CONTENT = {
     passwordPlaceholder: "••••••••",
     entering: "Eintritt...",
     begin: "Reise beginnen",
-    enter: "Refugium betreten",
+    enter: "Sanctuary betreten",
     alreadyAccount: "Bereits ein Konto? Anmelden",
     newHere: "Neu hier? Werde Teil des Kreises",
     staffAccess: "StayOnBeat • Team-Zugang über awareness@love.com",
-    errorMsg: "Das Refugium kalibriert sich... bitte versuche es erneut. 🌿"
+    errorMsg: "Das Sanctuary kalibriert sich... bitte versuche es erneut. 🌿"
   }
 };
 

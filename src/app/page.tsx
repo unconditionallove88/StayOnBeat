@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -39,7 +40,7 @@ export default function Home() {
     },
     DE: {
       slogan: "Bedingungslose Liebe für deine Reise. 🌿",
-      valueProp: "Ein sicheres Refugium für Schadensminimierung, Gesundheitsmonitoring und deinen Circle of Love.",
+      valueProp: "Ein sicheres Sanctuary für Schadensminimierung, Gesundheitsmonitoring und deinen Circle of Love.",
       getStarted: "Werde Teil des Kreises",
       signIn: "Willkommen Zuhause (Anmelden)",
       footer: "DSGVO-geschützt • Mit Liebe verschlüsselt"
