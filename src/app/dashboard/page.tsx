@@ -38,6 +38,7 @@ import { doc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { checkSafetyStatus } from '@/lib/guardian';
 import { playHeartbeat } from '@/lib/resonance';
+import { cn } from '@/lib/utils';
 import {
   Tooltip,
   TooltipContent,
@@ -287,7 +288,7 @@ export default function Dashboard() {
 
           <div className="space-y-2 text-center">
             <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
-              {lang === 'en' ? 'My Rhythm' : 'Mein Rhythmus'}
+              My Rhythm
             </h2>
             <Link 
               href="/heart-status" 
@@ -440,7 +441,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={coCreationOpen} onOpenChange={setCoCreationOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-lg p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85dvh]">
+        <DialogContent className="bg-black border-white/10 max-lg p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85dvh]">
           <DialogTitle className="sr-only">Co-Creation</DialogTitle>
           <div className="flex-1 overflow-y-auto">
             <CoCreation onComplete={() => setCoCreationOpen(false)} />
