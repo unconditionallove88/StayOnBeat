@@ -377,7 +377,12 @@ export default function Dashboard() {
               <CollapsibleTrigger asChild>
                 <button 
                   onClick={() => playHeartbeat()}
-                  className="w-full flex items-center justify-center gap-2 py-4 text-[9px] font-black uppercase text-white/10 hover:text-white/40 transition-colors"
+                  className={cn(
+                    "w-full flex items-center justify-center gap-2 py-4 text-[9px] font-black uppercase transition-all duration-500",
+                    guardianStatus === 'safe' && "text-[#10B981] opacity-40 hover:opacity-100",
+                    guardianStatus === 'caution' && "text-[#F59E0B] opacity-80 hover:opacity-100",
+                    guardianStatus === 'locked' && "text-[#DC2626] opacity-100 animate-pulse"
+                  )}
                 >
                   <Settings2 size={12} />
                   {lang === 'en' ? 'Lab Calibration (Dev Access)' : 'Labor-Kalibrierung (Dev-Zugriff)'}
