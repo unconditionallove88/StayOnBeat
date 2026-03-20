@@ -15,8 +15,8 @@ import LoveCircle from '@/components/dashboard/LoveCircle';
 
 /**
  * @fileOverview High-Fidelity Radar Map ("The Pulse").
- * Refined: Love Circle reimagined as a floating Sanctuary Orb radar.
- * Optimised for organic interaction on iPhone and clear tactical viewing on Web.
+ * Refined: Love Circle repositioned to bottom-left corner for iPhone ergonomics.
+ * Dynamic Resonance: Orb pulses green/amber/red based on circle safety.
  */
 
 function MapContent() {
@@ -138,28 +138,29 @@ function MapContent() {
           </div>
         </div>
         
-        {/* Main Interface Wrapper: Floating ORB Layout */}
-        <div className="flex-1 flex flex-col md:flex-row justify-end items-end gap-6 w-full max-w-7xl mx-auto pointer-events-none pt-6">
+        {/* Main Interface Wrapper: Floating Sanctuary Layout */}
+        <div className="flex-1 flex flex-col md:flex-row justify-between items-end gap-6 w-full max-w-7xl mx-auto pointer-events-none pt-6 pb-6">
           
-          {/* Side Info Panel (Left side on Web) */}
-          {!isFriendDistress && showPulseInfo && (
-            <div className="mt-auto md:mt-0 md:mr-auto pointer-events-auto bg-black/90 backdrop-blur-md p-6 rounded-[2rem] border border-white/10 max-w-[240px] animate-in fade-in slide-in-from-left-4 duration-1000 space-y-2 relative">
-              <button 
-                onClick={() => setShowPulseInfo(false)}
-                className="absolute top-4 right-4 text-white/20 hover:text-white"
-              >
-                <X size={14} />
-              </button>
-              <div className="flex items-center gap-2">
-                <Target className="w-3 h-3 text-[#3EB489]" />
-                <span className="text-[8px] font-black uppercase text-[#3EB489] tracking-widest">I respect my limits</span>
-              </div>
-              <p className="text-[11px] font-bold leading-tight text-white/80">I love and respect myself enough to decide when I want to be seen. 💚</p>
+          {/* Bottom Left Corner: Circular Love Circle (Radar) */}
+          <div className="pointer-events-auto flex flex-col items-start gap-4">
+            {/* Pulsing Love Circle Orb */}
+            <div className="relative group">
+              <LoveCircle lang={lang} variant="map" />
+              
+              {/* Emergency Overlay Button associated with the Circle */}
+              {!isFriendDistress && (
+                <button 
+                  onClick={() => setSosActive(true)} 
+                  className="absolute -top-3 -right-3 w-14 h-14 md:w-16 md:h-16 bg-red-600 rounded-full border-2 border-white flex items-center justify-center shadow-[0_0_30px_rgba(220,38,38,0.4)] active:scale-95 transition-all z-20"
+                >
+                  <Shield className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                </button>
+              )}
             </div>
-          )}
+          </div>
 
-          {/* Floating Radar Console */}
-          <div className="w-full md:w-auto flex flex-col items-center md:items-end gap-4 pointer-events-auto mt-auto md:mt-0 pb-6 md:pb-0">
+          {/* Bottom Right / Right Side: Alerts & Info */}
+          <div className="w-full md:w-auto flex flex-col items-center md:items-end gap-4 pointer-events-auto">
             
             {/* Friend SOS Banner - Tactical stack */}
             {isFriendDistress && (
@@ -183,20 +184,22 @@ function MapContent() {
               </div>
             )}
 
-            {/* The Circular Love Circle Orb */}
-            <div className="relative group">
-              <LoveCircle lang={lang} variant="map" />
-              
-              {/* Overlay SOS button - Floating outside or inside the orb context */}
-              {!isFriendDistress && (
+            {/* Side Info Panel */}
+            {!isFriendDistress && showPulseInfo && (
+              <div className="bg-black/90 backdrop-blur-md p-6 rounded-[2rem] border border-white/10 max-w-[240px] animate-in fade-in slide-in-from-right-4 duration-1000 space-y-2 relative">
                 <button 
-                  onClick={() => setSosActive(true)} 
-                  className="absolute -top-4 -left-4 md:-top-6 md:-left-6 w-16 h-16 md:w-20 md:h-20 bg-red-600 rounded-full border-2 border-white flex items-center justify-center shadow-[0_0_40px_rgba(220,38,38,0.4)] active:scale-95 transition-all z-20"
+                  onClick={() => setShowPulseInfo(false)}
+                  className="absolute top-4 right-4 text-white/20 hover:text-white"
                 >
-                  <Shield className="w-8 h-8 md:w-10 md:h-10 text-white" />
+                  <X size={14} />
                 </button>
-              )}
-            </div>
+                <div className="flex items-center gap-2">
+                  <Target className="w-3 h-3 text-[#3EB489]" />
+                  <span className="text-[8px] font-black uppercase text-[#3EB489] tracking-widest">I respect my limits</span>
+                </div>
+                <p className="text-[11px] font-bold leading-tight text-white/80">I love and respect myself enough to decide when I want to be seen. 💚</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
