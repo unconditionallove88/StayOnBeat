@@ -15,7 +15,8 @@ import LoveCircle from '@/components/dashboard/LoveCircle';
 
 /**
  * @fileOverview High-Fidelity Radar Map ("The Pulse").
- * Refined: Organic layout for iPhone screens to prevent overlap between map elements and UI tools.
+ * Refined: Tactical sidebar for web version to prevent map overlap. 
+ * Organic bottom layout for iPhone screens.
  */
 
 function MapContent() {
@@ -80,8 +81,8 @@ function MapContent() {
           </svg>
         </div>
 
-        {/* User Pointer - Offset slightly higher on mobile to prevent overlap with bottom tools */}
-        <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center scale-75 md:scale-100 transition-all duration-1000">
+        {/* User Pointer - Centered but tactical */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center transition-all duration-1000">
           <div className={cn("transition-all duration-1000", !isSharing && "grayscale opacity-50")}>
             <div className="relative flex items-center justify-center w-24 h-24 md:w-32 md:h-32">
               <div className={cn("absolute w-full h-full rounded-full opacity-20 animate-ping", isGuardActive ? "bg-red-500" : "bg-emerald-400")} />
@@ -121,51 +122,28 @@ function MapContent() {
         </div>
       </div>
 
-      <div className="relative z-10 p-4 md:p-6 flex flex-col h-full pointer-events-none">
-        <div className="flex justify-between items-start pointer-events-auto w-full max-w-4xl mx-auto">
+      <div className="relative z-10 p-4 md:p-8 flex flex-col h-full pointer-events-none">
+        {/* Top Nav: Back and Privacy */}
+        <div className="flex justify-between items-start pointer-events-auto w-full max-w-7xl mx-auto shrink-0">
           <Link href="/dashboard" className="bg-black/80 backdrop-blur-xl p-3 md:p-4 rounded-full border border-white/10 hover:border-[#3EB489] transition-all">
             <ArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
           </Link>
           
-          <div className="flex flex-col items-end gap-2 max-w-[180px]">
-            <div className="bg-black/80 backdrop-blur-md px-4 py-3 rounded-[2rem] border border-white/10 flex flex-col items-end gap-2">
-              <span className="text-[8px] font-black uppercase tracking-widest text-white/40 text-right leading-tight">Presence status</span>
-              <div className="flex items-center gap-2">
-                <span className={cn("text-[8px] font-bold uppercase", isSharing ? "text-[#3EB489]" : "text-white/40")}>{isSharing ? "On" : "Off"}</span>
-                <Switch checked={isSharing} onCheckedChange={setIsSharing} className="data-[state=checked]:bg-[#3EB489] scale-75 origin-right" />
-              </div>
+          <div className="bg-black/80 backdrop-blur-md px-4 py-3 md:px-6 md:py-4 rounded-[2rem] border border-white/10 flex items-center gap-4">
+            <div className="flex flex-col items-end gap-1">
+              <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-white/40">Presence</span>
+              <span className={cn("text-[8px] md:text-[10px] font-bold uppercase", isSharing ? "text-[#3EB489]" : "text-white/40")}>{isSharing ? "Sharing" : "Private"}</span>
             </div>
+            <Switch checked={isSharing} onCheckedChange={setIsSharing} className="data-[state=checked]:bg-[#3EB489] scale-75 md:scale-100" />
           </div>
         </div>
         
-        <div className="mt-auto space-y-3 pointer-events-auto w-full max-w-xl mx-auto pb-6">
+        {/* Main Interface Wrapper: Splits between Side Sidebar (Web) and Bottom Stack (Mobile) */}
+        <div className="flex-1 flex flex-col md:flex-row justify-end items-end md:items-start gap-6 w-full max-w-7xl mx-auto pointer-events-none pt-6">
           
-          {/* Friend SOS Banner */}
-          {isFriendDistress && (
-            <div className="bg-red-600 border-2 border-white/20 rounded-[2rem] p-6 shadow-[0_0_50px_rgba(220,38,38,0.4)] animate-in slide-in-from-bottom-4 duration-500 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center border border-white/30 shrink-0">
-                  <AlertTriangle size={24} className="text-white animate-pulse" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-black uppercase tracking-tighter leading-none">{focusName} needs care</h3>
-                  <p className="text-[8px] font-bold uppercase tracking-widest text-white/60 mt-1">Pulse {focusStatus} • Location Verified</p>
-                </div>
-              </div>
-              
-              <div className="flex flex-col gap-2">
-                <button 
-                  onClick={handleNotifyAwarenessForFriend}
-                  className="w-full h-16 bg-white text-red-600 rounded-xl font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
-                >
-                  <PhoneCall size={16} /> NOTIFY AWARENESS FOR {focusName?.toUpperCase()}
-                </button>
-              </div>
-            </div>
-          )}
-
+          {/* Side Info Panel (Left side on Web, Hidden on Mobile if info is active) */}
           {!isFriendDistress && showPulseInfo && (
-            <div className="bg-black/90 backdrop-blur-md p-6 rounded-[2rem] border border-white/10 max-w-[240px] animate-in fade-in slide-out-to-left duration-1000 space-y-2 relative">
+            <div className="mt-auto md:mt-0 md:mr-auto pointer-events-auto bg-black/90 backdrop-blur-md p-6 rounded-[2rem] border border-white/10 max-w-[240px] animate-in fade-in slide-in-from-left-4 duration-1000 space-y-2 relative">
               <button 
                 onClick={() => setShowPulseInfo(false)}
                 className="absolute top-4 right-4 text-white/20 hover:text-white"
@@ -180,22 +158,52 @@ function MapContent() {
             </div>
           )}
 
-          {/* Contextual Action */}
-          {!isFriendDistress && (
-            <div className="space-y-3">
-              <div className="max-h-[180px] overflow-hidden">
-                <LoveCircle lang={lang} />
+          {/* Tactical Sidebar (Web) / Bottom Console (Mobile) */}
+          <div className="w-full md:w-80 space-y-4 pointer-events-auto mt-auto md:mt-0 pb-6 md:pb-0">
+            
+            {/* Friend SOS Banner */}
+            {isFriendDistress && (
+              <div className="bg-red-600 border-2 border-white/20 rounded-[2.5rem] p-6 shadow-[0_0_50px_rgba(220,38,38,0.4)] animate-in slide-in-from-right-4 duration-500 space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center border border-white/30 shrink-0">
+                    <AlertTriangle size={24} className="text-white animate-pulse" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black uppercase tracking-tighter leading-none">{focusName} needs care</h3>
+                    <p className="text-[8px] font-bold uppercase tracking-widest text-white/60 mt-1">Pulse {focusStatus}</p>
+                  </div>
+                </div>
+                
+                <button 
+                  onClick={handleNotifyAwarenessForFriend}
+                  className="w-full h-14 bg-white text-red-600 rounded-xl font-black uppercase text-[9px] tracking-widest flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
+                >
+                  <PhoneCall size={14} /> NOTIFY AWARENESS FOR {focusName?.toUpperCase()}
+                </button>
               </div>
-              <button 
-                onClick={() => setSosActive(true)} 
-                className="w-full bg-red-600 h-20 rounded-full font-black uppercase text-sm tracking-widest flex items-center justify-center gap-3 shadow-[0_0_40px_rgba(220,38,38,0.3)] active:scale-95 transition-all"
-              >
-                <Shield className="w-6 h-6" /> Need Immediate Support
-              </button>
+            )}
+
+            {/* The Love Circle & SOS Action */}
+            <div className="space-y-4">
+              <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-[2.5rem] overflow-hidden">
+                <div className="max-h-[300px] md:max-h-[450px] overflow-y-auto custom-scrollbar">
+                  <LoveCircle lang={lang} />
+                </div>
+              </div>
+
+              {!isFriendDistress && (
+                <button 
+                  onClick={() => setSosActive(true)} 
+                  className="w-full bg-red-600 h-20 rounded-full font-black uppercase text-xs tracking-widest flex items-center justify-center gap-3 shadow-[0_0_40px_rgba(220,38,38,0.3)] active:scale-95 transition-all"
+                >
+                  <Shield className="w-6 h-6" /> Need Immediate Support
+                </button>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
+
       {sosActive && (
         <SOSAlert 
           onClose={() => setSosActive(false)} 
