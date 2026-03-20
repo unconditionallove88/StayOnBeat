@@ -51,19 +51,18 @@ function SkyIcon() {
 
     if (isDay) {
       setIcon(
-        <div className="relative group">
-          <Sun className="w-6 h-6 md:w-7 md:h-7 text-yellow-400 fill-yellow-400 animate-pulse shadow-[0_0_30px_rgba(250,204,21,0.4)]" />
+        <div className="relative group flex-shrink-0">
+          <Sun className="w-5 h-5 md:w-7 md:h-7 text-yellow-400 fill-yellow-400 animate-pulse shadow-[0_0_30px_rgba(250,204,21,0.4)]" />
           <div className="absolute inset-0 bg-yellow-400/20 blur-xl rounded-full animate-ping opacity-30" />
         </div>
       );
     } else {
       setIcon(
-        <div className="relative flex items-center justify-center">
+        <div className="relative flex items-center justify-center flex-shrink-0">
           <div className="relative">
-            <Moon className="w-5 h-5 md:w-6 md:h-6 text-slate-100 fill-slate-100/10 shadow-[0_0:20px_rgba(255,255,255,0.3)] rotate-[-15deg]" />
-            <Sparkles className="absolute -top-3 -right-3 w-3 h-3 text-white animate-pulse" />
-            <Sparkles className="absolute -bottom-2 -left-2 w-2 h-2 text-white/60 animate-pulse delay-700" />
-            <div className="absolute top-1 -left-4 w-1 h-1 bg-white rounded-full animate-ping opacity-40" />
+            <Moon className="w-4 h-4 md:w-6 md:h-6 text-slate-100 fill-slate-100/10 shadow-[0_0:20px_rgba(255,255,255,0.3)] rotate-[-15deg]" />
+            <Sparkles className="absolute -top-3 -right-3 w-2 h-2 text-white animate-pulse" />
+            <Sparkles className="absolute -bottom-2 -left-2 w-1.5 h-1.5 text-white/60 animate-pulse delay-700" />
           </div>
         </div>
       );
@@ -173,18 +172,19 @@ export default function Dashboard() {
 
   return (
     <main className="min-h-screen bg-black text-white flex flex-col h-screen overflow-hidden font-headline">
-      <div className="px-6 py-6 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
-        <header className="flex justify-between items-start max-w-4xl mx-auto w-full">
-          <div className="space-y-1">
-            <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">
+      <div className="px-4 md:px-6 py-4 md:py-6 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
+        <header className="flex justify-between items-center max-w-4xl mx-auto w-full gap-2">
+          <div className="flex-1 min-w-0">
+            <p className="text-[9px] font-black text-[#10B981] uppercase tracking-[0.4em]">
               Sanctuary Hub
             </p>
-            <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tighter flex items-center gap-3 md:gap-4">
-              {lang === 'en' ? `SHINE, ${displayName}` : `STRAHLE, ${displayName}`}
+            <h1 className="text-lg md:text-3xl font-black uppercase tracking-tighter flex items-center gap-2 md:gap-4 truncate overflow-hidden">
+              <span className="truncate">{lang === 'en' ? `SHINE, ${displayName}` : `STRAHLE, ${displayName}`}</span>
               <SkyIcon />
             </h1>
           </div>
-          <div className="flex items-center gap-1.5 md:gap-2">
+          
+          <div className="flex items-center gap-1 md:gap-2 flex-shrink-0">
             <Tooltip>
               <TooltipTrigger asChild>
                 <div className="cursor-pointer">
@@ -200,7 +200,7 @@ export default function Dashboard() {
               <TooltipTrigger asChild>
                 <button 
                   onClick={() => setCoCreationOpen(true)} 
-                  className="p-2 md:p-2.5 bg-[#90EE90]/10 rounded-full border border-[#90EE90]/30 hover:border-[#90EE90] transition-colors active:scale-95"
+                  className="p-1.5 md:p-2.5 bg-[#90EE90]/10 rounded-full border border-[#90EE90]/30 hover:border-[#90EE90] transition-colors active:scale-95"
                 >
                   <Sprout className="w-4 h-4 md:w-5 md:h-5 text-[#90EE90]" />
                 </button>
@@ -214,7 +214,7 @@ export default function Dashboard() {
               <TooltipTrigger asChild>
                 <button 
                   onClick={() => setAiBotOpen(true)} 
-                  className="p-2 md:p-2.5 bg-blue-600/10 rounded-full border border-blue-500/30 transition-colors active:scale-95"
+                  className="p-1.5 md:p-2.5 bg-blue-600/10 rounded-full border border-blue-500/30 transition-colors active:scale-95"
                 >
                   <Bot className="w-4 h-4 md:w-5 md:h-5 text-blue-400" />
                 </button>
@@ -228,7 +228,7 @@ export default function Dashboard() {
 
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link href="/profile" className="p-2 md:p-2.5 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all active:scale-95">
+                <Link href="/profile" className="p-1.5 md:p-2.5 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all active:scale-95">
                   <User className="w-4 h-4 md:w-5 md:h-5 text-white/40" />
                 </Link>
               </TooltipTrigger>
@@ -241,7 +241,7 @@ export default function Dashboard() {
               <TooltipTrigger asChild>
                 <button 
                   onClick={handleLogout} 
-                  className="p-2 md:p-2.5 bg-red-600/10 rounded-full border border-red-600/30 transition-colors active:scale-95"
+                  className="p-1.5 md:p-2.5 bg-red-600/10 rounded-full border border-red-600/30 transition-colors active:scale-95"
                 >
                   <LogOut className="w-4 h-4 md:w-5 md:h-5 text-red-500" />
                 </button>
