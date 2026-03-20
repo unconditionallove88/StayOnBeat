@@ -1,9 +1,9 @@
 "use client"
 
 import { useState, useEffect, Suspense } from 'react';
-import { ArrowLeft, Target, Shield, Navigation, AlertTriangle, Loader2, Heart, PhoneCall, Sparkles } from 'lucide-react';
+import { ArrowLeft, Target, Shield, Loader2, Heart, PhoneCall, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
 import { SOSAlert } from '@/components/dashboard/SOSAlert';
@@ -11,7 +11,6 @@ import { RadiatingThirdEye } from '@/components/ui/radiating-third-eye';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import LoveCircle from '@/components/dashboard/LoveCircle';
-import { useToast } from '@/hooks/use-toast';
 
 /**
  * @fileOverview High-Fidelity Radar Map ("The Pulse").
@@ -21,7 +20,6 @@ import { useToast } from '@/hooks/use-toast';
 
 function MapContent() {
   const searchParams = useSearchParams();
-  const { toast } = useToast();
   const { user } = useUser();
   const firestore = useFirestore();
   const [sosActive, setSosActive] = useState(false);

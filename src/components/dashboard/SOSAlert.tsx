@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth, useFirestore } from '@/firebase';
-import { collection, doc, serverTimestamp, getDocs } from 'firebase/firestore';
+import { collection, doc, serverTimestamp } from 'firebase/firestore';
 import { addDocumentNonBlocking, setDocumentNonBlocking } from '@/firebase';
-import { Heart, Loader2, Sparkles, ShieldCheck, Phone, CheckCircle2, X, AlertTriangle, Navigation, Info, Wind } from 'lucide-react';
+import { Heart, Loader2, Sparkles, ShieldCheck, CheckCircle2, X, AlertTriangle, Navigation, Info, Wind } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 /**
@@ -43,7 +43,6 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
 
     const userUid = auth.currentUser.uid;
     const userRef = doc(firestore, 'users', userUid);
-    const globalAlertsRef = collection(firestore, 'sosAlerts');
 
     // Simulate notification payload
     const logMessage = isFriendMode 
@@ -79,7 +78,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
         {isFriendMode ? (
           <div className="space-y-6 max-w-sm">
             <h1 className="text-4xl font-black uppercase tracking-tighter text-white leading-none">
-              Professional Support <br/> <span className="text-[#10B981]">is on the way</span>
+              Support <br/> <span className="text-[#10B981]">is on the way</span>
             </h1>
             <div className="bg-white/5 border border-[#10B981]/20 rounded-[2.5rem] p-8 space-y-6 text-left">
               <div className="flex items-center gap-4">
@@ -92,26 +91,50 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                 </div>
               </div>
               <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest leading-relaxed">
-                ESTIMATED ARRIVAL: 3–5 MINUTES. WE HAVE THE LOCATION. 🌿
+                ESTIMATED ARRIVAL: 3–5 MINUTES. WE HAVE {friendName?.toUpperCase()}&apos;S LOCATION. 🌿
               </p>
             </div>
 
             <div className="bg-amber-500/5 border border-amber-500/20 rounded-3xl p-6 text-left space-y-4">
               <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-500 flex items-center gap-2">
-                <Info size={14} /> Immediate First Aid
+                <Info size={14} /> Collective Care Guidance
               </h3>
               <ul className="space-y-3">
-                {[
-                  "Stay with them. Do not leave.",
-                  "Place them in the recovery position.",
-                  "Loosen tight clothing to cool them down.",
-                  "Do NOT give water if they are semi-conscious."
-                ].map((txt, i) => (
-                  <li key={i} className="flex gap-3 text-[10px] font-bold uppercase tracking-wide text-white/60 leading-tight">
-                    <span className="w-1 h-1 bg-amber-500 rounded-full mt-1.5 shrink-0" />
-                    {txt}
-                  </li>
-                ))}
+                {friendStatus === 'intense' ? (
+                  <>
+                    <li className="flex gap-3 text-[10px] font-bold uppercase tracking-wide text-white/60 leading-tight">
+                      <span className="w-1 h-1 bg-red-500 rounded-full mt-1.5 shrink-0" />
+                      Place them in the recovery position immediately.
+                    </li>
+                    <li className="flex gap-3 text-[10px] font-bold uppercase tracking-wide text-white/60 leading-tight">
+                      <span className="w-1 h-1 bg-red-500 rounded-full mt-1.5 shrink-0" />
+                      Loosen any tight clothing around the neck and waist.
+                    </li>
+                    <li className="flex gap-3 text-[10px] font-bold uppercase tracking-wide text-white/60 leading-tight">
+                      <span className="w-1 h-1 bg-red-500 rounded-full mt-1.5 shrink-0" />
+                      Do NOT give water if they are semi-conscious.
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li className="flex gap-3 text-[10px] font-bold uppercase tracking-wide text-white/60 leading-tight">
+                      <span className="w-1 h-1 bg-amber-500 rounded-full mt-1.5 shrink-0" />
+                      Guide them to a quieter, cooler space.
+                    </li>
+                    <li className="flex gap-3 text-[10px] font-bold uppercase tracking-wide text-white/60 leading-tight">
+                      <span className="w-1 h-1 bg-amber-500 rounded-full mt-1.5 shrink-0" />
+                      Encourage slow, deep breaths with them.
+                    </li>
+                    <li className="flex gap-3 text-[10px] font-bold uppercase tracking-wide text-white/60 leading-tight">
+                      <span className="w-1 h-1 bg-amber-500 rounded-full mt-1.5 shrink-0" />
+                      Offer small sips of water or electrolytes.
+                    </li>
+                  </>
+                )}
+                <li className="flex gap-3 text-[10px] font-black uppercase tracking-wide text-white leading-tight">
+                  <span className="w-1 h-1 bg-emerald-500 rounded-full mt-1.5 shrink-0" />
+                  Stay with them until Jay arrives. You are doing great.
+                </li>
               </ul>
             </div>
           </div>
@@ -154,7 +177,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[4000] flex items-end sm:items-center justify-center p-0 sm:p-6 animate-in fade-in duration-500 font-headline">
-      <div className="bg-[#0a0a0a] w-full max-w-md rounded-t-[3rem] sm:rounded-[3rem] border-t-2 sm:border-2 border-white/10 p-10 pb-14 shadow-[0_-20px_100px_rgba(0,0,0,0.5)] relative overflow-hidden">
+      <div className="bg-[#0a0a0a] w-full max-md rounded-t-[3rem] sm:rounded-[3rem] border-t-2 sm:border-2 border-white/10 p-10 pb-14 shadow-[0_-20px_100px_rgba(0,0,0,0.5)] relative overflow-hidden">
         <button 
           onClick={onClose}
           className="absolute top-8 right-8 p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white transition-all z-10"
@@ -179,17 +202,25 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
 
         {isFriendMode ? (
           <div className="space-y-6">
-            <div className="bg-red-600/10 border border-red-600/30 p-6 rounded-[2rem] text-center space-y-2">
-              <p className="text-[10px] font-black uppercase tracking-widest text-red-500">Intense Rhythm Detected</p>
+            <div className={cn(
+              "p-6 rounded-[2rem] text-center space-y-2 border",
+              friendStatus === 'intense' ? "bg-red-600/10 border-red-600/30" : "bg-amber-600/10 border-amber-600/30"
+            )}>
+              <p className={cn(
+                "text-[10px] font-black uppercase tracking-widest",
+                friendStatus === 'intense' ? "text-red-500" : "text-amber-500"
+              )}>
+                {friendStatus?.toUpperCase()} RHYTHM DETECTED
+              </p>
               <p className="text-xs font-bold text-white/80 leading-relaxed uppercase">
                 {friendName} is in a high-risk physiological state. Notifying the Awareness Team will dispatch professional medical support to your current tactical grid.
               </p>
             </div>
             <button 
               onClick={() => handleSendSOS('urgent')} 
-              className="w-full h-24 bg-red-600 text-white rounded-[1.5rem] font-black text-xl uppercase tracking-widest transition-all active:scale-95 shadow-[0_0_40px_rgba(220,38,38,0.3)] flex flex-col items-center justify-center"
+              className="w-full h-24 bg-red-600 text-white rounded-[1.5rem] font-black text-xl uppercase tracking-widest transition-all active:scale-95 shadow-[0_0_40px_rgba(220,38,38,0.3)] flex flex-col items-center justify-center px-6"
             >
-              <span>NOTIFY AWARENESS TEAM</span>
+              <span className="text-center">NOTIFY AWARENESS TEAM</span>
               <span className="text-[8px] font-bold mt-2 opacity-60 uppercase tracking-widest">Handled with absolute discretion & privacy</span>
             </button>
           </div>
@@ -211,11 +242,9 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
             <div className="space-y-5">
               <button 
                 onClick={() => handleSendSOS('urgent')} 
-                className="w-full h-24 bg-[#DC2626] text-white rounded-[1.5rem] font-black text-xl uppercase tracking-widest transition-all active:scale-95 shadow-[0_0_40px_rgba(220,38,38,0.3)] flex flex-col items-center justify-center leading-none"
+                className="w-full h-24 bg-[#DC2626] text-white rounded-[1.5rem] font-black text-xl uppercase tracking-widest transition-all active:scale-95 shadow-[0_0_40px_rgba(220,38,38,0.3)] flex flex-col items-center justify-center leading-none px-6"
               >
-                <span className="flex items-center gap-3">
-                  NOTIFY AWARENESS TEAM
-                </span>
+                <span className="text-center">NOTIFY AWARENESS TEAM</span>
                 <span className="text-[8px] font-bold mt-2 opacity-60 uppercase tracking-widest">Handled with absolute discretion & privacy</span>
               </button>
               
@@ -231,7 +260,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                   onClick={onClose} 
                   className="text-[#10B981] font-black text-sm uppercase tracking-widest hover:underline underline-offset-8 transition-all active:scale-95 p-4"
                 >
-                  🟢 I'm okay now
+                  🟢 I&apos;m okay now
                 </button>
               </div>
             </div>
