@@ -6,7 +6,7 @@ import { AlertTriangle, Wind, Clock, ShieldAlert } from "lucide-react";
 
 /**
  * @fileOverview High-Fidelity Poppers Information Card.
- * Features critical interaction warnings and substance-specific stats.
+ * Features aesthetic icons and substance-specific stats.
  */
 
 export default function PoppersCard({ lang = "en" }: { lang?: "en" | "de" }) {
@@ -22,8 +22,8 @@ export default function PoppersCard({ lang = "en" }: { lang?: "en" | "de" }) {
       
       {/* Header */}
       <div className="flex items-center gap-5 mb-6">
-        <div className="w-16 h-16 rounded-2xl bg-amber-950/50 flex items-center justify-center text-3xl border border-amber-900/20 shadow-lg group-hover:scale-110 transition-transform">
-          🟡
+        <div className="w-16 h-16 rounded-2xl bg-amber-950/50 flex items-center justify-center border border-amber-900/20 shadow-lg group-hover:scale-110 transition-transform">
+          <Wind className="text-amber-500" size={32} />
         </div>
         <div>
           <p className="text-white font-black text-xl uppercase tracking-tighter leading-none">Poppers</p>

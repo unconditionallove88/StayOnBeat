@@ -11,7 +11,19 @@ import {
   Trash2,
   Calendar,
   ArrowLeft,
-  Microscope
+  Microscope,
+  Wine, 
+  Leaf, 
+  Sparkle, 
+  FlaskConical, 
+  Heart, 
+  Droplets, 
+  Zap, 
+  Eye, 
+  Orbit, 
+  Pill, 
+  Diamond,
+  Wind
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -27,26 +39,34 @@ import PoppersCard from '@/components/lab/cards/PoppersCard';
  * @fileOverview Pulse Lab component.
  * Calibrated for high-fidelity scrolling and real-time safety monitoring.
  * Features persistent Safety Advisor access connected to intake context.
- * Enhanced for mobile Safari scrolling.
+ * Enhanced for mobile Safari scrolling with aesthetic icons.
  */
 
+const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M12 21v-6" />
+    <path d="M5 15c0-4 3-7 7-7s7 3 7 7" />
+    <path d="M12 8c-2.5 0-4.5 2-4.5 4.5" />
+  </svg>
+);
+
 const SUBSTANCES = [
-  { id: 'alcohol', emoji: '🍺', name: 'Alcohol', unit: 'Items', subTypes: ['Beer', 'Wine', 'Shot', 'Mixer'], inputType: 'cart' },
-  { id: 'cannabis', emoji: '🌿', name: 'Cannabis', unit: 'g', inputType: 'manual' },
-  { id: 'mdma', emoji: '💊', name: 'MDMA', unit: 'g', inputType: 'manual' },
-  { id: 'cocaine', emoji: '❄️', name: 'Cocaine', unit: 'g', inputType: 'manual' },
-  { id: 'ketamine', emoji: '🐴', name: 'Ketamine', unit: 'g', inputType: 'manual' },
-  { id: 'ecstasy', emoji: '💖', name: 'Ecstasy', unit: 'pills', inputType: 'manual' },
-  { id: 'ghb', emoji: '💧', name: 'GHB/GBL', unit: 'ml', inputType: 'manual' },
-  { id: 'speed', emoji: '⚡', name: 'Speed', unit: 'g', inputType: 'manual' },
-  { id: 'lsd', emoji: '🌈', name: 'LSD', unit: 'ug', inputType: 'manual' },
-  { id: '2cb', emoji: '🎡', name: '2C-B', unit: 'mg', inputType: 'manual' },
-  { id: 'psilocybin', emoji: '🍄', name: 'Psilocybin', unit: 'g', inputType: 'manual' },
-  { id: 'poppers', emoji: '🟡', name: 'Poppers', unit: 'hits', inputType: 'manual' },
-  { id: 'viagra', emoji: '💊', name: 'Sildenafil', unit: 'pills', inputType: 'manual' },
-  { id: '2mmc', emoji: '💎', name: '2-MMC', unit: 'g', inputType: 'manual' },
-  { id: '3mmc', emoji: '💎', name: '3-MMC', unit: 'g', inputType: 'manual' },
-  { id: '4mmc', emoji: '💎', name: '4-MMC', unit: 'g', inputType: 'manual' },
+  { id: 'alcohol', icon: Wine, name: 'Alcohol', color: 'text-amber-500', bg: 'bg-amber-500/10', unit: 'Items', subTypes: ['Beer', 'Wine', 'Shot', 'Mixer'], inputType: 'cart' },
+  { id: 'cannabis', icon: Leaf, name: 'Cannabis', color: 'text-emerald-500', bg: 'bg-emerald-500/10', unit: 'g', inputType: 'manual' },
+  { id: 'mdma', icon: Sparkle, name: 'MDMA', color: 'text-purple-400', bg: 'bg-purple-500/10', unit: 'g', inputType: 'manual' },
+  { id: 'cocaine', icon: Diamond, name: 'Cocaine', color: 'text-slate-200', bg: 'bg-slate-200/10', unit: 'g', inputType: 'manual' },
+  { id: 'ketamine', icon: FlaskConical, name: 'Ketamine', color: 'text-indigo-400', bg: 'bg-indigo-400/10', unit: 'g', inputType: 'manual' },
+  { id: 'ecstasy', icon: Heart, name: 'Ecstasy', color: 'text-pink-500', bg: 'bg-pink-500/10', unit: 'pills', inputType: 'manual' },
+  { id: 'ghb', icon: Droplets, name: 'GHB/GBL', color: 'text-blue-400', bg: 'bg-blue-400/10', unit: 'ml', inputType: 'manual' },
+  { id: 'speed', icon: Zap, name: 'Speed', color: 'text-yellow-400', bg: 'bg-yellow-400/10', unit: 'g', inputType: 'manual' },
+  { id: 'lsd', icon: Eye, name: 'LSD', color: 'text-cyan-400', bg: 'bg-cyan-400/10', unit: 'ug', inputType: 'manual' },
+  { id: '2cb', icon: Orbit, name: '2C-B', color: 'text-orange-400', bg: 'bg-orange-400/10', unit: 'mg', inputType: 'manual' },
+  { id: 'psilocybin', icon: MushroomIcon, name: 'Psilocybin', color: 'text-emerald-400', bg: 'bg-emerald-400/10', unit: 'g', inputType: 'manual' },
+  { id: 'poppers', icon: Wind, name: 'Poppers', color: 'text-amber-400', bg: 'bg-amber-400/10', unit: 'hits', inputType: 'manual' },
+  { id: 'viagra', icon: Pill, name: 'Sildenafil', color: 'text-blue-500', bg: 'bg-blue-500/10', unit: 'pills', inputType: 'manual' },
+  { id: '2mmc', icon: Diamond, name: '2-MMC', color: 'text-sky-300', bg: 'bg-sky-300/10', unit: 'g', inputType: 'manual' },
+  { id: '3mmc', icon: Diamond, name: '3-MMC', color: 'text-sky-400', bg: 'bg-sky-400/10', unit: 'g', inputType: 'manual' },
+  { id: '4mmc', icon: Diamond, name: '4-MMC', color: 'text-sky-500', bg: 'bg-sky-500/10', unit: 'g', inputType: 'manual' },
 ];
 
 export function Step6SubstanceLab({ 
@@ -106,7 +126,7 @@ export function Step6SubstanceLab({
       entry = {
         id: 'alcohol',
         name: 'Alcohol',
-        emoji: '🍺',
+        icon: Wine,
         items: activeItems,
         timestamp: new Date().toISOString(),
       };
@@ -115,7 +135,7 @@ export function Step6SubstanceLab({
       entry = {
         id: activeSubstance.id,
         name: activeSubstance.name,
-        emoji: activeSubstance.emoji,
+        icon: activeSubstance.icon,
         value: manualValue,
         unit: activeSubstance.unit,
         timestamp: new Date().toISOString(),
@@ -236,7 +256,9 @@ export function Step6SubstanceLab({
                   active ? "bg-[#3EB489]/10 border-[#3EB489] shadow-[0_0_20px_#3EB48933]" : "bg-white/5 border-white/10"
                 )}
               >
-                <span className="text-4xl group-hover:scale-110 transition-transform">{s.emoji}</span>
+                <div className={cn("p-4 rounded-2xl bg-black/20 group-hover:scale-110 transition-transform", s.color)}>
+                  <s.icon size={28} />
+                </div>
                 <span className={cn("text-[10px] font-black uppercase tracking-widest", active ? "text-[#3EB489]" : "text-white/60")}>{s.name}</span>
               </button>
             );
@@ -252,7 +274,9 @@ export function Step6SubstanceLab({
               {sessionLogs.slice().reverse().map((log, i) => (
                 <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between shadow-lg">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center font-bold text-lg">{log.emoji}</div>
+                    <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center">
+                      <log.icon size={20} className="text-[#3EB489]" />
+                    </div>
                     <div className="flex flex-col gap-1">
                       <span className="text-sm font-black uppercase text-white">{log.name}</span>
                       <span className="text-[10px] font-bold text-[#3EB489]">
@@ -281,6 +305,9 @@ export function Step6SubstanceLab({
         <DialogContent className="bg-black border-white/10 max-w-md p-8 rounded-[3rem] h-auto max-h-[85dvh] overflow-y-auto">
           <DialogTitle className="sr-only">{activeSubstance?.name}</DialogTitle>
           <div className="text-center mb-6">
+            <div className={cn("w-20 h-20 mx-auto rounded-3xl bg-white/5 flex items-center justify-center mb-4", activeSubstance?.color)}>
+              {activeSubstance && <activeSubstance.icon size={40} />}
+            </div>
             <h2 className="text-2xl font-black uppercase tracking-tighter text-white">{activeSubstance?.name}</h2>
           </div>
           <div className="space-y-6">
