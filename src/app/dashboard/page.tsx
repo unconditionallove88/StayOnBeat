@@ -346,7 +346,7 @@ export default function Dashboard() {
                   <p className="text-base md:text-xl font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'Pulse Sync' : 'Pulse Sync'}</p>
                   <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Vitals</p>
                 </div>
-              </button>
+              </Link>
 
               <button 
                 onClick={() => setShowSOS(true)}
@@ -359,7 +359,7 @@ export default function Dashboard() {
                   <p className="text-base md:text-xl font-black uppercase tracking-tight leading-none group-hover:text-white transition-colors">{lang === 'en' ? 'Immediate Help' : 'Sofort-Hilfe'}</p>
                   <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors">Support</p>
                 </div>
-              </button>
+              </Link>
             </div>
           </div>
         </div>
