@@ -14,13 +14,20 @@ import {
   CircleDashed, 
   HeartPulse, 
   Droplets, 
-  Lungs, 
   RefreshCcw, 
   FlaskConical, 
-  LifeBuoy, 
   Activity,
   ArrowLeft 
 } from 'lucide-react';
+
+const LungsIcon = ({ size = 24, className }: { size?: number, className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M7 3c-2 0-5 3-5 8 0 4 3 9 5 9h1c1 0 2-1 2-2V7c0-1-1-2-2-2H7z" />
+    <path d="M17 3c2 0 5 3 5 8 0 4-3 9-5 9h-1c-1 0-2-1-2-2V7c0-1 1-2 2-2h1z" />
+    <path d="M12 12v9" />
+    <path d="M12 7V3" />
+  </svg>
+);
 
 const SECTIONS = {
   EN: [
@@ -48,7 +55,7 @@ const SECTIONS = {
       items: [
         { id: 'circulatory', icon: HeartPulse, label: 'Circulatory system', desc: 'Heart, Blood vessels' },
         { id: 'urinary', icon: Droplets, label: 'Urinary system', desc: 'Kidneys, Bladder' },
-        { id: 'respiratory', icon: Lungs, label: 'Respiratory system', desc: 'Lungs' },
+        { id: 'respiratory', icon: LungsIcon, label: 'Respiratory system', desc: 'Lungs' },
         { id: 'gi-tract', icon: RefreshCcw, label: 'Gastrointestinal tract', desc: 'Stomach, Intestines' },
         { id: 'biliary', icon: FlaskConical, label: 'Biliary system', desc: 'Liver, Gallbladder' },
         { id: 'integumentary', icon: Sun, label: 'Integumentary system', desc: 'Skin' },
@@ -81,7 +88,7 @@ const SECTIONS = {
       items: [
         { id: 'circulatory', icon: HeartPulse, label: 'Herz-Kreislauf-System', desc: 'Herz, Blutgefäße' },
         { id: 'urinary', icon: Droplets, label: 'Harnsystem', desc: 'Nieren, Blase' },
-        { id: 'respiratory', icon: Lungs, label: 'Atmungssystem', desc: 'Lunge' },
+        { id: 'respiratory', icon: LungsIcon, label: 'Atmungssystem', desc: 'Lunge' },
         { id: 'gi-tract', icon: RefreshCcw, label: 'Magen-Darm-Trakt', desc: 'Magen, Darm' },
         { id: 'biliary', icon: FlaskConical, label: 'Galle & Leber', desc: 'Leber, Gallengänge' },
         { id: 'integumentary', icon: Sun, label: 'Haut & Gewebe', desc: 'Haut' },

@@ -3,7 +3,8 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, Suspense } from "react";
-import { useAuth, useFirestore, setDocumentNonBlocking } from "@/firebase";
+import { useAuth, useFirestore } from "@/firebase";
+import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { signInAnonymously } from "firebase/auth";
 import { doc, serverTimestamp } from "firebase/firestore";
 import { 

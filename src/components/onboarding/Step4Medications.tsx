@@ -76,7 +76,7 @@ export function Step4Medications({
   };
 
   return (
-    <div className="w-full min-h-[85vh] flex flex-col items-center justify-center font-headline max-w-xl mx-auto px-4 text-center relative">
+    <div className="w-full min-h-[85vh] flex flex-col items-center justify-center font-headline max-xl mx-auto px-4 text-center relative">
       {onBack && (
         <button 
           onClick={onBack}
