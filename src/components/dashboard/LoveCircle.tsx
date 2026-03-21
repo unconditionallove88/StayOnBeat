@@ -1,13 +1,15 @@
+
 "use client";
 
 import React from "react";
-import { Navigation, Heart, Plus, HeartHandshake, CircleDot } from "lucide-react";
+import { Navigation, Heart, Plus, HeartHandshake, CircleDot, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 /**
  * @fileOverview Love Circle Component (The Radiant Unity Orb).
  * Represents unconditional love, trust, and collective resonance.
+ * Updated for high-fidelity "Human Readiness" with clearer social actions.
  */
 
 interface Friend {
@@ -39,6 +41,8 @@ export default function LoveCircle({
   const handleFriendClick = (friend: Friend) => {
     if (friend.status !== 'steady') {
       router.push(`/map?focus=${friend.name.toLowerCase()}&status=${friend.status}`);
+    } else if (!isMap) {
+      router.push('/heart-status');
     }
   };
 
@@ -58,14 +62,16 @@ export default function LoveCircle({
       sub: "Radiant Unity",
       souls: "Active Souls",
       distress: "Care Needed",
-      sync: "Collective Resonance"
+      sync: "Collective Resonance",
+      enter: "Enter Circle"
     },
     de: {
       title: "Circle of Love",
       sub: "Strahlende Einheit",
       souls: "Verbundene Seelen",
       distress: "Fürsorge benötigt",
-      sync: "Gemeinsame Resonanz"
+      sync: "Gemeinsame Resonanz",
+      enter: "Circle betreten"
     }
   }[lang];
 
@@ -75,12 +81,13 @@ export default function LoveCircle({
         "relative aspect-square rounded-full flex flex-col items-center justify-center transition-all duration-1000 font-headline overflow-hidden border-2",
         isMap 
           ? "w-[240px] md:w-[260px] bg-black/60 backdrop-blur-3xl pointer-events-auto shadow-[0_0_60px_rgba(0,0,0,0.8)]" 
-          : "w-full max-w-[400px] mx-auto bg-white/[0.02] shadow-[0_0_80px_rgba(16,185,129,0.05)]"
+          : "w-full max-w-[400px] mx-auto bg-white/[0.02] shadow-[0_0_80px_rgba(16,185,129,0.05)] cursor-pointer group/orb"
       )}
       style={{ 
         borderColor: `${circlePulseColor}30`,
         boxShadow: isMap ? `0 0 40px ${circlePulseColor}15` : `0 0 100px ${circlePulseColor}05`
       }}
+      onClick={() => !isMap && router.push('/heart-status')}
     >
       <div 
         className="absolute inset-0 opacity-30 animate-pulse-heart pointer-events-none" 
@@ -115,7 +122,7 @@ export default function LoveCircle({
           {circle.map((person, i) => (
             <div key={i} className="flex flex-col items-center gap-2 group/node">
               <button 
-                onClick={() => handleFriendClick(person)}
+                onClick={(e) => { e.stopPropagation(); handleFriendClick(person); }}
                 className={cn(
                   "relative rounded-full flex items-center justify-center font-black text-black transition-all duration-700 hover:scale-110 active:scale-95 group/avatar",
                   isMap ? "w-12 h-12 text-[11px]" : "w-16 h-16 text-xs",
@@ -151,6 +158,7 @@ export default function LoveCircle({
           ))}
           
           <button 
+            onClick={(e) => { e.stopPropagation(); router.push('/safety-network'); }}
             className={cn(
               "rounded-full border-2 border-dashed border-white/10 bg-white/5 flex items-center justify-center text-white/20 hover:text-[#10B981] hover:border-[#10B981]/40 hover:bg-[#10B981]/5 transition-all duration-500",
               isMap ? "w-12 h-12" : "w-16 h-16"
@@ -164,7 +172,7 @@ export default function LoveCircle({
       <div className={cn("z-10 shrink-0 w-full", isMap ? "pb-6 px-6" : "pb-10 px-10")}>
         {hasDistress ? (
           <button 
-            onClick={() => router.push('/map?focus=max&status=intense')}
+            onClick={(e) => { e.stopPropagation(); router.push('/map?focus=max&status=intense'); }}
             className={cn(
               "w-full rounded-2xl flex flex-col items-center justify-center transition-all active:scale-95 group/sos bg-red-600/10 border border-red-600/20 py-3",
               isMap ? "animate-in slide-in-from-bottom-2" : ""
@@ -176,9 +184,16 @@ export default function LoveCircle({
             </div>
           </button>
         ) : (
-          <div className="text-center opacity-30 flex flex-col items-center gap-1">
-            <CircleDot size={12} className="text-[#10B981]" />
-            <p className="text-[7px] font-black text-white uppercase tracking-[0.6em]">{t.sync}</p>
+          <div className="text-center flex flex-col items-center gap-2">
+            {!isMap && (
+              <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#10B981] opacity-0 group-hover/orb:opacity-100 transition-opacity flex items-center gap-2">
+                {t.enter} <ArrowRight size={10} />
+              </span>
+            )}
+            <div className="opacity-30 flex flex-col items-center gap-1">
+              <CircleDot size={12} className="text-[#10B981]" />
+              <p className="text-[7px] font-black text-white uppercase tracking-[0.6em]">{t.sync}</p>
+            </div>
           </div>
         )}
       </div>

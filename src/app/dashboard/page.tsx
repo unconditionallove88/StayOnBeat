@@ -16,7 +16,8 @@ import {
   Moon, 
   Microscope,
   Settings2,
-  ChevronDown
+  ChevronDown,
+  ArrowLeft
 } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6SubstanceLab';
@@ -232,7 +233,10 @@ function DashboardContent() {
             </Link>
           </div>
 
-          <div className="w-full flex justify-center">
+          <div className="w-full flex flex-col items-center gap-6">
+            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">
+              {lang === 'en' ? 'Collective Resonance' : 'Gemeinsame Resonanz'}
+            </h2>
             <LoveCircle lang={lang} variant="dashboard" />
           </div>
 

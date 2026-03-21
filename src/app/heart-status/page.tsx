@@ -1,9 +1,10 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
 import HeartStatusAura from "@/components/dashboard/HeartStatusAura";
 import LoveCircleList from "@/components/dashboard/LoveCircle";
-import { Activity, ArrowLeft, Watch, Info, HeartHandshake, Users2, RefreshCw } from "lucide-react";
+import { Activity, ArrowLeft, Watch, Info, HeartHandshake, Users2, RefreshCw, ChevronRight } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
@@ -122,31 +123,37 @@ export default function MyHeartPage() {
           </span>
         </div>
 
-        <div className="grid grid-cols-2 gap-6 w-full max-w-sm">
+        <div className="grid grid-cols-1 gap-4 w-full max-w-sm">
           <button 
             onClick={() => setHoldersOpen(true)}
-            className="aspect-square rounded-[2.5rem] bg-white/5 border border-[#10B981]/20 flex flex-col items-center justify-center gap-4 hover:bg-[#10B981]/5 hover:border-[#10B981] transition-all group shadow-2xl"
+            className="w-full p-6 rounded-[2.5rem] bg-white/5 border border-[#10B981]/20 flex items-center justify-between hover:bg-[#10B981]/5 hover:border-[#10B981] transition-all group shadow-2xl"
           >
-            <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 group-hover:scale-110 transition-transform">
-              <HeartHandshake size={28} className="text-[#10B981]" />
+            <div className="flex items-center gap-5">
+              <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 group-hover:scale-110 transition-transform">
+                <HeartHandshake size={28} className="text-[#10B981]" />
+              </div>
+              <div className="text-left">
+                <p className="text-lg font-black uppercase tracking-tight">{t.holders}</p>
+                <p className="text-[8px] font-bold text-[#10B981] uppercase tracking-widest">{t.holdersSub}</p>
+              </div>
             </div>
-            <div className="text-center">
-              <p className="text-sm font-black uppercase tracking-tight">{t.holders}</p>
-              <p className="text-[8px] font-bold text-[#10B981] uppercase tracking-widest">{t.holdersSub}</p>
-            </div>
+            <ChevronRight size={20} className="text-white/10 group-hover:text-white transition-all" />
           </button>
 
           <button 
             onClick={() => setWitnessesOpen(true)}
-            className="aspect-square rounded-[2.5rem] bg-white/5 border border-amber-500/20 flex flex-col items-center justify-center gap-4 hover:bg-amber-500/5 hover:border-amber-500 transition-all group shadow-2xl"
+            className="w-full p-6 rounded-[2.5rem] bg-white/5 border border-amber-500/20 flex items-center justify-between hover:bg-amber-500/5 hover:border-amber-500 transition-all group shadow-2xl"
           >
-            <div className="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center border border-amber-500/20 group-hover:scale-110 transition-transform">
-              <Users2 size={28} className="text-amber-500" />
+            <div className="flex items-center gap-5">
+              <div className="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center border border-amber-500/20 group-hover:scale-110 transition-transform">
+                <Users2 size={28} className="text-amber-500" />
+              </div>
+              <div className="text-left">
+                <p className="text-lg font-black uppercase tracking-tight">{t.witnesses}</p>
+                <p className="text-[8px] font-bold text-amber-500 uppercase tracking-widest">{t.witnessesSub}</p>
+              </div>
             </div>
-            <div className="text-center">
-              <p className="text-sm font-black uppercase tracking-tight">{t.witnesses}</p>
-              <p className="text-[8px] font-bold text-amber-500 uppercase tracking-widest">{t.witnessesSub}</p>
-            </div>
+            <ChevronRight size={20} className="text-white/10 group-hover:text-white transition-all" />
           </button>
         </div>
         
@@ -201,7 +208,10 @@ export default function MyHeartPage() {
           {t.recalibrate}
         </button>
 
-        <LoveCircleList lang={lang} />
+        <div className="flex flex-col items-center gap-4">
+          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">The Love Circle</p>
+          <LoveCircleList lang={lang} />
+        </div>
       </div>
 
       <Dialog open={syncOpen} onOpenChange={setSyncOpen}>
