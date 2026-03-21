@@ -1,9 +1,10 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useFirestore, useUser, updateDocumentNonBlocking } from '@/firebase';
 import { doc, serverTimestamp } from 'firebase/firestore';
-import { ChevronDown, Leaf } from 'lucide-react';
+import { ChevronDown, Leaf, Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { HarmonyYinYangIcon } from '@/components/ui/harmony-yin-yang-icon';
 import {
@@ -14,9 +15,9 @@ import {
 } from "@/components/ui/sheet";
 
 /**
- * @fileOverview Vibe Mirror Component (Mood Chip).
- * Features updated Yin-Yang icon for Harmony (Yellow) and Leaf icon for Calm (Emerald).
- * Calibrated: "should" removed, "Heart" changed to "Mood".
+ * @fileOverview Vibe Mirror Component.
+ * Redesigned as a sophisticated "Sanctuary Ritual."
+ * Features aesthetic icons and grounding affirmations.
  */
 
 const VIBES = [
@@ -131,17 +132,17 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
       <button 
         onClick={() => setIsOpen(true)}
         className={cn(
-          "flex items-center gap-2.5 px-4 py-2.5 rounded-full border transition-all active:scale-95 group z-[60]",
+          "flex items-center gap-2.5 px-4 py-3 rounded-full border transition-all active:scale-95 group",
           currentTheme.border,
           currentTheme.bg,
-          "hover:bg-white/5"
+          "hover:bg-white/5 shadow-lg"
         )}
       >
-        <span className="text-lg leading-none group-hover:scale-110 transition-transform flex items-center justify-center">
+        <span className="text-xl group-hover:scale-110 transition-transform flex items-center justify-center">
           {currentTheme.key === 'harmony' ? (
-            <HarmonyYinYangIcon size={18} className={currentTheme.color} />
+            <HarmonyYinYangIcon size={20} className={currentTheme.color} />
           ) : currentTheme.key === 'calm' ? (
-            <Leaf size={18} className={currentTheme.color} />
+            <Leaf size={20} className={currentTheme.color} />
           ) : (
             (vibe?.currentEmoji || "🤲")
           )}
@@ -156,26 +157,31 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
       </button>
 
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetContent side="bottom" className="bg-black border-white/10 p-8 rounded-t-[3rem] h-auto max-h-[85vh] overflow-y-auto">
-          <SheetHeader className="mb-8">
-            <SheetTitle className="text-center text-xl font-black uppercase tracking-tighter text-white">
-              {lang === 'EN' ? 'Mood Check-in' : 'Stimmungs Check-in'}
+        <SheetContent side="bottom" className="bg-black border-white/10 p-8 rounded-t-[3.5rem] h-auto max-h-[90vh] overflow-y-auto shadow-[0_-30px_100px_rgba(0,0,0,0.8)]">
+          <div className="w-12 h-1 bg-white/10 rounded-full mx-auto mb-8" />
+          
+          <SheetHeader className="mb-10">
+            <div className="w-16 h-16 bg-[#10B981]/10 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-[#10B981]/20">
+              <Heart className="text-[#10B981]" size={32} />
+            </div>
+            <SheetTitle className="text-center text-2xl font-black uppercase tracking-tighter text-white">
+              {lang === 'EN' ? 'Check Your Vibe' : 'Stimmungs Check-in'}
             </SheetTitle>
-            <p className="text-center text-[10px] font-black uppercase tracking-widest mt-1 text-[#10B981]">
-              {lang === 'EN' ? 'How are you feeling right now?' : 'Wie fühlst du dich gerade?'}
+            <p className="text-center text-[10px] font-black uppercase tracking-[0.4em] mt-2 text-[#10B981]">
+              {lang === 'EN' ? 'I honor my current state' : 'Ich achte auf meinen Zustand'}
             </p>
           </SheetHeader>
 
-          <div className="grid grid-cols-1 gap-3 max-w-md mx-auto">
+          <div className="grid grid-cols-1 gap-3 max-w-md mx-auto pb-10">
             {VIBES.map((v) => (
               <button
                 key={v.key}
                 onClick={() => handleVibeSelect(v)}
                 disabled={isSaving}
                 className={cn(
-                  "flex items-center gap-6 p-5 rounded-[2rem] border-2 transition-all active:scale-[0.98] text-left group",
+                  "flex items-center gap-6 p-6 rounded-[2.5rem] border-2 transition-all active:scale-[0.98] text-left group",
                   vibe?.current === v.key 
-                    ? `bg-white/5 ${v.key === 'harmony' ? 'border-[#EBFB3B]' : 'border-[#10B981]'} shadow-lg` 
+                    ? `bg-white/5 ${v.key === 'harmony' ? 'border-[#EBFB3B]' : 'border-[#10B981]'} shadow-2xl` 
                     : "bg-[#0a0a0a] border-white/5 hover:border-white/20"
                 )}
               >
@@ -184,12 +190,12 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
                 </div>
                 <div className="flex flex-col">
                   <span className={cn(
-                    "font-black text-sm uppercase tracking-tight",
+                    "font-black text-base uppercase tracking-tight",
                     vibe?.current === v.key ? "text-white" : "text-white/60"
                   )}>
                     {lang === 'EN' ? v.label : v.de}
                   </span>
-                  <span className="text-[9px] font-black text-[#10B981] uppercase tracking-widest leading-none mt-1">
+                  <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">
                     {lang === 'EN' ? v.affirmation : v.deAffirmation}
                   </span>
                 </div>
@@ -197,9 +203,9 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
             ))}
           </div>
 
-          <div className="mt-8 pt-6 border-t border-white/5 max-w-md mx-auto">
+          <div className="mt-4 pt-6 border-t border-white/5 max-w-md mx-auto">
             <p className="text-center text-[8px] text-white/10 font-black uppercase tracking-[0.5em]">
-              StayOnBeat • Vibe Calibration
+              Received with Unconditional Love 💚
             </p>
           </div>
         </SheetContent>

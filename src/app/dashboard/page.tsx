@@ -18,7 +18,8 @@ import {
   Sparkles,
   Microscope,
   Settings2,
-  ChevronDown
+  ChevronDown,
+  Navigation
 } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6SubstanceLab';
@@ -113,7 +114,6 @@ export default function Dashboard() {
   const [lang, setLang] = useState<'en' | 'de'>('en');
   
   const [simHeartRate, setSimHeartRate] = useState(75);
-  const [simSubstanceCount, setSimSubstanceCount] = useState(0);
   const [activeSubstances, setActiveSubstances] = useState<string[]>([]);
   const [isSimulatorOpen, setIsSimulatorOpen] = useState(false);
 
@@ -188,191 +188,151 @@ export default function Dashboard() {
 
   return (
     <main className="min-h-screen bg-black text-white flex flex-col h-screen overflow-hidden font-headline">
-      <div className="px-4 md:px-6 py-4 md:py-6 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
-        <header className="flex justify-between items-center max-w-4xl mx-auto w-full gap-2">
+      {/* 1. MINIMALIST SANCTUARY HEADER */}
+      <div className="px-6 py-6 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
+        <header className="flex justify-between items-center max-w-4xl mx-auto w-full gap-4">
           <div className="flex-1 min-w-0">
-            <p className="text-[9px] font-black text-[#10B981] uppercase tracking-[0.4em]">
-              Sanctuary Hub
-            </p>
-            <h1 className="text-lg md:text-3xl font-black uppercase tracking-tighter flex items-center gap-2 md:gap-4 truncate overflow-hidden">
+            <h1 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-3 truncate">
               <span className="truncate">{lang === 'en' ? `SHINE, ${displayName}` : `STRAHLE, ${displayName}`}</span>
               <SkyIcon />
             </h1>
           </div>
           
-          <div className="flex items-center gap-1 md:gap-2 flex-shrink-0">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div onClick={() => playHeartbeat()}>
-                  <VibeMirror vibe={firestoreProfile?.vibe} />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-white font-bold uppercase text-[9px] tracking-widest px-4 py-2">
-                {t.vibe}
-              </TooltipContent>
-            </Tooltip>
-
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button 
-                  onClick={() => handlePortalClick(() => setCoCreationOpen(true))} 
-                  className="p-1.5 md:p-2.5 bg-[#90EE90]/10 rounded-full border border-[#90EE90]/30 hover:border-[#90EE90] transition-colors active:scale-95"
-                >
-                  <Sprout className="w-4 h-4 md:w-5 md:h-5 text-[#90EE90]" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-[#90EE90] font-bold uppercase text-[9px] tracking-widest px-4 py-2">
-                {t.cocreation}
-              </TooltipContent>
-            </Tooltip>
-
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button 
-                  onClick={() => handlePortalClick(() => setAiBotOpen(true))} 
-                  className="p-1.5 md:p-2.5 bg-blue-600/10 rounded-full border border-blue-500/30 transition-colors active:scale-95"
-                >
-                  <Bot className="w-4 h-4 md:w-5 md:h-5 text-blue-400" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-blue-400 font-bold uppercase text-[9px] tracking-widest px-4 py-2">
-                {t.assistant}
-              </TooltipContent>
-            </Tooltip>
-            
-            <div onClick={() => playHeartbeat()}>
-              <PulseGuardianBanner lang={lang} variant="icon" />
-            </div>
-
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link 
-                  href="/profile" 
-                  onClick={() => playHeartbeat()}
-                  className="p-1.5 md:p-2.5 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all active:scale-95"
-                >
-                  <User className="w-4 h-4 md:w-5 md:h-5 text-white/40" />
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-white/60 font-bold uppercase text-[9px] tracking-widest px-4 py-2">
-                {t.profile}
-              </TooltipContent>
-            </Tooltip>
-
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button 
-                  onClick={handleLogout} 
-                  className="p-1.5 md:p-2.5 bg-red-600/10 rounded-full border border-red-600/30 transition-colors active:scale-95"
-                >
-                  <LogOut className="w-4 h-4 md:w-5 md:h-5 text-red-500" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-red-500 font-bold uppercase text-[9px] tracking-widest px-4 py-2">
-                {t.logout}
-              </TooltipContent>
-            </Tooltip>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <VibeMirror vibe={firestoreProfile?.vibe} />
+            <Link 
+              href="/profile" 
+              onClick={() => playHeartbeat()}
+              className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all active:scale-95"
+            >
+              <User size={20} className="text-white/40" />
+            </Link>
           </div>
         </header>
       </div>
 
       <ScrollArea className="flex-1">
-        <div className="max-w-4xl mx-auto px-6 py-4 md:py-8 space-y-8 md:space-y-12 pb-32">
+        <div className="max-w-4xl mx-auto px-6 py-8 space-y-12 pb-32">
           
+          {/* 2. THE GUARDIAN (Safety Beacon) */}
           <div className="space-y-3">
             <GuardianStatusBar 
               status={guardianStatus} 
               heartRate={simHeartRate} 
               lang={lang} 
             />
+            <PulseGuardianBanner lang={lang} variant="banner" />
           </div>
 
-          <div className="space-y-2 text-center">
-            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2">
-              My Rhythm
-            </h2>
+          {/* 3. THE RHYTHM (Emotional Anchor) */}
+          <div className="space-y-4 text-center">
             <Link 
               href="/heart-status" 
               onClick={() => playHeartbeat()}
               className="block transition-all active:scale-95"
             >
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-4">
                 <HeartStatusAura 
                   heartRate={simHeartRate} 
                   activeSubstances={activeSubstances} 
                   mood={firestoreProfile?.vibe?.currentLabel || (lang === 'en' ? "Steady" : "Stabil")}
                   lang={lang} 
                 />
-                <p className="text-[11px] font-black uppercase tracking-tight text-white/60 italic">"{affirmation}"</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-[#10B981] italic">"{affirmation}"</p>
               </div>
             </Link>
           </div>
 
+          {/* 4. THE BONDS (Collective Care) */}
           <div className="w-full flex justify-center">
             <LoveCircle lang={lang} variant="dashboard" />
           </div>
 
-          <div className="space-y-6">
-            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 px-2 text-center">
-              {lang === 'en' ? 'Essential Tools' : 'Wichtige Tools'}
+          {/* 5. TACTICAL ACTION ORBS (Simplified for iPhone) */}
+          <div className="space-y-8">
+            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 text-center">
+              {lang === 'en' ? 'Sanctuary Tools' : 'Sanctuary Tools'}
             </h2>
-            <div className="grid grid-cols-2 gap-4 md:gap-8 max-w-2xl mx-auto">
+            <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto">
+              {/* The Pulse (Map) */}
               <Link 
                 href="/map" 
                 onClick={() => playHeartbeat()}
-                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 md:gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-2xl group active:scale-95 text-center p-4 md:p-6"
+                className="aspect-square rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-blue-500/10 rounded-full flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform">
-                  <RadiatingThirdEye size={32} className="md:w-10 md:h-10" color="#3b82f6" />
+                <div className="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform">
+                  <RadiatingThirdEye size={36} color="#3b82f6" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-base md:text-xl font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'The Pulse' : 'The Pulse'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Map</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'The Pulse' : 'Der Puls'}</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Radar</p>
                 </div>
               </Link>
 
+              {/* Pulse Lab (Dose) */}
               <button 
                 onClick={() => handlePortalClick(() => setLabOpen(true))} 
-                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 md:gap-4 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all shadow-2xl group active:scale-95 text-center p-4 md:p-6"
+                className="aspect-square rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-emerald-500/10 rounded-full flex items-center justify-center border border-emerald-500/20 group-hover:scale-110 transition-transform">
-                  <Microscope size={32} className="md:w-10 md:h-10 text-white" />
+                <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20 group-hover:scale-110 transition-transform">
+                  <Microscope size={36} className="text-white" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-base md:text-xl font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'Pulse Lab' : 'Pulse Lab'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Dose</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'Pulse Lab' : 'Sitzungs-Labor'}</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Intake</p>
                 </div>
               </button>
 
+              {/* Pulse Sync (Vitals) */}
               <button 
                 onClick={() => handlePortalClick(() => setSyncOpen(true))} 
-                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 md:gap-4 hover:border-[#EBFB3B]/30 hover:bg-[#EBFB3B]/5 transition-all shadow-2xl group active:scale-95 text-center p-4 md:p-6"
+                className="aspect-square rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-[#EBFB3B]/30 hover:bg-[#EBFB3B]/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-[#EBFB3B]/10 rounded-full flex items-center justify-center border border-[#EBFB3B]/20 group-hover:scale-110 transition-transform">
-                  <Watch size={28} className="md:w-9 md:h-9 text-[#EBFB3B]" />
+                <div className="w-16 h-16 bg-[#EBFB3B]/10 rounded-2xl flex items-center justify-center border border-[#EBFB3B]/20 group-hover:scale-110 transition-transform">
+                  <Watch size={32} className="text-[#EBFB3B]" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-base md:text-xl font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'Pulse Sync' : 'Pulse Sync'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Vitals</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'Pulse Sync' : 'Vital-Sync'}</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Biometrics</p>
                 </div>
               </button>
 
+              {/* Immediate Help (SOS) */}
               <button 
                 onClick={() => handlePortalClick(() => setShowSOS(true))}
-                className="aspect-square rounded-full bg-red-600/10 border border-red-600/20 flex flex-col items-center justify-center gap-3 md:gap-4 hover:bg-red-600 transition-all shadow-2xl group active:scale-95 text-center p-4 md:p-6"
+                className="aspect-square rounded-[2.5rem] bg-red-600/10 border border-red-600/20 flex flex-col items-center justify-center gap-4 hover:bg-red-600 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                  <Shield size={28} className="md:w-9 md:h-9" />
+                <div className="w-16 h-16 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <Shield size={32} />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-base md:text-xl font-black uppercase tracking-tight leading-none group-hover:text-white transition-colors">{lang === 'en' ? 'Immediate Help' : 'Sofort-Hilfe'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors">Support</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none group-hover:text-white transition-colors">{lang === 'en' ? 'Immediate Help' : 'Sofort-Hilfe'}</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors">Emergency</p>
                 </div>
               </button>
             </div>
           </div>
 
-          <div className="pt-8">
+          {/* 6. SECONDARY SUPPORT PATHS */}
+          <div className="flex justify-center gap-4">
+            <button 
+              onClick={() => handlePortalClick(() => setAiBotOpen(true))} 
+              className="flex items-center gap-3 px-6 py-4 bg-blue-600/10 rounded-full border border-blue-500/20 hover:border-blue-500 transition-all active:scale-95"
+            >
+              <Bot size={18} className="text-blue-400" />
+              <span className="text-[10px] font-black uppercase tracking-widest">{t.assistant}</span>
+            </button>
+            <button 
+              onClick={() => handlePortalClick(() => setCoCreationOpen(true))} 
+              className="flex items-center gap-3 px-6 py-4 bg-[#90EE90]/10 rounded-full border border-[#90EE90]/20 hover:border-[#90EE90] transition-all active:scale-95"
+            >
+              <Sprout size={18} className="text-[#90EE90]" />
+              <span className="text-[10px] font-black uppercase tracking-widest">{t.cocreation}</span>
+            </button>
+          </div>
+
+          {/* Dev Access (Dynamic States) */}
+          <div className="pt-12">
             <Collapsible open={isSimulatorOpen} onOpenChange={setIsSimulatorOpen}>
               <CollapsibleTrigger asChild>
                 <button 
@@ -393,9 +353,8 @@ export default function Dashboard() {
                 <GuardianSimulator 
                   heartRate={simHeartRate} 
                   setHeartRate={setSimHeartRate}
-                  substanceCount={simSubstanceCount}
+                  substanceCount={activeSubstances.length}
                   setSubstanceCount={(count) => {
-                    setSimSubstanceCount(count);
                     const mockSubstances = Array(count).fill('Substance');
                     if (count >= 1) mockSubstances[0] = 'Alcohol';
                     if (count >= 2) mockSubstances[1] = 'MDMA';
@@ -413,7 +372,7 @@ export default function Dashboard() {
       {showSOS && <SOSAlert onClose={() => setShowSOS(false)} />}
       
       <Dialog open={labOpen} onOpenChange={setLabOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[90dvh] max-h-[90dvh]">
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[95dvh] max-h-[95dvh]">
           <DialogTitle className="sr-only">Pulse Lab</DialogTitle>
           <div className="flex-1 overflow-y-auto">
             <PulseLab 
@@ -429,7 +388,6 @@ export default function Dashboard() {
               onComplete={(logs) => {
                 const names = logs.map((l: any) => l.name);
                 setActiveSubstances(names);
-                setSimSubstanceCount(logs.length);
                 setLabOpen(false);
               }} 
               showDiary={true} 
