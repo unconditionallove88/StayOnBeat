@@ -20,20 +20,18 @@ import {
   Bell, 
   ArrowLeft, 
   CheckCircle2, 
-  Sparkles, 
   Leaf,
   Lock,
   ChevronRight,
   Loader2,
   ShieldCheck,
-  HelpCircle
+  HelpCircle,
+  CircleDot
 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
+  DialogTitle
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CoCreation } from "@/components/dashboard/CoCreation";
@@ -41,8 +39,6 @@ import { CoCreation } from "@/components/dashboard/CoCreation";
 /**
  * @fileOverview Your Sanctuary (Profile Page).
  * A high-fidelity space for biometric calibration and privacy.
- * Features Emerald theme and route protection.
- * Updated: Wording reflects freedom, trust, and sovereignty.
  */
 export default function ProfilePage() {
   const router = useRouter();
@@ -54,7 +50,6 @@ export default function ProfilePage() {
   const [privacyOpen, setPrivacyOpen] = useState(false);
   const [coCreationOpen, setCoCreationOpen] = useState(false);
 
-  // Auth Protection
   useEffect(() => {
     setMounted(true);
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -65,7 +60,6 @@ export default function ProfilePage() {
     return () => unsubscribe();
   }, [auth, router]);
 
-  // Memoize and fetch profile data
   const userDocRef = useMemoFirebase(() => {
     if (!firestore || !user?.uid) return null;
     return doc(firestore, 'users', user.uid);
@@ -97,7 +91,6 @@ export default function ProfilePage() {
 
   return (
     <main className="min-h-screen bg-black text-white font-headline pb-32">
-      {/* Header */}
       <nav className="bg-black/90 backdrop-blur-2xl border-b border-white/5 px-6 py-8 sticky top-0 z-[100]">
         <div className="max-w-xl mx-auto flex items-center justify-between">
           <button 
@@ -107,14 +100,13 @@ export default function ProfilePage() {
             <ArrowLeft className="w-5 h-5 text-white/40" />
           </button>
           <div className="flex items-center gap-2 px-4 py-1.5 bg-[#10B981]/10 border border-[#10B981]/30 rounded-full">
-            <Sparkles className="w-3.5 h-3.5 text-[#10B981]" />
+            <CircleDot className="w-3.5 h-3.5 text-[#10B981]" />
             <span className="text-[10px] font-black uppercase text-[#10B981] tracking-widest">Sanctuary</span>
           </div>
         </div>
       </nav>
 
       <div className="px-6 py-10 max-xl mx-auto space-y-10">
-        {/* Identity Section */}
         <section className="text-center space-y-6">
           <div className="relative inline-block">
             <div className="w-28 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto border-2 border-white/10 shadow-2xl relative overflow-hidden group">
@@ -122,7 +114,7 @@ export default function ProfilePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#10B981]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
             <div className="absolute -bottom-2 -right-2 bg-[#10B981] p-2 rounded-full border-4 border-black shadow-lg">
-              <Sparkles size={16} className="text-black" />
+              <CircleDot size={16} className="text-black" />
             </div>
           </div>
           
@@ -134,7 +126,6 @@ export default function ProfilePage() {
           </div>
         </section>
 
-        {/* Success Toast Overlay */}
         {successMessage && (
           <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[200] bg-[#10B981] text-black px-6 py-3 rounded-full flex items-center gap-3 animate-in slide-in-from-top-4 duration-500 shadow-2xl font-black uppercase text-[10px] tracking-widest">
             <CheckCircle2 size={16} />
@@ -142,10 +133,7 @@ export default function ProfilePage() {
           </div>
         )}
 
-        {/* Settings Groups */}
         <div className="space-y-6">
-          
-          {/* Group 1: Your Essence */}
           <div className="bg-white/5 rounded-[2.5rem] border border-white/10 p-8 space-y-8 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#10B981]/5 blur-3xl -z-10" />
             
@@ -190,7 +178,6 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Group 2: Circle of Love */}
           <div className="bg-white/5 rounded-[2.5rem] border border-white/10 p-8 space-y-6">
             <h3 className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3">
               <Shield size={14} className="text-[#10B981]" /> Circle of Love
@@ -228,7 +215,6 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Group 3: Freedom & Trust */}
           <div className="bg-white/5 rounded-[2.5rem] border border-white/10 p-8 text-center space-y-6">
              <div className="flex justify-center">
                <Lock size={24} className="text-white/10" />
@@ -244,7 +230,6 @@ export default function ProfilePage() {
              </button>
           </div>
 
-          {/* Logout */}
           <button 
             onClick={() => auth.signOut().then(() => router.push("/"))}
             className="w-full py-6 bg-red-600/10 border border-red-600/20 text-red-500 text-xs font-black uppercase tracking-[0.4em] hover:bg-red-600/20 rounded-[2rem] transition-all"
@@ -254,7 +239,6 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Freedom & Trust Dialog */}
       <Dialog open={privacyOpen} onOpenChange={setPrivacyOpen}>
         <DialogContent className="bg-[#050505] border-white/10 max-w-lg p-0 rounded-[3rem] overflow-hidden flex flex-col font-headline h-[90vh] max-h-[90vh]">
           <div className="p-8 pb-4 shrink-0">
@@ -319,7 +303,6 @@ export default function ProfilePage() {
         </DialogContent>
       </Dialog>
 
-      {/* Co-Creation Dialog (Redirect Target) */}
       <Dialog open={coCreationOpen} onOpenChange={setCoCreationOpen}>
         <DialogContent className="bg-black border-white/10 max-lg p-0 rounded-[3rem] overflow-hidden">
           <DialogTitle className="sr-only">Co-Creation</DialogTitle>

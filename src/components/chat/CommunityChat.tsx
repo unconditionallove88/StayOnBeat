@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Sparkles, MessageSquare, ShieldCheck, Crown, Loader2, Heart } from 'lucide-react';
+import { Send, MessageSquare, ShieldCheck, Loader2, Heart, CircleDot } from 'lucide-react';
 import { useFirestore, useUser, useCollection, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection, query, orderBy, limit, serverTimestamp } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
@@ -60,7 +60,6 @@ export function CommunityChat() {
 
   return (
     <div className="flex flex-col h-full bg-black font-body">
-      {/* Header */}
       <div className="px-8 py-8 border-b border-white/5 bg-black/80 backdrop-blur-xl flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 bg-[#3EB489]/20 rounded-full flex items-center justify-center border border-[#3EB489]/30">
@@ -76,7 +75,7 @@ export function CommunityChat() {
       <div className="bg-[#3EB489]/5 border-b border-[#3EB489]/10 px-8 py-4 flex items-center gap-3">
         <ShieldCheck className="w-4 h-4 text-[#3EB489]" />
         <p className="text-[10px] font-bold text-[#3EB489] uppercase tracking-widest leading-none">
-          I love and respect my privacy. You are chatting as <span className="underline">{partyAlias}</span>.
+          I love and respect my privacy. You are chatting as <span className="underline">{partyAlias}</span>
         </p>
       </div>
 
@@ -90,9 +89,9 @@ export function CommunityChat() {
           
           {messages?.length === 0 && !isLoading && (
             <div className="text-center py-24 opacity-20 space-y-4">
-              <Sparkles className="w-12 h-12 mx-auto" />
+              <CircleDot className="w-12 h-12 mx-auto" />
               <p className="text-xs uppercase font-black tracking-widest leading-relaxed">
-                I love, accept and respect <br/> myself and this circle.
+                I love, accept and respect <br/> myself and this circle
               </p>
             </div>
           )}

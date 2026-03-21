@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import { HeartHandshake, Sparkles } from "lucide-react";
+import { HeartHandshake, CircleDot } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -15,7 +15,6 @@ interface Props {
 /**
  * @fileOverview Love Circle Visualization.
  * Serves as a pure, radiant visual of the user's inner rhythm.
- * Calibrated for mobile responsiveness with dynamic scaling and high-fidelity glows.
  */
 export default function HeartStatusAura({ 
   heartRate, 
@@ -26,17 +25,14 @@ export default function HeartStatusAura({
   const normalizedSubs = activeSubstances.map(s => s.toLowerCase());
   const hasPoppers = normalizedSubs.some(s => s.includes('poppers'));
 
-  // Determine the "State"
   const isHighRisk = heartRate > 130 || (hasPoppers && heartRate > 100);
   const isElevated = heartRate > 100 || activeSubstances.length > 2;
   
-  // High-fidelity color palette
   const stateColor = isHighRisk ? "#DC2626" : isElevated ? "#F59E0B" : "#10B981"; 
   const pulseDuration = isHighRisk ? "1s" : isElevated ? "2s" : "4s";
 
   return (
     <div className="flex flex-col items-center justify-center p-4 md:p-8 relative font-headline cursor-pointer group">
-      {/* 1. THE RADIANT DEPTH */}
       <div 
         className="absolute w-64 h-64 md:w-80 md:h-80 rounded-full blur-[80px] opacity-10 animate-pulse transition-all duration-1000"
         style={{ backgroundColor: stateColor, animationDuration: pulseDuration }}
@@ -46,7 +42,6 @@ export default function HeartStatusAura({
         style={{ backgroundColor: stateColor, animationDuration: '3s' }}
       />
       
-      {/* 2. THE CORE ORB */}
       <div 
         className="relative z-10 w-44 h-44 md:w-52 md:h-52 rounded-full flex items-center justify-center border-4 shadow-2xl transition-all duration-1000 group-hover:scale-105"
         style={{ 
@@ -61,12 +56,11 @@ export default function HeartStatusAura({
             style={{ color: stateColor }} 
           />
           {isHighRisk && (
-            <Sparkles className="absolute -top-2 -right-2 text-white animate-pulse" size={24} />
+            <CircleDot className="absolute -top-2 -right-2 text-white animate-pulse" size={24} />
           )}
         </div>
       </div>
 
-      {/* 3. VITAL TEXT */}
       <div className="mt-8 md:mt-12 text-center z-10">
         <p className="text-white/20 text-[9px] md:text-[10px] uppercase tracking-[0.5em] font-black mb-2">
           {lang === "en" ? "My Resonance" : "Meine Resonanz"}

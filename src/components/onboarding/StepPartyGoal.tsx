@@ -2,13 +2,13 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Target, Music, Users, Shield, Ban, ZapOff, Moon, GlassWater, Clock, Heart, Sparkles, Radio, Ear } from 'lucide-react';
+import { ArrowLeft, Target, Music, Users, Shield, Ban, ZapOff, Moon, GlassWater, Clock, Heart, Radio, Ear, CircleDot } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const POSITIVE_GOALS = [
   { id: 'dance', icon: Music, label: 'Dance all night', de: 'Die ganze Nacht tanzen' },
   { id: 'social', icon: Users, label: 'Meet new people', de: 'Neue Leute treffen' },
-  { id: 'forget-self', icon: Sparkles, label: 'Forget myself', de: 'Sich vergessen' },
+  { id: 'forget-self', icon: CircleDot, label: 'Forget myself', de: 'Sich vergessen' },
   { id: 'intimacy', icon: Heart, label: 'Find intimacy', de: 'Intimität finden' },
   { id: 'hydrate', icon: GlassWater, label: 'Stay hydrated', de: 'Hydriert bleiben' },
   { id: 'safe', icon: Shield, label: 'Priority: Safety', de: 'Priorität: Sicherheit' },
@@ -73,7 +73,6 @@ export function StepPartyGoal({
       </div>
 
       <div className="flex-1 w-full overflow-y-auto max-h-[55vh] custom-scrollbar pr-2 mb-8 space-y-8">
-        {/* The Resonance Section */}
         <div className="space-y-3">
           <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#3EB489] text-left px-2">The Resonance</h3>
           <div className="grid grid-cols-1 gap-3">

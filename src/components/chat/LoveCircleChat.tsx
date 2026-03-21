@@ -2,9 +2,9 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Heart, Loader2, Lock, ShieldCheck, HeartHandshake, Users, Sparkles } from 'lucide-react';
+import { Send, Heart, Loader2, Lock, HeartHandshake, Users, CircleDot } from 'lucide-react';
 import { useFirestore, useUser, useCollection, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
-import { collection, query, orderBy, limit, serverTimestamp, doc } from 'firebase/firestore';
+import { collection, query, orderBy, limit, serverTimestamp } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
@@ -12,7 +12,6 @@ import { useToast } from '@/hooks/use-toast';
 /**
  * @fileOverview The Holders (Those who hold your heart from afar).
  * Framing: I love and respect my trusted ones. Pure connection.
- * Redesigned for Radiant Unity and Purity.
  */
 
 export function LoveCircleChat() {
@@ -70,7 +69,7 @@ export function LoveCircleChat() {
       
       toast({
         title: "Bond Initialized",
-        description: `Your bond of care "${groupName}" has been created. Waiting for resonance.`,
+        description: `Your bond of care "${groupName}" has been created Waiting for resonance`,
       });
       setShowCreateGroup(false);
       setGroupName('');
@@ -89,7 +88,6 @@ export function LoveCircleChat() {
       <div className="flex flex-col h-full bg-black font-headline overflow-hidden">
         <ScrollArea className="flex-1">
           <div className="flex flex-col items-center justify-center min-h-[70vh] p-10 text-center space-y-12">
-            {/* RADIANT CORE ICON */}
             <div className="relative">
               <div className="absolute inset-0 bg-[#10B981]/20 blur-3xl rounded-full animate-pulse" />
               <div className="w-32 h-32 bg-[#10B981]/10 rounded-full flex items-center justify-center border-2 border-[#10B981]/30 relative z-10 shadow-2xl">
@@ -99,8 +97,8 @@ export function LoveCircleChat() {
 
             <div className="space-y-4">
               <h2 className="text-5xl font-black uppercase tracking-tighter text-white">The Holders</h2>
-              <p className="text-lg font-bold text-white/60 leading-tight max-w-sm mx-auto uppercase tracking-widest">
-                Those who hold your heart from afar. Your sacred bond of care and trust
+              <p className="text-lg font-bold text-white/60 leading-tight max-sm mx-auto uppercase tracking-widest">
+                Those who hold your heart from afar Your sacred bond of care and trust
               </p>
             </div>
 
@@ -135,7 +133,6 @@ export function LoveCircleChat() {
 
   return (
     <div className="flex flex-col h-full bg-black font-body overflow-hidden">
-      {/* Header */}
       <div className="px-8 py-8 border-b border-white/5 bg-black/80 backdrop-blur-xl flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 shadow-lg">
@@ -190,7 +187,7 @@ export function LoveCircleChat() {
           {messages?.length === 0 && !isLoading && (
             <div className="text-center py-24 opacity-20 space-y-6">
               <div className="relative inline-block">
-                <Heart className="w-16 h-16 mx-auto text-[#10B981]" fill="currentColor" />
+                <CircleDot className="w-16 h-16 mx-auto text-[#10B981]" />
               </div>
               <p className="text-sm uppercase font-black tracking-[0.4em] leading-relaxed text-white max-w-[200px] mx-auto">
                 Start a resonance <br/> with your holders

@@ -2,7 +2,7 @@
 "use client"
 
 import { useState, useEffect, Suspense } from 'react';
-import { ArrowLeft, Shield, Loader2, PhoneCall, AlertTriangle, X, Lock, Sparkles, Navigation } from 'lucide-react';
+import { ArrowLeft, Shield, Loader2, PhoneCall, AlertTriangle, Lock, Navigation, CircleDot } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Switch } from '@/components/ui/switch';
@@ -16,7 +16,6 @@ import LoveCircle from '@/components/dashboard/LoveCircle';
 /**
  * @fileOverview High-Fidelity Organic Radar ("The Pulse").
  * Redesigned for concentration and simplicity. 
- * Love Circle is now a compact orb in the bottom-left corner.
  */
 
 const CONTENT = {
@@ -91,7 +90,6 @@ function MapContent() {
 
   return (
     <main className="h-screen bg-black text-white relative overflow-hidden font-headline animate-in fade-in duration-1000">
-      {/* 1. Tactical Map Grid Background */}
       <div className="absolute inset-0 bg-[#050505]">
         <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
           <svg width="100%" height="100%">
@@ -102,7 +100,6 @@ function MapContent() {
           </svg>
         </div>
 
-        {/* User Presence Pointer */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
           <div className={cn("transition-all duration-1000 scale-90 md:scale-100", !isSharing && "grayscale opacity-30")}>
             <div className="relative flex items-center justify-center w-32 h-32 md:w-40 md:h-40">
@@ -117,7 +114,6 @@ function MapContent() {
           </div>
         </div>
 
-        {/* Simulated Friends/Safety Hubs */}
         <div className="absolute bottom-[30%] right-[30%] opacity-40">
            <div className="w-8 h-8 bg-emerald-600/20 rounded-xl flex items-center justify-center border border-emerald-500/40">
              <Shield className="w-4 h-4 text-emerald-500" />
@@ -125,9 +121,7 @@ function MapContent() {
         </div>
       </div>
 
-      {/* 2. Concentrated Interface Overlay */}
       <div className="relative z-10 p-6 flex flex-col h-full pointer-events-none">
-        {/* Top Nav: Grouped Controls */}
         <header className="flex justify-between items-center pointer-events-auto w-full max-w-5xl mx-auto shrink-0 animate-in slide-in-from-top-4 duration-700">
           <Link href="/dashboard" className="bg-black/60 backdrop-blur-xl p-4 rounded-full border border-white/10 hover:border-[#3EB489] transition-all group active:scale-95 shadow-xl">
             <ArrowLeft className="w-5 h-5 text-white/40 group-hover:text-white" />
@@ -135,7 +129,7 @@ function MapContent() {
           
           <div className="bg-black/60 backdrop-blur-md px-5 py-3 rounded-full border border-white/10 flex items-center gap-4 transition-all hover:border-white/20 shadow-xl">
             <div className="flex items-center gap-2 pr-2 border-r border-white/10">
-              {isSharing ? <Sparkles size={14} className="text-[#3EB489]" /> : <Lock size={14} className="text-white/20" />}
+              {isSharing ? <CircleDot size={14} className="text-[#3EB489]" /> : <Lock size={14} className="text-white/20" />}
               <span className={cn("text-[9px] font-black uppercase tracking-widest", isSharing ? "text-[#3EB489]" : "text-white/20")}>
                 {isSharing ? t.visible : t.private}
               </span>
@@ -144,16 +138,13 @@ function MapContent() {
           </div>
         </header>
         
-        {/* Bottom Tactical Zone */}
         <div className="flex-1 flex flex-col justify-end gap-6 w-full max-w-5xl mx-auto pb-10">
           <div className="flex flex-col md:flex-row items-end justify-between gap-6">
             
-            {/* Love Circle: Organic Floating Lens */}
             <div className="pointer-events-auto">
               <LoveCircle lang={lang} variant="map" />
             </div>
 
-            {/* Friend Distress Overlay / SOS Portal Shortcut */}
             <div className="w-full md:w-auto pointer-events-auto flex flex-col items-center md:items-end">
               {isFriendDistress ? (
                 <div className="bg-red-600/90 backdrop-blur-xl border border-white/20 rounded-[2.5rem] p-6 shadow-2xl shadow-red-600/40 animate-in slide-in-from-right-4 duration-500 space-y-5 w-full max-w-sm">

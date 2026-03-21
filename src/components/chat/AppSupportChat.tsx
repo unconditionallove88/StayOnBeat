@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, User, Bot, Loader2, Sparkles, MessageCircle } from 'lucide-react';
+import { Send, User, Bot, Loader2, MessageCircle, CircleDot } from 'lucide-react';
 import { appSupportChat } from '@/ai/flows/app-support-chat';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -66,7 +66,7 @@ export function AppSupportChat() {
           {messages.length === 0 && (
             <div className="flex flex-col items-center justify-center py-20 text-center space-y-6">
               <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center border border-white/10">
-                <Sparkles className="w-8 h-8 text-[#3EB489]" />
+                <CircleDot className="w-8 h-8 text-[#3EB489]" />
               </div>
               <div className="space-y-2">
                 <p className="text-lg font-bold text-white/80">How can we improve your experience?</p>

@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { Send, Heart, Loader2, Sparkles, ShieldAlert, CheckCircle2, Flag, Users2, Shield, Lock, Wind } from 'lucide-react';
+import { Send, Loader2, ShieldAlert, Flag, Users2, Shield, Wind, CircleDot } from 'lucide-react';
 import { useFirestore, useUser, useCollection, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection, query, orderBy, limit, serverTimestamp } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
@@ -90,7 +90,7 @@ export function PartyCircleChat() {
         toast({
           variant: "destructive",
           title: "Pulse Guardian: Protocol Violation",
-          description: "Your session in this chat has been paused for community safety.",
+          description: "Your session in this chat has been paused for community safety",
         });
         setIsSending(false);
         return;
@@ -107,7 +107,7 @@ export function PartyCircleChat() {
       toast({
         variant: "destructive",
         title: "Connection Error",
-        description: "Could not send message to the sanctuary.",
+        description: "Could not send message to the sanctuary",
       });
     } finally {
       setIsSending(false);
@@ -133,13 +133,13 @@ export function PartyCircleChat() {
         <div className="space-y-4">
           <h2 className="text-3xl font-black uppercase tracking-tighter text-white">Sanctuary Rest</h2>
           <p className="text-white/60 text-sm font-bold leading-relaxed uppercase tracking-widest">
-            Pulse Guardian has paused your communication. To ensure the safety of this circle, illegal activities and divisive language are not permitted. 🌿
+            Pulse Guardian has paused your communication. To ensure the safety of this circle, illegal activities and divisive language are not permitted 🌿
           </p>
         </div>
         <div className="bg-white/5 border border-white/10 rounded-3xl p-6 w-full flex items-center gap-4">
           <Wind className="text-[#A855F7]" size={24} />
           <p className="text-[10px] font-black text-white/40 uppercase tracking-widest text-left">
-            I love and respect my need for stillness. Use this time to ground yourself.
+            I love and respect my need for stillness Use this time to ground yourself
           </p>
         </div>
       </div>
@@ -158,7 +158,7 @@ export function PartyCircleChat() {
             <div className="space-y-3">
               <h2 className="text-3xl font-black uppercase tracking-tighter text-white">The Witnesses</h2>
               <p className="text-sm font-bold text-white/60 uppercase tracking-widest leading-relaxed">
-                A space of collective care. Guarded by Pulse Guardian.
+                A space of collective care Guarded by Pulse Guardian
               </p>
             </div>
 
@@ -199,7 +199,7 @@ export function PartyCircleChat() {
           <GuardianLogo size={18} />
           <span className="text-[9px] font-black uppercase tracking-widest text-[#A855F7]">Pulse Guardian: Active Monitoring & Slang Guard</span>
         </div>
-        <Sparkles size={14} className="text-[#A855F7] animate-pulse" />
+        <CircleDot size={14} className="text-[#A855F7] animate-pulse" />
       </div>
 
       <div className="px-8 py-6 border-b border-white/5 bg-black/80 backdrop-blur-xl flex items-center justify-between shrink-0">

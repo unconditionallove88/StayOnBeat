@@ -7,7 +7,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { 
   Heart, 
   User, 
-  LogOut, 
   Loader2, 
   Bot, 
   Sprout, 
@@ -15,11 +14,9 @@ import {
   Shield, 
   Sun, 
   Moon, 
-  Sparkles,
   Microscope,
   Settings2,
-  ChevronDown,
-  Navigation
+  ChevronDown
 } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6SubstanceLab';
@@ -41,11 +38,6 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { checkSafetyStatus } from '@/lib/guardian';
 import { playHeartbeat } from '@/lib/resonance';
 import { cn } from '@/lib/utils';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import {
   Collapsible,
   CollapsibleContent,
@@ -71,8 +63,6 @@ function SkyIcon() {
         <div className="relative flex items-center justify-center flex-shrink-0">
           <div className="relative">
             <Moon className="w-4 h-4 md:w-6 md:h-6 text-slate-100 fill-slate-100/10 shadow-[0_0:20px_rgba(255,255,255,0.3)] rotate-[-15deg]" />
-            <Sparkles className="absolute -top-3 -right-3 w-2 h-2 text-white animate-pulse" />
-            <Sparkles className="absolute -bottom-2 -left-2 w-1.5 h-1.5 text-white/60 animate-pulse delay-700" />
           </div>
         </div>
       );
@@ -137,7 +127,6 @@ function DashboardContent() {
       if (!user) router.replace("/auth");
     });
 
-    // Check for deep-link sync parameter
     if (searchParams.get('sync') === 'true') {
       setSyncOpen(true);
     }
@@ -169,13 +158,6 @@ function DashboardContent() {
   const isCaution = !isLocked && (simHeartRate > cautionThreshold || activeSubstances.length >= 3);
   const guardianStatus: 'safe' | 'caution' | 'locked' = isLocked ? 'locked' : (isCaution ? 'caution' : 'safe');
 
-  const handleLogout = async () => {
-    playHeartbeat();
-    await auth.signOut();
-    localStorage.clear();
-    router.push('/');
-  };
-
   const handlePortalClick = (action: () => void) => {
     playHeartbeat();
     action();
@@ -195,7 +177,6 @@ function DashboardContent() {
 
   return (
     <main className="min-h-screen bg-black text-white flex flex-col h-screen overflow-hidden font-headline">
-      {/* 1. MINIMALIST SANCTUARY HEADER */}
       <div className="px-6 py-6 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
         <header className="flex justify-between items-center max-w-4xl mx-auto w-full gap-4">
           <div className="flex-1 min-w-0">
@@ -221,7 +202,6 @@ function DashboardContent() {
       <ScrollArea className="flex-1">
         <div className="max-w-4xl mx-auto px-6 py-8 space-y-12 pb-32">
           
-          {/* 2. THE GUARDIAN (Safety Beacon) */}
           <div className="space-y-3">
             <GuardianStatusBar 
               status={guardianStatus} 
@@ -231,7 +211,6 @@ function DashboardContent() {
             <PulseGuardianBanner lang={lang} variant="banner" />
           </div>
 
-          {/* 3. THE RHYTHM (Emotional Anchor) */}
           <div className="space-y-4 text-center">
             <Link 
               href="/heart-status" 
@@ -250,12 +229,10 @@ function DashboardContent() {
             </Link>
           </div>
 
-          {/* 4. THE BONDS (Collective Care) */}
           <div className="w-full flex justify-center">
             <LoveCircle lang={lang} variant="dashboard" />
           </div>
 
-          {/* 5. TACTICAL ACTION ORBS */}
           <div className="space-y-8">
             <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 text-center">
               {lang === 'en' ? 'Sanctuary Tools' : 'Sanctuary Tools'}

@@ -11,8 +11,7 @@ import {
   EyeOff, 
   Loader2, 
   ShieldCheck, 
-  ChevronLeft,
-  Sparkles
+  ChevronLeft
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -36,7 +35,7 @@ const CONTENT = {
     alreadyAccount: "Already have an account? Sign In",
     newHere: "New here? Join the circle",
     staffAccess: "StayOnBeat • Staff Access via awareness@love.com",
-    errorMsg: "The sanctuary is calibrating... please try again. 🌿"
+    errorMsg: "The sanctuary is calibrating... please try again 🌿"
   },
   de: {
     welcome: "Willkommen Zuhause",
@@ -52,7 +51,7 @@ const CONTENT = {
     alreadyAccount: "Bereits ein Konto? Anmelden",
     newHere: "Neu hier? Werde Teil des Kreises",
     staffAccess: "StayOnBeat • Team-Zugang über awareness@love.com",
-    errorMsg: "Das Sanctuary kalibriert sich... bitte versuche es erneut. 🌿"
+    errorMsg: "Das Sanctuary kalibriert sich... bitte versuche es erneut 🌿"
   }
 };
 
@@ -144,7 +143,7 @@ function AuthContent() {
           {error && <div className="p-4 bg-red-600/10 border border-red-600/20 rounded-2xl text-red-500 text-[10px] text-center font-black uppercase tracking-widest">{error}</div>}
           <button type="submit" disabled={isLoading} className={cn("w-full h-20 bg-[#10B981] text-black rounded-2xl font-black text-lg uppercase tracking-[0.1em] shadow-lg shadow-[#10B981]/10 transition-all active:scale-[0.98] flex items-center justify-center gap-3 mt-4", isLoading && "opacity-50 cursor-not-allowed")}>{isLoading ? <><Loader2 size={24} className="animate-spin" /><span>{t.entering}</span></> : <span className="flex items-center gap-3">{isSignUp ? t.begin : t.enter}</span>}</button>
         </form>
-        <button onClick={() => router.push(isSignUp ? "/auth?mode=signin" : "/auth?mode=signup")} className="w-full mt-10 text-[9px] font-black text-white/20 hover:text-[#10B981] transition-colors uppercase tracking-[0.4em] flex items-center justify-center gap-2">{isSignUp ? t.alreadyAccount : t.newHere}<Sparkles size={12} /></button>
+        <button onClick={() => router.push(isSignUp ? "/auth?mode=signin" : "/auth?mode=signup")} className="w-full mt-10 text-[9px] font-black text-white/20 hover:text-[#10B981] transition-colors uppercase tracking-[0.4em] flex items-center justify-center gap-2">{isSignUp ? t.alreadyAccount : t.newHere}</button>
         <div className="mt-12 pt-8 border-t border-white/5"><p className="text-center text-[8px] text-white/10 uppercase tracking-[0.5em] font-black">{t.staffAccess}</p></div>
       </div>
     </main>

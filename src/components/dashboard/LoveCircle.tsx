@@ -2,15 +2,13 @@
 "use client";
 
 import React from "react";
-import { Users, AlertTriangle, Navigation, Heart, Sparkles, Plus, HeartHandshake } from "lucide-react";
+import { Navigation, Heart, Plus, HeartHandshake, CircleDot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 /**
  * @fileOverview Love Circle Component (The Radiant Unity Orb).
- * Redesigned to touch the subconscious through light, clarity, and purity.
  * Represents unconditional love, trust, and collective resonance.
- * Updated: Iconography reflects trust and cupped holding.
  */
 
 interface Friend {
@@ -33,7 +31,6 @@ export default function LoveCircle({
   const router = useRouter();
   const isMap = variant === "map";
   
-  // Mock circle data representing the shared resonance
   const circle: Friend[] = [
     { name: "Sarah", status: "steady", color: "#10B981", avatar: "S" }, 
     { name: "Max", status: "intense", color: "#DC2626", avatar: "M" },
@@ -86,7 +83,6 @@ export default function LoveCircle({
         boxShadow: isMap ? `0 0 40px ${circlePulseColor}15` : `0 0 100px ${circlePulseColor}05`
       }}
     >
-      {/* 1. RADIANT RESONANCE LAYERS (Subconscious anchors for safety and unity) */}
       <div 
         className="absolute inset-0 opacity-30 animate-pulse-heart pointer-events-none" 
         style={{ 
@@ -95,7 +91,6 @@ export default function LoveCircle({
         }} 
       />
       
-      {/* 2. HEADER: PURITY & CLARITY */}
       {!isMap && (
         <div className="text-center z-10 shrink-0 pt-10 mb-2">
           <div className="flex flex-col items-center gap-2">
@@ -116,7 +111,6 @@ export default function LoveCircle({
         </div>
       )}
 
-      {/* 3. SOUL NODES: UNITY & TRUST */}
       <div className={cn("flex-1 w-full flex items-center justify-center px-6 z-10 overflow-hidden", isMap ? "pt-4" : "")}>
         <div className={cn("flex flex-wrap justify-center", isMap ? "gap-3" : "gap-5 md:gap-8")}>
           {circle.map((person, i) => (
@@ -133,7 +127,6 @@ export default function LoveCircle({
                   boxShadow: `0 0 25px ${person.status === 'intense' ? 'rgba(220,38,38,0.4)' : 'rgba(16,185,129,0.2)'}`
                 }}
               >
-                {/* UNITY RINGS */}
                 <div className={cn(
                   "absolute inset-[-6px] rounded-full border border-white/5 transition-opacity group-hover/node:opacity-100 opacity-40",
                   person.status !== 'steady' && "border-white/20 animate-ping"
@@ -169,7 +162,6 @@ export default function LoveCircle({
         </div>
       </div>
 
-      {/* 4. RESONANCE FOOTER: COLLECTIVE CARE */}
       <div className={cn("z-10 shrink-0 w-full", isMap ? "pb-6 px-6" : "pb-10 px-10")}>
         {hasDistress ? (
           <button 
@@ -186,7 +178,7 @@ export default function LoveCircle({
           </button>
         ) : (
           <div className="text-center opacity-30 flex flex-col items-center gap-1">
-            <Sparkles size={12} className="text-[#10B981]" />
+            <CircleDot size={12} className="text-[#10B981]" />
             <p className="text-[7px] font-black text-white uppercase tracking-[0.6em]">{t.sync}</p>
           </div>
         )}

@@ -1,4 +1,5 @@
-import { Heart, Sparkles } from "lucide-react";
+
+import { Heart, CircleDot } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface IntuitionPulseProps {
@@ -11,7 +12,6 @@ export function IntuitionPulse({ className, variant = 'normal' }: IntuitionPulse
   
   return (
     <div className={cn("relative flex items-center justify-center w-32 h-32", className)}>
-      {/* The Expanding Ripples (Intuition Waves) */}
       <div className={cn(
         "absolute w-full h-full rounded-full opacity-20 animate-ping",
         isEmergency ? "bg-red-500" : "bg-emerald-400"
@@ -21,7 +21,6 @@ export function IntuitionPulse({ className, variant = 'normal' }: IntuitionPulse
         isEmergency ? "bg-red-400" : "bg-emerald-300"
       )} />
       
-      {/* The Core (The Soul's Presence) */}
       <div className={cn(
         "relative z-10 w-12 h-12 bg-white rounded-full shadow-xl flex items-center justify-center border",
         isEmergency ? "border-red-100" : "border-emerald-100"
@@ -29,9 +28,8 @@ export function IntuitionPulse({ className, variant = 'normal' }: IntuitionPulse
         <Heart size={24} fill={isEmergency ? "#ef4444" : "#10b981"} className={isEmergency ? "text-red-500" : "text-emerald-500"} />
       </div>
       
-      {/* The "Spark" of Intuition */}
       <div className="absolute top-4 right-4 z-20">
-        <Sparkles className={cn("animate-bounce", isEmergency ? "text-red-600" : "text-amber-400")} size={20} />
+        <CircleDot className={cn("animate-bounce", isEmergency ? "text-red-600" : "text-[#10B981]")} size={20} />
       </div>
     </div>
   );

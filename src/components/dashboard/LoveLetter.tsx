@@ -1,10 +1,10 @@
+
 'use client';
 
 import { useState } from 'react';
-import { useFirestore, useUser } from '@/firebase';
+import { useFirestore, useUser, addDocumentNonBlocking } from '@/firebase';
 import { collection, serverTimestamp } from 'firebase/firestore';
-import { addDocumentNonBlocking } from '@/firebase';
-import { PenLine, Send, Sparkles } from 'lucide-react';
+import { PenLine, Send, Loader2, CircleDot } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
@@ -37,12 +37,12 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
     return (
       <div className="p-10 text-center animate-in zoom-in duration-500 font-headline flex flex-col items-center gap-6 bg-black">
         <div className="w-20 h-20 bg-[#3EB489]/10 rounded-full flex items-center justify-center border-2 border-[#3EB489]/30">
-          <Sparkles className="text-[#3EB489] w-10 h-10" />
+          <CircleDot className="text-[#3EB489] w-10 h-10" />
         </div>
         <div className="space-y-2">
           <h3 className="text-3xl font-black uppercase tracking-tighter text-white">Letter Sealed 💚</h3>
           <p className="text-white/60 text-sm font-bold leading-tight max-w-xs mx-auto">
-            We will keep this safe. When you need a reminder of your own strength, we will bring it back to you.
+            We will keep this safe When you need a reminder of your own strength, we will bring it back to you
           </p>
         </div>
         <button onClick={onComplete} className="mt-4 text-[10px] font-black uppercase text-[#3EB489] tracking-[0.4em] hover:underline">
@@ -65,7 +65,7 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
       </div>
 
       <p className="text-xs text-white/40 mb-6 leading-relaxed font-bold uppercase tracking-widest">
-        While you feel this light today, write a short note to the "you" of tomorrow. 
+        While you feel this light today, write a short note to the "you" of tomorrow 
         What would you like to tell yourself when things feel heavy?
       </p>
 

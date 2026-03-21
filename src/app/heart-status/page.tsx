@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import HeartStatusAura from "@/components/dashboard/HeartStatusAura";
 import LoveCircleList from "@/components/dashboard/LoveCircle";
-import { Activity, ArrowLeft, Watch, Info, HeartHandshake, Users2, Sparkles, RefreshCw } from "lucide-react";
+import { Activity, ArrowLeft, Watch, Info, HeartHandshake, Users2, RefreshCw } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
@@ -17,7 +17,6 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview My Heart Page (Individual Analytics).
  * Visualizes the high-fidelity living pulse and provides entry to Holders and Witnesses.
- * Updated: Icons refined for trust and mutual holding.
  */
 export default function MyHeartPage() {
   const router = useRouter();
@@ -45,7 +44,6 @@ export default function MyHeartPage() {
       setLang(savedLang.toLowerCase() as 'en' | 'de');
     }
 
-    // Simulate slight HR variance
     const interval = setInterval(() => {
       setHeartRate(prev => {
         const drift = Math.random() > 0.5 ? 1 : -1;
@@ -90,7 +88,6 @@ export default function MyHeartPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#050505] p-6 pb-32 font-headline overflow-x-hidden relative">
-      {/* Background Grid */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
         <div className="w-full h-full bg-[radial-gradient(#10B981_1px,transparent_1px)] [background-size:24px_24px]" />
       </div>
@@ -113,7 +110,6 @@ export default function MyHeartPage() {
       </header>
 
       <div className="flex-1 flex flex-col items-center justify-center relative z-10 gap-8">
-        {/* 1. THE AURA (Visual Individual State) */}
         <div className="flex flex-col items-center gap-4">
           <HeartStatusAura 
             heartRate={heartRate} 
@@ -126,7 +122,6 @@ export default function MyHeartPage() {
           </span>
         </div>
 
-        {/* 2. CHAT ENTRY POINTS */}
         <div className="grid grid-cols-2 gap-6 w-full max-w-sm">
           <button 
             onClick={() => setHoldersOpen(true)}
@@ -155,7 +150,6 @@ export default function MyHeartPage() {
           </button>
         </div>
         
-        {/* 3. BASELINE INFO CARD */}
         <div className="w-full max-w-sm bg-white/5 border border-[#EBFB3B]/20 rounded-[2rem] p-8 animate-in slide-in-from-bottom-4 duration-700 relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#EBFB3B]/5 blur-3xl -z-10" />
           
@@ -210,7 +204,6 @@ export default function MyHeartPage() {
         <LoveCircleList lang={lang} />
       </div>
 
-      {/* Connection Dialogs */}
       <Dialog open={syncOpen} onOpenChange={setSyncOpen}>
         <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85vh]">
           <DialogTitle className="sr-only">{t.recalibrate}</DialogTitle>

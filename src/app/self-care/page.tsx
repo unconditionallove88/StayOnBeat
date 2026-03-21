@@ -2,7 +2,7 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import { Heart, Coffee, Moon, ArrowLeft, Wind, Sparkles } from 'lucide-react';
+import { Heart, Coffee, Moon, ArrowLeft, Wind, CircleDot } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
@@ -10,7 +10,6 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview Self-Care & Stillness Sanctuary.
  * A high-fidelity grounding experience featuring box-breathing guidance.
- * Framing: I love and respect my need for stillness.
  */
 
 export default function SelfCare() {
@@ -19,7 +18,6 @@ export default function SelfCare() {
   const [timer, setCountdown] = useState(4);
 
   useEffect(() => {
-    // Breathing Logic (4-4-4-4 Box Breathing)
     const interval = setInterval(() => {
       setCountdown((prev) => {
         if (prev === 1) {
@@ -47,7 +45,6 @@ export default function SelfCare() {
 
   return (
     <main className="min-h-screen bg-black text-white px-6 py-8 flex flex-col items-center font-headline relative overflow-hidden h-screen max-h-screen">
-      {/* Atmospheric Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-emerald-500/5 blur-[120px] rounded-full -z-10" />
 
       <button 
@@ -59,15 +56,12 @@ export default function SelfCare() {
 
       <div className="flex-1 flex flex-col items-center justify-center w-full max-w-xl space-y-12">
         
-        {/* Breathing Orb */}
         <div className="relative flex flex-col items-center justify-center">
-          {/* Pulsing Aura */}
           <div className={cn(
             "absolute rounded-full bg-emerald-500/10 blur-3xl transition-all duration-[4000ms] ease-in-out",
             breathState === 'inhale' ? "w-80 h-80 opacity-40 scale-125" : "w-64 h-64 opacity-20 scale-100"
           )} />
           
-          {/* Main Visual Orb */}
           <div className={cn(
             "relative w-48 h-48 rounded-full border-4 flex items-center justify-center transition-all duration-[4000ms] ease-in-out shadow-2xl shadow-emerald-500/20",
             breathState === 'inhale' ? "scale-110 border-emerald-400 bg-emerald-500/10" : "scale-90 border-white/10 bg-white/5"
@@ -119,7 +113,7 @@ export default function SelfCare() {
           onClick={() => { playHeartbeat(); router.push('/dashboard'); }}
           className="w-full bg-[#3EB489] text-black h-20 rounded-full font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_30px_rgba(62,180,137,0.3)] flex items-center justify-center gap-3"
         >
-          <Sparkles size={20} />
+          <CircleDot size={20} />
           Return to Sanctuary
         </button>
       </footer>

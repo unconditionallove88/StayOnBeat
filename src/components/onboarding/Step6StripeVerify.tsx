@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ShieldCheck, CreditCard, ArrowLeft, Loader2, Sparkles } from "lucide-react";
+import { ShieldCheck, CreditCard, ArrowLeft, Loader2, CircleDot } from "lucide-react";
 import { useFirestore, useUser } from "@/firebase";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
@@ -56,7 +56,7 @@ export function Step6StripeVerify({ onComplete, onBack }: Step6StripeVerifyProps
         onComplete({ stripeId: "cus_DEMO_123", last4: "4242" });
       }, 1000);
     } catch (e: any) {
-      setError(lang === 'EN' ? "Verification couldn’t complete right now — please try again." : "Die Verifizierung konnte nicht abgeschlossen werden – bitte versuche es erneut.");
+      setError(lang === 'EN' ? "Verification couldn’t complete right now — please try again" : "Die Verifizierung konnte nicht abgeschlossen werden – bitte versuche es erneut");
       setIsVerifying(false);
     }
   };
@@ -65,25 +65,25 @@ export function Step6StripeVerify({ onComplete, onBack }: Step6StripeVerifyProps
     EN: {
       back: "BACK",
       header: "A Safe Space for Adults",
-      sub: "To honor German safety standards and protect our community, we verify your age via a secure payment method.",
+      sub: "To honor German safety standards and protect our community, we verify your age via a secure payment method",
       stripeLabel: "Secure Verification via Stripe",
-      peaceOfMind: "Your peace of mind matters. No charge will be made. This is a zero-euro authorization. Data is encrypted and never stored by StayOnBeat.",
+      peaceOfMind: "Your peace of mind matters No charge will be made This is a zero-euro authorization Data is encrypted and never stored by StayOnBeat",
       button: "Verify My Identity",
       verifying: "Verifying...",
       successHeader: "Identity Verified 💚",
-      successSub: "Thank you for helping us keep this sanctuary safe. Your account is now calibrated.",
+      successSub: "Thank you for helping us keep this sanctuary safe Your account is now calibrated",
       footer: "PCI-DSS Compliant • Encrypted • Secure"
     },
     DE: {
       back: "ZURÜCK",
       header: "Ein sicherer Raum für Erwachsene",
-      sub: "Um die deutschen Sicherheitsstandards zu erfüllen und unsere Gemeinschaft zu schützen, verifizieren wir dein Alter über eine sichere Zahlungsmethode.",
+      sub: "Um die deutschen Sicherheitsstandards zu erfüllen und unsere Gemeinschaft zu schützen, verifizieren wir dein Alter über eine sichere Zahlungsmethode",
       stripeLabel: "Sichere Verifizierung über Stripe",
-      peaceOfMind: "Dein Seelenfrieden ist uns wichtig. Es wird keine Gebühr erhoben. Dies ist eine Null-Euro-Autorisierung. Die Daten sind verschlüsselt und werden niemals von StayOnBeat gespeichert.",
+      peaceOfMind: "Dein Seelenfrieden ist uns wichtig Es wird keine Gebühr erhoben Dies ist eine Null-Euro-Autorisierung Die Daten sind verschlüsselt und werden niemals von StayOnBeat gespeichert",
       button: "Identität verifizieren",
       verifying: "Wird verifiziert...",
       successHeader: "Identität verifiziert 💚",
-      successSub: "Danke, dass du uns hilfst, dieses Refugium sicher zu halten. Dein Konto ist nun kalibriert.",
+      successSub: "Danke, dass du uns hilfst, dieses Refugium sicher zu halten Dein Konto ist nun kalibriert",
       footer: "PCI-DSS-konform • Verschlüsselt • Sicher"
     }
   };
@@ -95,7 +95,7 @@ export function Step6StripeVerify({ onComplete, onBack }: Step6StripeVerifyProps
           <ShieldCheck size={64} className="text-[#3EB489]" />
         </div>
         <h2 className="text-4xl font-black uppercase tracking-tighter text-white mb-4">{content[lang].successHeader}</h2>
-        <p className="text-white/60 text-lg font-bold max-w-sm leading-tight">{content[lang].successSub}</p>
+        <p className="text-white/60 text-lg font-bold max-sm leading-tight">{content[lang].successSub}</p>
       </div>
     );
   }
@@ -131,7 +131,7 @@ export function Step6StripeVerify({ onComplete, onBack }: Step6StripeVerifyProps
         </div>
 
         <div className="flex items-start gap-4 p-5 bg-blue-50/5 rounded-2xl border border-blue-500/20 text-left">
-          <Sparkles size={18} className="text-blue-500 shrink-0 mt-0.5" />
+          <CircleDot size={18} className="text-blue-500 shrink-0 mt-0.5" />
           <p className="text-[10px] text-blue-200/60 font-bold leading-relaxed uppercase tracking-widest leading-tight">
             {content[lang].peaceOfMind}
           </p>

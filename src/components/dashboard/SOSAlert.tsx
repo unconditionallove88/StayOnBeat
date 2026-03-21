@@ -3,24 +3,18 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth, useFirestore } from '@/firebase';
+import { useAuth, useFirestore, addDocumentNonBlocking, setDocumentNonBlocking } from '@/firebase';
 import { collection, doc, serverTimestamp } from 'firebase/firestore';
-import { addDocumentNonBlocking, setDocumentNonBlocking } from '@/firebase';
 import { 
   Heart, 
   Loader2, 
-  Sparkles, 
   ShieldCheck, 
   CheckCircle2, 
   X, 
-  AlertTriangle, 
-  Navigation, 
-  Info, 
   Wind, 
   Users, 
-  Moon,
   PhoneCall,
-  Activity
+  CircleDot
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -30,15 +24,14 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview Immediate Help (SOS) Portal.
  * Categorized support pathways: Emergency, Circle, Stillness.
- * Supports Collective Care (Helping a friend).
  */
 
 const CONTENT = {
   en: {
     question: "Do you need help?",
     helping: (name: string) => `Helping ${name}`,
-    subtitle: "Choose the pathway that resonates now.",
-    friendSubtitle: (name: string) => `Choose the pathway of care for ${name}.`,
+    subtitle: "Choose the pathway that resonates now",
+    friendSubtitle: (name: string) => `Choose the pathway of care for ${name}`,
     tabs: {
       emergency: "Emergency",
       circle: "Circle",
@@ -47,19 +40,19 @@ const CONTENT = {
     emergency: {
       title: "Awareness Dispatch",
       sub: "Medical & Security",
-      desc: "Request professional support to your current tactical grid. Handled with absolute discretion.",
+      desc: "Request professional support to your current tactical grid Handled with absolute discretion",
       button: "Notify Awareness Team"
     },
     circle: {
       title: "Circle Alert",
       sub: "Mutual Care",
-      desc: "Let your inner circle know a moment of connection or assistance is needed.",
+      desc: "Let your inner circle know a moment of connection or assistance is needed",
       button: "Notify My Circle"
     },
     stillness: {
       title: "Grounding Path",
       sub: "Self-Care Mode",
-      desc: "I love and respect my need for stillness. Access breathing tools and calming guidance.",
+      desc: "I love and respect my need for stillness Access breathing tools and calming guidance",
       button: "Open Stillness Tools"
     },
     connecting: "Connecting...",
@@ -75,8 +68,8 @@ const CONTENT = {
   de: {
     question: "Brauchst du Unterstützung?",
     helping: (name: string) => `${name} braucht Begleitung`,
-    subtitle: "Wähle den Weg, der sich jetzt richtig anfühlt.",
-    friendSubtitle: (name: string) => `Wähle einen Weg der Fürsorge für ${name}.`,
+    subtitle: "Wähle den Weg, der sich jetzt richtig anfühlt",
+    friendSubtitle: (name: string) => `Wähle einen Weg der Fürsorge für ${name}`,
     tabs: {
       emergency: "Notfall",
       circle: "Kreis",
@@ -85,19 +78,19 @@ const CONTENT = {
     emergency: {
       title: "Awareness-Einsatz",
       sub: "Medizin & Sicherheit",
-      desc: "Fordere professionelle Begleitung an deine aktuelle Position an. Diskret und vertraulich.",
+      desc: "Fordere professionelle Begleitung an deine aktuelle Position an Diskret und vertraulich",
       button: "Awareness-Team rufen"
     },
     circle: {
       title: "Circle-Alarm",
       sub: "Gegenseitige Fürsorge",
-      desc: "Lass deinen inneren Kreis wissen, dass gerade Unterstützung oder Verbindung gebraucht wird.",
+      desc: "Lass deinen inneren Kreis wissen, dass gerade Unterstützung oder Verbindung gebraucht wird",
       button: "Meinen Kreis rufen"
     },
     stillness: {
       title: "Erdungspfad",
       sub: "Selbstfürsorge",
-      desc: "Ich achte auf mein Bedürfnis nach Ruhe. Nutze Atem-Tools und sanfte Führung.",
+      desc: "Ich achte auf mein Bedürfnis nach Ruhe Nutze Atem-Tools und sanfte Führung",
       button: "Ruhe-Tools öffnen"
     },
     connecting: "Verbindung wird aufgebaut...",
@@ -184,7 +177,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
       <div className="fixed inset-0 bg-[#050505] z-[4000] flex flex-col items-center justify-center px-8 text-center font-headline animate-in fade-in duration-700">
         <div className="mb-8 relative">
           <Heart size={100} fill="#10B981" className="text-[#10B981] animate-pulse-heart drop-shadow-[0_0_40px_rgba(16,185,129,0.5)]" />
-          <Sparkles className="absolute -top-4 -right-4 text-[#10B981] w-6 h-6 animate-pulse" />
+          <CircleDot className="absolute -top-4 -right-4 text-[#10B981] w-6 h-6 animate-pulse" />
         </div>
         
         <div className="space-y-6 max-w-sm">

@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, User, Bot, Loader2, Sparkles, Mic, MicOff, Info } from 'lucide-react';
+import { Send, User, Bot, Loader2, Mic, MicOff, Info, CircleDot } from 'lucide-react';
 import { aiSafetyChat, type ChatMessage } from '@/ai/flows/substance-safety-chat';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -11,8 +11,6 @@ import { useToast } from '@/hooks/use-toast';
 /**
  * @fileOverview AiSafetyChat Component.
  * Enhanced with current intake context and vital reminders.
- * Mobile scrolling optimized for iPhone browsers.
- * Fully localized for English and German.
  */
 
 const CONTENT = {
@@ -155,7 +153,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
               {t.context}: {currentIntake}
             </span>
           </div>
-          <Sparkles size={14} className="text-blue-400 animate-pulse" />
+          <CircleDot size={14} className="text-blue-400 animate-pulse" />
         </div>
       )}
 
@@ -194,7 +192,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
                 "w-10 h-10 rounded-full flex items-center justify-center shrink-0 border",
                 msg.role === 'user' ? "bg-white/10 border-white/10" : "bg-blue-600/20 border-blue-500/30 text-blue-500"
               )}>
-                {msg.role === 'user' ? <User className="w-5 h-5" /> : <Sparkles className="w-5 h-5" />}
+                {msg.role === 'user' ? <User className="w-5 h-5" /> : <CircleDot className="w-5 h-5" />}
               </div>
               <div className={cn(
                 "p-5 rounded-3xl text-sm leading-relaxed max-w-[80%] shadow-lg",

@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Sprout, Send, Heart, CheckCircle2, Loader2, Globe, Mic, MicOff, ClipboardList } from 'lucide-react';
+import { Sprout, Send, CheckCircle2, Loader2, Globe, ClipboardList, CircleDot } from 'lucide-react';
 import { useFirestore, useUser, useDoc, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection, serverTimestamp, doc } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
@@ -11,13 +11,12 @@ import { useToast } from '@/hooks/use-toast';
 /**
  * @fileOverview Co-Creation Component.
  * Added a temporary Survey tab for prototype testing.
- * Footers highlighted in emerald green with emoji removed.
  */
 
 const i18n = {
   en: {
     title: "Co-Creation",
-    subtitle: "Your voice shapes this sanctuary.",
+    subtitle: "Your voice shapes this sanctuary",
     types: [
       { key: "resonance", label: "What resonates?", placeholder: "What feels right, warm, or true to you in this app..." },
       { key: "dissonance", label: "Where is the dissonance?", placeholder: "What feels off, missing, or could be more human..." },
@@ -36,7 +35,7 @@ const i18n = {
   },
   de: {
     title: "Ko-Kreation",
-    subtitle: "Deine Stimme gestaltet diesen Raum.",
+    subtitle: "Deine Stimme gestaltet diesen Raum",
     types: [
       { key: "resonance", label: "Was resoniert?", placeholder: "Was fühlt sich richtig, warm oder wahr an in dieser App..." },
       { key: "dissonance", label: "Wo ist die Dissonanz?", placeholder: "Was fühlt sich falsch an, fehlt oder könnte menschlicher sein..." },
@@ -64,8 +63,6 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
-  const [isListening, setIsListening] = useState(false);
-  const recognitionRef = useRef<any>(null);
 
   const userDocRef = useMemoFirebase(() => {
     if (!firestore || !user?.uid) return null;
@@ -77,30 +74,7 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
   useEffect(() => {
     const savedLang = localStorage.getItem('stayonbeat_lang');
     if (savedLang === 'DE') setLang('de');
-
-    if (typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
-      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-      recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = false;
-      recognitionRef.current.interimResults = false;
-      recognitionRef.current.lang = lang === 'en' ? 'en-US' : 'de-DE';
-
-      recognitionRef.current.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript;
-        setMessage(prev => (prev ? `${prev} ${transcript}` : transcript));
-        setIsListening(false);
-      };
-
-      recognitionRef.current.onerror = () => setIsListening(false);
-      recognitionRef.current.onend = () => setIsListening(false);
-    }
-  }, [lang]);
-
-  const toggleListening = () => {
-    if (isListening) recognitionRef.current?.stop();
-    else if (recognitionRef.current) { setIsListening(true); recognitionRef.current.start(); }
-    else toast({ title: 'Speech Not Supported', description: i18n[lang].voiceNotSupported });
-  };
+  }, []);
 
   const t = i18n[lang];
 
@@ -165,7 +139,7 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
         <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder={t.types[activeType].placeholder} className="w-full h-48 px-6 py-5 rounded-[2rem] border-2 border-white/10 bg-white/5 text-white text-base font-bold outline-none resize-none focus:border-[#90EE90] transition-all" required />
         <div className="space-y-4">
           <button type="submit" disabled={loading || !message.trim()} className="w-full h-20 bg-[#90EE90] text-black rounded-[1.5rem] font-black text-xl uppercase tracking-widest flex items-center justify-center gap-3 transition-all active:scale-[0.98] disabled:opacity-30 neon-glow">
-            {loading ? <><Loader2 size={24} className="animate-spin" /> {t.sending}</> : <><Send size={20} /> {t.send}</>}
+            {loading ? <><Loader2 size={24} className="animate-spin" /> {t.sending}</> : <><CircleDot size={20} /> {t.send}</>}
           </button>
           <p className="text-center text-[10px] text-[#10B981] font-black uppercase tracking-0.5em">{t.receivedWithLove}</p>
         </div>

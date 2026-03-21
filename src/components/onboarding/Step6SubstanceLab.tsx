@@ -5,15 +5,12 @@ import { useState, useEffect } from 'react';
 import { 
   Loader2, 
   Search, 
-  Sparkles, 
   ArrowRight, 
   Trash2,
   Calendar,
-  ArrowLeft,
   Microscope,
   Wine, 
   Leaf, 
-  Sparkle, 
   FlaskConical, 
   Heart, 
   Droplets, 
@@ -21,10 +18,11 @@ import {
   Eye, 
   Orbit, 
   Pill, 
-  Diamond,
   Wind,
   CheckCircle2,
-  X
+  X,
+  Diamond,
+  CircleDot
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -35,12 +33,10 @@ import CareShield from '@/components/dashboard/CareShield';
 import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
 import { SOSAlert } from '@/components/dashboard/SOSAlert';
-import PoppersCard from '@/components/lab/cards/PoppersCard';
 
 /**
  * @fileOverview Pulse Lab component.
- * Calibrated for high-fidelity scrolling and real-time safety monitoring.
- * Fully scrollable intake portal for iPhone displays.
+ * Systematically removed decorative sparkles for visual purity.
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -65,9 +61,9 @@ const CONTENT = {
     cancel: "Cancel Entry",
     amount: "Amount",
     doseLogged: "Dose logged",
-    addedToDiary: "added to your session diary.",
+    addedToDiary: "added to your session diary",
     causionTitle: "Pulse Guardian: Caution 🧪",
-    poppersHR: (hr: number) => `Your heart rate is ${hr} BPM. Poppers will drop your blood pressure sharply. Please sit down and breathe before use.`
+    poppersHR: (hr: number) => `Your heart rate is ${hr} BPM Poppers will drop your blood pressure sharply Please sit down and breathe before use`
   },
   de: {
     title: "Sitzungs-Labor",
@@ -82,16 +78,16 @@ const CONTENT = {
     cancel: "Abbrechen",
     amount: "Menge",
     doseLogged: "Dosis notiert",
-    addedToDiary: "wurde deinem Tagebuch hinzugefügt.",
+    addedToDiary: "wurde deinem Tagebuch hinzugefügt",
     causionTitle: "Pulse Guardian: Vorsicht 🧪",
-    poppersHR: (hr: number) => `Dein Puls liegt bei ${hr} BPM. Poppers senkt den Blutdruck stark ab. Bitte nimm dir einen Moment Zeit, setz dich hin und atme tief durch.`
+    poppersHR: (hr: number) => `Dein Puls liegt bei ${hr} BPM Poppers senkt den Blutdruck stark ab Bitte nimm dir einen Moment Zeit, setz dich hin und atme tief durch`
   }
 };
 
 const SUBSTANCES = [
   { id: 'alcohol', icon: Wine, name: 'Alcohol', deName: 'Alkohol', color: 'text-amber-500', bg: 'bg-amber-500/10', unit: 'Items', deUnit: 'Einheiten', subTypes: ['Beer', 'Wine', 'Shot', 'Mixer'], deSubTypes: ['Bier', 'Wein', 'Shot', 'Mixer'], inputType: 'cart' },
   { id: 'cannabis', icon: Leaf, name: 'Cannabis', deName: 'Cannabis', color: 'text-emerald-500', bg: 'bg-emerald-500/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
-  { id: 'mdma', icon: Sparkle, name: 'MDMA', deName: 'MDMA', color: 'text-purple-400', bg: 'bg-purple-500/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
+  { id: 'mdma', icon: CircleDot, name: 'MDMA', deName: 'MDMA', color: 'text-purple-400', bg: 'bg-purple-500/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
   { id: 'cocaine', icon: Diamond, name: 'Cocaine', deName: 'Kokain', color: 'text-slate-200', bg: 'bg-slate-200/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
   { id: 'ketamine', icon: FlaskConical, name: 'Ketamine', deName: 'Ketamin', color: 'text-indigo-400', bg: 'bg-indigo-400/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
   { id: 'ecstasy', icon: Heart, name: 'Ecstasy', deName: 'Ecstasy', color: 'text-pink-500', bg: 'bg-pink-500/10', unit: 'pills', deUnit: 'Pillen', inputType: 'manual' },
@@ -110,7 +106,6 @@ const SUBSTANCES = [
 export function Step6SubstanceLab({ 
   userData, 
   onComplete,
-  onBack,
   showDiary = false,
   isLocked = false 
 }: { 
@@ -233,7 +228,7 @@ export function Step6SubstanceLab({
             className="w-full bg-blue-600/10 border border-blue-500/30 rounded-2xl py-3 px-4 flex items-center justify-between group hover:bg-blue-600/20 transition-all text-left shadow-lg active:scale-[0.99]"
           >
             <div className="flex items-center gap-3">
-              <Sparkles size={16} className="text-blue-400 animate-pulse" />
+              <CircleDot size={16} className="text-blue-400 animate-pulse" />
               <span className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-400">{t.advisor}</span>
             </div>
             <ArrowRight size={12} className="text-blue-500" />
