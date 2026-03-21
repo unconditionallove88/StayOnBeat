@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Sprout, Send, Heart, CheckCircle2, Loader2, Globe, Mic, MicOff } from 'lucide-react';
+import { Sprout, Send, Heart, CheckCircle2, Loader2, Globe, Mic, MicOff, ClipboardList } from 'lucide-react';
 import { useFirestore, useUser, useDoc, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection, serverTimestamp, doc } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 /**
  * @fileOverview Co-Creation Component.
  * Footers highlighted in emerald green with 💚 removed per theme request.
+ * Added a temporary Survey tab for prototype testing.
  */
 
 const i18n = {
@@ -21,11 +22,12 @@ const i18n = {
       { key: "resonance", label: "What resonates? 💚", placeholder: "What feels right, warm, or true to you in this app..." },
       { key: "dissonance", label: "Where is the dissonance? 🌊", placeholder: "What feels off, missing, or could be more human..." },
       { key: "evolution", label: "What would you add? 🌱", placeholder: "A feature, a word, a feeling you wish was here..." },
-      { key: "safety", label: "Do you feel like YOU are cared for here? 🫀", placeholder: "Tell us honestly. Feeling cared for is our foundation..." },
+      { key: "safety", label: "Do you feel cared for? 🫀", placeholder: "Tell us honestly. Feeling cared for is our foundation..." },
+      { key: "survey", label: "App Survey 📋", placeholder: "Help us test the sanctuary. The external survey link will be connected here soon. For now, you can leave your thoughts about the prototype below." },
     ],
     send: "Send from the Heart",
     sending: "Sending...",
-    successTitle: "Heard. 💚",
+    successTitle: "Heard.",
     successMsg: "Your words have been received with love. They will help this space grow.",
     shareMore: "Share more 🌱",
     voiceError: "Voice input interrupted. Please try again.",
@@ -37,13 +39,14 @@ const i18n = {
     subtitle: "Deine Stimme gestaltet diesen Raum.",
     types: [
       { key: "resonance", label: "Was resoniert? 💚", placeholder: "Was fühlt sich richtig, warm oder wahr an in dieser App..." },
-      { key: "dissonance", label: "Wo ist der Dissonanz? 🌊", placeholder: "Was fühlt sich falsch an, fehlt oder könnte menschlicher sein..." },
+      { key: "dissonance", label: "Wo ist die Dissonanz? 🌊", placeholder: "Was fühlt sich falsch an, fehlt oder könnte menschlicher sein..." },
       { key: "evolution", label: "Was würdest du hinzufügen? 🌱", placeholder: "Eine Funktion, ein Wort, ein Gefühl, das du dir hier wünschst..." },
-      { key: "safety", label: "Hast du das Gefühl, dass DU hier umsorgt wirst? 🫀", placeholder: "Sag es uns ehrlich. Das Gefühl, umsorgt zu werden, ist unser Fundament..." },
+      { key: "safety", label: "Fühlst du dich umsorgt? 🫀", placeholder: "Sag es uns ehrlich. Das Gefühl, umsorgt zu werden, ist unser Fundament..." },
+      { key: "survey", label: "App Umfrage 📋", placeholder: "Hilf uns, das Sanctuary zu testen. Der externe Umfrage-Link wird hier bald aktiviert. Bis dahin kannst du uns deine Gedanken zum Prototyp unten hinterlassen." },
     ],
     send: "Von Herzen senden",
     sending: "Wird gesendet...",
-    successTitle: "Gehört. 💚",
+    successTitle: "Gehört.",
     successMsg: "Deine Worte wurden mit Liebe empfangen. Sie helfen diesem Raum zu wachsen.",
     shareMore: "Mehr teilen 🌱",
     voiceError: "Spracheingabe unterbrochen. Bitte versuchen Sie es erneut.",
@@ -200,18 +203,22 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
             type="button"
             onClick={() => setActiveType(i)}
             className={cn(
-              "p-4 rounded-2xl border-2 text-left transition-all duration-300 group h-20",
+              "p-4 rounded-2xl border-2 text-left transition-all duration-300 group h-20 flex flex-col justify-center",
               activeType === i 
                 ? "bg-[#90EE90]/10 border-[#90EE90] shadow-[0_0_20px_rgba(144,238,144,0.15)]" 
-                : "bg-white/5 border-white/5 hover:border-white/20"
+                : "bg-white/5 border-white/5 hover:border-white/20",
+              type.key === 'survey' && "col-span-2 border-dashed border-[#90EE90]/40"
             )}
           >
-            <span className={cn(
-              "text-[10px] font-black uppercase tracking-widest leading-tight block",
-              activeType === i ? "text-[#90EE90]" : "text-white/40 group-hover:text-white/60"
-            )}>
-              {type.label}
-            </span>
+            <div className="flex items-center gap-2">
+              {type.key === 'survey' && <ClipboardList size={14} className={activeType === i ? "text-[#90EE90]" : "text-white/40"} />}
+              <span className={cn(
+                "text-[10px] font-black uppercase tracking-widest leading-tight block",
+                activeType === i ? "text-[#90EE90]" : "text-white/40 group-hover:text-white/60"
+              )}>
+                {type.label}
+              </span>
+            </div>
           </button>
         ))}
       </div>
