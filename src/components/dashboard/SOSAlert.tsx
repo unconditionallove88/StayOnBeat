@@ -30,9 +30,82 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview Immediate Help (SOS) Portal.
  * Redesigned into a high-fidelity, categorized support center.
+ * Fully localized for English and German.
  * Framing: I love and respect my state of being. Support is a choice.
- * Calibrated for iPhone scrolling integrity.
  */
+
+const CONTENT = {
+  en: {
+    question: "Do you need help?",
+    subtitle: "Choose the pathway that resonates now.",
+    tabs: {
+      emergency: "Emergency",
+      circle: "Circle",
+      stillness: "Stillness"
+    },
+    emergency: {
+      title: "Awareness Dispatch",
+      sub: "Medical & Security",
+      desc: "Request professional support to your current tactical grid. Handled with absolute discretion.",
+      button: "Notify Awareness Team"
+    },
+    circle: {
+      title: "Circle Alert",
+      sub: "Mutual Care",
+      desc: "Let your inner circle know you need a moment of connection or assistance.",
+      button: "Notify My Circle"
+    },
+    stillness: {
+      title: "Grounding Path",
+      sub: "Self-Care Mode",
+      desc: "I love and respect my need for stillness. Access breathing tools and calming guidance.",
+      button: "Open Stillness Tools"
+    },
+    connecting: "Connecting...",
+    honoring: "Honoring your request for care",
+    allIsWell: "All is well",
+    loved: "I am loved",
+    takenCareOf: "and being taken care of",
+    dispatched: "Help request dispatched.",
+    privacyActive: "Privacy protocols active.",
+    returning: (s: number) => `Returning to sanctuary in ${s}s`
+  },
+  de: {
+    question: "Brauchst du Unterstützung?",
+    subtitle: "Wähle den Weg, der sich jetzt richtig anfühlt.",
+    tabs: {
+      emergency: "Notfall",
+      circle: "Kreis",
+      stillness: "Ruhe"
+    },
+    emergency: {
+      title: "Awareness-Einsatz",
+      sub: "Medizin & Sicherheit",
+      desc: "Fordere professionelle Begleitung an deine aktuelle Position an. Diskret und vertraulich.",
+      button: "Awareness-Team rufen"
+    },
+    circle: {
+      title: "Circle-Alarm",
+      sub: "Gegenseitige Fürsorge",
+      desc: "Lass deinen inneren Kreis wissen, dass du gerade Unterstützung oder Verbindung brauchst.",
+      button: "Meinen Kreis rufen"
+    },
+    stillness: {
+      title: "Erdungspfad",
+      sub: "Selbstfürsorge",
+      desc: "Ich achte auf mein Bedürfnis nach Ruhe. Nutze Atem-Tools und sanfte Führung.",
+      button: "Ruhe-Tools öffnen"
+    },
+    connecting: "Verbindung wird aufgebaut...",
+    honoring: "Deine Anfrage wird liebevoll bearbeitet",
+    allIsWell: "Alles ist gut",
+    loved: "Ich werde geliebt",
+    takenCareOf: "und bin in Sicherheit",
+    dispatched: "Unterstützung wurde angefordert.",
+    privacyActive: "Schutzprotokolle sind aktiv.",
+    returning: (s: number) => `Rückkehr zum Dashboard in ${s}s`
+  }
+};
 
 interface SOSAlertProps {
   onClose: () => void;
@@ -46,9 +119,13 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
   const router = useRouter();
   const [step, setStep] = useState<'confirm' | 'sending' | 'sent'>('confirm');
   const [countdown, setCountdown] = useState(15);
+  const [lang, setLang] = useState<'en' | 'de'>('en');
   const isFriendMode = !!friendName;
 
   useEffect(() => {
+    const savedLang = localStorage.getItem('stayonbeat_lang');
+    if (savedLang === 'DE') setLang('de');
+
     playHeartbeat();
     let timer: NodeJS.Timeout;
     if (step === 'sent' && countdown > 0) {
@@ -58,6 +135,8 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
     }
     return () => clearInterval(timer);
   }, [step, countdown, onClose]);
+
+  const t = CONTENT[lang];
 
   const handleSendSOS = async (priority: 'urgent' | 'standard' | 'grounding') => {
     playHeartbeat();
@@ -105,22 +184,22 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
         
         <div className="space-y-6 max-w-sm">
           <h1 className="text-4xl font-black uppercase tracking-tighter text-white leading-none">
-            I am loved <br/> <span className="text-[#10B981]">and being taken care of</span>
+            {t.loved} <br/> <span className="text-[#10B981]">{t.takenCareOf}</span>
           </h1>
           <div className="bg-white/5 border border-[#10B981]/20 rounded-[2.5rem] p-8 space-y-4 text-left">
             <div className="flex items-center gap-4 text-white/80">
               <CheckCircle2 size={18} className="text-[#10B981]" />
-              <p className="text-xs font-bold uppercase tracking-widest leading-tight">Help request dispatched.</p>
+              <p className="text-xs font-bold uppercase tracking-widest leading-tight">{t.dispatched}</p>
             </div>
             <div className="flex items-center gap-4 text-white/80">
               <ShieldCheck size={18} className="text-[#10B981]" />
-              <p className="text-xs font-bold uppercase tracking-widest rendering-tight">Privacy protocols active.</p>
+              <p className="text-xs font-bold uppercase tracking-widest rendering-tight">{t.privacyActive}</p>
             </div>
           </div>
         </div>
 
         <button onClick={onClose} className="mt-10 text-white/20 hover:text-white transition-colors text-[10px] font-black uppercase tracking-widest underline underline-offset-8">
-          Returning to sanctuary in {countdown}s
+          {t.returning(countdown)}
         </button>
       </div>
     );
@@ -130,9 +209,9 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
     return (
       <div className="fixed inset-0 bg-black/95 z-[4000] flex flex-col items-center justify-center px-8 text-center font-headline">
         <Loader2 size={80} className="text-[#10B981] animate-spin mb-8" />
-        <h1 className="text-3xl font-black uppercase tracking-tighter text-white mb-2">Connecting...</h1>
+        <h1 className="text-3xl font-black uppercase tracking-tighter text-white mb-2">{t.connecting}</h1>
         <p className="text-[#10B981] font-black uppercase tracking-[0.3em] text-[10px]">
-          Honoring your request for care
+          {t.honoring}
         </p>
       </div>
     );
@@ -154,10 +233,10 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
             <Heart size={32} className="text-[#DC2626]" fill="#DC2626" />
           </div>
           <h2 className="text-3xl font-black uppercase tracking-tighter text-white leading-none">
-            Do you need help?
+            {t.question}
           </h2>
           <p className="text-white/40 text-[9px] font-black uppercase mt-3 tracking-[0.3em]">
-            Choose the pathway that resonates now.
+            {t.subtitle}
           </p>
         </div>
 
@@ -165,9 +244,15 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
           <div className="max-w-md mx-auto w-full pb-32">
             <Tabs defaultValue="emergency" className="w-full">
               <TabsList className="w-full h-14 bg-white/5 border border-white/10 rounded-full p-1.5 mb-6">
-                <TabsTrigger value="emergency" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-red-600 data-[state=active]:text-white">Emergency</TabsTrigger>
-                <TabsTrigger value="support" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-[#F59E0B] data-[state=active]:text-black">Circle</TabsTrigger>
-                <TabsTrigger value="stillness" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-[#10B981] data-[state=active]:text-black">Stillness</TabsTrigger>
+                <TabsTrigger value="emergency" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-red-600 data-[state=active]:text-white">
+                  {t.tabs.emergency}
+                </TabsTrigger>
+                <TabsTrigger value="support" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-[#F59E0B] data-[state=active]:text-black">
+                  {t.tabs.circle}
+                </TabsTrigger>
+                <TabsTrigger value="stillness" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-[#10B981] data-[state=active]:text-black">
+                  {t.tabs.stillness}
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value="emergency" className="space-y-4 animate-in fade-in slide-in-from-bottom-2 focus-visible:outline-none">
@@ -177,18 +262,18 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                       <PhoneCall className="text-red-500" size={24} />
                     </div>
                     <div>
-                      <p className="text-sm font-black uppercase text-white tracking-tight">Awareness Dispatch</p>
-                      <p className="text-[10px] font-bold text-red-400 uppercase tracking-widest">Medical & Security</p>
+                      <p className="text-sm font-black uppercase text-white tracking-tight">{t.emergency.title}</p>
+                      <p className="text-[10px] font-bold text-red-400 uppercase tracking-widest">{t.emergency.sub}</p>
                     </div>
                   </div>
                   <p className="text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide">
-                    Request professional support to your current tactical grid. Handled with absolute discretion.
+                    {t.emergency.desc}
                   </p>
                   <button 
                     onClick={() => handleSendSOS('urgent')}
                     className="w-full py-6 bg-red-600 text-white rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg shadow-red-600/20 active:scale-95 transition-all"
                   >
-                    Notify Awareness Team
+                    {t.emergency.button}
                   </button>
                 </div>
               </TabsContent>
@@ -200,18 +285,18 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                       <Users className="text-amber-500" size={24} />
                     </div>
                     <div>
-                      <p className="text-sm font-black uppercase text-white tracking-tight">Circle Alert</p>
-                      <p className="text-[10px] font-bold text-amber-500 uppercase tracking-widest">Mutual Care</p>
+                      <p className="text-sm font-black uppercase text-white tracking-tight">{t.circle.title}</p>
+                      <p className="text-[10px] font-bold text-amber-500 uppercase tracking-widest">{t.circle.sub}</p>
                     </div>
                   </div>
                   <p className="text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide">
-                    Let your inner circle know you need a moment of connection or assistance.
+                    {t.circle.desc}
                   </p>
                   <button 
                     onClick={() => handleSendSOS('standard')}
                     className="w-full py-6 bg-[#F59E0B] text-black rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg active:scale-95 transition-all"
                   >
-                    Notify My Circle
+                    {t.circle.button}
                   </button>
                 </div>
               </TabsContent>
@@ -223,18 +308,18 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                       <Wind className="text-emerald-500" size={24} />
                     </div>
                     <div>
-                      <p className="text-sm font-black uppercase text-white tracking-tight">Grounding Path</p>
-                      <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">Self-Care Mode</p>
+                      <p className="text-sm font-black uppercase text-white tracking-tight">{t.stillness.title}</p>
+                      <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">{t.stillness.sub}</p>
                     </div>
                   </div>
                   <p className="text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide">
-                    I love and respect my need for stillness. Access breathing tools and calming guidance.
+                    {t.stillness.desc}
                   </p>
                   <button 
                     onClick={() => handleSendSOS('grounding')}
                     className="w-full py-6 bg-[#10B981] text-black rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg active:scale-95 transition-all"
                   >
-                    Open Stillness Tools
+                    {t.stillness.button}
                   </button>
                 </div>
               </TabsContent>
@@ -245,7 +330,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                 onClick={() => { playHeartbeat(); onClose(); }}
                 className="text-[#10B981] font-black text-xs uppercase tracking-[0.4em] hover:underline underline-offset-8 transition-all active:scale-95"
               >
-                All is well
+                {t.allIsWell}
               </button>
             </div>
           </div>

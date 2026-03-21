@@ -41,6 +41,7 @@ import PoppersCard from '@/components/lab/cards/PoppersCard';
  * Calibrated for high-fidelity scrolling and real-time safety monitoring.
  * Features persistent Safety Advisor access connected to intake context.
  * Enhanced for mobile Safari scrolling with aesthetic icons and Viagra support.
+ * Fully localized for English and German.
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -51,23 +52,60 @@ const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: num
   </svg>
 );
 
+const CONTENT = {
+  en: {
+    title: "Pulse Lab",
+    advisor: "Open Safety Advisor",
+    context: "Contextual check",
+    search: "Search substances...",
+    diary: "Session Diary",
+    records: "Records",
+    sync: "Sync Session",
+    intake: "Log Intake Entry",
+    confirm: "Confirm & Log Intake",
+    cancel: "Cancel Entry",
+    amount: "Amount",
+    doseLogged: "Dose logged",
+    addedToDiary: "added to your session diary.",
+    causionTitle: "Pulse Guardian: Caution 🧪",
+    poppersHR: (hr: number) => `Your heart rate is ${hr} BPM. Poppers will drop your blood pressure sharply. Please sit down and breathe before use.`
+  },
+  de: {
+    title: "Pulse Lab",
+    advisor: "Sicherheits-Begleiter",
+    context: "Individueller Check",
+    search: "Substanzen suchen...",
+    diary: "Sitzungs-Tagebuch",
+    records: "Einträge",
+    sync: "Sitzung synchronisieren",
+    intake: "Eintrag protokollieren",
+    confirm: "Bestätigen & Protokollieren",
+    cancel: "Abbrechen",
+    amount: "Menge",
+    doseLogged: "Dosis notiert",
+    addedToDiary: "wurde deinem Tagebuch hinzugefügt.",
+    causionTitle: "Pulse Guardian: Vorsicht 🧪",
+    poppersHR: (hr: number) => `Dein Puls liegt bei ${hr} BPM. Poppers senkt den Blutdruck stark ab. Bitte setz dich hin und atme tief durch.`
+  }
+};
+
 const SUBSTANCES = [
-  { id: 'alcohol', icon: Wine, name: 'Alcohol', color: 'text-amber-500', bg: 'bg-amber-500/10', unit: 'Items', subTypes: ['Beer', 'Wine', 'Shot', 'Mixer'], inputType: 'cart' },
-  { id: 'cannabis', icon: Leaf, name: 'Cannabis', color: 'text-emerald-500', bg: 'bg-emerald-500/10', unit: 'g', inputType: 'manual' },
-  { id: 'mdma', icon: Sparkle, name: 'MDMA', color: 'text-purple-400', bg: 'bg-purple-500/10', unit: 'g', inputType: 'manual' },
-  { id: 'cocaine', icon: Diamond, name: 'Cocaine', color: 'text-slate-200', bg: 'bg-slate-200/10', unit: 'g', inputType: 'manual' },
-  { id: 'ketamine', icon: FlaskConical, name: 'Ketamine', color: 'text-indigo-400', bg: 'bg-indigo-400/10', unit: 'g', inputType: 'manual' },
-  { id: 'ecstasy', icon: Heart, name: 'Ecstasy', color: 'text-pink-500', bg: 'bg-pink-500/10', unit: 'pills', inputType: 'manual' },
-  { id: 'ghb', icon: Droplets, name: 'GHB/GBL', color: 'text-blue-400', bg: 'bg-blue-400/10', unit: 'ml', inputType: 'manual' },
-  { id: 'speed', icon: Zap, name: 'Speed', color: 'text-yellow-400', bg: 'bg-yellow-400/10', unit: 'g', inputType: 'manual' },
-  { id: 'lsd', icon: Eye, name: 'LSD', color: 'text-cyan-400', bg: 'bg-cyan-400/10', unit: 'ug', inputType: 'manual' },
-  { id: '2cb', icon: Orbit, name: '2C-B', color: 'text-orange-400', bg: 'bg-orange-400/10', unit: 'mg', inputType: 'manual' },
-  { id: 'psilocybin', icon: MushroomIcon, name: 'Psilocybin', color: 'text-emerald-400', bg: 'bg-emerald-400/10', unit: 'g', inputType: 'manual' },
-  { id: 'poppers', icon: Wind, name: 'Poppers', color: 'text-amber-400', bg: 'bg-amber-400/10', unit: 'hits', inputType: 'manual' },
-  { id: 'viagra', icon: Pill, name: 'Viagra', color: 'text-blue-500', bg: 'bg-blue-500/10', unit: 'pills', inputType: 'manual' },
-  { id: '2mmc', icon: Diamond, name: '2-MMC', color: 'text-sky-300', bg: 'bg-sky-300/10', unit: 'g', inputType: 'manual' },
-  { id: '3mmc', icon: Diamond, name: '3-MMC', color: 'text-sky-400', bg: 'bg-sky-400/10', unit: 'g', inputType: 'manual' },
-  { id: '4mmc', icon: Diamond, name: '4-MMC', color: 'text-sky-500', bg: 'bg-sky-500/10', unit: 'g', inputType: 'manual' },
+  { id: 'alcohol', icon: Wine, name: 'Alcohol', deName: 'Alkohol', color: 'text-amber-500', bg: 'bg-amber-500/10', unit: 'Items', deUnit: 'Getränke', subTypes: ['Beer', 'Wine', 'Shot', 'Mixer'], deSubTypes: ['Bier', 'Wein', 'Shot', 'Mixer'], inputType: 'cart' },
+  { id: 'cannabis', icon: Leaf, name: 'Cannabis', deName: 'Cannabis', color: 'text-emerald-500', bg: 'bg-emerald-500/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
+  { id: 'mdma', icon: Sparkle, name: 'MDMA', deName: 'MDMA', color: 'text-purple-400', bg: 'bg-purple-500/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
+  { id: 'cocaine', icon: Diamond, name: 'Cocaine', deName: 'Kokain', color: 'text-slate-200', bg: 'bg-slate-200/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
+  { id: 'ketamine', icon: FlaskConical, name: 'Ketamine', deName: 'Ketamin', color: 'text-indigo-400', bg: 'bg-indigo-400/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
+  { id: 'ecstasy', icon: Heart, name: 'Ecstasy', deName: 'Ecstasy', color: 'text-pink-500', bg: 'bg-pink-500/10', unit: 'pills', deUnit: 'Pillen', inputType: 'manual' },
+  { id: 'ghb', icon: Droplets, name: 'GHB/GBL', deName: 'GHB/GBL', color: 'text-blue-400', bg: 'bg-blue-400/10', unit: 'ml', deUnit: 'ml', inputType: 'manual' },
+  { id: 'speed', icon: Zap, name: 'Speed', deName: 'Speed', color: 'text-yellow-400', bg: 'bg-yellow-400/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
+  { id: 'lsd', icon: Eye, name: 'LSD', deName: 'LSD', color: 'text-cyan-400', bg: 'bg-cyan-400/10', unit: 'ug', deUnit: 'ug', inputType: 'manual' },
+  { id: '2cb', icon: Orbit, name: '2C-B', deName: '2C-B', color: 'text-orange-400', bg: 'bg-orange-400/10', unit: 'mg', deUnit: 'mg', inputType: 'manual' },
+  { id: 'psilocybin', icon: MushroomIcon, name: 'Psilocybin', deName: 'Psilocybin', color: 'text-emerald-400', bg: 'bg-emerald-500/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
+  { id: 'poppers', icon: Wind, name: 'Poppers', deName: 'Poppers', color: 'text-amber-400', bg: 'bg-amber-400/10', unit: 'hits', deUnit: 'Züge', inputType: 'manual' },
+  { id: 'viagra', icon: Pill, name: 'Viagra', deName: 'Viagra', color: 'text-blue-500', bg: 'bg-blue-500/10', unit: 'pills', deUnit: 'Tabletten', inputType: 'manual' },
+  { id: '2mmc', icon: Diamond, name: '2-MMC', deName: '2-MMC', color: 'text-sky-300', bg: 'bg-sky-300/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
+  { id: '3mmc', icon: Diamond, name: '3-MMC', deName: '3-MMC', color: 'text-sky-400', bg: 'bg-sky-400/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
+  { id: '4mmc', icon: Diamond, name: '4-MMC', deName: '4-MMC', color: 'text-sky-500', bg: 'bg-sky-500/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
 ];
 
 export function Step6SubstanceLab({ 
@@ -102,31 +140,39 @@ export function Step6SubstanceLab({
     if (savedLang === 'DE') setLang('de');
   }, []);
 
+  const t = CONTENT[lang];
+
   const handleSelectSubstance = (substance: any) => {
     const currentHR = userData?.sessionStatus?.lastHeartRate || 75;
     
     if (substance.id === "poppers" && currentHR > 100) {
       toast({
         variant: "destructive",
-        title: "Pulse Guardian: Caution 🧪",
-        description: `Your heart rate is ${currentHR} BPM. Poppers will drop your blood pressure sharply. Please sit down and breathe before use.`,
+        title: t.causionTitle,
+        description: t.poppersHR(currentHR),
       });
     }
     
     setActiveSubstance(substance);
-    if (substance.id === 'alcohol') setAlcoholCart(substance.subTypes!.map((t: string) => ({ type: t, count: 0 })));
+    if (substance.id === 'alcohol') {
+      const types = lang === 'en' ? substance.subTypes : substance.deSubTypes;
+      setAlcoholCart(types!.map((type: string) => ({ type, count: 0 })));
+    }
   };
 
   const saveLog = () => {
     if (isLocked) return;
 
     let entry: any;
+    const substanceName = lang === 'en' ? activeSubstance.name : activeSubstance.deName;
+    const unit = lang === 'en' ? activeSubstance.unit : activeSubstance.deUnit;
+
     if (activeSubstance.id === 'alcohol') {
       const activeItems = alcoholCart.filter(c => c.count > 0);
       if (activeItems.length === 0) return;
       entry = {
         id: 'alcohol',
-        name: 'Alcohol',
+        name: substanceName,
         items: activeItems,
         timestamp: new Date().toISOString(),
       };
@@ -134,9 +180,9 @@ export function Step6SubstanceLab({
       if (!manualValue || parseFloat(manualValue) === 0) return;
       entry = {
         id: activeSubstance.id,
-        name: activeSubstance.name,
+        name: substanceName,
         value: manualValue,
-        unit: activeSubstance.unit,
+        unit: unit,
         timestamp: new Date().toISOString(),
       };
     }
@@ -147,7 +193,7 @@ export function Step6SubstanceLab({
     setActiveSubstance(null);
     setManualValue('');
     setAlcoholCart([]);
-    toast({ title: "Dose logged", description: `${activeSubstance.name} added to your session diary.` });
+    toast({ title: t.doseLogged, description: `${substanceName} ${t.addedToDiary}` });
   };
 
   const removeLog = (index: number) => {
@@ -156,7 +202,11 @@ export function Step6SubstanceLab({
     localStorage.setItem('stayonbeat_logs', JSON.stringify(updated));
   };
 
-  const filtered = SUBSTANCES.filter(s => s.name.toLowerCase().includes(searchTerm.toLowerCase()));
+  const filtered = SUBSTANCES.filter(s => {
+    const name = lang === 'en' ? s.name : s.deName;
+    return name.toLowerCase().includes(searchTerm.toLowerCase());
+  });
+
   const isSubstanceActive = (id: string) => sessionLogs.some(log => log.id === id);
   const intakeContext = sessionLogs.map(l => l.name).join(', ');
 
@@ -191,7 +241,7 @@ export function Step6SubstanceLab({
       <header className="px-6 pt-12 pb-4 space-y-4 flex flex-col shrink-0 bg-black/95 backdrop-blur-md z-[60] border-b border-white/5 shadow-2xl">
         {onBack && (
           <button onClick={onBack} className="absolute top-4 left-4 text-white/40 hover:text-white transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest z-50">
-            <ArrowLeft className="w-4 h-4" /> BACK
+            <ArrowLeft className="w-4 h-4" /> {lang === 'en' ? 'BACK' : 'ZURÜCK'}
           </button>
         )}
         
@@ -200,7 +250,7 @@ export function Step6SubstanceLab({
             <div className="w-12 h-12 rounded-xl bg-[#10B981]/10 flex items-center justify-center border border-[#10B981]/20">
               <Microscope size={32} className="text-white" />
             </div>
-            <h1 className="text-2xl font-black tracking-tighter uppercase leading-none">Pulse Lab</h1>
+            <h1 className="text-2xl font-black tracking-tighter uppercase leading-none">{t.title}</h1>
           </div>
           
           <div className="space-y-3">
@@ -213,10 +263,10 @@ export function Step6SubstanceLab({
             >
               <div className="flex items-center gap-3">
                 <Sparkles size={16} className="text-blue-400 animate-pulse" />
-                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-400">Open Safety Advisor</span>
+                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-400">{t.advisor}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-[8px] font-bold text-blue-500/60 uppercase tracking-widest">Contextual check</span>
+                <span className="text-[8px] font-bold text-blue-500/60 uppercase tracking-widest">{t.context}</span>
                 <ArrowRight size={12} className="text-blue-500 group-hover:translate-x-1 transition-transform" />
               </div>
             </button>
@@ -226,7 +276,7 @@ export function Step6SubstanceLab({
         <div className="relative w-full pt-2">
           <Search className="absolute left-6 top-[calc(50%+4px)] -translate-y-1/2 w-4 h-4 text-white/20" />
           <input 
-            placeholder="Search substances..."
+            placeholder={t.search}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full bg-white/5 border border-white/10 h-16 pl-14 rounded-3xl focus:border-[#3EB489] text-base outline-none transition-all shadow-inner"
@@ -234,17 +284,14 @@ export function Step6SubstanceLab({
         </div>
       </header>
 
-      {/* Main Content Viewport - momentum scrolling */}
       <div className="flex-1 overflow-y-auto custom-scrollbar px-6 pt-6 pb-40 space-y-8 touch-pan-y relative z-10">
-        
-        {/* Session Diary - High visibility at top of scroll */}
         {showDiary && sessionLogs.length > 0 && (
           <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-500">
             <div className="flex items-center justify-between px-2">
               <h3 className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3">
-                <Calendar className="w-3 h-3" /> Session Diary
+                <Calendar className="w-3 h-3" /> {t.diary}
               </h3>
-              <span className="text-[8px] font-bold text-white/20 uppercase tracking-widest">{sessionLogs.length} Records</span>
+              <span className="text-[8px] font-bold text-white/20 uppercase tracking-widest">{sessionLogs.length} {t.records}</span>
             </div>
             <div className="grid gap-3">
               {sessionLogs.slice().reverse().map((log, i) => {
@@ -285,6 +332,7 @@ export function Step6SubstanceLab({
         <div className="grid grid-cols-3 gap-4 w-full">
           {filtered.map(s => {
             const active = isSubstanceActive(s.id);
+            const name = lang === 'en' ? s.name : s.deName;
             return (
               <button 
                 key={s.id}
@@ -297,24 +345,22 @@ export function Step6SubstanceLab({
                 <div className={cn("p-4 rounded-2xl bg-black/20 group-hover:scale-110 transition-transform", s.color)}>
                   <s.icon size={28} />
                 </div>
-                <span className={cn("text-[10px] font-black uppercase tracking-widest", active ? "text-[#3EB489]" : "text-white/60")}>{s.name}</span>
+                <span className={cn("text-[10px] font-black uppercase tracking-widest", active ? "text-[#3EB489]" : "text-white/60")}>{name}</span>
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* Persistent Footer */}
       <footer className="shrink-0 h-[100px] bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-[70]">
         <button 
           onClick={() => onComplete(sessionLogs)} 
           className="w-full max-sm py-6 bg-[#3EB489] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-[#3EB489]/20 flex items-center justify-center gap-3"
         >
-           <CheckCircle2 size={24} /> Sync Session
+           <CheckCircle2 size={24} /> {t.sync}
         </button>
       </footer>
 
-      {/* Integrated Intake Portal Overlay */}
       {activeSubstance && (
         <div className="absolute inset-0 bg-black/90 backdrop-blur-md z-[100] animate-in fade-in duration-300 flex flex-col p-8 font-headline">
           <button 
@@ -329,8 +375,10 @@ export function Step6SubstanceLab({
               <div className={cn("w-24 h-24 mx-auto rounded-3xl bg-white/5 flex items-center justify-center border border-white/10 shadow-2xl", activeSubstance.color)}>
                 <activeSubstance.icon size={48} />
               </div>
-              <h2 className="text-4xl font-black uppercase tracking-tighter text-white">{activeSubstance.name}</h2>
-              <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">Log Intake Entry</p>
+              <h2 className="text-4xl font-black uppercase tracking-tighter text-white">
+                {lang === 'en' ? activeSubstance.name : activeSubstance.deName}
+              </h2>
+              <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">{t.intake}</p>
             </div>
 
             <div className="w-full space-y-8">
@@ -367,7 +415,9 @@ export function Step6SubstanceLab({
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-white/40 block ml-2">Amount ({activeSubstance.unit})</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-white/40 block ml-2">
+                    {t.amount} ({lang === 'en' ? activeSubstance.unit : activeSubstance.deUnit})
+                  </label>
                   <input 
                     type="number"
                     value={manualValue}
@@ -385,20 +435,19 @@ export function Step6SubstanceLab({
                 onClick={saveLog}
                 className="w-full h-20 bg-[#3EB489] text-black rounded-[1.5rem] font-black uppercase tracking-widest neon-glow active:scale-[0.98] shadow-2xl flex items-center justify-center gap-3 text-lg"
               >
-                <CheckCircle2 size={24} /> Confirm & Log Intake
+                <CheckCircle2 size={24} /> {t.confirm}
               </button>
               <button 
                 onClick={() => setActiveSubstance(null)}
                 className="w-full h-14 text-white/20 font-black uppercase text-[10px] tracking-[0.4em] hover:text-white transition-colors"
               >
-                Cancel Entry
+                {t.cancel}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Safety Advisor Modal */}
       <Dialog open={chatOpen} onOpenChange={setChatOpen}>
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] mx-4">
           <DialogTitle className="sr-only">AI Safety Advisor Chat</DialogTitle>

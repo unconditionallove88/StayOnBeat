@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -14,6 +15,39 @@ const DEVICES = [
   { id: 'whoop', name: 'Whoop Strap', icon: Bluetooth, color: 'text-[#EBFB3B]' },
 ];
 
+const CONTENT = {
+  en: {
+    title: "Pulse Sync",
+    sub: "Connect wearables for live vitals",
+    negotiating: "Negotiating Handshake...",
+    active: "Live Tracking Active",
+    clickConnect: "Click to connect",
+    calibrating: "Calibrating Safety Baseline...",
+    analyzing: "Analyzing physiological rhythm against session context",
+    guardianInfo: "Pulse Guardian uses your resting BPM as a baseline for safety thresholds.",
+    done: "Done",
+    thresholdExceeded: "Safety Threshold Exceeded",
+    restNotice: (hr: number) => `Vitals (HR: ${hr}) require immediate rest. Protection active.`,
+    calibrated: "Pulse Calibrated",
+    restingSet: (bpm: number) => `Resting BPM set to ${bpm}. Your health data is now synced.`
+  },
+  de: {
+    title: "Vital-Sync",
+    sub: "Wearables für Vitalwerte verbinden",
+    negotiating: "Verbindung wird aufgebaut...",
+    active: "Live-Tracking aktiv",
+    clickConnect: "Zum Verbinden tippen",
+    calibrating: "Sicherheits-Basis wird kalibriert...",
+    analyzing: "Rhythmus wird auf Sitzungskontext abgestimmt",
+    guardianInfo: "Pulse Guardian nutzt deinen Ruheplus als Basis für deine Sicherheit.",
+    done: "Fertig",
+    thresholdExceeded: "Sicherheitslimit überschritten",
+    restNotice: (hr: number) => `Deine Vitalwerte (Puls: ${hr}) benötigen Ruhe. Schutz aktiv.`,
+    calibrated: "Puls kalibriert",
+    restingSet: (bpm: number) => `Ruhepuls auf ${bpm} gesetzt. Deine Daten sind synchronisiert.`
+  }
+};
+
 export function WearablesSync({ onComplete }: { onComplete: () => void }) {
   const { toast } = useToast();
   const firestore = useFirestore();
@@ -21,27 +55,32 @@ export function WearablesSync({ onComplete }: { onComplete: () => void }) {
   const [connectingId, setConnectingId] = useState<string | null>(null);
   const [connectedId, setConnectedId] = useState<string | null>(null);
   const [isCalibrating, setIsCalibrating] = useState(false);
+  const [lang, setLang] = useState<'en' | 'de'>('en');
+
+  useState(() => {
+    const savedLang = localStorage.getItem('stayonbeat_lang');
+    if (savedLang === 'DE') setLang('de');
+  });
+
+  const t = CONTENT[lang];
 
   const handleConnect = (id: string) => {
     setConnectingId(id);
-    // Simulate connection delay
     setTimeout(() => {
       setConnectingId(null);
       setConnectedId(id);
       setIsCalibrating(true);
 
-      // Simulate Vitals Calibration
       setTimeout(() => {
         setIsCalibrating(false);
         
         const simulatedHR = id === 'whoop' ? 135 : 82;
-        const restingBPM = id === 'apple' ? 62 : 68; // Mock baseline
+        const restingBPM = id === 'apple' ? 62 : 68;
         const intakeLogs = JSON.parse(localStorage.getItem('stayonbeat_logs') || '[]');
         
         if (user && firestore) {
           const userRef = doc(firestore, 'users', user.uid);
           
-          // 1. SET PULSE BASELINE
           updateDocumentNonBlocking(userRef, {
             pulseBaseline: {
               restingBPM: restingBPM,
@@ -51,7 +90,6 @@ export function WearablesSync({ onComplete }: { onComplete: () => void }) {
             }
           });
 
-          // 2. CHECK SAFETY
           const safetyCheck = checkSafetyStatus({ heartRate: simulatedHR }, intakeLogs.length, restingBPM);
 
           if (safetyCheck.isLocked) {
@@ -63,13 +101,13 @@ export function WearablesSync({ onComplete }: { onComplete: () => void }) {
             });
             toast({
               variant: "destructive",
-              title: "Safety Threshold Exceeded",
-              description: `Vitals (HR: ${simulatedHR}) require immediate rest. Protection active.`,
+              title: t.thresholdExceeded,
+              description: t.restNotice(simulatedHR),
             });
           } else {
             toast({
-              title: "Pulse Calibrated",
-              description: `Resting BPM set to ${restingBPM}. Your health data is now synced.`,
+              title: t.calibrated,
+              description: t.restingSet(restingBPM),
             });
           }
         }
@@ -80,8 +118,8 @@ export function WearablesSync({ onComplete }: { onComplete: () => void }) {
   return (
     <div className="p-10 font-headline bg-black rounded-[3rem]">
       <div className="text-center mb-10">
-        <h2 className="text-2xl font-black uppercase tracking-tighter mb-2">Pulse Sync</h2>
-        <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">Connect wearables for live vitals</p>
+        <h2 className="text-2xl font-black uppercase tracking-tighter mb-2">{t.title}</h2>
+        <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">{t.sub}</p>
       </div>
 
       <div className="space-y-4 mb-10">
@@ -111,7 +149,7 @@ export function WearablesSync({ onComplete }: { onComplete: () => void }) {
                 <div className="text-left">
                   <span className="block font-black uppercase text-sm tracking-tight text-white">{device.name}</span>
                   <span className="text-[8px] font-bold text-white/30 uppercase tracking-widest">
-                    {isConnecting ? "Negotiating Handshake..." : isConnected ? "Live Tracking Active" : "Click to connect"}
+                    {isConnecting ? t.negotiating : isConnected ? t.active : t.clickConnect}
                   </span>
                 </div>
               </div>
@@ -134,16 +172,16 @@ export function WearablesSync({ onComplete }: { onComplete: () => void }) {
         <div className="mb-8 p-6 bg-[#EBFB3B]/10 border-2 border-[#EBFB3B]/30 rounded-2xl flex flex-col items-center gap-4 animate-in fade-in">
           <div className="flex items-center gap-3">
             <Loader2 className="w-5 h-5 animate-spin text-[#EBFB3B]" />
-            <span className="text-xs font-black uppercase tracking-widest text-[#EBFB3B]">Calibrating Safety Baseline...</span>
+            <span className="text-xs font-black uppercase tracking-widest text-[#EBFB3B]">{t.calibrating}</span>
           </div>
-          <p className="text-[9px] text-white/40 text-center uppercase tracking-widest">Analyzing physiological rhythm against session context</p>
+          <p className="text-[9px] text-white/40 text-center uppercase tracking-widest">{t.analyzing}</p>
         </div>
       )}
 
       <div className="bg-[#EBFB3B]/5 border border-[#EBFB3B]/20 p-6 rounded-2xl flex items-start gap-4 mb-8">
         <Info className="w-5 h-5 text-[#EBFB3B] shrink-0" />
         <p className="text-[10px] font-bold text-white/60 leading-relaxed uppercase tracking-widest">
-          Pulse Guardian uses your resting BPM as a baseline for safety thresholds.
+          {t.guardianInfo}
         </p>
       </div>
 
@@ -151,7 +189,7 @@ export function WearablesSync({ onComplete }: { onComplete: () => void }) {
         onClick={onComplete}
         className="w-full h-16 bg-[#EBFB3B] text-black font-black uppercase text-sm tracking-widest rounded-full shadow-[0_0_20px_rgba(235,251,59,0.2)] active:scale-95 transition-all"
       >
-        Done
+        {t.done}
       </button>
     </div>
   );

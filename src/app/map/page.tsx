@@ -15,9 +15,38 @@ import LoveCircle from '@/components/dashboard/LoveCircle';
 
 /**
  * @fileOverview High-Fidelity Organic Radar ("The Pulse").
+ * Fully localized for English and German.
  * Redesigned for concentration and simplicity. 
- * Chaos removed: Minimalist controls, tactical focus, and organic transitions.
  */
+
+const CONTENT = {
+  en: {
+    loading: "Calibrating Resonance",
+    here: "I am here 🌿",
+    visible: "Visible",
+    private: "Private",
+    privacyLabel: "Location Privacy",
+    respect: "I respect my state 🌿",
+    sanctuary: "Privacy is my sanctuary.",
+    distress: (name: string) => `${name} needs care`,
+    currentPulse: (status: string) => `Current Pulse: ${status}`,
+    notify: "Notify Awareness",
+    back: "Dashboard"
+  },
+  de: {
+    loading: "Resonanz wird kalibriert",
+    here: "Ich bin hier 🌿",
+    visible: "Sichtbar",
+    private: "Privat",
+    privacyLabel: "Standort-Privatsphäre",
+    respect: "Ich achte auf mich 🌿",
+    sanctuary: "Privatsphäre ist mein Raum.",
+    distress: (name: string) => `${name} braucht Begleitung`,
+    currentPulse: (status: string) => `Aktueller Status: ${status}`,
+    notify: "Awareness rufen",
+    back: "Dashboard"
+  }
+};
 
 function MapContent() {
   const searchParams = useSearchParams();
@@ -28,7 +57,6 @@ function MapContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [lang, setLang] = useState<'en' | 'de'>('en');
   
-  // SOS Context
   const focusName = searchParams.get('focus');
   const focusStatus = searchParams.get('status');
   const isFriendDistress = !!focusName && focusStatus !== 'steady';
@@ -51,6 +79,8 @@ function MapContent() {
     return () => clearTimeout(timer);
   }, []);
 
+  const t = CONTENT[lang];
+
   if (isLoading) {
     return (
       <main className="h-screen bg-black flex flex-col items-center justify-center gap-4">
@@ -58,16 +88,14 @@ function MapContent() {
           <div className="absolute inset-0 animate-ping rounded-full bg-emerald-500/10" />
           <Loader2 className="w-10 h-10 animate-spin text-emerald-500 relative z-10" />
         </div>
-        <p className="text-emerald-500/40 font-black uppercase tracking-[0.4em] text-[9px] animate-pulse">Calibrating Resonance</p>
+        <p className="text-emerald-500/40 font-black uppercase tracking-[0.4em] text-[9px] animate-pulse">{t.loading}</p>
       </main>
     );
   }
 
   return (
     <main className="h-screen bg-black text-white relative overflow-hidden font-headline animate-in fade-in duration-1000">
-      {/* Expansive Map Layer */}
       <div className="absolute inset-0 bg-[#050505]">
-        {/* Subtle Rhythmic Grid */}
         <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
           <svg width="100%" height="100%">
             <pattern id="radarGrid" width="100" height="100" patternUnits="userSpaceOnUse">
@@ -77,7 +105,6 @@ function MapContent() {
           </svg>
         </div>
 
-        {/* User Presence (The Center) */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
           <div className={cn("transition-all duration-1000 scale-90 md:scale-100", !isSharing && "grayscale opacity-30")}>
             <div className="relative flex items-center justify-center w-32 h-32 md:w-40 md:h-40">
@@ -88,11 +115,10 @@ function MapContent() {
             </div>
           </div>
           <div className="mt-4 bg-black/60 px-4 py-1.5 rounded-full border border-white/5 inline-block backdrop-blur-sm">
-            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/60">I am here 🌿</span>
+            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/60">{t.here}</span>
           </div>
         </div>
 
-        {/* Dynamic Friend Nodes (Only if sharing is active) */}
         {isSharing && !isFriendDistress && (
           <div className="absolute top-[35%] left-[25%] animate-pulse">
              <div className="w-4 h-4 rounded-full bg-[#3EB489] border-2 border-white shadow-[0_0_15px_#3EB489]" />
@@ -102,7 +128,6 @@ function MapContent() {
           </div>
         )}
 
-        {/* Safety Hub (Steady Anchor) */}
         <div className="absolute bottom-[30%] right-[30%] opacity-40">
            <div className="w-8 h-8 bg-emerald-600/20 rounded-xl flex items-center justify-center border border-emerald-500/40">
              <Shield className="w-4 h-4 text-emerald-500" />
@@ -110,10 +135,7 @@ function MapContent() {
         </div>
       </div>
 
-      {/* Interface Overlays */}
       <div className="relative z-10 p-6 flex flex-col h-full pointer-events-none">
-        
-        {/* Simplified Top Navigation */}
         <header className="flex justify-between items-center pointer-events-auto w-full max-w-5xl mx-auto shrink-0 animate-in slide-in-from-top-4 duration-700">
           <Link href="/dashboard" className="bg-black/60 backdrop-blur-xl p-4 rounded-full border border-white/10 hover:border-[#3EB489] transition-all group active:scale-95">
             <ArrowLeft className="w-5 h-5 text-white/40 group-hover:text-white" />
@@ -123,7 +145,7 @@ function MapContent() {
             <div className="flex items-center gap-2 pr-2 border-r border-white/10">
               {isSharing ? <Sparkles size={14} className="text-[#3EB489]" /> : <Lock size={14} className="text-white/20" />}
               <span className={cn("text-[9px] font-black uppercase tracking-widest", isSharing ? "text-[#3EB489]" : "text-white/20")}>
-                {isSharing ? "Visible" : "Hidden"}
+                {isSharing ? t.visible : t.private}
               </span>
             </div>
             <Switch checked={isSharing} onCheckedChange={setIsSharing} className="data-[state=checked]:bg-[#3EB489] scale-90" />
@@ -131,15 +153,10 @@ function MapContent() {
         </header>
         
         <div className="flex-1 flex flex-col justify-end gap-6 w-full max-w-5xl mx-auto pb-10">
-          
           <div className="flex flex-col md:flex-row items-end justify-between gap-6">
-            
-            {/* Corner A: The Love Circle Lens (Bottom Left) */}
             <div className="pointer-events-auto flex flex-col items-start">
               <div className="relative">
                 <LoveCircle lang={lang} variant="map" />
-                
-                {/* Secondary Emergency Toggle (Associated with Circle) */}
                 {!isFriendDistress && (
                   <button 
                     onClick={() => setSosActive(true)} 
@@ -151,18 +168,16 @@ function MapContent() {
               </div>
             </div>
 
-            {/* Corner B: The Priority Pathway (Bottom Right) */}
             <div className="w-full md:w-auto pointer-events-auto flex flex-col items-center md:items-end">
               {isFriendDistress ? (
-                /* Singular Concentration: Friend SOS */
                 <div className="bg-red-600 border border-white/20 rounded-[2.5rem] p-6 shadow-2xl shadow-red-600/40 animate-in slide-in-from-right-4 duration-500 space-y-5 w-full max-w-sm">
                   <div className="flex items-start gap-4">
                     <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center border border-white/30 shrink-0">
                       <AlertTriangle size={32} className="text-white animate-pulse" />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-black uppercase tracking-tighter leading-none text-white">{focusName} needs care</h3>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-white/60 mt-2">Current Pulse: {focusStatus}</p>
+                      <h3 className="text-2xl font-black uppercase tracking-tighter leading-none text-white">{t.distress(focusName)}</h3>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-white/60 mt-2">{t.currentPulse(focusStatus)}</p>
                     </div>
                   </div>
                   
@@ -171,7 +186,7 @@ function MapContent() {
                       onClick={() => setSosActive(true)}
                       className="flex-1 h-16 bg-white text-red-600 rounded-2xl font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-3 shadow-lg active:scale-95 transition-all"
                     >
-                      <PhoneCall size={16} /> Notify Awareness
+                      <PhoneCall size={16} /> {t.notify}
                     </button>
                     <button className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center border border-white/20 hover:bg-white/20 transition-all">
                       <Navigation size={20} className="text-white" />
@@ -179,10 +194,9 @@ function MapContent() {
                   </div>
                 </div>
               ) : (
-                /* Expansive Info Chip */
                 <div className="hidden md:flex bg-black/60 backdrop-blur-md px-6 py-4 rounded-[2rem] border border-white/5 items-center gap-4 animate-in fade-in duration-1000">
-                  <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[#3EB489]">I respect my state 🌿</span>
-                  <p className="text-[10px] font-bold text-white/40 leading-tight uppercase tracking-widest">Privacy is my sanctuary.</p>
+                  <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[#3EB489]">{t.respect}</span>
+                  <p className="text-[10px] font-bold text-white/40 leading-tight uppercase tracking-widest">{t.sanctuary}</p>
                 </div>
               )}
             </div>

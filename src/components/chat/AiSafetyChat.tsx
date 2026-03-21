@@ -12,7 +12,39 @@ import { useToast } from '@/hooks/use-toast';
  * @fileOverview AiSafetyChat Component.
  * Enhanced with current intake context and vital reminders.
  * Mobile scrolling optimized for iPhone browsers.
+ * Fully localized for English and German.
  */
+
+const CONTENT = {
+  en: {
+    context: "Active intake context",
+    question: "How can I help you stay safe tonight?",
+    sub: "I'm aware of your profile and intake. Ask me anything.",
+    water: "💧 Water check",
+    banana: "🍌 Banana / Magnesium",
+    placeholder: "Ask a safety question...",
+    analyzing: "Analyzing risk factors...",
+    interrupted: "Connection interrupted. Please ensure your safety is managed by on-site staff if this is an emergency.",
+    voiceError: "Voice Input Error",
+    voiceDesc: "Could not access microphone or understand speech.",
+    voiceNotSupported: "Speech Not Supported",
+    voiceNotSupportedDesc: "Your browser does not support voice input."
+  },
+  de: {
+    context: "Aktueller Kontext",
+    question: "Wie kann ich dich heute begleiten?",
+    sub: "Ich kenne dein Profil und deine Einträge. Frag mich alles.",
+    water: "💧 Wasser-Check",
+    banana: "🍌 Banane / Magnesium",
+    placeholder: "Sicherheits-Frage stellen...",
+    analyzing: "Risiken werden sanft geprüft...",
+    interrupted: "Verbindung unterbrochen. Bitte wende dich im Notfall direkt an das Awareness-Team vor Ort.",
+    voiceError: "Spracheingabe-Fehler",
+    voiceDesc: "Mikrofon-Zugriff nicht möglich oder Sprache nicht erkannt.",
+    voiceNotSupported: "Sprache nicht unterstützt",
+    voiceNotSupportedDesc: "Dein Browser unterstützt keine Spracheingabe."
+  }
+};
 
 interface Props {
   userProfile: any;
@@ -25,14 +57,20 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [lang, setLang] = useState<'en' | 'de'>('en');
   const scrollRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
+    const savedLang = localStorage.getItem('stayonbeat_lang');
+    if (savedLang === 'DE') setLang('de');
+
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
+
+  const t = CONTENT[lang];
 
   useEffect(() => {
     if (typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
@@ -40,7 +78,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
       recognitionRef.current = new SpeechRecognition();
       recognitionRef.current.continuous = false;
       recognitionRef.current.interimResults = false;
-      recognitionRef.current.lang = 'en-US';
+      recognitionRef.current.lang = lang === 'en' ? 'en-US' : 'de-DE';
 
       recognitionRef.current.onresult = (event: any) => {
         const transcript = event.results[0][0].transcript;
@@ -53,8 +91,8 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
         setIsListening(false);
         toast({
           variant: 'destructive',
-          title: 'Voice Input Error',
-          description: 'Could not access microphone or understand speech.',
+          title: t.voiceError,
+          description: t.voiceDesc,
         });
       };
 
@@ -62,7 +100,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
         setIsListening(false);
       };
     }
-  }, [toast]);
+  }, [lang, toast, t.voiceError, t.voiceDesc]);
 
   const toggleListening = () => {
     if (isListening) {
@@ -73,8 +111,8 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
         recognitionRef.current.start();
       } else {
         toast({
-          title: 'Speech Not Supported',
-          description: 'Your browser does not support voice input.',
+          title: t.voiceNotSupported,
+          description: t.voiceNotSupportedDesc,
         });
       }
     }
@@ -101,7 +139,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
 
       setMessages(prev => [...prev, { role: 'ai', content: response.answer }]);
     } catch (error) {
-      setMessages(prev => [...prev, { role: 'ai', content: "Connection interrupted. Please ensure your safety is managed by on-site staff if this is an emergency." }]);
+      setMessages(prev => [...prev, { role: 'ai', content: t.interrupted }]);
     } finally {
       setIsLoading(false);
     }
@@ -109,13 +147,12 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
 
   return (
     <div className="flex flex-col h-full bg-black font-body overflow-hidden">
-      {/* Context Awareness Bar */}
       {currentIntake && (
         <div className="bg-blue-600/10 border-b border-blue-500/20 px-8 py-3 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <Info size={14} className="text-blue-400" />
             <span className="text-[9px] font-black uppercase tracking-widest text-blue-400">
-              Active intake context: {currentIntake}
+              {t.context}: {currentIntake}
             </span>
           </div>
           <Sparkles size={14} className="text-blue-400 animate-pulse" />
@@ -130,16 +167,16 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
                 <Bot className="w-8 h-8 text-white/20" />
               </div>
               <div className="space-y-2">
-                <p className="text-lg font-bold text-white/80">How can I help you stay safe tonight?</p>
-                <p className="text-sm text-white/40">I'm aware of your profile and intake. Ask me anything.</p>
+                <p className="text-lg font-bold text-white/80">{t.question}</p>
+                <p className="text-sm text-white/40">{t.sub}</p>
               </div>
               
               <div className="flex flex-wrap gap-2 justify-center pt-4">
                 <div className="px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full flex items-center gap-2">
-                  <span className="text-[10px] font-black uppercase text-blue-400">💧 Water check</span>
+                  <span className="text-[10px] font-black uppercase text-blue-400">{t.water}</span>
                 </div>
                 <div className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 rounded-full flex items-center gap-2">
-                  <span className="text-[10px] font-black uppercase text-yellow-400">🍌 Banana / Magnesium</span>
+                  <span className="text-[10px] font-black uppercase text-yellow-400">{t.banana}</span>
                 </div>
               </div>
             </div>
@@ -174,7 +211,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
                 <Loader2 className="w-5 h-5 animate-spin" />
               </div>
               <div className="p-5 rounded-3xl bg-white/10 text-white/40 italic text-sm animate-pulse">
-                Analyzing risk factors...
+                {t.analyzing}
               </div>
             </div>
           )}
@@ -188,7 +225,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-              placeholder="Ask a safety question..."
+              placeholder={t.placeholder}
               className="w-full bg-white/5 border border-white/10 rounded-full py-5 pl-8 pr-12 text-base focus:border-blue-500 transition-all outline-none"
             />
             <button
