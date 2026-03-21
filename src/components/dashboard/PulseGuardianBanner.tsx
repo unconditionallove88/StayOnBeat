@@ -22,7 +22,7 @@ import {
 /**
  * @fileOverview PulseGuardianBanner Component.
  * Intelligence Feed updated to describe connection to Immediate Help.
- * Fixed scrolling behavior to ensure all 4 pillars are visible.
+ * Footers highlighted in emerald green with emoji removed per user request.
  */
 
 interface PulseGuardianBannerProps {
@@ -98,10 +98,10 @@ export default function PulseGuardianBanner({
       </div>
 
       <div className="mt-12 pt-8 border-t border-white/5 text-center">
-        <p className="text-[10px] text-white/20 font-black uppercase tracking-[0.5em]">
+        <p className="text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]">
           {isEn
-            ? "Processed locally with love 💚"
-            : "Lokal verarbeitet mit Liebe 💚"}
+            ? "Processed locally with love"
+            : "Lokal verarbeitet mit Liebe"}
         </p>
       </div>
     </div>

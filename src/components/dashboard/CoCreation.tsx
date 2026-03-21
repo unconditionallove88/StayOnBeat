@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -9,7 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 
 /**
  * @fileOverview Co-Creation Component.
- * Color theme: Light Green #90EE90 for the Sprout icon.
+ * Footers highlighted in emerald green with 💚 removed per theme request.
  */
 
 const i18n = {
@@ -29,6 +30,7 @@ const i18n = {
     shareMore: "Share more 🌱",
     voiceError: "Voice input interrupted. Please try again.",
     voiceNotSupported: "Your browser does not support voice input.",
+    receivedWithLove: "Received with Unconditional Love"
   },
   de: {
     title: "Ko-Kreation",
@@ -46,6 +48,7 @@ const i18n = {
     shareMore: "Mehr teilen 🌱",
     voiceError: "Spracheingabe unterbrochen. Bitte versuchen Sie es erneut.",
     voiceNotSupported: "Ihr Browser unterstützt keine Spracheingabe.",
+    receivedWithLove: "Mit bedingungsloser Liebe empfangen"
   },
 };
 
@@ -244,7 +247,7 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
           >
             {loading ? <><Loader2 size={24} className="animate-spin" /> {t.sending}</> : <><Send size={20} /> {t.send}</>}
           </button>
-          <p className="text-center text-[8px] text-white/20 font-black uppercase tracking-0.5em">Received with Unconditional Love 💚</p>
+          <p className="text-center text-[10px] text-[#10B981] font-black uppercase tracking-0.5em">{t.receivedWithLove}</p>
         </div>
       </form>
     </div>

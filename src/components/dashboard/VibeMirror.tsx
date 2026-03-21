@@ -17,7 +17,7 @@ import {
 /**
  * @fileOverview Vibe Mirror Component.
  * Redesigned as a sophisticated "Sanctuary Ritual."
- * Features aesthetic icons and grounding affirmations.
+ * Footers highlighted in emerald green with emoji removed.
  */
 
 const VIBES = [
@@ -204,8 +204,8 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
           </div>
 
           <div className="mt-4 pt-6 border-t border-white/5 max-w-md mx-auto">
-            <p className="text-center text-[8px] text-white/10 font-black uppercase tracking-[0.5em]">
-              Received with Unconditional Love 💚
+            <p className="text-center text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]">
+              {lang === 'EN' ? 'Received with Unconditional Love' : 'Mit bedingungsloser Liebe empfangen'}
             </p>
           </div>
         </SheetContent>

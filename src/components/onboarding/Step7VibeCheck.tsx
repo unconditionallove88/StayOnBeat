@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -12,7 +13,7 @@ import NotificationPrompt from '@/components/dashboard/NotificationPrompt';
 /**
  * @fileOverview Mood Check-in Onboarding Step.
  * Features updated Yin-Yang icon for Harmony (Yellow) and Leaf icon for Calm (Emerald).
- * Calibrated: "should" removed, "Heart" changed to "Mood".
+ * Footers updated to emerald green with 💚 removed per theme request.
  */
 
 const VIBE_OPTIONS = [
@@ -198,10 +199,10 @@ export function Step7VibeCheck({
           {active?.customIcon ? React.cloneElement(active.customIcon as React.ReactElement, { size: 120 }) : <span className="text-[10rem]">{active?.emoji}</span>}
         </div>
         <h2 className="text-4xl font-black uppercase tracking-tighter text-[#10B981] mb-4">
-          {lang === 'EN' ? 'Mood calibrated 💚' : 'Stimmung kalibriert 💚'}
+          {lang === 'EN' ? 'Mood calibrated' : 'Stimmung kalibriert'}
         </h2>
         <p className="text-white/60 text-lg font-bold max-sm leading-tight">
-          {lang === 'EN' ? 'StayOnBeat sees you. I am loved. 💚' : 'StayOnBeat sieht dich. Ich werde geliebt. 💚'}
+          {lang === 'EN' ? 'StayOnBeat sees you. I am loved.' : 'StayOnBeat sieht dich. Ich werde geliebt.'}
         </p>
       </div>
     );
@@ -251,16 +252,22 @@ export function Step7VibeCheck({
         ))}
       </div>
 
-      <button
-        onClick={handleConfirm}
-        disabled={!selected || isSaving}
-        className={cn(
-          "pill-button w-full max-w-sm uppercase tracking-[0.2em] font-black text-xl h-[64px] transition-all",
-          selected && !isSaving ? 'bg-[#10B981] text-black neon-glow' : 'bg-white/10 text-white/10 cursor-not-allowed opacity-50'
-        )}
-      >
-        {isSaving ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : (lang === 'EN' ? 'CONTINUE WITH LOVE 💚' : 'MIT LIEBE WEITER 💚')}
-      </button>
+      <div className="flex flex-col items-center gap-6 w-full">
+        <button
+          onClick={handleConfirm}
+          disabled={!selected || isSaving}
+          className={cn(
+            "pill-button w-full max-w-sm uppercase tracking-[0.2em] font-black text-xl h-[64px] transition-all",
+            selected && !isSaving ? 'bg-[#10B981] text-black neon-glow' : 'bg-white/10 text-white/10 cursor-not-allowed opacity-50'
+          )}
+        >
+          {isSaving ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : (lang === 'EN' ? 'CONTINUE WITH LOVE' : 'MIT LIEBE WEITER')}
+        </button>
+        
+        <p className="text-center text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]">
+          {lang === 'EN' ? 'Received with Unconditional Love' : 'Mit bedingungsloser Liebe empfangen'}
+        </p>
+      </div>
     </div>
   );
 }
