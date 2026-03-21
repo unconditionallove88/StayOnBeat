@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
@@ -14,6 +13,7 @@ import { GuardianLogo } from '@/components/ui/guardian-logo';
 /**
  * @fileOverview The Witnesses (Public & Moderated).
  * Integrated with Pulse Guardian for active text monitoring and slang detection.
+ * Optimized for high-fidelity scrolling on iPhone.
  */
 
 const NATURE_PREFIXES = ['Emerald', 'Golden', 'Mystic', 'Quiet', 'Velvet', 'Silver', 'Primal', 'Crystal'];
@@ -126,7 +126,7 @@ export function PartyCircleChat() {
 
   if (isBlocked) {
     return (
-      <div className="flex flex-col items-center justify-center h-full p-10 text-center space-y-8 bg-black font-headline">
+      <div className="flex flex-col items-center justify-center h-full p-10 text-center space-y-8 bg-black font-headline overflow-hidden">
         <div className="w-24 h-24 bg-[#A855F7]/10 rounded-full flex items-center justify-center border-2 border-[#A855F7]/30 shadow-[0_0_40px_rgba(168,85,247,0.2)]">
           <GuardianLogo size={48} />
         </div>
@@ -148,7 +148,7 @@ export function PartyCircleChat() {
 
   if (!hasAgreedToRules) {
     return (
-      <div className="flex flex-col h-full bg-black font-headline">
+      <div className="flex flex-col h-full bg-black font-headline overflow-hidden">
         <ScrollArea className="flex-1">
           <div className="p-8 flex flex-col items-center justify-center text-center space-y-8">
             <div className="w-20 h-20 bg-amber-500/10 rounded-full flex items-center justify-center border-2 border-amber-500/30">
@@ -197,7 +197,7 @@ export function PartyCircleChat() {
   }
 
   return (
-    <div className="flex flex-col h-full bg-black font-body">
+    <div className="flex flex-col h-full bg-black font-body overflow-hidden">
       {/* Pulse Guardian Banner */}
       <div className="bg-[#A855F7]/10 border-b border-[#A855F7]/30 px-8 py-3 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
@@ -215,7 +215,7 @@ export function PartyCircleChat() {
             <Users2 size={24} className="text-amber-500" />
           </div>
           <div>
-            <h2 className="text-lg font-black uppercase tracking-tight">The Witnesses</h2>
+            <h2 className="text-lg font-black uppercase tracking-tight text-white">The Witnesses</h2>
             <p className="text-[9px] text-amber-500 font-bold uppercase tracking-widest">Connected with Care</p>
           </div>
         </div>
@@ -225,7 +225,7 @@ export function PartyCircleChat() {
       </div>
 
       <ScrollArea className="flex-1 px-8 py-6" ref={scrollRef}>
-        <div className="space-y-6 max-w-2xl mx-auto">
+        <div className="space-y-6 max-w-2xl mx-auto pb-10">
           {isLoading && (
             <div className="flex items-center justify-center py-20">
               <Loader2 className="w-8 h-8 text-amber-500 animate-spin" />
@@ -234,7 +234,7 @@ export function PartyCircleChat() {
           
           {messages?.length === 0 && !isLoading && (
             <div className="text-center py-24 opacity-20 space-y-4">
-              <p className="text-xs uppercase font-black tracking-widest leading-relaxed">
+              <p className="text-xs uppercase font-black tracking-widest leading-relaxed text-white">
                 You are being witnessed... <br/> Share your presence with the community.
               </p>
             </div>
@@ -243,7 +243,7 @@ export function PartyCircleChat() {
           {messages?.map((msg) => {
             const isMe = msg.senderId === user?.uid;
             return (
-              <div key={msg.id} className={cn("flex flex-col gap-2", isMe ? "items-end" : "items-start")}>
+              <div key={msg.id} className={cn("flex flex-col gap-2 animate-in slide-in-from-bottom-2 duration-300", isMe ? "items-end" : "items-start")}>
                 <div className="flex items-center gap-3 px-2">
                   <span className="text-[8px] font-black text-white/30 uppercase tracking-widest">
                     {isMe ? 'YOU' : msg.senderAlias}
@@ -279,12 +279,12 @@ export function PartyCircleChat() {
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
             placeholder="Share your witness..."
             disabled={isSending}
-            className="flex-1 bg-white/5 border border-white/10 rounded-full py-5 px-8 text-base focus:border-[#A855F7] transition-all outline-none disabled:opacity-50"
+            className="flex-1 bg-white/5 border border-white/10 rounded-full py-5 px-8 text-base focus:border-[#A855F7] transition-all outline-none disabled:opacity-50 text-white shadow-inner"
           />
           <button
             onClick={handleSend}
             disabled={!input.trim() || isSending}
-            className="p-4 bg-amber-500 text-black rounded-full disabled:opacity-30 transition-all hover:scale-105 active:scale-95 shadow-lg"
+            className="p-4 bg-amber-500 text-black rounded-full disabled:opacity-30 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-amber-500/20"
           >
             {isSending ? <Loader2 className="w-6 h-6 animate-spin" /> : <Send className="w-6 h-6" />}
           </button>

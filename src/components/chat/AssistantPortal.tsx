@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -143,7 +142,9 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
             className="p-3 text-zinc-500 hover:text-blue-400 transition-colors active:scale-90"
             title="Hydration Status"
           >
-            <Droplets size={24} />
+            <div className="hover:scale-110 transition-transform">
+              <Droplets size={24} />
+            </div>
           </button>
           <button 
             onClick={() => router.push('/heart-status')}
@@ -160,7 +161,9 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
             className="p-3 text-zinc-500 hover:text-emerald-400 transition-colors active:scale-90"
             title="Energy & Rest"
           >
-            <Battery size={24} />
+            <div className="hover:scale-110 transition-transform">
+              <Battery size={24} />
+            </div>
           </button>
         </div>
       </footer>

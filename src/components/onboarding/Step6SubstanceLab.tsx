@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -41,7 +40,7 @@ import PoppersCard from '@/components/lab/cards/PoppersCard';
  * @fileOverview Pulse Lab component.
  * Calibrated for high-fidelity scrolling and real-time safety monitoring.
  * Features persistent Safety Advisor access connected to intake context.
- * Enhanced for mobile Safari scrolling with aesthetic icons and Viagra support.
+ * Enhanced for mobile Safari scrolling with aesthetic icons and momentum physics.
  * Fully localized for English and German.
  */
 
@@ -255,7 +254,7 @@ export function Step6SubstanceLab({
             <div className="w-12 h-12 rounded-xl bg-[#10B981]/10 flex items-center justify-center border border-[#10B981]/20">
               <Microscope size={32} className="text-white" />
             </div>
-            <h1 className="text-2xl font-black tracking-tighter uppercase leading-none">{t.title}</h1>
+            <h1 className="text-2xl font-black tracking-tighter uppercase leading-none text-white">{t.title}</h1>
           </div>
           
           <div className="space-y-3">
@@ -264,7 +263,7 @@ export function Step6SubstanceLab({
             
             <button 
               onClick={() => setChatOpen(true)}
-              className="w-full bg-blue-600/10 border border-blue-500/30 rounded-2xl py-3 px-4 flex items-center justify-between group hover:bg-blue-600/20 transition-all text-left shadow-lg"
+              className="w-full bg-blue-600/10 border border-blue-500/30 rounded-2xl py-3 px-4 flex items-center justify-between group hover:bg-blue-600/20 transition-all text-left shadow-lg active:scale-[0.99]"
             >
               <div className="flex items-center gap-3">
                 <Sparkles size={16} className="text-blue-400 animate-pulse" />
@@ -284,12 +283,12 @@ export function Step6SubstanceLab({
             placeholder={t.search}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 h-16 pl-14 rounded-3xl focus:border-[#3EB489] text-base outline-none transition-all shadow-inner"
+            className="w-full bg-white/5 border border-white/10 h-16 pl-14 rounded-3xl focus:border-[#3EB489] text-base outline-none transition-all shadow-inner text-white"
           />
         </div>
       </header>
 
-      <ScrollArea className="flex-1 px-6 pt-6 relative z-10">
+      <ScrollArea className="flex-1 px-6 pt-6 relative z-10 touch-pan-y">
         <div className="pb-40 space-y-8">
           {showDiary && sessionLogs.length > 0 && (
             <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-500">
@@ -304,7 +303,7 @@ export function Step6SubstanceLab({
                   const substance = SUBSTANCES.find(s => s.id === log.id);
                   const Icon = substance?.icon || FlaskConical;
                   return (
-                    <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between shadow-lg group">
+                    <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between shadow-lg group active:scale-[0.98] transition-all">
                       <div className="flex items-center gap-4">
                         <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center border border-white/10">
                           <Icon size={20} className="text-[#3EB489]" />
@@ -369,7 +368,7 @@ export function Step6SubstanceLab({
       </footer>
 
       {activeSubstance && (
-        <div className="absolute inset-0 bg-black/95 backdrop-blur-md z-[100] animate-in fade-in duration-300 flex flex-col font-headline">
+        <div className="absolute inset-0 bg-black/95 backdrop-blur-md z-[100] animate-in fade-in duration-300 flex flex-col font-headline overflow-hidden">
           <header className="shrink-0 p-8 flex justify-between items-center">
             <div className="flex items-center gap-4">
               <div className={cn("w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 shadow-lg", activeSubstance.color)}>
@@ -384,19 +383,19 @@ export function Step6SubstanceLab({
             </div>
             <button 
               onClick={() => setActiveSubstance(null)}
-              className="p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white"
+              className="p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white transition-all active:scale-90"
             >
               <X size={20} />
             </button>
           </header>
 
-          <ScrollArea className="flex-1 px-8">
+          <ScrollArea className="flex-1 px-8 touch-pan-y">
             <div className="flex flex-col items-center space-y-10 py-10 max-w-md mx-auto w-full">
               <div className="w-full space-y-8">
                 {activeSubstance.id === 'alcohol' ? (
                   <div className="space-y-3">
                     {alcoholCart.map((item, idx) => (
-                      <div key={idx} className="flex items-center justify-between bg-white/5 p-5 rounded-2xl border border-white/10">
+                      <div key={idx} className="flex items-center justify-between bg-white/5 p-5 rounded-2xl border border-white/10 shadow-sm">
                         <span className="text-sm font-black uppercase tracking-widest text-white/80">{item.type}</span>
                         <div className="flex items-center gap-6">
                           <button 
@@ -405,18 +404,18 @@ export function Step6SubstanceLab({
                               next[idx].count = Math.max(0, next[idx].count - 1);
                               setAlcoholCart(next);
                             }}
-                            className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 active:bg-white/10"
+                            className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 active:bg-white/10 transition-colors"
                           >
                             -
                           </button>
-                          <span className="w-6 text-center font-black text-xl">{item.count}</span>
+                          <span className="w-6 text-center font-black text-xl text-white">{item.count}</span>
                           <button 
                             onClick={() => {
                               const next = [...alcoholCart];
                               next[idx].count += 1;
                               setAlcoholCart(next);
                             }}
-                            className="w-10 h-10 rounded-full bg-[#3EB489] text-black flex items-center justify-center active:scale-90 transition-transform shadow-lg"
+                            className="w-10 h-10 rounded-full bg-[#3EB489] text-black flex items-center justify-center active:scale-90 transition-transform shadow-lg shadow-[#3EB489]/20"
                           >
                             +
                           </button>
