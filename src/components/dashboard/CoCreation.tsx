@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Sprout, Send, CheckCircle2, Loader2, Globe, ClipboardList, CircleDot } from 'lucide-react';
+import { Sprout, Send, CheckCircle2, Loader2, Globe, ClipboardList, CircleDot, ExternalLink } from 'lucide-react';
 import { useFirestore, useUser, useDoc, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection, serverTimestamp, doc } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
@@ -9,7 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 
 /**
  * @fileOverview Co-Creation Component.
- * Added a temporary Survey tab for prototype testing.
+ * Connected the external Typeform survey link for prototype testing.
  * Punctuation-free for resonance.
  */
 
@@ -22,9 +22,10 @@ const i18n = {
       { key: "dissonance", label: "Where is the dissonance?", placeholder: "What feels off, missing, or could be more human" },
       { key: "evolution", label: "What would you add?", placeholder: "A feature, a word, a feeling you wish was here" },
       { key: "safety", label: "Do you feel cared for?", placeholder: "Tell us honestly Feeling cared for is our foundation" },
-      { key: "survey", label: "App Survey 📋", placeholder: "Help us test the sanctuary The external survey link will be connected here soon For now, you can leave your thoughts about the prototype below" },
+      { key: "survey", label: "App Survey 📋", placeholder: "Help us test the sanctuary Your feedback helps us grow" },
     ],
     send: "Send from the Heart",
+    openSurvey: "Open Sanctuary Survey",
     sending: "Sending...",
     successTitle: "Heard",
     successMsg: "Your words have been received with love They will help this space grow",
@@ -39,9 +40,10 @@ const i18n = {
       { key: "dissonance", label: "Wo ist die Dissonanz?", placeholder: "Was fühlt sich falsch an, fehlt oder könnte menschlicher sein" },
       { key: "evolution", label: "Was würdest du hinzufügen?", placeholder: "Eine Funktion, ein Wort, ein Gefühl, das du dir hier wünschst" },
       { key: "safety", label: "Fühlst du dich umsorgt?", placeholder: "Sag es uns ehrlich Das Gefühl, umsorgt zu werden, ist unser Fundament" },
-      { key: "survey", label: "App Umfrage 📋", placeholder: "Hilf uns, das Sanctuary zu testen Der externe Umfrage-Link wird hier bald aktiviert Bis dahin kannst du uns deine Gedanken zum Prototyp unten hinterlassen" },
+      { key: "survey", label: "App Umfrage 📋", placeholder: "Hilf uns, das Sanctuary zu testen Dein Feedback hilft uns zu wachsen" },
     ],
     send: "Von Herzen senden",
+    openSurvey: "Sanctuary Umfrage öffnen",
     sending: "Wird gesendet...",
     successTitle: "Gehört",
     successMsg: "Deine Worte wurden mit Liebe empfangen Sie helfen diesem Raum zu wachsen",
@@ -49,6 +51,8 @@ const i18n = {
     receivedWithLove: "Mit bedingungsloser Liebe empfangen"
   },
 };
+
+const SURVEY_LINK = "https://ev32k2sgx09.typeform.com/to/a33evEfp";
 
 export function CoCreation({ onComplete }: { onComplete?: () => void }) {
   const { user } = useUser();
@@ -72,9 +76,15 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
   }, []);
 
   const t = i18n[lang];
+  const isSurvey = t.types[activeType].key === 'survey';
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSurvey) {
+      window.open(SURVEY_LINK, '_blank');
+      return;
+    }
+    
     if (!message.trim() || !firestore) return;
     setLoading(true);
     try {
@@ -131,10 +141,24 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
       </div>
 
       <form onSubmit={handleSend} className="space-y-6">
-        <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder={t.types[activeType].placeholder} className="w-full h-48 px-6 py-5 rounded-[2rem] border-2 border-white/10 bg-white/5 text-white text-base font-bold outline-none resize-none focus:border-[#90EE90] transition-all" required />
+        {!isSurvey ? (
+          <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder={t.types[activeType].placeholder} className="w-full h-48 px-6 py-5 rounded-[2rem] border-2 border-white/10 bg-white/5 text-white text-base font-bold outline-none resize-none focus:border-[#90EE90] transition-all" required />
+        ) : (
+          <div className="w-full h-48 px-8 py-10 rounded-[2rem] border-2 border-dashed border-[#90EE90]/20 bg-[#90EE90]/5 flex flex-col items-center justify-center text-center gap-4">
+            <ClipboardList className="text-[#90EE90] opacity-40" size={40} />
+            <p className="text-white/60 text-sm font-bold uppercase tracking-widest leading-relaxed">
+              {t.types[activeType].placeholder}
+            </p>
+          </div>
+        )}
+        
         <div className="space-y-4">
-          <button type="submit" disabled={loading || !message.trim()} className="w-full h-20 bg-[#90EE90] text-black rounded-[1.5rem] font-black text-xl uppercase tracking-widest flex items-center justify-center gap-3 transition-all active:scale-[0.98] disabled:opacity-30">
-            {loading ? <><Loader2 size={24} className="animate-spin" /> {t.sending}</> : <><CircleDot size={20} /> {t.send}</>}
+          <button type="submit" disabled={!isSurvey && (loading || !message.trim())} className="w-full h-20 bg-[#90EE90] text-black rounded-[1.5rem] font-black text-xl uppercase tracking-widest flex items-center justify-center gap-3 transition-all active:scale-[0.98] disabled:opacity-30">
+            {isSurvey ? (
+              <><ExternalLink size={20} /> {t.openSurvey}</>
+            ) : (
+              loading ? <><Loader2 size={24} className="animate-spin" /> {t.sending}</> : <><CircleDot size={20} /> {t.send}</>
+            )}
           </button>
           <p className="text-center text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]">{t.receivedWithLove}</p>
         </div>
