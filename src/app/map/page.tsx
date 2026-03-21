@@ -119,6 +119,7 @@ function MapContent() {
           </div>
         </div>
 
+        {/* Dummy Friends on Map */}
         {isSharing && !isFriendDistress && (
           <div className="absolute top-[35%] left-[25%] animate-pulse">
              <div className="w-4 h-4 rounded-full bg-[#3EB489] border-2 border-white shadow-[0_0_15px_#3EB489]" />
@@ -154,6 +155,7 @@ function MapContent() {
         
         <div className="flex-1 flex flex-col justify-end gap-6 w-full max-w-5xl mx-auto pb-10">
           <div className="flex flex-col md:flex-row items-end justify-between gap-6">
+            {/* Love Circle Floating Lens */}
             <div className="pointer-events-auto flex flex-col items-start">
               <div className="relative">
                 <LoveCircle lang={lang} variant="map" />
@@ -168,6 +170,7 @@ function MapContent() {
               </div>
             </div>
 
+            {/* Friend Distress Overlay / Self Affirmation */}
             <div className="w-full md:w-auto pointer-events-auto flex flex-col items-center md:items-end">
               {isFriendDistress ? (
                 <div className="bg-red-600 border border-white/20 rounded-[2.5rem] p-6 shadow-2xl shadow-red-600/40 animate-in slide-in-from-right-4 duration-500 space-y-5 w-full max-w-sm">

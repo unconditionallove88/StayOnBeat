@@ -30,14 +30,16 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview Immediate Help (SOS) Portal.
  * Redesigned into a high-fidelity, categorized support center.
+ * Enhanced to support "Collective Care" (helping a friend).
  * Fully localized for English and German.
- * Framing: I love and respect my state of being. Support is a choice.
  */
 
 const CONTENT = {
   en: {
     question: "Do you need help?",
+    helping: (name: string) => `Helping ${name}`,
     subtitle: "Choose the pathway that resonates now.",
+    friendSubtitle: (name: string) => `Choose the pathway of care for ${name}.`,
     tabs: {
       emergency: "Emergency",
       circle: "Circle",
@@ -52,7 +54,7 @@ const CONTENT = {
     circle: {
       title: "Circle Alert",
       sub: "Mutual Care",
-      desc: "Let your inner circle know you need a moment of connection or assistance.",
+      desc: "Let your inner circle know a moment of connection or assistance is needed.",
       button: "Notify My Circle"
     },
     stillness: {
@@ -62,9 +64,10 @@ const CONTENT = {
       button: "Open Stillness Tools"
     },
     connecting: "Connecting...",
-    honoring: "Honoring your request for care",
+    honoring: "Honoring the request for care",
     allIsWell: "All is well",
     loved: "I am loved",
+    friendLoved: (name: string) => `${name} is loved`,
     takenCareOf: "and being taken care of",
     dispatched: "Help request dispatched.",
     privacyActive: "Privacy protocols active.",
@@ -72,7 +75,9 @@ const CONTENT = {
   },
   de: {
     question: "Brauchst du Unterstützung?",
+    helping: (name: string) => `${name} braucht Begleitung`,
     subtitle: "Wähle den Weg, der sich jetzt richtig anfühlt.",
+    friendSubtitle: (name: string) => `Wähle einen Weg der Fürsorge für ${name}.`,
     tabs: {
       emergency: "Notfall",
       circle: "Kreis",
@@ -87,7 +92,7 @@ const CONTENT = {
     circle: {
       title: "Circle-Alarm",
       sub: "Gegenseitige Fürsorge",
-      desc: "Lass deinen inneren Kreis wissen, dass du gerade Unterstützung oder Verbindung brauchst.",
+      desc: "Lass deinen inneren Kreis wissen, dass gerade Unterstützung oder Verbindung gebraucht wird.",
       button: "Meinen Kreis rufen"
     },
     stillness: {
@@ -97,9 +102,10 @@ const CONTENT = {
       button: "Ruhe-Tools öffnen"
     },
     connecting: "Verbindung wird aufgebaut...",
-    honoring: "Deine Anfrage wird liebevoll bearbeitet",
+    honoring: "Die Anfrage wird liebevoll bearbeitet",
     allIsWell: "Alles ist gut",
     loved: "Ich werde geliebt",
+    friendLoved: (name: string) => `${name} wird geliebt`,
     takenCareOf: "und bin in Sicherheit",
     dispatched: "Unterstützung wurde angefordert.",
     privacyActive: "Schutzprotokolle sind aktiv.",
@@ -165,6 +171,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
       resolvedAt: null,
     });
 
+    // Only update user's own SOS status if it's for themselves
     if (!isFriendMode && priority === 'urgent') {
       setDocumentNonBlocking(userRef, { sosActive: true }, { merge: true });
     }
@@ -184,7 +191,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
         
         <div className="space-y-6 max-w-sm">
           <h1 className="text-4xl font-black uppercase tracking-tighter text-white leading-none">
-            {t.loved} <br/> <span className="text-[#10B981]">{t.takenCareOf}</span>
+            {isFriendMode ? t.friendLoved(friendName!) : t.loved} <br/> <span className="text-[#10B981]">{t.takenCareOf}</span>
           </h1>
           <div className="bg-white/5 border border-[#10B981]/20 rounded-[2.5rem] p-8 space-y-4 text-left">
             <div className="flex items-center gap-4 text-white/80">
@@ -233,10 +240,10 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
             <Heart size={32} className="text-[#DC2626]" fill="#DC2626" />
           </div>
           <h2 className="text-3xl font-black uppercase tracking-tighter text-white leading-none">
-            {t.question}
+            {isFriendMode ? t.helping(friendName!) : t.question}
           </h2>
-          <p className="text-white/40 text-[9px] font-black uppercase mt-3 tracking-[0.3em]">
-            {t.subtitle}
+          <p className="text-[#10B981] text-[9px] font-black uppercase mt-3 tracking-[0.3em]">
+            {isFriendMode ? t.friendSubtitle(friendName!) : t.subtitle}
           </p>
         </div>
 
@@ -250,9 +257,11 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                 <TabsTrigger value="support" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-[#F59E0B] data-[state=active]:text-black">
                   {t.tabs.circle}
                 </TabsTrigger>
-                <TabsTrigger value="stillness" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-[#10B981] data-[state=active]:text-black">
-                  {t.tabs.stillness}
-                </TabsTrigger>
+                {!isFriendMode && (
+                  <TabsTrigger value="stillness" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-[#10B981] data-[state=active]:text-black">
+                    {t.tabs.stillness}
+                  </TabsTrigger>
+                )}
               </TabsList>
 
               <TabsContent value="emergency" className="space-y-4 animate-in fade-in slide-in-from-bottom-2 focus-visible:outline-none">
@@ -301,28 +310,30 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                 </div>
               </TabsContent>
 
-              <TabsContent value="stillness" className="space-y-4 animate-in fade-in slide-in-from-bottom-2 focus-visible:outline-none">
-                <div className="p-6 bg-emerald-500/5 border-2 border-emerald-500/20 rounded-[2rem] space-y-4">
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-emerald-500/20 rounded-xl">
-                      <Wind className="text-emerald-500" size={24} />
+              {!isFriendMode && (
+                <TabsContent value="stillness" className="space-y-4 animate-in fade-in slide-in-from-bottom-2 focus-visible:outline-none">
+                  <div className="p-6 bg-emerald-500/5 border-2 border-emerald-500/20 rounded-[2rem] space-y-4">
+                    <div className="flex items-center gap-4">
+                      <div className="p-3 bg-emerald-500/20 rounded-xl">
+                        <Wind className="text-emerald-500" size={24} />
+                      </div>
+                      <div>
+                        <p className="text-sm font-black uppercase text-white tracking-tight">{t.stillness.title}</p>
+                        <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">{t.stillness.sub}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm font-black uppercase text-white tracking-tight">{t.stillness.title}</p>
-                      <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">{t.stillness.sub}</p>
-                    </div>
+                    <p className="text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide">
+                      {t.stillness.desc}
+                    </p>
+                    <button 
+                      onClick={() => handleSendSOS('grounding')}
+                      className="w-full py-6 bg-[#10B981] text-black rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg active:scale-95 transition-all"
+                    >
+                      {t.stillness.button}
+                    </button>
                   </div>
-                  <p className="text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide">
-                    {t.stillness.desc}
-                  </p>
-                  <button 
-                    onClick={() => handleSendSOS('grounding')}
-                    className="w-full py-6 bg-[#10B981] text-black rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg active:scale-95 transition-all"
-                  >
-                    {t.stillness.button}
-                  </button>
-                </div>
-              </TabsContent>
+                </TabsContent>
+              )}
             </Tabs>
 
             <div className="mt-6 pt-6 border-t border-white/5 text-center">
