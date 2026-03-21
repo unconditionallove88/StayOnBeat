@@ -72,26 +72,26 @@ const CONTENT = {
     poppersHR: (hr: number) => `Your heart rate is ${hr} BPM. Poppers will drop your blood pressure sharply. Please sit down and breathe before use.`
   },
   de: {
-    title: "Pulse Lab",
+    title: "Sitzungs-Labor",
     advisor: "Sicherheits-Begleiter",
-    context: "Individueller Check",
+    context: "Dein Rhythmus",
     search: "Substanzen suchen...",
     diary: "Sitzungs-Tagebuch",
     records: "Einträge",
     sync: "Sitzung synchronisieren",
-    intake: "Eintrag protokollieren",
-    confirm: "Bestätigen & Protokollieren",
+    intake: "Eintrag notieren",
+    confirm: "Bestätigen & Notieren",
     cancel: "Abbrechen",
     amount: "Menge",
     doseLogged: "Dosis notiert",
     addedToDiary: "wurde deinem Tagebuch hinzugefügt.",
     causionTitle: "Pulse Guardian: Vorsicht 🧪",
-    poppersHR: (hr: number) => `Dein Puls liegt bei ${hr} BPM. Poppers senkt den Blutdruck stark ab. Bitte nimm Platz und atme tief durch.`
+    poppersHR: (hr: number) => `Dein Puls liegt bei ${hr} BPM. Poppers senkt den Blutdruck stark ab. Bitte nimm dir einen Moment Zeit, setz dich hin und atme tief durch.`
   }
 };
 
 const SUBSTANCES = [
-  { id: 'alcohol', icon: Wine, name: 'Alcohol', deName: 'Alkohol', color: 'text-amber-500', bg: 'bg-amber-500/10', unit: 'Items', deUnit: 'Getränke', subTypes: ['Beer', 'Wine', 'Shot', 'Mixer'], deSubTypes: ['Bier', 'Wein', 'Shot', 'Mixer'], inputType: 'cart' },
+  { id: 'alcohol', icon: Wine, name: 'Alcohol', deName: 'Alkohol', color: 'text-amber-500', bg: 'bg-amber-500/10', unit: 'Items', deUnit: 'Einheiten', subTypes: ['Beer', 'Wine', 'Shot', 'Mixer'], deSubTypes: ['Bier', 'Wein', 'Shot', 'Mixer'], inputType: 'cart' },
   { id: 'cannabis', icon: Leaf, name: 'Cannabis', deName: 'Cannabis', color: 'text-emerald-500', bg: 'bg-emerald-500/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
   { id: 'mdma', icon: Sparkle, name: 'MDMA', deName: 'MDMA', color: 'text-purple-400', bg: 'bg-purple-500/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
   { id: 'cocaine', icon: Diamond, name: 'Cocaine', deName: 'Kokain', color: 'text-slate-200', bg: 'bg-slate-200/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
@@ -223,14 +223,18 @@ export function Step6SubstanceLab({
 
   if (isLocked) {
     return (
-      <div className="flex flex-col h-full bg-black font-body max-w-2xl mx-auto p-6 relative overflow-hidden overflow-y-auto">
-        <GuardianStatusBar status="locked" heartRate={lastHR > 0 ? lastHR : 128} lang={lang} />
-        <CareShield 
-          reason={userData?.sessionStatus?.lockReason || 'manual'}
-          unlockAt={userData?.sessionStatus?.unlockAt ? new Date(userData.sessionStatus.unlockAt).getTime() : Date.now() + 4 * 60 * 60 * 1000}
-          lang={lang}
-          onNeedSupport={() => setShowSOS(true)}
-        />
+      <div className="flex flex-col h-full bg-black font-body max-w-2xl mx-auto p-6 relative overflow-hidden">
+        <ScrollArea className="h-full">
+          <div className="pb-20 space-y-6">
+            <GuardianStatusBar status="locked" heartRate={lastHR > 0 ? lastHR : 128} lang={lang} />
+            <CareShield 
+              reason={userData?.sessionStatus?.lockReason || 'manual'}
+              unlockAt={userData?.sessionStatus?.unlockAt ? new Date(userData.sessionStatus.unlockAt).getTime() : Date.now() + 4 * 60 * 60 * 1000}
+              lang={lang}
+              onNeedSupport={() => setShowSOS(true)}
+            />
+          </div>
+        </ScrollArea>
         {showSOS && <SOSAlert onClose={() => setShowSOS(false)} />}
       </div>
     );
@@ -285,73 +289,75 @@ export function Step6SubstanceLab({
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto custom-scrollbar px-6 pt-6 pb-40 space-y-8 touch-pan-y relative z-10">
-        {showDiary && sessionLogs.length > 0 && (
-          <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-500">
-            <div className="flex items-center justify-between px-2">
-              <h3 className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3">
-                <Calendar className="w-3 h-3" /> {t.diary}
-              </h3>
-              <span className="text-[8px] font-bold text-white/20 uppercase tracking-widest">{sessionLogs.length} {t.records}</span>
-            </div>
-            <div className="grid gap-3">
-              {sessionLogs.slice().reverse().map((log, i) => {
-                const substance = SUBSTANCES.find(s => s.id === log.id);
-                const Icon = substance?.icon || FlaskConical;
-                return (
-                  <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between shadow-lg group">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center border border-white/10">
-                        <Icon size={20} className="text-[#3EB489]" />
+      <ScrollArea className="flex-1 px-6 pt-6 relative z-10">
+        <div className="pb-40 space-y-8">
+          {showDiary && sessionLogs.length > 0 && (
+            <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-500">
+              <div className="flex items-center justify-between px-2">
+                <h3 className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3">
+                  <Calendar className="w-3 h-3" /> {t.diary}
+                </h3>
+                <span className="text-[8px] font-bold text-white/20 uppercase tracking-widest">{sessionLogs.length} {t.records}</span>
+              </div>
+              <div className="grid gap-3">
+                {sessionLogs.slice().reverse().map((log, i) => {
+                  const substance = SUBSTANCES.find(s => s.id === log.id);
+                  const Icon = substance?.icon || FlaskConical;
+                  return (
+                    <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between shadow-lg group">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center border border-white/10">
+                          <Icon size={20} className="text-[#3EB489]" />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          <span className="text-sm font-black uppercase text-white">{log.name}</span>
+                          <span className="text-[10px] font-bold text-[#3EB489]">
+                            {log.id === 'alcohol' ? log.items.map((it: any) => `${it.count}x ${it.type}`).join(', ') : `${log.value}${log.unit}`}
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex flex-col gap-1">
-                        <span className="text-sm font-black uppercase text-white">{log.name}</span>
-                        <span className="text-[10px] font-bold text-[#3EB489]">
-                          {log.id === 'alcohol' ? log.items.map((it: any) => `${it.count}x ${it.type}`).join(', ') : `${log.value}${log.unit}`}
-                        </span>
-                      </div>
+                      <button 
+                        onClick={() => removeLog(sessionLogs.length - 1 - i)} 
+                        className="p-2 text-white/10 hover:text-red-500 transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
                     </div>
-                    <button 
-                      onClick={() => removeLog(sessionLogs.length - 1 - i)} 
-                      className="p-2 text-white/10 hover:text-red-500 transition-colors"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {showPoppersCard && (
-          <div className="animate-in fade-in duration-500">
-            <PoppersCard lang={lang} />
-          </div>
-        )}
+          {showPoppersCard && (
+            <div className="animate-in fade-in duration-500">
+              <PoppersCard lang={lang} />
+            </div>
+          )}
 
-        <div className="grid grid-cols-3 gap-4 w-full">
-          {filtered.map(s => {
-            const active = isSubstanceActive(s.id);
-            const name = lang === 'en' ? s.name : s.deName;
-            return (
-              <button 
-                key={s.id}
-                onClick={() => handleSelectSubstance(s)}
-                className={cn(
-                  "aspect-square border rounded-[2.5rem] flex flex-col items-center justify-center gap-3 transition-all hover:bg-white/10 active:scale-95 group relative overflow-hidden shadow-xl",
-                  active ? "bg-[#3EB489]/10 border-[#3EB489] shadow-[0_0_20px_#3EB48933]" : "bg-white/5 border-white/10"
-                )}
-              >
-                <div className={cn("p-4 rounded-2xl bg-black/20 group-hover:scale-110 transition-transform", s.color)}>
-                  <s.icon size={28} />
-                </div>
-                <span className={cn("text-[10px] font-black uppercase tracking-widest", active ? "text-[#3EB489]" : "text-white/60")}>{name}</span>
-              </button>
-            );
-          })}
+          <div className="grid grid-cols-3 gap-4 w-full">
+            {filtered.map(s => {
+              const active = isSubstanceActive(s.id);
+              const name = lang === 'en' ? s.name : s.deName;
+              return (
+                <button 
+                  key={s.id}
+                  onClick={() => handleSelectSubstance(s)}
+                  className={cn(
+                    "aspect-square border rounded-[2.5rem] flex flex-col items-center justify-center gap-3 transition-all hover:bg-white/10 active:scale-95 group relative overflow-hidden shadow-xl",
+                    active ? "bg-[#3EB489]/10 border-[#3EB489] shadow-[0_0_20px_#3EB48933]" : "bg-white/5 border-white/10"
+                  )}
+                >
+                  <div className={cn("p-4 rounded-2xl bg-black/20 group-hover:scale-110 transition-transform", s.color)}>
+                    <s.icon size={28} />
+                  </div>
+                  <span className={cn("text-[10px] font-black uppercase tracking-widest", active ? "text-[#3EB489]" : "text-white/60")}>{name}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      </ScrollArea>
 
       <footer className="shrink-0 h-[100px] bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-[70]">
         <button 
@@ -363,26 +369,29 @@ export function Step6SubstanceLab({
       </footer>
 
       {activeSubstance && (
-        <div className="absolute inset-0 bg-black/90 backdrop-blur-md z-[100] animate-in fade-in duration-300 flex flex-col font-headline">
-          <button 
-            onClick={() => setActiveSubstance(null)}
-            className="absolute top-8 right-8 p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white z-[110]"
-          >
-            <X size={20} />
-          </button>
-
-          <ScrollArea className="flex-1 w-full px-8 touch-pan-y">
-            <div className="flex flex-col items-center justify-center min-h-full py-20 space-y-10 max-w-md mx-auto w-full">
-              <div className="text-center space-y-4">
-                <div className={cn("w-24 h-24 mx-auto rounded-3xl bg-white/5 flex items-center justify-center border border-white/10 shadow-2xl", activeSubstance.color)}>
-                  <activeSubstance.icon size={48} />
-                </div>
-                <h2 className="text-4xl font-black uppercase tracking-tighter text-white">
+        <div className="absolute inset-0 bg-black/95 backdrop-blur-md z-[100] animate-in fade-in duration-300 flex flex-col font-headline">
+          <header className="shrink-0 p-8 flex justify-between items-center">
+            <div className="flex items-center gap-4">
+              <div className={cn("w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 shadow-lg", activeSubstance.color)}>
+                <activeSubstance.icon size={24} />
+              </div>
+              <div>
+                <h2 className="text-xl font-black uppercase tracking-tighter text-white">
                   {lang === 'en' ? activeSubstance.name : activeSubstance.deName}
                 </h2>
                 <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">{t.intake}</p>
               </div>
+            </div>
+            <button 
+              onClick={() => setActiveSubstance(null)}
+              className="p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white"
+            >
+              <X size={20} />
+            </button>
+          </header>
 
+          <ScrollArea className="flex-1 px-8">
+            <div className="flex flex-col items-center space-y-10 py-10 max-w-md mx-auto w-full">
               <div className="w-full space-y-8">
                 {activeSubstance.id === 'alcohol' ? (
                   <div className="space-y-3">
@@ -433,7 +442,7 @@ export function Step6SubstanceLab({
                 )}
               </div>
 
-              <div className="w-full space-y-4 pt-6 pb-12">
+              <div className="w-full space-y-4 pt-6 pb-20">
                 <button 
                   onClick={saveLog}
                   className="w-full h-20 bg-[#3EB489] text-black rounded-[1.5rem] font-black uppercase tracking-widest neon-glow active:scale-[0.98] shadow-2xl flex items-center justify-center gap-3 text-lg"
