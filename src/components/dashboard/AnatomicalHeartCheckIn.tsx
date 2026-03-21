@@ -1,15 +1,16 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
 import { useUser, useFirestore, updateDocumentNonBlocking, useDoc, useMemoFirebase } from "@/firebase";
 import { doc, serverTimestamp, arrayUnion } from "firebase/firestore";
-import { HarmonyYinYangIcon } from "@/components/ui/harmony-yin-yang-icon";
-import { Leaf, Heart } from "lucide-react";
+import { RadiantIcon, HarmonyIcon, CalmIcon, HazyIcon, HeldIcon } from "@/components/ui/vibe-icons";
+import { Heart } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview MoodCheckIn Component.
- * Grounded self-care interface focused on your current emotional resonance.
- * "should" removed from all guidance.
+ * Bespoke Resonance Icons integrated for a grounded self-care experience.
  */
 
 export function AnatomicalHeartCheckIn() {
@@ -31,11 +32,11 @@ export function AnatomicalHeartCheckIn() {
   }, [profile?.vibe?.currentLabel]);
 
   const statuses = [
-    { id: "calm", label: "Calm", color: "#10B981", emoji: "🍃", customIcon: <Leaf size={16} className="text-[#10B981]" /> },
-    { id: "elevated", label: "Elevated", color: "#F59E0B", emoji: "⚡" },
-    { id: "heavy", label: "Heavy", color: "#3B82F6", emoji: "🌊" },
-    { id: "fluttering", label: "Fluttering", color: "#EC4899", emoji: "🦋" },
-    { id: "harmony", label: "In Harmony", color: "#EBFB3B", emoji: "☯️", customIcon: <HarmonyYinYangIcon size={16} className="text-[#EBFB3B]" /> },
+    { id: "radiant", label: "Radiant", color: "#A855F7", icon: RadiantIcon },
+    { id: "harmony", label: "Harmony", color: "#EBFB3B", icon: HarmonyIcon },
+    { id: "calm", label: "Calm", color: "#10B981", icon: CalmIcon },
+    { id: "hazy", label: "Hazy", color: "#94A3B8", icon: HazyIcon },
+    { id: "overwhelmed", label: "Held", color: "#3B82F6", icon: HeldIcon },
   ];
 
   const handleSelect = (s: typeof statuses[0]) => {
@@ -46,15 +47,13 @@ export function AnatomicalHeartCheckIn() {
       state: s.label,
       timestamp: new Date().toISOString(),
       context: "Dashboard Mood Check-in",
-      color: s.color,
-      emoji: s.emoji
+      color: s.color
     };
 
     updateDocumentNonBlocking(userDocRef, {
       vibe: {
         current: s.id,
         currentLabel: s.label,
-        currentEmoji: s.emoji,
         lastUpdated: serverTimestamp(),
         history: arrayUnion(checkInRecord)
       }
@@ -79,26 +78,29 @@ export function AnatomicalHeartCheckIn() {
             strokeDasharray="5 5"
             className="animate-[spin_20s_linear_infinite]"
           />
-          <path d="M80 40V20M100 35V15M120 40V20" stroke="#10B981" strokeWidth="3" strokeLinecap="round" />
-          <path d="M60 80Q100 120 140 80" stroke="#10B981" strokeWidth="1" opacity="0.3" />
         </svg>
 
         <div className="relative z-10 flex flex-col gap-3 items-center">
-          {statuses.map((s) => (
-            <button
-              key={s.id}
-              onClick={() => handleSelect(s)}
-              className={`px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-500 border-2 flex items-center gap-2 ${
-                status === s.label 
-                ? "bg-white/10 border-white/40 scale-110 shadow-xl" 
-                : "bg-black/40 text-white/40 border-white/5 hover:border-white/20"
-              }`}
-              style={status === s.label ? { borderColor: s.color, color: s.color } : {}}
-            >
-              {s.customIcon ? s.customIcon : <span>{s.emoji}</span>}
-              <span>{s.label}</span>
-            </button>
-          ))}
+          {statuses.map((s) => {
+            const VibeIcon = s.icon;
+            const isActive = status === s.label;
+            return (
+              <button
+                key={s.id}
+                onClick={() => handleSelect(s)}
+                className={cn(
+                  "px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-500 border-2 flex items-center gap-3",
+                  isActive 
+                    ? "bg-white/10 border-white/40 scale-110 shadow-xl" 
+                    : "bg-black/40 text-white/40 border-white/5 hover:border-white/20"
+                )}
+                style={isActive ? { borderColor: s.color, color: s.color } : {}}
+              >
+                <VibeIcon size={16} color="currentColor" />
+                <span>{s.label}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
