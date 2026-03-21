@@ -2,9 +2,7 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Trash2, HeartPulse, CheckCircle2, Heart, ShieldCheck, Timer, Droplets, Zap, Coffee, Moon } from 'lucide-react';
-import Link from 'next/link';
-import { useToast } from '@/hooks/use-toast';
+import { ArrowLeft, Trash2, HeartPulse, CheckCircle2, Heart, ShieldCheck, Timer, Droplets, Zap, Coffee, Moon, ExternalLink } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
@@ -13,15 +11,16 @@ import { playHeartbeat } from '@/lib/resonance';
  * @fileOverview Recovery Protocol Page.
  * Securely wipes session data and honors the user's safety streak.
  * Dot-free affirmations and grounded guidance.
+ * Features a post-completion feedback invitation.
  */
 
 export default function RecoveryView() {
-  const { toast } = useToast();
   const router = useRouter();
   const [detoxPlan, setDetoxPlan] = useState<any[]>([]);
   const [timeLeft, setTimeLeft] = useState('02:00:00');
   const [mounted, setMounted] = useState(false);
   const [sessionLogs, setSessionLogs] = useState<any[]>([]);
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -62,7 +61,7 @@ export default function RecoveryView() {
         id: 'serotonin',
         time: "Next 24h", 
         text: "Serotonin Support", 
-        desc: "5-HTP + Green Tea Extract. Wait at least 24h after your last dose",
+        desc: "5-HTP + Green Tea Extract Wait at least 24h after your last dose",
         icon: Zap,
         color: "text-purple-500"
       });
@@ -81,7 +80,7 @@ export default function RecoveryView() {
         id: 'liver',
         time: "Morning", 
         text: "Liver Recovery", 
-        desc: "Milk Thistle + B-Complex vitamins. Avoid caffeine for the first 4 hours",
+        desc: "Milk Thistle + B-Complex vitamins Avoid caffeine for the first 4 hours",
         icon: Coffee,
         color: "text-amber-600"
       });
@@ -101,13 +100,13 @@ export default function RecoveryView() {
     localStorage.removeItem('stayonbeat_logs');
     localStorage.removeItem('stayonbeat_witness_blocked');
     
-    router.push('/dashboard');
+    setIsFinished(true);
   };
 
   if (!mounted) return null;
 
   return (
-    <main className="min-h-screen bg-black text-white font-headline pb-32">
+    <main className="min-h-screen bg-black text-white font-headline pb-64">
       <div className="bg-black/95 backdrop-blur-xl border-b border-white/5 px-6 py-8 sticky top-0 z-50">
         <div className="max-w-xl mx-auto space-y-6">
           <button onClick={() => router.back()} className="flex items-center gap-2 text-white/40 uppercase font-black text-[10px] tracking-widest hover:text-[#10B981] transition-colors">
@@ -116,15 +115,19 @@ export default function RecoveryView() {
           
           <div className="flex justify-between items-end">
             <div>
-              <h1 className="text-4xl font-black uppercase tracking-tighter leading-none">Recovery</h1>
-              <p className="text-[#10B981] text-[10px] font-black uppercase tracking-[0.3em] mt-2">Personalized protocol</p>
+              <h1 className="text-4xl font-black uppercase tracking-tighter leading-none">
+                {isFinished ? 'Integrated' : 'Recovery'}
+              </h1>
+              <p className="text-[#10B981] text-[10px] font-black uppercase tracking-[0.3em] mt-2">
+                {isFinished ? 'Session honors complete' : 'Personalized protocol'}
+              </p>
             </div>
             <div className="flex flex-col items-end gap-3">
               <div className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center gap-2">
                 <Heart className="w-3 h-3 text-[#10B981] fill-[#10B981] animate-pulse-heart" />
                 <span className="text-[8px] font-black text-[#10B981] uppercase tracking-widest">Active Protection</span>
               </div>
-              <span className="font-mono text-[#10B981] text-xs font-black">{timeLeft}</span>
+              {!isFinished && <span className="font-mono text-[#10B981] text-xs font-black">{timeLeft}</span>}
             </div>
           </div>
         </div>
@@ -135,10 +138,10 @@ export default function RecoveryView() {
           <ShieldCheck className="w-8 h-8 text-blue-400 shrink-0" />
           <div className="space-y-2">
             <p className="text-base font-bold text-white/90 leading-tight">
-              Personalized protocol generated based on your session logs
+              {isFinished ? 'Your session data has been securely wiped' : 'Personalized protocol generated based on your session logs'}
             </p>
             <p className="text-[10px] uppercase font-black text-white/40 tracking-widest">
-              Data analyzed: {sessionLogs.length} intake events recorded
+              {isFinished ? 'Privacy protocols finalized' : `Data analyzed: ${sessionLogs.length} intake events recorded`}
             </p>
           </div>
         </div>
@@ -179,23 +182,47 @@ export default function RecoveryView() {
           </div>
         </section>
 
-        <div className="bg-red-600/5 border border-red-600/20 p-8 rounded-[2.5rem] text-center">
-          <div className="flex justify-center mb-4">
-            <Trash2 size={24} className="text-red-500/40" />
+        {!isFinished && (
+          <div className="bg-red-600/5 border border-red-600/20 p-8 rounded-[2.5rem] text-center">
+            <div className="flex justify-center mb-4">
+              <Trash2 size={24} className="text-red-500/40" />
+            </div>
+            <p className="text-[10px] font-black text-red-500/40 uppercase tracking-[0.3em] leading-relaxed max-w-[280px] mx-auto">
+              Completing this protocol will permanently wipe session logs and location history for your privacy
+            </p>
           </div>
-          <p className="text-[10px] font-black text-red-500/40 uppercase tracking-[0.3em] leading-relaxed max-w-[280px] mx-auto">
-            Completing this protocol will permanently wipe session logs and location history for your privacy
-          </p>
-        </div>
+        )}
       </div>
 
-      <footer className="fixed bottom-0 left-0 right-0 h-[100px] bg-black/90 backdrop-blur-xl border-t border-white/5 flex items-center justify-center px-6 z-50">
-        <button 
-          onClick={handleFinish} 
-          className="w-full max-w-sm py-6 bg-[#10B981] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-emerald-500/20"
-        >
-           Complete Session & Log Streak
-        </button>
+      <footer className="fixed bottom-0 left-0 right-0 h-auto min-h-[120px] py-8 bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-50 gap-4">
+        {!isFinished ? (
+          <button 
+            onClick={handleFinish} 
+            className="w-full max-w-sm py-6 bg-[#10B981] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-emerald-500/20"
+          >
+             Complete Session & Log Streak
+          </button>
+        ) : (
+          <div className="w-full max-w-sm flex flex-col gap-4 animate-in slide-in-from-bottom-4 duration-500">
+            <button 
+              onClick={() => router.push('/dashboard')}
+              className="w-full py-6 bg-white text-black rounded-full font-black uppercase text-lg tracking-[0.1em] active:scale-95 transition-all shadow-lg"
+            >
+               Return to Sanctuary
+            </button>
+            
+            <button
+              onClick={() => window.open("https://ev32k2sgx09.typeform.com/to/a33evEfp", "_blank")}
+              className="w-full p-6 bg-[#10B981]/10 border border-[#10B981]/30 rounded-[2rem] flex items-center justify-between group hover:bg-[#10B981]/20 transition-all"
+            >
+              <div className="text-left">
+                <p className="text-sm font-black uppercase text-white tracking-tight">Help us improve StayOnBeat</p>
+                <p className="text-[10px] font-bold text-[#10B981] uppercase tracking-widest mt-1">4minutes · anonymous</p>
+              </div>
+              <ExternalLink size={20} className="text-[#10B981] opacity-40 group-hover:opacity-100 transition-opacity" />
+            </button>
+          </div>
+        )}
       </footer>
     </main>
   );
