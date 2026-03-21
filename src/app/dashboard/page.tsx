@@ -3,7 +3,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { 
   Heart, 
   User, 
@@ -104,8 +104,9 @@ const TOOLTIPS = {
   }
 };
 
-export default function Dashboard() {
+function DashboardContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
   const firestore = useFirestore();
@@ -116,6 +117,12 @@ export default function Dashboard() {
   const [simHeartRate, setSimHeartRate] = useState(75);
   const [activeSubstances, setActiveSubstances] = useState<string[]>([]);
   const [isSimulatorOpen, setIsSimulatorOpen] = useState(false);
+
+  const [labOpen, setLabOpen] = useState(false);
+  const [aiBotOpen, setAiBotOpen] = useState(false);
+  const [coCreationOpen, setCoCreationOpen] = useState(false);
+  const [syncOpen, setSyncOpen] = useState(false);
+  const [showSOS, setShowSOS] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -129,8 +136,14 @@ export default function Dashboard() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) router.replace("/auth");
     });
+
+    // Check for deep-link sync parameter
+    if (searchParams.get('sync') === 'true') {
+      setSyncOpen(true);
+    }
+
     return () => unsubscribe();
-  }, [auth, router]);
+  }, [auth, router, searchParams]);
 
   const userDocRef = useMemoFirebase(() => {
     if (!firestore || !user?.uid) return null;
@@ -138,12 +151,6 @@ export default function Dashboard() {
   }, [firestore, user?.uid]);
   
   const { data: firestoreProfile, isLoading: isProfileLoading } = useDoc(userDocRef);
-
-  const [labOpen, setLabOpen] = useState(false);
-  const [aiBotOpen, setAiBotOpen] = useState(false);
-  const [coCreationOpen, setCoCreationOpen] = useState(false);
-  const [syncOpen, setSyncOpen] = useState(false);
-  const [showSOS, setShowSOS] = useState(false);
 
   const medicalProfile = {
     healthConditions: firestoreProfile?.healthConditions || [],
@@ -248,13 +255,12 @@ export default function Dashboard() {
             <LoveCircle lang={lang} variant="dashboard" />
           </div>
 
-          {/* 5. TACTICAL ACTION ORBS (Simplified for iPhone) */}
+          {/* 5. TACTICAL ACTION ORBS */}
           <div className="space-y-8">
             <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 text-center">
               {lang === 'en' ? 'Sanctuary Tools' : 'Sanctuary Tools'}
             </h2>
             <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto">
-              {/* The Pulse (Map) */}
               <Link 
                 href="/map" 
                 onClick={() => playHeartbeat()}
@@ -269,7 +275,6 @@ export default function Dashboard() {
                 </div>
               </Link>
 
-              {/* Pulse Lab (Dose) */}
               <button 
                 onClick={() => handlePortalClick(() => setLabOpen(true))} 
                 className="aspect-square rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
@@ -283,7 +288,6 @@ export default function Dashboard() {
                 </div>
               </button>
 
-              {/* Pulse Sync (Vitals) */}
               <button 
                 onClick={() => handlePortalClick(() => setSyncOpen(true))} 
                 className="aspect-square rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-[#EBFB3B]/30 hover:bg-[#EBFB3B]/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
@@ -297,7 +301,6 @@ export default function Dashboard() {
                 </div>
               </button>
 
-              {/* Immediate Help (SOS) */}
               <button 
                 onClick={() => handlePortalClick(() => setShowSOS(true))}
                 className="aspect-square rounded-[2.5rem] bg-red-600/10 border border-red-600/20 flex flex-col items-center justify-center gap-4 hover:bg-red-600 transition-all shadow-2xl active:scale-95 group text-center p-6"
@@ -313,7 +316,6 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* 6. SECONDARY SUPPORT PATHS */}
           <div className="flex justify-center gap-4">
             <button 
               onClick={() => handlePortalClick(() => setAiBotOpen(true))} 
@@ -331,7 +333,6 @@ export default function Dashboard() {
             </button>
           </div>
 
-          {/* Dev Access (Dynamic States) */}
           <div className="pt-12">
             <Collapsible open={isSimulatorOpen} onOpenChange={setIsSimulatorOpen}>
               <CollapsibleTrigger asChild>
@@ -422,5 +423,16 @@ export default function Dashboard() {
         </DialogContent>
       </Dialog>
     </main>
+  );
+}
+
+export default function Dashboard() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black flex flex-col items-center justify-center gap-4">
+      <Heart size={48} fill="#10B981" stroke="#10B981" className="animate-pulse-heart glow-green" />
+      <Loader2 className="animate-spin text-[#10B981]/20" />
+    </div>}>
+      <DashboardContent />
+    </Suspense>
   );
 }
