@@ -30,6 +30,7 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { AiSafetyChat } from '@/components/chat/AiSafetyChat';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import CareShield from '@/components/dashboard/CareShield';
 import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
@@ -85,7 +86,7 @@ const CONTENT = {
     doseLogged: "Dosis notiert",
     addedToDiary: "wurde deinem Tagebuch hinzugefügt.",
     causionTitle: "Pulse Guardian: Vorsicht 🧪",
-    poppersHR: (hr: number) => `Dein Puls liegt bei ${hr} BPM. Poppers senkt den Blutdruck stark ab. Bitte setz dich hin und atme tief durch.`
+    poppersHR: (hr: number) => `Dein Puls liegt bei ${hr} BPM. Poppers senkt den Blutdruck stark ab. Bitte nimm Platz und atme tief durch.`
   }
 };
 
@@ -362,89 +363,92 @@ export function Step6SubstanceLab({
       </footer>
 
       {activeSubstance && (
-        <div className="absolute inset-0 bg-black/90 backdrop-blur-md z-[100] animate-in fade-in duration-300 flex flex-col p-8 font-headline">
+        <div className="absolute inset-0 bg-black/90 backdrop-blur-md z-[100] animate-in fade-in duration-300 flex flex-col font-headline">
           <button 
             onClick={() => setActiveSubstance(null)}
-            className="absolute top-8 right-8 p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white"
+            className="absolute top-8 right-8 p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white z-[110]"
           >
             <X size={20} />
           </button>
 
-          <div className="flex-1 flex flex-col items-center justify-center space-y-10 max-w-md mx-auto w-full">
-            <div className="text-center space-y-4">
-              <div className={cn("w-24 h-24 mx-auto rounded-3xl bg-white/5 flex items-center justify-center border border-white/10 shadow-2xl", activeSubstance.color)}>
-                <activeSubstance.icon size={48} />
+          <ScrollArea className="flex-1 w-full px-8 touch-pan-y">
+            <div className="flex flex-col items-center justify-center min-h-full py-20 space-y-10 max-w-md mx-auto w-full">
+              <div className="text-center space-y-4">
+                <div className={cn("w-24 h-24 mx-auto rounded-3xl bg-white/5 flex items-center justify-center border border-white/10 shadow-2xl", activeSubstance.color)}>
+                  <activeSubstance.icon size={48} />
+                </div>
+                <h2 className="text-4xl font-black uppercase tracking-tighter text-white">
+                  {lang === 'en' ? activeSubstance.name : activeSubstance.deName}
+                </h2>
+                <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">{t.intake}</p>
               </div>
-              <h2 className="text-4xl font-black uppercase tracking-tighter text-white">
-                {lang === 'en' ? activeSubstance.name : activeSubstance.deName}
-              </h2>
-              <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">{t.intake}</p>
-            </div>
 
-            <div className="w-full space-y-8">
-              {activeSubstance.id === 'alcohol' ? (
-                <div className="space-y-3">
-                  {alcoholCart.map((item, idx) => (
-                    <div key={idx} className="flex items-center justify-between bg-white/5 p-5 rounded-2xl border border-white/10">
-                      <span className="text-sm font-black uppercase tracking-widest text-white/80">{item.type}</span>
-                      <div className="flex items-center gap-6">
-                        <button 
-                          onClick={() => {
-                            const next = [...alcoholCart];
-                            next[idx].count = Math.max(0, next[idx].count - 1);
-                            setAlcoholCart(next);
-                          }}
-                          className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 active:bg-white/10"
-                        >
-                          -
-                        </button>
-                        <span className="w-6 text-center font-black text-xl">{item.count}</span>
-                        <button 
-                          onClick={() => {
-                            const next = [...alcoholCart];
-                            next[idx].count += 1;
-                            setAlcoholCart(next);
-                          }}
-                          className="w-10 h-10 rounded-full bg-[#3EB489] text-black flex items-center justify-center active:scale-90 transition-transform shadow-lg"
-                        >
-                          +
-                        </button>
+              <div className="w-full space-y-8">
+                {activeSubstance.id === 'alcohol' ? (
+                  <div className="space-y-3">
+                    {alcoholCart.map((item, idx) => (
+                      <div key={idx} className="flex items-center justify-between bg-white/5 p-5 rounded-2xl border border-white/10">
+                        <span className="text-sm font-black uppercase tracking-widest text-white/80">{item.type}</span>
+                        <div className="flex items-center gap-6">
+                          <button 
+                            onClick={() => {
+                              const next = [...alcoholCart];
+                              next[idx].count = Math.max(0, next[idx].count - 1);
+                              setAlcoholCart(next);
+                            }}
+                            className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 active:bg-white/10"
+                          >
+                            -
+                          </button>
+                          <span className="w-6 text-center font-black text-xl">{item.count}</span>
+                          <button 
+                            onClick={() => {
+                              const next = [...alcoholCart];
+                              next[idx].count += 1;
+                              setAlcoholCart(next);
+                            }}
+                            className="w-10 h-10 rounded-full bg-[#3EB489] text-black flex items-center justify-center active:scale-90 transition-transform shadow-lg"
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-white/40 block ml-2">
-                    {t.amount} ({lang === 'en' ? activeSubstance.unit : activeSubstance.deUnit})
-                  </label>
-                  <input 
-                    type="number"
-                    value={manualValue}
-                    onChange={(e) => setManualValue(e.target.value)}
-                    autoFocus
-                    className="w-full h-24 bg-white/5 border-2 border-white/10 rounded-3xl px-8 text-5xl font-black outline-none focus:border-[#3EB489] transition-all text-white text-center shadow-inner"
-                    placeholder="0.00"
-                  />
-                </div>
-              )}
-            </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-white/40 block ml-2">
+                      {t.amount} ({lang === 'en' ? activeSubstance.unit : activeSubstance.deUnit})
+                    </label>
+                    <input 
+                      type="number"
+                      value={manualValue}
+                      onChange={(e) => setManualValue(e.target.value)}
+                      autoFocus
+                      inputMode="decimal"
+                      className="w-full h-24 bg-white/5 border-2 border-white/10 rounded-3xl px-8 text-5xl font-black outline-none focus:border-[#3EB489] transition-all text-white text-center shadow-inner"
+                      placeholder="0.00"
+                    />
+                  </div>
+                )}
+              </div>
 
-            <div className="w-full space-y-4 pt-6">
-              <button 
-                onClick={saveLog}
-                className="w-full h-20 bg-[#3EB489] text-black rounded-[1.5rem] font-black uppercase tracking-widest neon-glow active:scale-[0.98] shadow-2xl flex items-center justify-center gap-3 text-lg"
-              >
-                <CheckCircle2 size={24} /> {t.confirm}
-              </button>
-              <button 
-                onClick={() => setActiveSubstance(null)}
-                className="w-full h-14 text-white/20 font-black uppercase text-[10px] tracking-[0.4em] hover:text-white transition-colors"
-              >
-                {t.cancel}
-              </button>
+              <div className="w-full space-y-4 pt-6 pb-12">
+                <button 
+                  onClick={saveLog}
+                  className="w-full h-20 bg-[#3EB489] text-black rounded-[1.5rem] font-black uppercase tracking-widest neon-glow active:scale-[0.98] shadow-2xl flex items-center justify-center gap-3 text-lg"
+                >
+                  <CheckCircle2 size={24} /> {t.confirm}
+                </button>
+                <button 
+                  onClick={() => setActiveSubstance(null)}
+                  className="w-full h-14 text-white/20 font-black uppercase text-[10px] tracking-[0.4em] hover:text-white transition-colors"
+                >
+                  {t.cancel}
+                </button>
+              </div>
             </div>
-          </div>
+          </ScrollArea>
         </div>
       )}
 
