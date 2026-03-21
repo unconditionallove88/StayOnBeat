@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import { Users, AlertTriangle, Navigation, Heart, Sparkles, Plus, ShieldCheck } from "lucide-react";
+import { Users, AlertTriangle, Navigation, Heart, Sparkles, Plus, HeartHandshake } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
  * @fileOverview Love Circle Component (The Radiant Unity Orb).
  * Redesigned to touch the subconscious through light, clarity, and purity.
  * Represents unconditional love, trust, and collective resonance.
- * Variant="map" is a focused "Eye of Compassion".
+ * Updated: Iconography reflects trust and cupped holding.
  */
 
 interface Friend {
@@ -104,7 +104,7 @@ export default function LoveCircle({
               worstStatus === 'steady' ? "bg-[#10B981]/10 border border-[#10B981]/30" : 
               "bg-red-600/10 border border-red-600/30"
             )}>
-              <ShieldCheck size={18} style={{ color: circlePulseColor }} className="animate-pulse" />
+              <HeartHandshake size={18} style={{ color: circlePulseColor }} className="animate-pulse" />
             </div>
             <h3 className="text-white text-[10px] font-black uppercase tracking-[0.5em] drop-shadow-md">
               {t.title}

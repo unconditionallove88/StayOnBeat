@@ -4,12 +4,14 @@
 /**
  * @fileOverview Push Notification Service for Daily Vibe Check Reminders.
  * Built on Unconditional Love — every notification is a gentle nudge, never a demand.
+ * Updated: Affirmations reflect appreciation for life and inner equality.
  */
 
 export const LOVE_REMINDERS = [
   "I am loved",
-  "Joy is now",
-  "Pure heart now",
+  "Life is a radiant gift",
+  "I cherish this breath",
+  "Equality is my nature",
   "Love is life",
   "Unity is joy",
   "Truth is peace",
@@ -32,7 +34,7 @@ export const requestNotificationPermission = async (): Promise<boolean> => {
   return false;
 };
 
-/** Schedule a daily vibe check reminder */
+/** Schedule a daily vibe reminder */
 export const scheduleDailyVibeReminder = (hourOfDay: number = 10): void => {
   if (typeof window === 'undefined') return;
 

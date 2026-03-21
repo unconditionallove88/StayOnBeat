@@ -22,9 +22,8 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 /**
- * @fileOverview Awareness Staff Dashboard.
- * Tactical overview of active user Support alerts, biometrics, and intake logs.
- * Updated with high-fidelity location tracking and navigation tools.
+ * @fileOverview Care Hub (Staff Console).
+ * Updated: Wording refined for equality and compassionate support.
  */
 const INITIAL_ALERTS = [
   { 
@@ -73,7 +72,7 @@ export default function AwarenessDashboard() {
 
   return (
     <main className="min-h-screen bg-[#050505] text-white font-headline pb-32">
-      {/* Tactical Staff Header */}
+      {/* Care Hub Header */}
       <div className="bg-black/90 backdrop-blur-2xl border-b border-red-600/20 px-6 py-8 sticky top-0 z-[100]">
         <div className="max-w-xl mx-auto flex flex-col gap-6">
           <div className="flex items-center justify-between">
@@ -82,13 +81,13 @@ export default function AwarenessDashboard() {
             </Link>
             <div className="flex items-center gap-2 px-4 py-1.5 bg-red-600/10 border border-red-600/30 rounded-full">
               <span className="w-2 h-2 bg-red-600 rounded-full animate-ping" />
-              <span className="text-[10px] font-black uppercase text-red-500 tracking-widest">Live monitoring</span>
+              <span className="text-[10px] font-black uppercase text-red-500 tracking-widest">Watching with Love</span>
             </div>
           </div>
           
           <div>
-            <h1 className="text-3xl font-black uppercase tracking-tighter leading-none">Staff console</h1>
-            <p className="text-[10px] font-bold text-white/30 uppercase tracking-[0.4em] mt-2">Active safety team duty</p>
+            <h1 className="text-3xl font-black uppercase tracking-tighter leading-none">The Care Hub</h1>
+            <p className="text-[10px] font-bold text-white/30 uppercase tracking-[0.4em] mt-2">Active sanctuary resonance</p>
           </div>
         </div>
       </div>
@@ -137,7 +136,7 @@ export default function AwarenessDashboard() {
                           <span className="font-mono text-xs text-red-400 font-bold">{alert.coords}</span>
                         </div>
                         <button className="w-full sm:w-auto h-14 px-8 bg-red-600 text-white rounded-xl font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-3 active:scale-95 transition-all shadow-lg shadow-red-600/20">
-                          <Navigation className="w-4 h-4" /> Navigate to Soul
+                          <Navigation className="w-4 h-4" /> Walk with Soul
                         </button>
                       </div>
                     </div>
@@ -189,13 +188,13 @@ export default function AwarenessDashboard() {
 
                     <div className="grid grid-cols-2 gap-3 pt-2">
                       <button className="bg-white text-black font-black uppercase text-[10px] tracking-widest py-5 rounded-2xl active:scale-95 transition-all">
-                        Assign team
+                        Assign care
                       </button>
                       <button 
                         onClick={() => handleResolve(alert.id)}
                         className="bg-red-600 text-white font-black uppercase text-[10px] tracking-widest py-5 rounded-2xl active:scale-95 transition-all shadow-lg"
                       >
-                        Mark resolved
+                        Mark at peace
                       </button>
                     </div>
                   </div>
@@ -226,7 +225,7 @@ export default function AwarenessDashboard() {
                     </div>
                     <div>
                       <p className="text-sm font-black uppercase text-white">{alert.user}</p>
-                      <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest">Closed at {alert.resolvedAt} • {alert.location}</p>
+                      <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest">At peace since {alert.resolvedAt} • {alert.location}</p>
                     </div>
                   </div>
                   <button className="text-[8px] font-black text-white/40 uppercase tracking-widest px-4 py-2 border border-white/10 rounded-full">Archive</button>
@@ -237,15 +236,15 @@ export default function AwarenessDashboard() {
         )}
       </div>
 
-      {/* Persistent Staff Navbar */}
+      {/* Persistent Care Hub Navbar */}
       <footer className="fixed bottom-0 left-0 right-0 h-[90px] bg-black border-t border-white/10 px-8 flex items-center justify-between z-[100]">
         <div className="flex items-center gap-4">
           <div className="w-10 h-10 bg-[#3EB489]/20 rounded-full flex items-center justify-center border border-[#3EB489]/30">
             <Users className="w-5 h-5 text-[#3EB489]" />
           </div>
           <div>
-            <p className="text-xs font-black uppercase text-white">Duty: Staff A</p>
-            <p className="text-[8px] font-bold text-[#3EB489] uppercase tracking-widest">Active session</p>
+            <p className="text-xs font-black uppercase text-white">Holder: Sanctuary A</p>
+            <p className="text-[8px] font-bold text-[#3EB489] uppercase tracking-widest">Watching with Love</p>
           </div>
         </div>
         <button className="p-4 bg-white/5 rounded-2xl border border-white/10">

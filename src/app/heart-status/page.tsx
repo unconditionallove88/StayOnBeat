@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import HeartStatusAura from "@/components/dashboard/HeartStatusAura";
 import LoveCircleList from "@/components/dashboard/LoveCircle";
-import { Activity, ArrowLeft, Watch, Info, Shield, Users2, Sparkles, RefreshCw } from "lucide-react";
+import { Activity, ArrowLeft, Watch, Info, HeartHandshake, Users2, Sparkles, RefreshCw } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
@@ -17,7 +17,7 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview My Heart Page (Individual Analytics).
  * Visualizes the high-fidelity living pulse and provides entry to Holders and Witnesses.
- * Updated: Direct recalibration portal and descriptive baseline education.
+ * Updated: Icons refined for trust and mutual holding.
  */
 export default function MyHeartPage() {
   const router = useRouter();
@@ -68,7 +68,7 @@ export default function MyHeartPage() {
       witnessesSub: "Public Care",
       baseline: "Pulse Baseline",
       baselineSub: "Your biological zero point",
-      baselineInfo: "Your Guardian is calibrated to this baseline. Thresholds adjust dynamically based on your resting rhythm. An accurate baseline means more precise protection. 🌿",
+      baselineInfo: "Your Guardian is calibrated to this baseline. Thresholds adjust dynamically based on your resting rhythm. An accurate baseline means more precise protection 🌿",
       recalibrate: "Recalibrate Baseline",
       syncVia: "Set via"
     },
@@ -82,7 +82,7 @@ export default function MyHeartPage() {
       witnessesSub: "Gemeinsame Fürsorge",
       baseline: "Puls-Basis",
       baselineSub: "Dein biologischer Nullpunkt",
-      baselineInfo: "Dein Guardian ist auf diese Basis kalibriert. Schwellenwerte passen sich dynamisch deinem Ruhe-Rhythmus an. Eine genaue Basis bedeutet präziseren Schutz. 🌿",
+      baselineInfo: "Dein Guardian ist auf diese Basis kalibriert. Schwellenwerte passen sich dynamisch deinem Ruhe-Rhythmus an. Eine genaue Basis bedeutet präziseren Schutz 🌿",
       recalibrate: "Basis neu kalibrieren",
       syncVia: "Gesetzt via"
     }
@@ -133,7 +133,7 @@ export default function MyHeartPage() {
             className="aspect-square rounded-[2.5rem] bg-white/5 border border-[#10B981]/20 flex flex-col items-center justify-center gap-4 hover:bg-[#10B981]/5 hover:border-[#10B981] transition-all group shadow-2xl"
           >
             <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 group-hover:scale-110 transition-transform">
-              <Shield size={28} className="text-[#10B981]" />
+              <HeartHandshake size={28} className="text-[#10B981]" />
             </div>
             <div className="text-center">
               <p className="text-sm font-black uppercase tracking-tight">{t.holders}</p>

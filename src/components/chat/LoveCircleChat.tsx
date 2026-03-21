@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Heart, Loader2, Lock, ShieldCheck, Shield, Users, Sparkles } from 'lucide-react';
+import { Send, Heart, Loader2, Lock, ShieldCheck, HeartHandshake, Users, Sparkles } from 'lucide-react';
 import { useFirestore, useUser, useCollection, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection, query, orderBy, limit, serverTimestamp, doc } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
@@ -10,7 +10,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 
 /**
- * @fileOverview The Holders (Private & Mutual).
+ * @fileOverview The Holders (Those who hold your heart from afar).
  * Framing: I love and respect my trusted ones. Pure connection.
  * Redesigned for Radiant Unity and Purity.
  */
@@ -69,8 +69,8 @@ export function LoveCircleChat() {
       });
       
       toast({
-        title: "Group Initialized",
-        description: `Your bond of care "${groupName}" has been created. Waiting for others to confirm.`,
+        title: "Bond Initialized",
+        description: `Your bond of care "${groupName}" has been created. Waiting for resonance.`,
       });
       setShowCreateGroup(false);
       setGroupName('');
@@ -93,22 +93,21 @@ export function LoveCircleChat() {
             <div className="relative">
               <div className="absolute inset-0 bg-[#10B981]/20 blur-3xl rounded-full animate-pulse" />
               <div className="w-32 h-32 bg-[#10B981]/10 rounded-full flex items-center justify-center border-2 border-[#10B981]/30 relative z-10 shadow-2xl">
-                <Shield size={48} className="text-[#10B981]" />
+                <HeartHandshake size={48} className="text-[#10B981]" />
               </div>
-              <Sparkles className="absolute -top-4 -right-4 text-[#10B981] w-10 h-10 animate-pulse" />
             </div>
 
             <div className="space-y-4">
               <h2 className="text-5xl font-black uppercase tracking-tighter text-white">The Holders</h2>
               <p className="text-lg font-bold text-white/60 leading-tight max-w-sm mx-auto uppercase tracking-widest">
-                Those who hold your heart from afar. Your functional bond of care and trust
+                Those who hold your heart from afar. Your sacred bond of care and trust
               </p>
             </div>
 
             <div className="space-y-4 w-full max-w-sm">
               {[
-                { title: "Functional Bond of Care", sub: "Shared only with your inner circle", icon: Lock },
-                { title: "Mutual Confirmation", sub: "Unity through shared agreement", icon: ShieldCheck }
+                { title: "Sacred Bond of Resonance", sub: "Shared only with your inner circle", icon: Lock },
+                { title: "Mutual Holding", sub: "Unity through shared resonance", icon: HeartHandshake }
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-6 p-6 bg-white/[0.02] border border-white/5 rounded-[2.5rem] text-left transition-all hover:border-[#10B981]/30 group">
                   <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:scale-110 transition-transform">
@@ -140,11 +139,11 @@ export function LoveCircleChat() {
       <div className="px-8 py-8 border-b border-white/5 bg-black/80 backdrop-blur-xl flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 shadow-lg">
-            <Shield size={28} className="text-[#10B981]" />
+            <HeartHandshake size={28} className="text-[#10B981]" />
           </div>
           <div>
             <h2 className="text-2xl font-black uppercase tracking-tight text-white leading-none">The Holders</h2>
-            <p className="text-[10px] text-[#10B981] font-black uppercase tracking-[0.3em] mt-1">Functional Bond of Care</p>
+            <p className="text-[10px] text-[#10B981] font-black uppercase tracking-[0.3em] mt-1">Sacred Bond of Resonance</p>
           </div>
         </div>
         <button 
@@ -161,7 +160,7 @@ export function LoveCircleChat() {
             <input 
               value={groupName}
               onChange={(e) => setGroupName(e.target.value)}
-              placeholder="GROUP NAME"
+              placeholder="NAME YOUR BOND"
               className="w-full bg-black border border-white/10 p-5 rounded-2xl text-white font-black uppercase text-sm focus:border-[#10B981] outline-none transition-all"
               required
             />
@@ -173,7 +172,7 @@ export function LoveCircleChat() {
               className="w-full bg-black border border-white/10 p-5 rounded-2xl text-white font-black uppercase text-sm focus:border-[#10B981] outline-none transition-all"
             />
             <div className="flex gap-3 pt-2">
-              <button type="submit" className="flex-1 bg-[#10B981] text-black h-14 rounded-xl font-black uppercase text-[10px] tracking-widest shadow-lg">Create Group</button>
+              <button type="submit" className="flex-1 bg-[#10B981] text-black h-14 rounded-xl font-black uppercase text-[10px] tracking-widest shadow-lg">Create Bond</button>
               <button type="button" onClick={() => setShowCreateGroup(false)} className="flex-1 bg-white/5 text-white/40 h-14 rounded-xl font-black uppercase text-[10px] tracking-widest">Cancel</button>
             </div>
           </form>
@@ -192,7 +191,6 @@ export function LoveCircleChat() {
             <div className="text-center py-24 opacity-20 space-y-6">
               <div className="relative inline-block">
                 <Heart className="w-16 h-16 mx-auto text-[#10B981]" fill="currentColor" />
-                <Sparkles className="absolute -top-2 -right-2 text-white animate-pulse" size={20} />
               </div>
               <p className="text-sm uppercase font-black tracking-[0.4em] leading-relaxed text-white max-w-[200px] mx-auto">
                 Start a resonance <br/> with your holders

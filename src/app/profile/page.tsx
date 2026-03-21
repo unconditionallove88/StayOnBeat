@@ -42,7 +42,7 @@ import { CoCreation } from "@/components/dashboard/CoCreation";
  * @fileOverview Your Sanctuary (Profile Page).
  * A high-fidelity space for biometric calibration and privacy.
  * Features Emerald theme and route protection.
- * "should" removed from all guidance.
+ * Updated: Wording reflects freedom, trust, and sovereignty.
  */
 export default function ProfilePage() {
   const router = useRouter();
@@ -77,7 +77,7 @@ export default function ProfilePage() {
     if (!user || !firestore || !userDocRef) return;
     
     updateDocumentNonBlocking(userDocRef, updates);
-    setSuccessMessage("Your profile reflects your light 💚");
+    setSuccessMessage("Your profile reflects your light");
     setTimeout(() => setSuccessMessage(""), 3000);
   };
 
@@ -145,7 +145,7 @@ export default function ProfilePage() {
         {/* Settings Groups */}
         <div className="space-y-6">
           
-          {/* Group 1: Personal Essence */}
+          {/* Group 1: Your Essence */}
           <div className="bg-white/5 rounded-[2.5rem] border border-white/10 p-8 space-y-8 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#10B981]/5 blur-3xl -z-10" />
             
@@ -190,10 +190,10 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Group 2: Safety & Support */}
+          {/* Group 2: Circle of Love */}
           <div className="bg-white/5 rounded-[2.5rem] border border-white/10 p-8 space-y-6">
             <h3 className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3">
-              <Shield size={14} className="text-[#10B981]" /> Safety & Support
+              <Shield size={14} className="text-[#10B981]" /> Circle of Love
             </h3>
             
             <button 
@@ -205,8 +205,8 @@ export default function ProfilePage() {
                   <Heart size={24} className="text-[#10B981]" />
                 </div>
                 <div className="text-left">
-                  <span className="block font-black text-sm uppercase tracking-tight">Circle of Love</span>
-                  <span className="text-[8px] font-bold text-white/30 uppercase tracking-widest">Trusted contacts</span>
+                  <span className="block font-black text-sm uppercase tracking-tight">Trusted Bonds</span>
+                  <span className="text-[8px] font-bold text-white/30 uppercase tracking-widest">Resonant contacts</span>
                 </div>
               </div>
               <ChevronRight size={16} className="text-white/20 group-hover:text-[#10B981]" />
@@ -228,19 +228,19 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Group 3: Privacy & Commitment */}
+          {/* Group 3: Freedom & Trust */}
           <div className="bg-white/5 rounded-[2.5rem] border border-white/10 p-8 text-center space-y-6">
              <div className="flex justify-center">
                <Lock size={24} className="text-white/10" />
              </div>
              <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest leading-relaxed">
-               Your data is a sacred trust. We use high-fidelity encryption to ensure your journey remains private and protected. 💚
+               Your journey is your own. We use high-fidelity encryption to ensure your sanctuary remains private and your soul free 🌿
              </p>
              <button 
                onClick={() => setPrivacyOpen(true)}
                className="text-[8px] font-black text-[#10B981] uppercase tracking-[0.3em] hover:underline underline-offset-8"
              >
-               View Privacy Commitment
+               Our Promise of Freedom and Trust
              </button>
           </div>
 
@@ -254,7 +254,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Privacy Commitment Dialog */}
+      {/* Freedom & Trust Dialog */}
       <Dialog open={privacyOpen} onOpenChange={setPrivacyOpen}>
         <DialogContent className="bg-[#050505] border-white/10 max-w-lg p-0 rounded-[3rem] overflow-hidden flex flex-col font-headline h-[90vh] max-h-[90vh]">
           <div className="p-8 pb-4 shrink-0">
@@ -262,7 +262,7 @@ export default function ProfilePage() {
               <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20">
                 <ShieldCheck size={32} className="text-[#10B981]" />
               </div>
-              <DialogTitle className="text-2xl font-black uppercase tracking-tighter text-white">Privacy Commitment</DialogTitle>
+              <DialogTitle className="text-2xl font-black uppercase tracking-tighter text-white">Freedom & Trust</DialogTitle>
             </div>
           </div>
           
@@ -271,28 +271,28 @@ export default function ProfilePage() {
               <section className="space-y-3">
                 <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">Data Sovereignty</h4>
                 <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">
-                  I love and respect my privacy. My data is my own. StayOnBeat is built on the principle that your personal journey is a sacred trust.
+                  I love and respect my privacy. My data is my own. StayOnBeat is built on the principle that your personal journey is a sacred trust
                 </p>
               </section>
 
               <section className="space-y-3">
                 <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">High-Fidelity Encryption</h4>
                 <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">
-                  All biometric signals, health profiles, and location logs are protected by industry-leading encryption. We ensure that your sensitive information is visible only to you and those you explicitly trust.
+                  All biometric signals, health profiles, and location logs are protected by high-fidelity encryption. We ensure that your sensitive information is visible only to you and those you explicitly trust
                 </p>
               </section>
 
               <section className="space-y-3">
-                <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">Data sharing</h4>
+                <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">Inner Freedom</h4>
                 <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">
-                  We never sell, rent, or trade your data. Your resonance remains within the sanctuary. Our mission is pure support, love, care and harm reduction.
+                  We never sell, rent, or trade your data. Your resonance remains within the sanctuary. Our mission is pure support, love, care and harm reduction
                 </p>
               </section>
 
               <section className="space-y-3">
                 <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">Unconditional Acceptance</h4>
                 <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">
-                  We collect only the information necessary to keep you safe and provide high-fidelity support. Every data point is used to calibrate your protection and nurture your well-being.
+                  We collect only the information necessary to keep you safe and provide high-fidelity support. Every data point is used to calibrate your protection and nurture your well-being
                 </p>
               </section>
 
@@ -310,7 +310,7 @@ export default function ProfilePage() {
                     Questions?
                   </button>
                 </div>
-                <p className="text-[8px] font-black text-white/10 uppercase tracking-[0.5em]">
+                <p className="text-[8px] font-black text-[#10B981] uppercase tracking-[0.5em]">
                   Encrypted with Love • Protected by Sanctuary Protocol
                 </p>
               </section>

@@ -83,8 +83,8 @@ function SkyIcon() {
 }
 
 const AFFIRMATIONS = {
-  EN: ["I am loved", "Truth is love", "Joy is now", "I accept all", "Unity is peace"],
-  DE: ["Ich bin geliebt", "Wahrheit ist liebe", "Freude ist jetzt", "Ich akzeptiere alles", "Einheit ist frieden"]
+  EN: ["I am loved", "Truth is love", "Life is a radiant gift", "I cherish this breath", "Equality is my nature"],
+  DE: ["Ich bin geliebt", "Wahrheit ist liebe", "Das Leben ist ein strahlendes Geschenk", "Ich schätze diesen Atemzug", "Gleichheit ist meine Natur"]
 };
 
 const TOOLTIPS = {

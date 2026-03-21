@@ -9,6 +9,11 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import type { LegalAgreements } from '@/app/onboarding/page';
 
+/**
+ * @fileOverview Foundations of Care (Agreements).
+ * Refined wording to emphasize resonance, trust, and sovereignty.
+ */
+
 export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalAgreements) => void }) {
   const [lang, setLang] = useState<'EN' | 'DE'>('EN');
   const [agreements, setAgreements] = useState({
@@ -47,69 +52,69 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
   const content = {
     EN: {
       back: "BACK",
-      header: "The important stuff",
-      subtext: "Please read and agree to the following",
-      agree: "I agree & continue",
+      header: "Foundations of care",
+      subtext: "I read and honor our shared understanding",
+      agree: "I walk this path with love",
       understand: "I accept, respect and understand",
       sections: [
         { 
           id: 'harmReduction', 
           title: 'Harm reduction', 
-          text: 'StayOnBeat is a harm reduction tool designed to provide information and support. It is not intended to encourage illegal activities.' 
+          text: 'StayOnBeat is a harm reduction tool designed to provide information and support. It is not intended to encourage illegal activities' 
         },
         { 
           id: 'medicalAdvice', 
           title: 'Not medical advice', 
-          text: 'The information provided by this app is for educational purposes and does not constitute medical advice or diagnosis.' 
+          text: 'The information provided by this sanctuary is for educational purposes and does not constitute medical advice or diagnosis' 
         },
         { 
           id: 'privacy', 
-          title: 'Privacy & data (GDPR)', 
-          text: 'We take your privacy seriously. Your biometric data is encrypted. We comply with GDPR standards.' 
+          title: 'Freedom & trust (GDPR)', 
+          text: 'We take your privacy seriously. Your biometric data is encrypted. We honor your data sovereignty and comply with GDPR standards' 
         },
         { 
           id: 'safetyNetwork', 
-          title: 'Safety network', 
-          text: 'StayOnBeat allows you to create a safety network of trusted contacts who can be notified in case of an emergency.' 
+          title: 'Circle of love', 
+          text: 'StayOnBeat allows you to create a network of trusted bonds who can be notified in case of a need for connection or support' 
         },
         { 
           id: 'immediateHelp', 
-          title: 'Immediate help', 
-          text: 'In need of support, you can notify your Love Circle or the Awareness Team. Alerts to the Awareness Team are handled with absolute discretion and privacy, as your health and well-being are our only priority.' 
+          title: 'Sanctuary support', 
+          text: 'In need of support, you can notify your Circle or the Sanctuary Holders. Alerts are handled with absolute discretion and respect for your journey' 
         },
       ]
     },
     DE: {
       back: "ZURÜCK",
-      header: "Das Wichtigste",
-      subtext: "Bitte lesen und stimme dem Folgenden zu",
-      agree: "Zustimmen & weiter",
+      header: "Fundament der Fürsorge",
+      subtext: "Ich achte unser gemeinsames Verständnis",
+      agree: "Ich gehe diesen Weg mit Liebe",
       understand: "Ich akzeptiere, respektiere und verstehe",
       sections: [
         { 
           id: 'harmReduction', 
           title: 'Schadensminimierung', 
-          text: 'StayOnBeat ist ein Tool zur Schadensminimierung, das Informationen und Unterstützung bietet. Es ist nicht dazu gedacht, illegale Aktivitäten zu fördern.' 
+          text: 'StayOnBeat ist ein Tool zur Schadensminimierung, das Informationen und Unterstützung bietet. Es ist nicht dazu gedacht, illegale Aktivitäten zu fördern' 
         },
         { 
           id: 'medicalAdvice', 
           title: 'Kein medizinischer Rat', 
-          text: 'Die von dieser App bereitgestellten Informationen dienen Bildungszwecken und stellen keine medizinische Beratung oder Diagnose dar.' 
+          text: 'Die von diesem Sanctuary bereitgestellten Informationen dienen Bildungszwecken und stellen keine medizinische Beratung dar' 
         },
         { 
           id: 'privacy', 
-          title: 'Datenschutz (DSGVO)', 
-          text: 'Wir nehmen deine Privatsphäre ernst. Deine biometrischen Daten sind verschlüsselt. Wir halten uns an die DSGVO-Standards.' 
+          title: 'Freiheit & Vertrauen (DSGVO)', 
+          text: 'Wir nehmen deine Privatsphäre ernst. Deine biometrischen Daten sind verschlüsselt. Wir achten deine Datensouveränität' 
         },
         { 
           id: 'safetyNetwork', 
-          title: 'Sicherheitsnetzwerk', 
-          text: 'StayOnBeat ermöglicht es dir, ein Sicherheitsnetzwerk aus vertrauenswürdigen Kontakten zu erstellen, die im Notfall benachrichtigt werden können.' 
+          title: 'Circle of Love', 
+          text: 'StayOnBeat ermöglicht es dir, ein Netzwerk aus vertrauenswürdigen Verbindungen zu erstellen, die bei Bedarf informiert werden können' 
         },
         { 
           id: 'immediateHelp', 
-          title: 'Soforthilfe', 
-          text: 'Wenn du Hilfe benötigst, kannst du deinen Love Circle oder das Awareness-Team benachrichtigen. Meldungen an das Awareness-Team werden absolut diskret und vertraulich behandelt, da deine Gesundheit und dein Wohlbefinden unsere einzige Priorität sind.' 
+          title: 'Sanctuary Unterstützung', 
+          text: 'Wenn du Unterstützung benötigst, kannst du deinen Circle oder die Sanctuary Holders rufen. Meldungen werden absolut diskret und mit Respekt behandelt' 
         },
       ]
     }
