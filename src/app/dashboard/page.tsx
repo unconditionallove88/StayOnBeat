@@ -17,7 +17,8 @@ import {
   Microscope,
   Settings2,
   ChevronDown,
-  ArrowLeft
+  ArrowLeft,
+  Radio
 } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6SubstanceLab';
@@ -84,14 +85,16 @@ const TOOLTIPS = {
     cocreation: "Co-Creation",
     assistant: "AI Assistant",
     profile: "My Profile",
-    logout: "Step away"
+    logout: "Step away",
+    mesh: "Offline Mode: Mesh Active"
   },
   de: {
     vibe: "Stimmungs Check-in",
     cocreation: "Ko-Kreation",
     assistant: "KI-Assistent",
     profile: "Mein Profil",
-    logout: "Abmelden"
+    logout: "Abmelden",
+    mesh: "Offline-Modus: Mesh aktiv"
   }
 };
 
@@ -188,6 +191,12 @@ function DashboardContent() {
               <span className="truncate">{lang === 'en' ? `SHINE, ${displayName}` : `STRAHLE, ${displayName}`}</span>
               <SkyIcon />
             </h1>
+            <div className="flex items-center gap-2 mt-1">
+              <div className="px-2 py-0.5 bg-blue-500/10 border border-blue-500/20 rounded-full flex items-center gap-1.5 animate-in fade-in duration-1000">
+                <Radio size={8} className="text-blue-400 animate-pulse" />
+                <span className="text-[7px] font-black uppercase tracking-widest text-blue-400/80">{t.mesh}</span>
+              </div>
+            </div>
           </div>
           
           <div className="flex items-center gap-2 flex-shrink-0">
