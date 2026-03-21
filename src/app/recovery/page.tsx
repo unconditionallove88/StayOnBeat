@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -46,7 +47,7 @@ export default function RecoveryView() {
       id: 'h2o', 
       time: "Immediate", 
       text: "Isotonic Rehydration", 
-      desc: "Consume 500ml water with electrolytes to restore mineral balance.",
+      desc: "Consume 500ml water with electrolytes to restore mineral balance",
       icon: Droplets,
       color: "text-blue-500"
     });
@@ -56,7 +57,7 @@ export default function RecoveryView() {
         id: 'serotonin',
         time: "Next 24h", 
         text: "Serotonin Support", 
-        desc: "5-HTP + Green Tea Extract. Wait at least 24h after your last dose.",
+        desc: "5-HTP + Green Tea Extract. Wait at least 24h after your last dose",
         icon: Zap,
         color: "text-purple-500"
       });
@@ -64,7 +65,7 @@ export default function RecoveryView() {
         id: 'oxidative',
         time: "Next 12h", 
         text: "Anti-Oxidative Boost", 
-        desc: "1000mg Vitamin C + Alpha-Lipoic Acid to combat neurotoxicity.",
+        desc: "1000mg Vitamin C + Alpha-Lipoic Acid to combat neurotoxicity",
         icon: ShieldCheck,
         color: "text-green-500"
       });
@@ -75,7 +76,7 @@ export default function RecoveryView() {
         id: 'liver',
         time: "Morning", 
         text: "Liver Recovery", 
-        desc: "Milk Thistle + B-Complex vitamins. Avoid caffeine for the first 4 hours.",
+        desc: "Milk Thistle + B-Complex vitamins. Avoid caffeine for the first 4 hours",
         icon: Coffee,
         color: "text-amber-600"
       });
@@ -86,7 +87,7 @@ export default function RecoveryView() {
         id: 'bladder',
         time: "Immediate", 
         text: "Renal Protection", 
-        desc: "Green Tea (EGCG) specifically supports bladder lining after Dissociatives.",
+        desc: "Green Tea (EGCG) specifically supports bladder lining after Dissociatives",
         icon: Droplets,
         color: "text-green-400"
       });
@@ -97,7 +98,7 @@ export default function RecoveryView() {
         id: 'sleep',
         time: "Late Night", 
         text: "Neuro-Sedation", 
-        desc: "Magnesium Bisglycinate (300mg) to relax muscles and lower heart rate.",
+        desc: "Magnesium Bisglycinate (300mg) to relax muscles and lower heart rate",
         icon: Moon,
         color: "text-indigo-400"
       });
@@ -117,7 +118,7 @@ export default function RecoveryView() {
     
     toast({ 
       title: "Streak Protected 🔥", 
-      description: `Session closed. Your safety streak is now ${updatedProfile.safetyStreak}.` 
+      description: `Session closed. Your safety streak is now ${updatedProfile.safetyStreak}` 
     });
     router.push('/dashboard');
   };
@@ -154,10 +155,10 @@ export default function RecoveryView() {
             <ShieldCheck className="w-8 h-8 text-blue-500 shrink-0" />
             <div className="space-y-2">
               <p className="text-base font-bold text-white/90 leading-tight">
-                Personalized protocol generated based on your session logs.
+                Personalized protocol generated based on your session logs
               </p>
               <p className="text-[10px] uppercase font-black text-white/40 tracking-widest">
-                Data analyzed: {sessionLogs.length} intake events recorded.
+                Data analyzed: {sessionLogs.length} intake events recorded
               </p>
             </div>
           </div>
@@ -202,7 +203,7 @@ export default function RecoveryView() {
           {/* Secure Wipe Warning */}
           <div className="bg-red-500/5 border border-red-500/10 p-8 rounded-[2.5rem] text-center">
             <p className="text-[10px] font-black text-red-500/40 uppercase tracking-[0.3em] leading-relaxed">
-              Completing this protocol will permanently wipe all session GPS and substance logs for your privacy.
+              Completing this protocol will permanently wipe all session GPS and substance logs for your privacy
             </p>
           </div>
         </div>

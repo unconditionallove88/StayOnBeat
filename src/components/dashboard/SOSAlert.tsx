@@ -68,8 +68,8 @@ const CONTENT = {
     loved: "I am loved",
     friendLoved: (name: string) => `${name} is loved`,
     takenCareOf: "and being taken care of",
-    dispatched: "Help request dispatched.",
-    privacyActive: "Privacy protocols active.",
+    dispatched: "Help request dispatched",
+    privacyActive: "Privacy protocols active",
     returning: (s: number) => `Returning to sanctuary in ${s}s`
   },
   de: {
@@ -106,8 +106,8 @@ const CONTENT = {
     loved: "Ich werde geliebt",
     friendLoved: (name: string) => `${name} wird geliebt`,
     takenCareOf: "und bin in Sicherheit",
-    dispatched: "Unterstützung wurde angefordert.",
-    privacyActive: "Schutzprotokolle sind aktiv.",
+    dispatched: "Unterstützung wurde angefordert",
+    privacyActive: "Schutzprotokolle sind aktiv",
     returning: (s: number) => `Rückkehr zum Dashboard in ${s}s`
   }
 };

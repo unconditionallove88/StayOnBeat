@@ -22,25 +22,25 @@ const CONTENT = {
       {
         title: "Hydration",
         icon: <Droplets className="text-blue-400" size={24} />,
-        advice: "Drink 1-2 liters of water throughout the day. Add electrolytes to maintain mineral balance.",
+        advice: "Drink 1-2 liters of water throughout the day. Add electrolytes to maintain mineral balance",
         color: "border-blue-500/20 bg-blue-500/5"
       },
       {
         title: "Nutrition",
         icon: <Apple className="text-emerald-400" size={24} />,
-        advice: "Eat a solid, balanced meal 3 hours before you head out. Avoid heavy, processed foods.",
+        advice: "Eat a solid, balanced meal 3 hours before you head out. Avoid heavy, processed foods",
         color: "border-emerald-500/20 bg-emerald-500/5"
       },
       {
         title: "Rest",
         icon: <Moon className="text-purple-400" size={24} />,
-        advice: "Prioritize 7-8 hours of sleep or a 20-minute power nap to store energy for the night.",
+        advice: "Prioritize 7-8 hours of sleep or a 20-minute power nap to store energy for the night",
         color: "border-purple-500/20 bg-purple-500/5"
       },
       {
         title: "Essentials",
         icon: <Battery className="text-amber-400" size={24} />,
-        advice: "Charge your phone to 100%. Check in with your circle and sync your Pulse baseline.",
+        advice: "Charge your phone to 100%. Check in with your circle and sync your Pulse baseline",
         color: "border-amber-500/20 bg-amber-500/5"
       }
     ],
@@ -55,25 +55,25 @@ const CONTENT = {
       {
         title: "Hydrierung",
         icon: <Droplets className="text-blue-400" size={24} />,
-        advice: "Trink über den Tag verteilt 1-2 Liter Wasser. Füge Elektrolyte hinzu, um den Mineralhaushalt zu stabilisieren.",
+        advice: "Trink über den Tag verteilt 1-2 Liter Wasser. Füge Elektrolyte hinzu, um den Mineralhaushalt zu stabilisieren",
         color: "border-blue-500/20 bg-blue-500/5"
       },
       {
         title: "Ernährung",
         icon: <Apple className="text-emerald-400" size={24} />,
-        advice: "Iss 3 Stunden vor dem Aufbruch eine feste, ausgewogene Mahlzeit. Vermeide schwere, verarbeitete Lebensmittel.",
+        advice: "Iss 3 Stunden vor dem Aufbruch eine feste, ausgewogene Mahlzeit. Vermeide schwere, verarbeitete Lebensmittel",
         color: "border-emerald-500/20 bg-emerald-500/5"
       },
       {
         title: "Erholung",
         icon: <Moon className="text-purple-400" size={24} />,
-        advice: "Priorisiere 7-8 Stunden Schlaf oder einen 20-minütigen Power-Nap, um Energie für die Nacht zu tanken.",
+        advice: "Priorisiere 7-8 Stunden Schlaf oder einen 20-minütigen Power-Nap, um Energie für die Nacht zu tanken",
         color: "border-purple-500/20 bg-purple-500/5"
       },
       {
         title: "Essentials",
         icon: <Battery className="text-amber-400" size={24} />,
-        advice: "Lade dein Handy auf 100%. Melde dich bei deinem Circle und kalibriere deinen Pulse-Baseline.",
+        advice: "Lade dein Handy auf 100%. Melde dich bei deinem Circle und kalibriere deinen Pulse-Baseline",
         color: "border-amber-500/20 bg-amber-500/5"
       }
     ],

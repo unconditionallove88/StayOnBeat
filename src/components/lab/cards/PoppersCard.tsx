@@ -38,7 +38,7 @@ export default function PoppersCard({ lang = "en" }: { lang?: "en" | "de" }) {
       <div className="flex gap-6 mb-6">
         <div className="flex items-center gap-3 text-[10px] text-slate-400 font-black uppercase tracking-widest">
           <Clock size={14} className="text-amber-500" />
-          <span>{isEn ? "1–3 min" : "1–3 Min."}</span>
+          <span>{isEn ? "1–3 min" : "1–3 Min"}</span>
         </div>
         <div className="flex items-center gap-3 text-[10px] text-slate-400 font-black uppercase tracking-widest">
           <Wind size={14} className="text-amber-500" />
@@ -51,8 +51,8 @@ export default function PoppersCard({ lang = "en" }: { lang?: "en" | "de" }) {
         <ShieldAlert size={20} className="text-red-500 mt-0.5 shrink-0" />
         <p className="text-red-400 text-xs leading-relaxed font-black uppercase tracking-tight">
           {isEn
-            ? "NEVER combine with Viagra/Cialis — can be fatal."
-            : "NIEMALS mit Viagra/Cialis kombinieren — kann tödlich sein."}
+            ? "NEVER combine with Viagra/Cialis — can be fatal"
+            : "NIEMALS mit Viagra/Cialis kombinieren — kann tödlich sein"}
         </p>
       </div>
 

@@ -92,7 +92,7 @@ export default function SelfCare() {
               I love and respect <br/> <span className="text-[#3EB489]">my need for stillness</span>
             </h1>
             <p className="text-xs font-bold text-white/40 leading-tight max-w-[280px] mx-auto uppercase tracking-widest">
-              Gently anchor yourself to the present moment. Your presence is your strength.
+              Gently anchor yourself to the present moment. Your presence is your strength
             </p>
           </div>
 
