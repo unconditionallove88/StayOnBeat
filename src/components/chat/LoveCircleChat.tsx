@@ -1,7 +1,8 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Heart, Loader2, Lock, ShieldCheck, Shield, Users } from 'lucide-react';
+import { Send, Heart, Loader2, Lock, ShieldCheck, Shield, Users, Sparkles } from 'lucide-react';
 import { useFirestore, useUser, useCollection, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection, query, orderBy, limit, serverTimestamp, doc } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
@@ -11,7 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 /**
  * @fileOverview The Holders (Private & Mutual).
  * Framing: I love and respect my trusted ones. Pure connection.
- * Optimized for high-fidelity scrolling on iPhone.
+ * Redesigned for Radiant Unity and Purity.
  */
 
 export function LoveCircleChat() {
@@ -78,7 +79,7 @@ export function LoveCircleChat() {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Could not create group.",
+        description: "Could not create group",
       });
     }
   };
@@ -87,50 +88,43 @@ export function LoveCircleChat() {
     return (
       <div className="flex flex-col h-full bg-black font-headline overflow-hidden">
         <ScrollArea className="flex-1">
-          <div className="flex flex-col items-center justify-center min-h-[60vh] p-10 text-center space-y-10">
+          <div className="flex flex-col items-center justify-center min-h-[70vh] p-10 text-center space-y-12">
+            {/* RADIANT CORE ICON */}
             <div className="relative">
-              <div className="w-24 h-24 bg-[#10B981]/10 rounded-full flex items-center justify-center border-2 border-[#10B981]/30">
-                <Shield className="w-10 h-10 text-[#10B981]" />
+              <div className="absolute inset-0 bg-[#10B981]/20 blur-3xl rounded-full animate-pulse" />
+              <div className="w-32 h-32 bg-[#10B981]/10 rounded-full flex items-center justify-center border-2 border-[#10B981]/30 relative z-10 shadow-2xl">
+                <Shield size={48} className="text-[#10B981]" />
               </div>
-              <Heart className="absolute -bottom-2 -right-2 text-[#10B981] fill-[#10B981] w-8 h-8 animate-pulse" />
+              <Sparkles className="absolute -top-4 -right-4 text-[#10B981] w-10 h-10 animate-pulse" />
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-4xl font-black uppercase tracking-tighter text-white">The Holders</h2>
-              <p className="text-base font-bold text-white/60 leading-tight max-w-xs mx-auto uppercase tracking-widest">
-                Those who hold your heart from afar. Your functional bond of care.
+              <h2 className="text-5xl font-black uppercase tracking-tighter text-white">The Holders</h2>
+              <p className="text-lg font-bold text-white/60 leading-tight max-w-sm mx-auto uppercase tracking-widest">
+                Those who hold your heart from afar. Your functional bond of care and trust
               </p>
             </div>
 
-            <div className="space-y-6 w-full max-w-sm">
-              <div className="flex items-center justify-between p-6 bg-white/5 border border-white/10 rounded-[2rem] group hover:border-[#10B981]/40 transition-all text-left">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center">
-                    <Lock className="w-5 h-5 text-white/40" />
+            <div className="space-y-4 w-full max-w-sm">
+              {[
+                { title: "Functional Bond of Care", sub: "Shared only with your inner circle", icon: Lock },
+                { title: "Mutual Confirmation", sub: "Unity through shared agreement", icon: ShieldCheck }
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-6 p-6 bg-white/[0.02] border border-white/5 rounded-[2.5rem] text-left transition-all hover:border-[#10B981]/30 group">
+                  <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:scale-110 transition-transform">
+                    <item.icon className="w-6 h-6 text-[#10B981]" />
                   </div>
-                  <div className="text-left">
-                    <p className="text-xs font-black uppercase tracking-tight">Functional Bond of Care</p>
-                    <p className="text-[8px] font-bold text-white/20 uppercase tracking-widest">Shared only with your inner circle</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between p-6 bg-white/5 border border-white/10 rounded-[2rem] text-left">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center">
-                    <ShieldCheck className="w-5 h-5 text-[#10B981]" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-xs font-black uppercase tracking-tight">Mutual Confirmation</p>
-                    <p className="text-[8px] font-bold text-white/20 uppercase tracking-widest">Everyone must agree to join the group</p>
+                  <div>
+                    <p className="text-sm font-black uppercase tracking-tight text-white">{item.title}</p>
+                    <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{item.sub}</p>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
 
             <button 
               onClick={() => setHasAgreement(true)}
-              className="pill-button w-full max-w-sm bg-[#10B981] text-black text-lg font-black uppercase tracking-widest neon-glow active:scale-95 flex items-center justify-center gap-3 mb-10"
+              className="pill-button w-full max-w-sm bg-[#10B981] text-black text-xl font-black uppercase tracking-widest neon-glow active:scale-95 flex items-center justify-center gap-3 mb-10 shadow-emerald-500/20"
             >
               Access My Bonds 🤝
             </button>
@@ -145,49 +139,49 @@ export function LoveCircleChat() {
       {/* Header */}
       <div className="px-8 py-8 border-b border-white/5 bg-black/80 backdrop-blur-xl flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-[#10B981]/20 rounded-full flex items-center justify-center border border-[#10B981]/30">
-            <Shield size={24} className="text-[#10B981]" />
+          <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 shadow-lg">
+            <Shield size={28} className="text-[#10B981]" />
           </div>
           <div>
-            <h2 className="text-[20px] font-black uppercase tracking-tight text-white">The Holders</h2>
-            <p className="text-[9px] text-[#10B981] font-black uppercase tracking-[0.2em]">Functional Bond of Care</p>
+            <h2 className="text-2xl font-black uppercase tracking-tight text-white leading-none">The Holders</h2>
+            <p className="text-[10px] text-[#10B981] font-black uppercase tracking-[0.3em] mt-1">Functional Bond of Care</p>
           </div>
         </div>
         <button 
           onClick={() => setShowCreateGroup(!showCreateGroup)}
-          className="p-3 bg-[#10B981] text-black rounded-xl hover:opacity-90 transition-all active:scale-95"
+          className="p-4 bg-[#10B981] text-black rounded-2xl hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-emerald-500/10"
         >
           <Users size={20} />
         </button>
       </div>
 
       {showCreateGroup && (
-        <div className="p-6 bg-white/5 border-b border-white/10 animate-in slide-in-from-top-4 shrink-0">
+        <div className="p-8 bg-white/[0.02] border-b border-white/5 animate-in slide-in-from-top-4 shrink-0">
           <form onSubmit={handleCreateGroup} className="space-y-4 max-w-md mx-auto">
             <input 
               value={groupName}
               onChange={(e) => setGroupName(e.target.value)}
               placeholder="GROUP NAME"
-              className="w-full bg-black border border-white/20 p-4 rounded-xl text-white font-black uppercase text-xs focus:border-[#10B981] outline-none"
+              className="w-full bg-black border border-white/10 p-5 rounded-2xl text-white font-black uppercase text-sm focus:border-[#10B981] outline-none transition-all"
               required
             />
             <input 
               value={inviteEmail}
               onChange={(e) => setInviteEmail(e.target.value)}
-              placeholder="INVITE BY EMAIL (OPTIONAL)"
+              placeholder="INVITE BY EMAIL"
               type="email"
-              className="w-full bg-black border border-white/20 p-4 rounded-xl text-white font-black uppercase text-xs focus:border-[#10B981] outline-none"
+              className="w-full bg-black border border-white/10 p-5 rounded-2xl text-white font-black uppercase text-sm focus:border-[#10B981] outline-none transition-all"
             />
-            <div className="flex gap-2">
-              <button type="submit" className="flex-1 bg-[#10B981] text-black p-3 rounded-xl font-black uppercase text-[10px]">Create Group</button>
-              <button type="button" onClick={() => setShowCreateGroup(false)} className="flex-1 bg-white/10 text-white p-3 rounded-xl font-black uppercase text-[10px]">Cancel</button>
+            <div className="flex gap-3 pt-2">
+              <button type="submit" className="flex-1 bg-[#10B981] text-black h-14 rounded-xl font-black uppercase text-[10px] tracking-widest shadow-lg">Create Group</button>
+              <button type="button" onClick={() => setShowCreateGroup(false)} className="flex-1 bg-white/5 text-white/40 h-14 rounded-xl font-black uppercase text-[10px] tracking-widest">Cancel</button>
             </div>
           </form>
         </div>
       )}
 
-      <ScrollArea className="flex-1 px-8 py-6" ref={scrollRef}>
-        <div className="space-y-6 max-w-2xl mx-auto pb-10">
+      <ScrollArea className="flex-1 px-8 py-8" ref={scrollRef}>
+        <div className="space-y-8 max-w-2xl mx-auto pb-10">
           {isLoading && (
             <div className="flex items-center justify-center py-20">
               <Loader2 className="w-8 h-8 text-[#10B981] animate-spin" />
@@ -195,10 +189,13 @@ export function LoveCircleChat() {
           )}
           
           {messages?.length === 0 && !isLoading && (
-            <div className="text-center py-24 opacity-20 space-y-4">
-              <Heart className="w-12 h-12 mx-auto text-[#10B981]" />
-              <p className="text-xs uppercase font-black tracking-widest leading-relaxed text-white">
-                Start a conversation <br/> with your holders.
+            <div className="text-center py-24 opacity-20 space-y-6">
+              <div className="relative inline-block">
+                <Heart className="w-16 h-16 mx-auto text-[#10B981]" fill="currentColor" />
+                <Sparkles className="absolute -top-2 -right-2 text-white animate-pulse" size={20} />
+              </div>
+              <p className="text-sm uppercase font-black tracking-[0.4em] leading-relaxed text-white max-w-[200px] mx-auto">
+                Start a resonance <br/> with your holders
               </p>
             </div>
           )}
@@ -206,15 +203,15 @@ export function LoveCircleChat() {
           {messages?.map((msg) => {
             const isMe = msg.senderId === user?.uid;
             return (
-              <div key={msg.id} className={cn("flex flex-col gap-2 animate-in slide-in-from-bottom-2 duration-300", isMe ? "items-end" : "items-start")}>
-                <span className="text-[8px] font-black text-white/30 uppercase tracking-widest px-2">
+              <div key={msg.id} className={cn("flex flex-col gap-3 animate-in slide-in-from-bottom-2 duration-500", isMe ? "items-end" : "items-start")}>
+                <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.4em] px-3">
                   {isMe ? 'YOU' : msg.senderName}
                 </span>
                 <div className={cn(
-                  "p-5 rounded-[2rem] text-sm font-bold leading-relaxed max-w-[85%] shadow-lg border transition-all",
+                  "p-6 rounded-[2.5rem] text-sm font-bold leading-relaxed max-w-[85%] shadow-2xl border transition-all",
                   isMe 
                     ? "bg-[#10B981] text-black border-[#10B981] rounded-tr-none" 
-                    : "bg-white/5 text-white border-white/10 rounded-tl-none"
+                    : "bg-white/[0.03] text-white/90 border-white/5 rounded-tl-none shadow-inner"
                 )}>
                   {msg.text}
                 </div>
@@ -224,26 +221,32 @@ export function LoveCircleChat() {
         </div>
       </ScrollArea>
 
-      <div className="px-6 py-8 bg-black border-t border-white/5 shrink-0">
+      <div className="px-6 py-10 bg-black border-t border-white/5 shrink-0">
         <div className="relative flex items-center max-w-2xl mx-auto gap-4">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
             placeholder="Message your holders..."
-            className="flex-1 bg-white/5 border border-white/10 rounded-full py-5 px-8 text-base font-bold focus:border-[#10B981] transition-all outline-none text-white shadow-inner"
+            className="flex-1 bg-white/[0.02] border border-white/10 rounded-full py-6 px-10 text-base font-bold focus:border-[#10B981] transition-all outline-none text-white shadow-inner"
           />
           <button
             onClick={handleSend}
             disabled={!input.trim()}
-            className="p-5 bg-[#10B981] text-black rounded-full disabled:opacity-30 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-[#10B981]/20"
+            className="p-6 bg-[#10B981] text-black rounded-full disabled:opacity-30 transition-all hover:scale-105 active:scale-95 shadow-xl shadow-[#10B981]/20"
           >
             <Send className="w-6 h-6" />
           </button>
         </div>
-        <p className="text-center text-[8px] text-white/20 uppercase tracking-[0.5em] mt-4 font-black">
-          Mutual Bonds of Care • Encrypted Sanctuary
-        </p>
+        <div className="mt-6 flex flex-col items-center gap-2 opacity-20">
+          <p className="text-[8px] text-white uppercase tracking-[0.6em] font-black">
+            Mutual Bonds of Care
+          </p>
+          <div className="flex items-center gap-2">
+            <Lock size={8} className="text-[#10B981]" />
+            <span className="text-[7px] font-black uppercase tracking-widest">End-to-End Encrypted Sanctuary</span>
+          </div>
+        </div>
       </div>
     </div>
   );
