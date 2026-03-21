@@ -68,8 +68,12 @@ export default function MyHeartPage() {
           <ArrowLeft size={20} />
         </button>
         <div>
-          <h1 className="text-2xl font-black uppercase tracking-tighter">Love Circle</h1>
-          <p className="text-[10px] text-[#10B981] font-black uppercase tracking-[0.3em]">Sanctuary Pulse Analytics</p>
+          <h1 className="text-2xl font-black uppercase tracking-tighter">
+            {lang === 'en' ? 'My Heart' : 'Mein Herz'}
+          </h1>
+          <p className="text-[10px] text-[#10B981] font-black uppercase tracking-[0.3em]">
+            {lang === 'en' ? 'Sanctuary Pulse Analytics' : 'Sanctuary Puls-Analyse'}
+          </p>
         </div>
       </header>
 
@@ -79,11 +83,11 @@ export default function MyHeartPage() {
           <HeartStatusAura 
             heartRate={heartRate} 
             activeSubstances={[]} 
-            mood={profile?.vibe?.currentLabel || "Steady"}
+            mood={profile?.vibe?.currentLabel || (lang === 'en' ? "Steady" : "Stabil")}
             lang={lang}
           />
           <span className="text-[9px] uppercase tracking-widest text-slate-600 font-bold">
-            Demo Mode · My Rhythm
+            {lang === 'en' ? 'Demo Mode · My Rhythm' : 'Demo-Modus · Mein Rhythmus'}
           </span>
         </div>
 
@@ -97,8 +101,8 @@ export default function MyHeartPage() {
               <Shield size={28} className="text-[#10B981]" />
             </div>
             <div className="text-center">
-              <p className="text-sm font-black uppercase tracking-tight">The Holders</p>
-              <p className="text-[8px] font-bold text-[#10B981] uppercase tracking-widest">Private Bonds</p>
+              <p className="text-sm font-black uppercase tracking-tight">{lang === 'en' ? 'The Holders' : 'Die Holder'}</p>
+              <p className="text-[8px] font-bold text-[#10B981] uppercase tracking-widest">{lang === 'en' ? 'Private Bonds' : 'Privater Kreis'}</p>
             </div>
           </button>
 
@@ -110,8 +114,8 @@ export default function MyHeartPage() {
               <Users2 size={28} className="text-amber-500" />
             </div>
             <div className="text-center">
-              <p className="text-sm font-black uppercase tracking-tight">The Witnesses</p>
-              <p className="text-[8px] font-bold text-amber-500 uppercase tracking-widest">Public Care</p>
+              <p className="text-sm font-black uppercase tracking-tight">{lang === 'en' ? 'The Witnesses' : 'Die Witnesser'}</p>
+              <p className="text-[8px] font-bold text-amber-500 uppercase tracking-widest">{lang === 'en' ? 'Public Care' : 'Gemeinsame Fürsorge'}</p>
             </div>
           </button>
         </div>
@@ -122,9 +126,13 @@ export default function MyHeartPage() {
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <Watch className="text-[#EBFB3B] w-5 h-5" />
-                <span className="text-[10px] font-black uppercase text-[#EBFB3B] tracking-widest">Pulse Baseline</span>
+                <span className="text-[10px] font-black uppercase text-[#EBFB3B] tracking-widest">
+                  {lang === 'en' ? 'Pulse Baseline' : 'Puls-Basis'}
+                </span>
               </div>
-              <span className="text-[8px] font-bold text-white/30 uppercase tracking-widest px-2 py-1 bg-white/5 rounded-full">Set via {profile.pulseBaseline.source.replace('_', ' ')}</span>
+              <span className="text-[8px] font-bold text-white/30 uppercase tracking-widest px-2 py-1 bg-white/5 rounded-full">
+                {lang === 'en' ? `Set via ${profile.pulseBaseline.source.replace('_', ' ')}` : `Gesetzt via ${profile.pulseBaseline.source.replace('_', ' ')}`}
+              </span>
             </div>
             <div className="flex items-end gap-2">
               <span className="text-4xl font-black text-white">{profile.pulseBaseline.restingBPM}</span>
@@ -133,7 +141,9 @@ export default function MyHeartPage() {
             <div className="mt-4 pt-4 border-t border-white/5 flex items-start gap-3">
               <span className="text-[#EBFB3B] mt-0.5"><Info size={14} /></span>
               <p className="text-[9px] text-white/40 font-bold uppercase leading-relaxed tracking-wide">
-                Your Guardian is calibrated to this baseline. Thresholds adjust dynamically based on your resting rhythm. 🌿
+                {lang === 'en' 
+                  ? "Your Guardian is calibrated to this baseline. Thresholds adjust dynamically based on your resting rhythm. 🌿"
+                  : "Dein Guardian ist auf diese Basis kalibriert. Schwellenwerte passen sich dynamisch deinem Ruhe-Rhythmus an. 🌿"}
               </p>
             </div>
           </div>
@@ -146,7 +156,7 @@ export default function MyHeartPage() {
           className="w-full py-6 rounded-[1.5rem] bg-[#EBFB3B] text-black text-sm font-black uppercase tracking-widest flex items-center justify-center gap-3 active:scale-95 transition-all shadow-[0_0_30px_rgba(235,251,59,0.3)]"
         >
           <Activity size={18} />
-          Recalibrate Baseline
+          {lang === 'en' ? 'Recalibrate Baseline' : 'Basis neu kalibrieren'}
         </button>
 
         <LoveCircleList lang={lang} />
@@ -155,14 +165,14 @@ export default function MyHeartPage() {
       {/* Chat Dialogs */}
       <Dialog open={holdersOpen} onOpenChange={setHoldersOpen}>
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh]">
-          <DialogTitle className="sr-only">The Holders</DialogTitle>
+          <DialogTitle className="sr-only">{lang === 'en' ? 'The Holders' : 'Die Holder'}</DialogTitle>
           <LoveCircleChat />
         </DialogContent>
       </Dialog>
 
       <Dialog open={witnessesOpen} onOpenChange={setWitnessesOpen}>
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh]">
-          <DialogTitle className="sr-only">The Witnesses</DialogTitle>
+          <DialogTitle className="sr-only">{lang === 'en' ? 'The Witnesses' : 'Die Witnesser'}</DialogTitle>
           <PartyCircleChat />
         </DialogContent>
       </Dialog>
