@@ -15,8 +15,8 @@ import LoveCircle from '@/components/dashboard/LoveCircle';
 
 /**
  * @fileOverview High-Fidelity Organic Radar ("The Pulse").
- * Fully localized for English and German.
  * Redesigned for concentration and simplicity. 
+ * Love Circle is now a compact orb in the bottom-left corner.
  */
 
 const CONTENT = {
@@ -25,26 +25,22 @@ const CONTENT = {
     here: "I am here 🌿",
     visible: "Visible",
     private: "Private",
-    privacyLabel: "Location Privacy",
     respect: "I respect my state 🌿",
     sanctuary: "Privacy is my sanctuary.",
     distress: (name: string) => `${name} needs care`,
     currentPulse: (status: string) => `Current Pulse: ${status}`,
-    notify: "Notify Awareness",
-    back: "Dashboard"
+    notify: "Notify Awareness"
   },
   de: {
     loading: "Resonanz wird kalibriert",
     here: "Ich bin hier 🌿",
     visible: "Sichtbar",
     private: "Privat",
-    privacyLabel: "Standort-Privatsphäre",
     respect: "Ich achte auf mich 🌿",
     sanctuary: "Privatsphäre ist mein Raum.",
     distress: (name: string) => `${name} braucht Begleitung`,
     currentPulse: (status: string) => `Aktueller Status: ${status}`,
-    notify: "Awareness rufen",
-    back: "Dashboard"
+    notify: "Awareness rufen"
   }
 };
 
@@ -95,6 +91,7 @@ function MapContent() {
 
   return (
     <main className="h-screen bg-black text-white relative overflow-hidden font-headline animate-in fade-in duration-1000">
+      {/* 1. Tactical Map Grid Background */}
       <div className="absolute inset-0 bg-[#050505]">
         <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
           <svg width="100%" height="100%">
@@ -105,6 +102,7 @@ function MapContent() {
           </svg>
         </div>
 
+        {/* User Presence Pointer */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
           <div className={cn("transition-all duration-1000 scale-90 md:scale-100", !isSharing && "grayscale opacity-30")}>
             <div className="relative flex items-center justify-center w-32 h-32 md:w-40 md:h-40">
@@ -119,16 +117,7 @@ function MapContent() {
           </div>
         </div>
 
-        {/* Dummy Friends on Map */}
-        {isSharing && !isFriendDistress && (
-          <div className="absolute top-[35%] left-[25%] animate-pulse">
-             <div className="w-4 h-4 rounded-full bg-[#3EB489] border-2 border-white shadow-[0_0_15px_#3EB489]" />
-             <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-black/40 px-2 py-0.5 rounded-full border border-white/5 whitespace-nowrap">
-               <span className="text-[7px] font-black uppercase text-white/40 tracking-tighter">Sarah</span>
-             </div>
-          </div>
-        )}
-
+        {/* Simulated Friends/Safety Hubs */}
         <div className="absolute bottom-[30%] right-[30%] opacity-40">
            <div className="w-8 h-8 bg-emerald-600/20 rounded-xl flex items-center justify-center border border-emerald-500/40">
              <Shield className="w-4 h-4 text-emerald-500" />
@@ -136,9 +125,11 @@ function MapContent() {
         </div>
       </div>
 
+      {/* 2. Concentrated Interface Overlay */}
       <div className="relative z-10 p-6 flex flex-col h-full pointer-events-none">
+        {/* Top Nav: Grouped Controls */}
         <header className="flex justify-between items-center pointer-events-auto w-full max-w-5xl mx-auto shrink-0 animate-in slide-in-from-top-4 duration-700">
-          <Link href="/dashboard" className="bg-black/60 backdrop-blur-xl p-4 rounded-full border border-white/10 hover:border-[#3EB489] transition-all group active:scale-95">
+          <Link href="/dashboard" className="bg-black/60 backdrop-blur-xl p-4 rounded-full border border-white/10 hover:border-[#3EB489] transition-all group active:scale-95 shadow-xl">
             <ArrowLeft className="w-5 h-5 text-white/40 group-hover:text-white" />
           </Link>
           
@@ -153,27 +144,19 @@ function MapContent() {
           </div>
         </header>
         
+        {/* Bottom Tactical Zone */}
         <div className="flex-1 flex flex-col justify-end gap-6 w-full max-w-5xl mx-auto pb-10">
           <div className="flex flex-col md:flex-row items-end justify-between gap-6">
-            {/* Love Circle Floating Lens */}
-            <div className="pointer-events-auto flex flex-col items-start">
-              <div className="relative">
-                <LoveCircle lang={lang} variant="map" />
-                {!isFriendDistress && (
-                  <button 
-                    onClick={() => setSosActive(true)} 
-                    className="absolute -top-2 -right-2 w-14 h-14 bg-red-600 rounded-full border-2 border-white flex items-center justify-center shadow-2xl shadow-red-600/40 active:scale-90 transition-all z-20"
-                  >
-                    <Shield className="w-6 h-6 text-white" />
-                  </button>
-                )}
-              </div>
+            
+            {/* Love Circle: Organic Floating Lens */}
+            <div className="pointer-events-auto">
+              <LoveCircle lang={lang} variant="map" />
             </div>
 
-            {/* Friend Distress Overlay / Self Affirmation */}
+            {/* Friend Distress Overlay / SOS Portal Shortcut */}
             <div className="w-full md:w-auto pointer-events-auto flex flex-col items-center md:items-end">
               {isFriendDistress ? (
-                <div className="bg-red-600 border border-white/20 rounded-[2.5rem] p-6 shadow-2xl shadow-red-600/40 animate-in slide-in-from-right-4 duration-500 space-y-5 w-full max-w-sm">
+                <div className="bg-red-600/90 backdrop-blur-xl border border-white/20 rounded-[2.5rem] p-6 shadow-2xl shadow-red-600/40 animate-in slide-in-from-right-4 duration-500 space-y-5 w-full max-w-sm">
                   <div className="flex items-start gap-4">
                     <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center border border-white/30 shrink-0">
                       <AlertTriangle size={32} className="text-white animate-pulse" />
@@ -197,9 +180,17 @@ function MapContent() {
                   </div>
                 </div>
               ) : (
-                <div className="hidden md:flex bg-black/60 backdrop-blur-md px-6 py-4 rounded-[2rem] border border-white/5 items-center gap-4 animate-in fade-in duration-1000">
-                  <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[#3EB489]">{t.respect}</span>
-                  <p className="text-[10px] font-bold text-white/40 leading-tight uppercase tracking-widest">{t.sanctuary}</p>
+                <div className="hidden md:flex flex-col items-end gap-4">
+                  <button 
+                    onClick={() => setSosActive(true)}
+                    className="w-16 h-16 bg-red-600 text-white rounded-full flex items-center justify-center shadow-2xl shadow-red-600/40 active:scale-90 transition-all border-2 border-white"
+                  >
+                    <Shield size={28} />
+                  </button>
+                  <div className="bg-black/60 backdrop-blur-md px-6 py-4 rounded-[2rem] border border-white/5 items-center gap-4 animate-in fade-in duration-1000 flex">
+                    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[#3EB489]">{t.respect}</span>
+                    <p className="text-[10px] font-bold text-white/40 leading-tight uppercase tracking-widest">{t.sanctuary}</p>
+                  </div>
                 </div>
               )}
             </div>

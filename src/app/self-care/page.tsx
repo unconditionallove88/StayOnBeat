@@ -10,27 +10,15 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview Self-Care & Stillness Sanctuary.
  * A high-fidelity grounding experience featuring box-breathing guidance.
- * Framing: I love and respect my state of being. Stillness is my strength.
+ * Framing: I love and respect my need for stillness.
  */
 
 export default function SelfCare() {
   const router = useRouter();
-  const [isProfileComplete, setIsProfileComplete] = useState<boolean>(false);
   const [breathState, setBreathState] = useState<'inhale' | 'hold1' | 'exhale' | 'hold2'>('inhale');
   const [timer, setCountdown] = useState(4);
 
   useEffect(() => {
-    const checkProfile = () => {
-      const profileData = localStorage.getItem('stayonbeat_profile');
-      if (profileData) {
-        const data = JSON.parse(profileData);
-        if (data.name && data.weight && data.height) {
-          setIsProfileComplete(true);
-        }
-      }
-    };
-    checkProfile();
-
     // Breathing Logic (4-4-4-4 Box Breathing)
     const interval = setInterval(() => {
       setCountdown((prev) => {
@@ -49,15 +37,6 @@ export default function SelfCare() {
 
     return () => clearInterval(interval);
   }, []);
-
-  const handleBackToHub = () => {
-    playHeartbeat();
-    if (isProfileComplete) {
-      router.push('/dashboard');
-    } else {
-      router.push('/onboarding');
-    }
-  };
 
   const breathText = {
     inhale: "Inhale Peace",
@@ -137,7 +116,7 @@ export default function SelfCare() {
 
       <footer className="w-full max-w-sm pb-10">
         <button 
-          onClick={handleBackToHub}
+          onClick={() => { playHeartbeat(); router.push('/dashboard'); }}
           className="w-full bg-[#3EB489] text-black h-20 rounded-full font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_30px_rgba(62,180,137,0.3)] flex items-center justify-center gap-3"
         >
           <Sparkles size={20} />

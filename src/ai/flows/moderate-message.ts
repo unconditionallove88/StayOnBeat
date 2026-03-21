@@ -4,10 +4,6 @@
 /**
  * @fileOverview A Genkit flow for moderating chat messages in "The Witnesses" space.
  * Features: Slang detection for substances, illegal activity monitoring, and collective care enforcement.
- * 
- * - moderateMessage - Checks if a message violates community guidelines or safety protocols.
- * - ModerationInput - The input type (text).
- * - ModerationOutput - The result (isSafe, reason).
  */
 
 import { ai } from '@/ai/genkit';
@@ -40,11 +36,11 @@ The community is based on "Unconditional Love" and "Collective Care."
 Your primary objective is to maintain a safe sanctuary. You must scan for and immediately flag:
 1. ILLEGAL ACTIVITIES: Selling, buying, or promoting substances.
 2. MASKED DRUG NAMES (SLANG):
-   - 2-MMC / 3-MMC / 4-MMC: "meow meow", "meuw meuw", "m-cat", "drone", "bubbles", "mephy".
-   - GHB / GBL: "G", "Gina", "Liquid X".
-   - MDMA / Ecstasy: "Molly", "M", "Mandy", "E".
-   - Cocaine: "C", "Coke", "Snow", "White".
-   - Ketamine: "K", "Special K", "Kitty".
+   - 2-MMC / 3-MMC / 4-MMC: "meow meow", "meuw meuw", "m-cat", "drone", "bubbles", "mephy", "3m", "4m".
+   - GHB / GBL: "G", "Gina", "Liquid X", "Blue Nitro".
+   - MDMA / Ecstasy: "Molly", "M", "Mandy", "E", "XTC", "Beans".
+   - Cocaine: "C", "Coke", "Snow", "White", "Blow", "Charlie".
+   - Ketamine: "K", "Special K", "Kitty", "Horse", "Wonk".
 3. HATE SPEECH: Any homophobia, racism, sexism, or discrimination.
 4. AGGRESSION: Bullying, unkindness, or divisive political rhetoric.
 

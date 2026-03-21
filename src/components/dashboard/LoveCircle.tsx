@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
  * @fileOverview Love Circle Component (The Sanctuary Orb).
  * Redesigned as a high-fidelity circular console for organic navigation.
  * Variant="map" is extremely minimalist to reduce visual chaos.
+ * Pulses dynamically based on the collective state of the circle.
  */
 
 interface Friend {
@@ -61,11 +62,11 @@ export default function LoveCircle({
       className={cn(
         "relative aspect-square rounded-full flex flex-col items-center justify-center transition-all duration-1000 font-headline overflow-hidden border-2 shadow-2xl",
         isMap 
-          ? "w-[200px] md:w-[240px] bg-black/40 backdrop-blur-2xl" 
+          ? "w-[220px] md:w-[240px] bg-black/40 backdrop-blur-2xl pointer-events-auto" 
           : "w-full max-w-[380px] mx-auto bg-white/5"
       )}
       style={{ 
-        borderColor: `${circlePulseColor}${isMap ? '20' : '40'}`,
+        borderColor: `${circlePulseColor}${isMap ? '40' : '40'}`,
         boxShadow: `0 0 40px ${circlePulseColor}${worstStatus === 'steady' ? '05' : '20'}`
       }}
     >
@@ -152,7 +153,7 @@ export default function LoveCircle({
         </div>
       </div>
 
-      {/* Bottom Action - Integrated for Map Concentration */}
+      {/* Bottom Action Area */}
       <div className={cn("z-10 shrink-0 w-full", isMap ? "pb-4 px-4" : "pb-8 px-8")}>
         {hasDistress ? (
           <button 
@@ -169,7 +170,7 @@ export default function LoveCircle({
           </button>
         ) : (
           <div className="text-center opacity-20">
-            {!isMap && <p className="text-[6px] font-black text-white/40 uppercase tracking-[0.5em] mt-1">Collective Care Sync</p>}
+            {!isMap ? <p className="text-[6px] font-black text-white/40 uppercase tracking-[0.5em] mt-1">Collective Care Sync</p> : null}
           </div>
         )}
       </div>

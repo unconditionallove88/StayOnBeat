@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
@@ -13,7 +14,6 @@ import { GuardianLogo } from '@/components/ui/guardian-logo';
 /**
  * @fileOverview The Witnesses (Public & Moderated).
  * Integrated with Pulse Guardian for active text monitoring and slang detection.
- * Optimized for high-fidelity scrolling on iPhone.
  */
 
 const NATURE_PREFIXES = ['Emerald', 'Golden', 'Mystic', 'Quiet', 'Velvet', 'Silver', 'Primal', 'Crystal'];
@@ -183,11 +183,7 @@ export function PartyCircleChat() {
                 disabled={isEntering}
                 className="w-full bg-[#10B981] text-black h-20 rounded-2xl font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all flex items-center justify-center px-8"
               >
-                {isEntering ? (
-                  <Loader2 className="animate-spin w-6 h-6" />
-                ) : (
-                  <span className="text-xs leading-tight">Enter guarded sanctuary</span>
-                )}
+                {isEntering ? <Loader2 className="animate-spin w-6 h-6" /> : <span className="text-xs leading-tight">Enter guarded sanctuary</span>}
               </button>
             </div>
           </div>
@@ -198,13 +194,10 @@ export function PartyCircleChat() {
 
   return (
     <div className="flex flex-col h-full bg-black font-body overflow-hidden">
-      {/* Pulse Guardian Banner */}
       <div className="bg-[#A855F7]/10 border-b border-[#A855F7]/30 px-8 py-3 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
           <GuardianLogo size={18} />
-          <span className="text-[9px] font-black uppercase tracking-widest text-[#A855F7]">
-            Pulse Guardian: Active Monitoring & Slang Guard
-          </span>
+          <span className="text-[9px] font-black uppercase tracking-widest text-[#A855F7]">Pulse Guardian: Active Monitoring & Slang Guard</span>
         </div>
         <Sparkles size={14} className="text-[#A855F7] animate-pulse" />
       </div>
@@ -219,52 +212,20 @@ export function PartyCircleChat() {
             <p className="text-[9px] text-amber-500 font-bold uppercase tracking-widest">Connected with Care</p>
           </div>
         </div>
-        <div className="px-3 py-1 bg-white/5 rounded-full border border-white/10">
-          <span className="text-[8px] font-black uppercase tracking-widest text-white/40">ANONYMOUS</span>
-        </div>
       </div>
 
       <ScrollArea className="flex-1 px-8 py-6" ref={scrollRef}>
         <div className="space-y-6 max-w-2xl mx-auto pb-10">
-          {isLoading && (
-            <div className="flex items-center justify-center py-20">
-              <Loader2 className="w-8 h-8 text-amber-500 animate-spin" />
-            </div>
-          )}
-          
-          {messages?.length === 0 && !isLoading && (
-            <div className="text-center py-24 opacity-20 space-y-4">
-              <p className="text-xs uppercase font-black tracking-widest leading-relaxed text-white">
-                You are being witnessed... <br/> Share your presence with the community.
-              </p>
-            </div>
-          )}
-
+          {isLoading && <div className="flex items-center justify-center py-20"><Loader2 className="w-8 h-8 text-amber-500 animate-spin" /></div>}
           {messages?.map((msg) => {
             const isMe = msg.senderId === user?.uid;
             return (
               <div key={msg.id} className={cn("flex flex-col gap-2 animate-in slide-in-from-bottom-2 duration-300", isMe ? "items-end" : "items-start")}>
                 <div className="flex items-center gap-3 px-2">
-                  <span className="text-[8px] font-black text-white/30 uppercase tracking-widest">
-                    {isMe ? 'YOU' : msg.senderAlias}
-                  </span>
-                  {!isMe && (
-                    <button 
-                      onClick={() => logViolation(msg.text, `Reported by user from ${msg.senderAlias}`, 'USER_REPORT')}
-                      className="text-white/20 hover:text-red-500 transition-colors"
-                    >
-                      <Flag size={12} />
-                    </button>
-                  )}
+                  <span className="text-[8px] font-black text-white/30 uppercase tracking-widest">{isMe ? 'YOU' : msg.senderAlias}</span>
+                  {!isMe && <button onClick={() => logViolation(msg.text, `Reported by user from ${msg.senderAlias}`, 'USER_REPORT')} className="text-white/20 hover:text-red-500 transition-colors"><Flag size={12} /></button>}
                 </div>
-                <div className={cn(
-                  "p-4 rounded-2xl text-sm font-medium leading-relaxed max-w-[85%] shadow-sm border transition-all",
-                  isMe 
-                    ? "bg-amber-500 text-black border-amber-500 rounded-tr-none" 
-                    : "bg-white/5 text-white border-white/10 rounded-tl-none"
-                )}>
-                  {msg.text}
-                </div>
+                <div className={cn("p-4 rounded-2xl text-sm font-medium leading-relaxed max-w-[85%] shadow-sm border transition-all", isMe ? "bg-amber-500 text-black border-amber-500 rounded-tr-none" : "bg-white/5 text-white border-white/10 rounded-tl-none")}>{msg.text}</div>
               </div>
             );
           })}
@@ -273,25 +234,10 @@ export function PartyCircleChat() {
 
       <div className="px-6 py-8 bg-black border-t border-white/5 shrink-0">
         <div className="relative flex items-center max-w-2xl mx-auto gap-3">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="Share your witness..."
-            disabled={isSending}
-            className="flex-1 bg-white/5 border border-white/10 rounded-full py-5 px-8 text-base focus:border-[#A855F7] transition-all outline-none disabled:opacity-50 text-white shadow-inner"
-          />
-          <button
-            onClick={handleSend}
-            disabled={!input.trim() || isSending}
-            className="p-4 bg-amber-500 text-black rounded-full disabled:opacity-30 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-amber-500/20"
-          >
-            {isSending ? <Loader2 className="w-6 h-6 animate-spin" /> : <Send className="w-6 h-6" />}
-          </button>
+          <input value={input} onChange={(e) => setInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSend()} placeholder="Share your witness..." disabled={isSending} className="flex-1 bg-white/5 border border-white/10 rounded-full py-5 px-8 text-base focus:border-[#A855F7] transition-all outline-none disabled:opacity-50 text-white" />
+          <button onClick={handleSend} disabled={!input.trim() || isSending} className="p-4 bg-amber-500 text-black rounded-full disabled:opacity-30 transition-all hover:scale-105 active:scale-95 shadow-lg">{isSending ? <Loader2 className="w-6 h-6 animate-spin" /> : <Send className="w-6 h-6" />}</button>
         </div>
-        <p className="text-center text-[8px] text-white/20 uppercase tracking-[0.5em] mt-4 font-black">
-          Grounded in Unconditional Love 🌿
-        </p>
+        <p className="text-center text-[8px] text-white/20 uppercase tracking-[0.5em] mt-4 font-black">Grounded in Unconditional Love 🌿</p>
       </div>
     </div>
   );

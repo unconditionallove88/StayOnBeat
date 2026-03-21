@@ -29,9 +29,8 @@ import { playHeartbeat } from '@/lib/resonance';
 
 /**
  * @fileOverview Immediate Help (SOS) Portal.
- * Redesigned into a high-fidelity, categorized support center.
- * Enhanced to support "Collective Care" (helping a friend).
- * Fully localized for English and German.
+ * Categorized support pathways: Emergency, Circle, Stillness.
+ * Supports Collective Care (Helping a friend).
  */
 
 const CONTENT = {
@@ -171,7 +170,6 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
       resolvedAt: null,
     });
 
-    // Only update user's own SOS status if it's for themselves
     if (!isFriendMode && priority === 'urgent') {
       setDocumentNonBlocking(userRef, { sosActive: true }, { merge: true });
     }
@@ -200,7 +198,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
             </div>
             <div className="flex items-center gap-4 text-white/80">
               <ShieldCheck size={18} className="text-[#10B981]" />
-              <p className="text-xs font-bold uppercase tracking-widest rendering-tight">{t.privacyActive}</p>
+              <p className="text-xs font-bold uppercase tracking-widest leading-tight">{t.privacyActive}</p>
             </div>
           </div>
         </div>
