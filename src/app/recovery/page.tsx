@@ -7,6 +7,13 @@ import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { playHeartbeat } from '@/lib/resonance';
+
+/**
+ * @fileOverview Recovery Protocol Page.
+ * Securely wipes session data and honors the user's safety streak.
+ * Dot-free affirmations and grounded guidance.
+ */
 
 export default function RecoveryView() {
   const { toast } = useToast();
@@ -22,7 +29,6 @@ export default function RecoveryView() {
     setSessionLogs(logs);
     generateDetox(logs);
 
-    // Protection Window Countdown
     const timer = setInterval(() => {
       setTimeLeft(prev => {
         const [h, m, s] = prev.split(':').map(Number);
@@ -42,7 +48,6 @@ export default function RecoveryView() {
     const plan: any[] = [];
     const activeIds = Array.from(new Set(logs.map(l => l.id)));
 
-    // Universal Base Advice
     plan.push({ 
       id: 'h2o', 
       time: "Immediate", 
@@ -52,7 +57,7 @@ export default function RecoveryView() {
       color: "text-blue-500"
     });
 
-    if (activeIds.includes('mdma') || activeIds.includes('ecstasy') || activeIds.includes('3mmc') || activeIds.includes('4mmc')) {
+    if (activeIds.some(id => ['mdma', 'ecstasy', '3mmc', '4mmc'].includes(id))) {
       plan.push({ 
         id: 'serotonin',
         time: "Next 24h", 
@@ -67,7 +72,7 @@ export default function RecoveryView() {
         text: "Anti-Oxidative Boost", 
         desc: "1000mg Vitamin C + Alpha-Lipoic Acid to combat neurotoxicity",
         icon: ShieldCheck,
-        color: "text-green-500"
+        color: "text-emerald-500"
       });
     }
 
@@ -82,32 +87,11 @@ export default function RecoveryView() {
       });
     }
 
-    if (activeIds.includes('ketamine')) {
-      plan.push({ 
-        id: 'bladder',
-        time: "Immediate", 
-        text: "Renal Protection", 
-        desc: "Green Tea (EGCG) specifically supports bladder lining after Dissociatives",
-        icon: Droplets,
-        color: "text-green-400"
-      });
-    }
-
-    if (activeIds.includes('speed') || activeIds.includes('cocaine')) {
-      plan.push({ 
-        id: 'sleep',
-        time: "Late Night", 
-        text: "Neuro-Sedation", 
-        desc: "Magnesium Bisglycinate (300mg) to relax muscles and lower heart rate",
-        icon: Moon,
-        color: "text-indigo-400"
-      });
-    }
-
     setDetoxPlan(plan);
   };
 
   const handleFinish = () => {
+    playHeartbeat();
     const profile = JSON.parse(localStorage.getItem('stayonbeat_profile') || '{}');
     const updatedProfile = {
       ...profile,
@@ -115,104 +99,100 @@ export default function RecoveryView() {
     };
     localStorage.setItem('stayonbeat_profile', JSON.stringify(updatedProfile));
     localStorage.removeItem('stayonbeat_logs');
+    localStorage.removeItem('stayonbeat_witness_blocked');
     
-    toast({ 
-      title: "Streak Protected 🔥", 
-      description: `Session closed. Your safety streak is now ${updatedProfile.safetyStreak}` 
-    });
     router.push('/dashboard');
   };
 
   if (!mounted) return null;
 
   return (
-    <main className="main-viewport bg-black text-white font-headline">
-      <div className="bg-black/95 backdrop-blur-xl border-b border-white/5 px-6 py-8 z-50 shrink-0">
+    <main className="min-h-screen bg-black text-white font-headline pb-32">
+      <div className="bg-black/95 backdrop-blur-xl border-b border-white/5 px-6 py-8 sticky top-0 z-50">
         <div className="max-w-xl mx-auto space-y-6">
-          <Link href="/dashboard" className="flex items-center gap-2 text-white/40 uppercase font-black text-[10px] tracking-widest hover:text-[#3EB489]">
-            <ArrowLeft className="w-4 h-4" /> Back to Dashboard
-          </Link>
+          <button onClick={() => router.back()} className="flex items-center gap-2 text-white/40 uppercase font-black text-[10px] tracking-widest hover:text-[#10B981] transition-colors">
+            <ArrowLeft className="w-4 h-4" /> Back to sanctuary
+          </button>
           
           <div className="flex justify-between items-end">
-            <h1 className="text-5xl font-black uppercase tracking-tighter leading-none">
-              Recovery <br/> <span className="text-[#3EB489]">Protocol</span>
-            </h1>
+            <div>
+              <h1 className="text-4xl font-black uppercase tracking-tighter leading-none">Recovery</h1>
+              <p className="text-[#10B981] text-[10px] font-black uppercase tracking-[0.3em] mt-2">Personalized protocol</p>
+            </div>
             <div className="flex flex-col items-end gap-3">
-              <div className="px-3 py-1 bg-pink-500/10 border border-pink-500/30 rounded-full flex items-center gap-2">
-                <Heart className="w-3 h-3 text-pink-500 fill-pink-500 animate-pulse-heart" />
-                <span className="text-[8px] font-black text-pink-500 uppercase tracking-widest">Active Protection</span>
+              <div className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center gap-2">
+                <Heart className="w-3 h-3 text-[#10B981] fill-[#10B981] animate-pulse-heart" />
+                <span className="text-[8px] font-black text-[#10B981] uppercase tracking-widest">Active Protection</span>
               </div>
-              <span className="font-mono text-pink-500 text-xs font-black">{timeLeft}</span>
+              <span className="font-mono text-[#10B981] text-xs font-black">{timeLeft}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="scroll-container px-6 py-10 custom-scrollbar">
-        <div className="max-w-xl mx-auto space-y-12 pb-32">
-          {/* Status Alert */}
-          <div className="bg-blue-500/10 border border-blue-500/30 p-8 rounded-[2rem] flex items-start gap-6">
-            <ShieldCheck className="w-8 h-8 text-blue-500 shrink-0" />
-            <div className="space-y-2">
-              <p className="text-base font-bold text-white/90 leading-tight">
-                Personalized protocol generated based on your session logs
-              </p>
-              <p className="text-[10px] uppercase font-black text-white/40 tracking-widest">
-                Data analyzed: {sessionLogs.length} intake events recorded
-              </p>
-            </div>
-          </div>
-
-          {/* Detox Protocol */}
-          <section className="space-y-6">
-            <div className="flex items-center gap-4 mb-4 px-2">
-               <HeartPulse className="w-6 h-6 text-[#3EB489]" />
-               <h3 className="text-xl font-black uppercase tracking-tight">Your Custom Timeline</h3>
-            </div>
-
-            <div className="space-y-4">
-              {detoxPlan.length > 0 ? (
-                detoxPlan.map((p) => (
-                  <div key={p.id} className="p-8 rounded-[2.5rem] border border-white/10 bg-white/5 flex flex-col gap-4 group hover:border-[#3EB489]/40 transition-all">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className={cn("p-3 rounded-2xl bg-white/5", p.color)}>
-                          <p.icon className="w-6 h-6" />
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">{p.time}</span>
-                          <span className="text-xl font-black uppercase text-white">{p.text}</span>
-                        </div>
-                      </div>
-                      <CheckCircle2 className="w-5 h-5 text-[#3EB489]/20 group-hover:text-[#3EB489] transition-colors" />
-                    </div>
-                    <p className="text-sm font-bold text-white/60 leading-relaxed pl-2 border-l-2 border-white/10">
-                      {p.desc}
-                    </p>
-                  </div>
-                ))
-              ) : (
-                <div className="flex flex-col items-center gap-6 py-16 text-white/10 bg-white/5 rounded-[3rem] border-2 border-dashed border-white/5">
-                  <Timer className="w-12 h-12 opacity-20" />
-                  <p className="text-[10px] font-black uppercase tracking-[0.4em]">No session logs detected</p>
-                </div>
-              )}
-            </div>
-          </section>
-
-          {/* Secure Wipe Warning */}
-          <div className="bg-red-500/5 border border-red-500/10 p-8 rounded-[2.5rem] text-center">
-            <p className="text-[10px] font-black text-red-500/40 uppercase tracking-[0.3em] leading-relaxed">
-              Completing this protocol will permanently wipe all session GPS and substance logs for your privacy
+      <div className="px-6 py-10 max-w-xl mx-auto space-y-12">
+        <div className="bg-blue-500/10 border border-blue-500/20 p-8 rounded-[2.5rem] flex items-start gap-6">
+          <ShieldCheck className="w-8 h-8 text-blue-400 shrink-0" />
+          <div className="space-y-2">
+            <p className="text-base font-bold text-white/90 leading-tight">
+              Personalized protocol generated based on your session logs
+            </p>
+            <p className="text-[10px] uppercase font-black text-white/40 tracking-widest">
+              Data analyzed: {sessionLogs.length} intake events recorded
             </p>
           </div>
         </div>
+
+        <section className="space-y-6">
+          <div className="flex items-center gap-4 mb-4 px-2">
+             <HeartPulse className="w-6 h-6 text-[#10B981]" />
+             <h3 className="text-xl font-black uppercase tracking-tight">Your Integration Timeline</h3>
+          </div>
+
+          <div className="grid gap-4">
+            {detoxPlan.length > 0 ? (
+              detoxPlan.map((p) => (
+                <div key={p.id} className="p-8 rounded-[2.5rem] border border-white/10 bg-white/5 flex flex-col gap-4 group hover:border-[#10B981]/40 transition-all">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className={cn("p-3 rounded-2xl bg-white/5", p.color)}>
+                        <p.icon className="w-6 h-6" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">{p.time}</span>
+                        <span className="text-xl font-black uppercase text-white">{p.text}</span>
+                      </div>
+                    </div>
+                    <CheckCircle2 className="w-5 h-5 text-[#10B981]/20 group-hover:text-[#10B981] transition-colors" />
+                  </div>
+                  <p className="text-sm font-bold text-white/60 leading-relaxed pl-2 border-l-2 border-white/10">
+                    {p.desc}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <div className="flex flex-col items-center gap-6 py-16 text-white/10 bg-white/5 rounded-[3rem] border-2 border-dashed border-white/5">
+                <Timer className="w-12 h-12 opacity-20" />
+                <p className="text-[10px] font-black uppercase tracking-[0.4em]">No session logs detected</p>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <div className="bg-red-600/5 border border-red-600/20 p-8 rounded-[2.5rem] text-center">
+          <div className="flex justify-center mb-4">
+            <Trash2 size={24} className="text-red-500/40" />
+          </div>
+          <p className="text-[10px] font-black text-red-500/40 uppercase tracking-[0.3em] leading-relaxed max-w-[280px] mx-auto">
+            Completing this protocol will permanently wipe session logs and location history for your privacy
+          </p>
+        </div>
       </div>
 
-      <footer className="fixed bottom-0 left-0 right-0 h-[100px] bg-black/90 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-50">
+      <footer className="fixed bottom-0 left-0 right-0 h-[100px] bg-black/90 backdrop-blur-xl border-t border-white/5 flex items-center justify-center px-6 z-50">
         <button 
           onClick={handleFinish} 
-          className="w-full max-w-sm py-6 bg-[#3EB489] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all"
+          className="w-full max-w-sm py-6 bg-[#10B981] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-emerald-500/20"
         >
            Complete Session & Log Streak
         </button>
