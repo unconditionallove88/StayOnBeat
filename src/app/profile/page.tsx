@@ -113,9 +113,6 @@ export default function ProfilePage() {
               <User size={48} className="text-white/20 group-hover:text-[#10B981] transition-colors" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#10B981]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="absolute -bottom-2 -right-2 bg-[#10B981] p-2 rounded-full border-4 border-black shadow-lg">
-              <CircleDot size={16} className="text-black" />
-            </div>
           </div>
           
           <div className="space-y-2">
