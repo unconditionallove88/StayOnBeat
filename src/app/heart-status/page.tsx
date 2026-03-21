@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -17,6 +16,7 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview My Heart Page (Individual Analytics).
  * Visualizes the high-fidelity living pulse and provides entry to Holders and Witnesses.
+ * Punctuation-free affirmations for expansive resonance.
  */
 export default function MyHeartPage() {
   const router = useRouter();

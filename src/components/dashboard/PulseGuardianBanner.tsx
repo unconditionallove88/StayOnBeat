@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -22,6 +21,7 @@ import {
 /**
  * @fileOverview PulseGuardianBanner Component.
  * Footers highlighted in emerald green with emoji removed.
+ * Punctuation-free affirmations for resonance.
  */
 
 interface PulseGuardianBannerProps {
@@ -39,8 +39,8 @@ export default function PulseGuardianBanner({
     <div className="w-full max-w-2xl mx-auto pb-12 font-headline relative">
       <p className="text-white/60 text-sm font-bold leading-relaxed mb-10 uppercase tracking-wide px-2">
         {isEn
-          ? "Pulse Guardian is your sanctuary's central intelligence. I continuously aggregate data from all tools to ensure your journey stays safe and resonant"
-          : "Pulse Guardian ist die zentrale Intelligenz deines Raums. Ich sammle kontinuierlich Daten aus allen Tools, um sicherzustellen, dass deine Reise sicher und resonant bleibt"}
+          ? "Pulse Guardian is your sanctuary's central intelligence I continuously aggregate data from all tools to ensure your journey stays safe and resonant"
+          : "Pulse Guardian ist die zentrale Intelligenz deines Raums Ich sammle kontinuierlich Daten aus allen Tools, um sicherzustellen, dass deine Reise sicher und resonant bleibt"}
       </p>
 
       <div className="space-y-4 px-2">
@@ -78,12 +78,12 @@ export default function PulseGuardianBanner({
                 <GuardianLogo size={24} className="shrink-0" />
                 <div className="flex-1">
                   <p className="text-[#A855F7] text-[10px] font-black uppercase tracking-widest leading-none">Pulse Guardian</p>
-                  <p className="text-white/40 text-[9px] mt-1 font-bold uppercase tracking-widest">{isEn ? "Integrated Safety Engine. Tap to see how I protect you" : "Integrierte Sicherheits-Engine. Tippe um zu sehen, wie ich dich schütze"}</p>
+                  <p className="text-white/40 text-[9px] mt-1 font-bold uppercase tracking-widest">{isEn ? "Integrated Safety Engine Tap to see how I protect you" : "Integrierte Sicherheits-Engine Tippe um zu sehen, wie ich dich schütze"}</p>
                 </div>
                 <span className="text-white/20 text-[10px]">›</span>
               </button>
             ) : (
-              <button type="button" className="p-2 bg-[#A855F7]/10 rounded-full border border-[#A855F7]/30 hover:border-[#A855F7] transition-all active:scale-95 flex items-center justify-center group"><GuardianLogo size={28} className="group-hover:scale-110 transition-transform" /></button>
+              <button type="button" className="p-2 bg-[#A855F7]/10 rounded-full border border-[#A855F7]/30 hover:border-[#A855F7] transition-all active:scale-95 flex items-center justify-center group"><GuardianLogo size={28} /></button>
             )}
           </SheetTrigger>
         </TooltipTrigger>

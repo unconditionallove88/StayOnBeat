@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -12,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 /**
  * @fileOverview The Holders (Those who hold your heart from afar).
  * Framing: I love and respect my trusted ones. Pure connection.
+ * Punctuation-free affirmations for expansive resonance.
  */
 
 export function LoveCircleChat() {

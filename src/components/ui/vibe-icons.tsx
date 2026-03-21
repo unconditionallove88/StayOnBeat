@@ -4,6 +4,7 @@ import React from "react";
  * @fileOverview Resonance Icons Component.
  * Bespoke high-fidelity SVG icons for the sanctuary's Mood Check-in system.
  * Designed to touch consciousness and subconsciousness through light, clarity, and unity.
+ * Colors calibrated for emotional alignment.
  */
 
 interface IconProps {
@@ -12,7 +13,7 @@ interface IconProps {
   color?: string;
 }
 
-export const RadiantIcon = ({ size = 48, className, color = "currentColor" }: IconProps) => (
+export const RadiantIcon = ({ size = 48, className, color = "#A855F7" }: IconProps) => (
   <svg width={size} height={size} viewBox="0 0 120 120" fill="none" className={className}>
     <defs>
       <filter id="radiantGlow" x="-20%" y="-20%" width="140%" height="140%">
@@ -29,7 +30,7 @@ export const RadiantIcon = ({ size = 48, className, color = "currentColor" }: Ic
   </svg>
 );
 
-export const HarmonyIcon = ({ size = 48, className, color = "currentColor" }: IconProps) => (
+export const HarmonyIcon = ({ size = 48, className, color = "#EBFB3B" }: IconProps) => (
   <svg width={size} height={size} viewBox="0 0 120 120" fill="none" className={className}>
     <g stroke={color} strokeWidth="4" strokeLinecap="round">
       <circle cx="50" cy="60" r="25" strokeOpacity="0.3" />
@@ -39,14 +40,14 @@ export const HarmonyIcon = ({ size = 48, className, color = "currentColor" }: Ic
   </svg>
 );
 
-export const CalmIcon = ({ size = 48, className, color = "currentColor" }: IconProps) => (
+export const CalmIcon = ({ size = 48, className, color = "#10B981" }: IconProps) => (
   <svg width={size} height={size} viewBox="0 0 120 120" fill="none" className={className}>
     <path d="M60 90c0-30 25-50 25-50s-25 0-25 30c0-30-25-30-25-30s25 20 25 50z" fill={color} fillOpacity="0.2" stroke={color} strokeWidth="4" strokeLinejoin="round" />
     <line x1="60" y1="90" x2="60" y2="40" stroke={color} strokeWidth="2" strokeDasharray="4 4" />
   </svg>
 );
 
-export const HazyIcon = ({ size = 48, className, color = "currentColor" }: IconProps) => (
+export const HazyIcon = ({ size = 48, className, color = "#94A3B8" }: IconProps) => (
   <svg width={size} height={size} viewBox="0 0 120 120" fill="none" className={className}>
     <circle cx="60" cy="60" r="30" fill={color} fillOpacity="0.1" stroke={color} strokeWidth="2" strokeDasharray="8 4" />
     <circle cx="60" cy="60" r="20" fill={color} fillOpacity="0.15" />
@@ -54,7 +55,7 @@ export const HazyIcon = ({ size = 48, className, color = "currentColor" }: IconP
   </svg>
 );
 
-export const HeldIcon = ({ size = 48, className, color = "currentColor" }: IconProps) => (
+export const HeldIcon = ({ size = 48, className, color = "#3B82F6" }: IconProps) => (
   <svg width={size} height={size} viewBox="0 0 120 120" fill="none" className={className}>
     <path d="M35 75c0 15 15 25 25 25s25-10 25-25" stroke={color} strokeWidth="4" strokeLinecap="round" opacity="0.4" />
     <path d="M60 65c-3-3-8-3-10 0-2 3 0 8 10 12 10-4 12-9 10-12-2-3-7-3-10 0z" fill={color} fillOpacity="0.3" stroke={color} strokeWidth="2" />

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
@@ -14,6 +13,7 @@ import { GuardianLogo } from '@/components/ui/guardian-logo';
 /**
  * @fileOverview The Witnesses (Public & Moderated).
  * Integrated with Pulse Guardian for active text monitoring and slang detection.
+ * Punctuation-free for resonance.
  */
 
 const NATURE_PREFIXES = ['Emerald', 'Golden', 'Mystic', 'Quiet', 'Velvet', 'Silver', 'Primal', 'Crystal'];

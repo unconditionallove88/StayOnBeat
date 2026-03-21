@@ -1,10 +1,9 @@
-
 'use client';
 
 /**
  * @fileOverview Push Notification Service for Daily Vibe Check Reminders.
  * Built on Unconditional Love — every notification is a gentle nudge, never a demand.
- * Updated: Affirmations reflect appreciation for life and inner equality.
+ * Punctuation-free affirmations for expansive resonance.
  */
 
 export const LOVE_REMINDERS = [

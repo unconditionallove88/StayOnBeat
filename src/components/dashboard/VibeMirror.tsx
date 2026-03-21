@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -17,6 +16,7 @@ import {
 /**
  * @fileOverview Vibe Mirror Component.
  * Bespoke high-fidelity Resonance Icons integrated with an organic color palette.
+ * Punctuation-free for resonance.
  */
 
 const VIBES = [
