@@ -60,7 +60,7 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
         { 
           id: 'harmReduction', 
           title: 'Harm reduction', 
-          text: 'StayOnBeat is a harm reduction tool designed to provide information and support It is not intended to encourage illegal activities' 
+          text: 'StayOnBeat is a harm reduction tool designed to provide information and support. It is not intended to encourage illegal activities' 
         },
         { 
           id: 'medicalAdvice', 
@@ -70,7 +70,7 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
         { 
           id: 'privacy', 
           title: 'Freedom & trust (GDPR)', 
-          text: 'We take your privacy seriously Your biometric data is encrypted We honor your data sovereignty and comply with GDPR standards' 
+          text: 'We take your privacy seriously. Your biometric data is encrypted. We honor your data sovereignty and comply with GDPR standards' 
         },
         { 
           id: 'safetyNetwork', 
@@ -80,7 +80,7 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
         { 
           id: 'immediateHelp', 
           title: 'Sanctuary support', 
-          text: 'In need of support, you can notify your Circle or the Sanctuary Holders Alerts are handled with absolute discretion and respect for your journey' 
+          text: 'In need of support, you can notify your Circle or the Sanctuary Holders. Alerts are handled with absolute discretion and respect for your journey' 
         },
       ]
     },
@@ -94,7 +94,7 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
         { 
           id: 'harmReduction', 
           title: 'Schadensminimierung', 
-          text: 'StayOnBeat ist ein Tool zur Schadensminimierung, das Informationen und Unterstützung bietet Es ist nicht dazu gedacht, illegale Aktivitäten zu fördern' 
+          text: 'StayOnBeat ist ein Tool zur Schadensminimierung, das Informationen und Unterstützung bietet. Es ist nicht dazu gedacht, illegale Aktivitäten zu fördern' 
         },
         { 
           id: 'medicalAdvice', 
@@ -104,7 +104,7 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
         { 
           id: 'privacy', 
           title: 'Freiheit & Vertrauen (DSGVO)', 
-          text: 'Wir nehmen deine Privatsphäre ernst Deine biometrischen Daten sind verschlüsselt Wir achten deine Datensouveränität' 
+          text: 'Wir nehmen deine Privatsphäre ernst. Deine biometrischen Daten sind verschlüsselt. Wir achten deine Datensouveränität' 
         },
         { 
           id: 'safetyNetwork', 
@@ -114,7 +114,7 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
         { 
           id: 'immediateHelp', 
           title: 'Sanctuary Unterstützung', 
-          text: 'Wenn du Unterstützung benötigst, kannst du deinen Circle oder die Sanctuary Holders rufen Meldungen werden absolut diskret und mit Respekt behandelt' 
+          text: 'Wenn du Unterstützung benötigst, kannst du deinen Circle oder die Sanctuary Holders rufen. Meldungen werden absolut diskret und mit Respekt behandelt' 
         },
       ]
     }

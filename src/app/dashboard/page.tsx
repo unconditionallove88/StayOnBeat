@@ -235,7 +235,7 @@ function DashboardContent() {
 
           <div className="space-y-8">
             <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 text-center">
-              {lang === 'en' ? 'Sanctuary Tools' : 'Sanctuary Tools'}
+              Sanctuary Tools
             </h2>
             <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto">
               <Link 

@@ -39,16 +39,16 @@ export default function PulseGuardianBanner({
     <div className="w-full max-w-2xl mx-auto pb-12 font-headline relative">
       <p className="text-white/60 text-sm font-bold leading-relaxed mb-10 uppercase tracking-wide px-2">
         {isEn
-          ? "Pulse Guardian is your sanctuary's central intelligence. I continuously aggregate data from all tools to ensure your journey stays safe and resonant."
-          : "Pulse Guardian ist die zentrale Intelligenz deines Raums. Ich sammle kontinuierlich Daten aus allen Tools, um sicherzustellen, dass deine Reise sicher und resonant bleibt."}
+          ? "Pulse Guardian is your sanctuary's central intelligence. I continuously aggregate data from all tools to ensure your journey stays safe and resonant"
+          : "Pulse Guardian ist die zentrale Intelligenz deines Raums. Ich sammle kontinuierlich Daten aus allen Tools, um sicherzustellen, dass deine Reise sicher und resonant bleibt"}
       </p>
 
       <div className="space-y-4 px-2">
         {[
-          { icon: <Bluetooth size={18} />, color: "text-[#EBFB3B]", bg: "bg-[#EBFB3B]/10", title: isEn ? "Pulse Sync Integration" : "Pulse Sync Integration", desc: isEn ? "Reads live vitals from your wearable to monitor physiological stress." : "Liest Live-Vitalwerte von deinem Wearable, um physiologischen Stress zu überwachen." },
-          { icon: <Activity size={18} />, color: "text-[#10B981]", bg: "bg-[#10B981]/10", title: isEn ? "Pulse Lab Awareness" : "Pulse Lab Bewusstsein", desc: isEn ? "Automatically recalibrates safety limits based on your substance intake logs." : "Kalibriert Sicherheitslimits automatisch basierend auf deinen Substanz-Protokollen." },
-          { icon: <Database size={18} />, color: "text-blue-400", bg: "bg-blue-400/10", title: isEn ? "Profile Calibration" : "Profil-Kalibrierung", desc: isEn ? "Adjusts thresholds based on your health conditions and medications." : "Passt Schwellenwerte basierend auf deinen Gesundheitszuständen und Medikamenten an." },
-          { icon: <PhoneCall size={18} />, color: "text-red-500", bg: "bg-red-500/10", title: isEn ? "Immediate Help Connection" : "Sofort-Hilfe Verbindung", desc: isEn ? "Triggers emergency protocols and the Protection Window if thresholds are breached." : "Aktiviert Notfallprotokolle und das Schutzfenster, falls Schwellenwerte überschritten werden." },
+          { icon: <Bluetooth size={18} />, color: "text-[#EBFB3B]", bg: "bg-[#EBFB3B]/10", title: isEn ? "Pulse Sync Integration" : "Pulse Sync Integration", desc: isEn ? "Reads live vitals from your wearable to monitor physiological stress" : "Liest Live-Vitalwerte von deinem Wearable, um physiologischen Stress zu überwachen" },
+          { icon: <Activity size={18} />, color: "text-[#10B981]", bg: "bg-[#10B981]/10", title: isEn ? "Pulse Lab Awareness" : "Pulse Lab Bewusstsein", desc: isEn ? "Automatically recalibrates safety limits based on your substance intake logs" : "Kalibriert Sicherheitslimits automatisch basierend auf deinen Substanz-Protokollen" },
+          { icon: <Database size={18} />, color: "text-blue-400", bg: "bg-blue-400/10", title: isEn ? "Profile Calibration" : "Profil-Kalibrierung", desc: isEn ? "Adjusts thresholds based on your health conditions and medications" : "Passt Schwellenwerte basierend auf deinen Gesundheitszuständen und Medikamenten an" },
+          { icon: <PhoneCall size={18} />, color: "text-red-500", bg: "bg-red-500/10", title: isEn ? "Immediate Help Connection" : "Sofort-Hilfe Verbindung", desc: isEn ? "Triggers emergency protocols and the Protection Window if thresholds are breached" : "Aktiviert Notfallprotokolle und das Schutzfenster, falls Schwellenwerte überschritten werden" },
         ].map((item, i) => (
           <div key={i} className="flex items-start gap-5 p-6 rounded-[2rem] bg-white/5 border border-white/5 transition-all hover:bg-white/10">
             <div className={cn(item.color, "mt-0.5 shrink-0 p-2.5 rounded-xl", item.bg)}>{item.icon}</div>
@@ -78,7 +78,7 @@ export default function PulseGuardianBanner({
                 <GuardianLogo size={24} className="shrink-0" />
                 <div className="flex-1">
                   <p className="text-[#A855F7] text-[10px] font-black uppercase tracking-widest leading-none">Pulse Guardian</p>
-                  <p className="text-white/40 text-[9px] mt-1 font-bold uppercase tracking-widest">{isEn ? "Integrated Safety Engine. Tap to see how I protect you." : "Integrierte Sicherheits-Engine. Tippe um zu sehen, wie ich dich schütze."}</p>
+                  <p className="text-white/40 text-[9px] mt-1 font-bold uppercase tracking-widest">{isEn ? "Integrated Safety Engine. Tap to see how I protect you" : "Integrierte Sicherheits-Engine. Tippe um zu sehen, wie ich dich schütze"}</p>
                 </div>
                 <span className="text-white/20 text-[10px]">›</span>
               </button>

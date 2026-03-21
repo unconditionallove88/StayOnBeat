@@ -29,8 +29,6 @@ const i18n = {
     successTitle: "Heard",
     successMsg: "Your words have been received with love. They will help this space grow",
     shareMore: "Share more 🌱",
-    voiceError: "Voice input interrupted. Please try again",
-    voiceNotSupported: "Your browser does not support voice input",
     receivedWithLove: "Received with Unconditional Love"
   },
   de: {
@@ -48,8 +46,6 @@ const i18n = {
     successTitle: "Gehört",
     successMsg: "Deine Worte wurden mit Liebe empfangen. Sie helfen diesem Raum zu wachsen",
     shareMore: "Mehr teilen 🌱",
-    voiceError: "Spracheingabe unterbrochen. Bitte versuchen Sie es erneut",
-    voiceNotSupported: "Ihr Browser unterstützt keine Spracheingabe",
     receivedWithLove: "Mit bedingungsloser Liebe empfangen"
   },
 };

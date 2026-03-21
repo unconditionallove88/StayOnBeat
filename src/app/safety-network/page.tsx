@@ -142,7 +142,7 @@ export default function SafetyNetworkPage() {
             </div>
             <h2 className="text-3xl font-black uppercase tracking-tighter leading-none mb-4">Who holds you?</h2>
             <p className="text-sm font-bold leading-relaxed opacity-80 max-w-[280px]">
-              Add the people who love you unconditionally If you ever feel unsafe, we will alert them instantly with your heart status 🌿
+              Add the people who love you unconditionally. If you ever feel unsafe, we will alert them instantly with your heart status 🌿
             </p>
           </div>
         </section>
@@ -306,7 +306,7 @@ export default function SafetyNetworkPage() {
 
         {/* Trust Footer */}
         <footer className="text-center space-y-4 pt-10 opacity-30">
-          <Heart size={24} className="mx-auto text-[#3EB489]" />
+          <CircleDot size={24} className="mx-auto text-[#3EB489]" />
           <p className="text-[9px] font-black text-white uppercase tracking-[0.4em] max-w-[200px] mx-auto leading-relaxed">
             Your safety network is protected by end-to-end encryption
           </p>
