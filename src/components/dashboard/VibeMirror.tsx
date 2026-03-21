@@ -20,11 +20,11 @@ import {
  */
 
 const VIBES = [
-  { key: "radiant", emoji: "🌈", label: "Radiant", de: "Strahlend", affirmation: "Your light is shining bright today. 🌈", color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/30" },
-  { key: "harmony", emoji: "☯️", label: "In Harmony", de: "In Harmonie", customIcon: <HarmonyYinYangIcon size={32} className="text-[#EBFB3B]" />, affirmation: "You are aligned with your inner rhythm.", color: "text-[#EBFB3B]", bg: "bg-[#EBFB3B]/10", border: "border-[#EBFB3B]/30" },
-  { key: "calm", emoji: "🍃", label: "Calm", de: "Beruhigt", customIcon: <Leaf size={32} className="text-[#10B981]" />, affirmation: "Everything is exactly as it is supposed to be. 🍃", color: "text-[#10B981]", bg: "bg-[#10B981]/10", border: "border-[#10B981]/30" },
-  { key: "hazy", emoji: "☁️", label: "Hazy", de: "Verschwommen", affirmation: "It is okay to rest and be still. ☁️", color: "text-gray-400", bg: "bg-gray-500/10", border: "border-gray-500/30" },
-  { key: "overwhelmed", emoji: "🌊", label: "Overwhelmed", de: "Überwältigt", affirmation: "You are held. Your circle is here. 🌊", color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/30" },
+  { key: "radiant", emoji: "🌈", label: "Radiant", de: "Strahlend", affirmation: "Your light is shining bright today 🌈", color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/30" },
+  { key: "harmony", emoji: "☯️", label: "In Harmony", de: "In Harmonie", customIcon: <HarmonyYinYangIcon size={32} className="text-[#EBFB3B]" />, affirmation: "You are aligned with your inner rhythm", color: "text-[#EBFB3B]", bg: "bg-[#EBFB3B]/10", border: "border-[#EBFB3B]/30" },
+  { key: "calm", emoji: "🍃", label: "Calm", de: "Beruhigt", customIcon: <Leaf size={32} className="text-[#10B981]" />, affirmation: "Everything is exactly as it is supposed to be 🍃", color: "text-[#10B981]", bg: "bg-[#10B981]/10", border: "border-[#10B981]/30" },
+  { key: "hazy", emoji: "☁️", label: "Hazy", de: "Verschwommen", affirmation: "It is okay to rest and be still ☁️", color: "text-gray-400", bg: "bg-gray-500/10", border: "border-gray-500/30" },
+  { key: "overwhelmed", emoji: "🌊", label: "Overwhelmed", de: "Überwältigt", affirmation: "You are held. Your circle is here 🌊", color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/30" },
 ];
 
 interface VibeMirrorProps {

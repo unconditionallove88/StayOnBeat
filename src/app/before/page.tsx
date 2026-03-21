@@ -17,7 +17,7 @@ const CONTENT = {
     title: "Preparation",
     subtitle: "Calibrate body & mind",
     header: "Ready for the journey?",
-    description: "I love and respect my body enough to prepare it for the experience ahead. 🌿",
+    description: "I love and respect my body enough to prepare it for the experience ahead 🌿",
     sections: [
       {
         title: "Hydration",
@@ -50,7 +50,7 @@ const CONTENT = {
     title: "Vorbereitung",
     subtitle: "Körper & Geist kalibrieren",
     header: "Bereit für die Reise?",
-    description: "Ich liebe und respektiere meinen Körper genug, um ihn auf das bevorstehende Erlebnis vorzubereiten. 🌿",
+    description: "Ich liebe und respektiere meinen Körper genug, um ihn auf das bevorstehende Erlebnis vorzubereiten 🌿",
     sections: [
       {
         title: "Hydrierung",
@@ -156,7 +156,7 @@ export default function BeforePhase() {
             <ShieldCheck className="text-emerald-500" size={24} />
           </div>
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 leading-relaxed">
-            Preparation is the first act of care. Your future self will thank you for the choices you make now. 💚
+            Preparation is the first act of care. Your future self will thank you for the choices you make now 💚
           </p>
         </div>
       </div>

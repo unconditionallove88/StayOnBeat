@@ -1,3 +1,4 @@
+
 'use client';
 
 /**
@@ -6,12 +7,12 @@
  */
 
 export const LOVE_REMINDERS = [
-  "I am loved.",
-  "Joy is now.",
-  "Pure heart now.",
-  "Love is life.",
-  "Unity is joy.",
-  "Truth is peace.",
+  "I am loved",
+  "Joy is now",
+  "Pure heart now",
+  "Love is life",
+  "Unity is joy",
+  "Truth is peace",
 ];
 
 /** Request permission for push notifications */

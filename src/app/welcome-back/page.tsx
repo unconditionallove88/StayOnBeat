@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -26,13 +27,13 @@ export default function WelcomeBack() {
     EN: {
       title: "HEY, NICE TO",
       highlight: "SEE YOU AGAIN!",
-      subtitle: "YOUR SAFETY PROFILE IS READY. LET’S GET YOU PROTECTED.",
+      subtitle: "YOUR SAFETY PROFILE IS READY. LET’S GET YOU PROTECTED",
       button: "ACCESS DASHBOARD"
     },
     DE: {
       title: "HEY, SCHÖN DICH",
       highlight: "WIEDERZUSEHEN!",
-      subtitle: "DEIN SICHERHEITSPROFIL IST BEREIT. SCHÜTZEN WIR DICH.",
+      subtitle: "DEIN SICHERHEITSPROFIL IST BEREIT. SCHÜTZEN WIR DICH",
       button: "ZUM DASHBOARD GEHEN"
     }
   };

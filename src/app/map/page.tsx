@@ -26,7 +26,7 @@ const CONTENT = {
     visible: "Visible",
     private: "Private",
     respect: "I respect my state 🌿",
-    sanctuary: "Privacy is my sanctuary.",
+    sanctuary: "Privacy is my sanctuary",
     distress: (name: string) => `${name} needs care`,
     currentPulse: (status: string) => `Current Pulse: ${status}`,
     notify: "Notify Awareness"
@@ -37,7 +37,7 @@ const CONTENT = {
     visible: "Sichtbar",
     private: "Privat",
     respect: "Ich achte auf mich 🌿",
-    sanctuary: "Privatsphäre ist mein Raum.",
+    sanctuary: "Privatsphäre ist mein Raum",
     distress: (name: string) => `${name} braucht Begleitung`,
     currentPulse: (status: string) => `Aktueller Status: ${status}`,
     notify: "Awareness rufen"

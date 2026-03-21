@@ -20,7 +20,7 @@ const VIBE_OPTIONS = [
   { id: 'harmony', emoji: '☯️', label: 'In Harmony', de: 'In Harmonie', customIcon: <HarmonyYinYangIcon size={48} className="text-[#EBFB3B]" />, description: 'You are aligned with your rhythm', deDescription: 'Du bist im Einklang mit deinem Rhythmus', color: 'border-[#EBFB3B]/20 text-[#EBFB3B]', activeColor: 'bg-[#EBFB3B]/10 border-[#EBFB3B] shadow-[0_0_20px_rgba(235,251,59,0.3)]' },
   { id: 'calm', emoji: '🍃', label: 'Calm', de: 'Beruhigt', customIcon: <Leaf size={48} className="text-[#10B981]" />, description: 'Everything is exactly as it is supposed to be', deDescription: 'Alles ist im Gleichgewicht und klar', color: 'border-[#10B981]/20 text-[#10B981]', activeColor: 'bg-[#10B981]/10 border-[#10B981] shadow-[0_0_20px_rgba(16,185,129,0.3)]' },
   { id: 'hazy', emoji: '☁️', label: 'Hazy', de: 'Verschwommen', description: 'It is okay to rest and be still', deDescription: 'Es ist okay, sich auszuruhen', color: 'border-gray-500/20 text-gray-400', activeColor: 'bg-gray-500/10 border-gray-500 shadow-[0_0_20px_rgba(107,114,128,0.3)]' },
-  { id: 'overwhelmed', emoji: '🌊', label: 'Overwhelmed', de: 'Überwältigt', description: 'You are held. Your circle is here.', deDescription: 'Du wirst gehalten. Dein Kreis ist hier.', color: 'border-blue-500/20 text-blue-400', activeColor: 'bg-blue-500/10 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)]' },
+  { id: 'overwhelmed', emoji: '🌊', label: 'Overwhelmed', de: 'Überwältigt', description: 'You are held. Your circle is here', deDescription: 'Du wirst gehalten. Dein Kreis ist hier', color: 'border-blue-500/20 text-blue-400', activeColor: 'bg-blue-500/10 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)]' },
 ];
 
 interface Step7VibeCheckProps {
@@ -72,7 +72,7 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
     return (
       <div className="w-full min-h-[80vh] flex flex-col items-center justify-center text-center px-6 font-headline animate-in fade-in zoom-in-95 duration-1000">
         <h2 className="text-4xl font-black uppercase tracking-tighter text-[#10B981] mb-4">{lang === 'EN' ? 'Mood calibrated' : 'Stimmung kalibriert'}</h2>
-        <p className="text-white/60 text-lg font-bold max-sm leading-tight">{lang === 'EN' ? 'StayOnBeat sees you. I am loved.' : 'StayOnBeat sieht dich. Ich werde geliebt.'}</p>
+        <p className="text-white/60 text-lg font-bold max-sm leading-tight">{lang === 'EN' ? 'StayOnBeat sees you. I am loved' : 'StayOnBeat sieht dich. Ich werde geliebt'}</p>
       </div>
     );
   }

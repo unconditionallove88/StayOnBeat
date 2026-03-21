@@ -89,7 +89,7 @@ export default function SelfCare() {
         <div className="space-y-6 w-full text-center">
           <div className="space-y-2">
             <h1 className="text-2xl font-black uppercase tracking-tighter leading-none">
-              I love and respect <br/> <span className="text-[#3EB489]">my need for stillness.</span>
+              I love and respect <br/> <span className="text-[#3EB489]">my need for stillness</span>
             </h1>
             <p className="text-xs font-bold text-white/40 leading-tight max-w-[280px] mx-auto uppercase tracking-widest">
               Gently anchor yourself to the present moment. Your presence is your strength.

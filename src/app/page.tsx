@@ -28,8 +28,8 @@ export default function Home() {
   };
 
   const content = {
-    EN: { slogan: "Unconditional love for your journey. 🌿", valueProp: "A safe sanctuary for harm reduction, health monitoring, and your circle of love.", getStarted: "Join the Circle", signIn: "Welcome Home (Sign In)", footer: "Protected by GDPR • Encrypted with Love" },
-    DE: { slogan: "Bedingungslose Liebe für deine Reise. 🌿", valueProp: "Ein sicheres Sanctuary für Schadensminimierung, Gesundheitsmonitoring und deinen Circle of Love.", getStarted: "Werde Teil des Kreises", signIn: "Willkommen Zuhause (Anmelden)", footer: "DSGVO-geschützt • Mit Liebe verschlüsselt" }
+    EN: { slogan: "Unconditional love for your journey 🌿", valueProp: "A safe sanctuary for harm reduction, health monitoring, and your circle of love.", getStarted: "Join the Circle", signIn: "Welcome Home (Sign In)", footer: "Protected by GDPR • Encrypted with Love" },
+    DE: { slogan: "Bedingungslose Liebe für deine Reise 🌿", valueProp: "Ein sicheres Sanctuary für Schadensminimierung, Gesundheitsmonitoring und deinen Circle of Love.", getStarted: "Werde Teil des Kreises", signIn: "Willkommen Zuhause (Anmelden)", footer: "DSGVO-geschützt • Mit Liebe verschlüsselt" }
   };
 
   if (!mounted) return null;
@@ -54,7 +54,7 @@ export default function Home() {
           <p className="text-primary font-bold mt-3 tracking-[0.2em] uppercase text-xs italic">{content[lang].slogan}</p>
         </div>
         
-        <div className="w-full max-w-sm space-y-4 mb-12">
+        <div className="w-full max-sm space-y-4 mb-12">
           <div className="flex items-start gap-4 p-6 bg-white/5 rounded-[2rem] border border-white/10 text-left group hover:border-primary/30 transition-all shadow-2xl">
             <ShieldCheck className="text-primary mt-1 flex-shrink-0" size={24} />
             <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest leading-tight">{content[lang].valueProp}</p>

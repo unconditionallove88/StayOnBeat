@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -21,14 +22,14 @@ export default function CareShield({ reason, unlockAt, lang, onNeedSupport }: Ca
   
   const messages = {
     vitals_high: isEn 
-      ? "Your heart is dancing a bit too fast. Let's find a slower rhythm together."
-      : "Dein Herz tanzt ein bisschen zu schnell. Lass uns gemeinsam einen ruhigeren Rhythmus finden.",
+      ? "Your heart is dancing a bit too fast. Let's find a slower rhythm together"
+      : "Dein Herz tanzt ein bisschen zu schnell. Lass uns gemeinsam einen ruhigeren Rhythmus finden",
     limit_reached: isEn
-      ? "You've reached your safety limit for this session. Your body needs time to integrate."
-      : "Du hast dein Sicherheitslimit für diese Sitzung erreicht. Dein Körper braucht Zeit zur Integration.",
+      ? "You've reached your safety limit for this session. Your body needs time to integrate"
+      : "Du hast dein Sicherheitslimit für diese Sitzung erreicht. Dein Körper braucht Zeit zur Integration",
     manual: isEn
-      ? "Safety lock active. Take this time to rest and reconnect with your circle."
-      : "Sicherheitssperre aktiv. Nutze diese Zeit, um dich auszuruhen und dich mit deinem Kreis zu verbinden.",
+      ? "Safety lock active. Take this time to rest and reconnect with your circle"
+      : "Sicherheitssperre aktiv. Nutze diese Zeit, um dich auszuruhen und dich mit deinem Kreis zu verbinden",
   };
 
   const unlockTime = typeof unlockAt === 'string' ? new Date(unlockAt).getTime() : unlockAt;
