@@ -2,17 +2,18 @@
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { Send, Heart, Loader2, Sparkles, ShieldAlert, CheckCircle2, Flag, Users2 } from 'lucide-react';
+import { Send, Heart, Loader2, Sparkles, ShieldAlert, CheckCircle2, Flag, Users2, Shield, Lock, Wind } from 'lucide-react';
 import { useFirestore, useUser, useCollection, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection, query, orderBy, limit, serverTimestamp } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { moderateMessage } from '@/ai/flows/moderate-message';
+import { GuardianLogo } from '@/components/ui/guardian-logo';
 
 /**
  * @fileOverview The Witnesses (Public & Moderated).
- * Features: Rules disclaimer, AI moderation, and Nature Names.
+ * Integrated with Pulse Guardian for active text monitoring and slang detection.
  */
 
 const NATURE_PREFIXES = ['Emerald', 'Golden', 'Mystic', 'Quiet', 'Velvet', 'Silver', 'Primal', 'Crystal'];
@@ -26,6 +27,7 @@ export function PartyCircleChat() {
   const [hasAgreedToRules, setHasAgreedToRules] = useState(false);
   const [isEntering, setIsEntering] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [isBlocked, setIsBlocked] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const natureName = useMemo(() => {
@@ -36,9 +38,9 @@ export function PartyCircleChat() {
 
   useEffect(() => {
     const agreed = localStorage.getItem('stayonbeat_witness_agreed');
-    if (agreed === 'true') {
-      setHasAgreedToRules(true);
-    }
+    const blocked = localStorage.getItem('stayonbeat_witness_blocked');
+    if (agreed === 'true') setHasAgreedToRules(true);
+    if (blocked === 'true') setIsBlocked(true);
   }, []);
 
   const chatQuery = useMemoFirebase(() => {
@@ -72,7 +74,7 @@ export function PartyCircleChat() {
   };
 
   const handleSend = async () => {
-    if (!input.trim() || !user || !firestore || isSending) return;
+    if (!input.trim() || !user || !firestore || isSending || isBlocked) return;
     
     const text = input.trim();
     setInput('');
@@ -82,12 +84,14 @@ export function PartyCircleChat() {
       const moderation = await moderateMessage({ text });
       
       if (!moderation.isSafe) {
+        setIsBlocked(true);
+        localStorage.setItem('stayonbeat_witness_blocked', 'true');
+        await logViolation(text, moderation.reason || "Illegal activity or slang detected", 'AI_FLAGGED');
         toast({
           variant: "destructive",
-          title: "Message Blocked",
-          description: moderation.reason || "Your message violates our community guidelines.",
+          title: "Pulse Guardian: Protocol Violation",
+          description: "Your session in this chat has been paused for community safety.",
         });
-        await logViolation(text, moderation.reason || "AI Filter", 'AI_FLAGGED');
         setIsSending(false);
         return;
       }
@@ -102,8 +106,8 @@ export function PartyCircleChat() {
       console.error("Moderation error:", error);
       toast({
         variant: "destructive",
-        title: "Error",
-        description: "Could not send message. Please try again.",
+        title: "Connection Error",
+        description: "Could not send message to the sanctuary.",
       });
     } finally {
       setIsSending(false);
@@ -117,46 +121,54 @@ export function PartyCircleChat() {
     setTimeout(() => {
       setHasAgreedToRules(true);
       setIsEntering(false);
-      toast({
-        title: "Joined the Witnesses 👁️",
-        description: `You are now known as ${natureName} in this space.`,
-      });
     }, 800);
   };
 
-  const handleReport = (msg: any) => {
-    logViolation(msg.text, `Reported by user from ${msg.senderAlias}`, 'USER_REPORT');
-    toast({
-      title: "Report Received",
-      description: `Thank you for looking out for the community. We will review the activity.`,
-    });
-  };
+  if (isBlocked) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full p-10 text-center space-y-8 bg-black font-headline">
+        <div className="w-24 h-24 bg-[#A855F7]/10 rounded-full flex items-center justify-center border-2 border-[#A855F7]/30 shadow-[0_0_40px_rgba(168,85,247,0.2)]">
+          <GuardianLogo size={48} />
+        </div>
+        <div className="space-y-4">
+          <h2 className="text-3xl font-black uppercase tracking-tighter text-white">Sanctuary Rest</h2>
+          <p className="text-white/60 text-sm font-bold leading-relaxed uppercase tracking-widest">
+            Pulse Guardian has paused your communication. To ensure the safety of this circle, illegal activities and divisive language are not permitted. 🌿
+          </p>
+        </div>
+        <div className="bg-white/5 border border-white/10 rounded-3xl p-6 w-full flex items-center gap-4">
+          <Wind className="text-[#A855F7]" size={24} />
+          <p className="text-[10px] font-black text-white/40 uppercase tracking-widest text-left">
+            I love and respect my need for stillness. Use this time to ground yourself.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (!hasAgreedToRules) {
     return (
       <div className="flex flex-col h-full bg-black font-headline">
         <ScrollArea className="flex-1">
           <div className="p-8 flex flex-col items-center justify-center text-center space-y-8">
-            <div className="w-24 h-24 bg-amber-500/10 rounded-full flex items-center justify-center border-2 border-amber-500/30 overflow-hidden">
-              <Users2 size={48} className="text-amber-500" />
+            <div className="w-20 h-20 bg-amber-500/10 rounded-full flex items-center justify-center border-2 border-amber-500/30">
+              <Users2 size={40} className="text-amber-500" />
             </div>
 
             <div className="space-y-3">
               <h2 className="text-3xl font-black uppercase tracking-tighter text-white">The Witnesses</h2>
               <p className="text-sm font-bold text-white/60 uppercase tracking-widest leading-relaxed">
-                You are entering a space of collective care. We breathe together, we look out for each other.
+                A space of collective care. Guarded by Pulse Guardian.
               </p>
             </div>
 
             <div className="w-full space-y-3 text-left">
               {[
-                "Respect & Kindness for all",
-                "No homophobia, racism, or hate speech",
-                "No discussion or sale of illegal substances",
-                "No solicitation or commercial activity",
-                "No political debates or divisive rhetoric",
-                "Zero tolerance for aggression or anger",
-                "Protect your and others' anonymity"
+                "Unconditional Kindness for all",
+                "Zero tolerance for illegal drug activity",
+                "No slang for prohibited substances",
+                "Protect your and others' anonymity",
+                "Political divisive rhetoric is not permitted"
               ].map((rule, idx) => (
                 <div key={idx} className="p-4 bg-white/5 rounded-2xl border border-white/10 flex items-center gap-4">
                   <div className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
@@ -174,7 +186,7 @@ export function PartyCircleChat() {
                 {isEntering ? (
                   <Loader2 className="animate-spin w-6 h-6" />
                 ) : (
-                  <span className="text-xs leading-tight">I take full responsibility and agree to above listed rules / enter</span>
+                  <span className="text-xs leading-tight">Enter guarded sanctuary</span>
                 )}
               </button>
             </div>
@@ -186,14 +198,25 @@ export function PartyCircleChat() {
 
   return (
     <div className="flex flex-col h-full bg-black font-body">
+      {/* Pulse Guardian Banner */}
+      <div className="bg-[#A855F7]/10 border-b border-[#A855F7]/30 px-8 py-3 flex items-center justify-between shrink-0">
+        <div className="flex items-center gap-3">
+          <GuardianLogo size={18} />
+          <span className="text-[9px] font-black uppercase tracking-widest text-[#A855F7]">
+            Pulse Guardian: Active Monitoring & Slang Guard
+          </span>
+        </div>
+        <Sparkles size={14} className="text-[#A855F7] animate-pulse" />
+      </div>
+
       <div className="px-8 py-6 border-b border-white/5 bg-black/80 backdrop-blur-xl flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 bg-amber-500/20 rounded-full flex items-center justify-center border border-amber-500/30 overflow-hidden">
+          <div className="w-10 h-10 bg-amber-500/20 rounded-full flex items-center justify-center border border-amber-500/30">
             <Users2 size={24} className="text-amber-500" />
           </div>
           <div>
             <h2 className="text-lg font-black uppercase tracking-tight">The Witnesses</h2>
-            <p className="text-[9px] text-amber-500 font-bold uppercase tracking-widest">Observing with Care</p>
+            <p className="text-[9px] text-amber-500 font-bold uppercase tracking-widest">Connected with Care</p>
           </div>
         </div>
         <div className="px-3 py-1 bg-white/5 rounded-full border border-white/10">
@@ -227,7 +250,7 @@ export function PartyCircleChat() {
                   </span>
                   {!isMe && (
                     <button 
-                      onClick={() => handleReport(msg)}
+                      onClick={() => logViolation(msg.text, `Reported by user from ${msg.senderAlias}`, 'USER_REPORT')}
                       className="text-white/20 hover:text-red-500 transition-colors"
                     >
                       <Flag size={12} />
@@ -256,7 +279,7 @@ export function PartyCircleChat() {
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
             placeholder="Share your witness..."
             disabled={isSending}
-            className="flex-1 bg-white/5 border border-white/10 rounded-full py-5 px-8 text-base focus:border-amber-500 transition-all outline-none disabled:opacity-50"
+            className="flex-1 bg-white/5 border border-white/10 rounded-full py-5 px-8 text-base focus:border-[#A855F7] transition-all outline-none disabled:opacity-50"
           />
           <button
             onClick={handleSend}
@@ -267,7 +290,7 @@ export function PartyCircleChat() {
           </button>
         </div>
         <p className="text-center text-[8px] text-white/20 uppercase tracking-[0.5em] mt-4 font-black">
-          AI-GUARDED & PROTECTED
+          Grounded in Unconditional Love 🌿
         </p>
       </div>
     </div>

@@ -1,9 +1,11 @@
+
 'use server';
 
 /**
  * @fileOverview A Genkit flow for moderating chat messages in "The Witnesses" space.
+ * Features: Slang detection for substances, illegal activity monitoring, and collective care enforcement.
  * 
- * - moderateMessage - Checks if a message violates community guidelines.
+ * - moderateMessage - Checks if a message violates community guidelines or safety protocols.
  * - ModerationInput - The input type (text).
  * - ModerationOutput - The result (isSafe, reason).
  */
@@ -32,22 +34,25 @@ const prompt = ai.definePrompt({
   name: 'moderateMessagePrompt',
   input: { schema: ModerationInputSchema },
   output: { schema: ModerationOutputSchema },
-  prompt: `You are an AI moderator for a community chat called "The Witnesses." 
+  prompt: `You are the Pulse Guardian AI Moderator for "The Witnesses" community chat.
 The community is based on "Unconditional Love" and "Collective Care."
 
-Strictly prohibit and flag:
-- Hate speech (homophobia, racism, sexism, etc.)
-- Promoting or selling illegal drugs
-- Solicitation of prostitution
-- Political discussions or divisive political rhetoric
-- Unkindness, bullying, or harassment
-- Aggressiveness, anger, or hostility
-- Intolerance toward others
+Your primary objective is to maintain a safe sanctuary. You must scan for and immediately flag:
+1. ILLEGAL ACTIVITIES: Selling, buying, or promoting substances.
+2. MASKED DRUG NAMES (SLANG):
+   - 2-MMC / 3-MMC / 4-MMC: "meow meow", "meuw meuw", "m-cat", "drone", "bubbles", "mephy".
+   - GHB / GBL: "G", "Gina", "Liquid X".
+   - MDMA / Ecstasy: "Molly", "M", "Mandy", "E".
+   - Cocaine: "C", "Coke", "Snow", "White".
+   - Ketamine: "K", "Special K", "Kitty".
+3. HATE SPEECH: Any homophobia, racism, sexism, or discrimination.
+4. AGGRESSION: Bullying, unkindness, or divisive political rhetoric.
 
 Message to evaluate: "{{{text}}}"
 
-If the message is unsafe or violates these guidelines, set isSafe to false and provide a kind but firm reason. 
-If it's safe but contains mild profanity, you may sanitize it.`,
+If the message is unsafe, set isSafe to false and provide a reason grounded in care.
+If it is safe, set isSafe to true.
+Use standard Sentence case for the reason.`,
 });
 
 const moderateMessageFlow = ai.defineFlow(
