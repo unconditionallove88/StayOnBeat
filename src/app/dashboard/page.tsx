@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -164,8 +165,11 @@ function DashboardContent() {
 
   if (!mounted || isUserLoading || isProfileLoading) {
     return (
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-4">
-        <Heart size={48} fill="#10B981" stroke="#10B981" className="animate-pulse-heart glow-green" />
+      <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
+        <div className="relative flex items-center justify-center">
+          <div className="absolute inset-0 w-32 h-32 bg-white/10 blur-[60px] rounded-full" />
+          <Heart size={64} fill="#10B981" stroke="#10B981" className="relative z-10 animate-pulse-heart" />
+        </div>
         <Loader2 className="animate-spin text-[#10B981]/20" />
       </div>
     );
@@ -404,10 +408,15 @@ function DashboardContent() {
 
 export default function Dashboard() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-black flex flex-col items-center justify-center gap-4">
-      <Heart size={48} fill="#10B981" stroke="#10B981" className="animate-pulse-heart glow-green" />
-      <Loader2 className="animate-spin text-[#10B981]/20" />
-    </div>}>
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
+        <div className="relative flex items-center justify-center">
+          <div className="absolute inset-0 w-32 h-32 bg-white/10 blur-[60px] rounded-full" />
+          <Heart size={64} fill="#10B981" stroke="#10B981" className="relative z-10 animate-pulse-heart" />
+        </div>
+        <Loader2 className="animate-spin text-[#10B981]/20" />
+      </div>
+    }>
       <DashboardContent />
     </Suspense>
   );

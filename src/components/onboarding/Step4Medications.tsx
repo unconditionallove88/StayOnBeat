@@ -3,24 +3,24 @@
 
 import { useState, useEffect } from 'react';
 import { Switch } from '@/components/ui/switch';
-import { ArrowLeft } from 'lucide-react';
+import { Pill, FlaskConical, Brain, Moon, Dna, ShieldAlert, ArrowLeft } from 'lucide-react';
 
 const MEDS = {
   EN: [
-    { id: 'ssri', emoji: '💊', label: 'SSRIs', desc: 'e.g. Sertraline, Fluoxetine, Escitalopram' },
-    { id: 'snri', emoji: '🧪', label: 'SNRIs', desc: 'e.g. Venlafaxine, Duloxetine' },
-    { id: 'adhd', emoji: '🧠', label: 'ADHD meds', desc: 'e.g. Ritalin, Vyvanse, Concerta' },
-    { id: 'benzo', emoji: '💤', label: 'Benzos', desc: 'e.g. Xanax, Valium, Diazepam' },
-    { id: 'antipsychotic', emoji: '🧬', label: 'Antipsychotics', desc: 'e.g. Quetiapine, Olanzapine' },
-    { id: 'maoi', emoji: '⚠️', label: 'MAOIs', desc: 'e.g. Rare/older antidepressants' },
+    { id: 'ssri', icon: Pill, label: 'SSRIs', desc: 'e.g. Sertraline, Fluoxetine, Escitalopram' },
+    { id: 'snri', icon: FlaskConical, label: 'SNRIs', desc: 'e.g. Venlafaxine, Duloxetine' },
+    { id: 'adhd', icon: Brain, label: 'ADHD meds', desc: 'e.g. Ritalin, Vyvanse, Concerta' },
+    { id: 'benzo', icon: Moon, label: 'Benzos', desc: 'e.g. Xanax, Valium, Diazepam' },
+    { id: 'antipsychotic', icon: Dna, label: 'Antipsychotics', desc: 'e.g. Quetiapine, Olanzapine' },
+    { id: 'maoi', icon: ShieldAlert, label: 'MAOIs', desc: 'e.g. Rare/older antidepressants' },
   ],
   DE: [
-    { id: 'ssri', emoji: '💊', label: 'SSRIs', desc: 'z.B. Sertralin, Fluoxetin, Escitalopram' },
-    { id: 'snri', emoji: '🧪', label: 'SNRIs', desc: 'z.B. Venlafaxin, Duloxetin' },
-    { id: 'adhd', emoji: '🧠', label: 'ADHS Meds', desc: 'z.B. Ritalin, Vyvanse, Concerta' },
-    { id: 'benzo', emoji: '💤', label: 'Benzos', desc: 'z.B. Xanax, Valium, Diazepam' },
-    { id: 'antipsychotic', emoji: '🧬', label: 'Antipsychotika', desc: 'z.B. Quetiapin, Olanzapin' },
-    { id: 'maoi', emoji: '⚠️', label: 'MAO-Hemmer', desc: 'Seltene/ältere Antidepressiva' },
+    { id: 'ssri', icon: Pill, label: 'SSRIs', desc: 'z.B. Sertralin, Fluoxetin, Escitalopram' },
+    { id: 'snri', icon: FlaskConical, label: 'SNRIs', desc: 'z.B. Venlafaxine, Duloxetin' },
+    { id: 'adhd', icon: Brain, label: 'ADHS Meds', desc: 'z.B. Ritalin, Vyvanse, Concerta' },
+    { id: 'benzo', icon: Moon, label: 'Benzos', desc: 'z.B. Xanax, Valium, Diazepam' },
+    { id: 'antipsychotic', icon: Dna, label: 'Antipsychotika', desc: 'z.B. Quetiapin, Olanzapin' },
+    { id: 'maoi', icon: ShieldAlert, label: 'MAO-Hemmer', desc: 'Seltene/ältere Antidepressiva' },
   ]
 };
 
@@ -97,6 +97,7 @@ export function Step4Medications({
 
       <div className="flex-1 w-full overflow-y-auto max-h-[50vh] custom-scrollbar pr-2 mb-8 space-y-3">
         {MEDS[lang].map((med) => {
+          const Icon = med.icon;
           const isActive = current.includes(med.id);
           return (
             <div
@@ -109,7 +110,9 @@ export function Step4Medications({
               }`}
             >
               <div className="flex items-center gap-4 text-left">
-                <span className="text-xl">{med.emoji}</span>
+                <div className={isActive ? 'text-[#3EB489]' : 'text-white/40'}>
+                  <Icon size={24} />
+                </div>
                 <div>
                   <div className={`font-black text-xs uppercase tracking-tight ${isActive ? 'text-[#3EB489]' : 'text-white/70'}`}>
                     {med.label}

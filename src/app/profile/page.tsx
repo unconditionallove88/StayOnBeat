@@ -78,12 +78,12 @@ export default function ProfilePage() {
   if (!mounted || isUserLoading || isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-black">
-        <div className="text-center space-y-6">
-          <div className="relative">
-            <Heart size={64} fill="#10B981" stroke="#10B981" className="mx-auto animate-pulse-heart drop-shadow-[0_0_20px_rgba(16,185,129,0.5)]" />
-            <Loader2 className="absolute inset-0 w-full h-full animate-spin text-[#10B981]/20" />
+        <div className="text-center space-y-8">
+          <div className="relative flex items-center justify-center">
+            <div className="absolute inset-0 w-32 h-32 bg-white/10 blur-[60px] rounded-full" />
+            <Heart size={64} fill="#10B981" stroke="#10B981" className="relative z-10 animate-pulse-heart" />
           </div>
-          <p className="text-[#10B981] font-black uppercase tracking-[0.4em] text-xs">Entering sanctuary...</p>
+          <p className="text-[#10B981] font-black uppercase tracking-[0.4em] text-xs">Entering sanctuary</p>
         </div>
       </div>
     );
@@ -240,7 +240,7 @@ export default function ProfilePage() {
       </div>
 
       <Dialog open={privacyOpen} onOpenChange={setPrivacyOpen}>
-        <DialogContent className="bg-[#050505] border-white/10 max-w-lg p-0 rounded-[3rem] overflow-hidden flex flex-col font-headline h-[90vh] max-h-[90vh]">
+        <DialogContent className="bg-[#050505] border-white/10 max-lg p-0 rounded-[3rem] overflow-hidden flex flex-col font-headline h-[90vh] max-h-[90vh]">
           <div className="p-8 pb-4 shrink-0">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20">

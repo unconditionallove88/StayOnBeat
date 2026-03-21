@@ -1,40 +1,58 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
 import { Switch } from '@/components/ui/switch';
-import { ArrowLeft } from 'lucide-react';
+import { 
+  Brain, 
+  Wind, 
+  Zap, 
+  Sun, 
+  Cloud, 
+  Shield, 
+  Orbit, 
+  CircleDashed, 
+  HeartPulse, 
+  Droplets, 
+  Lungs, 
+  RefreshCcw, 
+  FlaskConical, 
+  LifeBuoy, 
+  Activity,
+  ArrowLeft 
+} from 'lucide-react';
 
 const SECTIONS = {
   EN: [
     {
       title: 'General health',
       items: [
-        { id: 'epilepsy', emoji: '🧠', label: 'Epilepsy' },
-        { id: 'asthma', emoji: '🫁', label: 'Asthma' },
-        { id: 'migraines', emoji: '🤕', label: 'Migraines' },
+        { id: 'epilepsy', icon: Brain, label: 'Epilepsy' },
+        { id: 'asthma', icon: Wind, label: 'Asthma' },
+        { id: 'migraines', icon: Zap, label: 'Migraines' },
       ],
     },
     {
       title: 'Mental health',
       items: [
-        { id: 'adhd', emoji: '🧠', label: 'ADHD' },
-        { id: 'anxiety', emoji: '😟', label: 'Angststörung' },
-        { id: 'depression', emoji: '😔', label: 'Depression' },
-        { id: 'ptsd', emoji: '😰', label: 'PTBS' },
-        { id: 'bipolar', emoji: '🎭', label: 'Bipolare Störung' },
-        { id: 'schizophrenia', emoji: '👥', label: 'Schizophrenie' },
+        { id: 'adhd', icon: Brain, label: 'ADHD' },
+        { id: 'anxiety', icon: Wind, label: 'Anxiety' },
+        { id: 'depression', icon: Cloud, label: 'Depression' },
+        { id: 'ptsd', icon: Shield, label: 'PTSD' },
+        { id: 'bipolar', icon: Orbit, label: 'Bipolar disorder' },
+        { id: 'schizophrenia', icon: CircleDashed, label: 'Schizophrenia' },
       ],
     },
     {
       title: 'Chronic & organs',
       items: [
-        { id: 'circulatory', emoji: '🫀', label: 'Circulatory system', desc: 'Heart, Blood vessels' },
-        { id: 'urinary', emoji: '💧', label: 'Urinary system', desc: 'Kidneys, Bladder' },
-        { id: 'respiratory', emoji: '🫁', label: 'Respiratory system', desc: 'Lungs' },
-        { id: 'gi-tract', emoji: '🥣', label: 'Gastrointestinal tract', desc: 'Stomach, Intestines' },
-        { id: 'biliary', emoji: '🧪', label: 'Biliary system', desc: 'Liver, Gallbladder' },
-        { id: 'integumentary', emoji: '🩹', label: 'Integumentary system', desc: 'Skin' },
-        { id: 'chronic-pain', emoji: '⚡', label: 'Chronic pain', desc: 'Persistent discomfort' },
+        { id: 'circulatory', icon: HeartPulse, label: 'Circulatory system', desc: 'Heart, Blood vessels' },
+        { id: 'urinary', icon: Droplets, label: 'Urinary system', desc: 'Kidneys, Bladder' },
+        { id: 'respiratory', icon: Lungs, label: 'Respiratory system', desc: 'Lungs' },
+        { id: 'gi-tract', icon: RefreshCcw, label: 'Gastrointestinal tract', desc: 'Stomach, Intestines' },
+        { id: 'biliary', icon: FlaskConical, label: 'Biliary system', desc: 'Liver, Gallbladder' },
+        { id: 'integumentary', icon: Sun, label: 'Integumentary system', desc: 'Skin' },
+        { id: 'chronic-pain', icon: Activity, label: 'Chronic pain', desc: 'Persistent discomfort' },
       ],
     },
   ],
@@ -42,32 +60,32 @@ const SECTIONS = {
     {
       title: 'Allgemeine Gesundheit',
       items: [
-        { id: 'epilepsy', emoji: '🧠', label: 'Epilepsie' },
-        { id: 'asthma', emoji: '🫁', label: 'Asthma' },
-        { id: 'migraines', emoji: '🤕', label: 'Migräne' },
+        { id: 'epilepsy', icon: Brain, label: 'Epilepsie' },
+        { id: 'asthma', icon: Wind, label: 'Asthma' },
+        { id: 'migraines', icon: Zap, label: 'Migräne' },
       ],
     },
     {
       title: 'Psychische Gesundheit',
       items: [
-        { id: 'adhd', emoji: '🧠', label: 'ADHS' },
-        { id: 'anxiety', emoji: '😟', label: 'Angststörung' },
-        { id: 'depression', emoji: '😔', label: 'Depression' },
-        { id: 'ptsd', emoji: '😰', label: 'PTBS' },
-        { id: 'bipolar', emoji: '🎭', label: 'Bipolare Störung' },
-        { id: 'schizophrenia', emoji: '👥', label: 'Schizophrenie' },
+        { id: 'adhd', icon: Brain, label: 'ADHS' },
+        { id: 'anxiety', icon: Wind, label: 'Angststörung' },
+        { id: 'depression', icon: Cloud, label: 'Depression' },
+        { id: 'ptsd', icon: Shield, label: 'PTBS' },
+        { id: 'bipolar', icon: Orbit, label: 'Bipolare Störung' },
+        { id: 'schizophrenia', icon: CircleDashed, label: 'Schizophrenie' },
       ],
     },
     {
       title: 'Chronic & Organe',
       items: [
-        { id: 'circulatory', emoji: '🫀', label: 'Herz-Kreislauf-System', desc: 'Herz, Blutgefäße' },
-        { id: 'urinary', emoji: '💧', label: 'Harnsystem', desc: 'Nieren, Blase' },
-        { id: 'respiratory', emoji: '🫁', label: 'Atmungssystem', desc: 'Lunge' },
-        { id: 'gi-tract', emoji: '🥣', label: 'Magen-Darm-Trakt', desc: 'Magen, Darm' },
-        { id: 'biliary', emoji: '🧪', label: 'Galle & Leber', desc: 'Leber, Gallengänge' },
-        { id: 'integumentary', emoji: '🩹', label: 'Haut & Gewebe', desc: 'Haut' },
-        { id: 'chronic-pain', emoji: '⚡', label: 'Chronische Schmerzen', desc: 'Anhaltendes Unbehagen' },
+        { id: 'circulatory', icon: HeartPulse, label: 'Herz-Kreislauf-System', desc: 'Herz, Blutgefäße' },
+        { id: 'urinary', icon: Droplets, label: 'Harnsystem', desc: 'Nieren, Blase' },
+        { id: 'respiratory', icon: Lungs, label: 'Atmungssystem', desc: 'Lunge' },
+        { id: 'gi-tract', icon: RefreshCcw, label: 'Magen-Darm-Trakt', desc: 'Magen, Darm' },
+        { id: 'biliary', icon: FlaskConical, label: 'Galle & Leber', desc: 'Leber, Gallengänge' },
+        { id: 'integumentary', icon: Sun, label: 'Haut & Gewebe', desc: 'Haut' },
+        { id: 'chronic-pain', icon: Activity, label: 'Chronische Schmerzen', desc: 'Anhaltendes Unbehagen' },
       ],
     },
   ]
@@ -152,6 +170,7 @@ export function Step3HealthConditions({
             </h3>
             <div className="grid grid-cols-1 gap-3">
               {section.items.map((item: any) => {
+                const Icon = item.icon;
                 const isActive = current.includes(item.id);
                 return (
                   <div 
@@ -164,7 +183,9 @@ export function Step3HealthConditions({
                     }`}
                   >
                     <div className="flex items-center gap-4 text-left">
-                      <span className="text-xl">{item.emoji}</span>
+                      <div className={isActive ? 'text-[#3EB489]' : 'text-white/40'}>
+                        <Icon size={24} />
+                      </div>
                       <div>
                         <div className={`font-black text-xs uppercase tracking-tight ${isActive ? 'text-[#3EB489]' : 'text-white/70'}`}>
                           {item.label}

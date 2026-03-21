@@ -11,7 +11,8 @@ import {
   EyeOff, 
   Loader2, 
   ShieldCheck, 
-  ChevronLeft
+  ChevronLeft,
+  Heart
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -152,7 +153,15 @@ function AuthContent() {
 
 export default function AuthPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="animate-spin text-[#10B981]" /></div>}>
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
+        <div className="relative flex items-center justify-center">
+          <div className="absolute inset-0 w-32 h-32 bg-white/10 blur-[60px] rounded-full" />
+          <Heart size={64} fill="#10B981" stroke="#10B981" className="relative z-10 animate-pulse-heart" />
+        </div>
+        <Loader2 className="animate-spin text-[#10B981]/20" />
+      </div>
+    }>
       <AuthContent />
     </Suspense>
   );
