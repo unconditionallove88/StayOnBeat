@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview MoodCheckIn Component.
- * Bespoke Resonance Icons integrated for a grounded self-care experience.
+ * Bespoke Resonance Icons integrated with an organic color palette for a soulful check-in.
  */
 
 export function AnatomicalHeartCheckIn() {
@@ -60,6 +60,8 @@ export function AnatomicalHeartCheckIn() {
     });
   };
 
+  const currentStatus = statuses.find(s => s.label === status) || statuses[2];
+
   return (
     <div className="flex flex-col items-center p-8 bg-[#0a0a0a] rounded-[3rem] border border-white/10 shadow-2xl font-headline w-full max-w-lg mx-auto">
       <div className="flex items-center gap-3 mb-2">
@@ -73,10 +75,11 @@ export function AnatomicalHeartCheckIn() {
           <path
             d="M100 230C100 230 20 180 20 100C20 60 60 20 100 60C140 20 180 60 180 100C180 180 100 230 100 230Z"
             fill="none"
-            stroke="#10B981"
+            stroke={currentStatus.color}
             strokeWidth="2"
             strokeDasharray="5 5"
-            className="animate-[spin_20s_linear_infinite]"
+            className="animate-[spin_20s_linear_infinite] transition-colors duration-1000"
+            style={{ opacity: 0.4 }}
           />
         </svg>
 
@@ -92,7 +95,7 @@ export function AnatomicalHeartCheckIn() {
                   "px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-500 border-2 flex items-center gap-3",
                   isActive 
                     ? "bg-white/10 border-white/40 scale-110 shadow-xl" 
-                    : "bg-black/40 text-white/40 border-white/5 hover:border-white/20"
+                    : "bg-black/40 text-white/20 border-white/5 hover:border-white/20"
                 )}
                 style={isActive ? { borderColor: s.color, color: s.color } : {}}
               >
@@ -106,7 +109,12 @@ export function AnatomicalHeartCheckIn() {
 
       <div className="mt-8 text-center">
         <p className="text-[10px] text-white/20 uppercase tracking-[0.5em] font-black mb-1">Current State</p>
-        <p className={cn("font-black text-2xl animate-pulse uppercase tracking-tighter text-[#10B981]")}>{status}</p>
+        <p 
+          className={cn("font-black text-2xl animate-pulse uppercase tracking-tighter transition-colors duration-1000")}
+          style={{ color: currentStatus.color }}
+        >
+          {status}
+        </p>
       </div>
     </div>
   );

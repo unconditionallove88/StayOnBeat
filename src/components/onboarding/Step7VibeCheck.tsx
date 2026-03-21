@@ -12,15 +12,60 @@ import NotificationPrompt from '@/components/dashboard/NotificationPrompt';
 
 /**
  * @fileOverview Mood Check-in Onboarding Step.
- * High-fidelity Resonance Icons implemented for a deep psychological connection.
+ * High-fidelity Resonance Icons implemented with an organic color palette.
  */
 
 const VIBE_OPTIONS = [
-  { id: 'radiant', label: 'Radiant', de: 'Strahlend', icon: RadiantIcon, description: 'Your light is shining bright today', deDescription: 'Dein Licht leuchtet heute hell', color: 'border-purple-500/20 text-purple-400', activeColor: 'bg-purple-500/10 border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.3)]' },
-  { id: 'harmony', label: 'In Harmony', de: 'In Harmonie', icon: HarmonyIcon, description: 'You are aligned with your rhythm', deDescription: 'Du bist im Einklang mit deinem Rhythmus', color: 'border-[#EBFB3B]/20 text-[#EBFB3B]', activeColor: 'bg-[#EBFB3B]/10 border-[#EBFB3B] shadow-[0_0_20px_rgba(235,251,59,0.3)]' },
-  { id: 'calm', label: 'Calm', de: 'Beruhigt', icon: CalmIcon, description: 'Everything is exactly as it is supposed to be', deDescription: 'Alles ist im Gleichgewicht und klar', color: 'border-[#10B981]/20 text-[#10B981]', activeColor: 'bg-[#10B981]/10 border-[#10B981] shadow-[0_0_20px_rgba(16,185,129,0.3)]' },
-  { id: 'hazy', label: 'Hazy', de: 'Verschwommen', icon: HazyIcon, description: 'It is okay to rest and be still', deDescription: 'Es ist okay, sich auszuruhen', color: 'border-gray-500/20 text-gray-400', activeColor: 'bg-gray-500/10 border-gray-500 shadow-[0_0_20px_rgba(107,114,128,0.3)]' },
-  { id: 'overwhelmed', label: 'Overwhelmed', de: 'Überwältigt', icon: HeldIcon, description: 'You are held. Your circle is here', deDescription: 'Du wirst gehalten. Dein Kreis ist hier', color: 'border-blue-500/20 text-blue-400', activeColor: 'bg-blue-500/10 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)]' },
+  { 
+    id: 'radiant', 
+    label: 'Radiant', 
+    de: 'Strahlend', 
+    icon: RadiantIcon, 
+    description: 'Your light is shining bright today', 
+    deDescription: 'Dein Licht leuchtet heute hell', 
+    color: 'text-purple-400', 
+    activeColor: 'bg-purple-500/10 border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.3)]' 
+  },
+  { 
+    id: 'harmony', 
+    label: 'In Harmony', 
+    de: 'In Harmonie', 
+    icon: HarmonyIcon, 
+    description: 'You are aligned with your rhythm', 
+    deDescription: 'Du bist im Einklang mit deinem Rhythmus', 
+    color: 'text-[#EBFB3B]', 
+    activeColor: 'bg-[#EBFB3B]/10 border-[#EBFB3B] shadow-[0_0_20px_rgba(235,251,59,0.3)]' 
+  },
+  { 
+    id: 'calm', 
+    label: 'Calm', 
+    de: 'Beruhigt', 
+    icon: CalmIcon, 
+    description: 'Everything is exactly as it is supposed to be', 
+    deDescription: 'Alles ist im Gleichgewicht und klar', 
+    color: 'text-[#10B981]', 
+    activeColor: 'bg-[#10B981]/10 border-[#10B981] shadow-[0_0_20px_rgba(16,185,129,0.3)]' 
+  },
+  { 
+    id: 'hazy', 
+    label: 'Hazy', 
+    de: 'Verschwommen', 
+    icon: HazyIcon, 
+    description: 'It is okay to rest and be still', 
+    deDescription: 'Es ist okay, sich auszuruhen', 
+    color: 'text-slate-400', 
+    activeColor: 'bg-slate-500/10 border-slate-500 shadow-[0_0_20px_rgba(107,114,128,0.3)]' 
+  },
+  { 
+    id: 'overwhelmed', 
+    label: 'Overwhelmed', 
+    de: 'Überwältigt', 
+    icon: HeldIcon, 
+    description: 'You are held. Your circle is here', 
+    deDescription: 'Du wirst gehalten. Dein Kreis ist hier', 
+    color: 'text-blue-400', 
+    activeColor: 'bg-blue-500/10 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)]' 
+  },
 ];
 
 interface Step7VibeCheckProps {
@@ -133,7 +178,7 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
                 <span className={cn("font-black text-lg uppercase tracking-tight", isSelected ? "text-white" : "text-white/60")}>
                   {lang === 'EN' ? vibe.label : vibe.de}
                 </span>
-                <span className="text-[10px] font-black text-[#10B981] uppercase tracking-widest leading-none">
+                <span className="text-[10px] font-black text-white/30 uppercase tracking-widest leading-none mt-1">
                   {lang === 'EN' ? vibe.description : vibe.deDescription}
                 </span>
               </div>

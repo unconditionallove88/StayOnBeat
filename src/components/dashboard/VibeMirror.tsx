@@ -16,15 +16,60 @@ import {
 
 /**
  * @fileOverview Vibe Mirror Component.
- * Bespoke high-fidelity Resonance Icons integrated for a soulful check-in.
+ * Bespoke high-fidelity Resonance Icons integrated with an organic color palette.
  */
 
 const VIBES = [
-  { key: "radiant", label: "Radiant", de: "Strahlend", icon: RadiantIcon, affirmation: "Your light is shining bright today", color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/30" },
-  { key: "harmony", label: "In Harmony", de: "In Harmonie", icon: HarmonyIcon, affirmation: "You are aligned with your inner rhythm", color: "text-[#EBFB3B]", bg: "bg-[#EBFB3B]/10", border: "border-[#EBFB3B]/30" },
-  { key: "calm", label: "Calm", de: "Beruhigt", icon: CalmIcon, affirmation: "Everything is exactly as it is supposed to be", color: "text-[#10B981]", bg: "bg-[#10B981]/10", border: "border-[#10B981]/30" },
-  { key: "hazy", label: "Hazy", de: "Verschwommen", icon: HazyIcon, affirmation: "It is okay to rest and be still", color: "text-gray-400", bg: "bg-gray-500/10", border: "border-gray-500/30" },
-  { key: "overwhelmed", label: "Overwhelmed", de: "Überwältigt", icon: HeldIcon, affirmation: "You are held. Your circle is here", color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/30" },
+  { 
+    key: "radiant", 
+    label: "Radiant", 
+    de: "Strahlend", 
+    icon: RadiantIcon, 
+    affirmation: "Your light is shining bright today", 
+    color: "text-purple-400", 
+    bg: "bg-purple-500/10", 
+    border: "border-purple-500/30" 
+  },
+  { 
+    key: "harmony", 
+    label: "In Harmony", 
+    de: "In Harmonie", 
+    icon: HarmonyIcon, 
+    affirmation: "You are aligned with your inner rhythm", 
+    color: "text-[#EBFB3B]", 
+    bg: "bg-[#EBFB3B]/10", 
+    border: "border-[#EBFB3B]/30" 
+  },
+  { 
+    key: "calm", 
+    label: "Calm", 
+    de: "Beruhigt", 
+    icon: CalmIcon, 
+    affirmation: "Everything is exactly as it is supposed to be", 
+    color: "text-[#10B981]", 
+    bg: "bg-[#10B981]/10", 
+    border: "border-[#10B981]/30" 
+  },
+  { 
+    key: "hazy", 
+    label: "Hazy", 
+    de: "Verschwommen", 
+    icon: HazyIcon, 
+    affirmation: "It is okay to rest and be still", 
+    color: "text-slate-400", 
+    bg: "bg-slate-500/10", 
+    border: "border-slate-500/30" 
+  },
+  { 
+    key: "overwhelmed", 
+    label: "Overwhelmed", 
+    de: "Überwältigt", 
+    icon: HeldIcon, 
+    affirmation: "You are held. Your circle is here", 
+    color: "text-blue-400", 
+    bg: "bg-blue-500/10", 
+    border: "border-blue-500/30" 
+  },
 ];
 
 interface VibeMirrorProps {
@@ -107,7 +152,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
                   disabled={isSaving} 
                   className={cn(
                     "flex items-center gap-6 p-6 rounded-[2.5rem] border-2 transition-all active:scale-[0.98] text-left group", 
-                    isActive ? `bg-white/5 ${v.key === 'harmony' ? 'border-[#EBFB3B]' : 'border-[#10B981]'} shadow-2xl` : "bg-[#0a0a0a] border-white/5 hover:border-white/20"
+                    isActive ? `bg-white/5 ${v.border} shadow-2xl` : "bg-[#0a0a0a] border-white/5 hover:border-white/20"
                   )}
                 >
                   <div className="w-12 flex justify-center group-hover:scale-110 transition-transform">
@@ -128,7 +173,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
           
           <div className="mt-4 pt-6 border-t border-white/5 max-w-md mx-auto">
             <p className="text-center text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]">
-              {lang === 'EN' ? 'Lokal verarbeitet mit Liebe' : 'Lokal verarbeitet mit Liebe'}
+              Lokal verarbeitet mit Liebe
             </p>
           </div>
         </SheetContent>
