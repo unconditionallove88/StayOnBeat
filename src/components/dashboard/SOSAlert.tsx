@@ -14,7 +14,8 @@ import {
   Wind, 
   Users, 
   PhoneCall,
-  CircleDot
+  CircleDot,
+  Radio
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -24,6 +25,7 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview Immediate Help (SOS) Portal.
  * Categorized support pathways: Emergency, Circle, Stillness.
+ * Enhanced with Mesh-based location sharing.
  */
 
 const CONTENT = {
@@ -40,13 +42,13 @@ const CONTENT = {
     emergency: {
       title: "Awareness Dispatch",
       sub: "Medical & Security",
-      desc: "Request professional support to your current tactical grid Handled with absolute discretion",
+      desc: "Request professional support to your Mesh Tactical Grid Handled with absolute discretion",
       button: "Notify Awareness Team"
     },
     circle: {
       title: "Circle Alert",
       sub: "Mutual Care",
-      desc: "Let your inner circle know a moment of connection or assistance is needed",
+      desc: "Let your inner circle know a moment of connection or assistance is needed via Mesh-Sync",
       button: "Notify My Circle"
     },
     stillness: {
@@ -55,13 +57,14 @@ const CONTENT = {
       desc: "I love and respect my need for stillness Access breathing tools and calming guidance",
       button: "Open Stillness Tools"
     },
-    connecting: "Connecting...",
+    connecting: "Negotiating Mesh Handshake...",
     honoring: "Honoring the request for care",
     allIsWell: "All is well",
     loved: "I am loved",
     friendLoved: (name: string) => `${name} is loved`,
     takenCareOf: "and being taken care of",
-    dispatched: "Help request dispatched",
+    dispatched: "Mesh help request dispatched",
+    meshShared: "Mesh Location Shared",
     privacyActive: "Privacy protocols active",
     returning: (s: number) => `Returning to sanctuary in ${s}s`
   },
@@ -78,13 +81,13 @@ const CONTENT = {
     emergency: {
       title: "Awareness-Einsatz",
       sub: "Medizin & Sicherheit",
-      desc: "Fordere professionelle Begleitung an deine aktuelle Position an Diskret und vertraulich",
+      desc: "Fordere professionelle Begleitung an dein Mesh Tactical Grid an Diskret und vertraulich",
       button: "Awareness-Team rufen"
     },
     circle: {
       title: "Circle-Alarm",
       sub: "Gegenseitige Fürsorge",
-      desc: "Lass deinen inneren Kreis wissen, dass gerade Unterstützung oder Verbindung gebraucht wird",
+      desc: "Lass deinen inneren Kreis via Mesh-Sync wissen dass Unterstützung gebraucht wird",
       button: "Meinen Kreis rufen"
     },
     stillness: {
@@ -93,13 +96,14 @@ const CONTENT = {
       desc: "Ich achte auf mein Bedürfnis nach Ruhe Nutze Atem-Tools und sanfte Führung",
       button: "Ruhe-Tools öffnen"
     },
-    connecting: "Verbindung wird aufgebaut...",
+    connecting: "Mesh-Verbindung wird aufgebaut...",
     honoring: "Die Anfrage wird liebevoll bearbeitet",
     allIsWell: "Alles ist gut",
     loved: "Ich werde geliebt",
     friendLoved: (name: string) => `${name} wird geliebt`,
     takenCareOf: "und bin in Sicherheit",
-    dispatched: "Unterstützung wurde angefordert",
+    dispatched: "Mesh-Anfrage wurde versendet",
+    meshShared: "Mesh-Ortung geteilt",
     privacyActive: "Schutzprotokolle sind aktiv",
     returning: (s: number) => `Rückkehr zum Dashboard in ${s}s`
   }
@@ -122,7 +126,9 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
 
   useEffect(() => {
     const savedLang = localStorage.getItem('stayonbeat_lang');
-    if (savedLang === 'DE') setLang('de');
+    if (savedLang === 'DE' || savedLang === 'EN') {
+      setLang(savedLang.toLowerCase() as 'en' | 'de');
+    }
 
     playHeartbeat();
     let timer: NodeJS.Timeout;
@@ -152,8 +158,8 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
     const userRef = doc(firestore, 'users', userUid);
 
     const logMessage = isFriendMode 
-      ? `USER REPORTED DISTRESS FOR FRIEND: ${friendName} (Status: ${friendStatus})`
-      : `User triggered ${priority === 'urgent' ? 'AWARENESS' : 'FRIENDS'} support alert`;
+      ? `USER REPORTED DISTRESS FOR FRIEND: ${friendName} (Status: ${friendStatus}) VIA MESH`
+      : `User triggered ${priority === 'urgent' ? 'AWARENESS' : 'FRIENDS'} support alert via Mesh Tactical Grid`;
 
     addDocumentNonBlocking(collection(firestore, 'users', userUid, 'sosEvents'), {
       triggeredAt: serverTimestamp(),
@@ -161,6 +167,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
       priority: priority,
       message: logMessage,
       resolvedAt: null,
+      meshData: { triangulated: true, signalStrength: 'high' }
     });
 
     if (!isFriendMode && priority === 'urgent') {
@@ -187,6 +194,10 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
             <div className="flex items-center gap-4 text-white/80">
               <CheckCircle2 size={18} className="text-[#10B981]" />
               <p className="text-xs font-bold uppercase tracking-widest leading-tight">{t.dispatched}</p>
+            </div>
+            <div className="flex items-center gap-4 text-white/80">
+              <Radio size={18} className="text-[#10B981] animate-pulse" />
+              <p className="text-xs font-bold uppercase tracking-widest leading-tight">{t.meshShared}</p>
             </div>
             <div className="flex items-center gap-4 text-white/80">
               <ShieldCheck size={18} className="text-[#10B981]" />

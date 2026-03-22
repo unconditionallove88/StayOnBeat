@@ -183,7 +183,7 @@ function DashboardContent() {
     );
   }
 
-  const displayName = firestoreProfile?.name || "Valued Soul";
+  const displayName = firestoreProfile?.name || "VALUED SOUL";
   const t = TOOLTIPS[lang];
 
   return (
@@ -268,7 +268,7 @@ function DashboardContent() {
                 </div>
                 <div className="space-y-1">
                   <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'The Pulse' : 'Der Puls'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Radar</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Radar</p>
                 </div>
               </Link>
 
@@ -294,7 +294,7 @@ function DashboardContent() {
                 </div>
                 <div className="space-y-1">
                   <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'Pulse Sync' : 'Vital-Sync'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Biometrics</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Sync</p>
                 </div>
               </button>
 
@@ -320,7 +320,7 @@ function DashboardContent() {
                   <Wind size={32} className="text-[#10B981]" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'Self-Care' : 'Selbst-Fürsorge'}</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'Inner Resonance' : 'Innere Resonanz'}</p>
                   <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Grounding</p>
                 </div>
               </Link>
@@ -334,7 +334,7 @@ function DashboardContent() {
                 </div>
                 <div className="space-y-1">
                   <p className="text-lg font-black uppercase tracking-tight leading-none group-hover:text-white transition-colors">{lang === 'en' ? 'Immediate Help' : 'Sofort-Hilfe'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors">Emergency</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors">Mesh SOS</p>
                 </div>
               </button>
             </div>

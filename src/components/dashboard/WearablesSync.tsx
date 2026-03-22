@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Watch, Bluetooth, Smartphone, CheckCircle2, Loader2, Info } from 'lucide-react';
+import { Watch, Bluetooth, Smartphone, CheckCircle2, Loader2, Info, Radio } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { useFirestore, useUser, updateDocumentNonBlocking } from '@/firebase';
@@ -19,32 +19,32 @@ const CONTENT = {
   en: {
     title: "Pulse Sync",
     sub: "Connect wearables for live vitals",
-    negotiating: "Negotiating Handshake...",
-    active: "Live Tracking Active",
+    negotiating: "Negotiating Mesh Handshake...",
+    active: "Live Mesh Tracking Active",
     clickConnect: "Click to connect",
-    calibrating: "Calibrating Safety Baseline...",
+    calibrating: "Calibrating Mesh Baseline...",
     analyzing: "Analyzing physiological rhythm against session context",
-    guardianInfo: "Pulse Guardian uses your resting BPM as a baseline for safety thresholds.",
+    guardianInfo: "Pulse Guardian uses your resting BPM as a baseline for safety thresholds Shared via Sovereign Mesh",
     done: "Done",
     thresholdExceeded: "Safety Threshold Exceeded",
     restNotice: (hr: number) => `Vitals (HR: ${hr}) require immediate rest. Protection active.`,
     calibrated: "Pulse Calibrated",
-    restingSet: (bpm: number) => `Resting BPM set to ${bpm}. Your health data is now synced.`
+    restingSet: (bpm: number) => `Resting BPM set to ${bpm}. Your health data is now synced via Mesh.`
   },
   de: {
     title: "Vital-Sync",
     sub: "Wearables für Vitalwerte verbinden",
-    negotiating: "Verbindung wird aufgebaut...",
-    active: "Live-Tracking aktiv",
+    negotiating: "Mesh-Verbindung wird aufgebaut...",
+    active: "Live Mesh-Ortung aktiv",
     clickConnect: "Zum Verbinden tippen",
-    calibrating: "Sicherheits-Basis wird kalibriert...",
+    calibrating: "Mesh-Basis wird kalibriert...",
     analyzing: "Rhythmus wird auf Sitzungskontext abgestimmt",
-    guardianInfo: "Pulse Guardian nutzt deinen Ruheplus als Basis für deine Sicherheit.",
+    guardianInfo: "Pulse Guardian nutzt deinen Ruheplus als Basis für deine Sicherheit Übertragung per Sovereign Mesh",
     done: "Fertig",
     thresholdExceeded: "Sicherheitslimit überschritten",
     restNotice: (hr: number) => `Deine Vitalwerte (Puls: ${hr}) benötigen Ruhe. Schutz aktiv.`,
     calibrated: "Puls kalibriert",
-    restingSet: (bpm: number) => `Ruhepuls auf ${bpm} gesetzt. Deine Daten sind synchronisiert.`
+    restingSet: (bpm: number) => `Ruhepuls auf ${bpm} gesetzt. Deine Daten sind via Mesh synchronisiert.`
   }
 };
 
@@ -86,7 +86,8 @@ export function WearablesSync({ onComplete }: { onComplete: () => void }) {
               restingBPM: restingBPM,
               source: id === 'apple' ? 'apple_watch' : id === 'oura' ? 'oura_ring' : 'whoop_strap',
               recordedAt: serverTimestamp(),
-              status: 'baseline_set'
+              status: 'baseline_set',
+              syncProtocol: 'mesh_v1'
             }
           });
 
@@ -157,7 +158,7 @@ export function WearablesSync({ onComplete }: { onComplete: () => void }) {
               {isConnecting ? (
                 <Loader2 className="w-5 h-5 animate-spin text-white/40" />
               ) : isConnected ? (
-                <CheckCircle2 className="w-6 h-6 text-[#EBFB3B]" />
+                <Radio className="w-6 h-6 text-[#EBFB3B] animate-pulse" />
               ) : (
                 <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-all">
                   <Bluetooth className="w-4 h-4 text-white/20" />

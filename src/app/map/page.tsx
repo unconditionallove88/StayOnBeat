@@ -2,7 +2,7 @@
 "use client"
 
 import { useState, useEffect, Suspense } from 'react';
-import { ArrowLeft, Shield, Loader2, PhoneCall, AlertTriangle, Lock, Navigation, CircleDot } from 'lucide-react';
+import { ArrowLeft, Shield, Loader2, PhoneCall, AlertTriangle, Lock, Navigation, CircleDot, Radio } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Switch } from '@/components/ui/switch';
@@ -15,7 +15,7 @@ import LoveCircle from '@/components/dashboard/LoveCircle';
 
 /**
  * @fileOverview High-Fidelity Organic Radar ("The Pulse").
- * Redesigned for concentration and simplicity. 
+ * Integrated with the Sovereign Mesh for location sharing.
  */
 
 const CONTENT = {
@@ -28,7 +28,8 @@ const CONTENT = {
     sanctuary: "Privacy is my sanctuary",
     distress: (name: string) => `${name} needs care`,
     currentPulse: (status: string) => `Current Pulse: ${status}`,
-    notify: "Notify Awareness"
+    notify: "Notify Awareness",
+    meshActive: "Mesh Location Active"
   },
   de: {
     loading: "Resonanz wird kalibriert",
@@ -39,7 +40,8 @@ const CONTENT = {
     sanctuary: "Privatsphäre ist mein Raum",
     distress: (name: string) => `${name} braucht Begleitung`,
     currentPulse: (status: string) => `Aktueller Status: ${status}`,
-    notify: "Awareness rufen"
+    notify: "Awareness rufen",
+    meshActive: "Mesh-Ortung aktiv"
   }
 };
 
@@ -110,7 +112,7 @@ function MapContent() {
             </div>
           </div>
           <div className="mt-4 bg-black/60 px-4 py-1.5 rounded-full border border-white/5 inline-block backdrop-blur-sm">
-            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/60">{t.here}</span>
+            <span className="text-[9px] font-black uppercase tracking-widest text-white/60">{t.here}</span>
           </div>
         </div>
 
@@ -171,16 +173,19 @@ function MapContent() {
                   </div>
                 </div>
               ) : (
-                <div className="hidden md:flex flex-col items-end gap-4">
+                <div className="w-full md:w-auto flex flex-col items-center md:items-end gap-4">
                   <button 
                     onClick={() => setSosActive(true)}
-                    className="w-16 h-16 bg-red-600 text-white rounded-full flex items-center justify-center shadow-2xl shadow-red-600/40 active:scale-90 transition-all border-2 border-white"
+                    className="w-16 h-16 bg-red-600 text-white rounded-full flex items-center justify-center shadow-2xl shadow-red-600/40 active:scale-90 transition-all border-2 border-white mb-2"
                   >
                     <Shield size={28} />
                   </button>
                   <div className="bg-black/60 backdrop-blur-md px-6 py-4 rounded-[2rem] border border-white/5 items-center gap-4 animate-in fade-in duration-1000 flex">
-                    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[#3EB489]">{t.respect}</span>
-                    <p className="text-[10px] font-bold text-white/40 leading-tight uppercase tracking-widest">{t.sanctuary}</p>
+                    <Radio size={14} className="text-[#3EB489] animate-pulse" />
+                    <div className="text-left">
+                      <span className="block text-[9px] font-black uppercase tracking-widest text-[#3EB489]">{t.meshActive}</span>
+                      <p className="text-[8px] font-bold text-white/30 leading-none uppercase tracking-widest mt-1">Mesh Triangulation Active</p>
+                    </div>
                   </div>
                 </div>
               )}
