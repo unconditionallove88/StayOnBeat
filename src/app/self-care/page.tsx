@@ -6,10 +6,12 @@ import { Heart, Coffee, Moon, ArrowLeft, Wind, CircleDot } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
  * @fileOverview Self-Care & Stillness Sanctuary.
  * A high-fidelity grounding experience featuring box-breathing guidance.
+ * Vision: Living inside out with an open heart.
  */
 
 export default function SelfCare() {
@@ -44,74 +46,83 @@ export default function SelfCare() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white px-6 py-8 flex flex-col items-center font-headline relative overflow-hidden h-screen max-h-screen">
+    <main className="min-h-screen bg-black text-white flex flex-col font-headline relative overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-emerald-500/5 blur-[120px] rounded-full -z-10" />
 
-      <button 
-        onClick={() => { playHeartbeat(); router.back(); }}
-        className="absolute top-8 left-8 text-white/40 hover:text-white transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest z-50 p-3 bg-white/5 rounded-full border border-white/10"
-      >
-        <ArrowLeft className="w-4 h-4" />
-      </button>
+      <header className="px-6 py-8 flex items-center justify-between sticky top-0 z-50 shrink-0">
+        <button 
+          onClick={() => { playHeartbeat(); router.back(); }}
+          className="text-white/40 hover:text-white transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest p-3 bg-white/5 rounded-full border border-white/10"
+        >
+          <ArrowLeft className="w-4 h-4" />
+        </button>
+        <div className="flex items-center gap-2 px-4 py-1.5 bg-[#10B981]/10 border border-[#10B981]/30 rounded-full">
+          <CircleDot size={12} className="text-[#10B981] animate-pulse" />
+          <span className="text-[9px] font-black uppercase text-[#10B981] tracking-widest">Inner Resonance</span>
+        </div>
+      </header>
 
-      <div className="flex-1 flex flex-col items-center justify-center w-full max-w-xl space-y-12">
-        
-        <div className="relative flex flex-col items-center justify-center">
-          <div className={cn(
-            "absolute rounded-full bg-emerald-500/10 blur-3xl transition-all duration-[4000ms] ease-in-out",
-            breathState === 'inhale' ? "w-80 h-80 opacity-40 scale-125" : "w-64 h-64 opacity-20 scale-100"
-          )} />
+      <ScrollArea className="flex-1">
+        <div className="flex flex-col items-center justify-center w-full max-w-xl mx-auto px-6 py-12 space-y-12 pb-40">
           
-          <div className={cn(
-            "relative w-48 h-48 rounded-full border-4 flex items-center justify-center transition-all duration-[4000ms] ease-in-out shadow-2xl shadow-emerald-500/20",
-            breathState === 'inhale' ? "scale-110 border-emerald-400 bg-emerald-500/10" : "scale-90 border-white/10 bg-white/5"
-          )}>
-            <div className="text-center space-y-1">
-              <span className="text-4xl font-black tabular-nums text-white">{timer}</span>
-              <p className="text-[8px] font-black uppercase tracking-[0.2em] text-emerald-500">Seconds</p>
+          <div className="relative flex flex-col items-center justify-center">
+            {/* Expanded inside-out glow */}
+            <div className={cn(
+              "absolute rounded-full bg-emerald-500/10 blur-3xl transition-all duration-[4000ms] ease-in-out",
+              breathState === 'inhale' ? "w-96 h-96 opacity-40 scale-125" : "w-64 h-64 opacity-20 scale-100"
+            )} />
+            
+            <div className={cn(
+              "relative w-48 h-48 rounded-full border-4 flex items-center justify-center transition-all duration-[4000ms] ease-in-out shadow-2xl shadow-emerald-500/20",
+              breathState === 'inhale' ? "scale-110 border-emerald-400 bg-emerald-500/10" : "scale-90 border-white/10 bg-white/5"
+            )}>
+              <div className="text-center space-y-1">
+                <span className="text-4xl font-black tabular-nums text-white">{timer}</span>
+                <p className="text-[8px] font-black uppercase tracking-[0.2em] text-emerald-500">Seconds</p>
+              </div>
+            </div>
+
+            <div className="mt-10 text-center space-y-2">
+              <h2 className="text-3xl font-black uppercase tracking-tighter animate-pulse">
+                {breathText[breathState]}
+              </h2>
+              <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">Box Breathing Protocol</p>
             </div>
           </div>
 
-          <div className="mt-10 text-center space-y-2">
-            <h2 className="text-3xl font-black uppercase tracking-tighter animate-pulse">
-              {breathText[breathState]}
-            </h2>
-            <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">Box Breathing Protocol</p>
-          </div>
-        </div>
+          <div className="space-y-6 w-full text-center">
+            <div className="space-y-2">
+              <h1 className="text-2xl font-black uppercase tracking-tighter leading-none">
+                I live inside out <br/> <span className="text-[#3EB489]">with an open heart</span>
+              </h1>
+              <p className="text-xs font-bold text-white/40 leading-tight max-w-[280px] mx-auto uppercase tracking-widest">
+                Gently anchor yourself to the present moment Your light radiates from within and creates your sanctuary
+              </p>
+            </div>
 
-        <div className="space-y-6 w-full text-center">
-          <div className="space-y-2">
-            <h1 className="text-2xl font-black uppercase tracking-tighter leading-none">
-              I love and respect <br/> <span className="text-[#3EB489]">my need for stillness</span>
-            </h1>
-            <p className="text-xs font-bold text-white/40 leading-tight max-w-[280px] mx-auto uppercase tracking-widest">
-              Gently anchor yourself to the present moment. Your presence is your strength
-            </p>
-          </div>
-
-          <div className="grid grid-cols-3 gap-3 w-full">
-            {[
-              { icon: Coffee, label: "Hydrate", sub: "Small sips" },
-              { icon: Wind, label: "Anchor", sub: "Feel feet" },
-              { icon: Moon, label: "Rest", sub: "Close eyes" }
-            ].map((item, i) => (
-              <div key={i} className="bg-white/5 border border-white/10 p-4 rounded-[2rem] flex flex-col items-center gap-2 group hover:border-emerald-500/40 transition-all">
-                <item.icon className="w-5 h-5 text-[#3EB489]" />
-                <div className="text-center">
-                  <h3 className="font-black uppercase tracking-widest text-[8px]">{item.label}</h3>
-                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-tighter">{item.sub}</p>
+            <div className="grid grid-cols-3 gap-3 w-full">
+              {[
+                { icon: Coffee, label: "Hydrate", sub: "Small sips" },
+                { icon: Wind, label: "Anchor", sub: "Feel feet" },
+                { icon: Moon, label: "Rest", sub: "Close eyes" }
+              ].map((item, i) => (
+                <div key={i} className="bg-white/5 border border-white/10 p-4 rounded-[2rem] flex flex-col items-center gap-2 group hover:border-emerald-500/40 transition-all">
+                  <item.icon className="w-5 h-5 text-[#3EB489]" />
+                  <div className="text-center">
+                    <h3 className="font-black uppercase tracking-widest text-[8px]">{item.label}</h3>
+                    <p className="text-[7px] font-bold text-white/30 uppercase tracking-tighter">{item.sub}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </ScrollArea>
 
-      <footer className="w-full max-w-sm pb-10">
+      <footer className="fixed bottom-0 left-0 right-0 h-[100px] bg-black/90 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-50">
         <button 
           onClick={() => { playHeartbeat(); router.push('/dashboard'); }}
-          className="w-full bg-[#3EB489] text-black h-20 rounded-full font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_30px_rgba(62,180,137,0.3)] flex items-center justify-center gap-3"
+          className="w-full max-w-sm bg-[#3EB489] text-black h-16 rounded-full font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_30px_rgba(62,180,137,0.3)] flex items-center justify-center gap-3"
         >
           <CircleDot size={20} />
           Return to Sanctuary

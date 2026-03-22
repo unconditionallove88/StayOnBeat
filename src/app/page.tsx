@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
- * Calibrated for expansive resonance, visual purity, and unconditional love.
+ * Calibrated for expansive resonance, visual purity, and living from the inside out.
  * Punctuation-free for an open-ended human experience.
  */
 
@@ -30,15 +30,15 @@ export default function Home() {
 
   const content = {
     EN: { 
-      slogan: "Unconditional love for your journey 🌿", 
-      valueProp: "A safe sanctuary for harm reduction health monitoring and your circle of love", 
+      slogan: "Your light starts here 🌿", 
+      valueProp: "A safe sanctuary to radiate your truth through health monitoring and collective care", 
       getStarted: "Join the Circle", 
       signIn: "Welcome Home", 
       footer: "Protected by GDPR • Encrypted with Love" 
     },
     DE: { 
-      slogan: "Bedingungslose Liebe für deine Reise 🌿", 
-      valueProp: "Ein sicheres Sanctuary für Schadensminimierung Gesundheitsmonitoring und deinen Circle of Love", 
+      slogan: "Dein Licht beginnt hier 🌿", 
+      valueProp: "Ein sicheres Sanctuary um deine Wahrheit durch Gesundheitsmonitoring und Fürsorge zu strahlen", 
       getStarted: "Werde Teil des Kreises", 
       signIn: "Willkommen Zuhause", 
       footer: "DSGVO-geschützt • Mit Liebe verschlüsselt" 
@@ -49,7 +49,8 @@ export default function Home() {
 
   return (
     <main className="min-h-screen w-full bg-black text-white flex flex-col items-center justify-between py-12 px-6 overflow-y-auto font-headline relative overflow-hidden">
-      {/* Sanctuary Atmosphere */}
+      {/* Sanctuary Atmosphere - Expansion from center */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 blur-[150px] rounded-full pointer-events-none animate-radiate-out" />
       <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-primary/10 blur-[120px] rounded-full pointer-events-none animate-pulse" style={{ animationDuration: '8s' }} />
       <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-accent/5 blur-[120px] rounded-full pointer-events-none animate-pulse" style={{ animationDuration: '12s' }} />
 

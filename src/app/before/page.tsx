@@ -3,88 +3,67 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Droplets, Apple, Moon, Battery, ShieldCheck, Heart } from "lucide-react";
+import { useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
+import { doc } from "firebase/firestore";
+import { ArrowLeft, Droplets, Apple, Moon, Battery, ShieldCheck, Heart, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview Phase: Before (Preparation Protocol).
- * Provides high-fidelity guidance on hydration, nutrition, and rest.
- * Fully localized for English and German.
+ * Provides tailored weight-based hydration and 23:00 rest guidance.
+ * Vision: Living inside out, starting with self-love.
  */
 
 const CONTENT = {
   en: {
     title: "Preparation",
-    subtitle: "Calibrate body & mind",
-    header: "Ready for the journey?",
-    description: "I love and respect my body enough to prepare it for the experience ahead 🌿",
-    sections: [
-      {
-        title: "Hydration",
-        icon: <Droplets className="text-blue-400" size={24} />,
-        advice: "Drink 1-2 liters of water throughout the day. Add electrolytes to maintain mineral balance",
-        color: "border-blue-500/20 bg-blue-500/5"
-      },
-      {
-        title: "Nutrition",
-        icon: <Apple className="text-emerald-400" size={24} />,
-        advice: "Eat a solid, balanced meal 3 hours before you head out. Avoid heavy, processed foods",
-        color: "border-emerald-500/20 bg-emerald-500/5"
-      },
-      {
-        title: "Rest",
-        icon: <Moon className="text-purple-400" size={24} />,
-        advice: "Prioritize 7-8 hours of sleep or a 20-minute power nap to store energy for the night",
-        color: "border-purple-500/20 bg-purple-500/5"
-      },
-      {
-        title: "Essentials",
-        icon: <Battery className="text-amber-400" size={24} />,
-        advice: "Charge your phone to 100%. Check in with your circle and sync your Pulse baseline",
-        color: "border-amber-500/20 bg-amber-500/5"
-      }
-    ],
+    subtitle: "Radiate from within",
+    header: "Ready to shine?",
+    description: "I love and respect my inner state enough to prepare my vessel for the journey ahead 🌿",
+    sections: {
+      hydration: "Hydration",
+      nutrition: "Nutrition",
+      rest: "Rest",
+      essentials: "Essentials"
+    },
+    hydrationAdvice: (liters: number) => `Based on your essence, drink ${liters} liters of water today Add electrolytes to maintain mineral balance`,
+    nutritionAdvice: "Eat a solid, balanced meal 3 hours before you head out Avoid heavy, processed foods",
+    restAdvice: "Prioritize restful sleep and be in bed before 23:00 to ensure your body recovers and stores energy for the light ahead",
+    essentialsAdvice: "Charge your phone to 100% Check in with your circle and sync your Pulse baseline",
     button: "I am prepared 💚"
   },
   de: {
     title: "Vorbereitung",
-    subtitle: "Körper & Geist kalibrieren",
-    header: "Bereit für die Reise?",
-    description: "Ich liebe und respektiere meinen Körper genug, um ihn auf das bevorstehende Erlebnis vorzubereiten 🌿",
-    sections: [
-      {
-        title: "Hydrierung",
-        icon: <Droplets className="text-blue-400" size={24} />,
-        advice: "Trink über den Tag verteilt 1-2 Liter Wasser. Füge Elektrolyte hinzu, um den Mineralhaushalt zu stabilisieren",
-        color: "border-blue-500/20 bg-blue-500/5"
-      },
-      {
-        title: "Ernährung",
-        icon: <Apple className="text-emerald-400" size={24} />,
-        advice: "Iss 3 Stunden vor dem Aufbruch eine feste, ausgewogene Mahlzeit. Vermeide schwere, verarbeitete Lebensmittel",
-        color: "border-emerald-500/20 bg-emerald-500/5"
-      },
-      {
-        title: "Erholung",
-        icon: <Moon className="text-purple-400" size={24} />,
-        advice: "Priorisiere 7-8 Stunden Schlaf oder einen 20-minütigen Power-Nap, um Energie für die Nacht zu tanken",
-        color: "border-purple-500/20 bg-purple-500/5"
-      },
-      {
-        title: "Essentials",
-        icon: <Battery className="text-amber-400" size={24} />,
-        advice: "Lade dein Handy auf 100%. Melde dich bei deinem Circle und kalibriere deinen Pulse-Baseline",
-        color: "border-amber-500/20 bg-amber-500/5"
-      }
-    ],
+    subtitle: "Von innen heraus strahlen",
+    header: "Bereit zu strahlen?",
+    description: "Ich liebe und schätze meinen inneren Zustand genug, um meinen Körper auf die bevorstehende Reise vorzubereiten 🌿",
+    sections: {
+      hydration: "Hydrierung",
+      nutrition: "Ernährung",
+      rest: "Erholung",
+      essentials: "Essentials"
+    },
+    hydrationAdvice: (liters: number) => `Basierend auf deinem Körpergewicht, trink heute ${liters} Liter Wasser Füge Elektrolyte hinzu, um den Haushalt zu stabilisieren`,
+    nutritionAdvice: "Iss 3 Stunden vor dem Aufbruch eine ausgewogene Mahlzeit Vermeide schwere, verarbeitete Lebensmittel",
+    restAdvice: "Priorisiere erholsamen Schlaf und sei vor 23:00 Uhr im Bett, damit dein Körper regenerieren und Energie für das Licht sammeln kann",
+    essentialsAdvice: "Lade dein Handy auf 100% Melde dich bei deinem Circle und kalibriere deine Pulse-Baseline",
     button: "Ich bin bereit 💚"
   }
 };
 
 export default function BeforePhase() {
   const router = useRouter();
+  const { user, isUserLoading } = useUser();
+  const firestore = useFirestore();
   const [lang, setLang] = useState<'en' | 'de'>('en');
   const [mounted, setMounted] = useState(false);
+
+  const userDocRef = useMemoFirebase(() => {
+    if (!firestore || !user?.uid) return null;
+    return doc(firestore, 'users', user.uid);
+  }, [firestore, user?.uid]);
+
+  const { data: profile, isLoading: isProfileLoading } = useDoc(userDocRef);
 
   useEffect(() => {
     setMounted(true);
@@ -92,13 +71,51 @@ export default function BeforePhase() {
     if (savedLang === 'DE') setLang('de');
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted || isUserLoading || isProfileLoading) {
+    return (
+      <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
+        <div className="relative flex items-center justify-center">
+          <div className="absolute inset-0 w-32 h-32 bg-white/10 blur-[60px] rounded-full" />
+          <Heart size={64} fill="#10B981" stroke="#10B981" className="relative z-10 animate-pulse-heart" />
+        </div>
+        <Loader2 className="animate-spin text-[#10B981]/20" />
+      </div>
+    );
+  }
 
   const t = CONTENT[lang];
+  const weight = profile?.biometrics?.weightKg || 75;
+  const hydrationTarget = Math.round(weight * 0.035 * 10) / 10;
+
+  const sections = [
+    {
+      title: t.sections.hydration,
+      icon: <Droplets className="text-blue-400" size={24} />,
+      advice: t.hydrationAdvice(hydrationTarget),
+      color: "border-blue-500/20 bg-blue-500/5"
+    },
+    {
+      title: t.sections.nutrition,
+      icon: <Apple className="text-emerald-400" size={24} />,
+      advice: t.nutritionAdvice,
+      color: "border-emerald-500/20 bg-emerald-500/5"
+    },
+    {
+      title: t.sections.rest,
+      icon: <Moon className="text-purple-400" size={24} />,
+      advice: t.restAdvice,
+      color: "border-purple-500/20 bg-purple-500/5"
+    },
+    {
+      title: t.sections.essentials,
+      icon: <Battery className="text-amber-400" size={24} />,
+      advice: t.essentialsAdvice,
+      color: "border-amber-500/20 bg-amber-500/5"
+    }
+  ];
 
   return (
     <main className="min-h-screen bg-black text-white font-headline pb-32 relative overflow-x-hidden">
-      {/* Background Atmosphere */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-emerald-500/5 blur-[120px] rounded-full -z-10" />
 
       <header className="px-6 py-8 border-b border-white/5 bg-black/80 backdrop-blur-xl flex items-center justify-between sticky top-0 z-50">
@@ -128,7 +145,7 @@ export default function BeforePhase() {
         </section>
 
         <div className="grid gap-4">
-          {t.sections.map((section, idx) => (
+          {sections.map((section, idx) => (
             <div 
               key={idx} 
               className={cn(
@@ -156,7 +173,7 @@ export default function BeforePhase() {
             <ShieldCheck className="text-emerald-500" size={24} />
           </div>
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 leading-relaxed">
-            Preparation is the first act of care. Your future self will thank you for the choices you make now 💚
+            Preparation is the first act of self-care Radiate your truth from the inside out and your future self will thank you 💚
           </p>
         </div>
       </div>

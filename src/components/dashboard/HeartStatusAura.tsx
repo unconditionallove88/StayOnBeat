@@ -15,6 +15,7 @@ interface Props {
 /**
  * @fileOverview Love Circle Visualization.
  * Serves as a pure, radiant visual of the user's inner rhythm.
+ * Vision: Light radiating from the inside out.
  */
 export default function HeartStatusAura({ 
   heartRate, 
@@ -33,6 +34,7 @@ export default function HeartStatusAura({
 
   return (
     <div className="flex flex-col items-center justify-center p-4 md:p-8 relative font-headline cursor-pointer group">
+      {/* Inside-out radiating layers */}
       <div 
         className="absolute w-64 h-64 md:w-80 md:h-80 rounded-full blur-[80px] opacity-10 animate-pulse transition-all duration-1000"
         style={{ backgroundColor: stateColor, animationDuration: pulseDuration }}
@@ -40,6 +42,12 @@ export default function HeartStatusAura({
       <div 
         className="absolute w-40 h-40 md:w-56 md:h-56 rounded-full blur-3xl opacity-20 animate-pulse transition-all duration-1000"
         style={{ backgroundColor: stateColor, animationDuration: '3s' }}
+      />
+      
+      {/* Radiate-out subtle ring */}
+      <div 
+        className="absolute inset-0 rounded-full border-2 opacity-0 group-hover:animate-radiate-out"
+        style={{ borderColor: stateColor }}
       />
       
       <div 
@@ -63,7 +71,7 @@ export default function HeartStatusAura({
 
       <div className="mt-8 md:mt-12 text-center z-10">
         <p className="text-white/20 text-[9px] md:text-[10px] uppercase tracking-[0.5em] font-black mb-2">
-          {lang === "en" ? "My Resonance" : "Meine Resonanz"}
+          {lang === "en" ? "My Inner Resonance" : "Meine Innere Resonanz"}
         </p>
         <h2 className="text-white text-3xl md:text-4xl font-black uppercase tracking-tighter leading-none mb-2">
           {isHighRisk ? (lang === 'en' ? "Intense" : "Intensiv") : isElevated ? (lang === 'en' ? "Elevated" : "Erhöht") : (lang === 'en' ? "Steady" : "Stabil")}
