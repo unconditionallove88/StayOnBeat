@@ -11,8 +11,8 @@ import { useToast } from '@/hooks/use-toast';
 
 /**
  * @fileOverview The Holders (Those who hold your heart from afar).
- * Framing: I love and respect my trusted ones. Pure connection.
- * Punctuation-free affirmations for expansive resonance.
+ * Framing: I love and respect my trusted ones Pure connection.
+ * Updated: Emoji-free transition ritual.
  */
 
 export function LoveCircleChat() {
@@ -87,7 +87,7 @@ export function LoveCircleChat() {
   if (!hasAgreement) {
     return (
       <div className="flex flex-col h-full bg-black font-headline overflow-hidden">
-        <ScrollArea className="flex-1">
+        <ScrollArea className="flex-1 touch-pan-y">
           <div className="flex flex-col items-center justify-center min-h-[70vh] p-10 text-center space-y-12">
             <div className="relative">
               <div className="absolute inset-0 bg-[#10B981]/20 blur-3xl rounded-full animate-pulse" />
@@ -177,7 +177,7 @@ export function LoveCircleChat() {
         </div>
       )}
 
-      <ScrollArea className="flex-1 px-8 py-8" ref={scrollRef}>
+      <ScrollArea className="flex-1 px-8 py-8 touch-pan-y" ref={scrollRef}>
         <div className="space-y-8 max-w-2xl mx-auto pb-10">
           {isLoading && (
             <div className="flex items-center justify-center py-20">
@@ -217,13 +217,13 @@ export function LoveCircleChat() {
         </div>
       </ScrollArea>
 
-      <div className="px-6 py-10 bg-black border-t border-white/5 shrink-0">
+      <div className="px-6 py-10 bg-black border-t border-white/5 shrink-0 pb-safe">
         <div className="relative flex items-center max-w-2xl mx-auto gap-4">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="Message your holders..."
+            placeholder="Message your holders"
             className="flex-1 bg-white/[0.02] border border-white/10 rounded-full py-6 px-10 text-base font-bold focus:border-[#10B981] transition-all outline-none text-white shadow-inner"
           />
           <button

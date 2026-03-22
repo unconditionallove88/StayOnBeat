@@ -39,6 +39,7 @@ import { CoCreation } from "@/components/dashboard/CoCreation";
 /**
  * @fileOverview Your Sanctuary (Profile Page).
  * A high-fidelity space for biometric calibration and privacy.
+ * Updated: Emoji-free subtexts and minimalist identity view.
  */
 export default function ProfilePage() {
   const router = useRouter();
@@ -89,6 +90,8 @@ export default function ProfilePage() {
     );
   }
 
+  const displayName = profile?.name || "VALUED SOUL";
+
   return (
     <main className="min-h-screen bg-black text-white font-headline pb-32">
       <nav className="bg-black/90 backdrop-blur-2xl border-b border-white/5 px-6 py-8 sticky top-0 z-[100]">
@@ -117,7 +120,7 @@ export default function ProfilePage() {
           
           <div className="space-y-2">
             <h2 className="text-4xl font-black uppercase tracking-tighter leading-none">
-              {profile?.name || "VALUED SOUL"}
+              {displayName}
             </h2>
             <p className="text-[#10B981] text-[10px] font-black uppercase tracking-[0.4em]">You are exactly where you need to be</p>
           </div>
@@ -145,7 +148,7 @@ export default function ProfilePage() {
                   type="text" 
                   defaultValue={profile?.name}
                   onBlur={(e) => handleUpdate({ name: e.target.value.toUpperCase() })}
-                  className="w-full h-16 px-6 bg-white/5 border border-white/10 rounded-2xl focus:border-[#10B981] outline-none transition-all text-xl font-black uppercase"
+                  className="w-full h-16 px-6 bg-white/5 border border-white/10 rounded-2xl focus:border-[#10B981] outline-none transition-all text-xl font-black uppercase placeholder:text-white/10"
                   placeholder="ENTER NAME"
                 />
               </div>
@@ -217,7 +220,7 @@ export default function ProfilePage() {
                <Lock size={24} className="text-white/10" />
              </div>
              <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest leading-relaxed">
-               Your journey is your own. We use high-fidelity encryption to ensure your sanctuary remains private and your soul free 🌿
+               Your journey is your own We use high-fidelity encryption to ensure your sanctuary remains private and your soul free
              </p>
              <button 
                onClick={() => setPrivacyOpen(true)}
@@ -247,33 +250,33 @@ export default function ProfilePage() {
             </div>
           </div>
           
-          <ScrollArea className="flex-1 px-8 pb-6">
+          <ScrollArea className="flex-1 px-8 pb-6 touch-pan-y">
             <div className="space-y-8">
               <section className="space-y-3">
                 <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">Data Sovereignty</h4>
                 <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">
-                  I love and respect my privacy. My data is my own. StayOnBeat is built on the principle that your personal journey is a sacred trust
+                  I love and respect my privacy My data is my own StayOnBeat is built on the principle that your personal journey is a sacred trust
                 </p>
               </section>
 
               <section className="space-y-3">
                 <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">High-Fidelity Encryption</h4>
                 <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">
-                  All biometric signals, health profiles, and location logs are protected by high-fidelity encryption. We ensure that your sensitive information is visible only to you and those you explicitly trust
+                  All biometric signals health profiles and location logs are protected by high-fidelity encryption We ensure that your sensitive information is visible only to you and those you explicitly trust
                 </p>
               </section>
 
               <section className="space-y-3">
                 <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">Inner Freedom</h4>
                 <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">
-                  We never sell, rent, or trade your data. Your resonance remains within the sanctuary. Our mission is pure support, love, care and harm reduction
+                  We never sell rent or trade your data Your resonance remains within the sanctuary Our mission is pure support love care and harm reduction
                 </p>
               </section>
 
               <section className="space-y-3">
                 <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">Unconditional Acceptance</h4>
                 <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">
-                  We collect only the information necessary to keep you safe and provide high-fidelity support. Every data point is used to calibrate your protection and nurture your well-being
+                  We collect only the information necessary to keep you safe and provide high-fidelity support Every data point is used to calibrate your protection and nurture your well-being
                 </p>
               </section>
 
