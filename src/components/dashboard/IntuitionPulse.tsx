@@ -1,5 +1,5 @@
 
-import { Heart, CircleDot } from "lucide-react";
+import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface IntuitionPulseProps {
@@ -26,10 +26,6 @@ export function IntuitionPulse({ className, variant = 'normal' }: IntuitionPulse
         isEmergency ? "border-red-100" : "border-emerald-100"
       )}>
         <Heart size={24} fill={isEmergency ? "#ef4444" : "#10b981"} className={isEmergency ? "text-red-500" : "text-emerald-500"} />
-      </div>
-      
-      <div className="absolute top-4 right-4 z-20">
-        <CircleDot className={cn("animate-bounce", isEmergency ? "text-red-600" : "text-[#10B981]")} size={20} />
       </div>
     </div>
   );

@@ -177,7 +177,6 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
       <div className="fixed inset-0 bg-[#050505] z-[4000] flex flex-col items-center justify-center px-8 text-center font-headline animate-in fade-in duration-700">
         <div className="mb-8 relative">
           <Heart size={100} fill="#10B981" className="text-[#10B981] animate-pulse-heart drop-shadow-[0_0_40px_rgba(16,185,129,0.5)]" />
-          <CircleDot className="absolute -top-4 -right-4 text-[#10B981] w-6 h-6 animate-pulse" />
         </div>
         
         <div className="space-y-6 max-w-sm">

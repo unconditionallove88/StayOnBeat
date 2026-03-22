@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import { HeartHandshake, CircleDot } from "lucide-react";
+import { HeartHandshake } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -63,9 +63,6 @@ export default function HeartStatusAura({
             className="w-20 h-20 md:w-24 md:h-24 drop-shadow-lg opacity-60" 
             style={{ color: stateColor }} 
           />
-          {isHighRisk && (
-            <CircleDot className="absolute -top-2 -right-2 text-white animate-pulse" size={24} />
-          )}
         </div>
       </div>
 
