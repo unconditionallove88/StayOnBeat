@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -123,7 +124,7 @@ export function LoveCircleChat() {
               onClick={() => setHasAgreement(true)}
               className="pill-button w-full max-w-sm bg-[#10B981] text-black text-xl font-black uppercase tracking-widest neon-glow active:scale-95 flex items-center justify-center gap-3 mb-10 shadow-emerald-500/20"
             >
-              Access My Bonds 🤝
+              Access My Bonds
             </button>
           </div>
         </ScrollArea>

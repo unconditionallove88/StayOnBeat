@@ -119,7 +119,7 @@ export default function ProfilePage() {
             <h2 className="text-4xl font-black uppercase tracking-tighter leading-none">
               {profile?.name || "VALUED SOUL"}
             </h2>
-            <p className="text-[#10B981] text-[10px] font-black uppercase tracking-[0.4em]">You are exactly where you need to be 🌿</p>
+            <p className="text-[#10B981] text-[10px] font-black uppercase tracking-[0.4em]">You are exactly where you need to be</p>
           </div>
         </section>
 

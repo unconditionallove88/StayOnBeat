@@ -40,7 +40,7 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
           <CircleDot className="text-[#3EB489] w-10 h-10" />
         </div>
         <div className="space-y-2">
-          <h3 className="text-3xl font-black uppercase tracking-tighter text-white">Letter Sealed 💚</h3>
+          <h3 className="text-3xl font-black uppercase tracking-tighter text-white">Letter Sealed</h3>
           <p className="text-white/60 text-sm font-bold leading-tight max-w-xs mx-auto">
             We will keep this safe When you need a reminder of your own strength, we will bring it back to you
           </p>
@@ -87,7 +87,7 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
               : "bg-[#3EB489] text-black neon-glow active:scale-95"
           )}
         >
-          {isSending ? <Loader2 className="w-6 h-6 animate-spin" /> : <>Seal with Love 💚 <Send size={24} /></>}
+          {isSending ? <Loader2 className="w-6 h-6 animate-spin" /> : <>Seal with Love <Send size={24} /></>}
         </button>
         <p className="text-center text-[8px] font-black text-white/20 uppercase tracking-[0.4em]">End-to-End Encrypted Sanctuary Note</p>
       </div>
