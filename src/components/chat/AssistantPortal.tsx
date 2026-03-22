@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -12,7 +11,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * A high-fidelity, phase-based entry screen for the AI Safety Advisor.
  * Fully localized for English and German.
  * Features an active Vitality Bar for quick-access to hydration, pulse, and rest protocols.
- * Enhanced for mobile scrolling on iPhone.
+ * Enhanced for mobile scrolling on iPhone with touch-pan-y.
  */
 
 interface AssistantPortalProps {
@@ -136,7 +135,7 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
       </ScrollArea>
 
       {/* Vitality Bar - Active Status Protocols */}
-      <footer className="absolute bottom-8 left-8 right-8 z-20 pointer-events-none">
+      <footer className="absolute bottom-8 left-8 right-8 z-20 pointer-events-none pb-safe">
         <div className="bg-zinc-900/80 backdrop-blur-md border border-white/10 p-4 rounded-full flex justify-around items-center shadow-2xl pointer-events-auto">
           <button 
             onClick={() => router.push('/before')}

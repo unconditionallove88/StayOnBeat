@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -213,7 +212,7 @@ function DashboardContent() {
       </div>
 
       <ScrollArea className="flex-1">
-        <div className="max-w-4xl mx-auto px-6 py-8 space-y-12 pb-32">
+        <div className="max-w-4xl mx-auto px-6 py-8 space-y-12 pb-40 touch-pan-y">
           
           <div className="space-y-3">
             <GuardianStatusBar 
@@ -366,7 +365,7 @@ function DashboardContent() {
       {showSOS && <SOSAlert onClose={() => setShowSOS(false)} />}
       
       <Dialog open={labOpen} onOpenChange={setLabOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[95dvh] max-h-[95dvh]">
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[95dvh] max-h-[95dvh] top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">Pulse Lab</DialogTitle>
           <div className="flex-1 overflow-y-auto">
             <PulseLab 
@@ -392,14 +391,14 @@ function DashboardContent() {
       </Dialog>
 
       <Dialog open={aiBotOpen} onOpenChange={setAiBotOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] max-h-[85dvh]">
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] max-h-[85dvh] top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">AI Assistant Portal</DialogTitle>
           <AssistantPortal userProfile={firestoreProfile} />
         </DialogContent>
       </Dialog>
 
       <Dialog open={coCreationOpen} onOpenChange={setCoCreationOpen}>
-        <DialogContent className="bg-black border-white/10 max-lg p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85dvh]">
+        <DialogContent className="bg-black border-white/10 max-lg p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85dvh] top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">Co-Creation</DialogTitle>
           <div className="flex-1 overflow-y-auto">
             <CoCreation onComplete={() => setCoCreationOpen(false)} />
@@ -408,7 +407,7 @@ function DashboardContent() {
       </Dialog>
 
       <Dialog open={syncOpen} onOpenChange={setSyncOpen}>
-        <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85dvh]">
+        <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85dvh] top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">Pulse Sync</DialogTitle>
           <div className="flex-1 overflow-y-auto">
             <WearablesSync onComplete={() => setSyncOpen(false)} />

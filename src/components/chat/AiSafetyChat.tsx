@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -11,6 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 /**
  * @fileOverview AiSafetyChat Component.
  * Enhanced with current intake context and vital reminders.
+ * Optimized for mobile touch-pan-y.
  */
 
 const CONTENT = {
@@ -157,7 +157,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
         </div>
       )}
 
-      <ScrollArea className="flex-1 px-8 py-10" ref={scrollRef}>
+      <ScrollArea className="flex-1 px-8 py-10 touch-pan-y" ref={scrollRef}>
         <div className="space-y-8 max-w-2xl mx-auto pb-10">
           {messages.length === 0 && (
             <div className="flex flex-col items-center justify-center py-20 text-center space-y-6">
@@ -216,7 +216,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
         </div>
       </ScrollArea>
 
-      <div className="px-6 py-8 bg-black border-t border-white/5 shrink-0">
+      <div className="px-6 py-8 bg-black border-t border-white/5 shrink-0 pb-safe">
         <div className="relative flex items-center max-w-2xl mx-auto gap-3">
           <div className="relative flex-1">
             <input

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -36,7 +35,7 @@ import { SOSAlert } from '@/components/dashboard/SOSAlert';
 
 /**
  * @fileOverview Pulse Lab component.
- * Systematically removed decorative sparkles for visual purity.
+ * Optimized for high-fidelity iPhone interaction with touch-pan-y and safe area support.
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -194,7 +193,7 @@ export function Step6SubstanceLab({
   if (isLocked) {
     return (
       <div className="flex flex-col h-full bg-black font-body max-w-2xl mx-auto p-6 relative overflow-hidden">
-        <ScrollArea className="h-full">
+        <ScrollArea className="h-full touch-pan-y">
           <div className="pb-20 space-y-6">
             <GuardianStatusBar status="locked" heartRate={lastHR > 0 ? lastHR : 128} lang={lang} />
             <CareShield 
@@ -302,7 +301,7 @@ export function Step6SubstanceLab({
         </div>
       </ScrollArea>
 
-      <footer className="shrink-0 h-[100px] bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-[70]">
+      <footer className="shrink-0 h-[100px] bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-[70] pb-safe">
         <button onClick={() => onComplete(sessionLogs)} className="w-full max-sm py-6 bg-[#3EB489] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-[#3EB489]/20 flex items-center justify-center gap-3">
            <CheckCircle2 size={24} /> {t.sync}
         </button>
@@ -351,7 +350,7 @@ export function Step6SubstanceLab({
       )}
 
       <Dialog open={chatOpen} onOpenChange={setChatOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] mx-4">
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] mx-4 top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">AI Safety Advisor Chat</DialogTitle>
           <AiSafetyChat userProfile={userData} currentIntake={intakeContext} />
         </DialogContent>
