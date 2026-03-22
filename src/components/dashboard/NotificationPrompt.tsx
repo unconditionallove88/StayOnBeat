@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -29,11 +30,11 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
 
   const content = {
     EN: {
-      successTitle: "Reminders active 💚",
-      successSub: "We will check in on your heart every day with kindness.",
+      successTitle: "Reminders active",
+      successSub: "We will check in on your heart every day with kindness",
       header: "Daily Heart Check-in",
-      sub: "Choose when you would like us to check in. 💚",
-      enable: "Enable Reminders 💚",
+      sub: "Choose when you would like us to check in",
+      enable: "Enable Reminders",
       later: "Maybe later",
       times: [
         { label: "Morning 🌅 (8am)", value: 8 },
@@ -43,11 +44,11 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
       ]
     },
     DE: {
-      successTitle: "Erinnerungen aktiv 💚",
-      successSub: "Wir werden jeden Tag liebevoll nach deinem Herzen sehen.",
+      successTitle: "Erinnerungen aktiv",
+      successSub: "Wir werden jeden Tag liebevoll nach deinem Herzen sehen",
       header: "Täglicher Heart Check-in",
-      sub: "Wähle aus, wann wir bei dir nachfragen sollen. 💚",
-      enable: "Erinnerungen aktivieren 💚",
+      sub: "Wähle aus, wann wir bei dir nachfragen sollen",
+      enable: "Erinnerungen aktivieren",
       later: "Vielleicht später",
       times: [
         { label: "Morgens 🌅 (8:00)", value: 8 },

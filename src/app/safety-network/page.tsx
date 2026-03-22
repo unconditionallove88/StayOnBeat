@@ -36,13 +36,13 @@ import { cn } from "@/lib/utils";
  */
 
 const RELATIONSHIP_OPTIONS = [
-  "Best Friend 💛",
-  "Partner 💕",
-  "Sister 🌸",
-  "Brother ⚡",
-  "Parent 🌿",
-  "Therapist 🌊",
-  "Trusted Friend 💚",
+  "Best Friend",
+  "Partner",
+  "Sister",
+  "Brother",
+  "Parent",
+  "Therapist",
+  "Trusted Friend",
 ];
 
 export default function SafetyNetworkPage() {
@@ -142,7 +142,7 @@ export default function SafetyNetworkPage() {
             </div>
             <h2 className="text-3xl font-black uppercase tracking-tighter leading-none mb-4">Who holds you?</h2>
             <p className="text-sm font-bold leading-relaxed opacity-80 max-w-[280px]">
-              Add the people who love you unconditionally. If you ever feel unsafe, we will alert them instantly with your heart status 🌿
+              Add the people who love you unconditionally. If you ever feel unsafe, we will alert them instantly with your heart status
             </p>
           </div>
         </section>
@@ -256,7 +256,7 @@ export default function SafetyNetworkPage() {
                   type="submit" 
                   className="bg-[#3EB489] text-black font-black uppercase text-[10px] py-5 rounded-2xl neon-glow active:scale-[0.98] transition-all"
                 >
-                  Save Guardian 💚
+                  Save Guardian
                 </button>
               </div>
             </form>
@@ -278,7 +278,7 @@ export default function SafetyNetworkPage() {
           </div>
           
           <p className="text-xs font-bold text-white/40 leading-relaxed uppercase tracking-widest">
-            If you text this word to your Circle, they know to come get you immediately — no questions asked 🤫
+            If you text this word to your Circle, they know to come get you immediately — no questions asked
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3">
@@ -299,7 +299,7 @@ export default function SafetyNetworkPage() {
 
           {profile?.secretWord && (
             <p className="text-[9px] font-black text-[#3EB489] uppercase tracking-[0.2em] text-center animate-pulse">
-              Active Code: {profile.secretWord} 🌿
+              Active Code: {profile.secretWord}
             </p>
           )}
         </section>

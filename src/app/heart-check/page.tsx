@@ -13,8 +13,8 @@ import { Heart } from "lucide-react";
  */
 
 const CONTENT = {
-  en: { title: "Your heart", highlight: "is home 💚", sub: "Preparing your sanctuary" },
-  de: { title: "Dein Herz", highlight: "ist dein Zuhause 💚", sub: "Dein Sanctuary wird vorbereitet" }
+  en: { title: "Your heart", highlight: "is home", sub: "Preparing your sanctuary" },
+  de: { title: "Dein Herz", highlight: "ist dein Zuhause", sub: "Dein Sanctuary wird vorbereitet" }
 };
 
 export default function HeartCheckRedirect() {

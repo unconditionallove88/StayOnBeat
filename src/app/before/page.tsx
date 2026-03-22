@@ -19,7 +19,7 @@ const CONTENT = {
     title: "Preparation",
     subtitle: "Radiate from within",
     header: "Ready to shine?",
-    description: "I love and respect my inner state enough to prepare my vessel for the journey ahead 🌿",
+    description: "I love and respect my inner state enough to prepare my vessel for the journey ahead",
     sections: {
       hydration: "Hydration",
       nutrition: "Nutrition",
@@ -30,13 +30,13 @@ const CONTENT = {
     nutritionAdvice: "Eat a solid, balanced meal 3 hours before you head out Avoid heavy, processed foods",
     restAdvice: "Prioritize restful sleep and be in bed before 23:00 to ensure your body recovers and stores energy for the light ahead",
     essentialsAdvice: "Charge your phone to 100% Check in with your circle and sync your Pulse baseline",
-    button: "I am prepared 💚"
+    button: "I am prepared"
   },
   de: {
     title: "Vorbereitung",
     subtitle: "Von innen heraus strahlen",
     header: "Bereit zu strahlen?",
-    description: "Ich liebe und schätze meinen inneren Zustand genug, um meinen Körper auf die bevorstehende Reise vorzubereiten 🌿",
+    description: "Ich liebe und schätze meinen inneren Zustand genug, um meinen Körper auf die bevorstehende Reise vorzubereiten",
     sections: {
       hydration: "Hydrierung",
       nutrition: "Ernährung",
@@ -47,7 +47,7 @@ const CONTENT = {
     nutritionAdvice: "Iss 3 Stunden vor dem Aufbruch eine ausgewogene Mahlzeit Vermeide schwere, verarbeitete Lebensmittel",
     restAdvice: "Priorisiere erholsamen Schlaf und sei vor 23:00 Uhr im Bett, damit dein Körper regenerieren und Energie für das Licht sammeln kann",
     essentialsAdvice: "Lade dein Handy auf 100% Melde dich bei deinem Circle und kalibriere deine Pulse-Baseline",
-    button: "Ich bin bereit 💚"
+    button: "Ich bin bereit"
   }
 };
 
@@ -173,7 +173,7 @@ export default function BeforePhase() {
             <ShieldCheck className="text-emerald-500" size={24} />
           </div>
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 leading-relaxed">
-            Preparation is the first act of self-care Radiate your truth from the inside out and your future self will thank you 💚
+            Preparation is the first act of self-care Radiate your truth from the inside out and your future self will thank you
           </p>
         </div>
       </div>
