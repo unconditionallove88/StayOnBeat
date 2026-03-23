@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
  * @fileOverview Access Sanctuary (Auth) Page.
  * Added Portuguese (Brazilian) and Russian support.
  * Punctuation-free affirmations.
+ * Updated RU translations for warm, lovable tone.
  */
 
 const CONTENT = {
@@ -36,17 +37,17 @@ const CONTENT = {
   pt: {
     welcome: "Bem-vindo ao Lar", create: "Criar Santuário", prototype: "Modo Protótipo Ativo 🔒",
     emailLabel: "Endereço de E-mail", emailPlaceholder: "alma@stayonbeat.com",
-    passwordLabel: "Senha", passwordPlaceholder: "••••••••",
+    passwordLabel: "Password", passwordPlaceholder: "••••••••",
     entering: "Entrando...", begin: "Começar Jornada", enter: "Entrar no Santuário",
     alreadyAccount: "Já tem uma conta? Entrar", newHere: "Novo aqui? Junte-se ao círculo",
     staffAccess: "StayOnBeat • Acesso da Equipe via awareness@love.com", errorMsg: "O santuário está calibrando, por favor tente novamente"
   },
   ru: {
-    welcome: "Добро пожаловать Домой", create: "Создать Пространство", prototype: "Активен режим прототипа 🔒",
+    welcome: "Мы рады Тебе", create: "Создать Пространство", prototype: "Активен режим прототипа 🔒",
     emailLabel: "Адрес электронной почты", emailPlaceholder: "soul@stayonbeat.com",
     passwordLabel: "Пароль", passwordPlaceholder: "••••••••",
     entering: "Вход...", begin: "Начать путешествие", enter: "Войти в пространство",
-    alreadyAccount: "Уже есть аккаунт? Войти", newHere: "Впервые здесь? Присоединяйся к кругу",
+    alreadyAccount: "Уже есть аккаунт? Войти", newHere: "Впервые здесь? Присоединяйся к Нам",
     staffAccess: "StayOnBeat • Доступ персонала через awareness@love.com", errorMsg: "Пространство калибруется, пожалуйста, попробуйте позже"
   }
 };

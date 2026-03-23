@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
  * Calibrated for expansive resonance, visual purity, and living from the inside out.
  * Punctuation-free for an open-ended human experience.
  * Added Portuguese (Brazilian) and Russian support.
+ * Updated RU translations for warm, lovable tone.
  */
 
 export default function Home() {
@@ -54,8 +55,8 @@ export default function Home() {
     RU: { 
       slogan: "Твой свет начинается здесь", 
       valueProp: "Безопасное пространство для сияния твоей истины через мониторинг здоровья и коллективную заботу", 
-      getStarted: "Присоединиться к Кругу", 
-      signIn: "Добро пожаловать Домой", 
+      getStarted: "Присоединяйся к Нам", 
+      signIn: "Мы рады Тебе", 
       footer: "Защищено GDPR • Зашифровано с Любовью" 
     }
   };
@@ -95,7 +96,7 @@ export default function Home() {
           <h1 className="mt-10 text-5xl md:text-7xl font-black tracking-tighter uppercase leading-none text-white text-center">
             STAY<span className="text-primary">ON</span>BEAT
           </h1>
-          <p className="text-primary font-bold mt-4 tracking-[0.3em] uppercase text-xs italic opacity-80">
+          <p className={cn("text-primary font-bold mt-4 tracking-[0.3em] uppercase text-xs italic opacity-80", lang === 'RU' && "font-serif")}>
             {content[lang].slogan}
           </p>
         </div>
@@ -103,7 +104,7 @@ export default function Home() {
         <div className="w-full max-w-md space-y-4 mb-16">
           <div className="flex items-start gap-5 p-8 bg-white/[0.03] rounded-[2.5rem] border border-white/10 text-left group hover:border-primary/30 transition-all shadow-2xl backdrop-blur-sm">
             <ShieldCheck className="text-primary mt-1 flex-shrink-0" size={24} />
-            <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest leading-tight">
+            <p className={cn("text-sm font-bold text-white/60 leading-tight uppercase tracking-widest leading-relaxed", lang === 'RU' && "italic font-serif")}>
               {content[lang].valueProp}
             </p>
           </div>
@@ -112,13 +113,13 @@ export default function Home() {
         <div className="flex flex-col gap-5 w-full max-w-sm">
           <button 
             onClick={() => router.push('/auth?mode=signup')} 
-            className="pill-button w-full bg-primary text-black text-xl font-black neon-glow active:scale-95 flex items-center justify-center gap-3 shadow-lg shadow-primary/20 uppercase tracking-[0.1em] transition-all"
+            className={cn("pill-button w-full bg-primary text-black text-xl font-black neon-glow active:scale-95 flex items-center justify-center gap-3 shadow-lg shadow-primary/20 uppercase tracking-[0.1em] transition-all", lang === 'RU' && "italic font-serif")}
           >
             {content[lang].getStarted}
           </button>
           <button 
             onClick={() => router.push('/auth?mode=signin')} 
-            className="pill-button w-full bg-white/[0.03] border-2 border-primary/20 text-primary text-lg font-black hover:bg-white/[0.08] transition-all active:scale-95 uppercase tracking-[0.1em] backdrop-blur-sm"
+            className={cn("pill-button w-full bg-white/[0.03] border-2 border-primary/20 text-primary text-lg font-black hover:bg-white/[0.08] transition-all active:scale-95 uppercase tracking-[0.1em] backdrop-blur-sm", lang === 'RU' && "italic font-serif")}
           >
             {content[lang].signIn}
           </button>
@@ -126,7 +127,7 @@ export default function Home() {
       </div>
 
       <footer className="w-full text-center mt-12 relative z-10">
-        <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-2">
+        <p className={cn("text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-2", lang === 'RU' && "italic font-serif")}>
           {content[lang].footer}
         </p>
         <div className="w-8 h-1 bg-primary/20 rounded-full mx-auto" />
