@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -24,7 +23,7 @@ import { playHeartbeat } from '@/lib/resonance';
 
 /**
  * @fileOverview Immediate Help (SOS) Portal.
- * Categorized support pathways: Emergency, Circle, Stillness.
+ * Categorized support pathways with full EN, DE, PT, RU support.
  * Enhanced with Mesh-based location sharing.
  * Punctuation-free for resonance.
  */
@@ -35,11 +34,7 @@ const CONTENT = {
     helping: (name: string) => `Helping ${name}`,
     subtitle: "Choose the pathway that resonates now",
     friendSubtitle: (name: string) => `Choose the pathway of care for ${name}`,
-    tabs: {
-      emergency: "Emergency",
-      circle: "Circle",
-      stillness: "Stillness"
-    },
+    tabs: { emergency: "Emergency", circle: "Circle", stillness: "Stillness" },
     emergency: {
       title: "Awareness Dispatch",
       sub: "Medical & Security",
@@ -74,11 +69,7 @@ const CONTENT = {
     helping: (name: string) => `${name} braucht Begleitung`,
     subtitle: "Wähle den Weg, der sich jetzt richtig anfühlt",
     friendSubtitle: (name: string) => `Wähle einen Weg der Fürsorge für ${name}`,
-    tabs: {
-      emergency: "Notfall",
-      circle: "Kreis",
-      stillness: "Ruhe"
-    },
+    tabs: { emergency: "Notfall", circle: "Kreis", stillness: "Ruhe" },
     emergency: {
       title: "Awareness-Einsatz",
       sub: "Medizin & Sicherheit",
@@ -107,6 +98,76 @@ const CONTENT = {
     meshShared: "Mesh-Ortung geteilt",
     privacyActive: "Schutzprotokolle sind aktiv",
     returning: (s: number) => `Rückkehr zum Dashboard in ${s}s`
+  },
+  pt: {
+    question: "Você precisa de ajuda?",
+    helping: (name: string) => `Ajudando ${name}`,
+    subtitle: "Escolha o caminho que ressoa agora",
+    friendSubtitle: (name: string) => `Escolha o caminho de cuidado para ${name}`,
+    tabs: { emergency: "Emergência", circle: "Círculo", stillness: "Silêncio" },
+    emergency: {
+      title: "Despacho de Equipe",
+      sub: "Médico e Segurança",
+      desc: "Solicite suporte profissional para seu Grid Tático da Mesh Lidado com absoluta discrição",
+      button: "Notificar Equipe"
+    },
+    circle: {
+      title: "Alerta de Círculo",
+      sub: "Cuidado Mútuo",
+      desc: "Deixe seu círculo íntimo saber que um momento de conexão ou assistência é necessário",
+      button: "Notificar Meu Círculo"
+    },
+    stillness: {
+      title: "Caminho de Aterramento",
+      sub: "Modo Autocuidado",
+      desc: "Eu amo e respeito minha necessidade de silêncio Acesse ferramentas de respiração",
+      button: "Abrir Ferramentas"
+    },
+    connecting: "Negociando Handshake da Mesh...",
+    honoring: "Honrando o pedido de cuidado",
+    allIsWell: "Tudo está bem",
+    loved: "Eu sou amado",
+    friendLoved: (name: string) => `${name} é amado`,
+    takenCareOf: "e estou sendo cuidado",
+    dispatched: "Pedido de ajuda via Mesh enviado",
+    meshShared: "Localização Mesh Compartilhada",
+    privacyActive: "Protocolos de privacidade ativos",
+    returning: (s: number) => `Retornando ao santuário em ${s}s`
+  },
+  ru: {
+    question: "Нужна помощь?",
+    helping: (name: string) => `Помогаем ${name}`,
+    subtitle: "Выберите путь который резонирует сейчас",
+    friendSubtitle: (name: string) => `Выберите путь заботы для ${name}`,
+    tabs: { emergency: "Экстренно", circle: "Круг", stillness: "Тишина" },
+    emergency: {
+      title: "Вызов Помощи",
+      sub: "Медики и Охрана",
+      desc: "Запросите профессиональную поддержку по вашей Mesh-сетке Обрабатывается конфиденциально",
+      button: "Вызвать Команду"
+    },
+    circle: {
+      title: "Сигнал Кругу",
+      sub: "Взаимная Забота",
+      desc: "Дайте вашему кругу знать что вам нужна поддержка или общение через Mesh-Sync",
+      button: "Уведомить Мой Круг"
+    },
+    stillness: {
+      title: "Путь Заземления",
+      sub: "Режим Самопомощи",
+      desc: "Я люблю и уважаю свою потребность в тишине Используйте техники дыхания",
+      button: "Открыть Инструменты"
+    },
+    connecting: "Установка Mesh-соединения...",
+    honoring: "Принимаем ваш запрос на заботу",
+    allIsWell: "Все хорошо",
+    loved: "Я любим",
+    friendLoved: (name: string) => `${name} любим`,
+    takenCareOf: "и о нем заботятся",
+    dispatched: "Запрос помощи через Mesh отправлен",
+    meshShared: "Локация Mesh передана",
+    privacyActive: "Протоколы приватности активны",
+    returning: (s: number) => `Возврат в пространство через ${s}с`
   }
 };
 
@@ -122,14 +183,12 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
   const router = useRouter();
   const [step, setStep] = useState<'confirm' | 'sending' | 'sent'>('confirm');
   const [countdown, setCountdown] = useState(15);
-  const [lang, setLang] = useState<'en' | 'de'>('en');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
   const isFriendMode = !!friendName;
 
   useEffect(() => {
-    const savedLang = localStorage.getItem('stayonbeat_lang');
-    if (savedLang === 'DE' || savedLang === 'EN') {
-      setLang(savedLang.toLowerCase() as 'en' | 'de');
-    }
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
 
     playHeartbeat();
     let timer: NodeJS.Timeout;
@@ -141,7 +200,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
     return () => clearInterval(timer);
   }, [step, countdown, onClose]);
 
-  const t = CONTENT[lang];
+  const t = CONTENT[lang as keyof typeof CONTENT] || CONTENT.en;
 
   const handleSendSOS = async (priority: 'urgent' | 'standard' | 'grounding') => {
     playHeartbeat();

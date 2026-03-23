@@ -35,7 +35,7 @@ import { SOSAlert } from '@/components/dashboard/SOSAlert';
 
 /**
  * @fileOverview Pulse Lab component.
- * Optimized for high-fidelity iPhone interaction with touch-pan-y and safe area support.
+ * Optimized for high-fidelity interaction with full EN, DE, PT, RU support.
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -80,26 +80,60 @@ const CONTENT = {
     addedToDiary: "wurde deinem Tagebuch hinzugefügt",
     causionTitle: "Pulse Guardian: Vorsicht 🧪",
     poppersHR: (hr: number) => `Dein Puls liegt bei ${hr} BPM Poppers senkt den Blutdruck stark ab Bitte nimm dir einen Moment Zeit, setz dich hin und atme tief durch`
+  },
+  pt: {
+    title: "Pulse Lab",
+    advisor: "Abrir Assessor de Segurança",
+    context: "Verificação contextual",
+    search: "Buscar substâncias...",
+    diary: "Diário da Sessão",
+    records: "Registros",
+    sync: "Sincronizar Sessão",
+    intake: "Registrar Entrada",
+    confirm: "Confirmar e Registrar",
+    cancel: "Cancelar Entrada",
+    amount: "Quantidade",
+    doseLogged: "Dose registrada",
+    addedToDiary: "adicionada ao seu diário de sessão",
+    causionTitle: "Pulse Guardian: Cuidado 🧪",
+    poppersHR: (hr: number) => `Sua frequência cardíaca é ${hr} BPM Poppers reduzem a pressão arterial bruscamente Por favor sente-se e respire antes de usar`
+  },
+  ru: {
+    title: "Лаборатория",
+    advisor: "Советник по Безопасности",
+    context: "Контекстная проверка",
+    search: "Поиск веществ...",
+    diary: "Дневник Сессии",
+    records: "Записи",
+    sync: "Синхронизировать Сессию",
+    intake: "Добавить запись",
+    confirm: "Подтвердить и Добавить",
+    cancel: "Отмена",
+    amount: "Количество",
+    doseLogged: "Запись добавлена",
+    addedToDiary: "добавлено в ваш дневник сессии",
+    causionTitle: "Pulse Guardian: Осторожно 🧪",
+    poppersHR: (hr: number) => `Ваш пульс составляет ${hr} уд/мин Попперс резко снижает кровяное давление Пожалуйста присядьте и подышите перед использованием`
   }
 };
 
 const SUBSTANCES = [
-  { id: 'alcohol', icon: Wine, name: 'Alcohol', deName: 'Alkohol', color: 'text-amber-500', bg: 'bg-amber-500/10', unit: 'Items', deUnit: 'Einheiten', subTypes: ['Beer', 'Wine', 'Shot', 'Mixer'], deSubTypes: ['Bier', 'Wein', 'Shot', 'Mixer'], inputType: 'cart' },
-  { id: 'cannabis', icon: Leaf, name: 'Cannabis', deName: 'Cannabis', color: 'text-emerald-500', bg: 'bg-emerald-500/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
-  { id: 'mdma', icon: CircleDot, name: 'MDMA', deName: 'MDMA', color: 'text-purple-400', bg: 'bg-purple-500/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
-  { id: 'cocaine', icon: Diamond, name: 'Cocaine', deName: 'Kokain', color: 'text-slate-200', bg: 'bg-slate-200/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
-  { id: 'ketamine', icon: FlaskConical, name: 'Ketamine', deName: 'Ketamin', color: 'text-indigo-400', bg: 'bg-indigo-400/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
-  { id: 'ecstasy', icon: Heart, name: 'Ecstasy', deName: 'Ecstasy', color: 'text-pink-500', bg: 'bg-pink-500/10', unit: 'pills', deUnit: 'Pillen', inputType: 'manual' },
-  { id: 'ghb', icon: Droplets, name: 'GHB/GBL', deName: 'GHB/GBL', color: 'text-blue-400', bg: 'bg-blue-400/10', unit: 'ml', deUnit: 'ml', inputType: 'manual' },
-  { id: 'speed', icon: Zap, name: 'Speed', deName: 'Speed', color: 'text-yellow-400', bg: 'bg-yellow-400/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
-  { id: 'lsd', icon: Eye, name: 'LSD', deName: 'LSD', color: 'text-cyan-400', bg: 'bg-cyan-400/10', unit: 'ug', deUnit: 'ug', inputType: 'manual' },
-  { id: '2cb', icon: Orbit, name: '2C-B', deName: '2C-B', color: 'text-orange-400', bg: 'bg-orange-400/10', unit: 'mg', deUnit: 'mg', inputType: 'manual' },
-  { id: 'psilocybin', icon: MushroomIcon, name: 'Psilocybin', deName: 'Psilocybin', color: 'text-emerald-400', bg: 'bg-emerald-500/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
-  { id: 'poppers', icon: Wind, name: 'Poppers', deName: 'Poppers', color: 'text-amber-400', bg: 'bg-amber-400/10', unit: 'hits', deUnit: 'Züge', inputType: 'manual' },
-  { id: 'viagra', icon: Pill, name: 'Viagra', deName: 'Viagra', color: 'text-blue-500', bg: 'bg-blue-500/10', unit: 'pills', deUnit: 'Tabletten', inputType: 'manual' },
-  { id: '2mmc', icon: Diamond, name: '2-MMC', deName: '2-MMC', color: 'text-sky-300', bg: 'bg-sky-300/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
-  { id: '3mmc', icon: Diamond, name: '3-MMC', deName: '3-MMC', color: 'text-sky-400', bg: 'bg-sky-400/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
-  { id: '4mmc', icon: Diamond, name: '4-MMC', deName: '4-MMC', color: 'text-sky-500', bg: 'bg-sky-500/10', unit: 'g', deUnit: 'g', inputType: 'manual' },
+  { id: 'alcohol', icon: Wine, name: 'Alcohol', deName: 'Alkohol', ptName: 'Álcool', ruName: 'Алкоголь', color: 'text-amber-500', bg: 'bg-amber-500/10', unit: 'Items', deUnit: 'Einheiten', ptUnit: 'Unidades', ruUnit: 'Ед.', subTypes: ['Beer', 'Wine', 'Shot', 'Mixer'], deSubTypes: ['Bier', 'Wein', 'Shot', 'Mixer'], ptSubTypes: ['Cerveja', 'Vinho', 'Dose', 'Mixer'], ruSubTypes: ['Пиво', 'Вино', 'Шот', 'Коктейль'], inputType: 'cart' },
+  { id: 'cannabis', icon: Leaf, name: 'Cannabis', deName: 'Cannabis', ptName: 'Cannabis', ruName: 'Каннабис', color: 'text-emerald-500', bg: 'bg-emerald-500/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
+  { id: 'mdma', icon: CircleDot, name: 'MDMA', deName: 'MDMA', ptName: 'MDMA', ruName: 'МДМА', color: 'text-purple-400', bg: 'bg-purple-500/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
+  { id: 'cocaine', icon: Diamond, name: 'Cocaine', deName: 'Kokain', ptName: 'Cocaína', ruName: 'Кокаин', color: 'text-slate-200', bg: 'bg-slate-200/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
+  { id: 'ketamine', icon: FlaskConical, name: 'Ketamine', deName: 'Ketamin', ptName: 'Cetamina', ruName: 'Кетамин', color: 'text-indigo-400', bg: 'bg-indigo-400/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
+  { id: 'ecstasy', icon: Heart, name: 'Ecstasy', deName: 'Ecstasy', ptName: 'Ecstasy', ruName: 'Экстази', color: 'text-pink-500', bg: 'bg-pink-500/10', unit: 'pills', deUnit: 'Pillen', ptUnit: 'Balas', ruUnit: 'Таб.', inputType: 'manual' },
+  { id: 'ghb', icon: Droplets, name: 'GHB/GBL', deName: 'GHB/GBL', ptName: 'GHB/GBL', ruName: 'ГОМК/ГБЛ', color: 'text-blue-400', bg: 'bg-blue-400/10', unit: 'ml', deUnit: 'ml', ptUnit: 'ml', ruUnit: 'мл', inputType: 'manual' },
+  { id: 'speed', icon: Zap, name: 'Speed', deName: 'Speed', ptName: 'Speed', ruName: 'Спид', color: 'text-yellow-400', bg: 'bg-yellow-400/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
+  { id: 'lsd', icon: Eye, name: 'LSD', deName: 'LSD', ptName: 'LSD', ruName: 'ЛСД', color: 'text-cyan-400', bg: 'bg-cyan-400/10', unit: 'ug', deUnit: 'ug', ptUnit: 'ug', ruUnit: 'мкг', inputType: 'manual' },
+  { id: '2cb', icon: Orbit, name: '2C-B', deName: '2C-B', ptName: '2C-B', ruName: '2C-B', color: 'text-orange-400', bg: 'bg-orange-400/10', unit: 'mg', deUnit: 'mg', ptUnit: 'mg', ruUnit: 'мг', inputType: 'manual' },
+  { id: 'psilocybin', icon: MushroomIcon, name: 'Psilocybin', deName: 'Psilocybin', ptName: 'Psilocibina', ruName: 'Псилоцибин', color: 'text-emerald-400', bg: 'bg-emerald-500/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
+  { id: 'poppers', icon: Wind, name: 'Poppers', deName: 'Poppers', ptName: 'Poppers', ruName: 'Попперс', color: 'text-amber-400', bg: 'bg-amber-400/10', unit: 'hits', deUnit: 'Züge', ptUnit: 'Inaladas', ruUnit: 'Вдохов', inputType: 'manual' },
+  { id: 'viagra', icon: Pill, name: 'Viagra', deName: 'Viagra', ptName: 'Viagra', ruName: 'Виагра', color: 'text-blue-500', bg: 'bg-blue-500/10', unit: 'pills', deUnit: 'Tabletten', ptUnit: 'Comprimidos', ruUnit: 'Таб.', inputType: 'manual' },
+  { id: '2mmc', icon: Diamond, name: '2-MMC', deName: '2-MMC', ptName: '2-MMC', ruName: '2-MMC', color: 'text-sky-300', bg: 'bg-sky-300/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
+  { id: '3mmc', icon: Diamond, name: '3-MMC', deName: '3-MMC', ptName: '3-MMC', ruName: '3-MMC', color: 'text-sky-400', bg: 'bg-sky-400/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
+  { id: '4mmc', icon: Diamond, name: '4-MMC', deName: '4-MMC', ptName: '4-MMC', ruName: '4-MMC', color: 'text-sky-500', bg: 'bg-sky-500/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
 ];
 
 export function Step6SubstanceLab({ 
@@ -123,17 +157,17 @@ export function Step6SubstanceLab({
   const [alcoholCart, setAlcoholCart] = useState<{type: string, count: number}[]>([]);
   const [chatOpen, setChatOpen] = useState(false);
   const [showSOS, setShowSOS] = useState(false);
-  const [lang, setLang] = useState<'en' | 'de'>('en');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
 
   useEffect(() => {
     setMounted(true);
     const savedLogs = JSON.parse(localStorage.getItem('stayonbeat_logs') || '[]');
     setSessionLogs(savedLogs);
-    const savedLang = localStorage.getItem('stayonbeat_lang');
-    if (savedLang === 'DE') setLang('de');
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
   }, []);
 
-  const t = CONTENT[lang];
+  const t = CONTENT[lang as keyof typeof CONTENT] || CONTENT.en;
 
   const handleSelectSubstance = (substance: any) => {
     const currentHR = userData?.sessionStatus?.lastHeartRate || 75;
@@ -142,7 +176,7 @@ export function Step6SubstanceLab({
     }
     setActiveSubstance(substance);
     if (substance.id === 'alcohol') {
-      const types = lang === 'en' ? substance.subTypes : substance.deSubTypes;
+      const types = lang === 'en' ? substance.subTypes : lang === 'de' ? substance.deSubTypes : lang === 'pt' ? substance.ptSubTypes : substance.ruSubTypes;
       setAlcoholCart(types!.map((type: string) => ({ type, count: 0 })));
     }
   };
@@ -150,8 +184,8 @@ export function Step6SubstanceLab({
   const saveLog = () => {
     if (isLocked) return;
     let entry: any;
-    const substanceName = lang === 'en' ? activeSubstance.name : activeSubstance.deName;
-    const unit = lang === 'en' ? activeSubstance.unit : activeSubstance.deUnit;
+    const substanceName = lang === 'en' ? activeSubstance.name : lang === 'de' ? activeSubstance.deName : lang === 'pt' ? activeSubstance.ptName : activeSubstance.ruName;
+    const unit = lang === 'en' ? activeSubstance.unit : lang === 'de' ? activeSubstance.deUnit : lang === 'pt' ? activeSubstance.ptUnit : activeSubstance.ruUnit;
 
     if (activeSubstance.id === 'alcohol') {
       const activeItems = alcoholCart.filter(c => c.count > 0);
@@ -178,7 +212,7 @@ export function Step6SubstanceLab({
   };
 
   const filtered = SUBSTANCES.filter(s => {
-    const name = lang === 'en' ? s.name : s.deName;
+    const name = lang === 'en' ? s.name : lang === 'de' ? s.deName : lang === 'pt' ? s.ptName : s.ruName;
     return name.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
@@ -199,7 +233,7 @@ export function Step6SubstanceLab({
             <CareShield 
               reason={userData?.sessionStatus?.lockReason || 'manual'}
               unlockAt={userData?.sessionStatus?.unlockAt ? new Date(userData.sessionStatus.unlockAt).getTime() : Date.now() + 4 * 60 * 60 * 1000}
-              lang={lang}
+              lang={lang as 'en' | 'de'}
               onNeedSupport={() => setShowSOS(true)}
             />
           </div>
@@ -281,6 +315,7 @@ export function Step6SubstanceLab({
           <div className="grid grid-cols-3 gap-4 w-full">
             {filtered.map(s => {
               const active = isSubstanceActive(s.id);
+              const name = lang === 'en' ? s.name : lang === 'de' ? s.deName : lang === 'pt' ? s.ptName : s.ruName;
               return (
                 <button 
                   key={s.id}
@@ -293,7 +328,7 @@ export function Step6SubstanceLab({
                   <div className={cn("p-4 rounded-2xl bg-black/20 group-hover:scale-110 transition-transform", s.color)}>
                     <s.icon size={28} />
                   </div>
-                  <span className={cn("text-[10px] font-black uppercase tracking-widest", active ? "text-[#3EB489]" : "text-white/60")}>{lang === 'en' ? s.name : s.deName}</span>
+                  <span className={cn("text-[10px] font-black uppercase tracking-widest", active ? "text-[#3EB489]" : "text-white/60")}>{name}</span>
                 </button>
               );
             })}
@@ -314,7 +349,7 @@ export function Step6SubstanceLab({
               <div className={cn("w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 shadow-lg", activeSubstance.color)}>
                 <activeSubstance.icon size={24} />
               </div>
-              <h2 className="text-xl font-black uppercase tracking-tighter text-white">{lang === 'en' ? activeSubstance.name : activeSubstance.deName}</h2>
+              <h2 className="text-xl font-black uppercase tracking-tighter text-white">{lang === 'en' ? activeSubstance.name : lang === 'de' ? activeSubstance.deName : lang === 'pt' ? activeSubstance.ptName : activeSubstance.ruName}</h2>
             </div>
             <button onClick={() => setActiveSubstance(null)} className="p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white transition-all active:scale-90"><X size={20} /></button>
           </header>
@@ -336,7 +371,7 @@ export function Step6SubstanceLab({
                 </div>
               ) : (
                 <div className="space-y-4 w-full">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-white/40 block ml-2">{t.amount} ({lang === 'en' ? activeSubstance.unit : activeSubstance.deUnit})</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-white/40 block ml-2">{t.amount} ({lang === 'en' ? activeSubstance.unit : lang === 'de' ? activeSubstance.deUnit : lang === 'pt' ? activeSubstance.ptUnit : activeSubstance.ruUnit})</label>
                   <input type="number" value={manualValue} onChange={(e) => setManualValue(e.target.value)} autoFocus inputMode="decimal" className="w-full h-24 bg-white/5 border-2 border-white/10 rounded-3xl px-8 text-5xl font-black outline-none focus:border-[#3EB489] transition-all text-white text-center shadow-inner" placeholder="0.00" />
                 </div>
               )}

@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -10,7 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 
 /**
  * @fileOverview Co-Creation Component.
- * Connected the external Typeform survey link for prototype testing.
+ * Full localization for EN, DE, PT, RU.
  * Punctuation-free for resonance.
  */
 
@@ -51,6 +50,42 @@ const i18n = {
     shareMore: "Mehr teilen",
     receivedWithLove: "Mit bedingungsloser Liebe empfangen"
   },
+  pt: {
+    title: "Co-Criação",
+    subtitle: "Sua voz molda este santuário",
+    types: [
+      { key: "resonance", label: "O que ressoa?", placeholder: "O que parece certo quente ou verdadeiro para você neste app" },
+      { key: "dissonance", label: "Onde está a dissonância?", placeholder: "O que parece errado faltando ou poderia ser mais humano" },
+      { key: "evolution", label: "O que você adicionaria?", placeholder: "Uma função uma palavra um sentimento que você gostaria aqui" },
+      { key: "safety", label: "Você se sente cuidado?", placeholder: "Diga-nos honestamente Sentir-se cuidado é nossa base" },
+      { key: "survey", label: "Pesquisa do App 📋", placeholder: "Ajude-nos a testar o santuário Seu feedback nos ajuda a crescer" },
+    ],
+    send: "Enviar do Coração",
+    openSurvey: "Abrir Pesquisa do Santuário",
+    sending: "Enviando...",
+    successTitle: "Ouvido",
+    successMsg: "Suas palavras foram recebidas com amor Elas ajudarão este espaço a crescer",
+    shareMore: "Compartilhar mais",
+    receivedWithLove: "Recebido com Amor Incondicional"
+  },
+  ru: {
+    title: "Со-творение",
+    subtitle: "Ваш голос формирует это пространство",
+    types: [
+      { key: "resonance", label: "Что резонирует?", placeholder: "Что кажется правильным теплым или верным в этом приложении" },
+      { key: "dissonance", label: "Где диссонанс?", placeholder: "Что кажется неправильным отсутствующим или могло бы быть человечнее" },
+      { key: "evolution", label: "Что бы вы добавили?", placeholder: "Функцию слово или чувство которое вы хотели бы видеть здесь" },
+      { key: "safety", label: "Чувствуете ли вы заботу?", placeholder: "Скажите нам честно Чувство заботы — это наш фундамент" },
+      { key: "survey", label: "Опрос 📋", placeholder: "Помогите нам протестировать пространство Ваша обратная связь помогает нам расти" },
+    ],
+    send: "Отправить от сердца",
+    openSurvey: "Открыть опрос пространства",
+    sending: "Отправка...",
+    successTitle: "Услышано",
+    successMsg: "Ваши слова приняты с любовью Они помогут этому пространству расти",
+    shareMore: "Поделиться еще",
+    receivedWithLove: "Принято с безусловной любовью"
+  }
 };
 
 const SURVEY_LINK = "https://ev32k2sgx09.typeform.com/to/a33evEfp";
@@ -58,7 +93,7 @@ const SURVEY_LINK = "https://ev32k2sgx09.typeform.com/to/a33evEfp";
 export function CoCreation({ onComplete }: { onComplete?: () => void }) {
   const { user } = useUser();
   const firestore = useFirestore();
-  const [lang, setLang] = useState<"en" | "de">("en");
+  const [lang, setLang] = useState<"en" | "de" | "pt" | "ru">("en");
   const [activeType, setActiveType] = useState(0);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -72,11 +107,11 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
   const { data: profile } = useDoc(userDocRef);
 
   useEffect(() => {
-    const savedLang = localStorage.getItem('stayonbeat_lang');
-    if (savedLang === 'DE') setLang('de');
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
   }, []);
 
-  const t = i18n[lang];
+  const t = i18n[lang as keyof typeof i18n] || i18n.en;
   const isSurvey = t.types[activeType].key === 'survey';
 
   const handleSend = async (e: React.FormEvent) => {
@@ -104,66 +139,67 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
     finally { setLoading(false); }
   };
 
-  if (sent) {
-    return (
-      <div className="w-full min-h-[400px] flex flex-col items-center justify-center p-10 text-center animate-in fade-in zoom-in-95 duration-500 font-headline bg-black rounded-[3rem]">
-        <div className="w-20 h-20 bg-[#90EE90]/10 rounded-full flex items-center justify-center mb-8 border-2 border-[#90EE90]/20 shadow-[0_0_40px_rgba(144,238,144,0.1)]">
-          <CheckCircle2 size={48} className="text-[#90EE90]" />
-        </div>
-        <h3 className="text-white font-black text-3xl mb-4 uppercase tracking-tighter">{t.successTitle}</h3>
-        <p className="text-white/60 text-base font-bold leading-relaxed max-xs mx-auto mb-10">{t.successMsg}</p>
-        <button onClick={onComplete} className="text-[10px] font-black uppercase text-white/20 tracking-[0.4em] hover:text-white transition-colors">Close Sanctuary</button>
-      </div>
-    );
-  }
-
   return (
     <div className="w-full bg-black p-8 font-headline">
-      <div className="flex items-start justify-between mb-8">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-[#90EE90]/10 border border-[#90EE90]/20"><Sprout size={28} className="text-[#90EE90]" /></div>
-          <div>
-            <h3 className="text-white font-black text-2xl uppercase tracking-tighter leading-none">{t.title}</h3>
-            <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mt-1.5">{t.subtitle}</p>
+      {sent ? (
+        <div className="w-full min-h-[400px] flex flex-col items-center justify-center p-10 text-center animate-in fade-in zoom-in-95 duration-500 font-headline bg-black rounded-[3rem]">
+          <div className="w-20 h-20 bg-[#90EE90]/10 rounded-full flex items-center justify-center mb-8 border-2 border-[#90EE90]/20 shadow-[0_0_40px_rgba(144,238,144,0.1)]">
+            <CheckCircle2 size={48} className="text-[#90EE90]" />
           </div>
+          <h3 className="text-white font-black text-3xl mb-4 uppercase tracking-tighter">{t.successTitle}</h3>
+          <p className="text-white/60 text-base font-bold leading-relaxed max-xs mx-auto mb-10">{t.successMsg}</p>
+          <button onClick={onComplete} className="text-[10px] font-black uppercase text-white/20 tracking-[0.4em] hover:text-white transition-colors">
+            {lang === 'en' ? "Close Sanctuary" : lang === 'de' ? "Schließen" : lang === 'pt' ? "Fechar Santuário" : "Закрыть"}
+          </button>
         </div>
-        <button onClick={() => setLang(lang === "en" ? "de" : "en")} className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-xl border border-white/10 text-white/40 hover:text-[#90EE90] transition-all"><Globe size={12} /> {lang === "en" ? "DE" : "EN"}</button>
-      </div>
-
-      <div className="grid grid-cols-2 gap-3 mb-8">
-        {t.types.map((type, i) => (
-          <button key={type.key} onClick={() => setActiveType(i)} className={cn("p-4 rounded-2xl border-2 text-left transition-all duration-300 h-20 flex flex-col justify-center", activeType === i ? "bg-[#90EE90]/10 border-[#90EE90]" : "bg-white/5 border-white/5 hover:border-white/20", type.key === 'survey' && "col-span-2 border-dashed border-[#90EE90]/40")}>
-            <div className="flex items-center gap-2">
-              {type.key === 'survey' && <ClipboardList size={14} className={activeType === i ? "text-[#90EE90]" : "text-white/40"} />}
-              <span className={cn("text-[10px] font-black uppercase tracking-widest leading-tight block", activeType === i ? "text-[#90EE90]" : "text-white/40")}>{type.label}</span>
+      ) : (
+        <>
+          <div className="flex items-start justify-between mb-8">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-[#90EE90]/10 border border-[#90EE90]/20"><Sprout size={28} className="text-[#90EE90]" /></div>
+              <div>
+                <h3 className="text-white font-black text-2xl uppercase tracking-tighter leading-none">{t.title}</h3>
+                <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mt-1.5">{t.subtitle}</p>
+              </div>
             </div>
-          </button>
-        ))}
-      </div>
-
-      <form onSubmit={handleSend} className="space-y-6">
-        {!isSurvey ? (
-          <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder={t.types[activeType].placeholder} className="w-full h-48 px-6 py-5 rounded-[2rem] border-2 border-white/10 bg-white/5 text-white text-base font-bold outline-none resize-none focus:border-[#90EE90] transition-all" required />
-        ) : (
-          <div className="w-full h-48 px-8 py-10 rounded-[2rem] border-2 border-dashed border-[#90EE90]/20 bg-[#90EE90]/5 flex flex-col items-center justify-center text-center gap-4">
-            <ClipboardList className="text-[#90EE90] opacity-40" size={40} />
-            <p className="text-white/60 text-sm font-bold uppercase tracking-widest leading-relaxed">
-              {t.types[activeType].placeholder}
-            </p>
           </div>
-        )}
-        
-        <div className="space-y-4">
-          <button type="submit" disabled={!isSurvey && (loading || !message.trim())} className="w-full h-20 bg-[#90EE90] text-black rounded-[1.5rem] font-black text-xl uppercase tracking-widest flex items-center justify-center gap-3 transition-all active:scale-[0.98] disabled:opacity-30">
-            {isSurvey ? (
-              <><ExternalLink size={20} /> {t.openSurvey}</>
+
+          <div className="grid grid-cols-2 gap-3 mb-8">
+            {t.types.map((type, i) => (
+              <button key={type.key} onClick={() => setActiveType(i)} className={cn("p-4 rounded-2xl border-2 text-left transition-all duration-300 h-20 flex flex-col justify-center", activeType === i ? "bg-[#90EE90]/10 border-[#90EE90]" : "bg-white/5 border-white/5 hover:border-white/20", type.key === 'survey' && "col-span-2 border-dashed border-[#90EE90]/40")}>
+                <div className="flex items-center gap-2">
+                  {type.key === 'survey' && <ClipboardList size={14} className={activeType === i ? "text-[#90EE90]" : "text-white/40"} />}
+                  <span className={cn("text-[10px] font-black uppercase tracking-widest leading-tight block", activeType === i ? "text-[#90EE90]" : "text-white/40")}>{type.label}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          <form onSubmit={handleSend} className="space-y-6">
+            {!isSurvey ? (
+              <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder={t.types[activeType].placeholder} className="w-full h-48 px-6 py-5 rounded-[2rem] border-2 border-white/10 bg-white/5 text-white text-base font-bold outline-none resize-none focus:border-[#90EE90] transition-all" required />
             ) : (
-              loading ? <><Loader2 size={24} className="animate-spin" /> {t.sending}</> : <><CircleDot size={20} /> {t.send}</>
+              <div className="w-full h-48 px-8 py-10 rounded-[2rem] border-2 border-dashed border-[#90EE90]/20 bg-[#90EE90]/5 flex flex-col items-center justify-center text-center gap-4">
+                <ClipboardList className="text-[#90EE90] opacity-40" size={40} />
+                <p className="text-white/60 text-sm font-bold uppercase tracking-widest leading-relaxed">
+                  {t.types[activeType].placeholder}
+                </p>
+              </div>
             )}
-          </button>
-          <p className="text-center text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]">{t.receivedWithLove}</p>
-        </div>
-      </form>
+            
+            <div className="space-y-4">
+              <button type="submit" disabled={!isSurvey && (loading || !message.trim())} className="w-full h-20 bg-[#90EE90] text-black rounded-[1.5rem] font-black text-xl uppercase tracking-widest flex items-center justify-center gap-3 transition-all active:scale-[0.98] disabled:opacity-30">
+                {isSurvey ? (
+                  <><ExternalLink size={20} /> {t.openSurvey}</>
+                ) : (
+                  loading ? <><Loader2 size={24} className="animate-spin" /> {t.sending}</> : <><CircleDot size={20} /> {t.send}</>
+                )}
+              </button>
+              <p className="text-center text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]">{t.receivedWithLove}</p>
+            </div>
+          </form>
+        </>
+      )}
     </div>
   );
 }

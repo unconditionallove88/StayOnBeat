@@ -37,7 +37,7 @@ export default function HeartStatusAura({
     ru: { resonance: "Внутренний Резонанс", intense: "Интенсивно", elevated: "Повышено", steady: "Стабильно" }
   };
 
-  const t = labels[lang] || labels.en;
+  const t = labels[lang as keyof typeof labels] || labels.en;
 
   return (
     <div className="flex flex-col items-center justify-center p-4 md:p-8 relative font-headline cursor-pointer group">

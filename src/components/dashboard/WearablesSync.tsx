@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -13,6 +12,7 @@ import { checkSafetyStatus } from '@/lib/guardian';
  * @fileOverview Wearables Sync Component.
  * Deeply integrated with Sovereign Mesh protocols.
  * Punctuation-free for resonance.
+ * Full localization for EN, DE, PT, RU.
  */
 
 const DEVICES = [
@@ -51,6 +51,36 @@ const CONTENT = {
     restNotice: (hr: number) => `Deine Vitalwerte (Puls: ${hr}) benötigen Ruhe Schutz aktiv`,
     calibrated: "Puls kalibriert",
     restingSet: (bpm: number) => `Ruhepuls auf ${bpm} gesetzt Deine Daten sind via Mesh synchronisiert`
+  },
+  pt: {
+    title: "Pulse Sync",
+    sub: "Conectar wearables para sinais vitais",
+    negotiating: "Negociando Handshake da Mesh...",
+    active: "Rastreamento Mesh Ativo",
+    clickConnect: "Clique para conectar",
+    calibrating: "Calibrando Baseline da Mesh...",
+    analyzing: "Analisando ritmo fisiológico contra contexto da sessão",
+    guardianInfo: "Pulse Guardian usa seus BPM de repouso como base para limites de segurança Compartilhado via Sovereign Mesh",
+    done: "Concluído",
+    thresholdExceeded: "Limite de Segurança Excedido",
+    restNotice: (hr: number) => `Sinais vitais (HR: ${hr}) requerem repouso imediato Proteção ativa`,
+    calibrated: "Pulso Calibrado",
+    restingSet: (bpm: number) => `BPM de repouso definido para ${bpm} Seus dados de saúde estão sincronizados via Mesh`
+  },
+  ru: {
+    title: "Синхронизация",
+    sub: "Подключите устройства для мониторинга",
+    negotiating: "Установка Mesh-соединения...",
+    active: "Живой Mesh-мониторинг активен",
+    clickConnect: "Нажмите для подключения",
+    calibrating: "Калибровка Mesh-базы...",
+    analyzing: "Анализ физиологического ритма в контексте сессии",
+    guardianInfo: "Pulse Guardian использует ваш пульс в покое как базу для порогов безопасности Передается через Sovereign Mesh",
+    done: "Готово",
+    thresholdExceeded: "Превышен Порог Безопасности",
+    restNotice: (hr: number) => `Показатели (HR: ${hr}) требуют немедленного отдыха Защита активна`,
+    calibrated: "Пульс откалиброван",
+    restingSet: (bpm: number) => `Пульс в покое установлен на ${bpm} Данные синхронизированы через Mesh`
   }
 };
 
@@ -61,14 +91,14 @@ export function WearablesSync({ onComplete }: { onComplete: () => void }) {
   const [connectingId, setConnectingId] = useState<string | null>(null);
   const [connectedId, setConnectedId] = useState<string | null>(null);
   const [isCalibrating, setIsCalibrating] = useState(false);
-  const [lang, setLang] = useState<'en' | 'de'>('en');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
 
   useState(() => {
-    const savedLang = localStorage.getItem('stayonbeat_lang');
-    if (savedLang === 'DE') setLang('de');
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
   });
 
-  const t = CONTENT[lang];
+  const t = CONTENT[lang as keyof typeof CONTENT] || CONTENT.en;
 
   const handleConnect = (id: string) => {
     setConnectingId(id);

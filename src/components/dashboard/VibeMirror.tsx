@@ -17,7 +17,7 @@ import {
  * @fileOverview Vibe Mirror Component.
  * Bespoke high-fidelity Resonance Icons integrated with an organic color palette.
  * Punctuation-free for resonance.
- * Added PT and RU support.
+ * Full PT and RU support.
  */
 
 const VIBES = [

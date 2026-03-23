@@ -1,7 +1,6 @@
-
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useFirestore, useUser, addDocumentNonBlocking } from '@/firebase';
 import { collection, serverTimestamp } from 'firebase/firestore';
 import { PenLine, Send, Loader2, CircleDot, ShieldCheck } from 'lucide-react';
@@ -9,10 +8,61 @@ import { cn } from '@/lib/utils';
 
 /**
  * @fileOverview Love Letter Component.
- * Minimalist and elegant ritual for writing to your future self.
+ * Full localization for EN, DE, PT, RU.
  * Framing: I radiate love from the inside out.
  * Purity: Punctuation-free and emoji-free.
  */
+
+const CONTENT = {
+  en: {
+    title: "Love Letter",
+    sub: "To your future self",
+    prompt: "While you feel this light today write a short note to the you of tomorrow What would you like to tell yourself when things feel heavy",
+    placeholder: "Dear me remember that you are loved",
+    button: "Seal with Love",
+    sealing: "Sealing...",
+    successTitle: "Letter Sealed",
+    successMsg: "We will keep this safe When you need a reminder of your own strength we will bring it back to you",
+    return: "Return to Sanctuary",
+    footer: "End-to-End Encrypted Sanctuary Note"
+  },
+  de: {
+    title: "Liebesbrief",
+    sub: "An dein zukünftiges Ich",
+    prompt: "Während du dieses Licht heute spürst schreibe eine kurze Notiz an dein Ich von morgen Was möchtest du dir sagen wenn sich die Dinge schwer anfühlen",
+    placeholder: "Liebes Ich erinnere dich daran dass du geliebt wirst",
+    button: "Mit Liebe versiegeln",
+    sealing: "Wird versiegelt...",
+    successTitle: "Brief versiegelt",
+    successMsg: "Wir werden dies sicher aufbewahren Wenn du eine Erinnerung an deine eigene Stärke brauchst bringen wir sie dir zurück",
+    return: "Zurück zum Sanctuary",
+    footer: "Ende-zu-Ende verschlüsselte Sanctuary-Notiz"
+  },
+  pt: {
+    title: "Carta de Amor",
+    sub: "Para o seu eu do futuro",
+    prompt: "Enquanto você sente esta luz hoje escreva uma pequena nota para o seu eu de amanhã O que você gostaria de dizer a si mesmo quando as coisas parecerem pesadas",
+    placeholder: "Querido eu lembre-se de que você é amado",
+    button: "Selar com Amor",
+    sealing: "Selando...",
+    successTitle: "Carta Selada",
+    successMsg: "Manteremos isto seguro Quando você precisar de um lembrete da sua própria força nós a traremos de volta",
+    return: "Retornar ao Santuário",
+    footer: "Nota do Santuário Criptografada de Ponta a Ponta"
+  },
+  ru: {
+    title: "Письмо Любви",
+    sub: "Твоему будущему «я»",
+    prompt: "Пока ты чувствуешь этот свет сегодня напиши короткое послание себе завтрашнему Что бы ты хотел сказать себе когда станет тяжело",
+    placeholder: "Дорогой я помни что тебя любят",
+    button: "Запечатать с Любовью",
+    sealing: "Запечатываем...",
+    successTitle: "Письмо запечатано",
+    successMsg: "Мы сохраним это в тайне Когда тебе понадобится напоминание о твоей силе мы вернем это тебе",
+    return: "Вернуться в пространство",
+    footer: "Зашифрованное послание из пространства"
+  }
+};
 
 export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
   const { firestore } = useFirestore();
@@ -20,6 +70,14 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
   const [message, setMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
+
+  useEffect(() => {
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
+  }, []);
+
+  const t = CONTENT[lang as keyof typeof CONTENT] || CONTENT.en;
 
   const handleSend = () => {
     if (!message.trim() || !user || !firestore) return;
@@ -50,16 +108,16 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
           </div>
         </div>
         <div className="space-y-3">
-          <h3 className="text-3xl font-black uppercase tracking-tighter text-white">Letter Sealed</h3>
+          <h3 className="text-3xl font-black uppercase tracking-tighter text-white">{t.successTitle}</h3>
           <p className="text-white/60 text-sm font-bold leading-tight max-w-xs mx-auto uppercase tracking-widest">
-            We will keep this safe When you need a reminder of your own strength we will bring it back to you
+            {t.successMsg}
           </p>
         </div>
         <button 
           onClick={onComplete} 
           className="mt-4 text-[10px] font-black uppercase text-[#3EB489] tracking-[0.4em] hover:text-white transition-colors"
         >
-          Return to Sanctuary
+          {t.return}
         </button>
       </div>
     );
@@ -72,20 +130,19 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
           <PenLine size={24} className="text-[#3EB489]" />
         </div>
         <div>
-          <h2 className="text-2xl font-black uppercase tracking-tighter text-white">Love Letter</h2>
-          <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">To your future self</p>
+          <h2 className="text-2xl font-black uppercase tracking-tighter text-white">{t.title}</h2>
+          <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">{t.sub}</p>
         </div>
       </div>
 
       <p className="text-xs text-white/40 mb-6 leading-relaxed font-bold uppercase tracking-widest">
-        While you feel this light today write a short note to the you of tomorrow 
-        What would you like to tell yourself when things feel heavy
+        {t.prompt}
       </p>
 
       <textarea
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        placeholder="Dear me remember that you are loved"
+        placeholder={t.placeholder}
         className="w-full flex-1 p-6 bg-white/5 border-2 border-white/10 rounded-[2rem] focus:border-[#3EB489] outline-none text-base text-white placeholder:text-white/10 resize-none transition-all mb-8 font-bold"
       />
 
@@ -100,9 +157,9 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
               : "bg-[#3EB489] text-black neon-glow active:scale-95"
           )}
         >
-          {isSending ? <Loader2 className="w-6 h-6 animate-spin" /> : <>Seal with Love <Send size={24} /></>}
+          {isSending ? <Loader2 className="w-6 h-6 animate-spin" /> : <>{t.button} <Send size={24} /></>}
         </button>
-        <p className="text-center text-[8px] font-black text-white/20 uppercase tracking-[0.4em]">End-to-End Encrypted Sanctuary Note</p>
+        <p className="text-center text-[8px] font-black text-white/20 uppercase tracking-[0.4em]">{t.footer}</p>
       </div>
     </div>
   );
