@@ -38,7 +38,7 @@ import { SOSAlert } from '@/components/dashboard/SOSAlert';
  * @fileOverview Pulse Lab component.
  * Fixed subtype logic and search functionality for PT/RU.
  * Implemented written font form for Russian.
- * Optimized for mobile scrolling.
+ * Optimized for mobile scrolling with flex-1 min-h-0.
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -234,7 +234,7 @@ export function Step6SubstanceLab({
   if (isLocked) {
     return (
       <div className="flex flex-col h-full bg-black font-body max-w-2xl mx-auto p-6 relative overflow-hidden">
-        <ScrollArea className="flex-1 touch-pan-y">
+        <ScrollArea className="flex-1 touch-pan-y min-h-0">
           <div className="pb-20 space-y-6">
             <GuardianStatusBar status="locked" heartRate={lastHR > 0 ? lastHR : 128} lang={lang} />
             <CareShield 
@@ -362,7 +362,7 @@ export function Step6SubstanceLab({
             <button onClick={() => setActiveSubstance(null)} className="p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white transition-all active:scale-90"><X size={20} /></button>
           </header>
 
-          <ScrollArea className="flex-1 px-8 touch-pan-y">
+          <ScrollArea className="flex-1 px-8 touch-pan-y min-h-0">
             <div className="flex flex-col items-center space-y-10 py-10 max-w-md mx-auto w-full pb-32">
               {activeSubstance.id === 'alcohol' ? (
                 <div className="space-y-3 w-full">

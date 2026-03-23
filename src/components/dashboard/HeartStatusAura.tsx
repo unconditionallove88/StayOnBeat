@@ -15,6 +15,7 @@ interface Props {
 /**
  * @fileOverview Inner Resonance Visualization.
  * Supports EN, DE, PT, RU.
+ * Updated RU labels: Умеренный, Завышен, Интенсивный.
  * Refined RU typography for a "written" feel.
  */
 export default function HeartStatusAura({ 
@@ -36,7 +37,7 @@ export default function HeartStatusAura({
     en: { resonance: "My Inner Resonance", intense: "Intense", elevated: "Elevated", steady: "Steady" },
     de: { resonance: "Meine Innere Resonanz", intense: "Intensiv", elevated: "Erhöht", steady: "Stabil" },
     pt: { resonance: "Minha Ressonância", intense: "Intenso", elevated: "Elevado", steady: "Estável" },
-    ru: { resonance: "Внутренний Резонанс", intense: "Интенсивно", elevated: "Повышено", steady: "Стабильно" }
+    ru: { resonance: "Внутренний Резонанс", intense: "Интенсивный", elevated: "Завышен", steady: "Умеренный" }
   };
 
   const t = labels[lang as keyof typeof labels] || labels.en;
