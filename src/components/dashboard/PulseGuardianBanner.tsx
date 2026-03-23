@@ -75,15 +75,15 @@ const CONTENT = {
   ru: {
     title: "Пульс Страж",
     sub: "Центральный интеллект",
-    intro: "Пульс Страж это центральный интеллект вашего пространства Я постоянно собираю данные из всех инструментов чтобы ваше путешествие оставалось безопасным и осознанным",
+    intro: "Пульс Страж это центральный интеллект твоего пространства Я постоянно собираю данные из всех инструментов чтобы твое путешествие оставалось безопасным и осознанным",
     sections: [
-      { title: "Интеграция Пульс Синхро", desc: "Считывает показатели в реальном времени с вашего устройства для мониторинга состояния" },
-      { title: "Осведомленность Лаборатории", desc: "Автоматически пересчитывает лимиты безопасности на основе ваших записей" },
-      { title: "Калибровка профиля", desc: "Настраивает пороги срабатывания на основе вашего состояния здоровья и лекарств" },
+      { title: "Интеграция Пульс Синхро", desc: "Считывает показатели в реальном времени с твоего устройства для мониторинга состояния" },
+      { title: "Осведомленность Лаборатории", desc: "Автоматически пересчитывает лимиты безопасности на основе твоих записей" },
+      { title: "Калибровка профиля", desc: "Настраивает пороги срабатывания на основе твоего состояния здоровья и лекарств" },
       { title: "Связь экстренной помощи", desc: "Запускает протоколы помощи и окно защиты при превышении порогов безопасности" },
     ],
     footer: "Обработано локально с любовью",
-    tapInfo: "Интегрированная система безопасности Нажмите чтобы узнать как я вас защищаю"
+    tapInfo: "Интегрированная система безопасности Нажми чтобы узнать как я тебя защищаю"
   }
 };
 
@@ -95,7 +95,7 @@ export default function PulseGuardianBanner({
 
   const InfoContent = () => (
     <div className="w-full max-w-2xl mx-auto pb-12 font-headline relative">
-      <p className="text-white/60 text-sm font-bold leading-relaxed mb-10 uppercase tracking-wide px-2">
+      <p className={cn("text-white/60 text-sm font-bold leading-relaxed mb-10 uppercase tracking-wide px-2", lang === 'ru' && "italic font-serif")}>
         {t.intro}
       </p>
 
@@ -112,8 +112,8 @@ export default function PulseGuardianBanner({
                 <Icon size={18} />
               </div>
               <div className="space-y-1">
-                <p className="text-white text-xs font-black uppercase tracking-tight">{item.title}</p>
-                <p className="text-white/30 text-[10px] font-bold uppercase tracking-widest leading-relaxed">{item.desc}</p>
+                <p className={cn("text-white text-xs font-black uppercase tracking-tight", lang === 'ru' && "italic font-serif")}>{item.title}</p>
+                <p className={cn("text-white/30 text-[10px] font-bold uppercase tracking-widest leading-relaxed", lang === 'ru' && "italic font-serif")}>{item.desc}</p>
               </div>
             </div>
           );
@@ -121,7 +121,7 @@ export default function PulseGuardianBanner({
       </div>
 
       <div className="mt-12 pt-8 border-t border-white/5 text-center">
-        <p className="text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]">
+        <p className={cn("text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]", lang === 'ru' && "italic font-serif")}>
           {t.footer}
         </p>
       </div>
@@ -137,8 +137,8 @@ export default function PulseGuardianBanner({
               <button className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl mb-6 border border-[#A855F7]/20 bg-[#A855F7]/5 text-left transition hover:border-[#A855F7]/40 active:scale-[0.99]">
                 <GuardianLogo size={24} className="shrink-0" />
                 <div className="flex-1">
-                  <p className="text-[#A855F7] text-[10px] font-black uppercase tracking-widest leading-none">{t.title}</p>
-                  <p className="text-white/40 text-[9px] mt-1 font-bold uppercase tracking-widest">{t.tapInfo}</p>
+                  <p className={cn("text-[#A855F7] text-[10px] font-black uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>{t.title}</p>
+                  <p className={cn("text-white/40 text-[9px] mt-1 font-bold uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.tapInfo}</p>
                 </div>
                 <span className="text-white/20 text-[10px]">›</span>
               </button>
@@ -147,7 +147,7 @@ export default function PulseGuardianBanner({
             )}
           </SheetTrigger>
         </TooltipTrigger>
-        <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-[#A855F7] font-bold uppercase text-[9px] tracking-widest px-4 py-2">{t.title}: {t.sub}</TooltipContent>
+        <TooltipContent side="bottom" className={cn("bg-zinc-900 border-white/10 text-[#A855F7] font-bold uppercase text-[9px] tracking-widest px-4 py-2", lang === 'ru' && "italic font-serif")}>{t.title}: {t.sub}</TooltipContent>
       </Tooltip>
 
       <SheetContent side="top" className="bg-black border-white/10 p-0 rounded-b-[3.5rem] h-[90vh] max-h-[90vh] overflow-hidden flex flex-col shadow-[0_30px_100px_rgba(0,0,0,0.8)] z-[5000]">
@@ -156,8 +156,8 @@ export default function PulseGuardianBanner({
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 rounded-2xl bg-[#A855F7]/10 border border-[#A855F7]/20 flex items-center justify-center shadow-lg"><GuardianLogo size={32} /></div>
               <div>
-                <SheetTitle className="text-white font-black text-2xl uppercase tracking-tighter leading-none text-left">{t.title}</SheetTitle>
-                <p className="text-[9px] text-[#A855F7] font-black uppercase tracking-[0.3em] mt-1.5 text-left">{t.sub}</p>
+                <SheetTitle className={cn("text-white font-black text-2xl uppercase tracking-tighter leading-none text-left", lang === 'ru' && "italic font-serif")}>{t.title}</SheetTitle>
+                <p className={cn("text-[9px] text-[#A855F7] font-black uppercase tracking-[0.3em] mt-1.5 text-left", lang === 'ru' && "italic font-serif")}>{t.sub}</p>
               </div>
             </div>
           </div>

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -137,29 +138,29 @@ const CONTENT = {
   ru: {
     question: "Нужна помощь?",
     helping: (name: string) => `Помогаем ${name}`,
-    subtitle: "Выберите путь который резонирует сейчас",
-    friendSubtitle: (name: string) => `Выберите путь заботы для ${name}`,
+    subtitle: "Выбери путь который резонирует сейчас",
+    friendSubtitle: (name: string) => `Выбери путь заботы для ${name}`,
     tabs: { emergency: "Экстренно", circle: "Круг", stillness: "Тишина" },
     emergency: {
       title: "Вызов Помощи",
       sub: "Медики и Охрана",
-      desc: "Запросите профессиональную поддержку по вашей Mesh-сетке Обрабатывается конфиденциально",
+      desc: "Запроси профессиональную поддержку по твоей Mesh-сетке Обрабатывается конфиденциально",
       button: "Вызвать Команду"
     },
     circle: {
       title: "Сигнал Кругу",
       sub: "Взаимная Забота",
-      desc: "Дайте вашему кругу знать что вам нужна поддержка или общение через Mesh-Sync",
+      desc: "Дай твоему кругу знать что тебе нужна поддержка или общение через Mesh-Sync",
       button: "Уведомить Мой Круг"
     },
     stillness: {
       title: "Путь Заземления",
       sub: "Режим Самопомощи",
-      desc: "Я люблю и уважаю свою потребность в тишине Используйте техники дыхания",
+      desc: "Я люблю и уважаю свою потребность в тишине Используй техники дыхания",
       button: "Открыть Инструменты"
     },
     connecting: "Установка Mesh-соединения...",
-    honoring: "Принимаем ваш запрос на заботу",
+    honoring: "Принимаем твой запрос на заботу",
     allIsWell: "Все хорошо",
     loved: "Я любим",
     friendLoved: (name: string) => `${name} любим`,
@@ -247,26 +248,26 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
         </div>
         
         <div className="space-y-6 max-w-sm">
-          <h1 className="text-4xl font-black uppercase tracking-tighter text-white leading-none">
+          <h1 className={cn("text-4xl font-black uppercase tracking-tighter text-white leading-none", lang === 'ru' && "italic font-serif")}>
             {isFriendMode ? t.friendLoved(friendName!) : t.loved} <br/> <span className="text-[#10B981]">{t.takenCareOf}</span>
           </h1>
           <div className="bg-white/5 border border-[#10B981]/20 rounded-[2.5rem] p-8 space-y-4 text-left">
             <div className="flex items-center gap-4 text-white/80">
               <CheckCircle2 size={18} className="text-[#10B981]" />
-              <p className="text-xs font-bold uppercase tracking-widest leading-tight">{t.dispatched}</p>
+              <p className={cn("text-xs font-bold uppercase tracking-widest leading-tight", lang === 'ru' && "italic font-serif")}>{t.dispatched}</p>
             </div>
             <div className="flex items-center gap-4 text-white/80">
               <Radio size={18} className="text-[#10B981] animate-pulse" />
-              <p className="text-xs font-bold uppercase tracking-widest leading-tight">{t.meshShared}</p>
+              <p className={cn("text-xs font-bold uppercase tracking-widest leading-tight", lang === 'ru' && "italic font-serif")}>{t.meshShared}</p>
             </div>
             <div className="flex items-center gap-4 text-white/80">
               <ShieldCheck size={18} className="text-[#10B981]" />
-              <p className="text-xs font-bold uppercase tracking-widest leading-tight">{t.privacyActive}</p>
+              <p className={cn("text-xs font-bold uppercase tracking-widest leading-tight", lang === 'ru' && "italic font-serif")}>{t.privacyActive}</p>
             </div>
           </div>
         </div>
 
-        <button onClick={onClose} className="mt-10 text-white/20 hover:text-white transition-colors text-[10px] font-black uppercase tracking-widest underline underline-offset-8">
+        <button onClick={onClose} className={cn("mt-10 text-white/20 hover:text-white transition-colors text-[10px] font-black uppercase tracking-widest underline underline-offset-8", lang === 'ru' && "italic font-serif")}>
           {t.returning(countdown)}
         </button>
       </div>
@@ -277,8 +278,8 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
     return (
       <div className="fixed inset-0 bg-black/95 z-[4000] flex flex-col items-center justify-center px-8 text-center font-headline">
         <Loader2 size={80} className="text-[#10B981] animate-spin mb-8" />
-        <h1 className="text-3xl font-black uppercase tracking-tighter text-white mb-2">{t.connecting}</h1>
-        <p className="text-[#10B981] font-black uppercase tracking-[0.3em] text-[10px]">
+        <h1 className={cn("text-3xl font-black uppercase tracking-tighter text-white mb-2", lang === 'ru' && "italic font-serif")}>{t.connecting}</h1>
+        <p className={cn("text-[#10B981] font-black uppercase tracking-[0.3em] text-[10px]", lang === 'ru' && "italic font-serif")}>
           {t.honoring}
         </p>
       </div>
@@ -300,10 +301,10 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
           <div className="w-16 h-16 bg-red-600/10 border-2 border-red-600/30 rounded-full flex items-center justify-center mx-auto mb-4 shadow-2xl">
             <Heart size={32} className="text-[#DC2626]" fill="#DC2626" />
           </div>
-          <h2 className="text-3xl font-black uppercase tracking-tighter text-white leading-none">
+          <h2 className={cn("text-3xl font-black uppercase tracking-tighter text-white leading-none", lang === 'ru' && "italic font-serif")}>
             {isFriendMode ? t.helping(friendName!) : t.question}
           </h2>
-          <p className="text-[#10B981] text-[9px] font-black uppercase mt-3 tracking-[0.3em]">
+          <p className={cn("text-[#10B981] text-[9px] font-black uppercase mt-3 tracking-[0.3em]", lang === 'ru' && "italic font-serif")}>
             {isFriendMode ? t.friendSubtitle(friendName!) : t.subtitle}
           </p>
         </div>
@@ -312,14 +313,14 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
           <div className="max-w-md mx-auto w-full pb-32">
             <Tabs defaultValue="emergency" className="w-full">
               <TabsList className="w-full h-14 bg-white/5 border border-white/10 rounded-full p-1.5 mb-6">
-                <TabsTrigger value="emergency" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-red-600 data-[state=active]:text-white">
+                <TabsTrigger value="emergency" className={cn("flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-red-600 data-[state=active]:text-white", lang === 'ru' && "italic font-serif")}>
                   {t.tabs.emergency}
                 </TabsTrigger>
-                <TabsTrigger value="support" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-[#F59E0B] data-[state=active]:text-black">
+                <TabsTrigger value="support" className={cn("flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-[#F59E0B] data-[state=active]:text-black", lang === 'ru' && "italic font-serif")}>
                   {t.tabs.circle}
                 </TabsTrigger>
                 {!isFriendMode && (
-                  <TabsTrigger value="stillness" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-[#10B981] data-[state=active]:text-black">
+                  <TabsTrigger value="stillness" className={cn("flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-[#10B981] data-[state=active]:text-black", lang === 'ru' && "italic font-serif")}>
                     {t.tabs.stillness}
                   </TabsTrigger>
                 )}
@@ -332,16 +333,16 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                       <PhoneCall className="text-red-500" size={24} />
                     </div>
                     <div>
-                      <p className="text-sm font-black uppercase text-white tracking-tight">{t.emergency.title}</p>
-                      <p className="text-[10px] font-bold text-red-400 uppercase tracking-widest">{t.emergency.sub}</p>
+                      <p className={cn("text-sm font-black uppercase text-white tracking-tight", lang === 'ru' && "italic font-serif")}>{t.emergency.title}</p>
+                      <p className={cn("text-[10px] font-bold text-red-400 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.emergency.sub}</p>
                     </div>
                   </div>
-                  <p className="text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide">
+                  <p className={cn("text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide", lang === 'ru' && "italic font-serif")}>
                     {t.emergency.desc}
                   </p>
                   <button 
                     onClick={() => handleSendSOS('urgent')}
-                    className="w-full py-6 bg-red-600 text-white rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg shadow-red-600/20 active:scale-95 transition-all"
+                    className={cn("w-full py-6 bg-red-600 text-white rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg shadow-red-600/20 active:scale-95 transition-all", lang === 'ru' && "italic font-serif")}
                   >
                     {t.emergency.button}
                   </button>
@@ -355,16 +356,16 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                       <Users className="text-amber-500" size={24} />
                     </div>
                     <div>
-                      <p className="text-sm font-black uppercase text-white tracking-tight">{t.circle.title}</p>
-                      <p className="text-[10px] font-bold text-amber-500 uppercase tracking-widest">{t.circle.sub}</p>
+                      <p className={cn("text-sm font-black uppercase text-white tracking-tight", lang === 'ru' && "italic font-serif")}>{t.circle.title}</p>
+                      <p className={cn("text-[10px] font-bold text-amber-500 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.circle.sub}</p>
                     </div>
                   </div>
-                  <p className="text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide">
+                  <p className={cn("text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide", lang === 'ru' && "italic font-serif")}>
                     {t.circle.desc}
                   </p>
                   <button 
                     onClick={() => handleSendSOS('standard')}
-                    className="w-full py-6 bg-[#F59E0B] text-black rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg active:scale-95 transition-all"
+                    className={cn("w-full py-6 bg-[#F59E0B] text-black rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg active:scale-95 transition-all", lang === 'ru' && "italic font-serif")}
                   >
                     {t.circle.button}
                   </button>
@@ -379,16 +380,16 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                         <Wind className="text-emerald-500" size={24} />
                       </div>
                       <div>
-                        <p className="text-sm font-black uppercase text-white tracking-tight">{t.stillness.title}</p>
-                        <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">{t.stillness.sub}</p>
+                        <p className={cn("text-sm font-black uppercase text-white tracking-tight", lang === 'ru' && "italic font-serif")}>{t.stillness.title}</p>
+                        <p className={cn("text-[10px] font-bold text-emerald-500 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.stillness.sub}</p>
                       </div>
                     </div>
-                    <p className="text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide">
+                    <p className={cn("text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide", lang === 'ru' && "italic font-serif")}>
                       {t.stillness.desc}
                     </p>
                     <button 
                       onClick={() => handleSendSOS('grounding')}
-                      className="w-full py-6 bg-[#10B981] text-black rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg active:scale-95 transition-all"
+                      className={cn("w-full py-6 bg-[#10B981] text-black rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg active:scale-95 transition-all", lang === 'ru' && "italic font-serif")}
                     >
                       {t.stillness.button}
                     </button>
@@ -400,7 +401,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
             <div className="mt-6 pt-6 border-t border-white/5 text-center">
               <button 
                 onClick={() => { playHeartbeat(); onClose(); }}
-                className="text-[#10B981] font-black text-xs uppercase tracking-[0.4em] hover:underline underline-offset-8 transition-all active:scale-95"
+                className={cn("text-[#10B981] font-black text-xs uppercase tracking-[0.4em] hover:underline underline-offset-8 transition-all active:scale-95", lang === 'ru' && "italic font-serif")}
               >
                 {t.allIsWell}
               </button>
@@ -409,7 +410,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
         </ScrollArea>
 
         <div className="p-8 pt-4 bg-black/40 backdrop-blur-md border-t border-white/5 text-center shrink-0">
-          <p className="text-[8px] font-black uppercase tracking-[0.5em] text-white/20">
+          <p className={cn("text-[8px] font-black uppercase tracking-[0.5em] text-white/20", lang === 'ru' && "italic font-serif")}>
             Sanctuary Support Protocol • Encrypted with Love
           </p>
         </div>

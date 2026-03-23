@@ -61,7 +61,7 @@ const CONTENT = {
   EN: { header: 'How is your mood today?', success: 'Mood calibrated', sub: 'StayOnBeat sees you I am loved', back: 'BACK', footer: 'Processed locally with love', btn: 'CONTINUE WITH LOVE' },
   DE: { header: 'Wie ist deine Stimmung heute?', success: 'Stimmung kalibriert', sub: 'StayOnBeat sieht dich Ich werde geliebt', back: 'ZURÜCK', footer: 'Lokal verarbeitet mit Liebe', btn: 'MIT LIEBE WEITER' },
   PT: { header: 'Como está seu humor hoje?', success: 'Humor calibrado', sub: 'StayOnBeat vê você Eu sou amado', back: 'VOLTAR', footer: 'Processado localmente com amor', btn: 'CONTINUAR COM AMOR' },
-  RU: { header: 'Как ваше настроение сегодня?', success: 'Настроение откалибровано', sub: 'StayOnBeat видит вас Я любим', back: 'НАЗАД', footer: 'Обработано локально с любовью', btn: 'ПРОДОЛЖИТЬ С ЛЮБОВЬЮ' }
+  RU: { header: 'Как твое настроение сегодня?', success: 'Настроение откалибровано', sub: 'StayOnBeat видит тебя Я любим', back: 'НАЗАД', footer: 'Обработано локально с любовью', btn: 'ПРОДОЛЖИТЬ С ЛЮБОВЬЮ' }
 };
 
 export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, finalOnboardingData }: Step7VibeCheckProps) {
@@ -74,7 +74,7 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
   const { user } = useUser();
 
   useEffect(() => {
-    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toUpperCase() as any;
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
     if (['EN', 'DE', 'PT', 'RU'].includes(savedLang)) setLang(savedLang);
   }, []);
 

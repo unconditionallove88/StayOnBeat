@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -34,6 +35,7 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CoCreation } from "@/components/dashboard/CoCreation";
+import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview Your Sanctuary (Profile Page).
@@ -103,22 +105,22 @@ const CONTENT = {
     }
   },
   ru: {
-    sanctuary: "Пространство", entering: "Вход в пространство", reflection: "Ваш профиль отражает ваш свет",
-    greeting: "Вы именно там где должны быть", essence: "Ваша Сущность", name: "Имя пользователя",
+    sanctuary: "Пространство", entering: "Вход в пространство", reflection: "Твой профиль отражает твой свет",
+    greeting: "Ты именно там где должен быть", essence: "Твоя Сущность", name: "Имя пользователя",
     weight: "Вес (кг)", height: "Рост (см)", circle: "Круг Любви", trusted: "Доверенные связи",
     resonant: "Резонансные контакты", reminders: "Напоминания сердца", checkins: "Ежедневные проверки активны",
-    journey: "Ваш путь принадлежит вам Мы используем шифрование высокой четкости чтобы ваше пространство оставалось приватным а душа свободной",
+    journey: "Твой путь принадлежит тебе Мы используем шифрование высокой четкости чтобы твое пространство оставалось приватным а душа свободной",
     promise: "Наше обещание Свободы и Доверия", logout: "Выйти на мгновение",
     privacy: {
       title: "Свобода и Доверие",
       sovereignty: "Суверенитет данных",
-      sovereigntyDesc: "Я люблю и уважаю свою приватность Мои данные принадлежат мне StayOnBeat построен на принципе того что ваш личный путь — это священное доверие",
+      sovereigntyDesc: "Я люблю и уважаю свою приватность Мои данные принадлежат мне StayOnBeat построен на принципе того что твой личный путь — это священное доверие",
       encryption: "Шифрование высокой четкости",
-      encryptionDesc: "Все биометрические сигналы профили здоровья и журналы местоположения защищены Мы гарантируем что ваша информация видна только вам и тем кому вы доверяете",
+      encryptionDesc: "Все биометрические сигналы профили здоровья и журналы местоположения защищены Мы гарантируем что твоя информация видна только тебе и тем кому ты доверяешь",
       freedom: "Внутренняя свобода",
-      freedomDesc: "Мы никогда не продаем ваши данные Ваш резонанс остается внутри пространства Наша миссия — поддержка любовь забота и снижение вреда",
+      freedomDesc: "Мы никогда не продаем твои данные Твой резонанс остается внутри пространства Наша миссия — поддержка любовь забота и снижение вреда",
       acceptance: "Безусловное принятие",
-      acceptanceDesc: "Мы собираем только ту информацию которая необходима для вашей безопасности Каждая точка данных используется для калибровки вашей защиты",
+      acceptanceDesc: "Мы собираем только ту информацию которая необходима для твоей безопасности Каждая точка данных используется для калибровки твоей защиты",
       questions: "Остались вопросы?", qBtn: "Вопросы?", footer: "Зашифровано с любовью • Протокол Пространства"
     }
   }
@@ -169,7 +171,7 @@ export default function ProfilePage() {
             <div className="absolute inset-0 w-32 h-32 bg-white/10 blur-[60px] rounded-full" />
             <Heart size={64} fill="#10B981" stroke="#10B981" className="relative z-10 animate-pulse-heart" />
           </div>
-          <p className="text-[#10B981] font-black uppercase tracking-[0.4em] text-xs">{t.entering}</p>
+          <p className={cn("text-[#10B981] font-black uppercase tracking-[0.4em] text-xs", lang === 'ru' && "italic font-serif")}>{t.entering}</p>
         </div>
       </div>
     );
@@ -184,7 +186,7 @@ export default function ProfilePage() {
           <button onClick={() => router.push("/dashboard")} className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all"><ArrowLeft className="w-5 h-5 text-white/40" /></button>
           <div className="flex items-center gap-2 px-4 py-1.5 bg-[#10B981]/10 border border-[#10B981]/30 rounded-full">
             <CircleDot className="w-3.5 h-3.5 text-[#10B981]" />
-            <span className="text-[10px] font-black uppercase text-[#10B981] tracking-widest">{t.sanctuary}</span>
+            <span className={cn("text-[10px] font-black uppercase text-[#10B981] tracking-widest", lang === 'ru' && "italic font-serif")}>{t.sanctuary}</span>
           </div>
         </div>
       </nav>
@@ -198,13 +200,13 @@ export default function ProfilePage() {
             </div>
           </div>
           <div className="space-y-2">
-            <h2 className="text-4xl font-black uppercase tracking-tighter leading-none">{displayName}</h2>
-            <p className="text-[#10B981] text-[10px] font-black uppercase tracking-[0.4em]">{t.greeting}</p>
+            <h2 className={cn("text-4xl font-black uppercase tracking-tighter leading-none", lang === 'ru' && "italic font-serif")}>{displayName}</h2>
+            <p className={cn("text-[#10B981] text-[10px] font-black uppercase tracking-[0.4em]", lang === 'ru' && "italic font-serif")}>{t.greeting}</p>
           </div>
         </section>
 
         {successMessage && (
-          <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[200] bg-[#10B981] text-black px-6 py-3 rounded-full flex items-center gap-3 animate-in slide-in-from-top-4 duration-500 shadow-2xl font-black uppercase text-[10px] tracking-widest">
+          <div className={cn("fixed top-24 left-1/2 -translate-x-1/2 z-[200] bg-[#10B981] text-black px-6 py-3 rounded-full flex items-center gap-3 animate-in slide-in-from-top-4 duration-500 shadow-2xl font-black uppercase text-[10px] tracking-widest", lang === 'ru' && "italic font-serif")}>
             <CheckCircle2 size={16} />
             <span>{successMessage}</span>
           </div>
@@ -213,38 +215,38 @@ export default function ProfilePage() {
         <div className="space-y-6">
           <div className="bg-white/5 rounded-[2.5rem] border border-white/10 p-8 space-y-8 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#10B981]/5 blur-3xl -z-10" />
-            <h3 className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3"><Leaf size={14} className="text-[#10B981]" /> {t.essence}</h3>
+            <h3 className={cn("text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3", lang === 'ru' && "italic font-serif")}><Leaf size={14} className="text-[#10B981]" /> {t.essence}</h3>
             <div className="space-y-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase text-[#10B981] tracking-widest ml-1">{t.name}</label>
-                <input type="text" defaultValue={profile?.name} onBlur={(e) => handleUpdate({ name: e.target.value.toUpperCase() })} className="w-full h-16 px-6 bg-white/5 border border-white/10 rounded-2xl focus:border-[#10B981] outline-none transition-all text-xl font-black uppercase placeholder:text-white/10" placeholder="ENTER NAME" />
+                <label className={cn("text-[10px] font-black uppercase text-[#10B981] tracking-widest ml-1", lang === 'ru' && "italic font-serif")}>{t.name}</label>
+                <input type="text" defaultValue={profile?.name} onBlur={(e) => handleUpdate({ name: e.target.value.toUpperCase() })} className={cn("w-full h-16 px-6 bg-white/5 border border-white/10 rounded-2xl focus:border-[#10B981] outline-none transition-all text-xl font-black uppercase placeholder:text-white/10", lang === 'ru' && "italic font-serif")} placeholder="ENTER NAME" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-[#10B981] tracking-widest ml-1">{t.weight}</label>
-                  <input type="number" defaultValue={profile?.biometrics?.weightKg} onBlur={(e) => handleUpdate({ "biometrics.weightKg": Number(e.target.value) })} className="w-full h-16 px-6 bg-white/5 border border-white/10 rounded-2xl focus:border-[#10B981] outline-none text-xl font-black" placeholder="70" />
+                  <label className={cn("text-[10px] font-black uppercase text-[#10B981] tracking-widest ml-1", lang === 'ru' && "italic font-serif")}>{t.weight}</label>
+                  <input type="number" defaultValue={profile?.biometrics?.weightKg} onBlur={(e) => handleUpdate({ "biometrics.weightKg": Number(e.target.value) })} className={cn("w-full h-16 px-6 bg-white/5 border border-white/10 rounded-2xl focus:border-[#10B981] outline-none text-xl font-black", lang === 'ru' && "italic font-serif")} placeholder="70" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-[#10B981] tracking-widest ml-1">{t.height}</label>
-                  <input type="number" defaultValue={profile?.biometrics?.heightCm} onBlur={(e) => handleUpdate({ "biometrics.heightCm": Number(e.target.value) })} className="w-full h-16 px-6 bg-white/5 border border-white/10 rounded-2xl focus:border-[#10B981] outline-none text-xl font-black" placeholder="175" />
+                  <label className={cn("text-[10px] font-black uppercase text-[#10B981] tracking-widest ml-1", lang === 'ru' && "italic font-serif")}>{t.height}</label>
+                  <input type="number" defaultValue={profile?.biometrics?.heightCm} onBlur={(e) => handleUpdate({ "biometrics.heightCm": Number(e.target.value) })} className={cn("w-full h-16 px-6 bg-white/5 border border-white/10 rounded-2xl focus:border-[#10B981] outline-none text-xl font-black", lang === 'ru' && "italic font-serif")} placeholder="175" />
                 </div>
               </div>
             </div>
           </div>
 
           <div className="bg-white/5 rounded-[2.5rem] border border-white/10 p-8 space-y-6">
-            <h3 className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3"><Shield size={14} className="text-[#10B981]" /> {t.circle}</h3>
+            <h3 className={cn("text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3", lang === 'ru' && "italic font-serif")}><Shield size={14} className="text-[#10B981]" /> {t.circle}</h3>
             <button onClick={() => router.push("/safety-network")} className="w-full flex items-center justify-between p-6 bg-white/5 rounded-2xl border border-white/5 hover:border-[#10B981]/30 transition-all group">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-[#10B981]/10 rounded-xl group-hover:scale-110 transition-transform"><Heart size={24} className="text-[#10B981]" /></div>
-                <div className="text-left"><span className="block font-black text-sm uppercase tracking-tight">{t.trusted}</span><span className="text-[8px] font-bold text-white/30 uppercase tracking-widest">{t.resonant}</span></div>
+                <div className="text-left"><span className={cn("block font-black text-sm uppercase tracking-tight", lang === 'ru' && "italic font-serif")}>{t.trusted}</span><span className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.resonant}</span></div>
               </div>
               <ChevronRight size={16} className="text-white/20 group-hover:text-[#10B981]" />
             </button>
             <div className="flex items-center justify-between p-6 bg-white/5 rounded-2xl border border-white/5">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-blue-500/10 rounded-xl"><Bell size={24} className="text-blue-400" /></div>
-                <div className="text-left"><span className="block font-black text-sm uppercase tracking-tight">{t.reminders}</span><span className="text-[8px] font-bold text-white/30 uppercase tracking-widest">{t.checkins}</span></div>
+                <div className="text-left"><span className={cn("block font-black text-sm uppercase tracking-tight", lang === 'ru' && "italic font-serif")}>{t.reminders}</span><span className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.checkins}</span></div>
               </div>
               <div className="w-12 h-6 bg-[#10B981] rounded-full relative cursor-pointer shadow-[0_0_15px_rgba(16,185,129,0.3)]"><div className="absolute right-1 top-1 w-4 h-4 bg-black rounded-full" /></div>
             </div>
@@ -252,11 +254,11 @@ export default function ProfilePage() {
 
           <div className="bg-white/5 rounded-[2.5rem] border border-white/10 p-8 text-center space-y-6">
              <div className="flex justify-center"><Lock size={24} className="text-white/10" /></div>
-             <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest leading-relaxed">{t.journey}</p>
-             <button onClick={() => setPrivacyOpen(true)} className="text-[8px] font-black text-[#10B981] uppercase tracking-[0.3em] hover:underline underline-offset-8">{t.promise}</button>
+             <p className={cn("text-[10px] text-white/30 font-bold uppercase tracking-widest leading-relaxed", lang === 'ru' && "italic font-serif")}>{t.journey}</p>
+             <button onClick={() => setPrivacyOpen(true)} className={cn("text-[8px] font-black text-[#10B981] uppercase tracking-[0.3em] hover:underline underline-offset-8", lang === 'ru' && "italic font-serif")}>{t.promise}</button>
           </div>
 
-          <button onClick={() => auth.signOut().then(() => router.push("/"))} className="w-full py-6 bg-red-600/10 border border-red-600/20 text-red-500 text-xs font-black uppercase tracking-[0.4em] hover:bg-red-600/20 rounded-[2rem] transition-all">{t.logout}</button>
+          <button onClick={() => auth.signOut().then(() => router.push("/"))} className={cn("w-full py-6 bg-red-600/10 border border-red-600/20 text-red-500 text-xs font-black uppercase tracking-[0.4em] hover:bg-red-600/20 rounded-[2rem] transition-all", lang === 'ru' && "italic font-serif")}>{t.logout}</button>
         </div>
       </div>
 
@@ -265,18 +267,18 @@ export default function ProfilePage() {
           <div className="p-8 pb-4 shrink-0">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20"><ShieldCheck size={32} className="text-[#10B981]" /></div>
-              <DialogTitle className="text-2xl font-black uppercase tracking-tighter text-white">{t.privacy.title}</DialogTitle>
+              <DialogTitle className={cn("text-2xl font-black uppercase tracking-tighter text-white", lang === 'ru' && "italic font-serif")}>{t.privacy.title}</DialogTitle>
             </div>
           </div>
           <ScrollArea className="flex-1 px-8 pb-6 touch-pan-y">
             <div className="space-y-8">
-              <section className="space-y-3"><h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">{t.privacy.sovereignty}</h4><p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">{t.privacy.sovereigntyDesc}</p></section>
-              <section className="space-y-3"><h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">{t.privacy.encryption}</h4><p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">{t.privacy.encryptionDesc}</p></section>
-              <section className="space-y-3"><h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">{t.privacy.freedom}</h4><p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">{t.privacy.freedomDesc}</p></section>
-              <section className="space-y-3"><h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]">{t.privacy.acceptance}</h4><p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">{t.privacy.acceptanceDesc}</p></section>
+              <section className="space-y-3"><h4 className={cn("text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]", lang === 'ru' && "italic font-serif")}>{t.privacy.sovereignty}</h4><p className={cn("text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.privacy.sovereigntyDesc}</p></section>
+              <section className="space-y-3"><h4 className={cn("text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]", lang === 'ru' && "italic font-serif")}>{t.privacy.encryption}</h4><p className={cn("text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.privacy.encryptionDesc}</p></section>
+              <section className="space-y-3"><h4 className={cn("text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]", lang === 'ru' && "italic font-serif")}>{t.privacy.freedom}</h4><p className={cn("text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.privacy.freedomDesc}</p></section>
+              <section className="space-y-3"><h4 className={cn("text-[10px] font-black uppercase tracking-[0.4em] text-[#10B981]", lang === 'ru' && "italic font-serif")}>{t.privacy.acceptance}</h4><p className={cn("text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.privacy.acceptanceDesc}</p></section>
               <section className="pt-10 border-t border-white/5 text-center space-y-6 pb-8">
-                <div className="flex flex-col items-center gap-2"><p className="text-[10px] text-white/20 font-bold uppercase tracking-widest">{t.privacy.questions}</p><button onClick={() => { setPrivacyOpen(false); setCoCreationOpen(true); }} className="flex items-center gap-3 bg-[#10B981]/10 border border-[#10B981]/20 px-8 py-4 rounded-2xl text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em] hover:bg-[#10B981]/20 transition-all active:scale-95"><HelpCircle size={14} /> {t.privacy.qBtn}</button></div>
-                <p className="text-[8px] font-black text-[#10B981] uppercase tracking-[0.5em]">{t.privacy.footer}</p>
+                <div className="flex flex-col items-center gap-2"><p className={cn("text-[10px] text-white/20 font-bold uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.privacy.questions}</p><button onClick={() => { setPrivacyOpen(false); setCoCreationOpen(true); }} className={cn("flex items-center gap-3 bg-[#10B981]/10 border border-[#10B981]/20 px-8 py-4 rounded-2xl text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em] hover:bg-[#10B981]/20 transition-all active:scale-95", lang === 'ru' && "italic font-serif")}><HelpCircle size={14} /> {t.privacy.qBtn}</button></div>
+                <p className={cn("text-[8px] font-black text-[#10B981] uppercase tracking-[0.5em]", lang === 'ru' && "italic font-serif")}>{t.privacy.footer}</p>
               </section>
             </div>
           </ScrollArea>

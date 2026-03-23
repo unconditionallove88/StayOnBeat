@@ -78,10 +78,10 @@ const CONTENT = {
   },
   ru: {
     title: "Хранители",
-    sub: "Священная связь резонанса",
-    desc: "Те кто берегут ваше сердце издалека Ваша священная связь заботы и доверия",
+    sub: "Интуитивная связь резонанса",
+    desc: "Заботящиеся о Тебе на расстоянии Интуитивная связь заботы и доверия с близкими тебе",
     items: [
-      { title: "Священная связь", sub: "Доступно только вашему внутреннему кругу", icon: Lock },
+      { title: "Интуитивная связь", sub: "Доступно только твоему внутреннему кругу", icon: Lock },
       { title: "Взаимная поддержка", sub: "Единство через общий резонанс", icon: CircleDot }
     ],
     button: "Открыть связи",
@@ -90,9 +90,9 @@ const CONTENT = {
     createBtn: "Создать связь",
     cancelBtn: "Отмена",
     placeholder: "Сообщение хранителям",
-    resonanceStart: "Начните резонанс со своими хранителями",
+    resonanceStart: "Начни резонанс со своими хранителями",
     successTitle: "Связь установлена",
-    successMsg: (name: string) => `Ваша связь "${name}" создана Ожидание резонанса`,
+    successMsg: (name: string) => `Твоя связь "${name}" создана Ожидание резонанса`,
     footer: "Взаимные узы заботы",
     encrypted: "Зашифрованное пространство"
   }
@@ -188,8 +188,8 @@ export function LoveCircleChat() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-5xl font-black uppercase tracking-tighter text-white">{t.title}</h2>
-              <p className="text-lg font-bold text-white/60 leading-tight max-sm mx-auto uppercase tracking-widest">
+              <h2 className={cn("text-5xl font-black uppercase tracking-tighter text-white leading-none", lang === 'ru' && "italic font-serif")}>{t.title}</h2>
+              <p className={cn("text-lg font-bold text-white/60 leading-tight max-sm mx-auto uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>
                 {t.desc}
               </p>
             </div>
@@ -201,8 +201,8 @@ export function LoveCircleChat() {
                     <item.icon className="w-6 h-6 text-[#10B981]" />
                   </div>
                   <div>
-                    <p className="text-sm font-black uppercase tracking-tight text-white">{item.title}</p>
-                    <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{item.sub}</p>
+                    <p className={cn("text-sm font-black uppercase tracking-tight text-white", lang === 'ru' && "italic font-serif")}>{item.title}</p>
+                    <p className={cn("text-[10px] font-bold text-white/30 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{item.sub}</p>
                   </div>
                 </div>
               ))}
@@ -210,7 +210,7 @@ export function LoveCircleChat() {
 
             <button 
               onClick={() => setHasAgreement(true)}
-              className="pill-button w-full max-w-sm bg-[#10B981] text-black text-xl font-black uppercase tracking-widest active:scale-95 flex items-center justify-center gap-3 mb-10"
+              className={cn("pill-button w-full max-w-sm bg-[#10B981] text-black text-xl font-black uppercase tracking-widest active:scale-95 flex items-center justify-center gap-3 mb-10", lang === 'ru' && "italic font-serif")}
             >
               {t.button}
             </button>
@@ -228,8 +228,8 @@ export function LoveCircleChat() {
             <CircleDot size={28} className="text-[#10B981]" />
           </div>
           <div>
-            <h2 className="text-2xl font-black uppercase tracking-tight text-white leading-none">{t.title}</h2>
-            <p className="text-[10px] text-[#10B981] font-black uppercase tracking-[0.3em] mt-1">{t.sub}</p>
+            <h2 className={cn("text-2xl font-black uppercase tracking-tight text-white leading-none", lang === 'ru' && "italic font-serif")}>{t.title}</h2>
+            <p className={cn("text-[10px] text-[#10B981] font-black uppercase tracking-[0.3em] mt-1", lang === 'ru' && "italic font-serif")}>{t.sub}</p>
           </div>
         </div>
         <button 
@@ -247,7 +247,7 @@ export function LoveCircleChat() {
               value={groupName}
               onChange={(e) => setGroupName(e.target.value)}
               placeholder={t.createTitle}
-              className="w-full bg-black border border-white/10 p-5 rounded-2xl text-white font-black uppercase text-sm focus:border-[#10B981] outline-none transition-all"
+              className={cn("w-full bg-black border border-white/10 p-5 rounded-2xl text-white font-black uppercase text-sm focus:border-[#10B981] outline-none transition-all", lang === 'ru' && "italic font-serif")}
               required
             />
             <input 
@@ -255,11 +255,11 @@ export function LoveCircleChat() {
               onChange={(e) => setInviteEmail(e.target.value)}
               placeholder={t.inviteTitle}
               type="email"
-              className="w-full bg-black border border-white/10 p-5 rounded-2xl text-white font-black uppercase text-sm focus:border-[#10B981] outline-none transition-all"
+              className={cn("w-full bg-black border border-white/10 p-5 rounded-2xl text-white font-black uppercase text-sm focus:border-[#10B981] outline-none transition-all", lang === 'ru' && "italic font-serif")}
             />
             <div className="flex gap-3 pt-2">
-              <button type="submit" className="flex-1 bg-[#10B981] text-black h-14 rounded-xl font-black uppercase text-[10px] tracking-widest shadow-lg">{t.createBtn}</button>
-              <button type="button" onClick={() => setShowCreateGroup(false)} className="flex-1 bg-white/5 text-white/40 h-14 rounded-xl font-black uppercase text-[10px] tracking-widest">{t.cancelBtn}</button>
+              <button type="submit" className={cn("flex-1 bg-[#10B981] text-black h-14 rounded-xl font-black uppercase text-[10px] tracking-widest shadow-lg", lang === 'ru' && "italic font-serif")}>{t.createBtn}</button>
+              <button type="button" onClick={() => setShowCreateGroup(false)} className={cn("flex-1 bg-white/5 text-white/40 h-14 rounded-xl font-black uppercase text-[10px] tracking-widest", lang === 'ru' && "italic font-serif")}>{t.cancelBtn}</button>
             </div>
           </form>
         </div>
@@ -278,7 +278,7 @@ export function LoveCircleChat() {
               <div className="relative inline-block">
                 <CircleDot className="w-16 h-16 mx-auto text-[#10B981]" />
               </div>
-              <p className="text-sm uppercase font-black tracking-[0.4em] leading-relaxed text-white max-w-[200px] mx-auto">
+              <p className={cn("text-sm uppercase font-black tracking-[0.4em] leading-relaxed text-white max-w-[200px] mx-auto", lang === 'ru' && "italic font-serif")}>
                 {t.resonanceStart}
               </p>
             </div>
@@ -288,14 +288,15 @@ export function LoveCircleChat() {
             const isMe = msg.senderId === user?.uid;
             return (
               <div key={msg.id} className={cn("flex flex-col gap-3 animate-in slide-in-from-bottom-2 duration-500", isMe ? "items-end" : "items-start")}>
-                <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.4em] px-3">
-                  {isMe ? (lang === 'ru' ? 'ВЫ' : lang === 'pt' ? 'VOCÊ' : 'YOU') : msg.senderName}
+                <span className={cn("text-[9px] font-black text-white/20 uppercase tracking-[0.4em] px-3", lang === 'ru' && "italic font-serif")}>
+                  {isMe ? (lang === 'ru' ? 'ТЫ' : lang === 'pt' ? 'VOCÊ' : 'YOU') : msg.senderName}
                 </span>
                 <div className={cn(
                   "p-6 rounded-[2.5rem] text-sm font-bold leading-relaxed max-w-[85%] shadow-2xl border transition-all",
                   isMe 
                     ? "bg-[#10B981] text-black border-[#10B981] rounded-tr-none" 
-                    : "bg-white/[0.03] text-white/90 border-white/5 rounded-tl-none shadow-inner"
+                    : "bg-white/[0.03] text-white/90 border-white/5 rounded-tl-none shadow-inner",
+                  lang === 'ru' && "italic font-serif"
                 )}>
                   {msg.text}
                 </div>
@@ -312,7 +313,7 @@ export function LoveCircleChat() {
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
             placeholder={t.placeholder}
-            className="flex-1 bg-white/[0.02] border border-white/10 rounded-full py-6 px-10 text-base font-bold focus:border-[#10B981] transition-all outline-none text-white shadow-inner"
+            className={cn("flex-1 bg-white/[0.02] border border-white/10 rounded-full py-6 px-10 text-base font-bold focus:border-[#10B981] transition-all outline-none text-white shadow-inner", lang === 'ru' && "italic font-serif")}
           />
           <button
             onClick={handleSend}
@@ -323,12 +324,12 @@ export function LoveCircleChat() {
           </button>
         </div>
         <div className="mt-6 flex flex-col items-center gap-2 opacity-20">
-          <p className="text-[8px] text-white uppercase tracking-[0.6em] font-black">
+          <p className={cn("text-[8px] text-white uppercase tracking-[0.6em] font-black", lang === 'ru' && "italic font-serif")}>
             {t.footer}
           </p>
           <div className="flex items-center gap-2">
             <Lock size={8} className="text-[#10B981]" />
-            <span className="text-[7px] font-black uppercase tracking-widest">{t.encrypted}</span>
+            <span className={cn("text-[7px] font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.encrypted}</span>
           </div>
         </div>
       </div>
