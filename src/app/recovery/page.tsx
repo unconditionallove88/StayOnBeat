@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -9,7 +10,7 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview Recovery Protocol Page.
  * Support for EN, DE, PT, RU.
- * Integrated core affirmation.
+ * Integrated core affirmation with refined RU typography.
  */
 
 export default function RecoveryView() {
@@ -99,7 +100,10 @@ export default function RecoveryView() {
           <div className="flex justify-between items-end">
             <div>
               <h1 className="text-4xl font-black uppercase tracking-tighter leading-none">{isFinished ? 'Integrated' : 'Recovery'}</h1>
-              <p className="text-[#10B981] text-[10px] font-black uppercase tracking-[0.3em] mt-2 italic">"{isFinished ? affirmation : 'Personalized protocol'}"</p>
+              <p className={cn(
+                "text-[#10B981] text-[10px] font-black uppercase tracking-[0.3em] mt-2",
+                lang === 'ru' ? "italic font-serif" : "italic"
+              )}>"{isFinished ? affirmation : 'Personalized protocol'}"</p>
             </div>
             <div className="flex flex-col items-end gap-3">
               <div className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center gap-2"><Heart className="w-3 h-3 text-[#10B981] fill-[#10B981] animate-pulse-heart" /><span className="text-[8px] font-black text-[#10B981] uppercase tracking-widest">Active Protection</span></div>
@@ -112,7 +116,10 @@ export default function RecoveryView() {
       <div className="px-6 py-10 max-w-xl mx-auto space-y-12">
         {isFinished && (
           <div className="text-center py-10 space-y-6 animate-in fade-in zoom-in duration-1000">
-            <p className="text-2xl font-black uppercase tracking-tighter text-[#10B981] leading-tight max-w-[300px] mx-auto italic">"{affirmation}"</p>
+            <p className={cn(
+              "text-2xl font-black uppercase tracking-tighter text-[#10B981] leading-tight max-w-[300px] mx-auto",
+              lang === 'ru' ? "italic font-serif" : "italic"
+            )}>"{affirmation}"</p>
           </div>
         )}
 

@@ -12,7 +12,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 /**
  * @fileOverview Phase: Before (Preparation Protocol).
  * Integrated core affirmation and support for EN, DE, PT, RU.
- * Corrected PT/RU correspondence for the preparation footer.
+ * Refined RU typography for a "lovable" written feel.
  */
 
 const CONTENT = {
@@ -118,7 +118,10 @@ export default function BeforePhase() {
         <div className="px-6 py-10 max-w-xl mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
           <section className="text-center space-y-4">
             <h2 className="text-4xl font-black uppercase tracking-tighter leading-none">{t.header}</h2>
-            <p className="text-[#10B981] text-sm font-bold uppercase tracking-widest leading-relaxed max-w-[340px] mx-auto italic">
+            <p className={cn(
+              "text-[#10B981] text-sm font-bold uppercase tracking-widest leading-relaxed max-w-[340px] mx-auto",
+              lang === 'ru' ? "italic font-serif" : "italic"
+            )}>
               "{t.description}"
             </p>
           </section>
@@ -130,7 +133,10 @@ export default function BeforePhase() {
                   <div className="p-4 rounded-2xl bg-black/40 border border-white/10 shadow-lg shrink-0">{section.icon}</div>
                   <div className="space-y-2">
                     <h3 className="text-lg font-black uppercase tracking-tight text-white">{section.title}</h3>
-                    <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-wide">{section.advice}</p>
+                    <p className={cn(
+                      "text-sm font-bold text-white/60 leading-relaxed uppercase tracking-wide",
+                      lang === 'ru' && "italic"
+                    )}>{section.advice}</p>
                   </div>
                 </div>
               </div>
@@ -139,7 +145,10 @@ export default function BeforePhase() {
 
           <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 flex items-center gap-6">
             <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center shrink-0"><ShieldCheck className="text-emerald-500" size={24} /></div>
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 leading-relaxed">
+            <p className={cn(
+              "text-[10px] font-black uppercase tracking-[0.2em] text-white/40 leading-relaxed",
+              lang === 'ru' && "italic"
+            )}>
               {t.footerAdvice}
             </p>
           </div>

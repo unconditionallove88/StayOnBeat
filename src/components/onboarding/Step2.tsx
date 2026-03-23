@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -7,6 +8,7 @@ import { ArrowLeft } from 'lucide-react';
 
 /**
  * @fileOverview Identity Calibration step with full EN, DE, PT, RU support.
+ * Refined RU phrasing for a more "lovable" acquaintance ritual.
  */
 
 const CONTENT = {
@@ -32,11 +34,11 @@ const CONTENT = {
     confirm: "Confirmar e continuar", skip: "Pular - sem alterações"
   },
   RU: {
-    back: "НАЗАД", header: "Давайте познакомимся", sub: "Биометрическая калибровка",
-    text: "Ваши данные помогают нам настроить метрики безопасности и хранятся локально",
-    nameLabel: "Имя пользователя", namePlaceholder: "ВВЕДИТЕ ИМЯ", dobLabel: "Дата рождения", dobPlaceholder: "ДД / ММ / ГГГГ",
+    back: "НАЗАД", header: "Давайте познакомимся", sub: "Настройка вашего профиля",
+    text: "Ваши данные помогают нам беречь ваше состояние и хранятся только у вас",
+    nameLabel: "Как вас зовут?", namePlaceholder: "ВВЕДИТЕ ИМЯ", dobLabel: "Дата рождения", dobPlaceholder: "ДД / ММ / ГГГГ",
     weightLabel: "Вес (КГ)", heightLabel: "Рост (СМ)", underageError: "Ошибка: Вам должно быть 18+ для доступа",
-    confirm: "Подтвердить и продолжить", skip: "Пропустить"
+    confirm: "Продолжить", skip: "Пропустить"
   }
 };
 
