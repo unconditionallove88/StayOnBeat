@@ -190,6 +190,18 @@ function DashboardContent() {
   const t = TOOLTIPS[lang];
   const isMeshCalibrated = firestoreProfile?.guardActive !== undefined;
 
+  const getLocalizedVibeLabel = (vibe: any) => {
+    if (!vibe) return { en: "Steady", de: "Stabil", pt: "Estável", ru: "Спокойно" }[lang] || "Steady";
+    const vibeMap: Record<string, Record<string, string>> = {
+      radiant: { en: "Radiant", de: "Strahlend", pt: "Radiante", ru: "Сияющий" },
+      harmony: { en: "Harmony", de: "In Harmonie", pt: "Em Harmonia", ru: "В Гармонии" },
+      calm: { en: "Calm", de: "Beruhigt", pt: "Calmo", ru: "Спокойный" },
+      hazy: { en: "Hazy", de: "Verschwommen", pt: "Nebuloso", ru: "Туманный" },
+      overwhelmed: { en: "Held", de: "Überwältigt", pt: "Sobrecarregado", ru: "Перегружен" }
+    };
+    return vibeMap[vibe.current]?.[lang] || vibe.currentLabel;
+  };
+
   return (
     <main className="min-h-screen bg-black text-white flex flex-col h-screen overflow-hidden font-headline">
       <div className="px-6 py-6 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
@@ -250,7 +262,7 @@ function DashboardContent() {
                 <HeartStatusAura 
                   heartRate={simHeartRate} 
                   activeSubstances={activeSubstances} 
-                  mood={firestoreProfile?.vibe?.currentLabel || (lang === 'ru' ? "Спокойно" : lang === 'pt' ? "Calmo" : lang === 'de' ? "Stabil" : "Steady")}
+                  mood={getLocalizedVibeLabel(firestoreProfile?.vibe)}
                   lang={lang} 
                 />
                 <p className={cn(

@@ -13,6 +13,7 @@ import { LoveCircleChat } from '@/components/chat/LoveCircleChat';
 import { PartyCircleChat } from '@/components/chat/PartyCircleChat';
 import { WearablesSync } from '@/components/dashboard/WearablesSync';
 import { playHeartbeat } from '@/lib/resonance';
+import { cn } from '@/lib/utils';
 
 /**
  * @fileOverview My Heart Page (Individual Analytics).
@@ -115,6 +116,18 @@ export default function MyHeartPage() {
     }
   }[lang];
 
+  const getLocalizedVibeLabel = (vibe: any) => {
+    if (!vibe) return { en: "Steady", de: "Stabil", pt: "Estável", ru: "Спокойно" }[lang] || "Steady";
+    const vibeMap: Record<string, Record<string, string>> = {
+      radiant: { en: "Radiant", de: "Strahlend", pt: "Radiante", ru: "Сияющий" },
+      harmony: { en: "Harmony", de: "In Harmonie", pt: "Em Harmonia", ru: "В Гармонии" },
+      calm: { en: "Calm", de: "Beruhigt", pt: "Calmo", ru: "Спокойный" },
+      hazy: { en: "Hazy", de: "Verschwommen", pt: "Nebuloso", ru: "Туманный" },
+      overwhelmed: { en: "Held", de: "Überwältigt", pt: "Sobrecarregado", ru: "Перегружен" }
+    };
+    return vibeMap[vibe.current]?.[lang] || vibe.currentLabel;
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-[#050505] p-6 pb-32 font-headline overflow-x-hidden relative">
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
@@ -129,10 +142,10 @@ export default function MyHeartPage() {
           <ArrowLeft size={20} />
         </button>
         <div>
-          <h1 className="text-2xl font-black uppercase tracking-tighter">
+          <h1 className={cn("text-2xl font-black uppercase tracking-tighter", lang === 'ru' && "italic font-serif")}>
             {t.title}
           </h1>
-          <p className="text-[10px] text-[#10B981] font-black uppercase tracking-[0.3em]">
+          <p className={cn("text-[10px] text-[#10B981] font-black uppercase tracking-[0.3em]", lang === 'ru' && "italic font-serif")}>
             {t.sub}
           </p>
         </div>
@@ -143,10 +156,10 @@ export default function MyHeartPage() {
           <HeartStatusAura 
             heartRate={heartRate} 
             activeSubstances={[]} 
-            mood={profile?.vibe?.currentLabel || (lang === 'en' ? "Steady" : "Stabil")}
+            mood={getLocalizedVibeLabel(profile?.vibe)}
             lang={lang}
           />
-          <span className="text-[9px] uppercase tracking-widest text-slate-600 font-bold">
+          <span className={cn("text-[9px] uppercase tracking-widest text-slate-600 font-bold", lang === 'ru' && "italic font-serif")}>
             {t.demo}
           </span>
         </div>
@@ -161,8 +174,8 @@ export default function MyHeartPage() {
                 <CircleDot size={28} className="text-[#10B981]" />
               </div>
               <div className="text-left">
-                <p className="text-lg font-black uppercase tracking-tight">{t.holders}</p>
-                <p className="text-[8px] font-bold text-[#10B981] uppercase tracking-widest">{t.holdersSub}</p>
+                <p className={cn("text-lg font-black uppercase tracking-tight", lang === 'ru' && "italic font-serif")}>{t.holders}</p>
+                <p className={cn("text-[8px] font-bold text-[#10B981] uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.holdersSub}</p>
               </div>
             </div>
             <ChevronRight size={20} className="text-white/10 group-hover:text-white transition-all" />
@@ -177,8 +190,8 @@ export default function MyHeartPage() {
                 <Users2 size={28} className="text-amber-500" />
               </div>
               <div className="text-left">
-                <p className="text-lg font-black uppercase tracking-tight">{t.witnesses}</p>
-                <p className="text-[8px] font-bold text-amber-500 uppercase tracking-widest">{t.witnessesSub}</p>
+                <p className={cn("text-lg font-black uppercase tracking-tight", lang === 'ru' && "italic font-serif")}>{t.witnesses}</p>
+                <p className={cn("text-[8px] font-bold text-amber-500 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.witnessesSub}</p>
               </div>
             </div>
             <ChevronRight size={20} className="text-white/10 group-hover:text-white transition-all" />
@@ -194,16 +207,16 @@ export default function MyHeartPage() {
                 <Watch className="text-[#EBFB3B] w-5 h-5" />
               </div>
               <div>
-                <span className="block text-[10px] font-black uppercase text-[#EBFB3B] tracking-widest">
+                <span className={cn("block text-[10px] font-black uppercase text-[#EBFB3B] tracking-widest", lang === 'ru' && "italic font-serif")}>
                   {t.baseline}
                 </span>
-                <span className="text-[8px] font-bold text-white/30 uppercase tracking-widest">
+                <span className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>
                   {t.baselineSub}
                 </span>
               </div>
             </div>
             {profile?.pulseBaseline && (
-              <span className="text-[8px] font-bold text-white/30 uppercase tracking-widest px-3 py-1 bg-white/5 rounded-full border border-white/5">
+              <span className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest px-3 py-1 bg-white/5 rounded-full border border-white/5", lang === 'ru' && "italic font-serif")}>
                 {t.syncVia} {profile.pulseBaseline.source.replace('_', ' ')}
               </span>
             )}
@@ -213,13 +226,13 @@ export default function MyHeartPage() {
             <span className="text-5xl font-black text-white leading-none">
               {profile?.pulseBaseline?.restingBPM || '--'}
             </span>
-            <span className="text-[10px] font-black text-white/20 mb-1 uppercase tracking-widest leading-none">RESTING BPM</span>
+            <span className={cn("text-[10px] font-black text-white/20 mb-1 uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>RESTING BPM</span>
           </div>
 
           <div className="pt-6 border-t border-white/5 space-y-4">
             <div className="flex items-start gap-3">
               <Info size={16} className="text-[#EBFB3B] mt-0.5 shrink-0" />
-              <p className="text-[10px] text-white/40 font-bold uppercase leading-relaxed tracking-wide">
+              <p className={cn("text-[10px] text-white/40 font-bold uppercase leading-relaxed tracking-wide", lang === 'ru' && "italic font-serif")}>
                 {t.baselineInfo}
               </p>
             </div>
@@ -230,14 +243,14 @@ export default function MyHeartPage() {
       <div className="space-y-6 shrink-0 relative z-10 mt-12">
         <button 
           onClick={() => { playHeartbeat(); setSyncOpen(true); }}
-          className="w-full py-6 rounded-[1.5rem] bg-[#EBFB3B] text-black text-sm font-black uppercase tracking-widest flex items-center justify-center gap-3 active:scale-95 transition-all shadow-[0_0_30px_rgba(235,251,59,0.3)] hover:scale-[1.02]"
+          className={cn("w-full py-6 rounded-[1.5rem] bg-[#EBFB3B] text-black text-sm font-black uppercase tracking-widest flex items-center justify-center gap-3 active:scale-95 transition-all shadow-[0_0_30px_rgba(235,251,59,0.3)] hover:scale-[1.02]", lang === 'ru' && "italic font-serif")}
         >
           <RefreshCw size={18} />
           {t.recalibrate}
         </button>
 
         <div className="flex flex-col items-center gap-4">
-          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">The Love Circle</p>
+          <p className={cn("text-[10px] font-black uppercase tracking-[0.4em] text-white/20", lang === 'ru' && "italic font-serif")}>The Love Circle</p>
           <LoveCircleList lang={lang} />
         </div>
       </div>

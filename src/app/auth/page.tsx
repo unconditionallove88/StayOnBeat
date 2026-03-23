@@ -89,6 +89,13 @@ function AuthContent() {
         return;
       }
 
+      const vibeLabels: Record<string, string> = {
+        en: "Calm",
+        de: "Beruhigt",
+        pt: "Calmo",
+        ru: "Спокойный"
+      };
+
       setDocumentNonBlocking(
         doc(db, "users", cred.user.uid), 
         {
@@ -97,7 +104,11 @@ function AuthContent() {
           name: userName,
           createdAt: serverTimestamp(),
           trustLevel: isSignUp ? "unverified" : "verified_adult",
-          vibe: { current: "calm", currentEmoji: "🍃", currentLabel: lang === 'en' ? "Calm" : "Beruhigt" }
+          vibe: { 
+            current: "calm", 
+            currentEmoji: "🍃", 
+            currentLabel: vibeLabels[lang] || "Calm" 
+          }
         },
         { merge: true }
       );
@@ -120,27 +131,27 @@ function AuthContent() {
         <button onClick={() => router.push("/")} className="absolute top-8 left-8 text-white/20 hover:text-[#10B981] transition-colors p-2"><ChevronLeft size={24} /></button>
         <div className="text-center mb-10 mt-4">
           <div className="w-20 h-20 bg-[#10B981]/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-[#10B981]/20 shadow-[0_0_30px_rgba(16,185,129,0.1)]"><ShieldCheck size={40} className="text-[#10B981]" /></div>
-          <h1 className="text-4xl font-black text-white tracking-tighter uppercase leading-none mb-2">{isSignUp ? t.create : t.welcome}</h1>
-          <p className="text-[#10B981] text-[10px] font-black uppercase tracking-[0.4em]">{t.prototype}</p>
+          <h1 className={cn("text-4xl font-black text-white tracking-tighter uppercase leading-none mb-2", lang === 'ru' && "italic font-serif")}>{isSignUp ? t.create : t.welcome}</h1>
+          <p className={cn("text-[#10B981] text-[10px] font-black uppercase tracking-[0.4em]", lang === 'ru' && "italic font-serif")}>{t.prototype}</p>
         </div>
 
         <form onSubmit={handleAuth} className="space-y-5">
           <div className="space-y-1.5">
-            <label className="text-[9px] font-black uppercase tracking-[0.3em] text-[#10B981] ml-2">{t.emailLabel}</label>
-            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full h-16 px-8 rounded-2xl border-2 border-white/5 bg-white/5 text-white placeholder:text-white/10 focus:border-[#10B981] outline-none transition-all font-bold" placeholder={t.emailPlaceholder} required />
+            <label className={cn("text-[9px] font-black uppercase tracking-[0.3em] text-[#10B981] ml-2", lang === 'ru' && "italic font-serif")}>{t.emailLabel}</label>
+            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className={cn("w-full h-16 px-8 rounded-2xl border-2 border-white/5 bg-white/5 text-white placeholder:text-white/10 focus:border-[#10B981] outline-none transition-all font-bold", lang === 'ru' && "italic font-serif")} placeholder={t.emailPlaceholder} required />
           </div>
           <div className="space-y-1.5">
-            <label className="text-[9px] font-black uppercase tracking-[0.3em] text-[#10B981] ml-2">{t.passwordLabel}</label>
+            <label className={cn("text-[9px] font-black uppercase tracking-[0.3em] text-[#10B981] ml-2", lang === 'ru' && "italic font-serif")}>{t.passwordLabel}</label>
             <div className="relative">
-              <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} className="w-full h-16 px-8 rounded-2xl border-2 border-white/5 bg-white/5 text-white placeholder:text-white/10 focus:border-[#10B981] outline-none transition-all font-bold" placeholder={t.passwordPlaceholder} required />
+              <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} className={cn("w-full h-16 px-8 rounded-2xl border-2 border-white/5 bg-white/5 text-white placeholder:text-white/10 focus:border-[#10B981] outline-none transition-all font-bold", lang === 'ru' && "italic font-serif")} placeholder={t.passwordPlaceholder} required />
               <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-6 top-1/2 -translate-y-1/2 text-white/20 hover:text-[#10B981]">{showPassword ? <EyeOff size={20} /> : <Eye size={20} />}</button>
             </div>
           </div>
-          {error && <div className="p-4 bg-red-600/10 border border-red-600/20 rounded-2xl text-red-500 text-[10px] text-center font-black uppercase tracking-widest">{error}</div>}
-          <button type="submit" disabled={isLoading} className={cn("w-full h-20 bg-[#10B981] text-black rounded-2xl font-black text-lg uppercase tracking-[0.1em] shadow-lg shadow-[#10B981]/10 transition-all active:scale-[0.98] flex items-center justify-center gap-3 mt-4", isLoading && "opacity-50 cursor-not-allowed")}>{isLoading ? <><Loader2 size={24} className="animate-spin" /><span>{t.entering}</span></> : <span className="flex items-center gap-3">{isSignUp ? t.begin : t.enter}</span>}</button>
+          {error && <div className={cn("p-4 bg-red-600/10 border border-red-600/20 rounded-2xl text-red-500 text-[10px] text-center font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{error}</div>}
+          <button type="submit" disabled={isLoading} className={cn("w-full h-20 bg-[#10B981] text-black rounded-2xl font-black text-lg uppercase tracking-[0.1em] shadow-lg shadow-[#10B981]/10 transition-all active:scale-[0.98] flex items-center justify-center gap-3 mt-4", isLoading && "opacity-50 cursor-not-allowed", lang === 'ru' && "italic font-serif")}>{isLoading ? <><Loader2 size={24} className="animate-spin" /><span>{t.entering}</span></> : <span className="flex items-center gap-3">{isSignUp ? t.begin : t.enter}</span>}</button>
         </form>
-        <button onClick={() => router.push(isSignUp ? "/auth?mode=signin" : "/auth?mode=signup")} className="w-full mt-10 text-[9px] font-black text-white/20 hover:text-[#10B981] transition-colors uppercase tracking-[0.4em] flex items-center justify-center gap-2">{isSignUp ? t.alreadyAccount : t.newHere}</button>
-        <div className="mt-12 pt-8 border-t border-white/5"><p className="text-center text-[8px] text-white/10 uppercase tracking-[0.5em] font-black">{t.staffAccess}</p></div>
+        <button onClick={() => router.push(isSignUp ? "/auth?mode=signin" : "/auth?mode=signup")} className={cn("w-full mt-10 text-[9px] font-black text-white/20 hover:text-[#10B981] transition-colors uppercase tracking-[0.4em] flex items-center justify-center gap-2", lang === 'ru' && "italic font-serif")}>{isSignUp ? t.alreadyAccount : t.newHere}</button>
+        <div className="mt-12 pt-8 border-t border-white/5"><p className={cn("text-center text-[8px] text-white/10 uppercase tracking-[0.5em] font-black", lang === 'ru' && "italic font-serif")}>{t.staffAccess}</p></div>
       </div>
     </main>
   );
