@@ -78,27 +78,17 @@ function SkyIcon() {
 }
 
 const AFFIRMATIONS = {
-  EN: ["I am loved", "Truth is love", "Life is a radiant gift", "I cherish this breath", "Equality is my nature"],
-  DE: ["Ich bin geliebt", "Wahrheit ist liebe", "Das Leben ist ein strahlendes Geschenk", "Ich schätze diesen Atemzug", "Gleichheit ist meine Natur"]
+  EN: ["I am loved", "Truth is love", "Life is a radiant gift", "I cherish this breath", "Equality is my nature", "I love unconditionally I accept without expectations I am free and I give freedom"],
+  DE: ["Ich bin geliebt", "Wahrheit ist liebe", "Das Leben ist ein strahlendes Geschenk", "Ich schätze diesen Atemzug", "Gleichheit ist meine Natur", "Ich liebe bedingungslos Ich akzeptiere ohne Erwartungen Ich bin frei und schenke Freiheit"],
+  PT: ["Eu sou amado", "A verdade é amor", "A vida é um presente radiante", "Eu valorizo este sopro", "A igualdade é a minha natureza", "Eu amo incondicionalmente Eu aceito sem expectativas Eu sou livre e dou liberdade"],
+  RU: ["Я любим", "Истина есть любовь", "Жизнь — это сияющий дар", "Я дорожу этим вдохом", "Равенство — моя природа", "Я люблю безусловно Я принимаю без ожиданий Я свободен и даю свободу"]
 };
 
 const TOOLTIPS = {
-  en: {
-    vibe: "Mood Check-in",
-    cocreation: "Co-Creation",
-    assistant: "AI Assistant",
-    profile: "My Profile",
-    logout: "Step away",
-    mesh: "Offline Mode: Mesh Active"
-  },
-  de: {
-    vibe: "Stimmungs Check-in",
-    cocreation: "Ko-Kreation",
-    assistant: "KI-Assistent",
-    profile: "Mein Profil",
-    logout: "Abmelden",
-    mesh: "Offline-Modus: Mesh aktiv"
-  }
+  en: { vibe: "Mood Check-in", cocreation: "Co-Creation", assistant: "AI Assistant", profile: "My Profile", logout: "Step away", mesh: "Offline Mode: Mesh Active" },
+  de: { vibe: "Stimmungs Check-in", cocreation: "Ko-Kreation", assistant: "KI-Assistent", profile: "Mein Profil", logout: "Abmelden", mesh: "Offline-Modus: Mesh aktiv" },
+  pt: { vibe: "Check-in de Humor", cocreation: "Co-Criação", assistant: "Assistente IA", profile: "Meu Perfil", logout: "Sair", mesh: "Modo Offline: Mesh Ativo" },
+  ru: { vibe: "Настроение", cocreation: "Со-творение", assistant: "ИИ-Помощник", profile: "Мой Профиль", logout: "Выйти", mesh: "Оффлайн: Mesh Активен" }
 };
 
 function DashboardContent() {
@@ -109,7 +99,7 @@ function DashboardContent() {
   const firestore = useFirestore();
   const [mounted, setMounted] = useState(false);
   const [affirmation, setAffirmation] = useState("");
-  const [lang, setLang] = useState<'en' | 'de'>('en');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
   
   const [simHeartRate, setSimHeartRate] = useState(75);
   const [activeSubstances, setActiveSubstances] = useState<string[]>([]);
@@ -124,11 +114,11 @@ function DashboardContent() {
 
   useEffect(() => {
     setMounted(true);
-    const savedLang = localStorage.getItem('stayonbeat_lang');
-    const currentLang = (savedLang === 'DE' || savedLang === 'EN' ? savedLang.toLowerCase() : 'en') as 'en' | 'de';
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    const currentLang = ['en', 'de', 'pt', 'ru'].includes(savedLang) ? savedLang : 'en';
     setLang(currentLang);
 
-    const pool = AFFIRMATIONS[currentLang.toUpperCase() as 'EN' | 'DE'];
+    const pool = AFFIRMATIONS[currentLang.toUpperCase() as keyof typeof AFFIRMATIONS];
     setAffirmation(pool[Math.floor(Math.random() * pool.length)]);
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -192,7 +182,7 @@ function DashboardContent() {
         <header className="flex justify-between items-center max-w-4xl mx-auto w-full gap-4">
           <div className="flex-1 min-w-0">
             <h1 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-3 truncate">
-              <span className="truncate">{lang === 'en' ? `SHINE, ${displayName}` : `STRAHLE, ${displayName}`}</span>
+              <span className="truncate">{lang === 'ru' ? `СИЯЙ, ${displayName}` : lang === 'pt' ? `BRILHE, ${displayName}` : lang === 'de' ? `STRAHLE, ${displayName}` : `SHINE, ${displayName}`}</span>
               <SkyIcon />
             </h1>
             <div className="flex items-center gap-2 mt-1">
@@ -220,11 +210,7 @@ function DashboardContent() {
         <div className="max-w-4xl mx-auto px-6 py-8 space-y-12 pb-40 touch-pan-y">
           
           <div className="space-y-3">
-            <GuardianStatusBar 
-              status={guardianStatus} 
-              heartRate={simHeartRate} 
-              lang={lang} 
-            />
+            <GuardianStatusBar status={guardianStatus} heartRate={simHeartRate} lang={lang} />
             <PulseGuardianBanner lang={lang} variant="banner" />
           </div>
 
@@ -238,7 +224,7 @@ function DashboardContent() {
                 <HeartStatusAura 
                   heartRate={simHeartRate} 
                   activeSubstances={activeSubstances} 
-                  mood={firestoreProfile?.vibe?.currentLabel || (lang === 'en' ? "Steady" : "Stabil")}
+                  mood={firestoreProfile?.vibe?.currentLabel || (lang === 'ru' ? "Спокойно" : lang === 'pt' ? "Estável" : lang === 'de' ? "Stabil" : "Steady")}
                   lang={lang} 
                 />
                 <p className="text-xs font-bold uppercase tracking-widest text-[#10B981] italic">"{affirmation}"</p>
@@ -248,7 +234,7 @@ function DashboardContent() {
 
           <div className="w-full flex flex-col items-center gap-6">
             <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">
-              {lang === 'en' ? 'Collective Resonance' : 'Gemeinsame Resonanz'}
+              {lang === 'ru' ? 'Коллективный Резонанс' : lang === 'pt' ? 'Ressonância Coletiva' : lang === 'de' ? 'Gemeinsame Resonanz' : 'Collective Resonance'}
             </h2>
             <LoveCircle lang={lang} variant="dashboard" />
           </div>
@@ -267,7 +253,7 @@ function DashboardContent() {
                   <RadiatingThirdEye size={36} color="#3b82f6" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'The Pulse' : 'Der Puls'}</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'ru' ? 'Пульс' : lang === 'pt' ? 'O Pulso' : lang === 'de' ? 'Der Puls' : 'The Pulse'}</p>
                   <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Radar</p>
                 </div>
               </Link>
@@ -280,7 +266,7 @@ function DashboardContent() {
                   <Microscope size={36} className="text-white" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'Pulse Lab' : 'Sitzungs-Labor'}</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'ru' ? 'Лаборатория' : lang === 'pt' ? 'Pulse Lab' : lang === 'de' ? 'Sitzungs-Labor' : 'Pulse Lab'}</p>
                   <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Intake</p>
                 </div>
               </button>
@@ -293,7 +279,7 @@ function DashboardContent() {
                   <Watch size={32} className="text-[#EBFB3B]" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'Pulse Sync' : 'Vital-Sync'}</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'ru' ? 'Синхронизация' : lang === 'pt' ? 'Pulse Sync' : lang === 'de' ? 'Vital-Sync' : 'Pulse Sync'}</p>
                   <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Sync</p>
                 </div>
               </button>
@@ -306,7 +292,7 @@ function DashboardContent() {
                   <PenLine size={32} className="text-purple-400" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'Love Letters' : 'Liebesbriefe'}</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'ru' ? 'Письма Любви' : lang === 'pt' ? 'Cartas de Amor' : lang === 'de' ? 'Liebesbriefe' : 'Love Letters'}</p>
                   <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Future Self</p>
                 </div>
               </button>
@@ -320,7 +306,7 @@ function DashboardContent() {
                   <Wind size={32} className="text-[#10B981]" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'en' ? 'Inner Resonance' : 'Innere Resonanz'}</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'ru' ? 'Резонанс' : lang === 'pt' ? 'Ressonância' : lang === 'de' ? 'Innere Resonanz' : 'Inner Resonance'}</p>
                   <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Grounding</p>
                 </div>
               </Link>
@@ -333,7 +319,7 @@ function DashboardContent() {
                   <Shield size={32} />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none group-hover:text-white transition-colors">{lang === 'en' ? 'Immediate Help' : 'Sofort-Hilfe'}</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none group-hover:text-white transition-colors">{lang === 'ru' ? 'Помощь' : lang === 'pt' ? 'Ajuda Imediata' : lang === 'de' ? 'Sofort-Hilfe' : 'Immediate Help'}</p>
                   <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors">Mesh SOS</p>
                 </div>
               </button>
@@ -370,7 +356,7 @@ function DashboardContent() {
                   )}
                 >
                   <Settings2 size={12} />
-                  {lang === 'en' ? 'Lab Calibration (Dev Access)' : 'Labor-Kalibrierung (Dev-Zugriff)'}
+                  {lang === 'ru' ? 'Калибровка (Dev)' : lang === 'pt' ? 'Calibração (Dev)' : lang === 'de' ? 'Labor-Kalibrierung' : 'Lab Calibration'}
                   <ChevronDown className={cn("transition-transform", isSimulatorOpen && "rotate-180")} size={12} />
                 </button>
               </CollapsibleTrigger>

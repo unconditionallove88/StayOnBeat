@@ -7,54 +7,47 @@ import { useAuth, useFirestore } from "@/firebase";
 import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { signInAnonymously } from "firebase/auth";
 import { doc, serverTimestamp } from "firebase/firestore";
-import { 
-  Eye, 
-  EyeOff, 
-  Loader2, 
-  ShieldCheck, 
-  ChevronLeft,
-  Heart
-} from "lucide-react";
+import { Eye, EyeOff, Loader2, ShieldCheck, ChevronLeft, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview Access Sanctuary (Auth) Page.
- * Visuals refined for subtle influence and "Inside Out" vision.
+ * Added Portuguese (Brazilian) and Russian support.
  * Punctuation-free affirmations.
  */
 
 const CONTENT = {
   en: {
-    welcome: "Welcome Home",
-    create: "Create Sanctuary",
-    prototype: "Prototype Mode Active 🔒",
-    emailLabel: "Email Address",
-    emailPlaceholder: "soul@stayonbeat.com",
-    passwordLabel: "Password",
-    passwordPlaceholder: "••••••••",
-    entering: "Entering...",
-    begin: "Begin Journey",
-    enter: "Enter Sanctuary",
-    alreadyAccount: "Already have an account? Sign In",
-    newHere: "New here? Join the circle",
-    staffAccess: "StayOnBeat • Staff Access via awareness@love.com",
-    errorMsg: "The sanctuary is calibrating please try again"
+    welcome: "Welcome Home", create: "Create Sanctuary", prototype: "Prototype Mode Active 🔒",
+    emailLabel: "Email Address", emailPlaceholder: "soul@stayonbeat.com",
+    passwordLabel: "Password", passwordPlaceholder: "••••••••",
+    entering: "Entering...", begin: "Begin Journey", enter: "Enter Sanctuary",
+    alreadyAccount: "Already have an account? Sign In", newHere: "New here? Join the circle",
+    staffAccess: "StayOnBeat • Staff Access via awareness@love.com", errorMsg: "The sanctuary is calibrating please try again"
   },
   de: {
-    welcome: "Willkommen Zuhause",
-    create: "Sanctuary erstellen",
-    prototype: "Prototyp-Modus Aktiv 🔒",
-    emailLabel: "E-Mail-Adresse",
-    emailPlaceholder: "seele@stayonbeat.com",
-    passwordLabel: "Passwort",
-    passwordPlaceholder: "••••••••",
-    entering: "Eintritt...",
-    begin: "Reise beginnen",
-    enter: "Sanctuary betreten",
-    alreadyAccount: "Bereits ein Konto? Anmelden",
-    newHere: "Neu hier? Werde Teil des Kreises",
-    staffAccess: "StayOnBeat • Team-Zugang über awareness@love.com",
-    errorMsg: "Das Sanctuary kalibriert sich bitte versuche es erneut"
+    welcome: "Willkommen Zuhause", create: "Sanctuary erstellen", prototype: "Prototyp-Modus Aktiv 🔒",
+    emailLabel: "E-Mail-Adresse", emailPlaceholder: "seele@stayonbeat.com",
+    passwordLabel: "Passwort", passwordPlaceholder: "••••••••",
+    entering: "Eintritt...", begin: "Reise beginnen", enter: "Sanctuary betreten",
+    alreadyAccount: "Bereits ein Konto? Anmelden", newHere: "Neu hier? Werde Teil des Kreises",
+    staffAccess: "StayOnBeat • Team-Zugang über awareness@love.com", errorMsg: "Das Sanctuary kalibriert sich bitte versuche es erneut"
+  },
+  pt: {
+    welcome: "Bem-vindo ao Lar", create: "Criar Santuário", prototype: "Modo Protótipo Ativo 🔒",
+    emailLabel: "Endereço de E-mail", emailPlaceholder: "alma@stayonbeat.com",
+    passwordLabel: "Senha", passwordPlaceholder: "••••••••",
+    entering: "Entrando...", begin: "Começar Jornada", enter: "Entrar no Santuário",
+    alreadyAccount: "Já tem uma conta? Entrar", newHere: "Novo aqui? Junte-se ao círculo",
+    staffAccess: "StayOnBeat • Acesso da Equipe via awareness@love.com", errorMsg: "O santuário está calibrando, por favor tente novamente"
+  },
+  ru: {
+    welcome: "Добро пожаловать Домой", create: "Создать Пространство", prototype: "Активен режим прототипа 🔒",
+    emailLabel: "Адрес электронной почты", emailPlaceholder: "soul@stayonbeat.com",
+    passwordLabel: "Пароль", passwordPlaceholder: "••••••••",
+    entering: "Вход...", begin: "Начать путешествие", enter: "Войти в пространство",
+    alreadyAccount: "Уже есть аккаунт? Войти", newHere: "Впервые здесь? Присоединяйся к кругу",
+    staffAccess: "StayOnBeat • Доступ персонала через awareness@love.com", errorMsg: "Пространство калибруется, пожалуйста, попробуйте позже"
   }
 };
 
@@ -72,11 +65,11 @@ function AuthContent() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [lang, setLang] = useState<'en' | 'de'>('en');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
 
   useEffect(() => {
-    const savedLang = localStorage.getItem('stayonbeat_lang');
-    if (savedLang === 'DE') setLang('de');
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
   }, []);
 
   const t = CONTENT[lang];

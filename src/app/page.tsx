@@ -10,20 +10,21 @@ import { cn } from "@/lib/utils";
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
  * Calibrated for expansive resonance, visual purity, and living from the inside out.
  * Punctuation-free for an open-ended human experience.
+ * Added Portuguese (Brazilian) and Russian support.
  */
 
 export default function Home() {
   const router = useRouter();
-  const [lang, setLang] = useState<'EN' | 'DE'>('EN');
+  const [lang, setLang] = useState<'EN' | 'DE' | 'PT' | 'RU'>('EN');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const savedLang = typeof window !== 'undefined' ? localStorage.getItem('stayonbeat_lang') : 'EN';
-    if (savedLang === 'DE' || savedLang === 'EN') setLang(savedLang as 'EN' | 'DE');
+    if (['EN', 'DE', 'PT', 'RU'].includes(savedLang as string)) setLang(savedLang as any);
   }, []);
 
-  const handleLangChange = (newLang: 'EN' | 'DE') => {
+  const handleLangChange = (newLang: 'EN' | 'DE' | 'PT' | 'RU') => {
     setLang(newLang);
     localStorage.setItem('stayonbeat_lang', newLang);
   };
@@ -42,6 +43,20 @@ export default function Home() {
       getStarted: "Werde Teil des Kreises", 
       signIn: "Willkommen Zuhause", 
       footer: "DSGVO-geschützt • Mit Liebe verschlüsselt" 
+    },
+    PT: { 
+      slogan: "Sua luz começa aqui", 
+      valueProp: "Um santuário seguro para irradiar sua verdade através do monitoramento de saúde e cuidado coletivo", 
+      getStarted: "Junte-se ao Círculo", 
+      signIn: "Bem-vindo ao Lar", 
+      footer: "Protegido por GDPR • Criptografado com Amor" 
+    },
+    RU: { 
+      slogan: "Твой свет начинается здесь", 
+      valueProp: "Безопасное пространство для сияния твоей истины через мониторинг здоровья и коллективную заботу", 
+      getStarted: "Присоединиться к Кругу", 
+      signIn: "Добро пожаловать Домой", 
+      footer: "Защищено GDPR • Зашифровано с Любовью" 
     }
   };
 
@@ -55,16 +70,23 @@ export default function Home() {
       <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-accent/5 blur-[120px] rounded-full pointer-events-none animate-pulse" style={{ animationDuration: '12s' }} />
 
       {/* Resonance Calibration (Language) */}
-      <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-6 py-2.5 rounded-full border border-white/10 z-50 shrink-0 shadow-2xl">
-        <button onClick={() => handleLangChange('EN')} className={cn("text-[10px] font-black tracking-[0.3em] transition-all", lang === 'EN' ? 'text-primary' : 'text-white/40')}>EN</button>
-        <span className="text-white/10 font-black">|</span>
-        <button onClick={() => handleLangChange('DE')} className={cn("text-[10px] font-black tracking-[0.3em] transition-all", lang === 'DE' ? 'text-primary' : 'text-white/40')}>DE</button>
+      <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-6 py-2.5 rounded-full border border-white/10 z-50 shrink-0 shadow-2xl overflow-x-auto max-w-full no-scrollbar">
+        {['EN', 'DE', 'PT', 'RU'].map((l, i) => (
+          <div key={l} className="flex items-center gap-4">
+            <button 
+              onClick={() => handleLangChange(l as any)} 
+              className={cn("text-[10px] font-black tracking-[0.3em] transition-all whitespace-nowrap", lang === l ? 'text-primary' : 'text-white/40')}
+            >
+              {l}
+            </button>
+            {i < 3 && <span className="text-white/10 font-black">|</span>}
+          </div>
+        ))}
       </div>
 
       <div className="flex flex-col items-center w-full max-w-xl text-center flex-1 justify-center py-12 relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-1000">
         <div className="flex flex-col items-center justify-center mb-16">
           <div className="relative flex items-center justify-center">
-            {/* Radiant Core */}
             <div className="absolute inset-0 w-48 h-48 bg-white/5 blur-[60px] rounded-full animate-pulse" />
             <div className="w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center border-2 border-primary/20 shadow-[0_0_50px_rgba(16,185,129,0.15)] relative z-10">
               <Heart size={64} fill="currentColor" className="text-primary animate-pulse-heart drop-shadow-[0_0_30px_rgba(16,185,129,0.6)]" />

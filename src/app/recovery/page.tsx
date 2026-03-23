@@ -10,8 +10,7 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview Recovery Protocol Page.
  * Securely wipes session data and honors the user's safety streak.
- * Dot-free affirmations and grounded guidance.
- * Features a post-completion feedback invitation.
+ * Integrated Core Affirmation.
  */
 
 export default function RecoveryView() {
@@ -21,9 +20,13 @@ export default function RecoveryView() {
   const [mounted, setMounted] = useState(false);
   const [sessionLogs, setSessionLogs] = useState<any[]>([]);
   const [isFinished, setIsFinished] = useState(false);
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
 
   useEffect(() => {
     setMounted(true);
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
+
     const logs = JSON.parse(localStorage.getItem('stayonbeat_logs') || '[]');
     setSessionLogs(logs);
     generateDetox(logs);
@@ -43,47 +46,35 @@ export default function RecoveryView() {
     return () => clearInterval(timer);
   }, []);
 
+  const affirmation = {
+    en: "I love unconditionally I accept without expectations I am free and I give freedom",
+    de: "Ich liebe bedingungslos Ich akzeptiere ohne Erwartungen Ich bin frei und schenke Freiheit",
+    pt: "Eu amo incondicionalmente Eu aceito sem expectativas Eu sou livre e dou liberdade",
+    ru: "Я люблю безусловно Я принимаю без ожиданий Я свободен и даю свободу"
+  }[lang];
+
   const generateDetox = (logs: any[]) => {
     const plan: any[] = [];
     const activeIds = Array.from(new Set(logs.map(l => l.id)));
 
     plan.push({ 
-      id: 'h2o', 
-      time: "Immediate", 
-      text: "Isotonic Rehydration", 
-      desc: "Consume 500ml water with electrolytes to restore mineral balance",
-      icon: Droplets,
-      color: "text-blue-500"
+      id: 'h2o', time: "Immediate", text: "Isotonic Rehydration", 
+      desc: "Consume 500ml water with electrolytes to restore mineral balance", icon: Droplets, color: "text-blue-500"
     });
 
     if (activeIds.some(id => ['mdma', 'ecstasy', '3mmc', '4mmc'].includes(id))) {
       plan.push({ 
-        id: 'serotonin',
-        time: "Next 24h", 
-        text: "Serotonin Support", 
-        desc: "5-HTP + Green Tea Extract Wait at least 24h after your last dose",
-        icon: Zap,
-        color: "text-purple-500"
+        id: 'serotonin', time: "Next 24h", text: "Serotonin Support", 
+        desc: "5-HTP + Green Tea Extract Wait at least 24h after your last dose", icon: Zap, color: "text-purple-500"
       });
       plan.push({ 
-        id: 'oxidative',
-        time: "Next 12h", 
-        text: "Anti-Oxidative Boost", 
-        desc: "1000mg Vitamin C + Alpha-Lipoic Acid to combat neurotoxicity",
-        icon: ShieldCheck,
-        color: "text-emerald-500"
+        id: 'oxidative', time: "Next 12h", text: "Anti-Oxidative Boost", 
+        desc: "1000mg Vitamin C + Alpha-Lipoic Acid to combat neurotoxicity", icon: ShieldCheck, color: "text-emerald-500"
       });
     }
 
     if (activeIds.includes('alcohol')) {
-      plan.push({ 
-        id: 'liver',
-        time: "Morning", 
-        text: "Liver Recovery", 
-        desc: "Milk Thistle + B-Complex vitamins Avoid caffeine for the first 4 hours",
-        icon: Coffee,
-        color: "text-amber-600"
-      });
+      plan.push({ id: 'liver', time: "Morning", text: "Liver Recovery", desc: "Milk Thistle + B-Complex vitamins Avoid caffeine", icon: Coffee, color: "text-amber-600" });
     }
 
     setDetoxPlan(plan);
@@ -92,14 +83,10 @@ export default function RecoveryView() {
   const handleFinish = () => {
     playHeartbeat();
     const profile = JSON.parse(localStorage.getItem('stayonbeat_profile') || '{}');
-    const updatedProfile = {
-      ...profile,
-      safetyStreak: (profile.safetyStreak || 0) + 1
-    };
+    const updatedProfile = { ...profile, safetyStreak: (profile.safetyStreak || 0) + 1 };
     localStorage.setItem('stayonbeat_profile', JSON.stringify(updatedProfile));
     localStorage.removeItem('stayonbeat_logs');
     localStorage.removeItem('stayonbeat_witness_blocked');
-    
     setIsFinished(true);
   };
 
@@ -119,7 +106,7 @@ export default function RecoveryView() {
                 {isFinished ? 'Integrated' : 'Recovery'}
               </h1>
               <p className="text-[#10B981] text-[10px] font-black uppercase tracking-[0.3em] mt-2">
-                {isFinished ? 'Session honors complete' : 'Personalized protocol'}
+                {isFinished ? affirmation : 'Personalized protocol'}
               </p>
             </div>
             <div className="flex flex-col items-end gap-3">
@@ -134,6 +121,14 @@ export default function RecoveryView() {
       </div>
 
       <div className="px-6 py-10 max-w-xl mx-auto space-y-12">
+        {isFinished && (
+          <div className="text-center py-10 space-y-6 animate-in fade-in zoom-in duration-1000">
+            <p className="text-2xl font-black uppercase tracking-tighter text-[#10B981] leading-tight max-w-[300px] mx-auto italic">
+              "{affirmation}"
+            </p>
+          </div>
+        )}
+
         <div className="bg-blue-500/10 border border-blue-500/20 p-8 rounded-[2.5rem] flex items-start gap-6">
           <ShieldCheck className="w-8 h-8 text-blue-400 shrink-0" />
           <div className="space-y-2">
@@ -158,9 +153,7 @@ export default function RecoveryView() {
                 <div key={p.id} className="p-8 rounded-[2.5rem] border border-white/10 bg-white/5 flex flex-col gap-4 group hover:border-[#10B981]/40 transition-all">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className={cn("p-3 rounded-2xl bg-white/5", p.color)}>
-                        <p.icon className="w-6 h-6" />
-                      </div>
+                      <div className={cn("p-3 rounded-2xl bg-white/5", p.color)}><p.icon className="w-6 h-6" /></div>
                       <div className="flex flex-col">
                         <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">{p.time}</span>
                         <span className="text-xl font-black uppercase text-white">{p.text}</span>
@@ -168,9 +161,7 @@ export default function RecoveryView() {
                     </div>
                     <CheckCircle2 className="w-5 h-5 text-[#10B981]/20 group-hover:text-[#10B981] transition-colors" />
                   </div>
-                  <p className="text-sm font-bold text-white/60 leading-relaxed pl-2 border-l-2 border-white/10">
-                    {p.desc}
-                  </p>
+                  <p className="text-sm font-bold text-white/60 leading-relaxed pl-2 border-l-2 border-white/10">{p.desc}</p>
                 </div>
               ))
             ) : (
@@ -184,9 +175,7 @@ export default function RecoveryView() {
 
         {!isFinished && (
           <div className="bg-red-600/5 border border-red-600/20 p-8 rounded-[2.5rem] text-center">
-            <div className="flex justify-center mb-4">
-              <Trash2 size={24} className="text-red-500/40" />
-            </div>
+            <div className="flex justify-center mb-4"><Trash2 size={24} className="text-red-500/40" /></div>
             <p className="text-[10px] font-black text-red-500/40 uppercase tracking-[0.3em] leading-relaxed max-w-[280px] mx-auto">
               Completing this protocol will permanently wipe session logs and location history for your privacy
             </p>
@@ -196,25 +185,11 @@ export default function RecoveryView() {
 
       <footer className="fixed bottom-0 left-0 right-0 h-auto min-h-[120px] py-8 bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-50 gap-4">
         {!isFinished ? (
-          <button 
-            onClick={handleFinish} 
-            className="w-full max-w-sm py-6 bg-[#10B981] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-emerald-500/20"
-          >
-             Complete Session & Log Streak
-          </button>
+          <button onClick={handleFinish} className="w-full max-w-sm py-6 bg-[#10B981] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-emerald-500/20">Complete Session & Log Streak</button>
         ) : (
           <div className="w-full max-w-sm flex flex-col gap-4 animate-in slide-in-from-bottom-4 duration-500">
-            <button 
-              onClick={() => router.push('/dashboard')}
-              className="w-full py-6 bg-white text-black rounded-full font-black uppercase text-lg tracking-[0.1em] active:scale-95 transition-all shadow-lg"
-            >
-               Return to Sanctuary
-            </button>
-            
-            <button
-              onClick={() => window.open("https://ev32k2sgx09.typeform.com/to/a33evEfp", "_blank")}
-              className="w-full p-6 bg-[#10B981]/10 border border-[#10B981]/30 rounded-[2rem] flex items-center justify-between group hover:bg-[#10B981]/20 transition-all"
-            >
+            <button onClick={() => router.push('/dashboard')} className="w-full py-6 bg-white text-black rounded-full font-black uppercase text-lg tracking-[0.1em] active:scale-95 transition-all shadow-lg">Return to Sanctuary</button>
+            <button onClick={() => window.open("https://ev32k2sgx09.typeform.com/to/a33evEfp", "_blank")} className="w-full p-6 bg-[#10B981]/10 border border-[#10B981]/30 rounded-[2rem] flex items-center justify-between group hover:bg-[#10B981]/20 transition-all">
               <div className="text-left">
                 <p className="text-sm font-black uppercase text-white tracking-tight">Help us improve StayOnBeat</p>
                 <p className="text-[10px] font-bold text-[#10B981] uppercase tracking-widest mt-1">4minutes · anonymous</p>
