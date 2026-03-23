@@ -17,6 +17,7 @@ import {
  * @fileOverview Vibe Mirror Component.
  * Bespoke high-fidelity Resonance Icons integrated with an organic color palette.
  * Punctuation-free for resonance.
+ * Added PT and RU support.
  */
 
 const VIBES = [
@@ -24,8 +25,15 @@ const VIBES = [
     key: "radiant", 
     label: "Radiant", 
     de: "Strahlend", 
+    pt: "Radiante",
+    ru: "Сияющий",
     icon: RadiantIcon, 
-    affirmation: "Your light is shining bright today", 
+    affirmation: {
+      en: "Your light is shining bright today",
+      de: "Dein Licht leuchtet heute hell",
+      pt: "Sua luz está brilhando forte hoje",
+      ru: "Твой свет сияет ярко сегодня"
+    },
     color: "text-purple-400", 
     bg: "bg-purple-500/10", 
     border: "border-purple-500/30" 
@@ -34,8 +42,15 @@ const VIBES = [
     key: "harmony", 
     label: "In Harmony", 
     de: "In Harmonie", 
+    pt: "Em Harmonia",
+    ru: "В Гармонии",
     icon: HarmonyIcon, 
-    affirmation: "You are aligned with your inner rhythm", 
+    affirmation: {
+      en: "You are aligned with your inner rhythm",
+      de: "Du bist im Einklang mit deinem Rhythmus",
+      pt: "Você está alinhado com seu ritmo interior",
+      ru: "Ты в гармонии со своим внутренним ритмом"
+    },
     color: "text-[#EBFB3B]", 
     bg: "bg-[#EBFB3B]/10", 
     border: "border-[#EBFB3B]/30" 
@@ -44,8 +59,15 @@ const VIBES = [
     key: "calm", 
     label: "Calm", 
     de: "Beruhigt", 
+    pt: "Calmo",
+    ru: "Спокойный",
     icon: CalmIcon, 
-    affirmation: "Everything is exactly as it is supposed to be", 
+    affirmation: {
+      en: "Everything is exactly as it is supposed to be",
+      de: "Alles ist genau so wie es sein soll",
+      pt: "Tudo está exatamente como deveria estar",
+      ru: "Все именно так как должно быть"
+    },
     color: "text-[#10B981]", 
     bg: "bg-[#10B981]/10", 
     border: "border-[#10B981]/30" 
@@ -54,8 +76,15 @@ const VIBES = [
     key: "hazy", 
     label: "Hazy", 
     de: "Verschwommen", 
+    pt: "Nebuloso",
+    ru: "Туманный",
     icon: HazyIcon, 
-    affirmation: "It is okay to rest and be still", 
+    affirmation: {
+      en: "It is okay to rest and be still",
+      de: "Es ist okay sich auszuruhen",
+      pt: "Tudo bem descansar e ficar em silêncio",
+      ru: "Это нормально отдыхать и быть в тишине"
+    },
     color: "text-slate-400", 
     bg: "bg-slate-500/10", 
     border: "border-slate-500/30" 
@@ -64,8 +93,15 @@ const VIBES = [
     key: "overwhelmed", 
     label: "Overwhelmed", 
     de: "Überwältigt", 
+    pt: "Sobrecarregado",
+    ru: "Перегружен",
     icon: HeldIcon, 
-    affirmation: "You are held. Your circle is here", 
+    affirmation: {
+      en: "You are held. Your circle is here",
+      de: "Du wirst gehalten Dein Kreis ist hier",
+      pt: "Você é acolhido Seu círculo está aqui",
+      ru: "Тебя поддерживают Твой круг рядом"
+    },
     color: "text-blue-400", 
     bg: "bg-blue-500/10", 
     border: "border-blue-500/30" 
@@ -82,11 +118,11 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
   const { user } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [lang, setLang] = useState<'EN' | 'DE'>('EN');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
 
   useEffect(() => {
-    const savedLang = localStorage.getItem('stayonbeat_lang');
-    if (savedLang === 'DE' || savedLang === 'EN') setLang(savedLang as 'EN' | 'DE');
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
   }, []);
 
   const currentTheme = VIBES.find((v) => v.key === vibe?.current) || VIBES[2];
@@ -96,9 +132,10 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
     setIsSaving(true);
     if (user && firestore) {
       const userRef = doc(firestore, "users", user.uid);
+      const labelMap = { en: selected.label, de: selected.de, pt: selected.pt, ru: selected.ru };
       const newVibeData = {
         current: selected.key,
-        currentLabel: lang === 'EN' ? selected.label : selected.de,
+        currentLabel: labelMap[lang],
         lastUpdated: serverTimestamp(),
       };
       updateDocumentNonBlocking(userRef, { vibe: newVibeData });
@@ -106,6 +143,13 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
       setTimeout(() => { setIsSaving(false); setIsOpen(false); }, 400);
     } else setIsSaving(false);
   };
+
+  const UI = {
+    en: { header: "Check Your Vibe", sub: "I honor my current state", footer: "Processed locally with love" },
+    de: { header: "Stimmungs Check-in", sub: "Ich achte auf meinen Zustand", footer: "Lokal verarbeitet mit Liebe" },
+    pt: { header: "Sincronia de Humor", sub: "Eu honro meu estado atual", footer: "Processado localmente com amor" },
+    ru: { header: "Проверка Настроения", sub: "Я принимаю свое состояние", footer: "Обработано локально с любовью" }
+  }[lang];
 
   return (
     <>
@@ -122,7 +166,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
           <CurrentIcon size={20} color="currentColor" className={currentTheme.color} />
         </span>
         <span className={cn("text-[10px] font-black uppercase tracking-widest hidden sm:block", currentTheme.color)}>
-          {vibe?.currentLabel || (lang === 'EN' ? "Calm" : "Beruhigt")}
+          {vibe?.currentLabel || (lang === 'en' ? "Calm" : lang === 'de' ? "Beruhigt" : lang === 'pt' ? "Calmo" : "Спокойный")}
         </span>
         <ChevronDown size={12} className={cn("opacity-40", currentTheme.color)} />
       </button>
@@ -134,10 +178,10 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
               <Heart className="text-[#10B981]" size={32} />
             </div>
             <SheetTitle className="text-center text-2xl font-black uppercase tracking-tighter text-white">
-              {lang === 'EN' ? 'Check Your Vibe' : 'Stimmungs Check-in'}
+              {UI.header}
             </SheetTitle>
             <p className="text-center text-[10px] font-black uppercase tracking-[0.4em] mt-2 text-[#10B981]">
-              {lang === 'EN' ? 'I honor my current state' : 'Ich achte auf meinen Zustand'}
+              {UI.sub}
             </p>
           </SheetHeader>
           
@@ -145,6 +189,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
             {VIBES.map((v) => {
               const VibeIcon = v.icon;
               const isActive = vibe?.current === v.key;
+              const labelMap = { en: v.label, de: v.de, pt: v.pt, ru: v.ru };
               return (
                 <button 
                   key={v.key} 
@@ -160,10 +205,10 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
                   </div>
                   <div className="flex flex-col">
                     <span className={cn("font-black text-base uppercase tracking-tight", isActive ? "text-white" : "text-white/60")}>
-                      {lang === 'EN' ? v.label : v.de}
+                      {labelMap[lang]}
                     </span>
                     <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest leading-none mt-1">
-                      {v.affirmation}
+                      {v.affirmation[lang]}
                     </span>
                   </div>
                 </button>
@@ -173,7 +218,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
           
           <div className="mt-4 pt-6 border-t border-white/5 max-w-md mx-auto">
             <p className="text-center text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]">
-              Lokal verarbeitet mit Liebe
+              {UI.footer}
             </p>
           </div>
         </SheetContent>

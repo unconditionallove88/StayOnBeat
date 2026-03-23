@@ -15,6 +15,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
@@ -22,47 +23,105 @@ import {
  * @fileOverview PulseGuardianBanner Component.
  * Footers highlighted in emerald green with emoji removed.
  * Punctuation-free affirmations for resonance.
+ * Added full PT and RU support.
  */
 
 interface PulseGuardianBannerProps {
-  lang?: "en" | "de";
+  lang?: "en" | "de" | "pt" | "ru";
   variant?: "banner" | "icon";
 }
+
+const CONTENT = {
+  en: {
+    title: "Pulse Guardian",
+    sub: "Central Intelligence",
+    intro: "Pulse Guardian is your sanctuary's central intelligence I continuously aggregate data from all tools to ensure your journey stays safe and resonant",
+    sections: [
+      { title: "Pulse Sync Integration", desc: "Reads live vitals from your wearable to monitor physiological stress" },
+      { title: "Pulse Lab Awareness", desc: "Automatically recalibrates safety limits based on your substance intake logs" },
+      { title: "Profile Calibration", desc: "Adjusts thresholds based on your health conditions and medications" },
+      { title: "Immediate Help Connection", desc: "Triggers emergency protocols and the Protection Window if thresholds are breached" },
+    ],
+    footer: "Processed locally with love",
+    tapInfo: "Integrated Safety Engine Tap to see how I protect you"
+  },
+  de: {
+    title: "Pulse Guardian",
+    sub: "Zentrale Intelligenz",
+    intro: "Pulse Guardian ist die zentrale Intelligenz deines Raums Ich sammle kontinuierlich Daten aus allen Tools, um sicherzustellen, dass deine Reise sicher und resonant bleibt",
+    sections: [
+      { title: "Pulse Sync Integration", desc: "Liest Live-Vitalwerte von deinem Wearable, um physiologischen Stress zu überwachen" },
+      { title: "Pulse Lab Bewusstsein", desc: "Kalibriert Sicherheitslimits automatisch basierend auf deinen Substanz-Protokollen" },
+      { title: "Profil-Kalibrierung", desc: "Passt Schwellenwerte basierend auf deinen Gesundheitszuständen und Medikamenten an" },
+      { title: "Sofort-Hilfe Verbindung", desc: "Aktiviert Notfallprotokolle und das Schutzfenster, falls Schwellenwerte überschritten werden" },
+    ],
+    footer: "Lokal verarbeitet mit Liebe",
+    tapInfo: "Integrierte Sicherheits-Engine Tippe um zu sehen, wie ich dich schütze"
+  },
+  pt: {
+    title: "Pulse Guardian",
+    sub: "Inteligência Central",
+    intro: "Pulse Guardian é a inteligência central do seu santuário Eu agrego continuamente dados de todas as ferramentas para garantir que sua jornada permaneça segura e ressonante",
+    sections: [
+      { title: "Integração Pulse Sync", desc: "Lê sinais vitais ao vivo do seu wearable para monitorar o estresse fisiológico" },
+      { title: "Consciência do Pulse Lab", desc: "Recalibra automaticamente os limites de segurança com base em seus registros de consumo" },
+      { title: "Calibração de Perfil", desc: "Ajusta os limites com base em suas condições de saúde e medicamentos" },
+      { title: "Conexão de Ajuda Imediata", desc: "Aciona protocolos de emergência e a Janela de Proteção se os limites forem atingidos" },
+    ],
+    footer: "Processado localmente com amor",
+    tapInfo: "Mecanismo de Segurança Integrado Toque para ver como eu te protejo"
+  },
+  ru: {
+    title: "Pulse Guardian",
+    sub: "Центральный Интеллект",
+    intro: "Pulse Guardian — это центральный интеллект вашего убежища Я постоянно собираю данные из всех инструментов, чтобы ваше путешествие оставалось безопасным и резонансным",
+    sections: [
+      { title: "Интеграция Pulse Sync", desc: "Считывает показатели в реальном времени с вашего устройства для мониторинга стресса" },
+      { title: "Осведомленность Pulse Lab", desc: "Автоматически пересчитывает лимиты безопасности на основе ваших записей потребления" },
+      { title: "Калибровка Профиля", desc: "Настраивает пороги срабатывания на основе вашего состояния здоровья и лекарств" },
+      { title: "Связь Экстренной Помощи", desc: "Запускает протоколы помощи и Окно Защиты при превышении порогов безопасности" },
+    ],
+    footer: "Обработано локально с любовью",
+    tapInfo: "Интегрированная Система Безопасности Нажмите чтобы узнать как я вас защищаю"
+  }
+};
 
 export default function PulseGuardianBanner({ 
   lang = "en", 
   variant = "banner" 
 }: PulseGuardianBannerProps) {
-  const isEn = lang === "en";
+  const t = CONTENT[lang] || CONTENT.en;
 
   const InfoContent = () => (
     <div className="w-full max-w-2xl mx-auto pb-12 font-headline relative">
       <p className="text-white/60 text-sm font-bold leading-relaxed mb-10 uppercase tracking-wide px-2">
-        {isEn
-          ? "Pulse Guardian is your sanctuary's central intelligence I continuously aggregate data from all tools to ensure your journey stays safe and resonant"
-          : "Pulse Guardian ist die zentrale Intelligenz deines Raums Ich sammle kontinuierlich Daten aus allen Tools, um sicherzustellen, dass deine Reise sicher und resonant bleibt"}
+        {t.intro}
       </p>
 
       <div className="space-y-4 px-2">
-        {[
-          { icon: <Bluetooth size={18} />, color: "text-[#EBFB3B]", bg: "bg-[#EBFB3B]/10", title: isEn ? "Pulse Sync Integration" : "Pulse Sync Integration", desc: isEn ? "Reads live vitals from your wearable to monitor physiological stress" : "Liest Live-Vitalwerte von deinem Wearable, um physiologischen Stress zu überwachen" },
-          { icon: <Activity size={18} />, color: "text-[#10B981]", bg: "bg-[#10B981]/10", title: isEn ? "Pulse Lab Awareness" : "Pulse Lab Bewusstsein", desc: isEn ? "Automatically recalibrates safety limits based on your substance intake logs" : "Kalibriert Sicherheitslimits automatisch basierend auf deinen Substanz-Protokollen" },
-          { icon: <Database size={18} />, color: "text-blue-400", bg: "bg-blue-400/10", title: isEn ? "Profile Calibration" : "Profil-Kalibrierung", desc: isEn ? "Adjusts thresholds based on your health conditions and medications" : "Passt Schwellenwerte basierend auf deinen Gesundheitszuständen und Medikamenten an" },
-          { icon: <PhoneCall size={18} />, color: "text-red-500", bg: "bg-red-500/10", title: isEn ? "Immediate Help Connection" : "Sofort-Hilfe Verbindung", desc: isEn ? "Triggers emergency protocols and the Protection Window if thresholds are breached" : "Aktiviert Notfallprotokolle und das Schutzfenster, falls Schwellenwerte überschritten werden" },
-        ].map((item, i) => (
-          <div key={i} className="flex items-start gap-5 p-6 rounded-[2rem] bg-white/5 border border-white/5 transition-all hover:bg-white/10">
-            <div className={cn(item.color, "mt-0.5 shrink-0 p-2.5 rounded-xl", item.bg)}>{item.icon}</div>
-            <div className="space-y-1">
-              <p className="text-white text-xs font-black uppercase tracking-tight">{item.title}</p>
-              <p className="text-white/30 text-[10px] font-bold uppercase tracking-widest leading-relaxed">{item.desc}</p>
+        {t.sections.map((item, i) => {
+          const Icons = [Bluetooth, Activity, Database, PhoneCall];
+          const Colors = ["text-[#EBFB3B]", "text-[#10B981]", "text-blue-400", "text-red-500"];
+          const Bgs = ["bg-[#EBFB3B]/10", "bg-[#10B981]/10", "bg-blue-400/10", "bg-red-500/10"];
+          const Icon = Icons[i];
+          
+          return (
+            <div key={i} className="flex items-start gap-5 p-6 rounded-[2rem] bg-white/5 border border-white/5 transition-all hover:bg-white/10">
+              <div className={cn(Colors[i], "mt-0.5 shrink-0 p-2.5 rounded-xl", Bgs[i])}>
+                <Icon size={18} />
+              </div>
+              <div className="space-y-1">
+                <p className="text-white text-xs font-black uppercase tracking-tight">{item.title}</p>
+                <p className="text-white/30 text-[10px] font-bold uppercase tracking-widest leading-relaxed">{item.desc}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <div className="mt-12 pt-8 border-t border-white/5 text-center">
         <p className="text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]">
-          {isEn ? "Processed locally with love" : "Lokal verarbeitet mit Liebe"}
+          {t.footer}
         </p>
       </div>
     </div>
@@ -77,8 +136,8 @@ export default function PulseGuardianBanner({
               <button className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl mb-6 border border-[#A855F7]/20 bg-[#A855F7]/5 text-left transition hover:border-[#A855F7]/40 active:scale-[0.99]">
                 <GuardianLogo size={24} className="shrink-0" />
                 <div className="flex-1">
-                  <p className="text-[#A855F7] text-[10px] font-black uppercase tracking-widest leading-none">Pulse Guardian</p>
-                  <p className="text-white/40 text-[9px] mt-1 font-bold uppercase tracking-widest">{isEn ? "Integrated Safety Engine Tap to see how I protect you" : "Integrierte Sicherheits-Engine Tippe um zu sehen, wie ich dich schütze"}</p>
+                  <p className="text-[#A855F7] text-[10px] font-black uppercase tracking-widest leading-none">{t.title}</p>
+                  <p className="text-white/40 text-[9px] mt-1 font-bold uppercase tracking-widest">{t.tapInfo}</p>
                 </div>
                 <span className="text-white/20 text-[10px]">›</span>
               </button>
@@ -87,7 +146,7 @@ export default function PulseGuardianBanner({
             )}
           </SheetTrigger>
         </TooltipTrigger>
-        <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-[#A855F7] font-bold uppercase text-[9px] tracking-widest px-4 py-2">Pulse Guardian: Central Intelligence</TooltipContent>
+        <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-[#A855F7] font-bold uppercase text-[9px] tracking-widest px-4 py-2">{t.title}: {t.sub}</TooltipContent>
       </Tooltip>
 
       <SheetContent side="top" className="bg-black border-white/10 p-0 rounded-b-[3.5rem] h-[90vh] max-h-[90vh] overflow-hidden flex flex-col shadow-[0_30px_100px_rgba(0,0,0,0.8)] z-[5000]">
@@ -96,8 +155,8 @@ export default function PulseGuardianBanner({
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 rounded-2xl bg-[#A855F7]/10 border border-[#A855F7]/20 flex items-center justify-center shadow-lg"><GuardianLogo size={32} /></div>
               <div>
-                <SheetTitle className="text-white font-black text-2xl uppercase tracking-tighter leading-none text-left">Pulse Guardian</SheetTitle>
-                <p className="text-[9px] text-[#A855F7] font-black uppercase tracking-[0.3em] mt-1.5 text-left">Central Intelligence</p>
+                <SheetTitle className="text-white font-black text-2xl uppercase tracking-tighter leading-none text-left">{t.title}</SheetTitle>
+                <p className="text-[9px] text-[#A855F7] font-black uppercase tracking-[0.3em] mt-1.5 text-left">{t.sub}</p>
               </div>
             </div>
           </div>
