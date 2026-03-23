@@ -38,6 +38,7 @@ import { SOSAlert } from '@/components/dashboard/SOSAlert';
  * @fileOverview Pulse Lab component.
  * Fixed subtype logic and search functionality for PT/RU.
  * Implemented written font form for Russian.
+ * Optimized for mobile scrolling.
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -214,9 +215,12 @@ export function Step6SubstanceLab({
     localStorage.setItem('stayonbeat_logs', JSON.stringify(updated));
   };
 
+  const normalize = (str: string) => 
+    str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
   const filtered = SUBSTANCES.filter(s => {
     const name = (lang === 'en' ? s.name : lang === 'de' ? s.deName : lang === 'pt' ? s.ptName : s.ruName) || s.name;
-    return name.toLowerCase().includes(searchTerm.toLowerCase());
+    return normalize(name).includes(normalize(searchTerm));
   });
 
   const isSubstanceActive = (id: string) => sessionLogs.some(log => log.id === id);
@@ -230,7 +234,7 @@ export function Step6SubstanceLab({
   if (isLocked) {
     return (
       <div className="flex flex-col h-full bg-black font-body max-w-2xl mx-auto p-6 relative overflow-hidden">
-        <ScrollArea className="h-full touch-pan-y">
+        <ScrollArea className="flex-1 touch-pan-y">
           <div className="pb-20 space-y-6">
             <GuardianStatusBar status="locked" heartRate={lastHR > 0 ? lastHR : 128} lang={lang} />
             <CareShield 
@@ -283,7 +287,7 @@ export function Step6SubstanceLab({
         </div>
       </header>
 
-      <ScrollArea className="flex-1 px-6 pt-6 relative z-10 touch-pan-y">
+      <ScrollArea className="flex-1 px-6 pt-6 relative z-10 touch-pan-y min-h-0">
         <div className="pb-40 space-y-8">
           {showDiary && sessionLogs.length > 0 && (
             <div className="space-y-4">
@@ -332,7 +336,7 @@ export function Step6SubstanceLab({
                   <div className={cn("p-4 rounded-2xl bg-black/20 group-hover:scale-110 transition-transform", s.color)}>
                     <s.icon size={28} />
                   </div>
-                  <span className={cn("text-[10px] font-black uppercase tracking-widest", active ? "text-[#3EB489]" : "text-white/60", lang === 'ru' && "italic font-serif")}>{name}</span>
+                  <span className={cn("text-[10px] font-black uppercase tracking-widest text-center px-2 leading-tight", active ? "text-[#3EB489]" : "text-white/60", lang === 'ru' && "italic font-serif")}>{name}</span>
                 </button>
               );
             })}

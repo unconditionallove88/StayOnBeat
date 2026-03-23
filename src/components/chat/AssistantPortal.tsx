@@ -10,7 +10,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 /**
  * @fileOverview AssistantPortal Component.
  * Full localization for EN, DE, PT, and RU.
- * Optimized for mobile touch-pan-y.
+ * Optimized for mobile touch-pan-y and scrollability.
  * Implemented written RU font form.
  */
 
@@ -114,7 +114,7 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
         </div>
       </header>
 
-      <ScrollArea className="flex-1 px-8 relative z-10 touch-pan-y">
+      <ScrollArea className="flex-1 px-8 relative z-10 touch-pan-y min-h-0">
         <section className="mb-8 pt-4">
           <div className="flex items-center gap-3 mb-2">
             <Bot className="text-emerald-500" size={20} />

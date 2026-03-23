@@ -425,28 +425,26 @@ function DashboardContent() {
       {showSOS && <SOSAlert onClose={() => setShowSOS(false)} />}
       
       <Dialog open={labOpen} onOpenChange={setLabOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[95dvh] max-h-[95dvh] top-[50%] -translate-y-[50%]">
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[95dvh] max-h-[95dvh] sm:h-[90dvh] top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">Pulse Lab</DialogTitle>
-          <div className="flex-1 overflow-y-auto">
-            <PulseLab 
-              userData={{ 
-                ...firestoreProfile, 
-                sessionStatus: { 
-                  isLocked, 
-                  lastHeartRate: simHeartRate, 
-                  lockReason: safetyStatus.lockReason, 
-                  unlockAt: safetyStatus.unlockAt 
-                } 
-              }} 
-              onComplete={(logs) => {
-                const names = logs.map((l: any) => l.name);
-                setActiveSubstances(names);
-                setLabOpen(false);
-              }} 
-              showDiary={true} 
-              isLocked={isLocked} 
-            />
-          </div>
+          <PulseLab 
+            userData={{ 
+              ...firestoreProfile, 
+              sessionStatus: { 
+                isLocked, 
+                lastHeartRate: simHeartRate, 
+                lockReason: safetyStatus.lockReason, 
+                unlockAt: safetyStatus.unlockAt 
+              } 
+            }} 
+            onComplete={(logs) => {
+              const names = logs.map((l: any) => l.name);
+              setActiveSubstances(names);
+              setLabOpen(false);
+            }} 
+            showDiary={true} 
+            isLocked={isLocked} 
+          />
         </DialogContent>
       </Dialog>
 
