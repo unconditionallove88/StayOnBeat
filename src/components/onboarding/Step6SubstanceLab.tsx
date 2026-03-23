@@ -36,7 +36,7 @@ import { SOSAlert } from '@/components/dashboard/SOSAlert';
 
 /**
  * @fileOverview Pulse Lab component.
- * Fixed subtype logic for PT/RU functionality.
+ * Fixed subtype logic and search functionality for PT/RU.
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -177,7 +177,6 @@ export function Step6SubstanceLab({
     }
     setActiveSubstance(substance);
     if (substance.id === 'alcohol') {
-      // Correctly identify subtypes regardless of language to fix PT/RU functionality
       const subtypes = lang === 'en' ? substance.subTypes : lang === 'de' ? substance.deSubTypes : lang === 'pt' ? substance.ptSubTypes : substance.ruSubTypes;
       if (subtypes) {
         setAlcoholCart(subtypes.map((type: string) => ({ type, count: 0 })));

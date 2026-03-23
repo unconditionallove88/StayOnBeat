@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
@@ -14,7 +15,103 @@ import { GuardianLogo } from '@/components/ui/guardian-logo';
  * @fileOverview The Witnesses (Public & Moderated).
  * Integrated with Pulse Guardian for active text monitoring and slang detection.
  * Punctuation-free for resonance.
+ * Full localization for EN, DE, PT, RU.
  */
+
+const CONTENT = {
+  en: {
+    guardianNote: "Pulse Guardian: Active Monitoring & Slang Guard",
+    title: "The Witnesses",
+    sub: "Connected with Care",
+    rulesHeader: "A space of collective care Guarded by Pulse Guardian",
+    rules: [
+      "Unconditional Kindness for all",
+      "Zero tolerance for illegal drug activity",
+      "No slang for prohibited substances",
+      "Protect your and others' anonymity",
+      "Political divisive rhetoric is not permitted"
+    ],
+    enterBtn: "Enter guarded sanctuary",
+    placeholder: "Share your witness...",
+    footer: "Grounded in Unconditional Love 🌿",
+    blockedTitle: "Sanctuary Rest",
+    blockedDesc: "Pulse Guardian has paused your communication To ensure the safety of this circle illegal activities and divisive language are not permitted 🌿",
+    blockedAffirmation: "I love and respect my need for stillness Use this time to ground yourself",
+    violationTitle: "Pulse Guardian: Protocol Violation",
+    violationDesc: "Your session in this chat has been paused for community safety",
+    errorTitle: "Connection Error",
+    errorDesc: "Could not send message to the sanctuary"
+  },
+  de: {
+    guardianNote: "Pulse Guardian: Aktive Überwachung & Slang-Schutz",
+    title: "Die Witnesser",
+    sub: "Verbunden durch Fürsorge",
+    rulesHeader: "Ein Raum gemeinsamer Fürsorge Bewacht vom Pulse Guardian",
+    rules: [
+      "Bedingungslose Freundlichkeit für alle",
+      "Null Toleranz für illegalen Drogenhandel",
+      "Kein Slang für verbotene Substanzen",
+      "Schütze deine Anonymität und die der anderen",
+      "Spaltende politische Rhetorik ist untersagt"
+    ],
+    enterBtn: "Bewachtes Sanctuary betreten",
+    placeholder: "Teile deine Bezeugung...",
+    footer: "Geerdet in bedingungsloser Liebe 🌿",
+    blockedTitle: "Sanctuary Pause",
+    blockedDesc: "Pulse Guardian hat deine Kommunikation pausiert Um die Sicherheit zu gewährleisten sind illegale Aktivitäten und spaltende Sprache nicht erlaubt 🌿",
+    blockedAffirmation: "Ich achte mein Bedürfnis nach Ruhe Nutze diese Zeit zur Erdung",
+    violationTitle: "Pulse Guardian: Protokoll-Verstoß",
+    violationDesc: "Deine Sitzung in diesem Chat wurde zur Sicherheit pausiert",
+    errorTitle: "Verbindungsfehler",
+    errorDesc: "Nachricht konnte nicht gesendet werden"
+  },
+  pt: {
+    guardianNote: "Pulse Guardian: Monitoramento Ativo e Filtro de Gírias",
+    title: "As Testemunhas",
+    sub: "Conectados com Cuidado",
+    rulesHeader: "Um espaço de cuidado coletivo Protegido pelo Pulse Guardian",
+    rules: [
+      "Gentileza incondicional para todos",
+      "Tolerância zero para atividades ilegais",
+      "Proibido o uso de gírias para substâncias",
+      "Proteja o seu anonimato e o dos outros",
+      "Retórica política divisiva não é permitida"
+    ],
+    enterBtn: "Entrar no santuário protegido",
+    placeholder: "Compartilhe sua testemunha...",
+    footer: "Apoiado em Amor Incondicional 🌿",
+    blockedTitle: "Descanso do Santuário",
+    blockedDesc: "O Pulse Guardian pausou sua comunicação Para garantir a segurança deste círculo atividades ilegais e linguagem divisiva não são permitidas 🌿",
+    blockedAffirmation: "Eu amo e respeito minha necessidade de silêncio Use este tempo para se aterrar",
+    violationTitle: "Pulse Guardian: Violação de Protocolo",
+    violationDesc: "Sua sessão neste chat foi pausada para a segurança da comunidade",
+    errorTitle: "Erro de Conexão",
+    errorDesc: "Não foi possível enviar a mensagem ao santuário"
+  },
+  ru: {
+    guardianNote: "Pulse Guardian: Активный Мониторинг и Защита",
+    title: "Свидетели",
+    sub: "Связанные Заботой",
+    rulesHeader: "Пространство коллективной заботы Под охраной Pulse Guardian",
+    rules: [
+      "Безусловная доброта ко всем",
+      "Нулевая терпимость к незаконной деятельности",
+      "Запрещено использование сленга веществ",
+      "Защищайте анонимность — свою и чужую",
+      "Политическая риторика не допускается"
+    ],
+    enterBtn: "Войти в защищенное пространство",
+    placeholder: "Поделитесь своим свидетельством...",
+    footer: "Основано на Безусловной Любви 🌿",
+    blockedTitle: "Покой в Пространстве",
+    blockedDesc: "Pulse Guardian приостановил ваше общение Для обеспечения безопасности этого круга незаконная деятельность и враждебная лексика не допускаются 🌿",
+    blockedAffirmation: "Я люблю и уважаю свою потребность в тишине Используйте это время для заземления",
+    violationTitle: "Pulse Guardian: Нарушение Протокола",
+    violationDesc: "Ваша сессия в этом чате приостановлена в целях безопасности",
+    errorTitle: "Ошибка соединения",
+    errorDesc: "Не удалось отправить сообщение"
+  }
+};
 
 const NATURE_PREFIXES = ['Emerald', 'Golden', 'Mystic', 'Quiet', 'Velvet', 'Silver', 'Primal', 'Crystal'];
 const NATURE_NOUNS = ['Leaf', 'Wave', 'Wind', 'Bloom', 'Echo', 'Flame', 'Stone', 'Mist'];
@@ -28,6 +125,7 @@ export function PartyCircleChat() {
   const [isEntering, setIsEntering] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const natureName = useMemo(() => {
@@ -37,11 +135,16 @@ export function PartyCircleChat() {
   }, []);
 
   useEffect(() => {
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
+
     const agreed = localStorage.getItem('stayonbeat_witness_agreed');
     const blocked = localStorage.getItem('stayonbeat_witness_blocked');
     if (agreed === 'true') setHasAgreedToRules(true);
     if (blocked === 'true') setIsBlocked(true);
   }, []);
+
+  const t = CONTENT[lang] || CONTENT.en;
 
   const chatQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -89,8 +192,8 @@ export function PartyCircleChat() {
         await logViolation(text, moderation.reason || "Illegal activity or slang detected", 'AI_FLAGGED');
         toast({
           variant: "destructive",
-          title: "Pulse Guardian: Protocol Violation",
-          description: "Your session in this chat has been paused for community safety",
+          title: t.violationTitle,
+          description: t.violationDesc,
         });
         setIsSending(false);
         return;
@@ -106,8 +209,8 @@ export function PartyCircleChat() {
       console.error("Moderation error:", error);
       toast({
         variant: "destructive",
-        title: "Connection Error",
-        description: "Could not send message to the sanctuary",
+        title: t.errorTitle,
+        description: t.errorDesc,
       });
     } finally {
       setIsSending(false);
@@ -131,15 +234,15 @@ export function PartyCircleChat() {
           <GuardianLogo size={48} />
         </div>
         <div className="space-y-4">
-          <h2 className="text-3xl font-black uppercase tracking-tighter text-white">Sanctuary Rest</h2>
+          <h2 className="text-3xl font-black uppercase tracking-tighter text-white">{t.blockedTitle}</h2>
           <p className="text-white/60 text-sm font-bold leading-relaxed uppercase tracking-widest">
-            Pulse Guardian has paused your communication. To ensure the safety of this circle, illegal activities and divisive language are not permitted 🌿
+            {t.blockedDesc}
           </p>
         </div>
         <div className="bg-white/5 border border-white/10 rounded-3xl p-6 w-full flex items-center gap-4">
           <Wind className="text-[#A855F7]" size={24} />
           <p className="text-[10px] font-black text-white/40 uppercase tracking-widest text-left">
-            I love and respect my need for stillness Use this time to ground yourself
+            {t.blockedAffirmation}
           </p>
         </div>
       </div>
@@ -156,20 +259,14 @@ export function PartyCircleChat() {
             </div>
 
             <div className="space-y-3">
-              <h2 className="text-3xl font-black uppercase tracking-tighter text-white">The Witnesses</h2>
+              <h2 className="text-3xl font-black uppercase tracking-tighter text-white">{t.title}</h2>
               <p className="text-sm font-bold text-white/60 uppercase tracking-widest leading-relaxed">
-                A space of collective care Guarded by Pulse Guardian
+                {t.rulesHeader}
               </p>
             </div>
 
             <div className="w-full space-y-3 text-left">
-              {[
-                "Unconditional Kindness for all",
-                "Zero tolerance for illegal drug activity",
-                "No slang for prohibited substances",
-                "Protect your and others' anonymity",
-                "Political divisive rhetoric is not permitted"
-              ].map((rule, idx) => (
+              {t.rules.map((rule, idx) => (
                 <div key={idx} className="p-4 bg-white/5 rounded-2xl border border-white/10 flex items-center gap-4">
                   <div className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
                   <span className="text-[11px] font-bold uppercase text-white/80">{rule}</span>
@@ -183,7 +280,7 @@ export function PartyCircleChat() {
                 disabled={isEntering}
                 className="w-full bg-[#10B981] text-black h-20 rounded-2xl font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all flex items-center justify-center px-8"
               >
-                {isEntering ? <Loader2 className="animate-spin w-6 h-6" /> : <span className="text-xs leading-tight">Enter guarded sanctuary</span>}
+                {isEntering ? <Loader2 className="animate-spin w-6 h-6" /> : <span className="text-xs leading-tight">{t.enterBtn}</span>}
               </button>
             </div>
           </div>
@@ -197,7 +294,7 @@ export function PartyCircleChat() {
       <div className="bg-[#A855F7]/10 border-b border-[#A855F7]/30 px-8 py-3 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
           <GuardianLogo size={18} />
-          <span className="text-[9px] font-black uppercase tracking-widest text-[#A855F7]">Pulse Guardian: Active Monitoring & Slang Guard</span>
+          <span className="text-[9px] font-black uppercase tracking-widest text-[#A855F7]">{t.guardianNote}</span>
         </div>
         <CircleDot size={14} className="text-[#A855F7] animate-pulse" />
       </div>
@@ -208,13 +305,13 @@ export function PartyCircleChat() {
             <Users2 size={24} className="text-amber-500" />
           </div>
           <div>
-            <h2 className="text-lg font-black uppercase tracking-tight text-white">The Witnesses</h2>
-            <p className="text-[9px] text-amber-500 font-bold uppercase tracking-widest">Connected with Care</p>
+            <h2 className="text-lg font-black uppercase tracking-tight text-white">{t.title}</h2>
+            <p className="text-[9px] text-amber-500 font-bold uppercase tracking-widest">{t.sub}</p>
           </div>
         </div>
       </div>
 
-      <ScrollArea className="flex-1 px-8 py-6" ref={scrollRef}>
+      <ScrollArea className="flex-1 px-8 py-6 touch-pan-y" ref={scrollRef}>
         <div className="space-y-6 max-w-2xl mx-auto pb-10">
           {isLoading && <div className="flex items-center justify-center py-20"><Loader2 className="w-8 h-8 text-amber-500 animate-spin" /></div>}
           {messages?.map((msg) => {
@@ -222,7 +319,7 @@ export function PartyCircleChat() {
             return (
               <div key={msg.id} className={cn("flex flex-col gap-2 animate-in slide-in-from-bottom-2 duration-300", isMe ? "items-end" : "items-start")}>
                 <div className="flex items-center gap-3 px-2">
-                  <span className="text-[8px] font-black text-white/30 uppercase tracking-widest">{isMe ? 'YOU' : msg.senderAlias}</span>
+                  <span className="text-[8px] font-black text-white/30 uppercase tracking-widest">{isMe ? (lang === 'ru' ? 'ВЫ' : lang === 'pt' ? 'VOCÊ' : 'YOU') : msg.senderAlias}</span>
                   {!isMe && <button onClick={() => logViolation(msg.text, `Reported by user from ${msg.senderAlias}`, 'USER_REPORT')} className="text-white/20 hover:text-red-500 transition-colors"><Flag size={12} /></button>}
                 </div>
                 <div className={cn("p-4 rounded-2xl text-sm font-medium leading-relaxed max-w-[85%] shadow-sm border transition-all", isMe ? "bg-amber-500 text-black border-amber-500 rounded-tr-none" : "bg-white/5 text-white border-white/10 rounded-tl-none")}>{msg.text}</div>
@@ -234,10 +331,10 @@ export function PartyCircleChat() {
 
       <div className="px-6 py-8 bg-black border-t border-white/5 shrink-0">
         <div className="relative flex items-center max-w-2xl mx-auto gap-3">
-          <input value={input} onChange={(e) => setInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSend()} placeholder="Share your witness..." disabled={isSending} className="flex-1 bg-white/5 border border-white/10 rounded-full py-5 px-8 text-base focus:border-[#A855F7] transition-all outline-none disabled:opacity-50 text-white" />
+          <input value={input} onChange={(e) => setInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSend()} placeholder={t.placeholder} disabled={isSending} className="flex-1 bg-white/5 border border-white/10 rounded-full py-5 px-8 text-base focus:border-[#A855F7] transition-all outline-none disabled:opacity-50 text-white" />
           <button onClick={handleSend} disabled={!input.trim() || isSending} className="p-4 bg-amber-500 text-black rounded-full disabled:opacity-30 transition-all hover:scale-105 active:scale-95 shadow-lg">{isSending ? <Loader2 className="w-6 h-6 animate-spin" /> : <Send className="w-6 h-6" />}</button>
         </div>
-        <p className="text-center text-[8px] text-white/20 uppercase tracking-[0.5em] mt-4 font-black">Grounded in Unconditional Love 🌿</p>
+        <p className="text-center text-[8px] text-white/20 uppercase tracking-[0.5em] mt-4 font-black">{t.footer}</p>
       </div>
     </div>
   );

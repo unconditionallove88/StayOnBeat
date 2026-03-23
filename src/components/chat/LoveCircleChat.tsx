@@ -12,7 +12,91 @@ import { useToast } from '@/hooks/use-toast';
 /**
  * @fileOverview The Holders (Those who hold your heart from afar).
  * Optimized for minimalist ritual and human-friendly iPhone experience.
+ * Full localization for EN, DE, PT, RU.
  */
+
+const CONTENT = {
+  en: {
+    title: "The Holders",
+    sub: "Sacred Bond of Resonance",
+    desc: "Those who hold your heart from afar Your sacred bond of care and trust",
+    items: [
+      { title: "Sacred Bond of Resonance", sub: "Shared only with your inner circle", icon: Lock },
+      { title: "Mutual Holding", sub: "Unity through shared resonance", icon: CircleDot }
+    ],
+    button: "Access My Bonds",
+    createTitle: "NAME YOUR BOND",
+    inviteTitle: "INVITE BY EMAIL",
+    createBtn: "Create Bond",
+    cancelBtn: "Cancel",
+    placeholder: "Message your holders",
+    resonanceStart: "Start a resonance with your holders",
+    successTitle: "Bond Initialized",
+    successMsg: (name: string) => `Your bond of care "${name}" has been created Waiting for resonance`,
+    footer: "Mutual Bonds of Care",
+    encrypted: "End-to-End Encrypted Sanctuary"
+  },
+  de: {
+    title: "Die Holder",
+    sub: "Heiliges Band der Resonanz",
+    desc: "Diejenigen, die dein Herz aus der Ferne halten Dein Band aus Fürsorge und Vertrauen",
+    items: [
+      { title: "Heiliges Band", sub: "Nur mit deinem inneren Kreis geteilt", icon: Lock },
+      { title: "Gegenseitiges Halten", sub: "Einheit durch Resonanz", icon: CircleDot }
+    ],
+    button: "Bonds aufrufen",
+    createTitle: "BENENNE DEIN BAND",
+    inviteTitle: "PER E-MAIL EINLADEN",
+    createBtn: "Band erstellen",
+    cancelBtn: "Abbrechen",
+    placeholder: "Nachricht an deine Holder",
+    resonanceStart: "Starte eine Resonanz mit deinen Holdern",
+    successTitle: "Band initialisiert",
+    successMsg: (name: string) => `Dein Band der Fürsorge "${name}" wurde erstellt Warte auf Resonanz`,
+    footer: "Gegenseitige Fürsorge",
+    encrypted: "Ende-zu-Ende verschlüsseltes Sanctuary"
+  },
+  pt: {
+    title: "Os Guardiões",
+    sub: "Vínculo Sagrado de Ressonância",
+    desc: "Aqueles que cuidam do seu coração de longe Seu vínculo sagrado de cuidado e confiança",
+    items: [
+      { title: "Vínculo Sagrado", sub: "Compartilhado apenas com seu círculo íntimo", icon: Lock },
+      { title: "Cuidado Mútuo", sub: "Unidade através da ressonância", icon: CircleDot }
+    ],
+    button: "Acessar Vínculos",
+    createTitle: "NOME DO VÍNCULO",
+    inviteTitle: "CONVIDAR POR E-MAIL",
+    createBtn: "Criar Vínculo",
+    cancelBtn: "Cancelar",
+    placeholder: "Mensagem para seus guardiões",
+    resonanceStart: "Inicie uma ressonância com seus guardiões",
+    successTitle: "Vínculo Iniciado",
+    successMsg: (name: string) => `Seu vínculo de cuidado "${name}" foi criado Aguardando ressonância`,
+    footer: "Vínculos Mútuos de Cuidado",
+    encrypted: "Santuário Criptografado de Ponta a Ponta"
+  },
+  ru: {
+    title: "Хранители",
+    sub: "Священная Связь Резонанса",
+    desc: "Те, кто берегут ваше сердце издалека Ваша священная связь заботы и доверия",
+    items: [
+      { title: "Священная Связь", sub: "Доступно только вашему внутреннему кругу", icon: Lock },
+      { title: "Взаимная Поддержка", sub: "Единство через общий резонанс", icon: CircleDot }
+    ],
+    button: "Открыть Связи",
+    createTitle: "НАЗВАНИЕ СВЯЗИ",
+    inviteTitle: "ПРИГЛАСИТЬ ПО E-MAIL",
+    createBtn: "Создать Связь",
+    cancelBtn: "Отмена",
+    placeholder: "Сообщение хранителям",
+    resonanceStart: "Начните резонанс со своими хранителями",
+    successTitle: "Связь Установлена",
+    successMsg: (name: string) => `Ваша связь "${name}" создана Ожидание резонанса`,
+    footer: "Взаимные узы заботы",
+    encrypted: "Зашифрованное пространство"
+  }
+};
 
 export function LoveCircleChat() {
   const { toast } = useToast();
@@ -23,7 +107,15 @@ export function LoveCircleChat() {
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const [groupName, setGroupName] = useState('');
   const [inviteEmail, setInviteEmail] = useState('');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
+  }, []);
+
+  const t = CONTENT[lang] || CONTENT.en;
 
   const chatQuery = useMemoFirebase(() => {
     if (!firestore || !user?.uid) return null;
@@ -68,8 +160,8 @@ export function LoveCircleChat() {
       });
       
       toast({
-        title: "Bond Initialized",
-        description: `Your bond of care "${groupName}" has been created Waiting for resonance`,
+        title: t.successTitle,
+        description: t.successMsg(groupName),
       });
       setShowCreateGroup(false);
       setGroupName('');
@@ -96,17 +188,14 @@ export function LoveCircleChat() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-5xl font-black uppercase tracking-tighter text-white">The Holders</h2>
+              <h2 className="text-5xl font-black uppercase tracking-tighter text-white">{t.title}</h2>
               <p className="text-lg font-bold text-white/60 leading-tight max-sm mx-auto uppercase tracking-widest">
-                Those who hold your heart from afar Your sacred bond of care and trust
+                {t.desc}
               </p>
             </div>
 
             <div className="space-y-4 w-full max-w-sm">
-              {[
-                { title: "Sacred Bond of Resonance", sub: "Shared only with your inner circle", icon: Lock },
-                { title: "Mutual Holding", sub: "Unity through shared resonance", icon: CircleDot }
-              ].map((item, i) => (
+              {t.items.map((item, i) => (
                 <div key={i} className="flex items-center gap-6 p-6 bg-white/[0.02] border border-white/5 rounded-[2.5rem] text-left transition-all hover:border-[#10B981]/30 group">
                   <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:scale-110 transition-transform">
                     <item.icon className="w-6 h-6 text-[#10B981]" />
@@ -123,7 +212,7 @@ export function LoveCircleChat() {
               onClick={() => setHasAgreement(true)}
               className="pill-button w-full max-w-sm bg-[#10B981] text-black text-xl font-black uppercase tracking-widest active:scale-95 flex items-center justify-center gap-3 mb-10"
             >
-              Access My Bonds
+              {t.button}
             </button>
           </div>
         </ScrollArea>
@@ -139,8 +228,8 @@ export function LoveCircleChat() {
             <CircleDot size={28} className="text-[#10B981]" />
           </div>
           <div>
-            <h2 className="text-2xl font-black uppercase tracking-tight text-white leading-none">The Holders</h2>
-            <p className="text-[10px] text-[#10B981] font-black uppercase tracking-[0.3em] mt-1">Sacred Bond of Resonance</p>
+            <h2 className="text-2xl font-black uppercase tracking-tight text-white leading-none">{t.title}</h2>
+            <p className="text-[10px] text-[#10B981] font-black uppercase tracking-[0.3em] mt-1">{t.sub}</p>
           </div>
         </div>
         <button 
@@ -157,20 +246,20 @@ export function LoveCircleChat() {
             <input 
               value={groupName}
               onChange={(e) => setGroupName(e.target.value)}
-              placeholder="NAME YOUR BOND"
+              placeholder={t.createTitle}
               className="w-full bg-black border border-white/10 p-5 rounded-2xl text-white font-black uppercase text-sm focus:border-[#10B981] outline-none transition-all"
               required
             />
             <input 
               value={inviteEmail}
               onChange={(e) => setInviteEmail(e.target.value)}
-              placeholder="INVITE BY EMAIL"
+              placeholder={t.inviteTitle}
               type="email"
               className="w-full bg-black border border-white/10 p-5 rounded-2xl text-white font-black uppercase text-sm focus:border-[#10B981] outline-none transition-all"
             />
             <div className="flex gap-3 pt-2">
-              <button type="submit" className="flex-1 bg-[#10B981] text-black h-14 rounded-xl font-black uppercase text-[10px] tracking-widest shadow-lg">Create Bond</button>
-              <button type="button" onClick={() => setShowCreateGroup(false)} className="flex-1 bg-white/5 text-white/40 h-14 rounded-xl font-black uppercase text-[10px] tracking-widest">Cancel</button>
+              <button type="submit" className="flex-1 bg-[#10B981] text-black h-14 rounded-xl font-black uppercase text-[10px] tracking-widest shadow-lg">{t.createBtn}</button>
+              <button type="button" onClick={() => setShowCreateGroup(false)} className="flex-1 bg-white/5 text-white/40 h-14 rounded-xl font-black uppercase text-[10px] tracking-widest">{t.cancelBtn}</button>
             </div>
           </form>
         </div>
@@ -190,7 +279,7 @@ export function LoveCircleChat() {
                 <CircleDot className="w-16 h-16 mx-auto text-[#10B981]" />
               </div>
               <p className="text-sm uppercase font-black tracking-[0.4em] leading-relaxed text-white max-w-[200px] mx-auto">
-                Start a resonance <br/> with your holders
+                {t.resonanceStart}
               </p>
             </div>
           )}
@@ -200,7 +289,7 @@ export function LoveCircleChat() {
             return (
               <div key={msg.id} className={cn("flex flex-col gap-3 animate-in slide-in-from-bottom-2 duration-500", isMe ? "items-end" : "items-start")}>
                 <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.4em] px-3">
-                  {isMe ? 'YOU' : msg.senderName}
+                  {isMe ? (lang === 'ru' ? 'ВЫ' : lang === 'pt' ? 'VOCÊ' : 'YOU') : msg.senderName}
                 </span>
                 <div className={cn(
                   "p-6 rounded-[2.5rem] text-sm font-bold leading-relaxed max-w-[85%] shadow-2xl border transition-all",
@@ -222,7 +311,7 @@ export function LoveCircleChat() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="Message your holders"
+            placeholder={t.placeholder}
             className="flex-1 bg-white/[0.02] border border-white/10 rounded-full py-6 px-10 text-base font-bold focus:border-[#10B981] transition-all outline-none text-white shadow-inner"
           />
           <button
@@ -235,11 +324,11 @@ export function LoveCircleChat() {
         </div>
         <div className="mt-6 flex flex-col items-center gap-2 opacity-20">
           <p className="text-[8px] text-white uppercase tracking-[0.6em] font-black">
-            Mutual Bonds of Care
+            {t.footer}
           </p>
           <div className="flex items-center gap-2">
             <Lock size={8} className="text-[#10B981]" />
-            <span className="text-[7px] font-black uppercase tracking-widest">End-to-End Encrypted Sanctuary</span>
+            <span className="text-[7px] font-black uppercase tracking-widest">{t.encrypted}</span>
           </div>
         </div>
       </div>

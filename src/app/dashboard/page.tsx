@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -19,7 +20,8 @@ import {
   ArrowLeft,
   Radio,
   PenLine,
-  Wind
+  Wind,
+  AlertCircle
 } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6SubstanceLab';
@@ -84,10 +86,22 @@ const AFFIRMATIONS = {
 };
 
 const TOOLTIPS = {
-  en: { vibe: "Mood Check-in", cocreation: "Co-Creation", assistant: "AI Assistant", profile: "My Profile", logout: "Step away", mesh: "Offline Mode: Mesh Active" },
-  de: { vibe: "Stimmungs Check-in", cocreation: "Ko-Kreation", assistant: "KI-Assistent", profile: "Mein Profil", logout: "Abmelden", mesh: "Offline-Modus: Mesh aktiv" },
-  pt: { vibe: "Check-in de Humor", cocreation: "Co-Criação", assistant: "Assistente IA", profile: "Meu Perfil", logout: "Sair", mesh: "Modo Offline: Mesh Ativo" },
-  ru: { vibe: "Настроение", cocreation: "Со-творение", assistant: "ИИ-Помощник", profile: "Мой Профиль", logout: "Выйти", mesh: "Оффлайн: Mesh Активен" }
+  en: { 
+    vibe: "Mood Check-in", cocreation: "Co-Creation", assistant: "AI Assistant", profile: "My Profile", logout: "Step away", mesh: "Offline Mode: Mesh Active",
+    meshCalibration: "Mesh Calibration Required", meshCalibrationSub: "Tap to set visibility"
+  },
+  de: { 
+    vibe: "Stimmungs Check-in", cocreation: "Ko-Kreation", assistant: "KI-Assistent", profile: "Mein Profil", logout: "Abmelden", mesh: "Offline-Modus: Mesh aktiv",
+    meshCalibration: "Mesh-Kalibrierung nötig", meshCalibrationSub: "Sichtbarkeit festlegen"
+  },
+  pt: { 
+    vibe: "Sincronia de Humor", cocreation: "Co-Criação", assistant: "Assistente IA", profile: "Meu Perfil", logout: "Sair", mesh: "Modo Offline: Mesh Ativo",
+    meshCalibration: "Calibração de Mesh Necessária", meshCalibrationSub: "Definir visibilidade"
+  },
+  ru: { 
+    vibe: "Настроение", cocreation: "Со-творение", assistant: "ИИ-Помощник", profile: "Мой Профиль", logout: "Выйти", mesh: "Оффлайн: Mesh Активен",
+    meshCalibration: "Нужна калибровка Mesh", meshCalibrationSub: "Настроить видимость"
+  }
 };
 
 function DashboardContent() {
@@ -174,6 +188,7 @@ function DashboardContent() {
 
   const displayName = firestoreProfile?.name || "VALUED SOUL";
   const t = TOOLTIPS[lang];
+  const isMeshCalibrated = firestoreProfile?.guardActive !== undefined;
 
   return (
     <main className="min-h-screen bg-black text-white flex flex-col h-screen overflow-hidden font-headline">
@@ -209,6 +224,18 @@ function DashboardContent() {
         <div className="max-w-4xl mx-auto px-6 py-8 space-y-12 pb-40 touch-pan-y">
           
           <div className="space-y-3">
+            {!isMeshCalibrated && (
+              <button 
+                onClick={() => router.push('/map')}
+                className="w-full bg-blue-600/10 border-2 border-dashed border-blue-500/30 rounded-2xl p-4 flex items-center gap-4 group hover:bg-blue-600/20 transition-all animate-pulse"
+              >
+                <AlertCircle className="text-blue-400 shrink-0" size={24} />
+                <div className="text-left">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-blue-400">{t.meshCalibration}</p>
+                  <p className="text-[8px] font-bold text-white/40 uppercase tracking-widest">{t.meshCalibrationSub}</p>
+                </div>
+              </button>
+            )}
             <GuardianStatusBar status={guardianStatus} heartRate={simHeartRate} lang={lang} />
             <PulseGuardianBanner lang={lang} variant="banner" />
           </div>
@@ -223,7 +250,7 @@ function DashboardContent() {
                 <HeartStatusAura 
                   heartRate={simHeartRate} 
                   activeSubstances={activeSubstances} 
-                  mood={firestoreProfile?.vibe?.currentLabel || (lang === 'ru' ? "Спокойно" : lang === 'pt' ? "Estável" : lang === 'de' ? "Stabil" : "Steady")}
+                  mood={firestoreProfile?.vibe?.currentLabel || (lang === 'ru' ? "Спокойно" : lang === 'pt' ? "Calmo" : lang === 'de' ? "Stabil" : "Steady")}
                   lang={lang} 
                 />
                 <p className="text-xs font-bold uppercase tracking-widest text-[#10B981] italic px-10">"{affirmation}"</p>
@@ -296,19 +323,18 @@ function DashboardContent() {
                 </div>
               </button>
 
-              <Link 
-                href="/self-care" 
-                onClick={() => playHeartbeat()}
+              <button 
+                onClick={() => handlePortalClick(() => setAiBotOpen(true))}
                 className="aspect-square rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-[#10B981]/30 hover:bg-[#10B981]/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
                 <div className="w-16 h-16 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 group-hover:scale-110 transition-transform">
-                  <Wind size={32} className="text-[#10B981]" />
+                  <Bot size={32} className="text-[#10B981]" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'ru' ? 'Резонанс' : lang === 'pt' ? 'Ressonância' : lang === 'de' ? 'Innere Resonanz' : 'Inner Resonance'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Grounding</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'ru' ? 'Помощник' : lang === 'pt' ? 'Assistente' : lang === 'de' ? 'KI-Begleiter' : 'Assistant'}</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">AI Portal</p>
                 </div>
-              </Link>
+              </button>
 
               <button 
                 onClick={() => handlePortalClick(() => setShowSOS(true))}
@@ -326,13 +352,14 @@ function DashboardContent() {
           </div>
 
           <div className="flex justify-center gap-4">
-            <button 
-              onClick={() => handlePortalClick(() => setAiBotOpen(true))} 
+            <Link 
+              href="/self-care"
+              onClick={() => playHeartbeat()}
               className="flex items-center gap-3 px-6 py-4 bg-blue-600/10 rounded-full border border-blue-500/20 hover:border-blue-500 transition-all active:scale-95"
             >
-              <Bot size={18} className="text-blue-400" />
-              <span className="text-[10px] font-black uppercase tracking-widest">{t.assistant}</span>
-            </button>
+              <Wind size={18} className="text-blue-400" />
+              <span className="text-[10px] font-black uppercase tracking-widest">{lang === 'ru' ? 'Резонанс' : lang === 'pt' ? 'Ressonância' : lang === 'de' ? 'Resonanz' : 'Resonance'}</span>
+            </Link>
             <button 
               onClick={() => handlePortalClick(() => setCoCreationOpen(true))} 
               className="flex items-center gap-3 px-6 py-4 bg-[#90EE90]/10 rounded-full border border-[#90EE90]/20 hover:border-[#90EE90] transition-all active:scale-95"
