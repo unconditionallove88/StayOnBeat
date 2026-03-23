@@ -37,6 +37,7 @@ import { SOSAlert } from '@/components/dashboard/SOSAlert';
 /**
  * @fileOverview Pulse Lab component.
  * Fixed subtype logic and search functionality for PT/RU.
+ * Implemented written font form for Russian.
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -113,7 +114,7 @@ const CONTENT = {
     amount: "Количество",
     doseLogged: "Запись добавлена",
     addedToDiary: "добавлено в ваш дневник сессии",
-    causionTitle: "Pulse Guardian: Осторожно 🧪",
+    causionTitle: "Пульс Страж: Осторожно 🧪",
     poppersHR: (hr: number) => `Ваш пульс составляет ${hr} уд/мин Попперс резко снижает кровяное давление Пожалуйста присядьте и подышите перед использованием`
   }
 };
@@ -157,7 +158,6 @@ export function Step6SubstanceLab({
   const [manualValue, setManualValue] = useState('');
   const [alcoholCart, setAlcoholCart] = useState<{type: string, count: number}[]>([]);
   const [chatOpen, setChatOpen] = useState(false);
-  const [showSOS, setShowSOS] = useState(false);
   const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
 
   useEffect(() => {
@@ -215,7 +215,7 @@ export function Step6SubstanceLab({
   };
 
   const filtered = SUBSTANCES.filter(s => {
-    const name = lang === 'en' ? s.name : lang === 'de' ? s.deName : lang === 'pt' ? s.ptName : s.ruName;
+    const name = (lang === 'en' ? s.name : lang === 'de' ? s.deName : lang === 'pt' ? s.ptName : s.ruName) || s.name;
     return name.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
@@ -237,11 +237,9 @@ export function Step6SubstanceLab({
               reason={userData?.sessionStatus?.lockReason || 'manual'}
               unlockAt={userData?.sessionStatus?.unlockAt ? new Date(userData.sessionStatus.unlockAt).getTime() : Date.now() + 4 * 60 * 60 * 1000}
               lang={lang as 'en' | 'de'}
-              onNeedSupport={() => setShowSOS(true)}
             />
           </div>
         </ScrollArea>
-        {showSOS && <SOSAlert onClose={() => setShowSOS(false)} />}
       </div>
     );
   }
@@ -253,7 +251,7 @@ export function Step6SubstanceLab({
           <div className="w-12 h-12 rounded-xl bg-[#10B981]/10 flex items-center justify-center border border-[#10B981]/20">
             <Microscope size={32} className="text-white" />
           </div>
-          <h1 className="text-2xl font-black tracking-tighter uppercase leading-none text-white">{t.title}</h1>
+          <h1 className={cn("text-2xl font-black tracking-tighter uppercase leading-none text-white", lang === 'ru' && "italic font-serif")}>{t.title}</h1>
         </div>
         
         <div className="space-y-3">
@@ -265,19 +263,22 @@ export function Step6SubstanceLab({
           >
             <div className="flex items-center gap-3">
               <CircleDot size={16} className="text-blue-400 animate-pulse" />
-              <span className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-400">{t.advisor}</span>
+              <span className={cn("text-[9px] font-black uppercase tracking-[0.2em] text-blue-400", lang === 'ru' && "italic font-serif")}>{t.advisor}</span>
             </div>
             <ArrowRight size={12} className="text-blue-500" />
           </button>
         </div>
 
         <div className="relative w-full pt-2">
-          <Search className="absolute left-6 top-[calc(50%+4px)] -translate-y-1/2 w-4 h-4 text-white/20" />
+          <Search className="absolute left-6 top-1/2 -translate-y-[calc(50%-4px)] w-4 h-4 text-white/20" />
           <input 
             placeholder={t.search}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 h-16 pl-14 rounded-3xl focus:border-[#3EB489] text-base outline-none transition-all shadow-inner text-white"
+            className={cn(
+              "w-full bg-white/5 border border-white/10 h-16 pl-14 rounded-3xl focus:border-[#3EB489] text-base outline-none transition-all shadow-inner text-white",
+              lang === 'ru' && "italic font-serif"
+            )}
           />
         </div>
       </header>
@@ -287,10 +288,10 @@ export function Step6SubstanceLab({
           {showDiary && sessionLogs.length > 0 && (
             <div className="space-y-4">
               <div className="flex items-center justify-between px-2">
-                <h3 className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3">
+                <h3 className={cn("text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3", lang === 'ru' && "italic font-serif")}>
                   <Calendar className="w-3 h-3" /> {t.diary}
                 </h3>
-                <span className="text-[8px] font-bold text-white/20 uppercase tracking-widest">{sessionLogs.length} {t.records}</span>
+                <span className={cn("text-[8px] font-bold text-white/20 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{sessionLogs.length} {t.records}</span>
               </div>
               <div className="grid gap-3">
                 {sessionLogs.slice().reverse().map((log, i) => (
@@ -300,8 +301,8 @@ export function Step6SubstanceLab({
                         <FlaskConical size={20} className="text-[#3EB489]" />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <span className="text-sm font-black uppercase text-white">{log.name}</span>
-                        <span className="text-[10px] font-bold text-[#3EB489]">
+                        <span className={cn("text-sm font-black uppercase text-white", lang === 'ru' && "italic font-serif")}>{log.name}</span>
+                        <span className={cn("text-[10px] font-bold text-[#3EB489]", lang === 'ru' && "italic font-serif")}>
                           {log.id === 'alcohol' ? log.items.map((it: any) => `${it.count}x ${it.type}`).join(', ') : `${log.value}${log.unit}`}
                         </span>
                       </div>
@@ -318,7 +319,7 @@ export function Step6SubstanceLab({
           <div className="grid grid-cols-3 gap-4 w-full">
             {filtered.map(s => {
               const active = isSubstanceActive(s.id);
-              const name = lang === 'en' ? s.name : lang === 'de' ? s.deName : lang === 'pt' ? s.ptName : s.ruName;
+              const name = (lang === 'en' ? s.name : lang === 'de' ? s.deName : lang === 'pt' ? s.ptName : s.ruName) || s.name;
               return (
                 <button 
                   key={s.id}
@@ -331,7 +332,7 @@ export function Step6SubstanceLab({
                   <div className={cn("p-4 rounded-2xl bg-black/20 group-hover:scale-110 transition-transform", s.color)}>
                     <s.icon size={28} />
                   </div>
-                  <span className={cn("text-[10px] font-black uppercase tracking-widest", active ? "text-[#3EB489]" : "text-white/60")}>{name}</span>
+                  <span className={cn("text-[10px] font-black uppercase tracking-widest", active ? "text-[#3EB489]" : "text-white/60", lang === 'ru' && "italic font-serif")}>{name}</span>
                 </button>
               );
             })}
@@ -340,7 +341,7 @@ export function Step6SubstanceLab({
       </ScrollArea>
 
       <footer className="shrink-0 h-[100px] bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-[70] pb-safe">
-        <button onClick={() => onComplete(sessionLogs)} className="w-full max-sm py-6 bg-[#3EB489] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-[#3EB489]/20 flex items-center justify-center gap-3">
+        <button onClick={() => onComplete(sessionLogs)} className={cn("w-full max-sm py-6 bg-[#3EB489] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-[#3EB489]/20 flex items-center justify-center gap-3", lang === 'ru' && "italic font-serif")}>
            <CheckCircle2 size={24} /> {t.sync}
         </button>
       </footer>
@@ -352,7 +353,7 @@ export function Step6SubstanceLab({
               <div className={cn("w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 shadow-lg", activeSubstance.color)}>
                 <activeSubstance.icon size={24} />
               </div>
-              <h2 className="text-xl font-black uppercase tracking-tighter text-white">{lang === 'en' ? activeSubstance.name : lang === 'de' ? activeSubstance.deName : lang === 'pt' ? activeSubstance.ptName : activeSubstance.ruName}</h2>
+              <h2 className={cn("text-xl font-black uppercase tracking-tighter text-white", lang === 'ru' && "italic font-serif")}>{lang === 'en' ? activeSubstance.name : lang === 'de' ? activeSubstance.deName : lang === 'pt' ? activeSubstance.ptName : activeSubstance.ruName}</h2>
             </div>
             <button onClick={() => setActiveSubstance(null)} className="p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white transition-all active:scale-90"><X size={20} /></button>
           </header>
@@ -363,7 +364,7 @@ export function Step6SubstanceLab({
                 <div className="space-y-3 w-full">
                   {alcoholCart.map((item, idx) => (
                     <div key={idx} className="flex items-center justify-between bg-white/5 p-5 rounded-2xl border border-white/10">
-                      <span className="text-sm font-black uppercase tracking-widest text-white/80">{item.type}</span>
+                      <span className={cn("text-sm font-black uppercase tracking-widest text-white/80", lang === 'ru' && "italic font-serif")}>{item.type}</span>
                       <div className="flex items-center gap-6">
                         <button onClick={() => { const next = [...alcoholCart]; next[idx].count = Math.max(0, next[idx].count - 1); setAlcoholCart(next); }} className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40">-</button>
                         <span className="w-6 text-center font-black text-xl text-white">{item.count}</span>
@@ -374,13 +375,13 @@ export function Step6SubstanceLab({
                 </div>
               ) : (
                 <div className="space-y-4 w-full">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-white/40 block ml-2">{t.amount} ({lang === 'en' ? activeSubstance.unit : lang === 'de' ? activeSubstance.deUnit : lang === 'pt' ? activeSubstance.ptUnit : activeSubstance.ruUnit})</label>
-                  <input type="number" value={manualValue} onChange={(e) => setManualValue(e.target.value)} autoFocus inputMode="decimal" className="w-full h-24 bg-white/5 border-2 border-white/10 rounded-3xl px-8 text-5xl font-black outline-none focus:border-[#3EB489] transition-all text-white text-center shadow-inner" placeholder="0.00" />
+                  <label className={cn("text-[10px] font-black uppercase tracking-widest text-white/40 block ml-2", lang === 'ru' && "italic font-serif")}>{t.amount} ({lang === 'en' ? activeSubstance.unit : lang === 'de' ? activeSubstance.deUnit : lang === 'pt' ? activeSubstance.ptUnit : activeSubstance.ruUnit})</label>
+                  <input type="number" value={manualValue} onChange={(e) => setManualValue(e.target.value)} autoFocus inputMode="decimal" className={cn("w-full h-24 bg-white/5 border-2 border-white/10 rounded-3xl px-8 text-5xl font-black outline-none focus:border-[#3EB489] transition-all text-white text-center shadow-inner", lang === 'ru' && "italic font-serif")} placeholder="0.00" />
                 </div>
               )}
               <div className="w-full space-y-4 pt-6">
-                <button onClick={saveLog} className="w-full h-20 bg-[#3EB489] text-black rounded-[1.5rem] font-black uppercase tracking-widest neon-glow active:scale-[0.98] shadow-2xl flex items-center justify-center gap-3 text-lg"><CheckCircle2 size={24} /> {t.confirm}</button>
-                <button onClick={() => setActiveSubstance(null)} className="w-full h-14 text-white/20 font-black uppercase text-[10px] tracking-[0.4em] hover:text-white transition-colors">{t.cancel}</button>
+                <button onClick={saveLog} className={cn("w-full h-20 bg-[#3EB489] text-black rounded-[1.5rem] font-black uppercase tracking-widest neon-glow active:scale-[0.98] shadow-2xl flex items-center justify-center gap-3 text-lg", lang === 'ru' && "italic font-serif")}><CheckCircle2 size={24} /> {t.confirm}</button>
+                <button onClick={() => setActiveSubstance(null)} className={cn("w-full h-14 text-white/20 font-black uppercase text-[10px] tracking-[0.4em] hover:text-white transition-colors", lang === 'ru' && "italic font-serif")}>{t.cancel}</button>
               </div>
             </div>
           </ScrollArea>

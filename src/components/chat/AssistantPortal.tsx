@@ -11,6 +11,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * @fileOverview AssistantPortal Component.
  * Full localization for EN, DE, PT, and RU.
  * Optimized for mobile touch-pan-y.
+ * Implemented written RU font form.
  */
 
 interface AssistantPortalProps {
@@ -27,9 +28,7 @@ const i18n = {
       { title: "Before", desc: "Prepare your body & mind" },
       { title: "During", desc: "Stay safe & connected" },
       { title: "After", desc: "Recover & restore" }
-    ],
-    activeSession: "Active Session",
-    liveAdvisor: "Live Safety Advisor"
+    ]
   },
   de: {
     title: "StayOnBeat",
@@ -40,9 +39,7 @@ const i18n = {
       { title: "Vorher", desc: "Körper & Geist vorbereiten" },
       { title: "Währenddessen", desc: "Sicher & verbunden bleiben" },
       { title: "Danach", desc: "Erholen & regenerieren" }
-    ],
-    activeSession: "Aktive Sitzung",
-    liveAdvisor: "Live Sicherheits-Berater"
+    ]
   },
   pt: {
     title: "StayOnBeat",
@@ -53,9 +50,7 @@ const i18n = {
       { title: "Antes", desc: "Prepare seu corpo e mente" },
       { title: "Durante", desc: "Fique seguro e conectado" },
       { title: "Depois", desc: "Recupere e restaure" }
-    ],
-    activeSession: "Sessão Ativa",
-    liveAdvisor: "Assessor de Segurança"
+    ]
   },
   ru: {
     title: "StayOnBeat",
@@ -66,9 +61,7 @@ const i18n = {
       { title: "До", desc: "Подготовь тело и разум" },
       { title: "Во время", desc: "Будь в безопасности и связи" },
       { title: "После", desc: "Восстановись и отдохни" }
-    ],
-    activeSession: "Активная Сессия",
-    liveAdvisor: "Советник по Безопасности"
+    ]
   }
 };
 
@@ -117,7 +110,7 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
           <div className="w-10 h-10 bg-emerald-500/10 rounded-full flex items-center justify-center border border-emerald-500/20">
             <Heart className="text-emerald-500 fill-emerald-500" size={20} />
           </div>
-          <h1 className="text-xl font-black uppercase tracking-tighter">{t.title}</h1>
+          <h1 className={cn("text-xl font-black uppercase tracking-tighter", lang === 'ru' && "italic font-serif")}>{t.title}</h1>
         </div>
       </header>
 
@@ -125,12 +118,12 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
         <section className="mb-8 pt-4">
           <div className="flex items-center gap-3 mb-2">
             <Bot className="text-emerald-500" size={20} />
-            <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.4em]">{t.personalAssistant}</p>
+            <p className={cn("text-[10px] font-black text-emerald-500 uppercase tracking-[0.4em]", lang === 'ru' && "italic font-serif")}>{t.personalAssistant}</p>
           </div>
-          <h2 className="text-4xl font-black uppercase tracking-tighter leading-none mb-4">
+          <h2 className={cn("text-4xl font-black uppercase tracking-tighter leading-none mb-4", lang === 'ru' && "italic font-serif")}>
             {t.question.split(' ').slice(0, -1).join(' ')} <br /> <span className="text-emerald-500">{t.question.split(' ').pop()}</span>
           </h2>
-          <p className="text-[#10B981] text-sm font-bold leading-relaxed max-w-[280px] uppercase tracking-widest">
+          <p className={cn("text-[#10B981] text-sm font-bold leading-relaxed max-w-[280px] uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>
             {t.subtitle}
           </p>
         </section>
@@ -149,8 +142,8 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
                 {phase.icon}
               </div>
               <div className="flex-1">
-                <h3 className="text-lg font-black uppercase tracking-tight">{phase.title}</h3>
-                <p className="text-[10px] font-black text-[#10B981] uppercase tracking-widest mt-1">{phase.desc}</p>
+                <h3 className={cn("text-lg font-black uppercase tracking-tight", lang === 'ru' && "italic font-serif")}>{phase.title}</h3>
+                <p className={cn("text-[10px] font-black text-[#10B981] uppercase tracking-widest mt-1", lang === 'ru' && "italic font-serif")}>{phase.desc}</p>
               </div>
               <ArrowRight size={18} className="text-white/10 group-hover:text-white group-hover:translate-x-1 transition-all" />
             </button>

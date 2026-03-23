@@ -12,7 +12,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * @fileOverview Self-Care & Stillness Sanctuary.
  * A high-fidelity grounding experience featuring box-breathing guidance.
  * Full localization for EN, DE, PT, RU.
- * Vision: Living inside out with an open heart.
+ * Updated: Removed CircleDot from button and implemented written RU font.
  */
 
 const CONTENT = {
@@ -141,7 +141,7 @@ export default function SelfCare() {
         </button>
         <div className="flex items-center gap-2 px-4 py-1.5 bg-[#10B981]/10 border border-[#10B981]/30 rounded-full">
           <CircleDot size={12} className="text-[#10B981] animate-pulse" />
-          <span className="text-[9px] font-black uppercase text-[#10B981] tracking-widest">{t.title}</span>
+          <span className={cn("text-[9px] font-black uppercase text-[#10B981] tracking-widest", lang === 'ru' && "italic font-serif")}>{t.title}</span>
         </div>
       </header>
 
@@ -149,7 +149,6 @@ export default function SelfCare() {
         <div className="flex flex-col items-center justify-center w-full max-w-xl mx-auto px-6 py-12 space-y-12 pb-40 touch-pan-y">
           
           <div className="relative flex flex-col items-center justify-center">
-            {/* Expanded inside-out glow */}
             <div className={cn(
               "absolute rounded-full bg-emerald-500/10 blur-3xl transition-all duration-[4000ms] ease-in-out",
               breathState === 'inhale' ? "w-96 h-96 opacity-40 scale-125" : "w-64 h-64 opacity-20 scale-100"
@@ -161,24 +160,27 @@ export default function SelfCare() {
             )}>
               <div className="text-center space-y-1">
                 <span className="text-4xl font-black tabular-nums text-white">{timer}</span>
-                <p className="text-[8px] font-black uppercase tracking-[0.2em] text-emerald-500">{t.seconds}</p>
+                <p className={cn("text-[8px] font-black uppercase tracking-[0.2em] text-emerald-500", lang === 'ru' && "italic font-serif")}>{t.seconds}</p>
               </div>
             </div>
 
             <div className="mt-10 text-center space-y-2">
-              <h2 className="text-3xl font-black uppercase tracking-tighter animate-pulse">
+              <h2 className={cn("text-3xl font-black uppercase tracking-tighter animate-pulse", lang === 'ru' && "italic font-serif")}>
                 {t.breathText[breathState]}
               </h2>
-              <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]">{t.protocol}</p>
+              <p className={cn("text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]", lang === 'ru' && "italic font-serif")}>{t.protocol}</p>
             </div>
           </div>
 
           <div className="space-y-6 w-full text-center">
             <div className="space-y-2">
-              <h1 className="text-2xl font-black uppercase tracking-tighter leading-none">
+              <h1 className={cn("text-2xl font-black uppercase tracking-tighter leading-none", lang === 'ru' && "italic font-serif")}>
                 {t.header} <br/> <span className="text-[#3EB489]">{t.headerHighlight}</span>
               </h1>
-              <p className="text-xs font-bold text-white/40 leading-tight max-w-[280px] mx-auto uppercase tracking-widest">
+              <p className={cn(
+                "text-xs font-bold text-white/40 leading-tight max-w-[280px] mx-auto uppercase tracking-widest",
+                lang === 'ru' && "italic font-serif"
+              )}>
                 {t.description}
               </p>
             </div>
@@ -191,8 +193,8 @@ export default function SelfCare() {
                   <div key={i} className="bg-white/5 border border-white/10 p-4 rounded-[2rem] flex flex-col items-center gap-2 group hover:border-emerald-500/40 transition-all">
                     <Icon className="w-5 h-5 text-[#3EB489]" />
                     <div className="text-center">
-                      <h3 className="font-black uppercase tracking-widest text-[8px]">{item.label}</h3>
-                      <p className="text-[7px] font-bold text-white/30 uppercase tracking-tighter">{item.sub}</p>
+                      <h3 className={cn("font-black uppercase tracking-widest text-[8px]", lang === 'ru' && "italic font-serif")}>{item.label}</h3>
+                      <p className={cn("text-[7px] font-bold text-white/30 uppercase tracking-tighter", lang === 'ru' && "italic font-serif")}>{item.sub}</p>
                     </div>
                   </div>
                 );
@@ -205,9 +207,11 @@ export default function SelfCare() {
       <footer className="fixed bottom-0 left-0 right-0 h-[100px] bg-black/90 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-50">
         <button 
           onClick={() => { playHeartbeat(); router.push('/dashboard'); }}
-          className="w-full max-w-sm bg-[#3EB489] text-black h-16 rounded-full font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_30px_rgba(62,180,137,0.3)] flex items-center justify-center gap-3"
+          className={cn(
+            "w-full max-w-sm bg-[#3EB489] text-black h-16 rounded-full font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_30px_rgba(62,180,137,0.3)] flex items-center justify-center gap-3",
+            lang === 'ru' && "italic font-serif"
+          )}
         >
-          <CircleDot size={20} />
           {t.button}
         </button>
       </footer>
