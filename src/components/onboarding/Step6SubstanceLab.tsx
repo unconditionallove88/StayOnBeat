@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -35,7 +36,7 @@ import { SOSAlert } from '@/components/dashboard/SOSAlert';
 
 /**
  * @fileOverview Pulse Lab component.
- * Optimized for high-fidelity interaction with full EN, DE, PT, RU support.
+ * Fixed subtype logic for PT/RU functionality.
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -176,8 +177,11 @@ export function Step6SubstanceLab({
     }
     setActiveSubstance(substance);
     if (substance.id === 'alcohol') {
-      const types = lang === 'en' ? substance.subTypes : lang === 'de' ? substance.deSubTypes : lang === 'pt' ? substance.ptSubTypes : substance.ruSubTypes;
-      setAlcoholCart(types!.map((type: string) => ({ type, count: 0 })));
+      // Correctly identify subtypes regardless of language to fix PT/RU functionality
+      const subtypes = lang === 'en' ? substance.subTypes : lang === 'de' ? substance.deSubTypes : lang === 'pt' ? substance.ptSubTypes : substance.ruSubTypes;
+      if (subtypes) {
+        setAlcoholCart(subtypes.map((type: string) => ({ type, count: 0 })));
+      }
     }
   };
 

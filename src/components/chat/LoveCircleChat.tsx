@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Heart, Loader2, Lock, HeartHandshake, Users, CircleDot } from 'lucide-react';
+import { Send, Heart, Loader2, Lock, Users, CircleDot } from 'lucide-react';
 import { useFirestore, useUser, useCollection, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection, query, orderBy, limit, serverTimestamp } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
@@ -11,8 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 
 /**
  * @fileOverview The Holders (Those who hold your heart from afar).
- * Framing: I love and respect my trusted ones Pure connection.
- * Updated: Replaced shaking hands icon with subtle CircleDot for elegant access.
+ * Optimized for minimalist ritual and human-friendly iPhone experience.
  */
 
 export function LoveCircleChat() {
@@ -92,7 +91,7 @@ export function LoveCircleChat() {
             <div className="relative">
               <div className="absolute inset-0 bg-[#10B981]/20 blur-3xl rounded-full animate-pulse" />
               <div className="w-32 h-32 bg-[#10B981]/10 rounded-full flex items-center justify-center border-2 border-[#10B981]/30 relative z-10 shadow-2xl">
-                <HeartHandshake size={48} className="text-[#10B981]" />
+                <CircleDot size={48} className="text-[#10B981]" />
               </div>
             </div>
 
@@ -137,7 +136,7 @@ export function LoveCircleChat() {
       <div className="px-8 py-8 border-b border-white/5 bg-black/80 backdrop-blur-xl flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 shadow-lg">
-            <HeartHandshake size={28} className="text-[#10B981]" />
+            <CircleDot size={28} className="text-[#10B981]" />
           </div>
           <div>
             <h2 className="text-2xl font-black uppercase tracking-tight text-white leading-none">The Holders</h2>

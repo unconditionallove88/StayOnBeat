@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import HeartStatusAura from "@/components/dashboard/HeartStatusAura";
 import LoveCircleList from "@/components/dashboard/LoveCircle";
-import { Activity, ArrowLeft, Watch, Info, HeartHandshake, Users2, RefreshCw, ChevronRight } from "lucide-react";
+import { Activity, ArrowLeft, Watch, Info, HeartHandshake, Users2, RefreshCw, ChevronRight, CircleDot } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
@@ -17,7 +17,7 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview My Heart Page (Individual Analytics).
  * Visualizes the high-fidelity living pulse and provides entry to Holders and Witnesses.
- * Punctuation-free affirmations for expansive resonance.
+ * Fully localized for EN, DE, PT, RU.
  */
 export default function MyHeartPage() {
   const router = useRouter();
@@ -25,7 +25,7 @@ export default function MyHeartPage() {
   const firestore = useFirestore();
   const [heartRate, setHeartRate] = useState(75);
   const [mounted, setMounted] = useState(false);
-  const [lang, setLang] = useState<'en' | 'de'>('en');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
   
   const [holdersOpen, setHoldersOpen] = useState(false);
   const [witnessesOpen, setWitnessesOpen] = useState(false);
@@ -40,9 +40,9 @@ export default function MyHeartPage() {
 
   useEffect(() => {
     setMounted(true);
-    const savedLang = localStorage.getItem('stayonbeat_lang');
-    if (savedLang === 'DE' || savedLang === 'EN') {
-      setLang(savedLang.toLowerCase() as 'en' | 'de');
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) {
+      setLang(savedLang);
     }
 
     const interval = setInterval(() => {
@@ -67,7 +67,7 @@ export default function MyHeartPage() {
       witnessesSub: "Public Care",
       baseline: "Pulse Baseline",
       baselineSub: "Your biological zero point",
-      baselineInfo: "Your Guardian is calibrated to this baseline. Thresholds adjust dynamically based on your resting rhythm. An accurate baseline means more precise protection 🌿",
+      baselineInfo: "Your Guardian is calibrated to this baseline Thresholds adjust dynamically based on your resting rhythm An accurate baseline means more precise protection 🌿",
       recalibrate: "Recalibrate Baseline",
       syncVia: "Set via"
     },
@@ -81,9 +81,37 @@ export default function MyHeartPage() {
       witnessesSub: "Gemeinsame Fürsorge",
       baseline: "Puls-Basis",
       baselineSub: "Dein biologischer Nullpunkt",
-      baselineInfo: "Dein Guardian ist auf diese Basis kalibriert. Schwellenwerte passen sich dynamisch deinem Ruhe-Rhythmus an. Eine genaue Basis bedeutet präziseren Schutz 🌿",
+      baselineInfo: "Dein Guardian ist auf diese Basis kalibriert Schwellenwerte passen sich dynamisch deinem Ruhe-Rhythmus an Eine genaue Basis bedeutet präziseren Schutz 🌿",
       recalibrate: "Basis neu kalibrieren",
       syncVia: "Gesetzt via"
+    },
+    pt: {
+      title: "Meu Coração",
+      sub: "Análise de Pulso do Santuário",
+      demo: "Modo Demo · Meu Ritmo",
+      holders: "Os Guardiões",
+      holdersSub: "Vínculos Privados",
+      witnesses: "As Testemunhas",
+      witnessesSub: "Cuidado Público",
+      baseline: "Linha de Base",
+      baselineSub: "Seu ponto zero biológico",
+      baselineInfo: "Seu Guardião é calibrado com esta base Os limites ajustam-se dinamicamente ao seu ritmo de repouso Uma base precisa significa proteção mais eficaz 🌿",
+      recalibrate: "Recalibrar Base",
+      syncVia: "Definido via"
+    },
+    ru: {
+      title: "Мое Сердце",
+      sub: "Аналитика Пульса",
+      demo: "Демо Режим · Мой Ритм",
+      holders: "Хранители",
+      holdersSub: "Личные Связи",
+      witnesses: "Свидетели",
+      witnessesSub: "Общая Забота",
+      baseline: "Базовый Пульс",
+      baselineSub: "Ваша биологическая точка отсчета",
+      baselineInfo: "Ваш Страж откалиброван по этой базе Пороги динамически меняются в зависимости от ритма покоя Точная база означает лучшую защиту 🌿",
+      recalibrate: "Откалибровать Базу",
+      syncVia: "Через"
     }
   }[lang];
 
@@ -130,7 +158,7 @@ export default function MyHeartPage() {
           >
             <div className="flex items-center gap-5">
               <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 group-hover:scale-110 transition-transform">
-                <HeartHandshake size={28} className="text-[#10B981]" />
+                <CircleDot size={28} className="text-[#10B981]" />
               </div>
               <div className="text-left">
                 <p className="text-lg font-black uppercase tracking-tight">{t.holders}</p>
