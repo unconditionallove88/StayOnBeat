@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -13,7 +14,15 @@ import NotificationPrompt from '@/components/dashboard/NotificationPrompt';
  * @fileOverview Mood Check-in Onboarding Step.
  * Full localization for EN, DE, PT, RU.
  * Punctuation-free for resonance.
+ * Refined RU typography for a "written" feel.
  */
+
+interface Step7VibeCheckProps {
+  onComplete: (vibe: string[]) => void;
+  onBack?: () => void;
+  isOnboarding?: boolean;
+  finalOnboardingData?: OnboardingData;
+}
 
 const VIBE_OPTIONS = [
   { 
@@ -86,7 +95,7 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
 
     setDocumentNonBlocking(doc(firestore, 'users', user.uid), payload, { merge: true });
     setIsSaved(true); setIsSaving(false);
-    setTimeout(() => { if (isOnboarding) setShowNotificationPrompt(true); else onComplete([selected]); }, 1500);
+    setTimeout(() => { if (isOnboarding) setShowNotificationPrompt(true); else onComplete([selected!]); }, 1500);
   };
 
   if (showNotificationPrompt) return <NotificationPrompt onClose={() => onComplete([selected!])} />;
@@ -94,8 +103,8 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
   if (isSaved) {
     return (
       <div className="w-full min-h-[80vh] flex flex-col items-center justify-center text-center px-6 font-headline animate-in fade-in zoom-in-95 duration-1000">
-        <h2 className="text-4xl font-black uppercase tracking-tighter text-[#10B981] mb-4">{t.success}</h2>
-        <p className="text-white/60 text-lg font-bold max-sm leading-tight">{t.sub}</p>
+        <h2 className={cn("text-4xl font-black uppercase tracking-tighter text-[#10B981] mb-4", lang === 'RU' && "italic font-serif")}>{t.success}</h2>
+        <p className={cn("text-white/60 text-lg font-bold max-sm leading-tight", lang === 'RU' && "italic font-serif")}>{t.sub}</p>
       </div>
     );
   }
@@ -103,7 +112,7 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
   return (
     <div className="w-full min-h-[80vh] flex flex-col items-center justify-center font-headline max-xl mx-auto px-4 text-center relative">
       {onBack && <button onClick={onBack} disabled={isSaving} className="absolute top-0 left-4 text-white/40 hover:text-white flex items-center gap-2 text-[10px] font-black uppercase tracking-widest z-50"><ArrowLeft className="w-4 h-4" /> {t.back}</button>}
-      <div className="mt-12 mb-10"><h2 className="text-[28px] font-black uppercase mb-2 text-white leading-none tracking-tighter">{t.header}</h2></div>
+      <div className="mt-12 mb-10"><h2 className={cn("text-[28px] font-black uppercase mb-2 text-white leading-none tracking-tighter", lang === 'RU' && "italic font-serif")}>{t.header}</h2></div>
       <div className="grid grid-cols-1 gap-3 w-full mb-12 overflow-y-auto max-h-[50vh] pr-2 custom-scrollbar">
         {VIBE_OPTIONS.map((vibe) => {
           const VibeIcon = vibe.icon;
@@ -111,11 +120,11 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
           const label = lang === 'EN' ? vibe.label : lang === 'DE' ? vibe.de : lang === 'PT' ? vibe.pt : vibe.ru;
           const desc = lang === 'EN' ? vibe.description : lang === 'DE' ? vibe.deDescription : lang === 'PT' ? vibe.ptDescription : vibe.ruDescription;
           return (
-            <button key={vibe.id} onClick={() => setSelected(vibe.id)} disabled={isSaving} className={cn("p-5 rounded-[2.5rem] border-2 flex items-center gap-6 transition-all active:scale-[0.98] text-left", isSelected ? vibe.activeColor : "bg-[#0a0a0a] border-white/5 hover:border-white/20")}><div className="w-12 flex justify-center"><VibeIcon size={40} color="currentColor" className={isSelected ? vibe.color : "text-white/20"} /></div><div className="flex flex-col"><span className={cn("font-black text-lg uppercase tracking-tight", isSelected ? "text-white" : "text-white/60")}>{label}</span><span className="text-[10px] font-black text-white/30 uppercase tracking-widest leading-none mt-1">{desc}</span></div></button>
+            <button key={vibe.id} onClick={() => setSelected(vibe.id)} disabled={isSaving} className={cn("p-5 rounded-[2.5rem] border-2 flex items-center gap-6 transition-all active:scale-[0.98] text-left", isSelected ? vibe.activeColor : "bg-[#0a0a0a] border-white/5 hover:border-white/20")}><div className="w-12 flex justify-center"><VibeIcon size={40} color="currentColor" className={isSelected ? vibe.color : "text-white/20"} /></div><div className="flex flex-col"><span className={cn("font-black text-lg uppercase tracking-tight", isSelected ? "text-white" : "text-white/60", lang === 'RU' && "italic font-serif")}>{label}</span><span className={cn("text-[10px] font-black text-white/30 uppercase tracking-widest leading-none mt-1", lang === 'RU' && "italic font-serif")}>{desc}</span></div></button>
           );
         })}
       </div>
-      <div className="flex flex-col items-center gap-6 w-full"><button onClick={handleConfirm} disabled={!selected || isSaving} className={cn("pill-button w-full max-w-sm uppercase tracking-[0.2em] font-black text-xl h-[64px] transition-all", selected && !isSaving ? 'bg-[#10B981] text-black neon-glow' : 'bg-white/10 text-white/10 cursor-not-allowed opacity-50')}>{isSaving ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : t.btn}</button><p className="text-center text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]">{t.footer}</p></div>
+      <div className="flex flex-col items-center gap-6 w-full"><button onClick={handleConfirm} disabled={!selected || isSaving} className={cn("pill-button w-full max-w-sm uppercase tracking-[0.2em] font-black text-xl h-[64px] transition-all", selected && !isSaving ? 'bg-[#10B981] text-black neon-glow' : 'bg-white/10 text-white/10 cursor-not-allowed opacity-50', lang === 'RU' && "italic font-serif")}>{isSaving ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : t.btn}</button><p className={cn("text-center text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]", lang === 'RU' && "italic font-serif")}>{t.footer}</p></div>
     </div>
   );
 }

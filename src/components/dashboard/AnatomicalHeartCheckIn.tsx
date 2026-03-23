@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
  * @fileOverview MoodCheckIn Component.
  * Bespoke Resonance Icons integrated with an organic color palette for a soulful check-in.
  * Supports EN, DE, PT, RU.
+ * Refined RU typography for a "written" feel.
  */
 
 const CONTENT = {
@@ -87,7 +88,10 @@ export function AnatomicalHeartCheckIn() {
         <Heart size={24} className="text-[#10B981] fill-[#10B981]/20" />
         <h3 className="text-white font-black text-2xl uppercase tracking-tighter leading-none">{t.title}</h3>
       </div>
-      <p className="text-[#10B981] text-[10px] mb-8 uppercase tracking-[0.4em] font-black text-center">{t.sub}</p>
+      <p className={cn(
+        "text-[#10B981] text-[10px] mb-8 uppercase tracking-[0.4em] font-black text-center",
+        lang === 'ru' && "italic font-serif"
+      )}>{t.sub}</p>
 
       <div className="relative w-64 h-80 flex items-center justify-center">
         <svg viewBox="0 0 200 250" className="absolute w-full h-full drop-shadow-[0_0_15px_rgba(16,185,129,0.2)]">
@@ -115,7 +119,8 @@ export function AnatomicalHeartCheckIn() {
                   "px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-500 border-2 flex items-center gap-3",
                   isActive 
                     ? "bg-white/10 border-white/40 scale-110 shadow-xl" 
-                    : "bg-black/40 text-white/20 border-white/5 hover:border-white/20"
+                    : "bg-black/40 text-white/20 border-white/5 hover:border-white/20",
+                  lang === 'ru' && "italic font-serif"
                 )}
                 style={isActive ? { borderColor: s.color, color: s.color } : {}}
               >
@@ -130,7 +135,10 @@ export function AnatomicalHeartCheckIn() {
       <div className="mt-8 text-center">
         <p className="text-[10px] text-white/20 uppercase tracking-[0.5em] font-black mb-1">{t.state}</p>
         <p 
-          className={cn("font-black text-2xl animate-pulse uppercase tracking-tighter transition-colors duration-1000")}
+          className={cn(
+            "font-black text-2xl animate-pulse uppercase tracking-tighter transition-colors duration-1000",
+            lang === 'ru' && "italic font-serif"
+          )}
           style={{ color: currentStatus.color }}
         >
           {status}

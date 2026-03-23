@@ -195,14 +195,14 @@ function DashboardContent() {
       <div className="px-6 py-6 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
         <header className="flex justify-between items-center max-w-4xl mx-auto w-full gap-4">
           <div className="flex-1 min-w-0">
-            <h1 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-3 truncate">
+            <h1 className={cn("text-2xl font-black uppercase tracking-tighter flex items-center gap-3 truncate", lang === 'ru' && "italic font-serif")}>
               <span className="truncate">{lang === 'ru' ? `СИЯЙ, ${displayName}` : lang === 'pt' ? `BRILHE, ${displayName}` : lang === 'de' ? `STRAHLE, ${displayName}` : `SHINE, ${displayName}`}</span>
               <SkyIcon />
             </h1>
             <div className="flex items-center gap-2 mt-1">
               <div className="px-2 py-0.5 bg-blue-500/10 border border-blue-500/20 rounded-full flex items-center gap-1.5 animate-in fade-in duration-1000">
                 <Radio size={8} className="text-blue-400 animate-pulse" />
-                <span className="text-[7px] font-black uppercase tracking-widest text-blue-400/80">{t.mesh}</span>
+                <span className={cn("text-[7px] font-black uppercase tracking-widest text-blue-400/80", lang === 'ru' && "italic font-serif")}>{t.mesh}</span>
               </div>
             </div>
           </div>
@@ -231,8 +231,8 @@ function DashboardContent() {
               >
                 <AlertCircle className="text-blue-400 shrink-0" size={24} />
                 <div className="text-left">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-blue-400">{t.meshCalibration}</p>
-                  <p className="text-[8px] font-bold text-white/40 uppercase tracking-widest">{t.meshCalibrationSub}</p>
+                  <p className={cn("text-[10px] font-black uppercase tracking-widest text-blue-400", lang === 'ru' && "italic font-serif")}>{t.meshCalibration}</p>
+                  <p className={cn("text-[8px] font-bold text-white/40 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.meshCalibrationSub}</p>
                 </div>
               </button>
             )}
@@ -253,20 +253,23 @@ function DashboardContent() {
                   mood={firestoreProfile?.vibe?.currentLabel || (lang === 'ru' ? "Спокойно" : lang === 'pt' ? "Calmo" : lang === 'de' ? "Stabil" : "Steady")}
                   lang={lang} 
                 />
-                <p className="text-xs font-bold uppercase tracking-widest text-[#10B981] italic px-10">"{affirmation}"</p>
+                <p className={cn(
+                  "text-xs font-bold uppercase tracking-widest text-[#10B981] px-10",
+                  lang === 'ru' ? "italic font-serif" : "italic"
+                )}>"{affirmation}"</p>
               </div>
             </Link>
           </div>
 
           <div className="w-full flex flex-col items-center gap-6">
-            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">
+            <h2 className={cn("text-[10px] font-black uppercase tracking-[0.4em] text-white/20", lang === 'ru' && "italic font-serif")}>
               {lang === 'ru' ? 'Коллективный Резонанс' : lang === 'pt' ? 'Ressonância Coletiva' : lang === 'de' ? 'Gemeinsame Resonanz' : 'Collective Resonance'}
             </h2>
             <LoveCircle lang={lang} variant="dashboard" />
           </div>
 
           <div className="space-y-8">
-            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 text-center">
+            <h2 className={cn("text-[10px] font-black uppercase tracking-[0.4em] text-white/20 text-center", lang === 'ru' && "italic font-serif")}>
               Sanctuary Tools
             </h2>
             <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto">
@@ -279,8 +282,8 @@ function DashboardContent() {
                   <RadiatingThirdEye size={36} color="#3b82f6" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'ru' ? 'Пульс' : lang === 'pt' ? 'O Pulso' : lang === 'de' ? 'Der Puls' : 'The Pulse'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Radar</p>
+                  <p className={cn("text-lg font-black uppercase tracking-tight leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Пульс' : lang === 'pt' ? 'O Pulso' : lang === 'de' ? 'Der Puls' : 'The Pulse'}</p>
+                  <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>Mesh Radar</p>
                 </div>
               </Link>
 
@@ -292,8 +295,8 @@ function DashboardContent() {
                   <Microscope size={36} className="text-white" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'ru' ? 'Лаборатория' : lang === 'pt' ? 'Pulse Lab' : lang === 'de' ? 'Sitzungs-Labor' : 'Pulse Lab'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Intake</p>
+                  <p className={cn("text-lg font-black uppercase tracking-tight leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Лаборатория' : lang === 'pt' ? 'Pulse Lab' : lang === 'de' ? 'Sitzungs-Labor' : 'Pulse Lab'}</p>
+                  <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>Intake</p>
                 </div>
               </button>
 
@@ -305,8 +308,8 @@ function DashboardContent() {
                   <Watch size={32} className="text-[#EBFB3B]" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'ru' ? 'Синхронизация' : lang === 'pt' ? 'Pulse Sync' : lang === 'de' ? 'Vital-Sync' : 'Pulse Sync'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Sync</p>
+                  <p className={cn("text-lg font-black uppercase tracking-tight leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Синхронизация' : lang === 'pt' ? 'Pulse Sync' : lang === 'de' ? 'Vital-Sync' : 'Pulse Sync'}</p>
+                  <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>Mesh Sync</p>
                 </div>
               </button>
 
@@ -318,8 +321,8 @@ function DashboardContent() {
                   <PenLine size={32} className="text-purple-400" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'ru' ? 'Письма Любви' : lang === 'pt' ? 'Cartas de Amor' : lang === 'de' ? 'Liebesbriefe' : 'Love Letters'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Future Self</p>
+                  <p className={cn("text-lg font-black uppercase tracking-tight leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Письма Любви' : lang === 'pt' ? 'Cartas de Amor' : lang === 'de' ? 'Liebesbriefe' : 'Love Letters'}</p>
+                  <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>Future Self</p>
                 </div>
               </button>
 
@@ -331,8 +334,8 @@ function DashboardContent() {
                   <Bot size={32} className="text-[#10B981]" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'ru' ? 'Помощник' : lang === 'pt' ? 'Assistente' : lang === 'de' ? 'KI-Begleiter' : 'Assistant'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">AI Portal</p>
+                  <p className={cn("text-lg font-black uppercase tracking-tight leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Помощник' : lang === 'pt' ? 'Assistente' : lang === 'de' ? 'KI-Begleiter' : 'Assistant'}</p>
+                  <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>AI Portal</p>
                 </div>
               </button>
 
@@ -344,8 +347,8 @@ function DashboardContent() {
                   <Shield size={32} />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none group-hover:text-white transition-colors">{lang === 'ru' ? 'Помощь' : lang === 'pt' ? 'Ajuda Imediata' : lang === 'de' ? 'Sofort-Hilfe' : 'Immediate Help'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors">Mesh SOS</p>
+                  <p className={cn("text-lg font-black uppercase tracking-tight leading-none group-hover:text-white transition-colors", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Помощь' : lang === 'pt' ? 'Ajuda Imediata' : lang === 'de' ? 'Sofort-Hilfe' : 'Immediate Help'}</p>
+                  <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors", lang === 'ru' && "italic font-serif")}>Mesh SOS</p>
                 </div>
               </button>
             </div>
@@ -358,14 +361,14 @@ function DashboardContent() {
               className="flex items-center gap-3 px-6 py-4 bg-blue-600/10 rounded-full border border-blue-500/20 hover:border-blue-500 transition-all active:scale-95"
             >
               <Wind size={18} className="text-blue-400" />
-              <span className="text-[10px] font-black uppercase tracking-widest">{lang === 'ru' ? 'Резонанс' : lang === 'pt' ? 'Ressonância' : lang === 'de' ? 'Resonanz' : 'Resonance'}</span>
+              <span className={cn("text-[10px] font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Резонанс' : lang === 'pt' ? 'Ressonância' : lang === 'de' ? 'Resonanz' : 'Resonance'}</span>
             </Link>
             <button 
               onClick={() => handlePortalClick(() => setCoCreationOpen(true))} 
               className="flex items-center gap-3 px-6 py-4 bg-[#90EE90]/10 rounded-full border border-[#90EE90]/20 hover:border-[#90EE90] transition-all active:scale-95"
             >
               <Sprout size={18} className="text-[#90EE90]" />
-              <span className="text-[10px] font-black uppercase tracking-widest">{t.cocreation}</span>
+              <span className={cn("text-[10px] font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.cocreation}</span>
             </button>
           </div>
 
@@ -378,7 +381,8 @@ function DashboardContent() {
                     "w-full flex items-center justify-center gap-2 py-4 text-[9px] font-black uppercase transition-all duration-500",
                     guardianStatus === 'safe' && "text-[#10B981] opacity-40 hover:opacity-100",
                     guardianStatus === 'caution' && "text-[#F59E0B] opacity-80 hover:opacity-100",
-                    guardianStatus === 'locked' && "text-[#DC2626] opacity-100 animate-pulse"
+                    guardianStatus === 'locked' && "text-[#DC2626] opacity-100 animate-pulse",
+                    lang === 'ru' && "italic font-serif"
                   )}
                 >
                   <Settings2 size={12} />

@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 /**
  * @fileOverview Phase: During.
  * Support for EN, DE, PT, RU.
- * Refined layout with soulful RU typography for the core affirmation.
+ * Refined layout with soulful RU "written" (cursive italic) typography.
  */
 export default function DuringPhase() {
   const router = useRouter();
@@ -60,10 +60,10 @@ export default function DuringPhase() {
       <header className="px-6 py-8 border-b border-white/5 bg-black/80 backdrop-blur-xl flex items-center gap-4 shrink-0">
         <button onClick={() => router.push("/dashboard")} className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all"><ArrowLeft className="w-5 h-5 text-white/40" /></button>
         <div>
-          <h1 className="text-xl font-black uppercase tracking-tighter">
+          <h1 className={cn("text-xl font-black uppercase tracking-tighter", lang === 'ru' && "italic font-serif")}>
             {lang === 'ru' ? 'Советник' : lang === 'pt' ? 'Assessor de Segurança' : lang === 'de' ? 'Sicherheits-Berater' : 'Safety Advisor'}
           </h1>
-          <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em]">
+          <p className={cn("text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em]", lang === 'ru' && "italic font-serif")}>
             {lang === 'ru' ? 'Фаза: Во время' : lang === 'pt' ? 'Fase: Durante' : lang === 'de' ? 'Phase: Währenddessen' : 'Phase: During'}
           </p>
         </div>

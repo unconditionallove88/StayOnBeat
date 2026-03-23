@@ -12,7 +12,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 /**
  * @fileOverview Phase: Before (Preparation Protocol).
  * Integrated core affirmation and support for EN, DE, PT, RU.
- * Refined RU typography for a "lovable" written feel.
+ * Refined RU typography for a "written" (cursive italic) feel.
  */
 
 const CONTENT = {
@@ -109,15 +109,15 @@ export default function BeforePhase() {
       <header className="px-6 py-8 border-b border-white/5 bg-black/80 backdrop-blur-xl flex items-center gap-4 sticky top-0 z-50">
         <button onClick={() => router.push("/dashboard")} className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all"><ArrowLeft className="w-5 h-5 text-white/40" /></button>
         <div>
-          <h1 className="text-xl font-black uppercase tracking-tighter">{t.title}</h1>
-          <p className="text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em]">{t.subtitle}</p>
+          <h1 className={cn("text-xl font-black uppercase tracking-tighter", lang === 'ru' && "italic font-serif")}>{t.title}</h1>
+          <p className={cn("text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em]", lang === 'ru' && "italic font-serif")}>{t.subtitle}</p>
         </div>
       </header>
 
       <ScrollArea className="flex-1">
         <div className="px-6 py-10 max-w-xl mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
           <section className="text-center space-y-4">
-            <h2 className="text-4xl font-black uppercase tracking-tighter leading-none">{t.header}</h2>
+            <h2 className={cn("text-4xl font-black uppercase tracking-tighter leading-none", lang === 'ru' && "italic font-serif")}>{t.header}</h2>
             <p className={cn(
               "text-[#10B981] text-sm font-bold uppercase tracking-widest leading-relaxed max-w-[340px] mx-auto",
               lang === 'ru' ? "italic font-serif" : "italic"
@@ -132,10 +132,10 @@ export default function BeforePhase() {
                 <div className="flex items-start gap-6">
                   <div className="p-4 rounded-2xl bg-black/40 border border-white/10 shadow-lg shrink-0">{section.icon}</div>
                   <div className="space-y-2">
-                    <h3 className="text-lg font-black uppercase tracking-tight text-white">{section.title}</h3>
+                    <h3 className={cn("text-lg font-black uppercase tracking-tight text-white", lang === 'ru' && "italic font-serif")}>{section.title}</h3>
                     <p className={cn(
                       "text-sm font-bold text-white/60 leading-relaxed uppercase tracking-wide",
-                      lang === 'ru' && "italic"
+                      lang === 'ru' && "italic font-serif"
                     )}>{section.advice}</p>
                   </div>
                 </div>
@@ -147,7 +147,7 @@ export default function BeforePhase() {
             <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center shrink-0"><ShieldCheck className="text-emerald-500" size={24} /></div>
             <p className={cn(
               "text-[10px] font-black uppercase tracking-[0.2em] text-white/40 leading-relaxed",
-              lang === 'ru' && "italic"
+              lang === 'ru' && "italic font-serif"
             )}>
               {t.footerAdvice}
             </p>
@@ -156,7 +156,7 @@ export default function BeforePhase() {
       </ScrollArea>
 
       <footer className="fixed bottom-0 left-0 right-0 h-[100px] bg-black/90 backdrop-blur-xl border-t border-white/5 flex items-center justify-center px-6 z-50 pb-safe">
-        <button onClick={() => router.push("/dashboard")} className="w-full max-sm py-6 bg-[#10B981] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] active:scale-95 transition-all shadow-lg shadow-emerald-500/20">{t.button}</button>
+        <button onClick={() => router.push("/dashboard")} className={cn("w-full max-sm py-6 bg-[#10B981] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] active:scale-95 transition-all shadow-lg shadow-emerald-500/20", lang === 'ru' && "italic font-serif")}>{t.button}</button>
       </footer>
     </main>
   );

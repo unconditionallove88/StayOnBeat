@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -14,6 +15,7 @@ interface Props {
 /**
  * @fileOverview Inner Resonance Visualization.
  * Supports EN, DE, PT, RU.
+ * Refined RU typography for a "written" feel.
  */
 export default function HeartStatusAura({ 
   heartRate, 
@@ -50,13 +52,22 @@ export default function HeartStatusAura({
       </div>
 
       <div className="mt-8 md:mt-12 text-center z-10">
-        <p className="text-white/20 text-[9px] md:text-[10px] uppercase tracking-[0.5em] font-black mb-2">{t.resonance}</p>
-        <h2 className="text-white text-3xl md:text-4xl font-black uppercase tracking-tighter leading-none mb-2">
+        <p className={cn(
+          "text-white/20 text-[9px] md:text-[10px] uppercase tracking-[0.5em] font-black mb-2",
+          lang === 'ru' && "italic font-serif"
+        )}>{t.resonance}</p>
+        <h2 className={cn(
+          "text-white text-3xl md:text-4xl font-black uppercase tracking-tighter leading-none mb-2",
+          lang === 'ru' && "italic font-serif"
+        )}>
           {isHighRisk ? t.intense : isElevated ? t.elevated : t.steady}
         </h2>
         <div className="flex items-center justify-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
-          <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">{mood}</p>
+          <p className={cn(
+            "text-white/40 text-[10px] font-bold uppercase tracking-widest",
+            lang === 'ru' && "italic font-serif"
+          )}>{mood}</p>
         </div>
       </div>
     </div>
