@@ -13,9 +13,10 @@ interface Props {
 }
 
 /**
- * @fileOverview Love Circle Visualization.
+ * @fileOverview Inner Resonance Visualization.
  * Serves as a pure, radiant visual of the user's inner rhythm.
  * Vision: Light radiating from the inside out.
+ * Punctuation-free for resonance.
  */
 export default function HeartStatusAura({ 
   heartRate, 

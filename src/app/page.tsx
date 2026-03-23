@@ -30,14 +30,14 @@ export default function Home() {
 
   const content = {
     EN: { 
-      slogan: "Your light starts here 🌿", 
+      slogan: "Your light starts here", 
       valueProp: "A safe sanctuary to radiate your truth through health monitoring and collective care", 
       getStarted: "Join the Circle", 
       signIn: "Welcome Home", 
       footer: "Protected by GDPR • Encrypted with Love" 
     },
     DE: { 
-      slogan: "Dein Licht beginnt hier 🌿", 
+      slogan: "Dein Licht beginnt hier", 
       valueProp: "Ein sicheres Sanctuary um deine Wahrheit durch Gesundheitsmonitoring und Fürsorge zu strahlen", 
       getStarted: "Werde Teil des Kreises", 
       signIn: "Willkommen Zuhause", 

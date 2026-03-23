@@ -26,6 +26,7 @@ import { playHeartbeat } from '@/lib/resonance';
  * @fileOverview Immediate Help (SOS) Portal.
  * Categorized support pathways: Emergency, Circle, Stillness.
  * Enhanced with Mesh-based location sharing.
+ * Punctuation-free for resonance.
  */
 
 const CONTENT = {

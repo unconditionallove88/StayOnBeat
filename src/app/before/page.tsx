@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
  * @fileOverview Phase: Before (Preparation Protocol).
  * Provides tailored weight-based hydration and 23:00 rest guidance.
  * Vision: Living inside out, starting with self-love.
+ * Punctuation-free for resonance.
  */
 
 const CONTENT = {
@@ -27,7 +28,7 @@ const CONTENT = {
       essentials: "Essentials"
     },
     hydrationAdvice: (liters: number) => `Based on your essence, drink ${liters} liters of water today Add electrolytes to maintain mineral balance`,
-    nutritionAdvice: "Eat a solid, balanced meal 3 hours before you head out Avoid heavy, processed foods",
+    nutritionAdvice: "Eat a solid balanced meal 3 hours before you head out Avoid heavy processed foods",
     restAdvice: "Prioritize restful sleep and be in bed before 23:00 to ensure your body recovers and stores energy for the light ahead",
     essentialsAdvice: "Charge your phone to 100% Check in with your circle and sync your Pulse baseline",
     button: "I am prepared"
@@ -36,16 +37,16 @@ const CONTENT = {
     title: "Vorbereitung",
     subtitle: "Von innen heraus strahlen",
     header: "Bereit zu strahlen?",
-    description: "Ich liebe und schätze meinen inneren Zustand genug, um meinen Körper auf die bevorstehende Reise vorzubereiten",
+    description: "Ich liebe und schätze meinen inneren Zustand genug um meinen Körper auf die bevorstehende Reise vorzubereiten",
     sections: {
       hydration: "Hydrierung",
       nutrition: "Ernährung",
       rest: "Erholung",
       essentials: "Essentials"
     },
-    hydrationAdvice: (liters: number) => `Basierend auf deinem Körpergewicht, trink heute ${liters} Liter Wasser Füge Elektrolyte hinzu, um den Haushalt zu stabilisieren`,
-    nutritionAdvice: "Iss 3 Stunden vor dem Aufbruch eine ausgewogene Mahlzeit Vermeide schwere, verarbeitete Lebensmittel",
-    restAdvice: "Priorisiere erholsamen Schlaf und sei vor 23:00 Uhr im Bett, damit dein Körper regenerieren und Energie für das Licht sammeln kann",
+    hydrationAdvice: (liters: number) => `Basierend auf deinem Körpergewicht trink heute ${liters} Liter Wasser Füge Elektrolyte hinzu um den Haushalt zu stabilisieren`,
+    nutritionAdvice: "Iss 3 Stunden vor dem Aufbruch eine ausgewogene Mahlzeit Vermeide schwere verarbeitete Lebensmittel",
+    restAdvice: "Priorisiere erholsamen Schlaf und sei vor 23:00 Uhr im Bett damit dein Körper regenerieren und Energie für das Licht sammeln kann",
     essentialsAdvice: "Lade dein Handy auf 100% Melde dich bei deinem Circle und kalibriere deine Pulse-Baseline",
     button: "Ich bin bereit"
   }
@@ -181,7 +182,7 @@ export default function BeforePhase() {
       <footer className="fixed bottom-0 left-0 right-0 h-[100px] bg-black/90 backdrop-blur-xl border-t border-white/5 flex items-center justify-center px-6 z-50">
         <button 
           onClick={() => router.push("/dashboard")}
-          className="w-full max-w-sm py-6 bg-[#10B981] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-emerald-500/20"
+          className="w-full max-sm py-6 bg-[#10B981] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-emerald-500/20"
         >
           {t.button}
         </button>

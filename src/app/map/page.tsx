@@ -16,6 +16,7 @@ import LoveCircle from '@/components/dashboard/LoveCircle';
 /**
  * @fileOverview High-Fidelity Organic Radar ("The Pulse").
  * Integrated with the Sovereign Mesh for location sharing.
+ * Punctuation-free for resonance.
  */
 
 const CONTENT = {
@@ -24,7 +25,7 @@ const CONTENT = {
     here: "I am here 🌿",
     visible: "Visible",
     private: "Private",
-    respect: "I respect my state 🌿",
+    respect: "I respect my state",
     sanctuary: "Privacy is my sanctuary",
     distress: (name: string) => `${name} needs care`,
     currentPulse: (status: string) => `Current Pulse: ${status}`,
@@ -36,7 +37,7 @@ const CONTENT = {
     here: "Ich bin hier 🌿",
     visible: "Sichtbar",
     private: "Privat",
-    respect: "Ich achte auf mich 🌿",
+    respect: "Ich achte auf mich",
     sanctuary: "Privatsphäre ist mein Raum",
     distress: (name: string) => `${name} braucht Begleitung`,
     currentPulse: (status: string) => `Aktueller Status: ${status}`,

@@ -9,6 +9,12 @@ import { useFirestore, useUser, updateDocumentNonBlocking } from '@/firebase';
 import { doc, serverTimestamp } from 'firebase/firestore';
 import { checkSafetyStatus } from '@/lib/guardian';
 
+/**
+ * @fileOverview Wearables Sync Component.
+ * Deeply integrated with Sovereign Mesh protocols.
+ * Punctuation-free for resonance.
+ */
+
 const DEVICES = [
   { id: 'apple', name: 'Apple Watch', icon: Smartphone, color: 'text-white' },
   { id: 'oura', name: 'Oura Ring', icon: Watch, color: 'text-[#EBFB3B]' },
@@ -27,9 +33,9 @@ const CONTENT = {
     guardianInfo: "Pulse Guardian uses your resting BPM as a baseline for safety thresholds Shared via Sovereign Mesh",
     done: "Done",
     thresholdExceeded: "Safety Threshold Exceeded",
-    restNotice: (hr: number) => `Vitals (HR: ${hr}) require immediate rest. Protection active.`,
+    restNotice: (hr: number) => `Vitals (HR: ${hr}) require immediate rest Protection active`,
     calibrated: "Pulse Calibrated",
-    restingSet: (bpm: number) => `Resting BPM set to ${bpm}. Your health data is now synced via Mesh.`
+    restingSet: (bpm: number) => `Resting BPM set to ${bpm} Your health data is now synced via Mesh`
   },
   de: {
     title: "Vital-Sync",
@@ -42,9 +48,9 @@ const CONTENT = {
     guardianInfo: "Pulse Guardian nutzt deinen Ruheplus als Basis für deine Sicherheit Übertragung per Sovereign Mesh",
     done: "Fertig",
     thresholdExceeded: "Sicherheitslimit überschritten",
-    restNotice: (hr: number) => `Deine Vitalwerte (Puls: ${hr}) benötigen Ruhe. Schutz aktiv.`,
+    restNotice: (hr: number) => `Deine Vitalwerte (Puls: ${hr}) benötigen Ruhe Schutz aktiv`,
     calibrated: "Puls kalibriert",
-    restingSet: (bpm: number) => `Ruhepuls auf ${bpm} gesetzt. Deine Daten sind via Mesh synchronisiert.`
+    restingSet: (bpm: number) => `Ruhepuls auf ${bpm} gesetzt Deine Daten sind via Mesh synchronisiert`
   }
 };
 

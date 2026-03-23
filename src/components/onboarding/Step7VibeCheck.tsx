@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -12,6 +13,7 @@ import NotificationPrompt from '@/components/dashboard/NotificationPrompt';
 /**
  * @fileOverview Mood Check-in Onboarding Step.
  * High-fidelity Resonance Icons implemented with an organic color palette.
+ * Punctuation-free for resonance.
  */
 
 const VIBE_OPTIONS = [
@@ -51,7 +53,7 @@ const VIBE_OPTIONS = [
     de: 'Verschwommen', 
     icon: HazyIcon, 
     description: 'It is okay to rest and be still', 
-    deDescription: 'Es ist okay, sich auszuruhen', 
+    deDescription: 'Es ist okay sich auszuruhen', 
     color: 'text-slate-400', 
     activeColor: 'bg-slate-500/10 border-slate-500 shadow-[0_0_20px_rgba(107,114,128,0.3)]' 
   },
@@ -61,7 +63,7 @@ const VIBE_OPTIONS = [
     de: 'Überwältigt', 
     icon: HeldIcon, 
     description: 'You are held. Your circle is here', 
-    deDescription: 'Du wirst gehalten. Dein Kreis ist hier', 
+    deDescription: 'Du wirst gehalten Dein Kreis ist hier', 
     color: 'text-blue-400', 
     activeColor: 'bg-blue-500/10 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)]' 
   },
@@ -132,7 +134,7 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
           {lang === 'EN' ? 'Mood calibrated' : 'Stimmung kalibriert'}
         </h2>
         <p className="text-white/60 text-lg font-bold max-sm leading-tight">
-          {lang === 'EN' ? 'StayOnBeat sees you. I am loved' : 'StayOnBeat sieht dich. Ich werde geliebt'}
+          {lang === 'EN' ? 'StayOnBeat sees you I am loved' : 'StayOnBeat sieht dich Ich werde geliebt'}
         </p>
       </div>
     );

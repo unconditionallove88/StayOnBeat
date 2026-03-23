@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -18,9 +19,9 @@ const i18n = {
     title: "Co-Creation",
     subtitle: "Your voice shapes this sanctuary",
     types: [
-      { key: "resonance", label: "What resonates?", placeholder: "What feels right, warm, or true to you in this app" },
-      { key: "dissonance", label: "Where is the dissonance?", placeholder: "What feels off, missing, or could be more human" },
-      { key: "evolution", label: "What would you add?", placeholder: "A feature, a word, a feeling you wish was here" },
+      { key: "resonance", label: "What resonates?", placeholder: "What feels right warm or true to you in this app" },
+      { key: "dissonance", label: "Where is the dissonance?", placeholder: "What feels off missing or could be more human" },
+      { key: "evolution", label: "What would you add?", placeholder: "A feature a word a feeling you wish was here" },
       { key: "safety", label: "Do you feel cared for?", placeholder: "Tell us honestly Feeling cared for is our foundation" },
       { key: "survey", label: "App Survey 📋", placeholder: "Help us test the sanctuary Your feedback helps us grow" },
     ],
@@ -29,25 +30,25 @@ const i18n = {
     sending: "Sending...",
     successTitle: "Heard",
     successMsg: "Your words have been received with love They will help this space grow",
-    shareMore: "Share more 🌱",
+    shareMore: "Share more",
     receivedWithLove: "Received with Unconditional Love"
   },
   de: {
     title: "Ko-Kreation",
     subtitle: "Deine Stimme gestaltet diesen Raum",
     types: [
-      { key: "resonance", label: "Was resoniert?", placeholder: "Was fühlt sich richtig, warm oder wahr an in dieser App" },
-      { key: "dissonance", label: "Wo ist die Dissonanz?", placeholder: "Was fühlt sich falsch an, fehlt oder könnte menschlicher sein" },
-      { key: "evolution", label: "Was würdest du hinzufügen?", placeholder: "Eine Funktion, ein Wort, ein Gefühl, das du dir hier wünschst" },
-      { key: "safety", label: "Fühlst du dich umsorgt?", placeholder: "Sag es uns ehrlich Das Gefühl, umsorgt zu werden, ist unser Fundament" },
-      { key: "survey", label: "App Umfrage 📋", placeholder: "Hilf uns, das Sanctuary zu testen Dein Feedback hilft uns zu wachsen" },
+      { key: "resonance", label: "Was resoniert?", placeholder: "Was fühlt sich richtig warm oder wahr an in dieser App" },
+      { key: "dissonance", label: "Wo ist die Dissonanz?", placeholder: "Was fühlt sich falsch an fehlt oder könnte menschlicher sein" },
+      { key: "evolution", label: "Was würdest du hinzufügen?", placeholder: "Eine Funktion ein Wort ein Gefühl das du dir hier wünschst" },
+      { key: "safety", label: "Fühlst du dich umsorgt?", placeholder: "Sag es uns ehrlich Das Gefühl umsorgt zu werden ist unser Fundament" },
+      { key: "survey", label: "App Umfrage 📋", placeholder: "Hilf uns das Sanctuary zu testen Dein Feedback hilft uns zu wachsen" },
     ],
     send: "Von Herzen senden",
     openSurvey: "Sanctuary Umfrage öffnen",
     sending: "Wird gesendet...",
     successTitle: "Gehört",
     successMsg: "Deine Worte wurden mit Liebe empfangen Sie helfen diesem Raum zu wachsen",
-    shareMore: "Mehr teilen 🌱",
+    shareMore: "Mehr teilen",
     receivedWithLove: "Mit bedingungsloser Liebe empfangen"
   },
 };

@@ -19,7 +19,8 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview Access Sanctuary (Auth) Page.
- * Calibrated German localization (Refugium -> Sanctuary).
+ * Visuals refined for subtle influence and "Inside Out" vision.
+ * Punctuation-free affirmations.
  */
 
 const CONTENT = {
@@ -37,7 +38,7 @@ const CONTENT = {
     alreadyAccount: "Already have an account? Sign In",
     newHere: "New here? Join the circle",
     staffAccess: "StayOnBeat • Staff Access via awareness@love.com",
-    errorMsg: "The sanctuary is calibrating... please try again 🌿"
+    errorMsg: "The sanctuary is calibrating please try again"
   },
   de: {
     welcome: "Willkommen Zuhause",
@@ -53,7 +54,7 @@ const CONTENT = {
     alreadyAccount: "Bereits ein Konto? Anmelden",
     newHere: "Neu hier? Werde Teil des Kreises",
     staffAccess: "StayOnBeat • Team-Zugang über awareness@love.com",
-    errorMsg: "Das Sanctuary kalibriert sich... bitte versuche es erneut 🌿"
+    errorMsg: "Das Sanctuary kalibriert sich bitte versuche es erneut"
   }
 };
 
