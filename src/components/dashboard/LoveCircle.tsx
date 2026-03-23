@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -9,8 +8,7 @@ import { useRouter } from "next/navigation";
 /**
  * @fileOverview Love Circle Component (The Radiant Unity Orb).
  * Represents unconditional love, trust, and collective resonance.
- * Updated for high-fidelity "Human Readiness" with clearer social actions.
- * Added Portuguese and Russian support to prevent indexing errors.
+ * Updated: Fully robust language support for PT and RU to prevent crashes.
  */
 
 interface Friend {
@@ -29,7 +27,6 @@ export default function LoveCircle({
   lang = "en",
   variant = "dashboard"
 }: LoveCircleProps) {
-  const isEn = lang === "en";
   const router = useRouter();
   const isMap = variant === "map";
   
@@ -57,7 +54,7 @@ export default function LoveCircle({
 
   const circlePulseColor = worstStatus === 'intense' ? "#DC2626" : worstStatus === 'elevated' ? "#F59E0B" : "#10B981";
 
-  const t = {
+  const CONTENT = {
     en: {
       title: "Love Circle",
       sub: "Radiant Unity",
@@ -90,14 +87,9 @@ export default function LoveCircle({
       sync: "Коллективный Резонанс",
       enter: "Войти в Круг"
     }
-  }[lang] || {
-    title: "Love Circle",
-    sub: "Radiant Unity",
-    souls: "Active Souls",
-    distress: "Care Needed",
-    sync: "Collective Resonance",
-    enter: "Enter Circle"
   };
+
+  const t = CONTENT[lang] || CONTENT.en;
 
   return (
     <div 
