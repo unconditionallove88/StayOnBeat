@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -11,6 +12,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 /**
  * @fileOverview Phase: Before (Preparation Protocol).
  * Integrated core affirmation and support for EN, DE, PT, RU.
+ * Corrected PT/RU correspondence for the preparation footer.
  */
 
 const CONTENT = {
@@ -22,7 +24,8 @@ const CONTENT = {
     nutritionAdvice: "Eat a solid balanced meal 3 hours before you head out Avoid heavy processed foods",
     restAdvice: "Prioritize restful sleep and be in bed before 23:00 to ensure your body recovers and stores energy for the light ahead",
     essentialsAdvice: "Charge your phone to 100% Check in with your circle and sync your Pulse baseline",
-    button: "I am prepared"
+    button: "I am prepared",
+    footerAdvice: "Preparation is the first act of self-care Radiate your truth from the inside out and your future self will thank you"
   },
   de: {
     title: "Vorbereitung", subtitle: "Von innen heraus strahlen", header: "Bereit zu strahlen?",
@@ -32,7 +35,8 @@ const CONTENT = {
     nutritionAdvice: "Iss 3 Stunden vor dem Aufbruch eine ausgewogene Mahlzeit Vermeide schwere verarbeitete Lebensmittel",
     restAdvice: "Priorisiere erholsamen Schlaf und sei vor 23:00 Uhr im Bett damit dein Körper regenerieren und Energie für das Licht sammeln kann",
     essentialsAdvice: "Lade dein Handy auf 100% Melde dich bei deinem Circle und kalibriere deine Pulse-Baseline",
-    button: "Ich bin bereit"
+    button: "Ich bin bereit",
+    footerAdvice: "Vorbereitung ist der erste Akt der Selbstfürsorge Strahle deine Wahrheit von innen nach außen und dein zukünftiges Ich wird es dir danken"
   },
   pt: {
     title: "Preparação", subtitle: "Irradie por dentro", header: "Pronto para brilhar?",
@@ -42,7 +46,8 @@ const CONTENT = {
     nutritionAdvice: "Faça uma refeição equilibrada 3 horas antes de sair Evite alimentos pesados processados",
     restAdvice: "Priorize um sono reparador e esteja na cama antes das 23:00 para garantir que seu corpo se recupere e armazene energia",
     essentialsAdvice: "Carregue seu telefone a 100% Verifique seu círculo e sincronize sua linha de base de Pulso",
-    button: "Estou preparado"
+    button: "Estou preparado",
+    footerAdvice: "A preparação é o primeiro ato de autocuidado Irradie sua verdade de dentro para fora e seu eu do futuro agradecerá"
   },
   ru: {
     title: "Подготовка", subtitle: "Сияй изнутри", header: "Готов сиять?",
@@ -52,7 +57,8 @@ const CONTENT = {
     nutritionAdvice: "Поешь сбалансированную еду за 3 часа до выхода Избегай тяжелой обработанной пищи",
     restAdvice: "Приоритизируй сон и ложись до 23:00 чтобы тело восстановилось и накопило энергию для света впереди",
     essentialsAdvice: "Заряди телефон на 100% Свяжись со своим кругом и синхронизируй пульс",
-    button: "Я готов"
+    button: "Я готов",
+    footerAdvice: "Подготовка — это первый акт заботы о себе Сияй своей истиной изнутри наружу и твое будущее «я» скажет тебе спасибо"
   }
 };
 
@@ -134,14 +140,14 @@ export default function BeforePhase() {
           <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 flex items-center gap-6">
             <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center shrink-0"><ShieldCheck className="text-emerald-500" size={24} /></div>
             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 leading-relaxed">
-              Preparation is the first act of self-care Radiate your truth from the inside out and your future self will thank you
+              {t.footerAdvice}
             </p>
           </div>
         </div>
       </ScrollArea>
 
       <footer className="fixed bottom-0 left-0 right-0 h-[100px] bg-black/90 backdrop-blur-xl border-t border-white/5 flex items-center justify-center px-6 z-50 pb-safe">
-        <button onClick={() => router.push("/dashboard")} className="w-full max-sm py-6 bg-[#10B981] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-emerald-500/20">{t.button}</button>
+        <button onClick={() => router.push("/dashboard")} className="w-full max-sm py-6 bg-[#10B981] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] active:scale-95 transition-all shadow-lg shadow-emerald-500/20">{t.button}</button>
       </footer>
     </main>
   );

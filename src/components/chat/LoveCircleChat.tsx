@@ -12,7 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 /**
  * @fileOverview The Holders (Those who hold your heart from afar).
  * Framing: I love and respect my trusted ones Pure connection.
- * Updated: Emoji-free transition ritual.
+ * Updated: Replaced shaking hands icon with subtle CircleDot for elegant access.
  */
 
 export function LoveCircleChat() {
@@ -106,7 +106,7 @@ export function LoveCircleChat() {
             <div className="space-y-4 w-full max-w-sm">
               {[
                 { title: "Sacred Bond of Resonance", sub: "Shared only with your inner circle", icon: Lock },
-                { title: "Mutual Holding", sub: "Unity through shared resonance", icon: HeartHandshake }
+                { title: "Mutual Holding", sub: "Unity through shared resonance", icon: CircleDot }
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-6 p-6 bg-white/[0.02] border border-white/5 rounded-[2.5rem] text-left transition-all hover:border-[#10B981]/30 group">
                   <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:scale-110 transition-transform">
@@ -122,7 +122,7 @@ export function LoveCircleChat() {
 
             <button 
               onClick={() => setHasAgreement(true)}
-              className="pill-button w-full max-w-sm bg-[#10B981] text-black text-xl font-black uppercase tracking-widest neon-glow active:scale-95 flex items-center justify-center gap-3 mb-10 shadow-emerald-500/20"
+              className="pill-button w-full max-w-sm bg-[#10B981] text-black text-xl font-black uppercase tracking-widest active:scale-95 flex items-center justify-center gap-3 mb-10"
             >
               Access My Bonds
             </button>
