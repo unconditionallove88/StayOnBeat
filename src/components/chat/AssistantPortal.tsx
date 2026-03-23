@@ -8,10 +8,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
  * @fileOverview AssistantPortal Component.
- * A high-fidelity, phase-based entry screen for the AI Safety Advisor.
- * Fully localized for English and German.
- * Features an active Vitality Bar for quick-access to hydration, pulse, and rest protocols.
- * Enhanced for mobile scrolling on iPhone with touch-pan-y.
+ * Full localization for EN, DE, PT, and RU.
+ * Optimized for mobile touch-pan-y.
  */
 
 interface AssistantPortalProps {
@@ -44,19 +42,45 @@ const i18n = {
     ],
     activeSession: "Aktive Sitzung",
     liveAdvisor: "Live Sicherheits-Berater"
+  },
+  pt: {
+    title: "StayOnBeat",
+    personalAssistant: "Assistente Pessoal",
+    question: "Como está seu estado interior?",
+    subtitle: "Selecione sua fase atual para suporte personalizado de alta fidelidade. 🌿",
+    phases: [
+      { title: "Antes", desc: "Prepare seu corpo e mente" },
+      { title: "Durante", desc: "Fique seguro e conectado" },
+      { title: "Depois", desc: "Recupere e restaure" }
+    ],
+    activeSession: "Sessão Ativa",
+    liveAdvisor: "Assessor de Segurança"
+  },
+  ru: {
+    title: "StayOnBeat",
+    personalAssistant: "Персональный Помощник",
+    question: "Как твое внутреннее состояние?",
+    subtitle: "Выбери текущую фазу для персональной поддержки. 🌿",
+    phases: [
+      { title: "До", desc: "Подготовь тело и разум" },
+      { title: "Во время", desc: "Будь в безопасности и связи" },
+      { title: "После", desc: "Восстановись и отдохни" }
+    ],
+    activeSession: "Активная Сессия",
+    liveAdvisor: "Советник по Безопасности"
   }
 };
 
 export function AssistantPortal({ userProfile }: AssistantPortalProps) {
   const router = useRouter();
-  const [lang, setLang] = useState<'en' | 'de'>('en');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
 
   useEffect(() => {
-    const savedLang = localStorage.getItem('stayonbeat_lang');
-    if (savedLang === 'DE') setLang('de');
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
   }, []);
 
-  const t = i18n[lang];
+  const t = i18n[lang] || i18n.en;
 
   const phases = [
     { 
@@ -84,7 +108,6 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
 
   return (
     <div className="h-full bg-black text-white flex flex-col font-headline relative overflow-hidden">
-      {/* Background atmospheric glow */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-500/5 blur-[100px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 blur-[100px] rounded-full pointer-events-none" />
 
@@ -134,37 +157,14 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
         </div>
       </ScrollArea>
 
-      {/* Vitality Bar - Active Status Protocols */}
       <footer className="absolute bottom-8 left-8 right-8 z-20 pointer-events-none pb-safe">
         <div className="bg-zinc-900/80 backdrop-blur-md border border-white/10 p-4 rounded-full flex justify-around items-center shadow-2xl pointer-events-auto">
-          <button 
-            onClick={() => router.push('/before')}
-            className="p-3 text-zinc-500 hover:text-blue-400 transition-colors active:scale-90"
-            title="Hydration Status"
-          >
-            <div className="hover:scale-110 transition-transform">
-              <Droplets size={24} />
-            </div>
-          </button>
-          <button 
-            onClick={() => router.push('/heart-status')}
-            className="relative active:scale-90 transition-transform"
-            title="Heart Status"
-          >
+          <button onClick={() => router.push('/before')} className="p-3 text-zinc-500 hover:text-blue-400 transition-colors active:scale-90"><Droplets size={24} /></button>
+          <button onClick={() => router.push('/heart-status')} className="relative active:scale-90 transition-transform">
             <div className="absolute inset-0 bg-emerald-500/20 blur-xl rounded-full animate-pulse" />
-            <div className="relative w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-              <Heart className="text-black" fill="black" size={24} />
-            </div>
+            <div className="relative w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center shadow-lg"><Heart className="text-black" fill="black" size={24} /></div>
           </button>
-          <button 
-            onClick={() => router.push('/before')}
-            className="p-3 text-zinc-500 hover:text-emerald-400 transition-colors active:scale-90"
-            title="Energy & Rest"
-          >
-            <div className="hover:scale-110 transition-transform">
-              <Battery size={24} />
-            </div>
-          </button>
+          <button onClick={() => router.push('/before')} className="p-3 text-zinc-500 hover:text-emerald-400 transition-colors active:scale-90"><Battery size={24} /></button>
         </div>
       </footer>
     </div>

@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -9,8 +8,8 @@ import { playHeartbeat } from '@/lib/resonance';
 
 /**
  * @fileOverview Recovery Protocol Page.
- * Securely wipes session data and honors the user's safety streak.
- * Integrated Core Affirmation.
+ * Support for EN, DE, PT, RU.
+ * Integrated core affirmation.
  */
 
 export default function RecoveryView() {
@@ -47,11 +46,11 @@ export default function RecoveryView() {
   }, []);
 
   const affirmation = {
-    en: "I love unconditionally I accept without expectations I am free and I give freedom",
-    de: "Ich liebe bedingungslos Ich akzeptiere ohne Erwartungen Ich bin frei und schenke Freiheit",
-    pt: "Eu amo incondicionalmente Eu aceito sem expectativas Eu sou livre e dou liberdade",
-    ru: "Я люблю безусловно Я принимаю без ожиданий Я свободен и даю свободу"
-  }[lang];
+    en: "I love unconditionally. I accept without expectations. I am free and I give freedom.",
+    de: "Ich liebe bedingungslos. Ich akzeptiere ohne Erwartungen. Ich bin frei und schenke Freiheit.",
+    pt: "Eu amo incondicionalmente. Eu aceito sem expectativas. Eu sou livre e dou liberdade.",
+    ru: "Я люблю безусловно. Я принимаю без ожиданий. Я свободен и даю свободу."
+  }[lang] || "I love unconditionally. I accept without expectations. I am free and I give freedom.";
 
   const generateDetox = (logs: any[]) => {
     const plan: any[] = [];
@@ -96,24 +95,14 @@ export default function RecoveryView() {
     <main className="min-h-screen bg-black text-white font-headline pb-64">
       <div className="bg-black/95 backdrop-blur-xl border-b border-white/5 px-6 py-8 sticky top-0 z-50">
         <div className="max-w-xl mx-auto space-y-6">
-          <button onClick={() => router.back()} className="flex items-center gap-2 text-white/40 uppercase font-black text-[10px] tracking-widest hover:text-[#10B981] transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Back to sanctuary
-          </button>
-          
+          <button onClick={() => router.back()} className="flex items-center gap-2 text-white/40 uppercase font-black text-[10px] tracking-widest hover:text-[#10B981] transition-colors"><ArrowLeft className="w-4 h-4" /> Back to sanctuary</button>
           <div className="flex justify-between items-end">
             <div>
-              <h1 className="text-4xl font-black uppercase tracking-tighter leading-none">
-                {isFinished ? 'Integrated' : 'Recovery'}
-              </h1>
-              <p className="text-[#10B981] text-[10px] font-black uppercase tracking-[0.3em] mt-2">
-                {isFinished ? affirmation : 'Personalized protocol'}
-              </p>
+              <h1 className="text-4xl font-black uppercase tracking-tighter leading-none">{isFinished ? 'Integrated' : 'Recovery'}</h1>
+              <p className="text-[#10B981] text-[10px] font-black uppercase tracking-[0.3em] mt-2 italic">"{isFinished ? affirmation : 'Personalized protocol'}"</p>
             </div>
             <div className="flex flex-col items-end gap-3">
-              <div className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center gap-2">
-                <Heart className="w-3 h-3 text-[#10B981] fill-[#10B981] animate-pulse-heart" />
-                <span className="text-[8px] font-black text-[#10B981] uppercase tracking-widest">Active Protection</span>
-              </div>
+              <div className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center gap-2"><Heart className="w-3 h-3 text-[#10B981] fill-[#10B981] animate-pulse-heart" /><span className="text-[8px] font-black text-[#10B981] uppercase tracking-widest">Active Protection</span></div>
               {!isFinished && <span className="font-mono text-[#10B981] text-xs font-black">{timeLeft}</span>}
             </div>
           </div>
@@ -123,30 +112,20 @@ export default function RecoveryView() {
       <div className="px-6 py-10 max-w-xl mx-auto space-y-12">
         {isFinished && (
           <div className="text-center py-10 space-y-6 animate-in fade-in zoom-in duration-1000">
-            <p className="text-2xl font-black uppercase tracking-tighter text-[#10B981] leading-tight max-w-[300px] mx-auto italic">
-              "{affirmation}"
-            </p>
+            <p className="text-2xl font-black uppercase tracking-tighter text-[#10B981] leading-tight max-w-[300px] mx-auto italic">"{affirmation}"</p>
           </div>
         )}
 
         <div className="bg-blue-500/10 border border-blue-500/20 p-8 rounded-[2.5rem] flex items-start gap-6">
           <ShieldCheck className="w-8 h-8 text-blue-400 shrink-0" />
           <div className="space-y-2">
-            <p className="text-base font-bold text-white/90 leading-tight">
-              {isFinished ? 'Your session data has been securely wiped' : 'Personalized protocol generated based on your session logs'}
-            </p>
-            <p className="text-[10px] uppercase font-black text-white/40 tracking-widest">
-              {isFinished ? 'Privacy protocols finalized' : `Data analyzed: ${sessionLogs.length} intake events recorded`}
-            </p>
+            <p className="text-base font-bold text-white/90 leading-tight">{isFinished ? 'Your session data has been securely wiped' : 'Personalized protocol generated based on your session logs'}</p>
+            <p className="text-[10px] uppercase font-black text-white/40 tracking-widest">{isFinished ? 'Privacy protocols finalized' : `Data analyzed: ${sessionLogs.length} intake events recorded`}</p>
           </div>
         </div>
 
         <section className="space-y-6">
-          <div className="flex items-center gap-4 mb-4 px-2">
-             <HeartPulse className="w-6 h-6 text-[#10B981]" />
-             <h3 className="text-xl font-black uppercase tracking-tight">Your Integration Timeline</h3>
-          </div>
-
+          <div className="flex items-center gap-4 mb-4 px-2"><HeartPulse className="w-6 h-6 text-[#10B981]" /><h3 className="text-xl font-black uppercase tracking-tight">Your Integration Timeline</h3></div>
           <div className="grid gap-4">
             {detoxPlan.length > 0 ? (
               detoxPlan.map((p) => (
@@ -154,10 +133,7 @@ export default function RecoveryView() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <div className={cn("p-3 rounded-2xl bg-white/5", p.color)}><p.icon className="w-6 h-6" /></div>
-                      <div className="flex flex-col">
-                        <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">{p.time}</span>
-                        <span className="text-xl font-black uppercase text-white">{p.text}</span>
-                      </div>
+                      <div className="flex flex-col"><span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">{p.time}</span><span className="text-xl font-black uppercase text-white">{p.text}</span></div>
                     </div>
                     <CheckCircle2 className="w-5 h-5 text-[#10B981]/20 group-hover:text-[#10B981] transition-colors" />
                   </div>
@@ -165,10 +141,7 @@ export default function RecoveryView() {
                 </div>
               ))
             ) : (
-              <div className="flex flex-col items-center gap-6 py-16 text-white/10 bg-white/5 rounded-[3rem] border-2 border-dashed border-white/5">
-                <Timer className="w-12 h-12 opacity-20" />
-                <p className="text-[10px] font-black uppercase tracking-[0.4em]">No session logs detected</p>
-              </div>
+              <div className="flex flex-col items-center gap-6 py-16 text-white/10 bg-white/5 rounded-[3rem] border-2 border-dashed border-white/5"><Timer className="w-12 h-12 opacity-20" /><p className="text-[10px] font-black uppercase tracking-[0.4em]">No session logs detected</p></div>
             )}
           </div>
         </section>
@@ -176,26 +149,18 @@ export default function RecoveryView() {
         {!isFinished && (
           <div className="bg-red-600/5 border border-red-600/20 p-8 rounded-[2.5rem] text-center">
             <div className="flex justify-center mb-4"><Trash2 size={24} className="text-red-500/40" /></div>
-            <p className="text-[10px] font-black text-red-500/40 uppercase tracking-[0.3em] leading-relaxed max-w-[280px] mx-auto">
-              Completing this protocol will permanently wipe session logs and location history for your privacy
-            </p>
+            <p className="text-[10px] font-black text-red-500/40 uppercase tracking-[0.3em] leading-relaxed max-w-[280px] mx-auto">Completing this protocol will permanently wipe session logs and location history for your privacy</p>
           </div>
         )}
       </div>
 
-      <footer className="fixed bottom-0 left-0 right-0 h-auto min-h-[120px] py-8 bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-50 gap-4">
+      <footer className="fixed bottom-0 left-0 right-0 h-auto min-h-[120px] py-8 bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-50 gap-4 pb-safe">
         {!isFinished ? (
           <button onClick={handleFinish} className="w-full max-w-sm py-6 bg-[#10B981] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-emerald-500/20">Complete Session & Log Streak</button>
         ) : (
           <div className="w-full max-w-sm flex flex-col gap-4 animate-in slide-in-from-bottom-4 duration-500">
             <button onClick={() => router.push('/dashboard')} className="w-full py-6 bg-white text-black rounded-full font-black uppercase text-lg tracking-[0.1em] active:scale-95 transition-all shadow-lg">Return to Sanctuary</button>
-            <button onClick={() => window.open("https://ev32k2sgx09.typeform.com/to/a33evEfp", "_blank")} className="w-full p-6 bg-[#10B981]/10 border border-[#10B981]/30 rounded-[2rem] flex items-center justify-between group hover:bg-[#10B981]/20 transition-all">
-              <div className="text-left">
-                <p className="text-sm font-black uppercase text-white tracking-tight">Help us improve StayOnBeat</p>
-                <p className="text-[10px] font-bold text-[#10B981] uppercase tracking-widest mt-1">4minutes · anonymous</p>
-              </div>
-              <ExternalLink size={20} className="text-[#10B981] opacity-40 group-hover:opacity-100 transition-opacity" />
-            </button>
+            <button onClick={() => window.open("https://ev32k2sgx09.typeform.com/to/a33evEfp", "_blank")} className="w-full p-6 bg-[#10B981]/10 border border-[#10B981]/30 rounded-[2rem] flex items-center justify-between group hover:bg-[#10B981]/20 transition-all"><div className="text-left"><p className="text-sm font-black uppercase text-white tracking-tight">Help us improve StayOnBeat</p><p className="text-[10px] font-bold text-[#10B981] uppercase tracking-widest mt-1">4minutes · anonymous</p></div><ExternalLink size={20} className="text-[#10B981] opacity-40 group-hover:opacity-100 transition-opacity" /></button>
           </div>
         )}
       </footer>

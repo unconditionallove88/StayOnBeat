@@ -5,7 +5,7 @@ import { HeartHandshake, AlertTriangle, ShieldAlert } from "lucide-react";
 
 /**
  * @fileOverview GuardianStatusBar Component.
- * Provides high-fidelity visual feedback on the user's current safety rhythm.
+ * Supports EN, DE, PT, RU.
  */
 
 type Status = "safe" | "caution" | "locked";
@@ -13,7 +13,7 @@ type Status = "safe" | "caution" | "locked";
 interface Props {
   status: Status;
   heartRate?: number;
-  lang?: "en" | "de";
+  lang?: "en" | "de" | "pt" | "ru";
 }
 
 export default function GuardianStatusBar({
@@ -21,33 +21,41 @@ export default function GuardianStatusBar({
   heartRate,
   lang = "en",
 }: Props) {
-  const isEn = lang === "en";
-
   const config = {
     safe: {
-      color: "#10B981", // Emerald
+      color: "#10B981",
       icon: <HeartHandshake size={16} />,
-      text: isEn
-        ? "Pulse Guardian: You are in a steady rhythm."
-        : "Pulse Guardian: Du bist in einem stabilen Rhythmus.",
+      text: {
+        en: "Pulse Guardian: You are in a steady rhythm.",
+        de: "Pulse Guardian: Du bist in einem stabilen Rhythmus.",
+        pt: "Pulse Guardian: Você está em um ritmo estável.",
+        ru: "Pulse Guardian: Твой ритм стабилен."
+      }
     },
     caution: {
-      color: "#F59E0B", // Amber
+      color: "#F59E0B",
       icon: <AlertTriangle size={16} />,
-      text: isEn
-        ? "Pulse Guardian: Your heart is elevated."
-        : "Pulse Guardian: Dein Herz ist erhöht.",
+      text: {
+        en: "Pulse Guardian: Your heart is elevated.",
+        de: "Pulse Guardian: Dein Herz ist erhöht.",
+        pt: "Pulse Guardian: Seu coração está acelerado.",
+        ru: "Pulse Guardian: Пульс повышен."
+      }
     },
     locked: {
-      color: "#DC2626", // Red
+      color: "#DC2626",
       icon: <ShieldAlert size={16} />,
-      text: isEn
-        ? "Pulse Guardian: Session Paused for Safety."
-        : "Pulse Guardian: Sitzung zur Sicherheit pausiert.",
+      text: {
+        en: "Pulse Guardian: Session Paused for Safety.",
+        de: "Pulse Guardian: Sitzung zur Sicherheit pausiert.",
+        pt: "Pulse Guardian: Sessão pausada por segurança.",
+        ru: "Pulse Guardian: Сессия приостановлена."
+      }
     },
   };
 
   const current = config[status] || config.safe;
+  const displayText = (current.text as any)[lang] || (current.text as any).en;
 
   return (
     <div
@@ -60,7 +68,7 @@ export default function GuardianStatusBar({
     >
       <div className="flex-shrink-0">{current.icon}</div>
       <p className="text-[11px] font-black uppercase tracking-wider">
-        {current.text}
+        {displayText}
         {heartRate !== undefined && ` • ${heartRate} BPM`}
       </p>
     </div>

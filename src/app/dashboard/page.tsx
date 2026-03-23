@@ -77,10 +77,10 @@ function SkyIcon() {
 }
 
 const AFFIRMATIONS = {
-  EN: ["I am loved", "Truth is love", "Life is a radiant gift", "I cherish this breath", "Equality is my nature", "I love unconditionally I accept without expectations I am free and I give freedom"],
-  DE: ["Ich bin geliebt", "Wahrheit ist liebe", "Das Leben ist ein strahlendes Geschenk", "Ich schätze diesen Atemzug", "Gleichheit ist meine Natur", "Ich liebe bedingungslos Ich akzeptiere ohne Erwartungen Ich bin frei und schenke Freiheit"],
-  PT: ["Eu sou amado", "A verdade é amor", "A vida é um presente radiante", "Eu valorizo este sopro", "A igualdade é a minha natureza", "Eu amo incondicionalmente Eu aceito sem expectativas Eu sou livre e dou liberdade"],
-  RU: ["Я любим", "Истина есть любовь", "Жизнь — это сияющий дар", "Я дорожу этим вдохом", "Равенство — моя природа", "Я люблю безусловно Я принимаю без ожиданий Я свободен и даю свободу"]
+  EN: ["I am loved", "Truth is love", "Life is a radiant gift", "I cherish this breath", "Equality is my nature", "I love unconditionally. I accept without expectations. I am free and I give freedom."],
+  DE: ["Ich bin geliebt", "Wahrheit ist liebe", "Das Leben ist ein strahlendes Geschenk", "Ich schätze diesen Atemzug", "Gleichheit ist meine Natur", "Ich liebe bedingungslos. Ich akzeptiere ohne Erwartungen. Ich bin frei und schenke Freiheit."],
+  PT: ["Eu sou amado", "A verdade é amor", "A vida é um presente radiante", "Eu valorizo este sopro", "A igualdade é a minha natureza", "Eu amo incondicionalmente. Eu aceito sem expectativas. Eu sou livre e dou liberdade."],
+  RU: ["Я любим", "Истина есть любовь", "Жизнь — это сияющий дар", "Я дорожу этим вдохом", "Равенство — моя природа", "Я люблю безусловно. Я принимаю без ожиданий. Я свободен и даю свободу."]
 };
 
 const TOOLTIPS = {
@@ -226,7 +226,7 @@ function DashboardContent() {
                   mood={firestoreProfile?.vibe?.currentLabel || (lang === 'ru' ? "Спокойно" : lang === 'pt' ? "Estável" : lang === 'de' ? "Stabil" : "Steady")}
                   lang={lang} 
                 />
-                <p className="text-xs font-bold uppercase tracking-widest text-[#10B981] italic">"{affirmation}"</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-[#10B981] italic px-10">"{affirmation}"</p>
               </div>
             </Link>
           </div>
