@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
  * @fileOverview Love Circle Component (The Radiant Unity Orb).
  * Represents unconditional love, trust, and collective resonance.
  * Updated for high-fidelity "Human Readiness" with clearer social actions.
+ * Added Portuguese and Russian support to prevent indexing errors.
  */
 
 interface Friend {
@@ -20,7 +21,7 @@ interface Friend {
 }
 
 interface LoveCircleProps {
-  lang?: "en" | "de";
+  lang?: "en" | "de" | "pt" | "ru";
   variant?: "dashboard" | "map";
 }
 
@@ -72,8 +73,31 @@ export default function LoveCircle({
       distress: "Fürsorge benötigt",
       sync: "Gemeinsame Resonanz",
       enter: "Circle betreten"
+    },
+    pt: {
+      title: "Círculo de Amor",
+      sub: "Unidade Radiante",
+      souls: "Almas Ativas",
+      distress: "Cuidado Necessário",
+      sync: "Ressonância Coletiva",
+      enter: "Entrar no Círculo"
+    },
+    ru: {
+      title: "Круг Любви",
+      sub: "Сияющее Единство",
+      souls: "Активные Души",
+      distress: "Нужна Помощь",
+      sync: "Коллективный Резонанс",
+      enter: "Войти в Круг"
     }
-  }[lang];
+  }[lang] || {
+    title: "Love Circle",
+    sub: "Radiant Unity",
+    souls: "Active Souls",
+    distress: "Care Needed",
+    sync: "Collective Resonance",
+    enter: "Enter Circle"
+  };
 
   return (
     <div 
