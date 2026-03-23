@@ -32,7 +32,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import CareShield from '@/components/dashboard/CareShield';
 import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
-import { SOSAlert } from '@/components/dashboard/SOSAlert';
 
 /**
  * @fileOverview Pulse Lab component.
@@ -51,71 +50,31 @@ const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: num
 
 const CONTENT = {
   en: {
-    title: "Pulse Lab",
-    advisor: "Open Safety Advisor",
-    context: "Contextual check",
-    search: "Search substances...",
-    diary: "Session Diary",
-    records: "Records",
-    sync: "Sync Session",
-    intake: "Log Intake Entry",
-    confirm: "Confirm & Log Intake",
-    cancel: "Cancel Entry",
-    amount: "Amount",
-    doseLogged: "Dose logged",
-    addedToDiary: "added to your session diary",
-    causionTitle: "Pulse Guardian: Caution 🧪",
+    title: "Pulse Lab", advisor: "Open Safety Advisor", context: "Contextual check", search: "Search substances...",
+    diary: "Session Diary", records: "Records", sync: "Sync Session", intake: "Log Intake Entry",
+    confirm: "Confirm & Log Intake", cancel: "Cancel Entry", amount: "Amount", doseLogged: "Dose logged",
+    addedToDiary: "added to your session diary", causionTitle: "Pulse Guardian: Caution 🧪",
     poppersHR: (hr: number) => `Your heart rate is ${hr} BPM Poppers will drop your blood pressure sharply Please sit down and breathe before use`
   },
   de: {
-    title: "Sitzungs-Labor",
-    advisor: "Sicherheits-Begleiter",
-    context: "Dein Rhythmus",
-    search: "Substanzen suchen...",
-    diary: "Sitzungs-Tagebuch",
-    records: "Einträge",
-    sync: "Sitzung synchronisieren",
-    intake: "Eintrag notieren",
-    confirm: "Bestätigen & Notieren",
-    cancel: "Abbrechen",
-    amount: "Menge",
-    doseLogged: "Dosis notiert",
-    addedToDiary: "wurde deinem Tagebuch hinzugefügt",
-    causionTitle: "Pulse Guardian: Vorsicht 🧪",
+    title: "Sitzungs-Labor", advisor: "Sicherheits-Begleiter", context: "Dein Rhythmus", search: "Substanzen suchen...",
+    diary: "Sitzungs-Tagebuch", records: "Einträge", sync: "Sitzung synchronisieren", intake: "Eintrag notieren",
+    confirm: "Bestätigen & Notieren", cancel: "Abbrechen", amount: "Menge", doseLogged: "Dosis notiert",
+    addedToDiary: "wurde deinem Tagebuch hinzugefügt", causionTitle: "Pulse Guardian: Vorsicht 🧪",
     poppersHR: (hr: number) => `Dein Puls liegt bei ${hr} BPM Poppers senkt den Blutdruck stark ab Bitte nimm dir einen Moment Zeit, setz dich hin und atme tief durch`
   },
   pt: {
-    title: "Pulse Lab",
-    advisor: "Abrir Assessor de Segurança",
-    context: "Verificação contextual",
-    search: "Buscar substâncias...",
-    diary: "Diário da Sessão",
-    records: "Registros",
-    sync: "Sincronizar Sessão",
-    intake: "Registrar Entrada",
-    confirm: "Confirmar e Registrar",
-    cancel: "Cancelar Entrada",
-    amount: "Quantidade",
-    doseLogged: "Dose registrada",
-    addedToDiary: "adicionada ao seu diário de sessão",
-    causionTitle: "Pulse Guardian: Cuidado 🧪",
+    title: "Pulse Lab", advisor: "Abrir Assessor de Segurança", context: "Verificação contextual", search: "Buscar substâncias...",
+    diary: "Diário da Sessão", records: "Registros", sync: "Sincronizar Sessão", intake: "Registrar Entrada",
+    confirm: "Confirmar e Registrar", cancel: "Cancelar Entrada", amount: "Quantidade", doseLogged: "Dose registrada",
+    addedToDiary: "adicionada ao seu diário de sessão", causionTitle: "Pulse Guardian: Cuidado 🧪",
     poppersHR: (hr: number) => `Sua frequência cardíaca é ${hr} BPM Poppers reduzem a pressão arterial bruscamente Por favor sente-se e respire antes de usar`
   },
   ru: {
-    title: "Лаборатория",
-    advisor: "Советник по Безопасности",
-    context: "Контекстная проверка",
-    search: "Поиск веществ...",
-    diary: "Дневник Сессии",
-    records: "Записи",
-    sync: "Синхронизировать Сессию",
-    intake: "Добавить запись",
-    confirm: "Подтвердить и Добавить",
-    cancel: "Отмена",
-    amount: "Количество",
-    doseLogged: "Запись добавлена",
-    addedToDiary: "добавлено в ваш дневник сессии",
-    causionTitle: "Пульс Страж: Осторожно 🧪",
+    title: "Лаборатория", advisor: "Советник по Безопасности", context: "Контекстная проверка", search: "Поиск веществ...",
+    diary: "Дневник Сессии", records: "Записи", sync: "Синхронизировать Сессию", intake: "Добавить запись",
+    confirm: "Подтвердить и Добавить", cancel: "Отмена", amount: "Количество", doseLogged: "Запись добавлена",
+    addedToDiary: "добавлено в ваш дневник сессии", causionTitle: "Пульс Страж: Осторожно 🧪",
     poppersHR: (hr: number) => `Ваш пульс составляет ${hr} уд/мин Попперс резко снижает кровяное давление Пожалуйста присядьте и подышите перед использованием`
   }
 };
@@ -147,7 +106,6 @@ export function Step6SubstanceLab({
 }: { 
   userData: any, 
   onComplete: (subs: any[]) => void,
-  onBack?: () => void,
   showDiary?: boolean,
   isLocked?: boolean
 }) {
@@ -169,7 +127,7 @@ export function Step6SubstanceLab({
     if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
   }, []);
 
-  const t = CONTENT[lang as keyof typeof CONTENT] || CONTENT.en;
+  const t = CONTENT[lang] || CONTENT.en;
 
   const handleSelectSubstance = (substance: any) => {
     const currentHR = userData?.sessionStatus?.lastHeartRate || 75;
@@ -250,7 +208,7 @@ export function Step6SubstanceLab({
 
   return (
     <div className="flex flex-col h-full bg-black font-headline max-w-2xl mx-auto relative overflow-hidden">
-      <header className="px-6 pt-12 pb-4 space-y-4 flex flex-col shrink-0 bg-black/95 backdrop-blur-md z-[60] border-b border-white/5 shadow-2xl">
+      <header className="px-6 pt-12 pb-4 space-y-4 flex flex-col shrink-0 bg-black/95 backdrop-blur-md z-[60] border-b border-white/5">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-[#10B981]/10 flex items-center justify-center border border-[#10B981]/20">
             <Microscope size={32} className="text-white" />
