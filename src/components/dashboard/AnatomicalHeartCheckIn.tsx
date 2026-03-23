@@ -11,11 +11,20 @@ import { cn } from "@/lib/utils";
 /**
  * @fileOverview MoodCheckIn Component.
  * Bespoke Resonance Icons integrated with an organic color palette for a soulful check-in.
+ * Supports EN, DE, PT, RU.
  */
+
+const CONTENT = {
+  en: { title: "Mood Check-in", sub: "How is your mood today?", state: "Current State", calm: "Calm" },
+  de: { title: "Stimmungs Check-in", sub: "Wie ist deine Stimmung heute?", state: "Aktueller Zustand", calm: "Beruhigt" },
+  pt: { title: "Sincronia de Humor", sub: "Como está seu humor hoje?", state: "Estado Atual", calm: "Calmo" },
+  ru: { title: "Настроение", sub: "Как ваше настроение сегодня?", state: "Текущее состояние", calm: "Спокойный" }
+};
 
 export function AnatomicalHeartCheckIn() {
   const { user } = useUser();
   const firestore = useFirestore();
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
   
   const userDocRef = useMemoFirebase(() => {
     if (!firestore || !user?.uid) return null;
@@ -23,28 +32,38 @@ export function AnatomicalHeartCheckIn() {
   }, [firestore, user?.uid]);
 
   const { data: profile } = useDoc(userDocRef);
-  const [status, setStatus] = useState("Calm");
+  const [status, setStatus] = useState("");
+
+  useEffect(() => {
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
+  }, []);
 
   useEffect(() => {
     if (profile?.vibe?.currentLabel) {
       setStatus(profile.vibe.currentLabel);
+    } else {
+      setStatus(CONTENT[lang].calm);
     }
-  }, [profile?.vibe?.currentLabel]);
+  }, [profile?.vibe?.currentLabel, lang]);
+
+  const t = CONTENT[lang];
 
   const statuses = [
-    { id: "radiant", label: "Radiant", color: "#A855F7", icon: RadiantIcon },
-    { id: "harmony", label: "Harmony", color: "#EBFB3B", icon: HarmonyIcon },
-    { id: "calm", label: "Calm", color: "#10B981", icon: CalmIcon },
-    { id: "hazy", label: "Hazy", color: "#94A3B8", icon: HazyIcon },
-    { id: "overwhelmed", label: "Held", color: "#3B82F6", icon: HeldIcon },
+    { id: "radiant", label: { en: "Radiant", de: "Strahlend", pt: "Radiante", ru: "Сияющий" }, color: "#A855F7", icon: RadiantIcon },
+    { id: "harmony", label: { en: "Harmony", de: "In Harmonie", pt: "Em Harmonia", ru: "В Гармонии" }, color: "#EBFB3B", icon: HarmonyIcon },
+    { id: "calm", label: { en: "Calm", de: "Beruhigt", pt: "Calmo", ru: "Спокойный" }, color: "#10B981", icon: CalmIcon },
+    { id: "hazy", label: { en: "Hazy", de: "Verschwommen", pt: "Nebuloso", ru: "Туманный" }, color: "#94A3B8", icon: HazyIcon },
+    { id: "overwhelmed", label: { en: "Held", de: "Überwältigt", pt: "Sobrecarregado", ru: "Перегружен" }, color: "#3B82F6", icon: HeldIcon },
   ];
 
   const handleSelect = (s: typeof statuses[0]) => {
-    setStatus(s.label);
+    const localizedLabel = s.label[lang];
+    setStatus(localizedLabel);
     if (!userDocRef) return;
 
     const checkInRecord = {
-      state: s.label,
+      state: localizedLabel,
       timestamp: new Date().toISOString(),
       context: "Dashboard Mood Check-in",
       color: s.color
@@ -53,22 +72,22 @@ export function AnatomicalHeartCheckIn() {
     updateDocumentNonBlocking(userDocRef, {
       vibe: {
         current: s.id,
-        currentLabel: s.label,
+        currentLabel: localizedLabel,
         lastUpdated: serverTimestamp(),
         history: arrayUnion(checkInRecord)
       }
     });
   };
 
-  const currentStatus = statuses.find(s => s.label === status) || statuses[2];
+  const currentStatus = statuses.find(s => s.label[lang] === status) || statuses[2];
 
   return (
     <div className="flex flex-col items-center p-8 bg-[#0a0a0a] rounded-[3rem] border border-white/10 shadow-2xl font-headline w-full max-w-lg mx-auto">
       <div className="flex items-center gap-3 mb-2">
         <Heart size={24} className="text-[#10B981] fill-[#10B981]/20" />
-        <h3 className="text-white font-black text-2xl uppercase tracking-tighter leading-none">Mood Check-in</h3>
+        <h3 className="text-white font-black text-2xl uppercase tracking-tighter leading-none">{t.title}</h3>
       </div>
-      <p className="text-[#10B981] text-[10px] mb-8 uppercase tracking-[0.4em] font-black text-center">How is your mood today?</p>
+      <p className="text-[#10B981] text-[10px] mb-8 uppercase tracking-[0.4em] font-black text-center">{t.sub}</p>
 
       <div className="relative w-64 h-80 flex items-center justify-center">
         <svg viewBox="0 0 200 250" className="absolute w-full h-full drop-shadow-[0_0_15px_rgba(16,185,129,0.2)]">
@@ -86,7 +105,8 @@ export function AnatomicalHeartCheckIn() {
         <div className="relative z-10 flex flex-col gap-3 items-center">
           {statuses.map((s) => {
             const VibeIcon = s.icon;
-            const isActive = status === s.label;
+            const localizedLabel = s.label[lang];
+            const isActive = status === localizedLabel;
             return (
               <button
                 key={s.id}
@@ -100,7 +120,7 @@ export function AnatomicalHeartCheckIn() {
                 style={isActive ? { borderColor: s.color, color: s.color } : {}}
               >
                 <VibeIcon size={16} color="currentColor" />
-                <span>{s.label}</span>
+                <span>{localizedLabel}</span>
               </button>
             );
           })}
@@ -108,7 +128,7 @@ export function AnatomicalHeartCheckIn() {
       </div>
 
       <div className="mt-8 text-center">
-        <p className="text-[10px] text-white/20 uppercase tracking-[0.5em] font-black mb-1">Current State</p>
+        <p className="text-[10px] text-white/20 uppercase tracking-[0.5em] font-black mb-1">{t.state}</p>
         <p 
           className={cn("font-black text-2xl animate-pulse uppercase tracking-tighter transition-colors duration-1000")}
           style={{ color: currentStatus.color }}

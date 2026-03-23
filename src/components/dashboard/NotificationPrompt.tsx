@@ -13,13 +13,11 @@ interface NotificationPromptProps {
 export default function NotificationPrompt({ onClose }: NotificationPromptProps) {
   const [preferredHour, setPreferredHour] = useState(10);
   const [isEnabled, setIsEnabled] = useState(false);
-  const [lang, setLang] = useState<'EN' | 'DE'>('EN');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
 
   useEffect(() => {
-    const savedLang = localStorage.getItem('stayonbeat_lang');
-    if (savedLang === 'DE' || savedLang === 'EN') {
-      setLang(savedLang as 'EN' | 'DE');
-    }
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
   }, []);
 
   const handleEnable = async () => {
@@ -29,7 +27,7 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
   };
 
   const content = {
-    EN: {
+    en: {
       successTitle: "Reminders active",
       successSub: "We will check in on your heart every day with kindness",
       header: "Daily Heart Check-in",
@@ -43,7 +41,7 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
         { label: "Evening 🌙 (7pm)", value: 19 },
       ]
     },
-    DE: {
+    de: {
       successTitle: "Erinnerungen aktiv",
       successSub: "Wir werden jeden Tag liebevoll nach deinem Herzen sehen",
       header: "Täglicher Heart Check-in",
@@ -56,10 +54,38 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
         { label: "Nachmittags 🌿 (14:00)", value: 14 },
         { label: "Abends 🌙 (19:00)", value: 19 },
       ]
+    },
+    pt: {
+      successTitle: "Lembretes ativos",
+      successSub: "Cuidaremos do seu coração todos os dias com carinho",
+      header: "Check-in Diário",
+      sub: "Escolha o melhor horário para cuidarmos de você",
+      enable: "Ativar Lembretes",
+      later: "Talvez depois",
+      times: [
+        { label: "Manhã 🌅 (8h)", value: 8 },
+        { label: "Meio-dia ☀️ (10h)", value: 10 },
+        { label: "Tarde 🌿 (14h)", value: 14 },
+        { label: "Noite 🌙 (19h)", value: 19 },
+      ]
+    },
+    ru: {
+      successTitle: "Напоминания активны",
+      successSub: "Мы будем заботливо проверять ваше состояние каждый день",
+      header: "Ежедневная Проверка",
+      sub: "Выберите время для напоминания о себе",
+      enable: "Включить",
+      later: "Позже",
+      times: [
+        { label: "Утро 🌅 (8:00)", value: 8 },
+        { label: "День ☀️ (10:00)", value: 10 },
+        { label: "После обеда 🌿 (14:00)", value: 14 },
+        { label: "Вечер 🌙 (19:00)", value: 19 },
+      ]
     }
   };
 
-  const t = content[lang];
+  const t = content[lang] || content.en;
 
   if (isEnabled) {
     return (
@@ -114,7 +140,7 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
               className={cn(
                 "py-5 px-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all border-2",
                 preferredHour === option.value
-                  ? "bg-[#3EB489]/10 border-[#3EB489] text-[#3EB489] neon-glow shadow-lg shadow-[#3EB489]/10"
+                  ? "bg-[#3EB489]/10 border-[#3EB489] text-[#3EB489] shadow-lg shadow-[#3EB489]/10"
                   : "bg-white/5 border-white/5 text-white/40 hover:border-white/20"
               )}
             >
@@ -126,7 +152,7 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
         <div className="space-y-4">
           <button
             onClick={handleEnable}
-            className="w-full h-20 bg-[#3EB489] text-black rounded-[1.5rem] font-black text-xl uppercase tracking-widest transition-all active:scale-95 neon-glow shadow-lg"
+            className="w-full h-20 bg-[#3EB489] text-black rounded-[1.5rem] font-black text-xl uppercase tracking-widest transition-all active:scale-95 shadow-lg"
           >
             {t.enable}
           </button>

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -17,7 +18,7 @@ import {
  * @fileOverview Vibe Mirror Component.
  * Bespoke high-fidelity Resonance Icons integrated with an organic color palette.
  * Punctuation-free for resonance.
- * Full PT and RU support.
+ * Full EN, DE, PT, RU support.
  */
 
 const VIBES = [
@@ -144,6 +145,13 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
     } else setIsSaving(false);
   };
 
+  const getLocalizedLabel = (v: typeof VIBES[0]) => {
+    if (lang === 'de') return v.de;
+    if (lang === 'pt') return v.pt;
+    if (lang === 'ru') return v.ru;
+    return v.label;
+  };
+
   const UI = {
     en: { header: "Check Your Vibe", sub: "I honor my current state", footer: "Processed locally with love" },
     de: { header: "Stimmungs Check-in", sub: "Ich achte auf meinen Zustand", footer: "Lokal verarbeitet mit Liebe" },
@@ -166,7 +174,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
           <CurrentIcon size={20} color="currentColor" className={currentTheme.color} />
         </span>
         <span className={cn("text-[10px] font-black uppercase tracking-widest hidden sm:block", currentTheme.color)}>
-          {vibe?.currentLabel || (lang === 'en' ? "Calm" : lang === 'de' ? "Beruhigt" : lang === 'pt' ? "Calmo" : "Спокойный")}
+          {getLocalizedLabel(currentTheme)}
         </span>
         <ChevronDown size={12} className={cn("opacity-40", currentTheme.color)} />
       </button>
@@ -189,7 +197,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
             {VIBES.map((v) => {
               const VibeIcon = v.icon;
               const isActive = vibe?.current === v.key;
-              const labelMap = { en: v.label, de: v.de, pt: v.pt, ru: v.ru };
+              const label = getLocalizedLabel(v);
               return (
                 <button 
                   key={v.key} 
@@ -205,7 +213,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
                   </div>
                   <div className="flex flex-col">
                     <span className={cn("font-black text-base uppercase tracking-tight", isActive ? "text-white" : "text-white/60")}>
-                      {labelMap[lang]}
+                      {label}
                     </span>
                     <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest leading-none mt-1">
                       {v.affirmation[lang]}

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -5,12 +6,13 @@ import { useRouter } from "next/navigation";
 import { useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
 import { doc } from "firebase/firestore";
 import { AiSafetyChat } from "@/components/chat/AiSafetyChat";
-import { ArrowLeft, Loader2, Heart, CircleDot } from "lucide-react";
+import { ArrowLeft, Loader2, Heart } from "lucide-react";
 
 /**
  * @fileOverview Phase: During.
  * Support for EN, DE, PT, RU.
  * Featured core affirmation in a radiant pillar.
+ * Layout refined to ensure affirmation doesn't obscure the chat intro.
  */
 export default function DuringPhase() {
   const router = useRouter();
@@ -67,8 +69,9 @@ export default function DuringPhase() {
         </div>
       </header>
 
-      <div className="bg-[#10B981]/10 border-b border-[#10B981]/20 py-6 px-10 text-center animate-in fade-in duration-1000 shrink-0">
-        <p className="text-sm font-black uppercase tracking-[0.1em] text-[#10B981] leading-relaxed max-w-[340px] mx-auto italic">
+      {/* Radiant Affirmation Pillar - Optimized layout height */}
+      <div className="bg-[#10B981]/10 border-b border-[#10B981]/20 py-5 px-10 text-center animate-in fade-in duration-1000 shrink-0">
+        <p className="text-[13px] font-black uppercase tracking-[0.05em] text-[#10B981] leading-tight max-w-[340px] mx-auto italic">
           "{affirmation}"
         </p>
       </div>
