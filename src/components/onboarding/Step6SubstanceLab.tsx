@@ -35,10 +35,9 @@ import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 
 /**
  * @fileOverview Pulse Lab component.
- * Fixed: Robust cross-language search.
- * Fixed: Fluid scrolling architecture for iPhone.
+ * DEFINITIVE FIX: Robust cross-language search and fluid iPhone scrolling.
  * Responsibility Portal: Mandatory affirmation ritual.
- * Replaced CircleDot with organic Sparkles/HeartHandshake icons.
+ * Pure icon design: HeartHandshake and Sparkles for organic feel.
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -57,7 +56,7 @@ const CONTENT = {
     addedToDiary: "added to your session diary", causionTitle: "Pulse Guardian: Caution 🧪",
     poppersHR: (hr: number) => `Your heart rate is ${hr} BPM Poppers will drop your blood pressure sharply Please sit down and breathe before use`,
     responsibility: "I love and respect myself I take full responsibility for my actions",
-    syncProceed: "Proceed with Love"
+    syncProceed: "Proceed with Love", noResults: "No substances found"
   },
   de: {
     title: "Sitzungs-Labor", advisor: "Sicherheits-Begleiter", search: "Substanzen suchen...",
@@ -66,7 +65,7 @@ const CONTENT = {
     addedToDiary: "wurde deinem Tagebuch hinzugefügt", causionTitle: "Pulse Guardian: Vorsicht 🧪",
     poppersHR: (hr: number) => `Dein Puls liegt bei ${hr} BPM Poppers senkt den Blutdruck stark ab Bitte nimm dir einen Moment Zeit, setz dich hin und atme tief durch`,
     responsibility: "Ich liebe und achte mich selbst Ich übernehme die volle Verantwortung für mein Handeln",
-    syncProceed: "Mit Liebe fortfahren"
+    syncProceed: "Mit Liebe fortfahren", noResults: "Keine Substanzen gefunden"
   },
   pt: {
     title: "Pulse Lab", advisor: "Abrir Assessor de Segurança", search: "Buscar substâncias...",
@@ -75,7 +74,7 @@ const CONTENT = {
     addedToDiary: "adicionada ao seu diário de sessão", causionTitle: "Pulse Guardian: Cuidado 🧪",
     poppersHR: (hr: number) => `Sua frequência cardíaca é ${hr} BPM Poppers reduzem a pressão arterial bruscamente Por favor sente-se e respire antes de usar`,
     responsibility: "Eu me amo e me respeito Assumo total responsabilidade pelas minhas ações",
-    syncProceed: "Prosseguir com Amor"
+    syncProceed: "Prosseguir com Amor", noResults: "Nenhuma substância encontrada"
   },
   ru: {
     title: "Лаборатория", advisor: "Забота", search: "Поиск веществ...",
@@ -84,7 +83,7 @@ const CONTENT = {
     addedToDiary: "добавлено в твой дневник сессии", causionTitle: "Pulse Guardian: Внимание 🧪",
     poppersHR: (hr: number) => `Твой пульс составляет ${hr} уд/мин Попперс резко снижает давление Пожалуйста присядь и подыши перед использованием`,
     responsibility: "Я люблю и уважаю себя Я принимаю полную ответственность за свои действия",
-    syncProceed: "Продолжить с Любовью"
+    syncProceed: "Продолжить с Любовью", noResults: "Веществ не найдено"
   }
 };
 
@@ -136,11 +135,15 @@ export function Step6SubstanceLab({
   const t = CONTENT[lang] || CONTENT.en;
 
   const filteredSubstances = useMemo(() => {
-    const term = searchTerm.toLowerCase().trim();
+    const term = searchTerm.toLowerCase();
     if (!term) return SUBSTANCES;
     return SUBSTANCES.filter(s => {
-      const vals = [s.name, s.deName, s.ptName, s.ruName].map(v => v.toLowerCase());
-      return vals.some(v => v.includes(term));
+      return (
+        s.name.toLowerCase().includes(term) ||
+        s.deName.toLowerCase().includes(term) ||
+        s.ptName.toLowerCase().includes(term) ||
+        s.ruName.toLowerCase().includes(term)
+      );
     });
   }, [searchTerm]);
 
@@ -274,22 +277,29 @@ export function Step6SubstanceLab({
               </div>
             )}
 
-            <div className="grid grid-cols-3 gap-4 w-full">
-              {filteredSubstances.map(s => {
-                const active = sessionLogs.some(log => log.id === s.id);
-                const localizedName = lang === 'en' ? s.name : lang === 'de' ? s.deName : lang === 'pt' ? s.ptName : s.ruName;
-                return (
-                  <button 
-                    key={s.id}
-                    onClick={() => handleSelectSubstance(s)}
-                    className={cn("aspect-square border rounded-[2.5rem] flex flex-col items-center justify-center gap-3 transition-all hover:bg-white/10 active:scale-95 group relative shadow-2xl", active ? "bg-[#3EB489]/10 border-[#3EB489]" : "bg-white/[0.02] border-white/5")}
-                  >
-                    <div className={cn("p-4 rounded-2xl bg-black/40 border border-white/5 group-hover:scale-110 transition-transform shadow-lg", s.color)}><s.icon size={28} /></div>
-                    <span className={cn("text-[9px] font-black uppercase tracking-widest text-center px-2 leading-tight", active ? "text-[#3EB489]" : "text-white/40", lang === 'ru' && "italic font-serif")}>{localizedName}</span>
-                  </button>
-                );
-              })}
-            </div>
+            {filteredSubstances.length > 0 ? (
+              <div className="grid grid-cols-3 gap-4 w-full">
+                {filteredSubstances.map(s => {
+                  const active = sessionLogs.some(log => log.id === s.id);
+                  const localizedName = lang === 'en' ? s.name : lang === 'de' ? s.deName : lang === 'pt' ? s.ptName : s.ruName;
+                  return (
+                    <button 
+                      key={s.id}
+                      onClick={() => handleSelectSubstance(s)}
+                      className={cn("aspect-square border rounded-[2.5rem] flex flex-col items-center justify-center gap-3 transition-all hover:bg-white/10 active:scale-95 group relative shadow-2xl", active ? "bg-[#3EB489]/10 border-[#3EB489]" : "bg-white/[0.02] border-white/5")}
+                    >
+                      <div className={cn("p-4 rounded-2xl bg-black/40 border border-white/5 group-hover:scale-110 transition-transform shadow-lg", s.color)}><s.icon size={28} /></div>
+                      <span className={cn("text-[9px] font-black uppercase tracking-widest text-center px-2 leading-tight", active ? "text-[#3EB489]" : "text-white/40", lang === 'ru' && "italic font-serif")}>{localizedName}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="py-20 text-center space-y-4 opacity-20">
+                <Search size={48} className="mx-auto" />
+                <p className={cn("text-[10px] font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.noResults}</p>
+              </div>
+            )}
           </div>
         </ScrollArea>
       </div>
