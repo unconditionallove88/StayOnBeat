@@ -142,7 +142,7 @@ export function Step6SubstanceLab({
         name.toLowerCase().includes(term)
       )
     );
-  }, [searchTerm]);
+  }, [searchTerm, lang]);
 
   const handleSelectSubstance = (substance: any) => {
     const currentHR = userData?.sessionStatus?.lastHeartRate || 75;
@@ -297,13 +297,14 @@ export function Step6SubstanceLab({
           onClick={() => setResponsibilityOpen(true)} 
           className={cn("w-full py-6 bg-[#3EB489] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg flex items-center justify-center gap-3", lang === 'ru' && "italic font-serif")}
         >
-          <CheckCircle2 size={24} /> {t.sync}
+          <CheckCircle2 size={24} /> {lang === 'ru' ? 'Синхронизация' : t.sync}
         </button>
       </footer>
 
       {/* Responsibility Affirmation Portal */}
       <Dialog open={responsibilityOpen} onOpenChange={setResponsibilityOpen}>
         <DialogContent className="bg-black border-white/10 max-w-md p-0 rounded-[3.5rem] overflow-hidden flex flex-col font-headline">
+          <DialogTitle className="sr-only">Responsibility Affirmation</DialogTitle>
           <div className="p-10 flex flex-col items-center text-center space-y-10">
             <div className="relative">
               <div className="absolute inset-0 bg-[#3EB489]/20 blur-3xl rounded-full animate-pulse" />
