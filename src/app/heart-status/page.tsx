@@ -247,14 +247,14 @@ export default function MyHeartPage() {
       </Dialog>
 
       <Dialog open={holdersOpen} onOpenChange={setHoldersOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh] shadow-[0_0_80px_rgba(0,0,0,0.9)]">
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh] shadow-[0_0_100px_rgba(0,0,0,0.9)]">
           <DialogTitle className="sr-only">{t.holders}</DialogTitle>
           <LoveCircleChat />
         </DialogContent>
       </Dialog>
 
       <Dialog open={witnessesOpen} onOpenChange={setWitnessesOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh] shadow-[0_0_80px_rgba(0,0,0,0.9)]">
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh] shadow-[0_0_100px_rgba(0,0,0,0.9)]">
           <DialogTitle className="sr-only">{t.witnesses}</DialogTitle>
           <PartyCircleChat />
         </DialogContent>

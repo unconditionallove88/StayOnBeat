@@ -35,9 +35,9 @@ import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 
 /**
  * @fileOverview Pulse Lab component.
- * Fixed: Search functionality is now robust and cross-language.
- * Fixed: Scrolling architecture optimized for absolute iPhone stability.
- * Responsibility Portal: Mandatory affirmation before sync.
+ * Fixed: Universal cross-language search logic.
+ * Fixed: Robust flex-col scrolling architecture for iPhone stability.
+ * Responsibility Portal: Mandatory affirmation ritual.
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -60,7 +60,7 @@ const CONTENT = {
   },
   de: {
     title: "Sitzungs-Labor", advisor: "Sicherheits-Begleiter", search: "Substanzen suchen...",
-    diary: "Sitzungs-Tagebuch", records: "Einträge", sync: "Синхронизация", intake: "Eintrag notieren",
+    diary: "Sitzungs-Tagebuch", records: "Einträge", sync: "Synchronisation", intake: "Eintrag notieren",
     confirm: "Bestätigen & Notieren", cancel: "Abbrechen", amount: "Menge", doseLogged: "Dosis notiert",
     addedToDiary: "wurde deinem Tagebuch hinzugefügt", causionTitle: "Pulse Guardian: Vorsicht 🧪",
     poppersHR: (hr: number) => `Dein Puls liegt bei ${hr} BPM Poppers senkt den Blutdruck stark ab Bitte nimm dir einen Moment Zeit, setz dich hin und atme tief durch`,
@@ -72,7 +72,7 @@ const CONTENT = {
     diary: "Diário da Sessão", records: "Registros", sync: "Sincronização", intake: "Registrar Entrada",
     confirm: "Confirmar e Registrar", cancel: "Cancelar Entrada", amount: "Quantidade", doseLogged: "Dose registrada",
     addedToDiary: "adicionada ao seu diário de sessão", causionTitle: "Pulse Guardian: Cuidado 🧪",
-    poppersHR: (hr: number) => `Sua frequência cardíaca é ${hr} BPM Poppers reduzem a pressão arterial bruscamente Por favor sente-се e respire antes de usar`,
+    poppersHR: (hr: number) => `Sua frequência cardíaca é ${hr} BPM Poppers reduzem a pressão arterial bruscamente Por favor sente-se e respire antes de usar`,
     responsibility: "Eu me amo e me respeito Assumo total responsabilidade pelas minhas ações",
     syncProceed: "Prosseguir com Amor"
   },
@@ -139,13 +139,12 @@ export function Step6SubstanceLab({
     if (!term) return SUBSTANCES;
     return SUBSTANCES.filter(s => {
       // Check every language translation for a match
-      const searchableNames = [
-        s.name.toLowerCase(),
-        s.deName.toLowerCase(),
-        s.ptName.toLowerCase(),
-        s.ruName.toLowerCase()
-      ];
-      return searchableNames.some(name => name.includes(term));
+      return (
+        s.name.toLowerCase().includes(term) ||
+        s.deName.toLowerCase().includes(term) ||
+        s.ptName.toLowerCase().includes(term) ||
+        s.ruName.toLowerCase().includes(term)
+      );
     });
   }, [searchTerm]);
 
@@ -252,7 +251,7 @@ export function Step6SubstanceLab({
         </div>
       </header>
 
-      {/* Scrollable Content Area - Crucial flex-1 min-h-0 for iPhone stability */}
+      {/* Scrollable Content Area */}
       <div className="flex-1 min-h-0 overflow-hidden relative">
         <ScrollArea className="h-full px-6 pt-6 touch-pan-y">
           <div className="pb-48 space-y-10">
