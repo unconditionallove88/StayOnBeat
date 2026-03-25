@@ -12,14 +12,14 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * @fileOverview Self-Care & Stillness Sanctuary.
  * A high-fidelity grounding experience featuring box-breathing guidance.
  * Full localization for EN, DE, PT, RU.
- * Updated: Removed CircleDot from button and implemented written RU font.
+ * Updated: "Inhale Life" implemented across all languages.
  */
 
 const CONTENT = {
   en: {
     title: "Inner Resonance",
     breathText: {
-      inhale: "Inhale Peace",
+      inhale: "Inhale Life",
       hold1: "Hold Presence",
       exhale: "Exhale Tension",
       hold2: "Hold Stillness"
@@ -39,7 +39,7 @@ const CONTENT = {
   de: {
     title: "Innere Resonanz",
     breathText: {
-      inhale: "Frieden einatmen",
+      inhale: "Leben einatmen",
       hold1: "Präsenz halten",
       exhale: "Spannung ausatmen",
       hold2: "Stille halten"
@@ -59,7 +59,7 @@ const CONTENT = {
   pt: {
     title: "Ressonância Interior",
     breathText: {
-      inhale: "Inspire Paz",
+      inhale: "Inspire Vida",
       hold1: "Segure a Presença",
       exhale: "Expire a Tensão",
       hold2: "Segure a Quietude"
@@ -79,10 +79,10 @@ const CONTENT = {
   ru: {
     title: "Внутренний Резонанс",
     breathText: {
-      inhale: "Вдохните Мир",
-      hold1: "Удерживайте Присутствие",
-      exhale: "Выдохните Напряжение",
-      hold2: "Удерживайте Тишину"
+      inhale: "Вдохни Жизнь",
+      hold1: "Удержи Присутствие",
+      exhale: "Выдохни Напряжение",
+      hold2: "Удержи Тишину"
     },
     seconds: "Секунд",
     protocol: "Техника Квадратного Дыхания",

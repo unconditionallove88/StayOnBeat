@@ -32,12 +32,11 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import CareShield from '@/components/dashboard/CareShield';
 import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
-import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
 
 /**
  * @fileOverview Pulse Lab component.
  * Robust cross-language search logic (searches all localized names).
- * iPhone scroll stability fixed with fixed-header/footer flex architecture.
+ * Optimized for mobile touch-pan-y and fixed header stability.
  * Responsibility Portal: Mandatory affirmation before sync.
  */
 
@@ -73,7 +72,7 @@ const CONTENT = {
     diary: "Diário da Sessão", records: "Registros", sync: "Sincronização", intake: "Registrar Entrada",
     confirm: "Confirmar e Registrar", cancel: "Cancelar Entrada", amount: "Quantidade", doseLogged: "Dose registrada",
     addedToDiary: "adicionada ao seu diário de sessão", causionTitle: "Pulse Guardian: Cuidado 🧪",
-    poppersHR: (hr: number) => `Sua frequência cardíaca é ${hr} BPM Poppers reduzem a pressão arterial bruscamente Por favor sente-se e respire antes de usar`,
+    poppersHR: (hr: number) => `Sua frequência cardíaca é ${hr} BPM Poppers reduzem a pressão arterial bruscamente Por favor sente-се e respire antes de usar`,
     responsibility: "Eu me amo e me respeito Assumo total responsabilidade pelas minhas ações",
     syncProceed: "Prosseguir com Amor"
   },
@@ -139,10 +138,9 @@ export function Step6SubstanceLab({
     const term = searchTerm.toLowerCase().trim();
     if (!term) return SUBSTANCES;
     return SUBSTANCES.filter(s => 
-      s.name.toLowerCase().includes(term) ||
-      s.deName.toLowerCase().includes(term) ||
-      s.ptName.toLowerCase().includes(term) ||
-      s.ruName.toLowerCase().includes(term)
+      [s.name, s.deName, s.ptName, s.ruName].some(name => 
+        name.toLowerCase().includes(term)
+      )
     );
   }, [searchTerm]);
 
@@ -249,7 +247,7 @@ export function Step6SubstanceLab({
       </header>
 
       {/* Scrollable Content */}
-      <ScrollArea className="flex-1 px-6 pt-6 min-h-0 touch-pan-y overflow-hidden">
+      <ScrollArea className="flex-1 px-6 pt-6 min-h-0 touch-pan-y">
         <div className="pb-48 space-y-10">
           {showDiary && sessionLogs.length > 0 && (
             <div className="space-y-4 animate-in slide-in-from-top-4 duration-500">
