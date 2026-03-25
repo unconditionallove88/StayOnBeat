@@ -165,7 +165,6 @@ export function Step6SubstanceLab({
     localStorage.setItem('stayonbeat_logs', JSON.stringify(updated));
   };
 
-  // Improved normalization for PT accents and RU characters
   const normalize = (str: string) => 
     (str || "").toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
@@ -199,7 +198,6 @@ export function Step6SubstanceLab({
 
   return (
     <div className="flex flex-col h-full bg-black font-headline relative overflow-hidden">
-      {/* Search & Status Header - Fixed */}
       <header className="px-6 pt-12 pb-4 space-y-4 flex flex-col shrink-0 bg-black/95 backdrop-blur-md z-[60] border-b border-white/5">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-[#10B981]/10 flex items-center justify-center border border-[#10B981]/20">
@@ -231,7 +229,6 @@ export function Step6SubstanceLab({
         </div>
       </header>
 
-      {/* Grid Content - Scrollable */}
       <ScrollArea className="flex-1 px-6 pt-6 min-h-0 touch-pan-y">
         <div className="pb-40 space-y-8">
           {showDiary && sessionLogs.length > 0 && (
