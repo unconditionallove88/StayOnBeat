@@ -1,10 +1,9 @@
-
-"use client";
+'use client';
 
 import { useState, useEffect } from 'react';
 import HeartStatusAura from "@/components/dashboard/HeartStatusAura";
 import LoveCircleList from "@/components/dashboard/LoveCircle";
-import { Activity, ArrowLeft, Watch, Info, HeartHandshake, Users2, RefreshCw, ChevronRight, CircleDot } from "lucide-react";
+import { Activity, ArrowLeft, Watch, Info, HeartHandshake, Users2, RefreshCw, ChevronRight, Sparkles } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
@@ -19,6 +18,7 @@ import { cn } from '@/lib/utils';
  * @fileOverview My Heart Page (Individual Analytics).
  * Minimalist update: Focused purely on Inner Resonance and affirmations.
  * Fully localized for EN, DE, PT, RU.
+ * Corrected Holders icon to HeartHandshake.
  */
 export default function MyHeartPage() {
   const router = useRouter();
@@ -158,7 +158,7 @@ export default function MyHeartPage() {
           >
             <div className="flex items-center gap-5">
               <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 group-hover:scale-110 transition-transform">
-                <CircleDot size={28} className="text-[#10B981]" />
+                <HeartHandshake size={28} className="text-[#10B981]" />
               </div>
               <div className="text-left">
                 <p className={cn("text-lg font-black uppercase tracking-tight text-white", lang === 'ru' && "italic font-serif")}>{t.holders}</p>

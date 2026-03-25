@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -22,8 +21,9 @@ import {
   CheckCircle2,
   X,
   Diamond,
-  CircleDot,
-  ShieldCheck
+  HeartHandshake,
+  ShieldCheck,
+  Sparkles
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -35,9 +35,10 @@ import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 
 /**
  * @fileOverview Pulse Lab component.
- * Fixed: Universal cross-language search logic.
- * Fixed: Robust flex-col scrolling architecture for iPhone stability.
+ * Fixed: Robust cross-language search.
+ * Fixed: Fluid scrolling architecture for iPhone.
  * Responsibility Portal: Mandatory affirmation ritual.
+ * Replaced CircleDot with organic Sparkles/HeartHandshake icons.
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -51,7 +52,7 @@ const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: num
 const CONTENT = {
   en: {
     title: "Pulse Lab", advisor: "Open Safety Advisor", search: "Search substances...",
-    diary: "Session Diary", records: "Records", sync: "Sync Session", intake: "Log Intake Entry",
+    diary: "Session Diary", records: "Records", sync: "Синхронизация", intake: "Log Intake Entry",
     confirm: "Confirm & Log Intake", cancel: "Cancel Entry", amount: "Amount", doseLogged: "Dose logged",
     addedToDiary: "added to your session diary", causionTitle: "Pulse Guardian: Caution 🧪",
     poppersHR: (hr: number) => `Your heart rate is ${hr} BPM Poppers will drop your blood pressure sharply Please sit down and breathe before use`,
@@ -60,7 +61,7 @@ const CONTENT = {
   },
   de: {
     title: "Sitzungs-Labor", advisor: "Sicherheits-Begleiter", search: "Substanzen suchen...",
-    diary: "Sitzungs-Tagebuch", records: "Einträge", sync: "Synchronisation", intake: "Eintrag notieren",
+    diary: "Sitzungs-Tagebuch", records: "Einträge", sync: "Синхронизация", intake: "Eintrag notieren",
     confirm: "Bestätigen & Notieren", cancel: "Abbrechen", amount: "Menge", doseLogged: "Dosis notiert",
     addedToDiary: "wurde deinem Tagebuch hinzugefügt", causionTitle: "Pulse Guardian: Vorsicht 🧪",
     poppersHR: (hr: number) => `Dein Puls liegt bei ${hr} BPM Poppers senkt den Blutdruck stark ab Bitte nimm dir einen Moment Zeit, setz dich hin und atme tief durch`,
@@ -69,7 +70,7 @@ const CONTENT = {
   },
   pt: {
     title: "Pulse Lab", advisor: "Abrir Assessor de Segurança", search: "Buscar substâncias...",
-    diary: "Diário da Sessão", records: "Registros", sync: "Sincronização", intake: "Registrar Entrada",
+    diary: "Diário da Sessão", records: "Registros", sync: "Синхронизация", intake: "Registrar Entrada",
     confirm: "Confirmar e Registrar", cancel: "Cancelar Entrada", amount: "Quantidade", doseLogged: "Dose registrada",
     addedToDiary: "adicionada ao seu diário de sessão", causionTitle: "Pulse Guardian: Cuidado 🧪",
     poppersHR: (hr: number) => `Sua frequência cardíaca é ${hr} BPM Poppers reduzem a pressão arterial bruscamente Por favor sente-se e respire antes de usar`,
@@ -90,7 +91,7 @@ const CONTENT = {
 const SUBSTANCES = [
   { id: 'alcohol', icon: Wine, name: 'Alcohol', deName: 'Alkohol', ptName: 'Álcool', ruName: 'Алкоголь', color: 'text-amber-500', bg: 'bg-amber-500/10', unit: 'Items', deUnit: 'Einheiten', ptUnit: 'Unidades', ruUnit: 'Ед.', subTypes: ['Beer', 'Wine', 'Shot', 'Mixer'], deSubTypes: ['Bier', 'Wein', 'Shot', 'Mixer'], ptSubTypes: ['Cerveja', 'Vinho', 'Dose', 'Mixer'], ruSubTypes: ['Пиво', 'Вино', 'Шот', 'Коктейль'], inputType: 'cart' },
   { id: 'cannabis', icon: Leaf, name: 'Cannabis', deName: 'Cannabis', ptName: 'Cannabis', ruName: 'Каннабис', color: 'text-emerald-500', bg: 'bg-emerald-500/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
-  { id: 'mdma', icon: CircleDot, name: 'MDMA', deName: 'MDMA', ptName: 'MDMA', ruName: 'МДМА', color: 'text-purple-400', bg: 'bg-purple-500/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
+  { id: 'mdma', icon: Sparkles, name: 'MDMA', deName: 'MDMA', ptName: 'MDMA', ruName: 'МДМА', color: 'text-purple-400', bg: 'bg-purple-500/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
   { id: 'cocaine', icon: Diamond, name: 'Cocaine', deName: 'Kokain', ptName: 'Cocaína', ruName: 'Кокаин', color: 'text-slate-200', bg: 'bg-slate-200/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
   { id: 'ketamine', icon: FlaskConical, name: 'Ketamine', deName: 'Ketamin', ptName: 'Cetamina', ruName: 'Кетамин', color: 'text-indigo-400', bg: 'bg-indigo-400/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
   { id: 'ecstasy', icon: Heart, name: 'Ecstasy', deName: 'Ecstasy', ptName: 'Ecstasy', ruName: 'Экстази', color: 'text-pink-500', bg: 'bg-pink-500/10', unit: 'pills', deUnit: 'Pillen', ptUnit: 'Balas', ruUnit: 'Таб.', inputType: 'manual' },
@@ -138,13 +139,8 @@ export function Step6SubstanceLab({
     const term = searchTerm.toLowerCase().trim();
     if (!term) return SUBSTANCES;
     return SUBSTANCES.filter(s => {
-      // Check every language translation for a match
-      return (
-        s.name.toLowerCase().includes(term) ||
-        s.deName.toLowerCase().includes(term) ||
-        s.ptName.toLowerCase().includes(term) ||
-        s.ruName.toLowerCase().includes(term)
-      );
+      const vals = [s.name, s.deName, s.ptName, s.ruName].map(v => v.toLowerCase());
+      return vals.some(v => v.includes(term));
     });
   }, [searchTerm]);
 
@@ -219,7 +215,6 @@ export function Step6SubstanceLab({
 
   return (
     <div className="flex flex-col h-full bg-black font-headline relative overflow-hidden">
-      {/* Fixed Header */}
       <header className="px-6 pt-12 pb-4 space-y-4 flex flex-col shrink-0 bg-black/95 backdrop-blur-md z-[60] border-b border-white/5 shadow-2xl">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-[#10B981]/10 flex items-center justify-center border border-[#10B981]/20 shadow-lg">
@@ -232,7 +227,7 @@ export function Step6SubstanceLab({
           <GuardianStatusBar status={guardianStatus} heartRate={lastHR > 0 ? lastHR : 98} lang={lang} />
           <button onClick={() => setChatOpen(true)} className="w-full bg-blue-600/10 border border-blue-500/30 rounded-2xl py-3 px-4 flex items-center justify-between shadow-lg active:scale-[0.99] transition-all">
             <div className="flex items-center gap-3">
-              <CircleDot size={16} className="text-blue-400 animate-pulse" />
+              <Sparkles size={16} className="text-blue-400 animate-pulse" />
               <span className={cn("text-[9px] font-black uppercase tracking-[0.2em] text-blue-400", lang === 'ru' && "italic font-serif")}>{t.advisor}</span>
             </div>
             <ArrowRight size={12} className="text-blue-500" />
@@ -242,16 +237,17 @@ export function Step6SubstanceLab({
         <div className="relative w-full pt-2 pb-2">
           <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
           <input 
-            type="text"
+            type="search"
             placeholder={t.search}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            autoComplete="off"
+            autoCorrect="off"
             className={cn("w-full bg-white/5 border border-white/10 h-16 pl-14 rounded-3xl focus:border-[#3EB489] text-base outline-none text-white shadow-inner transition-all", lang === 'ru' && "italic font-serif")}
           />
         </div>
       </header>
 
-      {/* Scrollable Content Area */}
       <div className="flex-1 min-h-0 overflow-hidden relative">
         <ScrollArea className="h-full px-6 pt-6 touch-pan-y">
           <div className="pb-48 space-y-10">
@@ -298,7 +294,6 @@ export function Step6SubstanceLab({
         </ScrollArea>
       </div>
 
-      {/* Fixed Footer */}
       <footer className="shrink-0 h-[110px] bg-black/95 backdrop-blur-2xl border-t border-white/5 flex items-center justify-center px-6 z-[70] pb-safe shadow-[0_-20px_50px_rgba(0,0,0,0.8)]">
         <button 
           onClick={() => setResponsibilityOpen(true)} 
@@ -308,7 +303,6 @@ export function Step6SubstanceLab({
         </button>
       </footer>
 
-      {/* Responsibility Affirmation Portal */}
       <Dialog open={responsibilityOpen} onOpenChange={setResponsibilityOpen}>
         <DialogContent className="bg-black border-white/10 max-w-md p-0 rounded-[3.5rem] overflow-hidden flex flex-col font-headline">
           <DialogTitle className="sr-only">Responsibility Affirmation</DialogTitle>
@@ -343,7 +337,6 @@ export function Step6SubstanceLab({
         </DialogContent>
       </Dialog>
 
-      {/* Substance Intake Entry Modal */}
       {activeSubstance && (
         <div className="absolute inset-0 bg-black/95 backdrop-blur-2xl z-[100] animate-in fade-in duration-300 flex flex-col font-headline">
           <header className="shrink-0 p-8 flex justify-between items-center">

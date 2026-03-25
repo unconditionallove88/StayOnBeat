@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -26,7 +25,7 @@ import {
   Lock, 
   ShieldCheck,
   UserPlus,
-  CircleDot
+  HeartHandshake
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -306,7 +305,7 @@ export default function SafetyNetworkPage() {
 
         {/* Trust Footer */}
         <footer className="text-center space-y-4 pt-10 opacity-30">
-          <CircleDot size={24} className="mx-auto text-[#3EB489]" />
+          <Heart size={24} className="mx-auto text-[#3EB489]" />
           <p className="text-[9px] font-black text-white uppercase tracking-[0.4em] max-w-[200px] mx-auto leading-relaxed">
             Your safety network is protected by end-to-end encryption
           </p>

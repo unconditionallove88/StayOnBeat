@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -26,7 +25,7 @@ import {
   Loader2,
   ShieldCheck,
   HelpCircle,
-  CircleDot
+  Activity
 } from "lucide-react";
 import {
   Dialog,
@@ -40,7 +39,7 @@ import { cn } from "@/lib/utils";
 /**
  * @fileOverview Your Sanctuary (Profile Page).
  * Full localization for EN, DE, PT, RU.
- * Updated: Emoji-free subtexts and minimalist identity view.
+ * Replaced CircleDot with ShieldCheck.
  */
 
 const CONTENT = {
@@ -185,7 +184,7 @@ export default function ProfilePage() {
         <div className="max-w-xl mx-auto flex items-center justify-between">
           <button onClick={() => router.push("/dashboard")} className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all"><ArrowLeft className="w-5 h-5 text-white/40" /></button>
           <div className="flex items-center gap-2 px-4 py-1.5 bg-[#10B981]/10 border border-[#10B981]/30 rounded-full">
-            <CircleDot className="w-3.5 h-3.5 text-[#10B981]" />
+            <ShieldCheck className="w-3.5 h-3.5 text-[#10B981]" />
             <span className={cn("text-[10px] font-black uppercase text-[#10B981] tracking-widest", lang === 'ru' && "italic font-serif")}>{t.sanctuary}</span>
           </div>
         </div>
@@ -264,6 +263,7 @@ export default function ProfilePage() {
 
       <Dialog open={privacyOpen} onOpenChange={setPrivacyOpen}>
         <DialogContent className="bg-[#050505] border-white/10 max-lg p-0 rounded-[3rem] overflow-hidden flex flex-col font-headline h-[90vh] max-h-[90vh]">
+          <DialogTitle className="sr-only">Privacy Policy</DialogTitle>
           <div className="p-8 pb-4 shrink-0">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20"><ShieldCheck size={32} className="text-[#10B981]" /></div>
@@ -286,7 +286,10 @@ export default function ProfilePage() {
       </Dialog>
 
       <Dialog open={coCreationOpen} onOpenChange={setCoCreationOpen}>
-        <DialogContent className="bg-black border-white/10 max-lg p-0 rounded-[3rem] overflow-hidden"><DialogTitle className="sr-only">Co-Creation</DialogTitle><CoCreation onComplete={() => setCoCreationOpen(false)} /></DialogContent>
+        <DialogContent className="bg-black border-white/10 max-lg p-0 rounded-[3rem] overflow-hidden">
+          <DialogTitle className="sr-only">Co-Creation</DialogTitle>
+          <CoCreation onComplete={() => setCoCreationOpen(false)} />
+        </DialogContent>
       </Dialog>
     </main>
   );

@@ -1,8 +1,7 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Heart, Loader2, Lock, Users, CircleDot } from 'lucide-react';
+import { Send, Heart, Loader2, Lock, Users, HeartHandshake, Sparkles } from 'lucide-react';
 import { useFirestore, useUser, useCollection, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection, query, orderBy, limit, serverTimestamp } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
@@ -13,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
  * @fileOverview The Holders (Those who hold your heart from afar).
  * Optimized for minimalist ritual and human-friendly iPhone experience.
  * Full localization for EN, DE, PT, RU.
+ * Replaced CircleDot with HeartHandshake.
  */
 
 const CONTENT = {
@@ -22,7 +22,7 @@ const CONTENT = {
     desc: "Those who hold your heart from afar Your sacred bond of care and trust",
     items: [
       { title: "Sacred Bond of Resonance", sub: "Shared only with your inner circle", icon: Lock },
-      { title: "Mutual Holding", sub: "Unity through shared resonance", icon: CircleDot }
+      { title: "Mutual Holding", sub: "Unity through shared resonance", icon: HeartHandshake }
     ],
     button: "Access My Bonds",
     createTitle: "NAME YOUR BOND",
@@ -42,7 +42,7 @@ const CONTENT = {
     desc: "Diejenigen, die dein Herz aus der Ferne halten Dein Band aus Fürsorge und Vertrauen",
     items: [
       { title: "Heiliges Band", sub: "Nur mit deinem inneren Kreis geteilt", icon: Lock },
-      { title: "Gegenseitiges Halten", sub: "Einheit durch Resonanz", icon: CircleDot }
+      { title: "Gegenseitiges Halten", sub: "Einheit durch Resonanz", icon: HeartHandshake }
     ],
     button: "Bonds aufrufen",
     createTitle: "BENENNE DEIN BAND",
@@ -62,7 +62,7 @@ const CONTENT = {
     desc: "Aqueles que cuidam do seu coração de longe Seu vínculo sagrado de cuidado e confiança",
     items: [
       { title: "Vínculo Sagrado", sub: "Compartilhado apenas com seu círculo íntimo", icon: Lock },
-      { title: "Cuidado Mútuo", sub: "Unidade através da ressonância", icon: CircleDot }
+      { title: "Cuidado Mútuo", sub: "Unidade através da ressonância", icon: HeartHandshake }
     ],
     button: "Acessar Vínculos",
     createTitle: "NOME DO VÍNCULO",
@@ -82,7 +82,7 @@ const CONTENT = {
     desc: "Заботящиеся о Тебе на расстоянии Интуитивная связь заботы и доверия с близкими тебе",
     items: [
       { title: "Интуитивная связь", sub: "Доступно только твоему внутреннему кругу", icon: Lock },
-      { title: "Взаимная поддержка", sub: "Единство через общий резонанс", icon: CircleDot }
+      { title: "Взаимная поддержка", sub: "Единство через общий резонанс", icon: HeartHandshake }
     ],
     button: "Открыть связи",
     createTitle: "НАЗВАНИЕ СВЯЗИ",
@@ -183,7 +183,7 @@ export function LoveCircleChat() {
             <div className="relative">
               <div className="absolute inset-0 bg-[#10B981]/20 blur-3xl rounded-full animate-pulse" />
               <div className="w-32 h-32 bg-[#10B981]/10 rounded-full flex items-center justify-center border-2 border-[#10B981]/30 relative z-10 shadow-2xl">
-                <CircleDot size={48} className="text-[#10B981]" />
+                <HeartHandshake size={48} className="text-[#10B981]" />
               </div>
             </div>
 
@@ -225,7 +225,7 @@ export function LoveCircleChat() {
       <div className="px-8 py-8 border-b border-white/5 bg-black/80 backdrop-blur-xl flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 shadow-lg">
-            <CircleDot size={28} className="text-[#10B981]" />
+            <HeartHandshake size={28} className="text-[#10B981]" />
           </div>
           <div>
             <h2 className={cn("text-2xl font-black uppercase tracking-tight text-white leading-none", lang === 'ru' && "italic font-serif")}>{t.title}</h2>
@@ -276,7 +276,7 @@ export function LoveCircleChat() {
           {messages?.length === 0 && !isLoading && (
             <div className="text-center py-24 opacity-20 space-y-6">
               <div className="relative inline-block">
-                <CircleDot className="w-16 h-16 mx-auto text-[#10B981]" />
+                <HeartHandshake className="w-16 h-16 mx-auto text-[#10B981]" />
               </div>
               <p className={cn("text-sm uppercase font-black tracking-[0.4em] leading-relaxed text-white max-w-[200px] mx-auto", lang === 'ru' && "italic font-serif")}>
                 {t.resonanceStart}
