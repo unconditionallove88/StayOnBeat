@@ -35,7 +35,8 @@ import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
 
 /**
  * @fileOverview Pulse Lab component.
- * Fixed: Scrolling logic for iPhone, robust localized search, and subtype initialization.
+ * Fixed: Search logic refined to search across all translations.
+ * Fixed: RU branding updated to "Pulse Guardian" and "Забота".
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -69,10 +70,10 @@ const CONTENT = {
     poppersHR: (hr: number) => `Sua frequência cardíaca é ${hr} BPM Poppers reduzem a pressão arterial bruscamente Por favor sente-se e respire antes de usar`
   },
   ru: {
-    title: "Лаборатория", advisor: "Советник по Безопасности", search: "Поиск веществ...",
+    title: "Лаборатория", advisor: "Забота", search: "Поиск веществ...",
     diary: "Дневник Сессии", records: "Записи", sync: "Синхронизировать Сессию", intake: "Добавить запись",
     confirm: "Подтвердить и Добавить", cancel: "Отмена", amount: "Количество", doseLogged: "Запись добавлена",
-    addedToDiary: "добавлено в твой дневник сессии", causionTitle: "Пульс Страж: Осторожно 🧪",
+    addedToDiary: "добавлено в твой дневник сессии", causionTitle: "Pulse Guardian: Осторожно 🧪",
     poppersHR: (hr: number) => `Твой пульс составляет ${hr} уд/мин Попперс резко снижает кровяное давление Пожалуйста присядь и подыши перед использованием`
   }
 };
@@ -166,12 +167,18 @@ export function Step6SubstanceLab({
   };
 
   const normalize = (str: string) => 
-    (str || "").toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    (str || "").toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 
   const filteredSubstances = SUBSTANCES.filter(s => {
-    if (!searchTerm) return true;
-    const name = (lang === 'en' ? s.name : lang === 'de' ? s.deName : lang === 'pt' ? s.ptName : s.ruName) || s.name;
-    return normalize(name).includes(normalize(searchTerm));
+    const term = normalize(searchTerm);
+    if (!term) return true;
+    // Search across all translations
+    return (
+      normalize(s.name).includes(term) ||
+      normalize(s.deName).includes(term) ||
+      normalize(s.ptName).includes(term) ||
+      normalize(s.ruName).includes(term)
+    );
   });
 
   if (!mounted) return null;

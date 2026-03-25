@@ -87,11 +87,11 @@ const AFFIRMATIONS = {
 
 const TOOLTIPS = {
   en: { 
-    vibe: "Mood Check-in", cocreation: "Co-Creation", assistant: "AI Assistant", profile: "My Profile", logout: "Step away", mesh: "Offline Mode: Mesh Active",
+    vibe: "Mood Check-in", cocreation: "Co-Creation", assistant: "Assistant", profile: "My Profile", logout: "Step away", mesh: "Offline Mode: Mesh Active",
     meshCalibration: "Mesh Calibration Required", meshCalibrationSub: "Tap to set visibility"
   },
   de: { 
-    vibe: "Stimmungs Check-in", cocreation: "Ko-Kreation", assistant: "KI-Assistent", profile: "Mein Profil", logout: "Abmelden", mesh: "Offline-Modus: Mesh aktiv",
+    vibe: "Stimmungs Check-in", cocreation: "Ko-Kreation", assistant: "KI-Begleiter", profile: "Mein Profil", logout: "Abmelden", mesh: "Offline-Modus: Mesh aktiv",
     meshCalibration: "Mesh-Kalibrierung nötig", meshCalibrationSub: "Sichtbarkeit festlegen"
   },
   pt: { 
@@ -99,7 +99,7 @@ const TOOLTIPS = {
     meshCalibration: "Calibração de Mesh Necessária", meshCalibrationSub: "Definir visibilidade"
   },
   ru: { 
-    vibe: "Настроение", cocreation: "Со-творение", assistant: "ИИ-Помощник", profile: "Мой Профиль", logout: "Выйти", mesh: "Оффлайн: Mesh Активен",
+    vibe: "Настроение", cocreation: "Со-творение", assistant: "Забота", profile: "Мой Профиль", logout: "Выйти", mesh: "Оффлайн: Mesh Активен",
     meshCalibration: "Нужна калибровка Mesh", meshCalibrationSub: "Настроить видимость"
   }
 };
@@ -191,7 +191,7 @@ function DashboardContent() {
   const isMeshCalibrated = firestoreProfile?.guardActive !== undefined;
 
   const getLocalizedVibeLabel = (vibe: any) => {
-    if (!vibe) return { en: "Steady", de: "Stabil", pt: "Estável", ru: "Умеренное" }[lang] || "Steady";
+    if (!vibe) return { en: "Steady", de: "Stabil", pt: "Estável", ru: "Спокойное" }[lang] || "Steady";
     const vibeMap: Record<string, Record<string, string>> = {
       radiant: { en: "Radiant", de: "Strahlend", pt: "Radiante", ru: "Сияющее" },
       harmony: { en: "Harmony", de: "In Harmonie", pt: "Em Harmonia", ru: "Гармоничное" },
@@ -346,7 +346,7 @@ function DashboardContent() {
                   <Bot size={32} className="text-[#10B981]" />
                 </div>
                 <div className="space-y-1">
-                  <p className={cn("text-lg font-black uppercase tracking-tight leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Помощник' : lang === 'pt' ? 'Assistente' : lang === 'de' ? 'KI-Begleiter' : 'Assistant'}</p>
+                  <p className={cn("text-lg font-black uppercase tracking-tight leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Забота' : lang === 'pt' ? 'Assistente' : lang === 'de' ? 'KI-Begleiter' : 'Assistant'}</p>
                   <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>AI Portal</p>
                 </div>
               </button>

@@ -21,7 +21,7 @@ interface AssistantPortalProps {
 const i18n = {
   en: {
     title: "StayOnBeat",
-    personalAssistant: "Personal Assistant",
+    personalAssistant: "Assistant",
     question: "How is your inner state?",
     subtitle: "Select your current phase for high-fidelity, tailored support. 🌿",
     phases: [
@@ -54,7 +54,7 @@ const i18n = {
   },
   ru: {
     title: "StayOnBeat",
-    personalAssistant: "Персональный Помощник",
+    personalAssistant: "Забота",
     question: "Как твое внутреннее состояние?",
     subtitle: "Выбери текущую фазу для персональной поддержки. 🌿",
     phases: [

@@ -110,14 +110,14 @@ export default function MyHeartPage() {
       witnessesSub: "Общая Забота",
       baseline: "Базовый Пульс",
       baselineSub: "Твоя биологическая точка отсчета",
-      baselineInfo: "Твой Страж откалиброван по этой базе Пороги динамически меняются в зависимости от ритма покоя Точная база означает лучшую защиту 🌿",
+      baselineInfo: "Твой Pulse Guardian откалиброван по этой базе Пороги динамически меняются в зависимости от ритма покоя Точная база означает лучшую защиту 🌿",
       recalibrate: "Откалибровать Базу",
       syncVia: "Через"
     }
   }[lang];
 
   const getLocalizedVibeLabel = (vibe: any) => {
-    if (!vibe) return { en: "Steady", de: "Stabil", pt: "Estável", ru: "Умеренное" }[lang] || "Steady";
+    if (!vibe) return { en: "Steady", de: "Stabil", pt: "Estável", ru: "Спокойное" }[lang] || "Steady";
     const vibeMap: Record<string, Record<string, string>> = {
       radiant: { en: "Radiant", de: "Strahlend", pt: "Radiante", ru: "Сияющее" },
       harmony: { en: "Harmony", de: "In Harmonie", pt: "Em Harmonia", ru: "Гармоничное" },
@@ -276,7 +276,7 @@ export default function MyHeartPage() {
           <DialogTitle className="sr-only">{t.witnesses}</DialogTitle>
           <PartyCircleChat />
         </DialogContent>
-      </Dialog>
+      </div>
     </div>
   );
 }
