@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import HeartStatusAura from "@/components/dashboard/HeartStatusAura";
 import LoveCircleList from "@/components/dashboard/LoveCircle";
 import { Activity, ArrowLeft, Watch, Info, HeartHandshake, Users2, RefreshCw, ChevronRight, CircleDot } from "lucide-react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'navigation';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
@@ -17,8 +17,8 @@ import { cn } from '@/lib/utils';
 
 /**
  * @fileOverview My Heart Page (Individual Analytics).
- * Visualizes the high-fidelity living pulse and provides entry to Holders and Witnesses.
  * Fully localized for EN, DE, PT, RU.
+ * Fixed: RU vibe labels in neuter singular gender.
  */
 export default function MyHeartPage() {
   const router = useRouter();
@@ -117,13 +117,13 @@ export default function MyHeartPage() {
   }[lang];
 
   const getLocalizedVibeLabel = (vibe: any) => {
-    if (!vibe) return { en: "Steady", de: "Stabil", pt: "Estável", ru: "Спокойно" }[lang] || "Steady";
+    if (!vibe) return { en: "Steady", de: "Stabil", pt: "Estável", ru: "Умеренное" }[lang] || "Steady";
     const vibeMap: Record<string, Record<string, string>> = {
-      radiant: { en: "Radiant", de: "Strahlend", pt: "Radiante", ru: "Сияющий" },
-      harmony: { en: "Harmony", de: "In Harmonie", pt: "Em Harmonia", ru: "В Гармонии" },
-      calm: { en: "Calm", de: "Beruhigt", pt: "Calmo", ru: "Спокойный" },
-      hazy: { en: "Hazy", de: "Verschwommen", pt: "Nebuloso", ru: "Туманный" },
-      overwhelmed: { en: "Held", de: "Überwältigt", pt: "Sobrecarregado", ru: "Перегружен" }
+      radiant: { en: "Radiant", de: "Strahlend", pt: "Radiante", ru: "Сияющее" },
+      harmony: { en: "Harmony", de: "In Harmonie", pt: "Em Harmonia", ru: "Гармоничное" },
+      calm: { en: "Calm", de: "Beruhigt", pt: "Calmo", ru: "Спокойное" },
+      hazy: { en: "Hazy", de: "Verschwommen", pt: "Nebuloso", ru: "Туманное" },
+      overwhelmed: { en: "Held", de: "Überwältigt", pt: "Sobrecarregado", ru: "Бережное" }
     };
     return vibeMap[vibe.current]?.[lang] || vibe.currentLabel;
   };

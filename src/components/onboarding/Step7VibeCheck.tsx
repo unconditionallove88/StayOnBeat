@@ -13,8 +13,7 @@ import NotificationPrompt from '@/components/dashboard/NotificationPrompt';
 /**
  * @fileOverview Mood Check-in Onboarding Step.
  * Full localization for EN, DE, PT, RU.
- * Punctuation-free for resonance.
- * Refined RU typography for a "written" feel.
+ * Updated: Russian vibes using neuter singular gender.
  */
 
 interface Step7VibeCheckProps {
@@ -26,31 +25,31 @@ interface Step7VibeCheckProps {
 
 const VIBE_OPTIONS = [
   { 
-    id: 'radiant', label: 'Radiant', de: 'Strahlend', pt: 'Radiante', ru: 'Сияющий',
+    id: 'radiant', label: 'Radiant', de: 'Strahlend', pt: 'Radiante', ru: 'Сияющее',
     icon: RadiantIcon, description: 'Your light is shining bright today', deDescription: 'Dein Licht leuchtet heute hell',
     ptDescription: 'Sua luz está brilhando forte hoje', ruDescription: 'Твой свет сияет ярко сегодня',
     color: 'text-purple-400', activeColor: 'bg-purple-500/10 border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.3)]' 
   },
   { 
-    id: 'harmony', label: 'In Harmony', de: 'In Harmonie', pt: 'Em Harmonia', ru: 'В Гармонии',
+    id: 'harmony', label: 'In Harmony', de: 'In Harmonie', pt: 'Em Harmonia', ru: 'Гармоничное',
     icon: HarmonyIcon, description: 'You are aligned with your rhythm', deDescription: 'Du bist im Einklang mit deinem Rhythmus',
     ptDescription: 'Você está alinhado com seu ritmo', ruDescription: 'Вы в гармонии со своим ритмом',
     color: 'text-[#EBFB3B]', activeColor: 'bg-[#EBFB3B]/10 border-[#EBFB3B] shadow-[0_0_20px_rgba(235,251,59,0.3)]' 
   },
   { 
-    id: 'calm', label: 'Calm', de: 'Beruhigt', pt: 'Calmo', ru: 'Спокойный',
+    id: 'calm', label: 'Calm', de: 'Beruhigt', pt: 'Calmo', ru: 'Спокойное',
     icon: CalmIcon, description: 'Everything is exactly as it is supposed to be', deDescription: 'Alles ist im Gleichgewicht und klar',
     ptDescription: 'Tudo está exatamente como deveria estar', ruDescription: 'Все именно так как должно быть',
     color: 'text-[#10B981]', activeColor: 'bg-[#10B981]/10 border-[#10B981] shadow-[0_0_20px_rgba(16,185,129,0.3)]' 
   },
   { 
-    id: 'hazy', label: 'Hazy', de: 'Verschwommen', pt: 'Nebuloso', ru: 'Туманный',
+    id: 'hazy', label: 'Hazy', de: 'Verschwommen', pt: 'Nebuloso', ru: 'Туманное',
     icon: HazyIcon, description: 'It is okay to rest and be still', deDescription: 'Es ist okay sich auszuruhen',
     ptDescription: 'Tudo bem descansar e ficar em silêncio', ruDescription: 'Это нормально отдыхать и быть в тишине',
     color: 'text-slate-400', activeColor: 'bg-slate-500/10 border-slate-500 shadow-[0_0_20px_rgba(107,114,128,0.3)]' 
   },
   { 
-    id: 'overwhelmed', label: 'Overwhelmed', de: 'Überwältigt', pt: 'Sobrecarregado', ru: 'Перегружен',
+    id: 'overwhelmed', label: 'Overwhelmed', de: 'Überwältigt', pt: 'Sobrecarregado', ru: 'Бережное',
     icon: HeldIcon, description: 'You are held. Your circle is here', deDescription: 'Du wirst gehalten Dein Kreis ist hier',
     ptDescription: 'Você é acolhido Seu círculo está aqui', ruDescription: 'Тебя поддерживают Твой круг рядом',
     color: 'text-blue-400', activeColor: 'bg-blue-500/10 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)]' 

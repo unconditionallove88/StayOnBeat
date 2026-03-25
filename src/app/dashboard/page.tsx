@@ -191,13 +191,13 @@ function DashboardContent() {
   const isMeshCalibrated = firestoreProfile?.guardActive !== undefined;
 
   const getLocalizedVibeLabel = (vibe: any) => {
-    if (!vibe) return { en: "Steady", de: "Stabil", pt: "Estável", ru: "Спокойно" }[lang] || "Steady";
+    if (!vibe) return { en: "Steady", de: "Stabil", pt: "Estável", ru: "Умеренное" }[lang] || "Steady";
     const vibeMap: Record<string, Record<string, string>> = {
-      radiant: { en: "Radiant", de: "Strahlend", pt: "Radiante", ru: "Сияющий" },
-      harmony: { en: "Harmony", de: "In Harmonie", pt: "Em Harmonia", ru: "В Гармонии" },
-      calm: { en: "Calm", de: "Beruhigt", pt: "Calmo", ru: "Спокойный" },
-      hazy: { en: "Hazy", de: "Verschwommen", pt: "Nebuloso", ru: "Туманный" },
-      overwhelmed: { en: "Held", de: "Überwältigt", pt: "Sobrecarregado", ru: "Перегружен" }
+      radiant: { en: "Radiant", de: "Strahlend", pt: "Radiante", ru: "Сияющее" },
+      harmony: { en: "Harmony", de: "In Harmonie", pt: "Em Harmonia", ru: "Гармоничное" },
+      calm: { en: "Calm", de: "Beruhigt", pt: "Calmo", ru: "Спокойное" },
+      hazy: { en: "Hazy", de: "Verschwommen", pt: "Nebuloso", ru: "Туманное" },
+      overwhelmed: { en: "Held", de: "Überwältigt", pt: "Sobrecarregado", ru: "Бережное" }
     };
     return vibeMap[vibe.current]?.[lang] || vibe.currentLabel;
   };

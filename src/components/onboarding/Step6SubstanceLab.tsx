@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -164,10 +165,12 @@ export function Step6SubstanceLab({
     localStorage.setItem('stayonbeat_logs', JSON.stringify(updated));
   };
 
+  // Improved normalization for PT accents and RU characters
   const normalize = (str: string) => 
-    str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    (str || "").toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-  const filtered = SUBSTANCES.filter(s => {
+  const filteredSubstances = SUBSTANCES.filter(s => {
+    if (!searchTerm) return true;
     const name = (lang === 'en' ? s.name : lang === 'de' ? s.deName : lang === 'pt' ? s.ptName : s.ruName) || s.name;
     return normalize(name).includes(normalize(searchTerm));
   });
@@ -255,7 +258,7 @@ export function Step6SubstanceLab({
           )}
 
           <div className="grid grid-cols-3 gap-4 w-full">
-            {filtered.map(s => {
+            {filteredSubstances.map(s => {
               const active = sessionLogs.some(log => log.id === s.id);
               const name = (lang === 'en' ? s.name : lang === 'de' ? s.deName : lang === 'pt' ? s.ptName : s.ruName) || s.name;
               return (
@@ -309,7 +312,7 @@ export function Step6SubstanceLab({
                 </div>
               )}
               <div className="w-full space-y-4 pt-6">
-                <button onClick={saveLog} className={cn("w-full h-20 bg-[#3EB489] text-black rounded-[1.5rem] font-black uppercase tracking-widest neon-glow active:scale-[0.98] shadow-2xl flex items-center justify-center gap-3 text-lg", lang === 'ru' && "italic font-serif")}><CheckCircle2 size={24} /> {t.confirm}</button>
+                <button onClick={saveLog} className={cn("w-full h-20 bg-[#3EB489] text-black rounded-[1.5rem] font-black uppercase tracking-widest neon-glow active:scale-[0.98] shadow-2xl flex items-center justify-center gap-3 text-lg", lang === 'ru' && "italic font-serif")}>{t.confirm}</button>
                 <button onClick={() => setActiveSubstance(null)} className={cn("w-full h-14 text-white/20 font-black uppercase text-[10px] tracking-[0.4em]", lang === 'ru' && "italic font-serif")}>{t.cancel}</button>
               </div>
             </div>

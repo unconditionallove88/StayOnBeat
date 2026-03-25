@@ -10,16 +10,14 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview MoodCheckIn Component.
- * Bespoke Resonance Icons integrated with an organic color palette for a soulful check-in.
- * Supports EN, DE, PT, RU.
- * Refined RU typography for a "written" feel.
+ * Updated: Russian vibes using neuter singular gender.
  */
 
 const CONTENT = {
   en: { title: "Mood Check-in", sub: "How is your mood today?", state: "Current State", calm: "Calm" },
   de: { title: "Stimmungs Check-in", sub: "Wie ist deine Stimmung heute?", state: "Aktueller Zustand", calm: "Beruhigt" },
   pt: { title: "Sincronia de Humor", sub: "Como está seu humor hoje?", state: "Estado Atual", calm: "Calmo" },
-  ru: { title: "Настроение", sub: "Как ваше настроение сегодня?", state: "Текущее состояние", calm: "Спокойный" }
+  ru: { title: "Настроение", sub: "Как твое настроение сегодня?", state: "Текущее состояние", calm: "Спокойное" }
 };
 
 export function AnatomicalHeartCheckIn() {
@@ -40,23 +38,26 @@ export function AnatomicalHeartCheckIn() {
     if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
   }, []);
 
+  const statuses = [
+    { id: "radiant", label: { en: "Radiant", de: "Strahlend", pt: "Radiante", ru: "Сияющее" }, color: "#A855F7", icon: RadiantIcon },
+    { id: "harmony", label: { en: "Harmony", de: "In Harmonie", pt: "Em Harmonia", ru: "Гармоничное" }, color: "#EBFB3B", icon: HarmonyIcon },
+    { id: "calm", label: { en: "Calm", de: "Beruhigt", pt: "Calmo", ru: "Спокойное" }, color: "#10B981", icon: CalmIcon },
+    { id: "hazy", label: { en: "Hazy", de: "Verschwommen", pt: "Nebuloso", ru: "Туманное" }, color: "#94A3B8", icon: HazyIcon },
+    { id: "overwhelmed", label: { en: "Held", de: "Überwältigt", pt: "Sobrecarregado", ru: "Бережное" }, color: "#3B82F6", icon: HeldIcon },
+  ];
+
   useEffect(() => {
-    if (profile?.vibe?.currentLabel) {
-      setStatus(profile.vibe.currentLabel);
+    if (profile?.vibe?.current) {
+      const current = statuses.find(s => s.id === profile.vibe.current);
+      if (current) {
+        setStatus(current.label[lang]);
+      }
     } else {
       setStatus(CONTENT[lang].calm);
     }
-  }, [profile?.vibe?.currentLabel, lang]);
+  }, [profile?.vibe?.current, lang]);
 
   const t = CONTENT[lang];
-
-  const statuses = [
-    { id: "radiant", label: { en: "Radiant", de: "Strahlend", pt: "Radiante", ru: "Сияющий" }, color: "#A855F7", icon: RadiantIcon },
-    { id: "harmony", label: { en: "Harmony", de: "In Harmonie", pt: "Em Harmonia", ru: "В Гармонии" }, color: "#EBFB3B", icon: HarmonyIcon },
-    { id: "calm", label: { en: "Calm", de: "Beruhigt", pt: "Calmo", ru: "Спокойный" }, color: "#10B981", icon: CalmIcon },
-    { id: "hazy", label: { en: "Hazy", de: "Verschwommen", pt: "Nebuloso", ru: "Туманный" }, color: "#94A3B8", icon: HazyIcon },
-    { id: "overwhelmed", label: { en: "Held", de: "Überwältigt", pt: "Sobrecarregado", ru: "Перегружен" }, color: "#3B82F6", icon: HeldIcon },
-  ];
 
   const handleSelect = (s: typeof statuses[0]) => {
     const localizedLabel = s.label[lang];
@@ -86,7 +87,7 @@ export function AnatomicalHeartCheckIn() {
     <div className="flex flex-col items-center p-8 bg-[#0a0a0a] rounded-[3rem] border border-white/10 shadow-2xl font-headline w-full max-w-lg mx-auto">
       <div className="flex items-center gap-3 mb-2">
         <Heart size={24} className="text-[#10B981] fill-[#10B981]/20" />
-        <h3 className="text-white font-black text-2xl uppercase tracking-tighter leading-none">{t.title}</h3>
+        <h3 className={cn("text-white font-black text-2xl uppercase tracking-tighter leading-none", lang === 'ru' && "italic font-serif")}>{t.title}</h3>
       </div>
       <p className={cn(
         "text-[#10B981] text-[10px] mb-8 uppercase tracking-[0.4em] font-black text-center",
@@ -133,7 +134,7 @@ export function AnatomicalHeartCheckIn() {
       </div>
 
       <div className="mt-8 text-center">
-        <p className="text-[10px] text-white/20 uppercase tracking-[0.5em] font-black mb-1">{t.state}</p>
+        <p className={cn("text-[10px] text-white/20 uppercase tracking-[0.5em] font-black mb-1", lang === 'ru' && "italic font-serif")}>{t.state}</p>
         <p 
           className={cn(
             "font-black text-2xl animate-pulse uppercase tracking-tighter transition-colors duration-1000",
