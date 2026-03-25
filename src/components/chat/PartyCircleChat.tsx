@@ -13,8 +13,8 @@ import { GuardianLogo } from '@/components/ui/guardian-logo';
 
 /**
  * @fileOverview The Witnesses (Public & Moderated).
- * Integrated with Pulse Guardian for active text monitoring and slang detection.
- * Punctuation-free for resonance.
+ * Integrated with Pulse Guardian for active monitoring.
+ * Removed clinical/fear words from RU to maintain purity.
  * Full localization for EN, DE, PT, RU.
  */
 
@@ -100,14 +100,14 @@ const CONTENT = {
       "Береги анонимность — свою и чужую",
       "Политическая риторика не допускается"
     ],
-    enterBtn: "Войти в защищенное пространство",
+    enterBtn: "Войти в пространство заботы",
     placeholder: "Поделись своим свидетельством...",
     footer: "Основано на Безусловной Любви 🌿",
     blockedTitle: "Тишина в Пространстве",
-    blockedDesc: "Pulse Guardian приостановил твое общение Для обеспечения безопасности этого круга незаконная деятельность и враждебная лексика не допускаются 🌿",
+    blockedDesc: "Pulse Guardian приостановил твое общение Для обеспечения гармонии этого круга незаконная деятельность и враждебная лексика не допускаются 🌿",
     blockedAffirmation: "Я люблю и уважаю свою потребность в тишине Используй это время для заземления",
-    violationTitle: "Pulse Guardian: Нарушение протокола",
-    violationDesc: "Твоя сессия в этом чате приостановлена в целях общей безопасности",
+    violationTitle: "Pulse Guardian: Нарушение резонанса",
+    violationDesc: "Твоя сессия в этом чате приостановлена в целях общей гармонии",
     errorTitle: "Ошибка соединения",
     errorDesc: "Не удалось отправить сообщение в пространство"
   }
@@ -189,7 +189,7 @@ export function PartyCircleChat() {
       if (!moderation.isSafe) {
         setIsBlocked(true);
         localStorage.setItem('stayonbeat_witness_blocked', 'true');
-        await logViolation(text, moderation.reason || "Illegal activity or slang detected", 'AI_FLAGGED');
+        await logViolation(text, moderation.reason || "Unsafe content detected", 'AI_FLAGGED');
         toast({
           variant: "destructive",
           title: t.violationTitle,

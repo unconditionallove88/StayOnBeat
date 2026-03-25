@@ -35,9 +35,9 @@ import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
 
 /**
  * @fileOverview Pulse Lab component.
- * Fixed: Robust, language-agnostic search logic.
- * Fixed: Optimized layout for absolute iPhone stability.
- * Fixed: RU branding to "Pulse Guardian" and "Забота".
+ * Fixed: Robust, cross-language search logic.
+ * Fixed: iPhone scroll stability with pinned header.
+ * Fixed: Renamed tool to "Забота" in RU and removed clinical terms.
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -74,8 +74,8 @@ const CONTENT = {
     title: "Лаборатория", advisor: "Забота", search: "Поиск веществ...",
     diary: "Дневник Сессии", records: "Записи", sync: "Синхронизировать Сессию", intake: "Добавить запись",
     confirm: "Подтвердить и Добавить", cancel: "Отмена", amount: "Количество", doseLogged: "Запись добавлена",
-    addedToDiary: "добавлено в твой дневник сессии", causionTitle: "Pulse Guardian: Осторожно 🧪",
-    poppersHR: (hr: number) => `Твой пульс составляет ${hr} уд/мин Попперс резко снижает кровяное давление Пожалуйста присядь и подыши перед использованием`
+    addedToDiary: "добавлено в твой дневник сессии", causionTitle: "Pulse Guardian: Внимание 🧪",
+    poppersHR: (hr: number) => `Твой пульс составляет ${hr} уд/мин Попперс резко снижает давление Пожалуйста присядь и подыши перед использованием`
   }
 };
 
@@ -127,12 +127,7 @@ export function Step6SubstanceLab({
 
   const normalizeForSearch = (str: string) => {
     if (!str) return "";
-    return str
-      .toString()
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .trim();
+    return str.toString().toLowerCase().trim();
   };
 
   const handleSelectSubstance = (substance: any) => {
@@ -181,7 +176,7 @@ export function Step6SubstanceLab({
     const term = normalizeForSearch(searchTerm);
     if (!term) return true;
     
-    // Search across all languages for maximum robustness
+    // Search across ALL translations for ultimate robustness
     const searchableFields = [s.name, s.deName, s.ptName, s.ruName];
     return searchableFields.some(field => normalizeForSearch(field).includes(term));
   });

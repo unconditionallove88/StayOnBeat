@@ -22,9 +22,8 @@ import {
 
 /**
  * @fileOverview PulseGuardianBanner Component.
- * Footers highlighted in emerald green with emoji removed.
+ * Removed "security" and "protection" terminology from RU to maintain judging-free tone.
  * Punctuation-free affirmations for resonance.
- * Added full PT and RU support.
  */
 
 interface PulseGuardianBannerProps {
@@ -75,15 +74,15 @@ const CONTENT = {
   ru: {
     title: "Pulse Guardian",
     sub: "Центральный интеллект",
-    intro: "Pulse Guardian это центральный интеллект твоего пространства Я постоянно собираю данные из всех инструментов чтобы твое путешествие оставалось безопасным и осознанным",
+    intro: "Pulse Guardian это центральный интеллект твоего пространства Я постоянно собираю данные чтобы твое путешествие оставалось осознанным и гармоничным",
     sections: [
-      { title: "Интеграция Pulse Sync", desc: "Считывает показатели в реальном времени с твоего устройства для мониторинга состояния" },
-      { title: "Осведомленность Лаборатории", desc: "Автоматически пересчитывает лимиты безопасности на основе твоих записей" },
-      { title: "Калибровка профиля", desc: "Настраивает пороги срабатывания на основе твоего состояния здоровья и лекарств" },
-      { title: "Связь экстренной помощи", desc: "Запускает протоколы помощи и окно защиты при превышении порогов безопасности" },
+      { title: "Интеграция Pulse Sync", desc: "Считывает показатели в реальном времени для твоего спокойствия" },
+      { title: "Осведомленность Лаборатории", desc: "Автоматически пересчитывает ритмы на основе твоих записей" },
+      { title: "Калибровка профиля", desc: "Настраивает резонанс на основе твоего состояния здоровья" },
+      { title: "Связь и Поддержка", desc: "Запускает протоколы заботы и окно тишины при необходимости" },
     ],
     footer: "Обработано локально с любовью",
-    tapInfo: "Интегрированная система безопасности Нажми чтобы узнать как я тебя защищаю"
+    tapInfo: "Центральный интеллект Нажми чтобы узнать больше о резонансе"
   }
 };
 
@@ -95,7 +94,10 @@ export default function PulseGuardianBanner({
 
   const InfoContent = () => (
     <div className="w-full max-w-2xl mx-auto pb-12 font-headline relative">
-      <p className={cn("text-white/60 text-sm font-bold leading-relaxed mb-10 uppercase tracking-wide px-2", lang === 'ru' && "italic font-serif")}>
+      <p className={cn(
+        "text-white/60 text-sm font-bold leading-relaxed mb-10 uppercase tracking-wide px-2", 
+        lang === 'ru' && "italic font-serif"
+      )}>
         {t.intro}
       </p>
 
