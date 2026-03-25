@@ -450,7 +450,7 @@ function DashboardContent() {
 
       <Dialog open={aiBotOpen} onOpenChange={setAiBotOpen}>
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] max-h-[85dvh] top-[50%] -translate-y-[50%]">
-          <DialogTitle className="sr-only">AI Assistant Portal</DialogTitle>
+          <DialogTitle className="sr-only">AI Care Portal</DialogTitle>
           <AssistantPortal userProfile={firestoreProfile} />
         </DialogContent>
       </Dialog>

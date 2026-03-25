@@ -35,8 +35,8 @@ import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 
 /**
  * @fileOverview Pulse Lab component.
- * Robust cross-language search logic (searches all localized names).
- * Optimized for mobile touch-pan-y and fixed header stability.
+ * Fixed: Search functionality is now robust and cross-language.
+ * Fixed: Scrolling architecture optimized for absolute iPhone stability.
  * Responsibility Portal: Mandatory affirmation before sync.
  */
 
@@ -137,12 +137,17 @@ export function Step6SubstanceLab({
   const filteredSubstances = useMemo(() => {
     const term = searchTerm.toLowerCase().trim();
     if (!term) return SUBSTANCES;
-    return SUBSTANCES.filter(s => 
-      [s.name, s.deName, s.ptName, s.ruName].some(name => 
-        name.toLowerCase().includes(term)
-      )
-    );
-  }, [searchTerm, lang]);
+    return SUBSTANCES.filter(s => {
+      // Check every language translation for a match
+      const searchableNames = [
+        s.name.toLowerCase(),
+        s.deName.toLowerCase(),
+        s.ptName.toLowerCase(),
+        s.ruName.toLowerCase()
+      ];
+      return searchableNames.some(name => name.includes(term));
+    });
+  }, [searchTerm]);
 
   const handleSelectSubstance = (substance: any) => {
     const currentHR = userData?.sessionStatus?.lastHeartRate || 75;
@@ -238,6 +243,7 @@ export function Step6SubstanceLab({
         <div className="relative w-full pt-2 pb-2">
           <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
           <input 
+            type="text"
             placeholder={t.search}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -246,50 +252,52 @@ export function Step6SubstanceLab({
         </div>
       </header>
 
-      {/* Scrollable Content */}
-      <ScrollArea className="flex-1 px-6 pt-6 min-h-0 touch-pan-y">
-        <div className="pb-48 space-y-10">
-          {showDiary && sessionLogs.length > 0 && (
-            <div className="space-y-4 animate-in slide-in-from-top-4 duration-500">
-              <div className="flex items-center justify-between px-2">
-                <h3 className={cn("text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3", lang === 'ru' && "italic font-serif")}><Calendar className="w-3 h-3" /> {t.diary}</h3>
-                <span className={cn("text-[8px] font-bold text-white/20 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{sessionLogs.length} {t.records}</span>
-              </div>
-              <div className="grid gap-3">
-                {sessionLogs.slice().reverse().map((log, i) => (
-                  <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between shadow-lg">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center border border-white/10"><FlaskConical size={20} className="text-[#3EB489]" /></div>
-                      <div className="flex flex-col gap-1">
-                        <span className={cn("text-sm font-black uppercase text-white", lang === 'ru' && "italic font-serif")}>{log.name}</span>
-                        <span className={cn("text-[10px] font-bold text-[#3EB489]", lang === 'ru' && "italic font-serif")}>{log.id === 'alcohol' ? log.items.map((it: any) => `${it.count}x ${it.type}`).join(', ') : `${log.value}${log.unit}`}</span>
+      {/* Scrollable Content Area - Crucial flex-1 min-h-0 for iPhone stability */}
+      <div className="flex-1 min-h-0 overflow-hidden relative">
+        <ScrollArea className="h-full px-6 pt-6 touch-pan-y">
+          <div className="pb-48 space-y-10">
+            {showDiary && sessionLogs.length > 0 && (
+              <div className="space-y-4 animate-in slide-in-from-top-4 duration-500">
+                <div className="flex items-center justify-between px-2">
+                  <h3 className={cn("text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3", lang === 'ru' && "italic font-serif")}><Calendar className="w-3 h-3" /> {t.diary}</h3>
+                  <span className={cn("text-[8px] font-bold text-white/20 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{sessionLogs.length} {t.records}</span>
+                </div>
+                <div className="grid gap-3">
+                  {sessionLogs.slice().reverse().map((log, i) => (
+                    <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between shadow-lg">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center border border-white/10"><FlaskConical size={20} className="text-[#3EB489]" /></div>
+                        <div className="flex flex-col gap-1">
+                          <span className={cn("text-sm font-black uppercase text-white", lang === 'ru' && "italic font-serif")}>{log.name}</span>
+                          <span className={cn("text-[10px] font-bold text-[#3EB489]", lang === 'ru' && "italic font-serif")}>{log.id === 'alcohol' ? log.items.map((it: any) => `${it.count}x ${it.type}`).join(', ') : `${log.value}${log.unit}`}</span>
+                        </div>
                       </div>
+                      <button onClick={() => removeLog(sessionLogs.length - 1 - i)} className="p-2 text-white/10 hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
                     </div>
-                    <button onClick={() => removeLog(sessionLogs.length - 1 - i)} className="p-2 text-white/10 hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          <div className="grid grid-cols-3 gap-4 w-full">
-            {filteredSubstances.map(s => {
-              const active = sessionLogs.some(log => log.id === s.id);
-              const localizedName = lang === 'en' ? s.name : lang === 'de' ? s.deName : lang === 'pt' ? s.ptName : s.ruName;
-              return (
-                <button 
-                  key={s.id}
-                  onClick={() => handleSelectSubstance(s)}
-                  className={cn("aspect-square border rounded-[2.5rem] flex flex-col items-center justify-center gap-3 transition-all hover:bg-white/10 active:scale-95 group relative shadow-2xl", active ? "bg-[#3EB489]/10 border-[#3EB489]" : "bg-white/[0.02] border-white/5")}
-                >
-                  <div className={cn("p-4 rounded-2xl bg-black/40 border border-white/5 group-hover:scale-110 transition-transform shadow-lg", s.color)}><s.icon size={28} /></div>
-                  <span className={cn("text-[9px] font-black uppercase tracking-widest text-center px-2 leading-tight", active ? "text-[#3EB489]" : "text-white/40", lang === 'ru' && "italic font-serif")}>{localizedName}</span>
-                </button>
-              );
-            })}
+            <div className="grid grid-cols-3 gap-4 w-full">
+              {filteredSubstances.map(s => {
+                const active = sessionLogs.some(log => log.id === s.id);
+                const localizedName = lang === 'en' ? s.name : lang === 'de' ? s.deName : lang === 'pt' ? s.ptName : s.ruName;
+                return (
+                  <button 
+                    key={s.id}
+                    onClick={() => handleSelectSubstance(s)}
+                    className={cn("aspect-square border rounded-[2.5rem] flex flex-col items-center justify-center gap-3 transition-all hover:bg-white/10 active:scale-95 group relative shadow-2xl", active ? "bg-[#3EB489]/10 border-[#3EB489]" : "bg-white/[0.02] border-white/5")}
+                  >
+                    <div className={cn("p-4 rounded-2xl bg-black/40 border border-white/5 group-hover:scale-110 transition-transform shadow-lg", s.color)}><s.icon size={28} /></div>
+                    <span className={cn("text-[9px] font-black uppercase tracking-widest text-center px-2 leading-tight", active ? "text-[#3EB489]" : "text-white/40", lang === 'ru' && "italic font-serif")}>{localizedName}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </ScrollArea>
+        </ScrollArea>
+      </div>
 
       {/* Fixed Footer */}
       <footer className="shrink-0 h-[110px] bg-black/95 backdrop-blur-2xl border-t border-white/5 flex items-center justify-center px-6 z-[70] pb-safe shadow-[0_-20px_50px_rgba(0,0,0,0.8)]">
@@ -347,41 +355,43 @@ export function Step6SubstanceLab({
             <button onClick={() => setActiveSubstance(null)} className="p-4 bg-white/5 rounded-full border border-white/10 text-white/40 active:scale-90 transition-all"><X size={24} /></button>
           </header>
 
-          <ScrollArea className="flex-1 px-8 min-h-0 touch-pan-y">
-            <div className="flex flex-col items-center space-y-12 py-12 max-w-md mx-auto w-full pb-40">
-              {activeSubstance.id === 'alcohol' ? (
-                <div className="space-y-4 w-full">
-                  {alcoholCart.map((item, idx) => (
-                    <div key={idx} className="flex items-center justify-between bg-white/[0.03] p-6 rounded-3xl border border-white/10 shadow-lg">
-                      <span className={cn("text-base font-black uppercase tracking-widest text-white/80", lang === 'ru' && "italic font-serif")}>{item.type}</span>
-                      <div className="flex items-center gap-8">
-                        <button onClick={() => { const next = [...alcoholCart]; next[idx].count = Math.max(0, next[idx].count - 1); setAlcoholCart(next); }} className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 transition-all active:scale-90">-</button>
-                        <span className="w-8 text-center font-black text-3xl text-white tabular-nums">{item.count}</span>
-                        <button onClick={() => { const next = [...alcoholCart]; next[idx].count += 1; setAlcoholCart(next); }} className="w-12 h-12 rounded-full bg-[#3EB489] text-black flex items-center justify-center transition-all active:scale-90 shadow-lg">+</button>
+          <div className="flex-1 min-h-0 overflow-hidden">
+            <ScrollArea className="h-full px-8 touch-pan-y">
+              <div className="flex flex-col items-center space-y-12 py-12 max-w-md mx-auto w-full pb-40">
+                {activeSubstance.id === 'alcohol' ? (
+                  <div className="space-y-4 w-full">
+                    {alcoholCart.map((item, idx) => (
+                      <div key={idx} className="flex items-center justify-between bg-white/[0.03] p-6 rounded-3xl border border-white/10 shadow-lg">
+                        <span className={cn("text-base font-black uppercase tracking-widest text-white/80", lang === 'ru' && "italic font-serif")}>{item.type}</span>
+                        <div className="flex items-center gap-8">
+                          <button onClick={() => { const next = [...alcoholCart]; next[idx].count = Math.max(0, next[idx].count - 1); setAlcoholCart(next); }} className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 transition-all active:scale-90">-</button>
+                          <span className="w-8 text-center font-black text-3xl text-white tabular-nums">{item.count}</span>
+                          <button onClick={() => { const next = [...alcoholCart]; next[idx].count += 1; setAlcoholCart(next); }} className="w-12 h-12 rounded-full bg-[#3EB489] text-black flex items-center justify-center transition-all active:scale-90 shadow-lg">+</button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                ) : (
+                  <div className="space-y-6 w-full text-center">
+                    <label className={cn("text-[10px] font-black uppercase tracking-[0.4em] text-white/30 block", lang === 'ru' && "italic font-serif")}>{t.amount} ({lang === 'en' ? activeSubstance.unit : lang === 'de' ? activeSubstance.deUnit : lang === 'pt' ? activeSubstance.ptUnit : activeSubstance.ruUnit})</label>
+                    <input 
+                      type="number" 
+                      value={manualValue} 
+                      onChange={(e) => setManualValue(e.target.value)} 
+                      autoFocus 
+                      inputMode="decimal" 
+                      className={cn("w-full bg-transparent border-b-4 border-[#3EB489] py-4 text-7xl font-black outline-none text-white text-center shadow-none transition-all placeholder:text-white/5", lang === 'ru' && "italic font-serif")} 
+                      placeholder="0.00" 
+                    />
+                  </div>
+                )}
+                <div className="w-full space-y-4 pt-10">
+                  <button onClick={saveLog} className={cn("w-full h-24 bg-[#3EB489] text-black rounded-[2rem] font-black uppercase tracking-widest neon-glow active:scale-[0.98] shadow-2xl flex items-center justify-center gap-4 text-xl", lang === 'ru' && "italic font-serif")}>{t.confirm}</button>
+                  <button onClick={() => setActiveSubstance(null)} className={cn("w-full h-14 text-white/20 font-black uppercase text-[10px] tracking-[0.5em] transition-colors hover:text-white", lang === 'ru' && "italic font-serif")}>{t.cancel}</button>
                 </div>
-              ) : (
-                <div className="space-y-6 w-full text-center">
-                  <label className={cn("text-[10px] font-black uppercase tracking-[0.4em] text-white/30 block", lang === 'ru' && "italic font-serif")}>{t.amount} ({lang === 'en' ? activeSubstance.unit : lang === 'de' ? activeSubstance.deUnit : lang === 'pt' ? activeSubstance.ptUnit : activeSubstance.ruUnit})</label>
-                  <input 
-                    type="number" 
-                    value={manualValue} 
-                    onChange={(e) => setManualValue(e.target.value)} 
-                    autoFocus 
-                    inputMode="decimal" 
-                    className={cn("w-full bg-transparent border-b-4 border-[#3EB489] py-4 text-7xl font-black outline-none text-white text-center shadow-none transition-all placeholder:text-white/5", lang === 'ru' && "italic font-serif")} 
-                    placeholder="0.00" 
-                  />
-                </div>
-              )}
-              <div className="w-full space-y-4 pt-10">
-                <button onClick={saveLog} className={cn("w-full h-24 bg-[#3EB489] text-black rounded-[2rem] font-black uppercase tracking-widest neon-glow active:scale-[0.98] shadow-2xl flex items-center justify-center gap-4 text-xl", lang === 'ru' && "italic font-serif")}>{t.confirm}</button>
-                <button onClick={() => setActiveSubstance(null)} className={cn("w-full h-14 text-white/20 font-black uppercase text-[10px] tracking-[0.5em] transition-colors hover:text-white", lang === 'ru' && "italic font-serif")}>{t.cancel}</button>
               </div>
-            </div>
-          </ScrollArea>
+            </ScrollArea>
+          </div>
         </div>
       )}
 
