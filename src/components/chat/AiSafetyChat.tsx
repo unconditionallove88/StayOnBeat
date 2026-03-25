@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
  * @fileOverview AiSafetyChat Component.
  * Supports EN, DE, PT, RU.
  * Passes language code to Genkit flow for localized AI responses.
+ * Updated RU: "Как я могу быть полезен?"
  */
 
 const CONTENT = {
@@ -33,7 +34,7 @@ const CONTENT = {
     voiceError: "Erro de voz", voiceDesc: "Não foi possível acessar o microfone.", voiceNotSupported: "Sem suporte", voiceNotSupportedDesc: "Seu navegador não suporta entrada de voz."
   },
   ru: {
-    context: "Контекст сессии", question: "Как я могу помочь тебе быть в безопасности?", sub: "Я знаю твой профиль и потребление. Спрашивай о чем угодно.",
+    context: "Контекст сессии", question: "Как я могу быть полезен?", sub: "Я знаю твой профиль и потребление. Спрашивай о чем угодно.",
     water: "💧 Вода", banana: "Магний", placeholder: "Задай вопрос...", analyzing: "Анализирую риски...",
     interrupted: "Связь прервана. Обратись к персоналу, если это экстренная ситуация.",
     voiceError: "Ошибка голоса", voiceDesc: "Нет доступа к микрофону.", voiceNotSupported: "Не поддерживается", voiceNotSupportedDesc: "Твой браузер не поддерживает голосовой ввод."

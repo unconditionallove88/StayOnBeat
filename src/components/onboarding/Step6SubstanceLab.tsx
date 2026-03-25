@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -35,9 +34,9 @@ import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
 
 /**
  * @fileOverview Pulse Lab component.
- * Fixed: Robust, cross-language search logic.
- * Fixed: iPhone scroll stability with pinned header.
- * Fixed: Renamed tab to "Синхронизация" in RU.
+ * Robust cross-language search logic implemented.
+ * iPhone scroll stability fixed with pinned header architecture.
+ * Updated: Renamed RU tab to "Синхронизация".
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
