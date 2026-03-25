@@ -19,6 +19,7 @@ import { cn } from '@/lib/utils';
  * @fileOverview My Heart Page (Individual Analytics).
  * Fully localized for EN, DE, PT, RU.
  * Fixed: RU vibe labels in neuter singular gender.
+ * Fixed: Module resolution for next/navigation.
  */
 export default function MyHeartPage() {
   const router = useRouter();
@@ -276,7 +277,7 @@ export default function MyHeartPage() {
           <DialogTitle className="sr-only">{t.witnesses}</DialogTitle>
           <PartyCircleChat />
         </DialogContent>
-      </div>
+      </Dialog>
     </div>
   );
 }

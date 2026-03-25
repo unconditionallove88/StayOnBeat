@@ -35,8 +35,9 @@ import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
 
 /**
  * @fileOverview Pulse Lab component.
- * Fixed: Search logic refined to search across all translations.
- * Fixed: RU branding updated to "Pulse Guardian" and "Забота".
+ * Fixed: Robust, language-agnostic search logic.
+ * Fixed: Optimized layout for absolute iPhone stability.
+ * Fixed: RU branding to "Pulse Guardian" and "Забота".
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -124,6 +125,16 @@ export function Step6SubstanceLab({
 
   const t = CONTENT[lang] || CONTENT.en;
 
+  const normalizeForSearch = (str: string) => {
+    if (!str) return "";
+    return str
+      .toString()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim();
+  };
+
   const handleSelectSubstance = (substance: any) => {
     const currentHR = userData?.sessionStatus?.lastHeartRate || 75;
     if (substance.id === "poppers" && currentHR > 100) {
@@ -166,19 +177,13 @@ export function Step6SubstanceLab({
     localStorage.setItem('stayonbeat_logs', JSON.stringify(updated));
   };
 
-  const normalize = (str: string) => 
-    (str || "").toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
-
   const filteredSubstances = SUBSTANCES.filter(s => {
-    const term = normalize(searchTerm);
+    const term = normalizeForSearch(searchTerm);
     if (!term) return true;
-    // Search across all translations
-    return (
-      normalize(s.name).includes(term) ||
-      normalize(s.deName).includes(term) ||
-      normalize(s.ptName).includes(term) ||
-      normalize(s.ruName).includes(term)
-    );
+    
+    // Search across all languages for maximum robustness
+    const searchableFields = [s.name, s.deName, s.ptName, s.ruName];
+    return searchableFields.some(field => normalizeForSearch(field).includes(term));
   });
 
   if (!mounted) return null;
