@@ -17,9 +17,8 @@ import { cn } from '@/lib/utils';
 
 /**
  * @fileOverview My Heart Page (Individual Analytics).
+ * Minimalist update: Focused purely on Inner Resonance and affirmations.
  * Fully localized for EN, DE, PT, RU.
- * Fixed: RU vibe labels in neuter singular gender.
- * Fixed: Module resolution for next/navigation.
  */
 export default function MyHeartPage() {
   const router = useRouter();
@@ -117,18 +116,6 @@ export default function MyHeartPage() {
     }
   }[lang];
 
-  const getLocalizedVibeLabel = (vibe: any) => {
-    if (!vibe) return { en: "Steady", de: "Stabil", pt: "Estável", ru: "Спокойное" }[lang] || "Steady";
-    const vibeMap: Record<string, Record<string, string>> = {
-      radiant: { en: "Radiant", de: "Strahlend", pt: "Radiante", ru: "Сияющее" },
-      harmony: { en: "Harmony", de: "In Harmonie", pt: "Em Harmonia", ru: "Гармоничное" },
-      calm: { en: "Calm", de: "Beruhigt", pt: "Calmo", ru: "Спокойное" },
-      hazy: { en: "Hazy", de: "Verschwommen", pt: "Nebuloso", ru: "Туманное" },
-      overwhelmed: { en: "Held", de: "Überwältigt", pt: "Sobrecarregado", ru: "Бережное" }
-    };
-    return vibeMap[vibe.current]?.[lang] || vibe.currentLabel;
-  };
-
   return (
     <div className="flex flex-col min-h-screen bg-[#050505] p-6 pb-32 font-headline overflow-x-hidden relative">
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
@@ -153,14 +140,13 @@ export default function MyHeartPage() {
       </header>
 
       <div className="flex-1 flex flex-col items-center justify-center relative z-10 gap-8">
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-2">
           <HeartStatusAura 
             heartRate={heartRate} 
             activeSubstances={[]} 
-            mood={getLocalizedVibeLabel(profile?.vibe)}
             lang={lang}
           />
-          <span className={cn("text-[9px] uppercase tracking-widest text-slate-600 font-bold", lang === 'ru' && "italic font-serif")}>
+          <span className={cn("text-[9px] uppercase tracking-[0.4em] text-white/10 font-black", lang === 'ru' && "italic font-serif")}>
             {t.demo}
           </span>
         </div>
@@ -168,14 +154,14 @@ export default function MyHeartPage() {
         <div className="grid grid-cols-1 gap-4 w-full max-w-sm">
           <button 
             onClick={() => setHoldersOpen(true)}
-            className="w-full p-6 rounded-[2.5rem] bg-white/5 border border-[#10B981]/20 flex items-center justify-between hover:bg-[#10B981]/5 hover:border-[#10B981] transition-all group shadow-2xl"
+            className="w-full p-6 rounded-[2.5rem] bg-white/[0.02] border border-white/5 flex items-center justify-between hover:bg-white/5 hover:border-[#10B981]/30 transition-all group shadow-2xl"
           >
             <div className="flex items-center gap-5">
               <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 group-hover:scale-110 transition-transform">
                 <CircleDot size={28} className="text-[#10B981]" />
               </div>
               <div className="text-left">
-                <p className={cn("text-lg font-black uppercase tracking-tight", lang === 'ru' && "italic font-serif")}>{t.holders}</p>
+                <p className={cn("text-lg font-black uppercase tracking-tight text-white", lang === 'ru' && "italic font-serif")}>{t.holders}</p>
                 <p className={cn("text-[8px] font-bold text-[#10B981] uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.holdersSub}</p>
               </div>
             </div>
@@ -184,14 +170,14 @@ export default function MyHeartPage() {
 
           <button 
             onClick={() => setWitnessesOpen(true)}
-            className="w-full p-6 rounded-[2.5rem] bg-white/5 border border-amber-500/20 flex items-center justify-between hover:bg-amber-500/5 hover:border-amber-500 transition-all group shadow-2xl"
+            className="w-full p-6 rounded-[2.5rem] bg-white/[0.02] border border-white/5 flex items-center justify-between hover:bg-white/5 hover:border-amber-500/30 transition-all group shadow-2xl"
           >
             <div className="flex items-center gap-5">
               <div className="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center border border-amber-500/20 group-hover:scale-110 transition-transform">
                 <Users2 size={28} className="text-amber-500" />
               </div>
               <div className="text-left">
-                <p className={cn("text-lg font-black uppercase tracking-tight", lang === 'ru' && "italic font-serif")}>{t.witnesses}</p>
+                <p className={cn("text-lg font-black uppercase tracking-tight text-white", lang === 'ru' && "italic font-serif")}>{t.witnesses}</p>
                 <p className={cn("text-[8px] font-bold text-amber-500 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.witnessesSub}</p>
               </div>
             </div>
@@ -199,7 +185,7 @@ export default function MyHeartPage() {
           </button>
         </div>
         
-        <div className="w-full max-w-sm bg-white/5 border border-[#EBFB3B]/20 rounded-[2rem] p-8 animate-in slide-in-from-bottom-4 duration-700 relative overflow-hidden group">
+        <div className="w-full max-w-sm bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-8 animate-in slide-in-from-bottom-4 duration-700 relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#EBFB3B]/5 blur-3xl -z-10" />
           
           <div className="flex items-center justify-between mb-6">
@@ -216,11 +202,6 @@ export default function MyHeartPage() {
                 </span>
               </div>
             </div>
-            {profile?.pulseBaseline && (
-              <span className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest px-3 py-1 bg-white/5 rounded-full border border-white/5", lang === 'ru' && "italic font-serif")}>
-                {t.syncVia} {profile.pulseBaseline.source.replace('_', ' ')}
-              </span>
-            )}
           </div>
 
           <div className="flex items-end gap-3 mb-6">
@@ -257,7 +238,7 @@ export default function MyHeartPage() {
       </div>
 
       <Dialog open={syncOpen} onOpenChange={setSyncOpen}>
-        <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85vh]">
+        <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85vh] shadow-[0_0_80px_rgba(0,0,0,0.9)]">
           <DialogTitle className="sr-only">{t.recalibrate}</DialogTitle>
           <div className="flex-1 overflow-y-auto">
             <WearablesSync onComplete={() => setSyncOpen(false)} />
@@ -266,14 +247,14 @@ export default function MyHeartPage() {
       </Dialog>
 
       <Dialog open={holdersOpen} onOpenChange={setHoldersOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh]">
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh] shadow-[0_0_80px_rgba(0,0,0,0.9)]">
           <DialogTitle className="sr-only">{t.holders}</DialogTitle>
           <LoveCircleChat />
         </DialogContent>
       </Dialog>
 
       <Dialog open={witnessesOpen} onOpenChange={setWitnessesOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh]">
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85vh] shadow-[0_0_80px_rgba(0,0,0,0.9)]">
           <DialogTitle className="sr-only">{t.witnesses}</DialogTitle>
           <PartyCircleChat />
         </DialogContent>

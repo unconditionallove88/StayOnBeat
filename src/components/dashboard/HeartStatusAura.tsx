@@ -9,19 +9,18 @@ interface Props {
   heartRate: number;
   activeSubstances: string[];
   lang?: "en" | "de" | "pt" | "ru";
-  mood?: string;
+  mood?: string; // Kept for logic but removed from visual rendering as requested
 }
 
 /**
- * @fileOverview Inner Resonance Visualization.
+ * @fileOverview Inner Resonance Visualization (Aura).
+ * Refined for minimalism: Removed redundant status labels.
  * Supports EN, DE, PT, RU.
- * Updated RU labels: Умеренный, Завышен, Интенсивный.
  * Refined RU typography for a "written" feel.
  */
 export default function HeartStatusAura({ 
   heartRate, 
   activeSubstances, 
-  mood = "Steady", 
   lang = "en"
 }: Props) {
   const normalizedSubs = activeSubstances.map(s => s.toLowerCase());
@@ -31,7 +30,7 @@ export default function HeartStatusAura({
   const isElevated = heartRate > 100 || activeSubstances.length > 2;
   
   const stateColor = isHighRisk ? "#DC2626" : isElevated ? "#F59E0B" : "#10B981"; 
-  const pulseDuration = isHighRisk ? "1s" : isElevated ? "2s" : "4s";
+  const pulseDuration = isHighRisk ? "1.5s" : isElevated ? "2.5s" : "4s";
 
   const labels = {
     en: { resonance: "My Inner Resonance", intense: "Intense", elevated: "Elevated", steady: "Steady" },
@@ -43,33 +42,49 @@ export default function HeartStatusAura({
   const t = labels[lang as keyof typeof labels] || labels.en;
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 md:p-8 relative font-headline cursor-pointer group">
-      <div className="absolute w-64 h-64 md:w-80 md:h-80 rounded-full blur-[80px] opacity-10 animate-pulse transition-all duration-1000" style={{ backgroundColor: stateColor, animationDuration: pulseDuration }} />
-      <div className="absolute w-40 h-40 md:w-56 md:h-56 rounded-full blur-3xl opacity-20 animate-pulse transition-all duration-1000" style={{ backgroundColor: stateColor, animationDuration: '3s' }} />
-      <div className="absolute inset-0 rounded-full border-2 opacity-0 group-hover:animate-radiate-out" style={{ borderColor: stateColor }} />
+    <div className="flex flex-col items-center justify-center p-4 md:p-8 relative font-headline cursor-pointer group animate-in fade-in duration-1000">
+      {/* Organic Glow Rings */}
+      <div 
+        className="absolute w-64 h-64 md:w-80 md:h-80 rounded-full blur-[100px] opacity-20 animate-pulse transition-all duration-1000" 
+        style={{ backgroundColor: stateColor, animationDuration: pulseDuration }} 
+      />
+      <div 
+        className="absolute w-48 h-48 md:w-64 md:h-64 rounded-full blur-3xl opacity-30 animate-pulse transition-all duration-1000" 
+        style={{ backgroundColor: stateColor, animationDuration: '5s' }} 
+      />
       
-      <div className="relative z-10 w-44 h-44 md:w-52 md:h-52 rounded-full flex items-center justify-center border-4 shadow-2xl transition-all duration-1000 group-hover:scale-105" style={{ borderColor: `${stateColor}40`, backgroundColor: `rgba(0,0,0,0.6)`, boxShadow: `0 0 60px ${stateColor}20` }}>
-        <div className="relative"><HeartHandshake className="w-20 h-20 md:w-24 md:h-24 drop-shadow-lg opacity-60" style={{ color: stateColor }} /></div>
+      {/* Interactive Outer Shell */}
+      <div 
+        className="relative z-10 w-48 h-48 md:w-56 md:h-56 rounded-full flex items-center justify-center border-2 shadow-2xl transition-all duration-1000 group-hover:scale-105 group-active:scale-95" 
+        style={{ 
+          borderColor: `${stateColor}30`, 
+          backgroundColor: `rgba(0,0,0,0.7)`, 
+          boxShadow: `0 0 80px ${stateColor}15` 
+        }}
+      >
+        <div className="relative">
+          <HeartHandshake 
+            className="w-24 h-24 md:w-28 md:h-28 drop-shadow-2xl transition-all duration-700" 
+            style={{ color: stateColor, opacity: 0.8 }} 
+          />
+        </div>
       </div>
 
-      <div className="mt-8 md:mt-12 text-center z-10">
+      <div className="mt-10 md:mt-12 text-center z-10 space-y-1">
         <p className={cn(
-          "text-white/20 text-[9px] md:text-[10px] uppercase tracking-[0.5em] font-black mb-2",
-          lang === 'ru' && "italic font-serif"
-        )}>{t.resonance}</p>
-        <h2 className={cn(
-          "text-white text-3xl md:text-4xl font-black uppercase tracking-tighter leading-none mb-2",
+          "text-white/20 text-[9px] md:text-[10px] uppercase tracking-[0.6em] font-black",
           lang === 'ru' && "italic font-serif"
         )}>
+          {t.resonance}
+        </p>
+        <h2 className={cn(
+          "text-white text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none",
+          lang === 'ru' && "italic font-serif"
+        )}
+        style={{ color: stateColor }}
+        >
           {isHighRisk ? t.intense : isElevated ? t.elevated : t.steady}
         </h2>
-        <div className="flex items-center justify-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
-          <p className={cn(
-            "text-white/40 text-[10px] font-bold uppercase tracking-widest",
-            lang === 'ru' && "italic font-serif"
-          )}>{mood}</p>
-        </div>
       </div>
     </div>
   );
