@@ -37,7 +37,7 @@ import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
  * @fileOverview Pulse Lab component.
  * Fixed: Robust, cross-language search logic.
  * Fixed: iPhone scroll stability with pinned header.
- * Fixed: Renamed tool to "Забота" in RU and removed clinical terms.
+ * Fixed: Renamed tab to "Синхронизация" in RU.
  */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -72,7 +72,7 @@ const CONTENT = {
   },
   ru: {
     title: "Лаборатория", advisor: "Забота", search: "Поиск веществ...",
-    diary: "Дневник Сессии", records: "Записи", sync: "Синхронизировать Сессию", intake: "Добавить запись",
+    diary: "Дневник Сессии", records: "Записи", sync: "Синхронизация", intake: "Добавить запись",
     confirm: "Подтвердить и Добавить", cancel: "Отмена", amount: "Количество", doseLogged: "Запись добавлена",
     addedToDiary: "добавлено в твой дневник сессии", causionTitle: "Pulse Guardian: Внимание 🧪",
     poppersHR: (hr: number) => `Твой пульс составляет ${hr} уд/мин Попперс резко снижает давление Пожалуйста присядь и подыши перед использованием`
@@ -125,11 +125,6 @@ export function Step6SubstanceLab({
 
   const t = CONTENT[lang] || CONTENT.en;
 
-  const normalizeForSearch = (str: string) => {
-    if (!str) return "";
-    return str.toString().toLowerCase().trim();
-  };
-
   const handleSelectSubstance = (substance: any) => {
     const currentHR = userData?.sessionStatus?.lastHeartRate || 75;
     if (substance.id === "poppers" && currentHR > 100) {
@@ -173,12 +168,16 @@ export function Step6SubstanceLab({
   };
 
   const filteredSubstances = SUBSTANCES.filter(s => {
-    const term = normalizeForSearch(searchTerm);
+    const term = searchTerm.toLowerCase().trim();
     if (!term) return true;
     
-    // Search across ALL translations for ultimate robustness
-    const searchableFields = [s.name, s.deName, s.ptName, s.ruName];
-    return searchableFields.some(field => normalizeForSearch(field).includes(term));
+    // Ultimate Search: Match against all localized versions of the name
+    return (
+      s.name.toLowerCase().includes(term) ||
+      s.deName.toLowerCase().includes(term) ||
+      s.ptName.toLowerCase().includes(term) ||
+      s.ruName.toLowerCase().includes(term)
+    );
   });
 
   if (!mounted) return null;
