@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import { Heart, ArrowLeft, Wind, Sparkles } from 'lucide-react';
+import { ArrowLeft, Wind, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
@@ -16,7 +16,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * Message: Inhale Love / Exhale Love.
  * Animation: Sunrise slowly appear (4s) and slowly disappear (4s).
  * Action Button: Wise intense dark green #1b4d3e.
- * Full localization for EN, DE, PT, RU.
  */
 
 const CONTENT = {
@@ -33,8 +32,8 @@ const CONTENT = {
   de: {
     title: "Atem der Liebe",
     breathing: "Ewiges Atmen",
-    inhale: "Liebe einatmen",
-    exhale: "Liebe ausatmen",
+    inhale: "Inhale Love",
+    exhale: "Exhale Love",
     guidance: "Ich fließe mit der Ewigkeit. Ich bin zu Hause. Entspannung ist meine Natur.",
     header: "Ich lebe von innen nach außen",
     headerHighlight: "mit offenem Herzen",
@@ -43,8 +42,8 @@ const CONTENT = {
   pt: {
     title: "Sopro de Amor",
     breathing: "Respiração da Eternidade",
-    inhale: "Inspire Amor",
-    exhale: "Expire Amor",
+    inhale: "Inhale Love",
+    exhale: "Exhale Love",
     guidance: "Eu fluo com a eternidade. Estou em casa. Relaxamento é minha natureza.",
     header: "Eu vivo de dentro para fora",
     headerHighlight: "com o coração aberto",
@@ -53,8 +52,8 @@ const CONTENT = {
   ru: {
     title: "Дыхание Любви",
     breathing: "Дыхание Вечности",
-    inhale: "Вдохни Любовь",
-    exhale: "Выдохни Любовь",
+    inhale: "Inhale Love",
+    exhale: "Exhale Love",
     guidance: "Я дышу вечностью. Я дома. Расслабление — моя природа.",
     header: "Я живу изнутри наружу",
     headerHighlight: "с открытым сердцем",
@@ -167,7 +166,6 @@ export default function SelfCare() {
             </svg>
 
             <div className="mt-8 text-center space-y-3 relative h-20 w-full flex items-center justify-center">
-              {/* Sunrise slowly appear and slowly disappear animation */}
               <h2 className={cn(
                 "text-4xl font-black uppercase tracking-tighter absolute transition-all",
                 isInhaling ? "animate-sunrise opacity-100" : "opacity-0",
