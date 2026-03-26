@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -8,8 +7,8 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
- * Updated with slogans: "Founded on love and rhythm of life".
- * Refined value prop: "Space for collective care, risk and harm minimization".
+ * Updated with objective wording: "Space for collective care, risk and harm minimization."
+ * Slogan: "Founded on love and rhythm of life."
  * Unified ethereal blurry heart icon.
  */
 
@@ -99,7 +98,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-5 w-full max-w-sm">
+        <div className="flex flex-col gap-5 w-full max-sm mx-auto">
           <button onClick={() => router.push('/auth?mode=signup')} className={cn("pill-button w-full bg-primary text-black text-xl font-black neon-glow active:scale-95 shadow-lg uppercase tracking-[0.1em] transition-all", lang === 'RU' && "italic font-serif")}>{content[lang].getStarted}</button>
           <button onClick={() => router.push('/auth?mode=signin')} className={cn("pill-button w-full bg-white/[0.03] border-2 border-primary/20 text-primary text-lg font-black active:scale-95 uppercase tracking-[0.1em] backdrop-blur-sm", lang === 'RU' && "italic font-serif")}>{content[lang].signIn}</button>
         </div>

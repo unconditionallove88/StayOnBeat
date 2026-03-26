@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -315,7 +314,7 @@ function DashboardContent() {
                   <p className={cn("text-lg font-black uppercase tracking-tight text-white leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Письма Любви' : lang === 'pt' ? 'Cartas de Amor' : lang === 'de' ? 'Liebesbriefe' : 'Love Letters'}</p>
                   <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>Future Self</p>
                 </div>
-              </Link>
+              </button>
 
               <button 
                 onClick={() => handlePortalClick(() => setAiBotOpen(true))}
@@ -338,7 +337,7 @@ function DashboardContent() {
                   <Shield size={32} />
                 </div>
                 <div className="space-y-1">
-                  <p className={cn("text-lg font-black uppercase tracking-tight text-white leading-none group-hover:text-white transition-colors", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Помощь' : lang === 'pt' ? 'Ajuda Imediata' : lang === 'de' ? 'Sofort-Hilfe' : 'Immediate Help'}</p>
+                  <p className={cn("text-lg font-black uppercase tracking-tight text-white leading-none group-hover:text-white transition-colors", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Помощь' : lang === 'pt' ? 'Ajuda Imediata' : lang === 'de' ? 'Sofort-Hilфе' : 'Immediate Help'}</p>
                   <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors", lang === 'ru' && "italic font-serif")}>Mesh SOS</p>
                 </div>
               </button>

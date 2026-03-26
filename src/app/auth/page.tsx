@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
@@ -7,12 +6,11 @@ import { useAuth, useFirestore } from "@/firebase";
 import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { signInAnonymously } from "firebase/auth";
 import { doc, serverTimestamp } from "firebase/firestore";
-import { Eye, EyeOff, Loader2, ShieldCheck, ChevronLeft, Heart } from "lucide-react";
+import { Eye, EyeOff, Loader2, ChevronLeft, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview Access Sanctuary (Auth) Page.
- * Added Portuguese (Brazilian) and Russian support.
  * Unified ethereal blurry pulsating heart.
  */
 
@@ -89,13 +87,6 @@ function AuthContent() {
         return;
       }
 
-      const vibeLabels: Record<string, string> = {
-        en: "Calm",
-        de: "Beruhigt",
-        pt: "Calmo",
-        ru: "Спокойное"
-      };
-
       setDocumentNonBlocking(
         doc(db, "users", cred.user.uid), 
         {
@@ -107,7 +98,7 @@ function AuthContent() {
           vibe: { 
             current: "calm", 
             currentEmoji: "🍃", 
-            currentLabel: vibeLabels[lang] || "Calm" 
+            currentLabel: "Calm" 
           }
         },
         { merge: true }
@@ -131,7 +122,7 @@ function AuthContent() {
         <button onClick={() => router.push("/")} className="absolute top-8 left-8 text-white/20 hover:text-primary transition-colors p-2"><ChevronLeft size={24} /></button>
         <div className="text-center mb-10 mt-4">
           <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-primary/20 shadow-[0_0_30px_rgba(16,185,129,0.1)]">
-            <Heart size={40} fill="currentColor" className="text-primary animate-pulse-heart" style={{ filter: 'blur(8px)' }} />
+            <Heart size={40} fill="currentColor" className="text-primary animate-pulse-heart" style={{ filter: 'blur(12px)' }} />
           </div>
           <h1 className={cn("text-4xl font-black text-white tracking-tighter uppercase leading-none mb-2", lang === 'ru' && "italic font-serif")}>{isSignUp ? t.create : t.welcome}</h1>
           <p className={cn("text-primary text-[10px] font-black uppercase tracking-[0.4em]", lang === 'ru' && "italic font-serif")}>{t.prototype}</p>
