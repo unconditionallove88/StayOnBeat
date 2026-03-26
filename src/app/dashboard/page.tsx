@@ -177,10 +177,10 @@ function DashboardContent() {
     return (
       <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
         <div className="relative flex items-center justify-center">
-          <div className="absolute inset-0 w-32 h-32 bg-white/10 blur-[60px] rounded-full" />
-          <Heart size={64} fill="#10B981" stroke="#10B981" className="relative z-10 animate-pulse-heart" />
+          <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
+          <Heart size={64} fill="currentColor" className="relative z-10 animate-pulse-heart text-primary" style={{ filter: 'blur(12px)' }} />
         </div>
-        <Loader2 className="animate-spin text-[#10B981]/20" />
+        <Loader2 className="animate-spin text-primary/20" />
       </div>
     );
   }
@@ -211,7 +211,7 @@ function DashboardContent() {
             <Link 
               href="/profile" 
               onClick={() => playHeartbeat()}
-              className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all active:scale-95"
+              className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-primary transition-all active:scale-95"
             >
               <User size={20} className="text-white/40" />
             </Link>
@@ -252,7 +252,7 @@ function DashboardContent() {
                   lang={lang} 
                 />
                 <p className={cn(
-                  "text-xs font-bold uppercase tracking-widest text-[#10B981] px-10",
+                  "text-xs font-bold uppercase tracking-widest text-primary px-10",
                   lang === 'ru' ? "italic font-serif" : "italic"
                 )}>"{affirmation}"</p>
               </div>
@@ -293,10 +293,10 @@ function DashboardContent() {
 
               <button 
                 onClick={() => handlePortalClick(() => setSyncOpen(true))} 
-                className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-[#EBFB3B]/30 hover:bg-[#EBFB3B]/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-accent/30 hover:bg-accent/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
-                <div className="w-16 h-16 bg-[#EBFB3B]/10 rounded-2xl flex items-center justify-center border border-[#EBFB3B]/20 group-hover:scale-110 transition-transform">
-                  <Watch size={32} className="text-[#EBFB3B]" />
+                <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center border border-accent/20 group-hover:scale-110 transition-transform">
+                  <Watch size={32} className="text-accent" />
                 </div>
                 <div className="space-y-1">
                   <p className={cn("text-lg font-black uppercase tracking-tight leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Синхронизация' : lang === 'pt' ? 'Pulse Sync' : lang === 'de' ? 'Vital-Sync' : 'Pulse Sync'}</p>
@@ -315,14 +315,14 @@ function DashboardContent() {
                   <p className={cn("text-lg font-black uppercase tracking-tight text-white leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Письма Любви' : lang === 'pt' ? 'Cartas de Amor' : lang === 'de' ? 'Liebesbriefe' : 'Love Letters'}</p>
                   <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>Future Self</p>
                 </div>
-              </button>
+              </Link>
 
               <button 
                 onClick={() => handlePortalClick(() => setAiBotOpen(true))}
-                className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-[#10B981]/30 hover:bg-[#10B981]/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-primary/30 hover:bg-primary/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
-                <div className="w-16 h-16 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 group-hover:scale-110 transition-transform">
-                  <Bot size={32} className="text-[#10B981]" />
+                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform">
+                  <Bot size={32} className="text-primary" />
                 </div>
                 <div className="space-y-1">
                   <p className={cn("text-lg font-black uppercase tracking-tight text-white leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Забота' : lang === 'pt' ? 'Assistente' : lang === 'de' ? 'KI-Begleiter' : 'Assistant'}</p>
@@ -370,7 +370,7 @@ function DashboardContent() {
                   onClick={() => playHeartbeat()}
                   className={cn(
                     "w-full flex items-center justify-center gap-2 py-4 text-[9px] font-black uppercase transition-all duration-500",
-                    guardianStatus === 'safe' && "text-[#10B981] opacity-40 hover:opacity-100",
+                    guardianStatus === 'safe' && "text-primary opacity-40 hover:opacity-100",
                     guardianStatus === 'caution' && "text-[#F59E0B] opacity-80 hover:opacity-100",
                     guardianStatus === 'locked' && "text-[#DC2626] opacity-100 animate-pulse",
                     lang === 'ru' && "italic font-serif"
@@ -469,10 +469,10 @@ export default function Dashboard() {
     <Suspense fallback={
       <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
         <div className="relative flex items-center justify-center">
-          <div className="absolute inset-0 w-32 h-32 bg-white/10 blur-[60px] rounded-full" />
-          <Heart size={64} fill="#10B981" stroke="#10B981" className="relative z-10 animate-pulse-heart" />
+          <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
+          <Heart size={64} fill="currentColor" className="relative z-10 animate-pulse-heart text-primary" style={{ filter: 'blur(12px)' }} />
         </div>
-        <Loader2 className="animate-spin text-[#10B981]/20" />
+        <Loader2 className="animate-spin text-primary/20" />
       </div>
     }>
       <DashboardContent />

@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
  * Updated with slogans: "Founded on love and rhythm of life".
  * Refined value prop: "Space for collective care, risk and harm minimization".
- * Minimalist and objective design.
+ * Unified ethereal blurry heart icon.
  */
 
 export default function Home() {
@@ -78,9 +78,14 @@ export default function Home() {
       <div className="flex flex-col items-center w-full max-w-xl text-center flex-1 justify-center py-12 relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-1000">
         <div className="flex flex-col items-center justify-center mb-16">
           <div className="relative flex items-center justify-center">
-            <div className="absolute inset-0 w-48 h-48 bg-white/5 blur-[60px] rounded-full animate-pulse" />
+            <div className="absolute inset-0 w-48 h-48 bg-primary/10 blur-[80px] rounded-full" />
             <div className="w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center border-2 border-primary/20 shadow-[0_0_50px_rgba(16,185,129,0.15)] relative z-10">
-              <Heart size={64} fill="currentColor" className="text-primary animate-pulse-heart" />
+              <Heart 
+                size={64} 
+                fill="currentColor" 
+                className="text-primary animate-pulse-heart" 
+                style={{ filter: 'blur(12px)' }} 
+              />
             </div>
           </div>
           <h1 className="mt-10 text-5xl md:text-7xl font-black tracking-tighter uppercase leading-none text-white text-center">STAY<span className="text-primary">ON</span>BEAT</h1>

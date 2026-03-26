@@ -10,6 +10,7 @@ import { Heart } from "lucide-react";
 /**
  * @fileOverview Heart Check Redirect Page.
  * Calibrated German localization (Refugium -> Sanctuary).
+ * Unified ethereal blurry heart.
  */
 
 const CONTENT = {
@@ -41,15 +42,20 @@ export default function HeartCheckRedirect() {
 
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center text-center px-6 font-headline overflow-hidden relative">
-      <div className="absolute inset-0 bg-[#3EB489]/5 blur-[120px] rounded-full" />
+      <div className="absolute inset-0 bg-primary/5 blur-[120px] rounded-full" />
       <div className="relative z-10 flex flex-col items-center gap-8">
         <div className="relative flex items-center justify-center">
-          <div className="absolute inset-0 w-48 h-48 bg-white/10 blur-[60px] rounded-full" />
-          <Heart size={80} fill="#3EB489" stroke="#3EB489" className="relative z-10 animate-pulse-heart" />
+          <div className="absolute inset-0 w-48 h-48 bg-primary/10 blur-[60px] rounded-full" />
+          <Heart 
+            size={80} 
+            fill="currentColor" 
+            className="relative z-10 animate-pulse-heart text-primary" 
+            style={{ filter: 'blur(12px)' }}
+          />
         </div>
         <div className="space-y-2">
-          <h1 className="text-4xl font-black uppercase tracking-tighter text-white leading-none">{t.title} <br /> <span className="text-[#3EB489]">{t.highlight}</span></h1>
-          <p className="text-[#3EB489] text-[10px] font-black uppercase tracking-[0.4em] opacity-60">{t.sub}</p>
+          <h1 className="text-4xl font-black uppercase tracking-tighter text-white leading-none">{t.title} <br /> <span className="text-primary">{t.highlight}</span></h1>
+          <p className="text-primary text-[10px] font-black uppercase tracking-[0.4em] opacity-60">{t.sub}</p>
         </div>
       </div>
     </div>
