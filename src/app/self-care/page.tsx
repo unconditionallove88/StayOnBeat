@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -8,26 +9,21 @@ import { playHeartbeat } from '@/lib/resonance';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
- * @fileOverview Self-Care & Stillness Sanctuary.
- * A high-fidelity grounding experience featuring box-breathing guidance.
+ * @fileOverview Eternity Breathing Sanctuary.
+ * A high-fidelity infinity resonance experience.
+ * Features a Lemniscate (8) animation sliding in unison with the breath.
  * Full localization for EN, DE, PT, RU.
- * Updated: Organic iconography replacement (CircleDot -> Wind/Sparkles).
  */
 
 const CONTENT = {
   en: {
     title: "Inner Resonance",
-    breathText: {
-      inhale: "Inhale Life",
-      hold1: "Hold Presence",
-      exhale: "Exhale Tension",
-      hold2: "Hold Stillness"
-    },
-    seconds: "Seconds",
-    protocol: "Box Breathing Protocol",
+    breathing: "Eternity Breathing",
+    inhale: "Inhale Light",
+    exhale: "Exhale Peace",
+    guidance: "I flow with eternity. Inhale light. Exhale peace. My breath is a gift.",
     header: "I live inside out",
     headerHighlight: "with an open heart",
-    description: "Gently anchor yourself to the present moment Your light radiates from within and creates your sanctuary",
     items: [
       { label: "Hydrate", sub: "Small sips" },
       { label: "Anchor", sub: "Feel feet" },
@@ -37,17 +33,12 @@ const CONTENT = {
   },
   de: {
     title: "Innere Resonanz",
-    breathText: {
-      inhale: "Leben einatmen",
-      hold1: "Präsenz halten",
-      exhale: "Spannung ausatmen",
-      hold2: "Stille halten"
-    },
-    seconds: "Sekunden",
-    protocol: "Box-Breathing-Protokoll",
+    breathing: "Ewiges Atmen",
+    inhale: "Licht einatmen",
+    exhale: "Frieden ausatmen",
+    guidance: "Ich fließe mit der Ewigkeit. Licht einatmen. Frieden ausatmen. Mein Atem ist ein Geschenk.",
     header: "Ich lebe von innen nach außen",
     headerHighlight: "mit offenem Herzen",
-    description: "Verankere dich sanft im gegenwärtigen Moment Dein Licht strahlt von innen und erschafft dein Sanctuary",
     items: [
       { label: "Hydrieren", sub: "Kleine Schlucke" },
       { label: "Ankern", sub: "Füße spüren" },
@@ -57,17 +48,12 @@ const CONTENT = {
   },
   pt: {
     title: "Ressonância Interior",
-    breathText: {
-      inhale: "Inspire Vida",
-      hold1: "Segure a Presença",
-      exhale: "Expire a Tensão",
-      hold2: "Segure a Quietude"
-    },
-    seconds: "Segundos",
-    protocol: "Protocolo de Respiração Quadrada",
+    breathing: "Respiração da Eternidade",
+    inhale: "Inspire Luz",
+    exhale: "Expire Paz",
+    guidance: "Eu fluo com a eternidade. Inspire luz. Expire paz. Minha respiração é um presente.",
     header: "Eu vivo de dentro para fora",
     headerHighlight: "com o coração aberto",
-    description: "Acore-se suavemente no momento presente Sua luz irradia de dentro e cria seu santuário",
     items: [
       { label: "Hidratar", sub: "Pequenos goles" },
       { label: "Ancorar", sub: "Sinta os pés" },
@@ -77,17 +63,12 @@ const CONTENT = {
   },
   ru: {
     title: "Внутренний Резонанс",
-    breathText: {
-      inhale: "Вдохни Жизнь",
-      hold1: "Удержи Присутствие",
-      exhale: "Выдохни Напряжение",
-      hold2: "Удержи Тишину"
-    },
-    seconds: "Секунд",
-    protocol: "Техника Квадратного Дыхания",
+    breathing: "Дыхание Вечности",
+    inhale: "Вдохни Свет",
+    exhale: "Выдохни Покой",
+    guidance: "Я дышу вечностью. Вдохни свет. Выдохни покой. Твой вдох — это дар.",
     header: "Я живу изнутри наружу",
     headerHighlight: "с открытым сердцем",
-    description: "Мягко заякоритесь в настоящем моменте Ваш свет сияет изнутри и создает ваше пространство",
     items: [
       { label: "Гидратация", sub: "Глоток воды" },
       { label: "Заземление", sub: "Почувствуйте стопы" },
@@ -100,27 +81,15 @@ const CONTENT = {
 export default function SelfCare() {
   const router = useRouter();
   const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
-  const [breathState, setBreathState] = useState<'inhale' | 'hold1' | 'exhale' | 'hold2'>('inhale');
-  const [timer, setCountdown] = useState(4);
+  const [isInhaling, setIsInhaling] = useState(true);
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
     if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
 
     const interval = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev === 1) {
-          setBreathState((current) => {
-            if (current === 'inhale') return 'hold1';
-            if (current === 'hold1') return 'exhale';
-            if (current === 'exhale') return 'hold2';
-            return 'inhale';
-          });
-          return 4;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+      setIsInhaling((prev) => !prev);
+    }, 4000); // 4s inhale, 4s exhale cycle
 
     return () => clearInterval(interval);
   }, []);
@@ -145,59 +114,100 @@ export default function SelfCare() {
       </header>
 
       <ScrollArea className="flex-1">
-        <div className="flex flex-col items-center justify-center w-full max-w-xl mx-auto px-6 py-12 space-y-12 pb-40 touch-pan-y">
+        <div className="flex flex-col items-center justify-center w-full max-w-xl mx-auto px-6 py-12 space-y-16 pb-40 touch-pan-y">
           
-          <div className="relative flex flex-col items-center justify-center">
-            <div className={cn(
-              "absolute rounded-full bg-emerald-500/10 blur-3xl transition-all duration-[4000ms] ease-in-out",
-              breathState === 'inhale' ? "w-96 h-96 opacity-40 scale-125" : "w-64 h-64 opacity-20 scale-100"
-            )} />
-            
-            <div className={cn(
-              "relative w-48 h-48 rounded-full border-4 flex items-center justify-center transition-all duration-[4000ms] ease-in-out shadow-2xl shadow-emerald-500/20",
-              breathState === 'inhale' ? "scale-110 border-emerald-400 bg-emerald-500/10" : "scale-90 border-white/10 bg-white/5"
-            )}>
-              <div className="text-center space-y-1">
-                <span className="text-4xl font-black tabular-nums text-white">{timer}</span>
-                <p className={cn("text-[8px] font-black uppercase tracking-[0.2em] text-emerald-500", lang === 'ru' && "italic font-serif")}>{t.seconds}</p>
-              </div>
-            </div>
+          {/* Eternity Breath Animation */}
+          <div className="relative flex flex-col items-center justify-center w-full h-64">
+            <svg viewBox="0 0 200 100" className="w-full max-w-sm drop-shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+              {/* The Infinity Path */}
+              <path
+                id="infinityPath"
+                d="M 50 50 C 50 20 20 20 20 50 C 20 80 50 80 50 50 C 50 20 80 20 80 50 C 80 80 50 80 50 50"
+                fill="none"
+                stroke="rgba(16, 185, 129, 0.1)"
+                strokeWidth="2"
+                transform="scale(2) translate(-25, -25)"
+              />
+              
+              {/* Glowing Trace Path */}
+              <path
+                d="M 50 50 C 50 20 20 20 20 50 C 20 80 50 80 50 50 C 50 20 80 20 80 50 C 80 80 50 80 50 50"
+                fill="none"
+                stroke="#10B981"
+                strokeWidth="0.5"
+                strokeDasharray="1, 10"
+                className="opacity-20"
+                transform="scale(2) translate(-25, -25)"
+              />
 
-            <div className="mt-10 text-center space-y-2">
-              <h2 className={cn("text-3xl font-black uppercase tracking-tighter animate-pulse", lang === 'ru' && "italic font-serif")}>
-                {t.breathText[breathState]}
+              {/* The Breath Particle - Sliding on 8 */}
+              <circle r="3" fill="#10B981" className="shadow-[0_0_15px_#10B981]">
+                <animateMotion
+                  dur="8s"
+                  repeatCount="indefinite"
+                  path="M 50 50 C 50 20 20 20 20 50 C 20 80 50 80 50 50 C 50 20 80 20 80 50 C 80 80 50 80 50 50"
+                  rotate="auto"
+                />
+              </circle>
+
+              {/* Central Pulsing Heart Glow */}
+              <circle cx="100" cy="50" r="10" fill="#10B981" className={cn(
+                "transition-all duration-[4000ms] ease-in-out",
+                isInhaling ? "opacity-20 scale-150 blur-xl" : "opacity-5 scale-100 blur-md"
+              )} />
+            </svg>
+
+            <div className="mt-12 text-center space-y-3">
+              <h2 className={cn(
+                "text-3xl font-black uppercase tracking-tighter transition-all duration-[4000ms] ease-in-out",
+                isInhaling ? "text-[#10B981] scale-110" : "text-white/40 scale-100",
+                lang === 'ru' && "italic font-serif"
+              )}>
+                {isInhaling ? t.inhale : t.exhale}
               </h2>
-              <p className={cn("text-[10px] font-black text-[#10B981] uppercase tracking-[0.4em]", lang === 'ru' && "italic font-serif")}>{t.protocol}</p>
+              <p className={cn(
+                "text-[10px] font-black text-white/20 uppercase tracking-[0.4em] animate-pulse",
+                lang === 'ru' && "italic font-serif"
+              )}>
+                {t.breathing}
+              </p>
             </div>
           </div>
 
-          <div className="space-y-6 w-full text-center">
-            <div className="space-y-2">
-              <h1 className={cn("text-2xl font-black uppercase tracking-tighter leading-none", lang === 'ru' && "italic font-serif")}>
-                {t.header} <br/> <span className="text-[#3EB489]">{t.headerHighlight}</span>
-              </h1>
+          {/* Language of Love Guidance */}
+          <div className="space-y-8 w-full text-center">
+            <div className="space-y-4 px-4">
               <p className={cn(
-                "text-xs font-bold text-white/40 leading-tight max-w-[280px] mx-auto uppercase tracking-widest",
+                "text-xl font-black uppercase tracking-tighter text-white leading-tight",
                 lang === 'ru' && "italic font-serif"
               )}>
-                {t.description}
+                {t.guidance}
               </p>
+              <div className="w-8 h-1 bg-[#10B981]/20 rounded-full mx-auto" />
             </div>
 
-            <div className="grid grid-cols-3 gap-3 w-full">
-              {t.items.map((item, i) => {
-                const Icons = [Coffee, Wind, Moon];
-                const Icon = Icons[i];
-                return (
-                  <div key={i} className="bg-white/5 border border-white/10 p-4 rounded-[2rem] flex flex-col items-center gap-2 group hover:border-emerald-500/40 transition-all">
-                    <Icon className="w-5 h-5 text-[#3EB489]" />
-                    <div className="text-center">
-                      <h3 className={cn("font-black uppercase tracking-widest text-[8px]", lang === 'ru' && "italic font-serif")}>{item.label}</h3>
-                      <p className={cn("text-[7px] font-bold text-white/30 uppercase tracking-tighter", lang === 'ru' && "italic font-serif")}>{item.sub}</p>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <h1 className={cn("text-2xl font-black uppercase tracking-tighter leading-none", lang === 'ru' && "italic font-serif")}>
+                  {t.header} <br/> <span className="text-[#3EB489]">{t.headerHighlight}</span>
+                </h1>
+              </div>
+
+              <div className="grid grid-cols-3 gap-3 w-full">
+                {t.items.map((item, i) => {
+                  const Icons = [Coffee, Wind, Moon];
+                  const Icon = Icons[i];
+                  return (
+                    <div key={i} className="bg-white/5 border border-white/10 p-4 rounded-[2rem] flex flex-col items-center gap-2 group hover:border-emerald-500/40 transition-all">
+                      <Icon className="w-5 h-5 text-[#3EB489]" />
+                      <div className="text-center">
+                        <h3 className={cn("font-black uppercase tracking-widest text-[8px]", lang === 'ru' && "italic font-serif")}>{item.label}</h3>
+                        <p className={cn("text-[7px] font-bold text-white/30 uppercase tracking-tighter", lang === 'ru' && "italic font-serif")}>{item.sub}</p>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
