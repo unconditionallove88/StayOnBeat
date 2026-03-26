@@ -7,10 +7,9 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
- * Updated: Space for collective care, risk and harm minimization.
+ * Updated: Action Buttons set to abundant dark green #1b4d3e.
  * Slogan: Founded on love and rhythm of life.
- * Action Buttons: Updated to #58c55a command color.
- * Unified lovable emerald blurry heart.
+ * Value Prop: Space for collective care, risk and harm minimization.
  */
 
 export default function Home() {
@@ -79,12 +78,12 @@ export default function Home() {
         <div className="flex flex-col items-center justify-center mb-16">
           <div className="relative flex items-center justify-center">
             <div className="absolute inset-0 w-48 h-48 bg-primary/10 blur-[80px] rounded-full" />
-            <div className="w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center border-2 border-primary/20 shadow-[0_0_50px_rgba(88,197,90,0.15)] relative z-10">
+            <div className="w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center border-2 border-primary/20 shadow-[0_0_50px_rgba(27,77,62,0.15)] relative z-10">
               <Heart 
                 size={64} 
-                fill="#58c55a" 
-                className="text-primary animate-pulse-heart" 
-                style={{ filter: 'blur(12px) drop-shadow(0 0 10px #58c55a)' }} 
+                fill="#10B981" 
+                className="text-[#10B981] animate-pulse-heart" 
+                style={{ filter: 'blur(12px) drop-shadow(0 0 10px #10B981)' }} 
               />
             </div>
           </div>
@@ -100,7 +99,7 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col gap-5 w-full max-sm mx-auto">
-          <button onClick={() => router.push('/auth?mode=signup')} className={cn("pill-button w-full bg-[#58c55a] text-black text-xl font-black neon-glow active:scale-95 shadow-lg uppercase tracking-[0.1em] transition-all", lang === 'RU' && "italic font-serif")}>{content[lang].getStarted}</button>
+          <button onClick={() => router.push('/auth?mode=signup')} className={cn("pill-button w-full bg-[#1b4d3e] text-white text-xl font-black active:scale-95 shadow-lg uppercase tracking-[0.1em] transition-all", lang === 'RU' && "italic font-serif")}>{content[lang].getStarted}</button>
           <button onClick={() => router.push('/auth?mode=signin')} className={cn("pill-button w-full bg-white/[0.03] border-2 border-primary/20 text-primary text-lg font-black active:scale-95 uppercase tracking-[0.1em] backdrop-blur-sm", lang === 'RU' && "italic font-serif")}>{content[lang].signIn}</button>
         </div>
       </div>

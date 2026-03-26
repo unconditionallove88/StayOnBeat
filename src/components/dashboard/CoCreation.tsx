@@ -10,7 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 /**
  * @fileOverview Co-Creation Component.
  * Full localization for EN, DE, PT, RU.
- * Punctuation-free for resonance.
+ * Command Color: Wise Dark Green #1b4d3e.
  */
 
 const i18n = {
@@ -143,8 +143,8 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
     <div className="w-full bg-black p-8 font-headline">
       {sent ? (
         <div className="w-full min-h-[400px] flex flex-col items-center justify-center p-10 text-center animate-in fade-in zoom-in-95 duration-500 font-headline bg-black rounded-[3rem]">
-          <div className="w-20 h-20 bg-[#90EE90]/10 rounded-full flex items-center justify-center mb-8 border-2 border-[#90EE90]/20 shadow-[0_0_40px_rgba(144,238,144,0.1)]">
-            <CheckCircle2 size={48} className="text-[#90EE90]" />
+          <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-8 border-2 border-primary/20 shadow-[0_0_40px_rgba(27,77,62,0.1)]">
+            <CheckCircle2 size={48} className="text-primary" />
           </div>
           <h3 className="text-white font-black text-3xl mb-4 uppercase tracking-tighter">{t.successTitle}</h3>
           <p className="text-white/60 text-base font-bold leading-relaxed max-xs mx-auto mb-10">{t.successMsg}</p>
@@ -156,7 +156,7 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
         <>
           <div className="flex items-start justify-between mb-8">
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-[#90EE90]/10 border border-[#90EE90]/20"><Sprout size={28} className="text-[#90EE90]" /></div>
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-primary/10 border border-primary/20"><Sprout size={28} className="text-primary" /></div>
               <div>
                 <h3 className="text-white font-black text-2xl uppercase tracking-tighter leading-none">{t.title}</h3>
                 <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mt-1.5">{t.subtitle}</p>
@@ -166,10 +166,10 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
 
           <div className="grid grid-cols-2 gap-3 mb-8">
             {t.types.map((type, i) => (
-              <button key={type.key} onClick={() => setActiveType(i)} className={cn("p-4 rounded-2xl border-2 text-left transition-all duration-300 h-20 flex flex-col justify-center", activeType === i ? "bg-[#90EE90]/10 border-[#90EE90]" : "bg-white/5 border-white/5 hover:border-white/20", type.key === 'survey' && "col-span-2 border-dashed border-[#90EE90]/40")}>
+              <button key={type.key} onClick={() => setActiveType(i)} className={cn("p-4 rounded-2xl border-2 text-left transition-all duration-300 h-20 flex flex-col justify-center", activeType === i ? "bg-primary/10 border-primary" : "bg-white/5 border-white/5 hover:border-white/20", type.key === 'survey' && "col-span-2 border-dashed border-primary/40")}>
                 <div className="flex items-center gap-2">
-                  {type.key === 'survey' && <ClipboardList size={14} className={activeType === i ? "text-[#90EE90]" : "text-white/40"} />}
-                  <span className={cn("text-[10px] font-black uppercase tracking-widest leading-tight block", activeType === i ? "text-[#90EE90]" : "text-white/40")}>{type.label}</span>
+                  {type.key === 'survey' && <ClipboardList size={14} className={activeType === i ? "text-primary" : "text-white/40"} />}
+                  <span className={cn("text-[10px] font-black uppercase tracking-widest leading-tight block", activeType === i ? "text-primary" : "text-white/40")}>{type.label}</span>
                 </div>
               </button>
             ))}
@@ -177,10 +177,10 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
 
           <form onSubmit={handleSend} className="space-y-6">
             {!isSurvey ? (
-              <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder={t.types[activeType].placeholder} className="w-full h-48 px-6 py-5 rounded-[2rem] border-2 border-white/10 bg-white/5 text-white text-base font-bold outline-none resize-none focus:border-[#90EE90] transition-all" required />
+              <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder={t.types[activeType].placeholder} className="w-full h-48 px-6 py-5 rounded-[2rem] border-2 border-white/10 bg-white/5 text-white text-base font-bold outline-none resize-none focus:border-primary transition-all" required />
             ) : (
-              <div className="w-full h-48 px-8 py-10 rounded-[2rem] border-2 border-dashed border-[#90EE90]/20 bg-[#90EE90]/5 flex flex-col items-center justify-center text-center gap-4">
-                <ClipboardList className="text-[#90EE90] opacity-40" size={40} />
+              <div className="w-full h-48 px-8 py-10 rounded-[2rem] border-2 border-dashed border-primary/20 bg-primary/5 flex flex-col items-center justify-center text-center gap-4">
+                <ClipboardList className="text-primary opacity-40" size={40} />
                 <p className="text-white/60 text-sm font-bold uppercase tracking-widest leading-relaxed">
                   {t.types[activeType].placeholder}
                 </p>
@@ -188,14 +188,14 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
             )}
             
             <div className="space-y-4">
-              <button type="submit" disabled={!isSurvey && (loading || !message.trim())} className="w-full h-20 bg-[#90EE90] text-black rounded-[1.5rem] font-black text-xl uppercase tracking-widest flex items-center justify-center gap-3 transition-all active:scale-[0.98] disabled:opacity-30">
+              <button type="submit" disabled={!isSurvey && (loading || !message.trim())} className="w-full h-20 bg-primary text-white rounded-[1.5rem] font-black text-xl uppercase tracking-widest flex items-center justify-center gap-3 transition-all active:scale-[0.98] disabled:opacity-30">
                 {isSurvey ? (
                   <><ExternalLink size={20} /> {t.openSurvey}</>
                 ) : (
                   loading ? <><Loader2 size={24} className="animate-spin" /> {t.sending}</> : <><CircleDot size={20} /> {t.send}</>
                 )}
               </button>
-              <p className="text-center text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]">{t.receivedWithLove}</p>
+              <p className="text-center text-[10px] text-primary font-black uppercase tracking-[0.5em]">{t.receivedWithLove}</p>
             </div>
           </form>
         </>

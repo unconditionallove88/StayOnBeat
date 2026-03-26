@@ -181,9 +181,9 @@ function DashboardContent() {
           <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
           <Heart 
             size={64} 
-            fill="#58c55a" 
-            className="relative z-10 animate-pulse-heart text-primary" 
-            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #58c55a)' }} 
+            fill="#10B981" 
+            className="relative z-10 animate-pulse-heart text-[#10B981]" 
+            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #10B981)' }} 
           />
         </div>
         <Loader2 className="animate-spin text-primary/20" />
@@ -362,7 +362,7 @@ function DashboardContent() {
             </Link>
             <button 
               onClick={() => handlePortalClick(() => setCoCreationOpen(true))} 
-              className="flex items-center gap-3 px-6 py-4 bg-[#58c55a]/10 rounded-full border border-[#58c55a]/20 hover:border-[#58c55a] transition-all active:scale-95"
+              className="flex items-center gap-3 px-6 py-4 bg-primary/10 rounded-full border border-primary/20 hover:border-primary transition-all active:scale-95"
             >
               <Sprout size={18} className="text-primary" />
               <span className={cn("text-[10px] font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.cocreation}</span>
@@ -478,9 +478,9 @@ export default function Dashboard() {
           <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
           <Heart 
             size={64} 
-            fill="#58c55a" 
-            className="relative z-10 animate-pulse-heart text-primary" 
-            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #58c55a)' }} 
+            fill="#10B981" 
+            className="relative z-10 animate-pulse-heart text-[#10B981]" 
+            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #10B981)' }} 
           />
         </div>
         <Loader2 className="animate-spin text-primary/20" />

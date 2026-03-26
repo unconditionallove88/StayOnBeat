@@ -11,6 +11,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * @fileOverview Breath of Love (Eternity Ouroboros).
  * A high-fidelity infinity resonance experience.
  * Features a wide horizontal eternity cobra eating its own tail in #66b2b2.
+ * Size optimized to take up 44% of the screen.
  * Background color: Beautiful sea color #54a5d5.
  * Message: Inhale Love, Exhale Love (Pulsating like a heartbeat).
  * Full localization for EN, DE, PT, RU.
@@ -95,8 +96,9 @@ export default function SelfCare() {
       </header>
 
       <ScrollArea className="flex-1">
-        <div className="flex flex-col items-center justify-center w-full max-w-3xl mx-auto px-6 py-12 space-y-12 pb-40 touch-pan-y h-full min-h-[70vh]">
+        <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto px-6 py-12 space-y-12 pb-40 touch-pan-y h-full min-h-[70vh]">
           
+          {/* Eternity Ouroboros Animation - 44% Screen Size */}
           <div className="relative flex flex-col items-center justify-center w-full h-[44vh] transition-transform duration-1000">
             <svg 
               viewBox="0 0 400 200" 
@@ -115,18 +117,19 @@ export default function SelfCare() {
                 </filter>
               </defs>
 
+              {/* Wide Eternity Path */}
               <path
                 id="infinityPath"
-                d="M 200 100 C 200 20 40 20 40 100 C 40 180 200 180 200 100 C 200 20 360 20 360 100 C 360 180 200 180 200 100"
+                d="M 200 100 C 200 10 40 10 40 100 C 40 190 200 190 200 100 C 200 10 360 10 360 100 C 360 190 200 190 200 100"
                 fill="none"
                 stroke="rgba(102, 178, 178, 0.2)"
-                strokeWidth="16"
+                strokeWidth="12"
                 strokeLinecap="round"
                 className="opacity-50"
               />
               
               <path
-                d="M 200 100 C 200 20 40 20 40 100 C 40 180 200 180 200 100 C 200 20 360 20 360 100 C 360 180 200 180 200 100"
+                d="M 200 100 C 200 10 40 10 40 100 C 40 190 200 190 200 100 C 200 10 360 10 360 100 C 360 190 200 190 200 100"
                 fill="none"
                 stroke="#66b2b2"
                 strokeWidth="1"
@@ -134,12 +137,13 @@ export default function SelfCare() {
                 className="opacity-40"
               />
 
+              {/* Sliding Cobra Head */}
               <g filter="url(#headGlow)">
                 <circle r="10" fill="#66b2b2">
                   <animateMotion
                     dur="8s"
                     repeatCount="indefinite"
-                    path="M 200 100 C 200 20 40 20 40 100 C 40 180 200 180 200 100 C 200 20 360 20 360 100 C 360 180 200 180 200 100"
+                    path="M 200 100 C 200 10 40 10 40 100 C 40 190 200 190 200 100 C 200 10 360 10 360 100 C 360 190 200 190 200 100"
                     rotate="auto"
                   />
                 </circle>
@@ -147,12 +151,13 @@ export default function SelfCare() {
                   <animateMotion
                     dur="8s"
                     repeatCount="indefinite"
-                    path="M 200 100 C 200 20 40 20 40 100 C 40 180 200 180 200 100 C 200 20 360 20 360 100 C 360 180 200 180 200 100"
+                    path="M 200 100 C 200 10 40 10 40 100 C 40 190 200 190 200 100 C 200 10 360 10 360 100 C 360 190 200 190 200 100"
                     rotate="auto"
                   />
                 </circle>
               </g>
 
+              {/* Centered Resonance Glow */}
               <circle cx="200" cy="100" r="50" fill="#66b2b2" className={cn(
                 "transition-all duration-[4000ms] ease-in-out",
                 isInhaling ? "opacity-25 scale-150 blur-3xl" : "opacity-10 scale-100 blur-xl"
@@ -204,7 +209,7 @@ export default function SelfCare() {
           onClick={() => { playHeartbeat(); router.push('/dashboard'); }}
           className={cn(
             "w-full max-w-sm h-16 rounded-full font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl flex items-center justify-center gap-3",
-            "bg-white text-[#54a5d5]",
+            "bg-[#1b4d3e] text-white",
             lang === 'ru' && "italic font-serif"
           )}
         >

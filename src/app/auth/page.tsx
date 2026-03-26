@@ -11,8 +11,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview Access Sanctuary (Auth) Page.
- * Action Buttons updated to #58c55a.
- * Unified ethereal lovable emerald heart.
+ * Action Buttons updated to abundant dark green #1b4d3e.
  */
 
 const CONTENT = {
@@ -92,7 +91,7 @@ function AuthContent() {
         doc(db, "users", cred.user.uid), 
         {
           uid: cred.user.uid,
-          email: userEmail || "prototype@stayonbeat.app",
+          email: userEmail || "soul@stayonbeat.app",
           name: userName,
           createdAt: serverTimestamp(),
           trustLevel: isSignUp ? "unverified" : "verified_adult",
@@ -106,7 +105,7 @@ function AuthContent() {
       );
 
       if (isSignUp) router.push("/onboarding");
-      else router.push("/dashboard");
+      else router.push("/session-check-in");
     } catch (err: any) {
       setError(t.errorMsg);
     } finally {
@@ -122,12 +121,12 @@ function AuthContent() {
       <div className="w-full max-w-md bg-[#0a0a0a] p-10 rounded-[3rem] border border-white/10 relative z-10 shadow-2xl shadow-primary/5">
         <button onClick={() => router.push("/")} className="absolute top-8 left-8 text-white/20 hover:text-primary transition-colors p-2"><ChevronLeft size={24} /></button>
         <div className="text-center mb-10 mt-4">
-          <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-primary/20 shadow-[0_0_30px_rgba(88,197,90,0.1)]">
+          <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-primary/20 shadow-[0_0_30px_rgba(27,77,62,0.1)]">
             <Heart 
               size={40} 
-              fill="#58c55a" 
-              className="text-primary animate-pulse-heart" 
-              style={{ filter: 'blur(12px) drop-shadow(0 0 8px #58c55a)' }} 
+              fill="#10B981" 
+              className="text-[#10B981] animate-pulse-heart" 
+              style={{ filter: 'blur(12px) drop-shadow(0 0 8px #10B981)' }} 
             />
           </div>
           <h1 className={cn("text-4xl font-black text-white tracking-tighter uppercase leading-none mb-2", lang === 'ru' && "italic font-serif")}>{isSignUp ? t.create : t.welcome}</h1>
@@ -147,7 +146,7 @@ function AuthContent() {
             </div>
           </div>
           {error && <div className={cn("p-4 bg-red-600/10 border border-red-600/20 rounded-2xl text-red-500 text-[10px] text-center font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{error}</div>}
-          <button type="submit" disabled={isLoading} className={cn("w-full h-20 bg-[#58c55a] text-black rounded-2xl font-black text-lg uppercase tracking-[0.1em] shadow-lg shadow-primary/10 transition-all active:scale-[0.98] flex items-center justify-center gap-3 mt-4", isLoading && "opacity-50 cursor-not-allowed", lang === 'ru' && "italic font-serif")}>{isLoading ? <><Loader2 size={24} className="animate-spin" /><span>{t.entering}</span></> : <span className="flex items-center gap-3">{isSignUp ? t.begin : t.enter}</span>}</button>
+          <button type="submit" disabled={isLoading} className={cn("w-full h-20 bg-[#1b4d3e] text-white rounded-2xl font-black text-lg uppercase tracking-[0.1em] shadow-lg shadow-primary/10 transition-all active:scale-[0.98] flex items-center justify-center gap-3 mt-4", isLoading && "opacity-50 cursor-not-allowed", lang === 'ru' && "italic font-serif")}>{isLoading ? <><Loader2 size={24} className="animate-spin" /><span>{t.entering}</span></> : <span className="flex items-center gap-3">{isSignUp ? t.begin : t.enter}</span>}</button>
         </form>
         <button onClick={() => router.push(isSignUp ? "/auth?mode=signin" : "/auth?mode=signup")} className={cn("w-full mt-10 text-[9px] font-black text-white/20 hover:text-primary transition-colors uppercase tracking-[0.4em] flex items-center justify-center gap-2", lang === 'ru' && "italic font-serif")}>{isSignUp ? t.alreadyAccount : t.newHere}</button>
         <div className="mt-12 pt-8 border-t border-white/5"><p className={cn("text-center text-[8px] text-white/10 uppercase tracking-[0.5em] font-black", lang === 'ru' && "italic font-serif")}>{t.staffAccess}</p></div>
@@ -164,9 +163,9 @@ export default function AuthPage() {
           <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
           <Heart 
             size={64} 
-            fill="#58c55a" 
-            className="relative z-10 animate-pulse-heart text-primary" 
-            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #58c55a)' }} 
+            fill="#10B981" 
+            className="relative z-10 animate-pulse-heart text-[#10B981]" 
+            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #10B981)' }} 
           />
         </div>
         <Loader2 className="animate-spin text-primary/20" />
