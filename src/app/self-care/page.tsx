@@ -1,8 +1,7 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
-import { Heart, Coffee, Moon, ArrowLeft, Wind, CircleDot } from 'lucide-react';
+import { Heart, Coffee, Moon, ArrowLeft, Wind, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
@@ -12,7 +11,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * @fileOverview Self-Care & Stillness Sanctuary.
  * A high-fidelity grounding experience featuring box-breathing guidance.
  * Full localization for EN, DE, PT, RU.
- * Updated: "Inhale Life" implemented across all languages.
+ * Updated: Organic iconography replacement (CircleDot -> Wind/Sparkles).
  */
 
 const CONTENT = {
@@ -140,7 +139,7 @@ export default function SelfCare() {
           <ArrowLeft className="w-4 h-4" />
         </button>
         <div className="flex items-center gap-2 px-4 py-1.5 bg-[#10B981]/10 border border-[#10B981]/30 rounded-full">
-          <CircleDot size={12} className="text-[#10B981] animate-pulse" />
+          <Sparkles size={12} className="text-[#10B981] animate-pulse" />
           <span className={cn("text-[9px] font-black uppercase text-[#10B981] tracking-widest", lang === 'ru' && "italic font-serif")}>{t.title}</span>
         </div>
       </header>

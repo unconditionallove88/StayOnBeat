@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -9,12 +8,12 @@ interface Props {
   heartRate: number;
   activeSubstances: string[];
   lang?: "en" | "de" | "pt" | "ru";
-  mood?: string; // Kept for logic but removed from visual rendering as requested
+  mood?: string; 
 }
 
 /**
  * @fileOverview Inner Resonance Visualization (Aura).
- * Refined for minimalism: Removed redundant status labels.
+ * MINIMALIST UPDATE: Removed intensity labels to focus purely on visual resonance and title.
  * Supports EN, DE, PT, RU.
  * Refined RU typography for a "written" feel.
  */
@@ -33,10 +32,10 @@ export default function HeartStatusAura({
   const pulseDuration = isHighRisk ? "1.5s" : isElevated ? "2.5s" : "4s";
 
   const labels = {
-    en: { resonance: "My Inner Resonance", intense: "Intense", elevated: "Elevated", steady: "Steady" },
-    de: { resonance: "Meine Innere Resonanz", intense: "Intensiv", elevated: "Erhöht", steady: "Stabil" },
-    pt: { resonance: "Minha Ressonância", intense: "Intenso", elevated: "Elevado", steady: "Estável" },
-    ru: { resonance: "Внутренний Резонанс", intense: "Интенсивный", elevated: "Завышен", steady: "Умеренный" }
+    en: { resonance: "My Inner Resonance" },
+    de: { resonance: "Meine Innere Resonanz" },
+    pt: { resonance: "Minha Ressonância" },
+    ru: { resonance: "Внутренний Резонанс" }
   };
 
   const t = labels[lang as keyof typeof labels] || labels.en;
@@ -72,19 +71,11 @@ export default function HeartStatusAura({
 
       <div className="mt-10 md:mt-12 text-center z-10 space-y-1">
         <p className={cn(
-          "text-white/20 text-[9px] md:text-[10px] uppercase tracking-[0.6em] font-black",
+          "text-white/40 text-[10px] md:text-[11px] uppercase tracking-[0.6em] font-black",
           lang === 'ru' && "italic font-serif"
         )}>
           {t.resonance}
         </p>
-        <h2 className={cn(
-          "text-white text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none",
-          lang === 'ru' && "italic font-serif"
-        )}
-        style={{ color: stateColor }}
-        >
-          {isHighRisk ? t.intense : isElevated ? t.elevated : t.steady}
-        </h2>
       </div>
     </div>
   );

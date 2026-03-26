@@ -1,14 +1,13 @@
 "use client";
 
 import React from "react";
-import { Navigation, Heart, Plus, HeartHandshake, CircleDot, ArrowRight } from "lucide-react";
+import { Navigation, Heart, Plus, HeartHandshake, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 /**
  * @fileOverview Love Circle Component (The Radiant Unity Orb).
- * Represents unconditional love, trust, and collective resonance.
- * Updated: Fully robust language support for PT and RU to prevent crashes.
+ * Updated: Removed CircleDot in favor of organic HeartHandshake and unified symbols.
  */
 
 interface Friend {
@@ -207,7 +206,7 @@ export default function LoveCircle({
               </span>
             )}
             <div className="opacity-30 flex flex-col items-center gap-1">
-              <CircleDot size={12} className="text-[#10B981]" />
+              <HeartHandshake size={12} className="text-[#10B981]" />
               <p className="text-[7px] font-black text-white uppercase tracking-[0.6em]">{t.sync}</p>
             </div>
           </div>

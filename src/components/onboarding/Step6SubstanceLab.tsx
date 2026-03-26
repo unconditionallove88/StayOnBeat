@@ -35,7 +35,7 @@ import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 
 /**
  * @fileOverview Pulse Lab component.
- * DEFINITIVE FIX: Robust cross-language search and fluid iPhone scrolling.
+ * "NOW AND FOREVER" FIX: Compact search, alias support (LCD -> LSD), and robust iPhone scrolling.
  * Responsibility Portal: Mandatory affirmation ritual.
  * Pure icon design: HeartHandshake and Sparkles for organic feel.
  */
@@ -50,8 +50,8 @@ const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: num
 
 const CONTENT = {
   en: {
-    title: "Pulse Lab", advisor: "Open Safety Advisor", search: "Search substances...",
-    diary: "Session Diary", records: "Records", sync: "Синхронизация", intake: "Log Intake Entry",
+    title: "Pulse Lab", advisor: "Open Safety Advisor", search: "Find...",
+    diary: "Session Diary", records: "Records", sync: "Sync Session", intake: "Log Intake Entry",
     confirm: "Confirm & Log Intake", cancel: "Cancel Entry", amount: "Amount", doseLogged: "Dose logged",
     addedToDiary: "added to your session diary", causionTitle: "Pulse Guardian: Caution 🧪",
     poppersHR: (hr: number) => `Your heart rate is ${hr} BPM Poppers will drop your blood pressure sharply Please sit down and breathe before use`,
@@ -59,8 +59,8 @@ const CONTENT = {
     syncProceed: "Proceed with Love", noResults: "No substances found"
   },
   de: {
-    title: "Sitzungs-Labor", advisor: "Sicherheits-Begleiter", search: "Substanzen suchen...",
-    diary: "Sitzungs-Tagebuch", records: "Einträge", sync: "Синхронизация", intake: "Eintrag notieren",
+    title: "Sitzungs-Labor", advisor: "Sicherheits-Begleiter", search: "Suchen...",
+    diary: "Sitzungs-Tagebuch", records: "Einträge", sync: "Session synchronisieren", intake: "Eintrag notieren",
     confirm: "Bestätigen & Notieren", cancel: "Abbrechen", amount: "Menge", doseLogged: "Dosis notiert",
     addedToDiary: "wurde deinem Tagebuch hinzugefügt", causionTitle: "Pulse Guardian: Vorsicht 🧪",
     poppersHR: (hr: number) => `Dein Puls liegt bei ${hr} BPM Poppers senkt den Blutdruck stark ab Bitte nimm dir einen Moment Zeit, setz dich hin und atme tief durch`,
@@ -68,8 +68,8 @@ const CONTENT = {
     syncProceed: "Mit Liebe fortfahren", noResults: "Keine Substanzen gefunden"
   },
   pt: {
-    title: "Pulse Lab", advisor: "Abrir Assessor de Segurança", search: "Buscar substâncias...",
-    diary: "Diário da Sessão", records: "Registros", sync: "Синхронизация", intake: "Registrar Entrada",
+    title: "Pulse Lab", advisor: "Abrir Assessor de Segurança", search: "Buscar...",
+    diary: "Diário da Sessão", records: "Registros", sync: "Sincronizar Sessão", intake: "Registrar Entrada",
     confirm: "Confirmar e Registrar", cancel: "Cancelar Entrada", amount: "Quantidade", doseLogged: "Dose registrada",
     addedToDiary: "adicionada ao seu diário de sessão", causionTitle: "Pulse Guardian: Cuidado 🧪",
     poppersHR: (hr: number) => `Sua frequência cardíaca é ${hr} BPM Poppers reduzem a pressão arterial bruscamente Por favor sente-se e respire antes de usar`,
@@ -77,7 +77,7 @@ const CONTENT = {
     syncProceed: "Prosseguir com Amor", noResults: "Nenhuma substância encontrada"
   },
   ru: {
-    title: "Лаборатория", advisor: "Забота", search: "Поиск веществ...",
+    title: "Лаборатория", advisor: "Забота", search: "Поиск...",
     diary: "Дневник Сессии", records: "Записи", sync: "Синхронизация", intake: "Добавить запись",
     confirm: "Подтвердить и Добавить", cancel: "Отмена", amount: "Количество", doseLogged: "Запись добавлена",
     addedToDiary: "добавлено в твой дневник сессии", causionTitle: "Pulse Guardian: Внимание 🧪",
@@ -88,18 +88,18 @@ const CONTENT = {
 };
 
 const SUBSTANCES = [
-  { id: 'alcohol', icon: Wine, name: 'Alcohol', deName: 'Alkohol', ptName: 'Álcool', ruName: 'Алкоголь', color: 'text-amber-500', bg: 'bg-amber-500/10', unit: 'Items', deUnit: 'Einheiten', ptUnit: 'Unidades', ruUnit: 'Ед.', subTypes: ['Beer', 'Wine', 'Shot', 'Mixer'], deSubTypes: ['Bier', 'Wein', 'Shot', 'Mixer'], ptSubTypes: ['Cerveja', 'Vinho', 'Dose', 'Mixer'], ruSubTypes: ['Пиво', 'Вино', 'Шот', 'Коктейль'], inputType: 'cart' },
-  { id: 'cannabis', icon: Leaf, name: 'Cannabis', deName: 'Cannabis', ptName: 'Cannabis', ruName: 'Каннабис', color: 'text-emerald-500', bg: 'bg-emerald-500/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
-  { id: 'mdma', icon: Sparkles, name: 'MDMA', deName: 'MDMA', ptName: 'MDMA', ruName: 'МДМА', color: 'text-purple-400', bg: 'bg-purple-500/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
-  { id: 'cocaine', icon: Diamond, name: 'Cocaine', deName: 'Kokain', ptName: 'Cocaína', ruName: 'Кокаин', color: 'text-slate-200', bg: 'bg-slate-200/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
-  { id: 'ketamine', icon: FlaskConical, name: 'Ketamine', deName: 'Ketamin', ptName: 'Cetamina', ruName: 'Кетамин', color: 'text-indigo-400', bg: 'bg-indigo-400/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
-  { id: 'ecstasy', icon: Heart, name: 'Ecstasy', deName: 'Ecstasy', ptName: 'Ecstasy', ruName: 'Экстази', color: 'text-pink-500', bg: 'bg-pink-500/10', unit: 'pills', deUnit: 'Pillen', ptUnit: 'Balas', ruUnit: 'Таб.', inputType: 'manual' },
-  { id: 'ghb', icon: Droplets, name: 'GHB/GBL', deName: 'GHB/GBL', ptName: 'GHB/GBL', ruName: 'ГОМК/ГБЛ', color: 'text-blue-400', bg: 'bg-blue-400/10', unit: 'ml', deUnit: 'ml', ptUnit: 'ml', ruUnit: 'мл', inputType: 'manual' },
-  { id: 'speed', icon: Zap, name: 'Speed', deName: 'Speed', ptName: 'Speed', ruName: 'Спид', color: 'text-yellow-400', bg: 'bg-yellow-400/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
-  { id: 'lsd', icon: Eye, name: 'LSD', deName: 'LSD', ptName: 'LSD', ruName: 'ЛСД', color: 'text-cyan-400', bg: 'bg-cyan-400/10', unit: 'ug', deUnit: 'ug', ptUnit: 'ug', ruUnit: 'мкг', inputType: 'manual' },
-  { id: '2cb', icon: Orbit, name: '2C-B', deName: '2C-B', ptName: '2C-B', ruName: '2C-B', color: 'text-orange-400', bg: 'bg-orange-400/10', unit: 'mg', deUnit: 'mg', ptUnit: 'mg', ruUnit: 'мг', inputType: 'manual' },
-  { id: 'psilocybin', icon: MushroomIcon, name: 'Psilocybin', deName: 'Psilocybin', ptName: 'Psilocibina', ruName: 'Псилоцибин', color: 'text-emerald-400', bg: 'bg-emerald-500/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
-  { id: 'poppers', icon: Wind, name: 'Poppers', deName: 'Poppers', ptName: 'Poppers', ruName: 'Попперс', color: 'text-amber-400', bg: 'bg-amber-400/10', unit: 'hits', deUnit: 'Züge', ptUnit: 'Inaladas', ruUnit: 'Вдохов', inputType: 'manual' },
+  { id: 'alcohol', icon: Wine, name: 'Alcohol', deName: 'Alkohol', ptName: 'Álcool', ruName: 'Алкоголь', aliases: ['beer', 'wine', 'shot', 'vodka', 'whiskey', 'gin', 'rum', 'tequila'], color: 'text-amber-500', bg: 'bg-amber-500/10', unit: 'Items', deUnit: 'Einheiten', ptUnit: 'Unidades', ruUnit: 'Ед.', subTypes: ['Beer', 'Wine', 'Shot', 'Mixer'], deSubTypes: ['Bier', 'Wein', 'Shot', 'Mixer'], ptSubTypes: ['Cerveja', 'Vinho', 'Dose', 'Mixer'], ruSubTypes: ['Пиво', 'Вино', 'Шот', 'Коктейль'], inputType: 'cart' },
+  { id: 'cannabis', icon: Leaf, name: 'Cannabis', deName: 'Cannabis', ptName: 'Cannabis', ruName: 'Каннабис', aliases: ['weed', 'pot', 'joint', 'grass', 'hash'], color: 'text-emerald-500', bg: 'bg-emerald-500/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
+  { id: 'mdma', icon: Sparkles, name: 'MDMA', deName: 'MDMA', ptName: 'MDMA', ruName: 'МДМА', aliases: ['molly', 'mandy'], color: 'text-purple-400', bg: 'bg-purple-500/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
+  { id: 'cocaine', icon: Diamond, name: 'Cocaine', deName: 'Kokain', ptName: 'Cocaína', ruName: 'Кокаин', aliases: ['coke', 'snow', 'blow', 'white'], color: 'text-slate-200', bg: 'bg-slate-200/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
+  { id: 'ketamine', icon: FlaskConical, name: 'Ketamine', deName: 'Ketamin', ptName: 'Cetamina', ruName: 'Кетамин', aliases: ['k', 'special k', 'kitty'], color: 'text-indigo-400', bg: 'bg-indigo-400/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
+  { id: 'ecstasy', icon: Heart, name: 'Ecstasy', deName: 'Ecstasy', ptName: 'Ecstasy', ruName: 'Экстази', aliases: ['e', 'beans', 'xtc', 'pills'], color: 'text-pink-500', bg: 'bg-pink-500/10', unit: 'pills', deUnit: 'Pillen', ptUnit: 'Balas', ruUnit: 'Таб.', inputType: 'manual' },
+  { id: 'ghb', icon: Droplets, name: 'GHB/GBL', deName: 'GHB/GBL', ptName: 'GHB/GBL', ruName: 'ГОМК/ГБЛ', aliases: ['g', 'liquid x', 'gina'], color: 'text-blue-400', bg: 'bg-blue-400/10', unit: 'ml', deUnit: 'ml', ptUnit: 'ml', ruUnit: 'мл', inputType: 'manual' },
+  { id: 'speed', icon: Zap, name: 'Speed', deName: 'Speed', ptName: 'Speed', ruName: 'Спид', aliases: ['amphetamines', 'pep'], color: 'text-yellow-400', bg: 'bg-yellow-400/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
+  { id: 'lsd', icon: Eye, name: 'LSD', deName: 'LSD', ptName: 'LSD', ruName: 'ЛСД', aliases: ['acid', 'tabs', 'lcd'], color: 'text-cyan-400', bg: 'bg-cyan-400/10', unit: 'ug', deUnit: 'ug', ptUnit: 'ug', ruUnit: 'мкг', inputType: 'manual' },
+  { id: '2cb', icon: Orbit, name: '2C-B', deName: '2C-B', ptName: '2C-B', ruName: '2C-B', aliases: ['nexus'], color: 'text-orange-400', bg: 'bg-orange-400/10', unit: 'mg', deUnit: 'mg', ptUnit: 'mg', ruUnit: 'мг', inputType: 'manual' },
+  { id: 'psilocybin', icon: MushroomIcon, name: 'Psilocybin', deName: 'Psilocybin', ptName: 'Psilocibina', ruName: 'Псилоцибин', aliases: ['mushrooms', 'shrooms'], color: 'text-emerald-400', bg: 'bg-emerald-500/10', unit: 'g', deUnit: 'g', ptUnit: 'g', ruUnit: 'г', inputType: 'manual' },
+  { id: 'poppers', icon: Wind, name: 'Poppers', deName: 'Poppers', ptName: 'Poppers', ruName: 'Попперс', aliases: ['amyl', 'nitrite'], color: 'text-amber-400', bg: 'bg-amber-400/10', unit: 'hits', deUnit: 'Züge', ptUnit: 'Inaladas', ruUnit: 'Вдохов', inputType: 'manual' },
 ];
 
 export function Step6SubstanceLab({ 
@@ -135,15 +135,14 @@ export function Step6SubstanceLab({
   const t = CONTENT[lang] || CONTENT.en;
 
   const filteredSubstances = useMemo(() => {
-    const term = searchTerm.toLowerCase();
+    const term = searchTerm.toLowerCase().trim();
     if (!term) return SUBSTANCES;
     return SUBSTANCES.filter(s => {
-      return (
-        s.name.toLowerCase().includes(term) ||
-        s.deName.toLowerCase().includes(term) ||
-        s.ptName.toLowerCase().includes(term) ||
-        s.ruName.toLowerCase().includes(term)
-      );
+      const searchSpace = [
+        s.name, s.deName, s.ptName, s.ruName,
+        ...(s.aliases || [])
+      ].map(v => v.toLowerCase());
+      return searchSpace.some(v => v.includes(term));
     });
   }, [searchTerm]);
 
@@ -218,27 +217,23 @@ export function Step6SubstanceLab({
 
   return (
     <div className="flex flex-col h-full bg-black font-headline relative overflow-hidden">
-      <header className="px-6 pt-12 pb-4 space-y-4 flex flex-col shrink-0 bg-black/95 backdrop-blur-md z-[60] border-b border-white/5 shadow-2xl">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-[#10B981]/10 flex items-center justify-center border border-[#10B981]/20 shadow-lg">
-            <Microscope size={32} className="text-white" />
-          </div>
-          <h1 className={cn("text-2xl font-black tracking-tighter uppercase leading-none text-white", lang === 'ru' && "italic font-serif")}>{t.title}</h1>
-        </div>
-        
-        <div className="space-y-2">
-          <GuardianStatusBar status={guardianStatus} heartRate={lastHR > 0 ? lastHR : 98} lang={lang} />
-          <button onClick={() => setChatOpen(true)} className="w-full bg-blue-600/10 border border-blue-500/30 rounded-2xl py-3 px-4 flex items-center justify-between shadow-lg active:scale-[0.99] transition-all">
-            <div className="flex items-center gap-3">
-              <Sparkles size={16} className="text-blue-400 animate-pulse" />
-              <span className={cn("text-[9px] font-black uppercase tracking-[0.2em] text-blue-400", lang === 'ru' && "italic font-serif")}>{t.advisor}</span>
+      <header className="px-6 pt-10 pb-4 space-y-4 flex flex-col shrink-0 bg-black/95 backdrop-blur-md z-[60] border-b border-white/5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[#10B981]/10 flex items-center justify-center border border-[#10B981]/20">
+              <Microscope size={24} className="text-white" />
             </div>
-            <ArrowRight size={12} className="text-blue-500" />
+            <h1 className={cn("text-xl font-black tracking-tighter uppercase leading-none text-white", lang === 'ru' && "italic font-serif")}>{t.title}</h1>
+          </div>
+          <button onClick={() => setChatOpen(true)} className="p-3 bg-blue-600/10 border border-blue-500/30 rounded-xl active:scale-95 transition-all">
+            <Sparkles size={18} className="text-blue-400 animate-pulse" />
           </button>
         </div>
+        
+        <GuardianStatusBar status={guardianStatus} heartRate={lastHR > 0 ? lastHR : 75} lang={lang} />
 
-        <div className="relative w-full pt-2 pb-2">
-          <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
+        <div className="relative w-full">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/20" />
           <input 
             type="search"
             placeholder={t.search}
@@ -246,31 +241,31 @@ export function Step6SubstanceLab({
             onChange={(e) => setSearchTerm(e.target.value)}
             autoComplete="off"
             autoCorrect="off"
-            className={cn("w-full bg-white/5 border border-white/10 h-16 pl-14 rounded-3xl focus:border-[#3EB489] text-base outline-none text-white shadow-inner transition-all", lang === 'ru' && "italic font-serif")}
+            className={cn("w-full bg-white/5 border border-white/10 h-12 pl-10 pr-4 rounded-2xl focus:border-[#3EB489] text-sm outline-none text-white transition-all", lang === 'ru' && "italic font-serif")}
           />
         </div>
       </header>
 
       <div className="flex-1 min-h-0 overflow-hidden relative">
         <ScrollArea className="h-full px-6 pt-6 touch-pan-y">
-          <div className="pb-48 space-y-10">
+          <div className="pb-40 space-y-8">
             {showDiary && sessionLogs.length > 0 && (
-              <div className="space-y-4 animate-in slide-in-from-top-4 duration-500">
-                <div className="flex items-center justify-between px-2">
-                  <h3 className={cn("text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3", lang === 'ru' && "italic font-serif")}><Calendar className="w-3 h-3" /> {t.diary}</h3>
+              <div className="space-y-3 animate-in slide-in-from-top-4 duration-500">
+                <div className="flex items-center justify-between px-1">
+                  <h3 className={cn("text-[9px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-2", lang === 'ru' && "italic font-serif")}><Calendar className="w-3 h-3" /> {t.diary}</h3>
                   <span className={cn("text-[8px] font-bold text-white/20 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{sessionLogs.length} {t.records}</span>
                 </div>
-                <div className="grid gap-3">
+                <div className="grid gap-2">
                   {sessionLogs.slice().reverse().map((log, i) => (
-                    <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between shadow-lg">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center border border-white/10"><FlaskConical size={20} className="text-[#3EB489]" /></div>
-                        <div className="flex flex-col gap-1">
-                          <span className={cn("text-sm font-black uppercase text-white", lang === 'ru' && "italic font-serif")}>{log.name}</span>
-                          <span className={cn("text-[10px] font-bold text-[#3EB489]", lang === 'ru' && "italic font-serif")}>{log.id === 'alcohol' ? log.items.map((it: any) => `${it.count}x ${it.type}`).join(', ') : `${log.value}${log.unit}`}</span>
+                    <div key={i} className="bg-white/[0.03] border border-white/5 rounded-xl p-4 flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center border border-white/5"><FlaskConical size={16} className="text-[#3EB489]" /></div>
+                        <div className="flex flex-col">
+                          <span className={cn("text-xs font-black uppercase text-white", lang === 'ru' && "italic font-serif")}>{log.name}</span>
+                          <span className={cn("text-[9px] font-bold text-[#3EB489]", lang === 'ru' && "italic font-serif")}>{log.id === 'alcohol' ? log.items.map((it: any) => `${it.count}x ${it.type}`).join(', ') : `${log.value}${log.unit}`}</span>
                         </div>
                       </div>
-                      <button onClick={() => removeLog(sessionLogs.length - 1 - i)} className="p-2 text-white/10 hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
+                      <button onClick={() => removeLog(sessionLogs.length - 1 - i)} className="p-2 text-white/10 hover:text-red-500 transition-colors"><Trash2 className="w-3.5 h-3.5" /></button>
                     </div>
                   ))}
                 </div>
@@ -278,7 +273,7 @@ export function Step6SubstanceLab({
             )}
 
             {filteredSubstances.length > 0 ? (
-              <div className="grid grid-cols-3 gap-4 w-full">
+              <div className="grid grid-cols-3 gap-3 w-full">
                 {filteredSubstances.map(s => {
                   const active = sessionLogs.some(log => log.id === s.id);
                   const localizedName = lang === 'en' ? s.name : lang === 'de' ? s.deName : lang === 'pt' ? s.ptName : s.ruName;
@@ -286,30 +281,30 @@ export function Step6SubstanceLab({
                     <button 
                       key={s.id}
                       onClick={() => handleSelectSubstance(s)}
-                      className={cn("aspect-square border rounded-[2.5rem] flex flex-col items-center justify-center gap-3 transition-all hover:bg-white/10 active:scale-95 group relative shadow-2xl", active ? "bg-[#3EB489]/10 border-[#3EB489]" : "bg-white/[0.02] border-white/5")}
+                      className={cn("aspect-square border rounded-3xl flex flex-col items-center justify-center gap-2 transition-all active:scale-95 group relative shadow-lg", active ? "bg-[#3EB489]/10 border-[#3EB489]" : "bg-white/[0.02] border-white/5")}
                     >
-                      <div className={cn("p-4 rounded-2xl bg-black/40 border border-white/5 group-hover:scale-110 transition-transform shadow-lg", s.color)}><s.icon size={28} /></div>
-                      <span className={cn("text-[9px] font-black uppercase tracking-widest text-center px-2 leading-tight", active ? "text-[#3EB489]" : "text-white/40", lang === 'ru' && "italic font-serif")}>{localizedName}</span>
+                      <div className={cn("p-3 rounded-xl bg-black/40 border border-white/5 group-hover:scale-110 transition-transform", s.color)}><s.icon size={22} /></div>
+                      <span className={cn("text-[8px] font-black uppercase tracking-widest text-center px-1 leading-tight", active ? "text-[#3EB489]" : "text-white/40", lang === 'ru' && "italic font-serif")}>{localizedName}</span>
                     </button>
                   );
                 })}
               </div>
             ) : (
               <div className="py-20 text-center space-y-4 opacity-20">
-                <Search size={48} className="mx-auto" />
-                <p className={cn("text-[10px] font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.noResults}</p>
+                <Search size={40} className="mx-auto" />
+                <p className={cn("text-[9px] font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.noResults}</p>
               </div>
             )}
           </div>
         </ScrollArea>
       </div>
 
-      <footer className="shrink-0 h-[110px] bg-black/95 backdrop-blur-2xl border-t border-white/5 flex items-center justify-center px-6 z-[70] pb-safe shadow-[0_-20px_50px_rgba(0,0,0,0.8)]">
+      <footer className="shrink-0 h-[100px] bg-black/95 backdrop-blur-2xl border-t border-white/5 flex items-center justify-center px-6 z-[70] pb-safe">
         <button 
           onClick={() => setResponsibilityOpen(true)} 
-          className={cn("w-full py-6 bg-[#3EB489] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg flex items-center justify-center gap-3", lang === 'ru' && "italic font-serif")}
+          className={cn("w-full py-5 bg-[#3EB489] text-black rounded-full font-black uppercase text-base tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg flex items-center justify-center gap-3", lang === 'ru' && "italic font-serif")}
         >
-          <CheckCircle2 size={24} /> {lang === 'ru' ? 'Синхронизация' : t.sync}
+          <CheckCircle2 size={20} /> {lang === 'ru' ? 'Синхронизация' : t.sync}
         </button>
       </footer>
 
@@ -319,25 +314,25 @@ export function Step6SubstanceLab({
           <div className="p-10 flex flex-col items-center text-center space-y-10">
             <div className="relative">
               <div className="absolute inset-0 bg-[#3EB489]/20 blur-3xl rounded-full animate-pulse" />
-              <div className="w-24 h-24 bg-[#3EB489]/10 border-2 border-[#3EB489]/30 rounded-full flex items-center justify-center relative z-10 shadow-2xl">
-                <ShieldCheck size={48} className="text-[#3EB489]" />
+              <div className="w-20 h-20 bg-[#3EB489]/10 border-2 border-[#3EB489]/30 rounded-full flex items-center justify-center relative z-10 shadow-2xl">
+                <ShieldCheck size={40} className="text-[#3EB489]" />
               </div>
             </div>
             
             <div className="space-y-6">
               <p className={cn(
-                "text-2xl md:text-3xl font-black uppercase tracking-tighter text-white leading-tight",
+                "text-xl md:text-2xl font-black uppercase tracking-tighter text-white leading-tight",
                 lang === 'ru' && "italic font-serif"
               )}>
                 {t.responsibility}
               </p>
-              <div className="w-12 h-1 bg-[#3EB489]/20 rounded-full mx-auto" />
+              <div className="w-10 h-1 bg-[#3EB489]/20 rounded-full mx-auto" />
             </div>
 
             <button 
               onClick={handleFinalSync}
               className={cn(
-                "w-full h-20 bg-[#3EB489] text-black rounded-3xl font-black uppercase text-lg tracking-widest active:scale-95 transition-all shadow-[0_0_40px_rgba(62,180,137,0.3)]",
+                "w-full h-16 bg-[#3EB489] text-black rounded-2xl font-black uppercase text-base tracking-widest active:scale-95 transition-all shadow-lg",
                 lang === 'ru' && "italic font-serif"
               )}
             >
@@ -351,45 +346,45 @@ export function Step6SubstanceLab({
         <div className="absolute inset-0 bg-black/95 backdrop-blur-2xl z-[100] animate-in fade-in duration-300 flex flex-col font-headline">
           <header className="shrink-0 p-8 flex justify-between items-center">
             <div className="flex items-center gap-4">
-              <div className={cn("w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 shadow-xl", activeSubstance.color)}><activeSubstance.icon size={28} /></div>
-              <h2 className={cn("text-2xl font-black uppercase tracking-tighter text-white", lang === 'ru' && "italic font-serif")}>{lang === 'en' ? activeSubstance.name : lang === 'de' ? activeSubstance.deName : lang === 'pt' ? activeSubstance.ptName : activeSubstance.ruName}</h2>
+              <div className={cn("w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 shadow-xl", activeSubstance.color)}><activeSubstance.icon size={24} /></div>
+              <h2 className={cn("text-xl font-black uppercase tracking-tighter text-white", lang === 'ru' && "italic font-serif")}>{lang === 'en' ? activeSubstance.name : lang === 'de' ? activeSubstance.deName : lang === 'pt' ? activeSubstance.ptName : activeSubstance.ruName}</h2>
             </div>
-            <button onClick={() => setActiveSubstance(null)} className="p-4 bg-white/5 rounded-full border border-white/10 text-white/40 active:scale-90 transition-all"><X size={24} /></button>
+            <button onClick={() => setActiveSubstance(null)} className="p-3 bg-white/5 rounded-full border border-white/10 text-white/40 active:scale-90 transition-all"><X size={20} /></button>
           </header>
 
           <div className="flex-1 min-h-0 overflow-hidden">
             <ScrollArea className="h-full px-8 touch-pan-y">
-              <div className="flex flex-col items-center space-y-12 py-12 max-w-md mx-auto w-full pb-40">
+              <div className="flex flex-col items-center space-y-10 py-10 max-w-md mx-auto w-full pb-40">
                 {activeSubstance.id === 'alcohol' ? (
-                  <div className="space-y-4 w-full">
+                  <div className="space-y-3 w-full">
                     {alcoholCart.map((item, idx) => (
-                      <div key={idx} className="flex items-center justify-between bg-white/[0.03] p-6 rounded-3xl border border-white/10 shadow-lg">
-                        <span className={cn("text-base font-black uppercase tracking-widest text-white/80", lang === 'ru' && "italic font-serif")}>{item.type}</span>
-                        <div className="flex items-center gap-8">
-                          <button onClick={() => { const next = [...alcoholCart]; next[idx].count = Math.max(0, next[idx].count - 1); setAlcoholCart(next); }} className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 transition-all active:scale-90">-</button>
-                          <span className="w-8 text-center font-black text-3xl text-white tabular-nums">{item.count}</span>
-                          <button onClick={() => { const next = [...alcoholCart]; next[idx].count += 1; setAlcoholCart(next); }} className="w-12 h-12 rounded-full bg-[#3EB489] text-black flex items-center justify-center transition-all active:scale-90 shadow-lg">+</button>
+                      <div key={idx} className="flex items-center justify-between bg-white/[0.03] p-5 rounded-2xl border border-white/5 shadow-lg">
+                        <span className={cn("text-sm font-black uppercase tracking-widest text-white/80", lang === 'ru' && "italic font-serif")}>{item.type}</span>
+                        <div className="flex items-center gap-6">
+                          <button onClick={() => { const next = [...alcoholCart]; next[idx].count = Math.max(0, next[idx].count - 1); setAlcoholCart(next); }} className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 transition-all active:scale-90">-</button>
+                          <span className="w-6 text-center font-black text-2xl text-white tabular-nums">{item.count}</span>
+                          <button onClick={() => { const next = [...alcoholCart]; next[idx].count += 1; setAlcoholCart(next); }} className="w-10 h-10 rounded-full bg-[#3EB489] text-black flex items-center justify-center transition-all active:scale-90 shadow-lg">+</button>
                         </div>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <div className="space-y-6 w-full text-center">
-                    <label className={cn("text-[10px] font-black uppercase tracking-[0.4em] text-white/30 block", lang === 'ru' && "italic font-serif")}>{t.amount} ({lang === 'en' ? activeSubstance.unit : lang === 'de' ? activeSubstance.deUnit : lang === 'pt' ? activeSubstance.ptUnit : activeSubstance.ruUnit})</label>
+                  <div className="space-y-4 w-full text-center">
+                    <label className={cn("text-[9px] font-black uppercase tracking-[0.4em] text-white/30 block", lang === 'ru' && "italic font-serif")}>{t.amount} ({lang === 'en' ? activeSubstance.unit : lang === 'de' ? activeSubstance.deUnit : lang === 'pt' ? activeSubstance.ptUnit : activeSubstance.ruUnit})</label>
                     <input 
                       type="number" 
                       value={manualValue} 
                       onChange={(e) => setManualValue(e.target.value)} 
                       autoFocus 
                       inputMode="decimal" 
-                      className={cn("w-full bg-transparent border-b-4 border-[#3EB489] py-4 text-7xl font-black outline-none text-white text-center shadow-none transition-all placeholder:text-white/5", lang === 'ru' && "italic font-serif")} 
+                      className={cn("w-full bg-transparent border-b-2 border-[#3EB489] py-2 text-6xl font-black outline-none text-white text-center shadow-none transition-all placeholder:text-white/5", lang === 'ru' && "italic font-serif")} 
                       placeholder="0.00" 
                     />
                   </div>
                 )}
-                <div className="w-full space-y-4 pt-10">
-                  <button onClick={saveLog} className={cn("w-full h-24 bg-[#3EB489] text-black rounded-[2rem] font-black uppercase tracking-widest neon-glow active:scale-[0.98] shadow-2xl flex items-center justify-center gap-4 text-xl", lang === 'ru' && "italic font-serif")}>{t.confirm}</button>
-                  <button onClick={() => setActiveSubstance(null)} className={cn("w-full h-14 text-white/20 font-black uppercase text-[10px] tracking-[0.5em] transition-colors hover:text-white", lang === 'ru' && "italic font-serif")}>{t.cancel}</button>
+                <div className="w-full space-y-3 pt-6">
+                  <button onClick={saveLog} className={cn("w-full h-20 bg-[#3EB489] text-black rounded-3xl font-black uppercase tracking-widest neon-glow active:scale-[0.98] shadow-xl flex items-center justify-center gap-3 text-lg", lang === 'ru' && "italic font-serif")}>{t.confirm}</button>
+                  <button onClick={() => setActiveSubstance(null)} className={cn("w-full h-12 text-white/20 font-black uppercase text-[9px] tracking-[0.5em] transition-colors hover:text-white", lang === 'ru' && "italic font-serif")}>{t.cancel}</button>
                 </div>
               </div>
             </ScrollArea>

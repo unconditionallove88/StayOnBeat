@@ -1,14 +1,13 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShieldCheck, CircleDot } from 'lucide-react';
+import { ShieldCheck, Heart } from 'lucide-react';
 
 /**
  * @fileOverview Welcome Back Calibration Page.
  * Visuals refined for subtle influence and "Inside Out" vision.
- * Punctuation-free affirmations.
+ * Updated: Organic iconography replacement (CircleDot -> Heart).
  */
 
 export default function WelcomeBack() {
@@ -72,7 +71,7 @@ export default function WelcomeBack() {
         <div className="h-[180px] w-full flex items-center justify-center">
           <div className="relative">
             <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full animate-radiate-out" />
-            <CircleDot className="h-32 w-32 text-primary animate-pulse relative z-10" />
+            <Heart size={80} fill="#10B981" className="text-primary animate-pulse-heart relative z-10" />
           </div>
         </div>
 
