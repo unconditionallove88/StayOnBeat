@@ -11,7 +11,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 /**
  * @fileOverview Breath of Love (Eternity Ouroboros).
  * A high-fidelity infinity resonance experience.
- * Features a wide horizontal "8" cobra eating its own tail.
+ * Features a wide horizontal eternity cobra eating its own tail.
  * Background color: Beautiful sea color #54a5d5.
  * Rhythm: 4s Inhale / 4s Exhale.
  * Full localization for EN, DE, PT, RU.
@@ -97,13 +97,13 @@ export default function SelfCare() {
       </header>
 
       <ScrollArea className="flex-1">
-        <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-6 py-12 space-y-12 pb-40 touch-pan-y h-full min-h-[70vh]">
+        <div className="flex flex-col items-center justify-center w-full max-w-3xl mx-auto px-6 py-12 space-y-12 pb-40 touch-pan-y h-full min-h-[70vh]">
           
-          {/* Eternity Ouroboros Animation - Horizontal 8 */}
+          {/* Eternity Ouroboros Animation - Wide Infinity */}
           <div className="relative flex flex-col items-center justify-center w-full h-[44vh] transition-transform duration-1000">
             <svg 
               viewBox="0 0 400 200" 
-              className="w-full h-full drop-shadow-[0_0_30px_rgba(16,185,129,0.3)] filter"
+              className="w-full h-full drop-shadow-[0_0_40px_rgba(16,185,129,0.4)] filter"
               preserveAspectRatio="xMidYMid meet"
             >
               <defs>
@@ -113,59 +113,57 @@ export default function SelfCare() {
                   <stop offset="100%" stopColor="#10B981" stopOpacity="0.8" />
                 </linearGradient>
                 <filter id="headGlow">
-                  <feGaussianBlur stdDeviation="4" result="blur" />
+                  <feGaussianBlur stdDeviation="6" result="blur" />
                   <feComposite in="SourceGraphic" in2="blur" operator="over" />
                 </filter>
               </defs>
 
-              {/* The Infinity Body (Ouroboros Path) */}
+              {/* The Infinity Body (Ouroboros Path) - Wide Layout */}
               <path
                 id="infinityPath"
-                d="M 100 100 C 100 20 20 20 20 100 C 20 180 100 180 100 100 C 100 20 180 20 180 100 C 180 180 100 180 100 100"
+                d="M 200 100 C 200 20 40 20 40 100 C 40 180 200 180 200 100 C 200 20 360 20 360 100 C 360 180 200 180 200 100"
                 fill="none"
-                stroke="rgba(16, 185, 129, 0.15)"
-                strokeWidth="12"
+                stroke="rgba(16, 185, 129, 0.2)"
+                strokeWidth="16"
                 strokeLinecap="round"
-                transform="scale(2) translate(-50, -50)"
-                className="opacity-40"
+                className="opacity-50"
               />
               
               {/* Glowing Inner Trace */}
               <path
-                d="M 100 100 C 100 20 20 20 20 100 C 20 180 100 180 100 100 C 100 20 180 20 180 100 C 180 180 100 180 100 100"
+                d="M 200 100 C 200 20 40 20 40 100 C 40 180 200 180 200 100 C 200 20 360 20 360 100 C 360 180 200 180 200 100"
                 fill="none"
                 stroke="#10B981"
                 strokeWidth="1"
-                strokeDasharray="4 8"
-                className="opacity-30"
-                transform="scale(2) translate(-50, -50)"
+                strokeDasharray="6 12"
+                className="opacity-40"
               />
 
-              {/* The Cobra Head - Sliding tenderly on the 8 */}
+              {/* The Cobra Head - Sliding tenderly on the infinity symbol */}
               <g filter="url(#headGlow)">
-                <circle r="8" fill="#10B981" className="shadow-[0_0_20px_#10B981]">
+                <circle r="10" fill="#10B981" className="shadow-[0_0_30px_#10B981]">
                   <animateMotion
                     dur="8s"
                     repeatCount="indefinite"
-                    path="M 100 100 C 100 20 20 20 20 100 C 20 180 100 180 100 100 C 100 20 180 20 180 100 C 180 180 100 180 100 100"
+                    path="M 200 100 C 200 20 40 20 40 100 C 40 180 200 180 200 100 C 200 20 360 20 360 100 C 360 180 200 180 200 100"
                     rotate="auto"
                   />
                 </circle>
-                {/* Visual "Head" detail */}
-                <circle r="3" fill="white" opacity="0.6">
+                {/* Visual Detail for the relaxed head */}
+                <circle r="4" fill="white" opacity="0.7">
                   <animateMotion
                     dur="8s"
                     repeatCount="indefinite"
-                    path="M 100 100 C 100 20 20 20 20 100 C 20 180 100 180 100 100 C 100 20 180 20 180 100 C 180 180 100 180 100 100"
+                    path="M 200 100 C 200 20 40 20 40 100 C 40 180 200 180 200 100 C 200 20 360 20 360 100 C 360 180 200 180 200 100"
                     rotate="auto"
                   />
                 </circle>
               </g>
 
-              {/* Breathing Glow Pulse */}
-              <circle cx="200" cy="100" r="40" fill="#10B981" className={cn(
+              {/* Breathing Glow Pulse - Central Heart */}
+              <circle cx="200" cy="100" r="50" fill="#10B981" className={cn(
                 "transition-all duration-[4000ms] ease-in-out",
-                isInhaling ? "opacity-20 scale-150 blur-3xl" : "opacity-5 scale-100 blur-xl"
+                isInhaling ? "opacity-25 scale-150 blur-3xl" : "opacity-10 scale-100 blur-xl"
               )} />
             </svg>
 
