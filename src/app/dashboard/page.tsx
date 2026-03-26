@@ -363,7 +363,7 @@ function DashboardContent() {
               onClick={() => handlePortalClick(() => setCoCreationOpen(true))} 
               className="flex items-center gap-3 px-6 py-4 bg-[#90EE90]/10 rounded-full border border-[#90EE90]/20 hover:border-[#90EE90] transition-all active:scale-95"
             >
-              <Sprout size={18} className-[#90EE90] />
+              <Sprout size={18} className="text-[#90EE90]" />
               <span className={cn("text-[10px] font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.cocreation}</span>
             </button>
           </div>
