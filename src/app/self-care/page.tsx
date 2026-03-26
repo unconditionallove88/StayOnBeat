@@ -13,7 +13,9 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * Features a wide horizontal eternity cobra eating its own tail in #66b2b2.
  * Size optimized to take up 44% of the screen.
  * Background color: Beautiful sea color #54a5d5.
- * Message: Inhale Love, Exhale Love (Pulsating like a heartbeat).
+ * Message: Inhale Love / Exhale Love.
+ * Animation: Sunrise slowly appear (4s) and slowly disappear (4s).
+ * Action Button: Wise intense dark green #1b4d3e.
  * Full localization for EN, DE, PT, RU.
  */
 
@@ -137,7 +139,7 @@ export default function SelfCare() {
                 className="opacity-40"
               />
 
-              {/* Sliding Cobra Head */}
+              {/* Sliding Cobra Head - 8s full loop */}
               <g filter="url(#headGlow)">
                 <circle r="10" fill="#66b2b2">
                   <animateMotion
@@ -164,21 +166,30 @@ export default function SelfCare() {
               )} />
             </svg>
 
-            <div className="mt-8 text-center space-y-3">
+            <div className="mt-8 text-center space-y-3 relative h-20 w-full flex items-center justify-center">
+              {/* Sunrise slowly appear and slowly disappear animation */}
               <h2 className={cn(
-                "text-4xl font-black uppercase tracking-tighter transition-all duration-[4000ms] ease-in-out animate-text-pulse",
-                isInhaling ? "text-white scale-110" : "text-white/40 scale-100",
+                "text-4xl font-black uppercase tracking-tighter absolute transition-all",
+                isInhaling ? "animate-sunrise opacity-100" : "opacity-0",
                 lang === 'ru' && "italic font-serif"
               )}>
-                {isInhaling ? t.inhale : t.exhale}
+                {t.inhale}
               </h2>
-              <p className={cn(
-                "text-[10px] font-black text-white/30 uppercase tracking-[0.4em] animate-pulse",
+              <h2 className={cn(
+                "text-4xl font-black uppercase tracking-tighter absolute transition-all",
+                !isInhaling ? "animate-sunrise opacity-100" : "opacity-0",
                 lang === 'ru' && "italic font-serif"
               )}>
-                {t.breathing}
-              </p>
+                {t.exhale}
+              </h2>
             </div>
+            
+            <p className={cn(
+              "text-[10px] font-black text-white/30 uppercase tracking-[0.4em] animate-pulse mt-4",
+              lang === 'ru' && "italic font-serif"
+            )}>
+              {t.breathing}
+            </p>
           </div>
 
           <div className="space-y-10 w-full text-center">

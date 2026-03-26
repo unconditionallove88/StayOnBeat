@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -10,7 +9,7 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview Recovery Protocol Page.
  * Support for EN, DE, PT, RU.
- * Integrated core affirmation with refined RU "written" typography.
+ * Action buttons updated to wise dark green #1b4d3e.
  */
 
 export default function RecoveryView() {
@@ -96,18 +95,18 @@ export default function RecoveryView() {
     <main className="min-h-screen bg-black text-white font-headline pb-64">
       <div className="bg-black/95 backdrop-blur-xl border-b border-white/5 px-6 py-8 sticky top-0 z-50">
         <div className="max-w-xl mx-auto space-y-6">
-          <button onClick={() => router.back()} className="flex items-center gap-2 text-white/40 uppercase font-black text-[10px] tracking-widest hover:text-[#10B981] transition-colors"><ArrowLeft className="w-4 h-4" /> Back to sanctuary</button>
+          <button onClick={() => router.back()} className="flex items-center gap-2 text-white/40 uppercase font-black text-[10px] tracking-widest hover:text-primary transition-colors"><ArrowLeft className="w-4 h-4" /> Back to sanctuary</button>
           <div className="flex justify-between items-end">
             <div>
               <h1 className={cn("text-4xl font-black uppercase tracking-tighter leading-none", lang === 'ru' && "italic font-serif")}>{isFinished ? (lang === 'ru' ? 'Интеграция' : 'Integrated') : (lang === 'ru' ? 'Восстановление' : 'Recovery')}</h1>
               <p className={cn(
-                "text-[#10B981] text-[10px] font-black uppercase tracking-[0.3em] mt-2",
+                "text-primary text-[10px] font-black uppercase tracking-[0.3em] mt-2",
                 lang === 'ru' ? "italic font-serif" : "italic"
               )}>"{isFinished ? affirmation : (lang === 'ru' ? 'Персональный протокол' : 'Personalized protocol')}"</p>
             </div>
             <div className="flex flex-col items-end gap-3">
-              <div className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center gap-2"><Heart className="w-3 h-3 text-[#10B981] fill-[#10B981] animate-pulse-heart" /><span className="text-[8px] font-black text-[#10B981] uppercase tracking-widest">Active Protection</span></div>
-              {!isFinished && <span className="font-mono text-[#10B981] text-xs font-black">{timeLeft}</span>}
+              <div className="px-3 py-1 bg-primary/10 border border-primary/30 rounded-full flex items-center gap-2"><Heart className="w-3 h-3 text-primary fill-primary animate-pulse-heart" /><span className="text-[8px] font-black text-primary uppercase tracking-widest">Active Protection</span></div>
+              {!isFinished && <span className="font-mono text-primary text-xs font-black">{timeLeft}</span>}
             </div>
           </div>
         </div>
@@ -117,7 +116,7 @@ export default function RecoveryView() {
         {isFinished && (
           <div className="text-center py-10 space-y-6 animate-in fade-in zoom-in duration-1000">
             <p className={cn(
-              "text-2xl font-black uppercase tracking-tighter text-[#10B981] leading-tight max-w-[300px] mx-auto",
+              "text-2xl font-black uppercase tracking-tighter text-primary leading-tight max-w-[300px] mx-auto",
               lang === 'ru' ? "italic font-serif" : "italic"
             )}>"{affirmation}"</p>
           </div>
@@ -132,17 +131,17 @@ export default function RecoveryView() {
         </div>
 
         <section className="space-y-6">
-          <div className="flex items-center gap-4 mb-4 px-2"><HeartPulse className="w-6 h-6 text-[#10B981]" /><h3 className={cn("text-xl font-black uppercase tracking-tight", lang === 'ru' && "italic font-serif")}>Your Integration Timeline</h3></div>
+          <div className="flex items-center gap-4 mb-4 px-2"><HeartPulse className="w-6 h-6 text-primary" /><h3 className={cn("text-xl font-black uppercase tracking-tight", lang === 'ru' && "italic font-serif")}>Your Integration Timeline</h3></div>
           <div className="grid gap-4">
             {detoxPlan.length > 0 ? (
               detoxPlan.map((p) => (
-                <div key={p.id} className="p-8 rounded-[2.5rem] border border-white/10 bg-white/5 flex flex-col gap-4 group hover:border-[#10B981]/40 transition-all">
+                <div key={p.id} className="p-8 rounded-[2.5rem] border border-white/10 bg-white/5 flex flex-col gap-4 group hover:border-primary/40 transition-all">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <div className={cn("p-3 rounded-2xl bg-white/5", p.color)}><p.icon className="w-6 h-6" /></div>
                       <div className="flex flex-col"><span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">{p.time}</span><span className={cn("text-xl font-black uppercase text-white", lang === 'ru' && "italic font-serif")}>{p.text}</span></div>
                     </div>
-                    <CheckCircle2 className="w-5 h-5 text-[#10B981]/20 group-hover:text-[#10B981] transition-colors" />
+                    <CheckCircle2 className="w-5 h-5 text-primary/20 group-hover:text-primary transition-colors" />
                   </div>
                   <p className={cn("text-sm font-bold text-white/60 leading-relaxed pl-2 border-l-2 border-white/10", lang === 'ru' && "italic font-serif")}>{p.desc}</p>
                 </div>
@@ -163,11 +162,11 @@ export default function RecoveryView() {
 
       <footer className="fixed bottom-0 left-0 right-0 h-auto min-h-[120px] py-8 bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-50 gap-4 pb-safe">
         {!isFinished ? (
-          <button onClick={handleFinish} className={cn("w-full max-w-sm py-6 bg-[#10B981] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-emerald-500/20", lang === 'ru' && "italic font-serif")}>Complete Session & Log Streak</button>
+          <button onClick={handleFinish} className={cn("w-full max-w-sm py-6 bg-[#1b4d3e] text-white rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-primary/20", lang === 'ru' && "italic font-serif")}>Complete Session & Log Streak</button>
         ) : (
           <div className="w-full max-w-sm flex flex-col gap-4 animate-in slide-in-from-bottom-4 duration-500">
             <button onClick={() => router.push('/dashboard')} className={cn("w-full py-6 bg-white text-black rounded-full font-black uppercase text-lg tracking-[0.1em] active:scale-95 transition-all shadow-lg", lang === 'ru' && "italic font-serif")}>Return to Sanctuary</button>
-            <button onClick={() => window.open("https://ev32k2sgx09.typeform.com/to/a33evEfp", "_blank")} className="w-full p-6 bg-[#10B981]/10 border border-[#10B981]/30 rounded-[2rem] flex items-center justify-between group hover:bg-[#10B981]/20 transition-all"><div className="text-left"><p className={cn("text-sm font-black uppercase text-white tracking-tight", lang === 'ru' && "italic font-serif")}>Help us improve StayOnBeat</p><p className="text-[10px] font-bold text-[#10B981] uppercase tracking-widest mt-1">4minutes · anonymous</p></div><ExternalLink size={20} className="text-[#10B981] opacity-40 group-hover:opacity-100 transition-opacity" /></button>
+            <button onClick={() => window.open("https://ev32k2sgx09.typeform.com/to/a33evEfp", "_blank")} className="w-full p-6 bg-primary/10 border border-primary/30 rounded-[2rem] flex items-center justify-between group hover:bg-primary/20 transition-all"><div className="text-left"><p className={cn("text-sm font-black uppercase text-white tracking-tight", lang === 'ru' && "italic font-serif")}>Help us improve StayOnBeat</p><p className="text-[10px] font-bold text-primary uppercase tracking-widest mt-1">4minutes · anonymous</p></div><ExternalLink size={20} className="text-primary opacity-40 group-hover:opacity-100 transition-opacity" /></button>
           </div>
         )}
       </footer>

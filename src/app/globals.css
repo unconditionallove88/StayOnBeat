@@ -10,6 +10,7 @@
     --card-foreground: 0 0% 100%;
     --popover: 0 0% 2%;
     --popover-foreground: 0 0% 100%;
+    /* Wise intense dark green #1b4d3e */
     --primary: 162 48% 20%;
     --primary-foreground: 0 0% 100%;
     --secondary: 162 30% 15%;
@@ -68,12 +69,11 @@
   100% { transform: scale(1.4); opacity: 0; }
 }
 
-/* Text Heartbeat Pulsation - Double Thump Rhythm */
-@keyframes text-heart-beat {
-  0%, 70%, 100% { transform: scale(1); opacity: 0.8; }
-  75% { transform: scale(1.15); opacity: 1; }
-  82% { transform: scale(1.05); opacity: 0.9; }
-  88% { transform: scale(1.2); opacity: 1; }
+/* Sunrise Text Animation: 4s appear, 4s disappear */
+@keyframes sunrise-fade {
+  0% { opacity: 0; transform: translateY(10px); }
+  50% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-5px); }
 }
 
 .animate-pulse-heart {
@@ -84,8 +84,8 @@
   animation: radiate-out 4s ease-out infinite;
 }
 
-.animate-text-pulse {
-  animation: text-heart-beat 4s ease-in-out infinite;
+.animate-sunrise {
+  animation: sunrise-fade 8s ease-in-out infinite;
 }
 
 .neon-glow {
