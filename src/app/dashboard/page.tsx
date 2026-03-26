@@ -357,13 +357,13 @@ function DashboardContent() {
               className="flex items-center gap-3 px-6 py-4 bg-blue-600/10 rounded-full border border-blue-500/20 hover:border-blue-500 transition-all active:scale-95"
             >
               <Wind size={18} className="text-blue-400" />
-              <span className={cn("text-[10px] font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Резонанс' : lang === 'pt' ? 'Ressonância' : lang === 'de' ? 'Resonanz' : 'Resonance'}</span>
+              <span className={cn("text-[10px] font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Дыхание Любви' : lang === 'pt' ? 'Sopro de Amor' : lang === 'de' ? 'Atem der Liebe' : 'Breath of Love'}</span>
             </Link>
             <button 
               onClick={() => handlePortalClick(() => setCoCreationOpen(true))} 
               className="flex items-center gap-3 px-6 py-4 bg-[#90EE90]/10 rounded-full border border-[#90EE90]/20 hover:border-[#90EE90] transition-all active:scale-95"
             >
-              <Sprout size={18} className="text-[#90EE90]" />
+              <Sprout size={18} className-[#90EE90] />
               <span className={cn("text-[10px] font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.cocreation}</span>
             </button>
           </div>
@@ -433,7 +433,7 @@ function DashboardContent() {
       </Dialog>
 
       <Dialog open={aiBotOpen} onOpenChange={setAiBotOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[2rem] overflow-hidden flex flex-col h-[85dvh] max-h-[85dvh] top-[50%] -translate-y-[50%]">
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[2rem] overflow-hidden flex flex-col h-[85dvh] max-h-[85dvh] top-[50%] -translate-y-[50%] shadow-[0_0_100px_rgba(0,0,0,0.9)]">
           <DialogTitle className="sr-only">AI Care Portal</DialogTitle>
           <AssistantPortal userProfile={firestoreProfile} />
         </DialogContent>

@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import HeartStatusAura from "@/components/dashboard/HeartStatusAura";
 import LoveCircleList from "@/components/dashboard/LoveCircle";
 import { Activity, ArrowLeft, Watch, Info, HeartHandshake, Users2, RefreshCw, ChevronRight, Sparkles } from "lucide-react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'navigation';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';

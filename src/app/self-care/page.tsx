@@ -13,6 +13,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * A high-fidelity infinity resonance experience.
  * Features a wide horizontal eternity cobra eating its own tail.
  * Background color: Beautiful sea color #54a5d5.
+ * Snake color: Bespoke teal #66b2b2.
  * Rhythm: 4s Inhale / 4s Exhale.
  * Full localization for EN, DE, PT, RU.
  */
@@ -99,18 +100,18 @@ export default function SelfCare() {
       <ScrollArea className="flex-1">
         <div className="flex flex-col items-center justify-center w-full max-w-3xl mx-auto px-6 py-12 space-y-12 pb-40 touch-pan-y h-full min-h-[70vh]">
           
-          {/* Eternity Ouroboros Animation - Wide Infinity */}
+          {/* Eternity Ouroboros Animation - Wide Infinity in #66b2b2 */}
           <div className="relative flex flex-col items-center justify-center w-full h-[44vh] transition-transform duration-1000">
             <svg 
               viewBox="0 0 400 200" 
-              className="w-full h-full drop-shadow-[0_0_40px_rgba(16,185,129,0.4)] filter"
+              className="w-full h-full drop-shadow-[0_0_40px_rgba(102,178,178,0.4)] filter"
               preserveAspectRatio="xMidYMid meet"
             >
               <defs>
                 <linearGradient id="cobraGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#10B981" stopOpacity="0.8" />
-                  <stop offset="50%" stopColor="#059669" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#10B981" stopOpacity="0.8" />
+                  <stop offset="0%" stopColor="#66b2b2" stopOpacity="0.8" />
+                  <stop offset="50%" stopColor="#4d8a8a" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#66b2b2" stopOpacity="0.8" />
                 </linearGradient>
                 <filter id="headGlow">
                   <feGaussianBlur stdDeviation="6" result="blur" />
@@ -123,7 +124,7 @@ export default function SelfCare() {
                 id="infinityPath"
                 d="M 200 100 C 200 20 40 20 40 100 C 40 180 200 180 200 100 C 200 20 360 20 360 100 C 360 180 200 180 200 100"
                 fill="none"
-                stroke="rgba(16, 185, 129, 0.2)"
+                stroke="rgba(102, 178, 178, 0.2)"
                 strokeWidth="16"
                 strokeLinecap="round"
                 className="opacity-50"
@@ -133,7 +134,7 @@ export default function SelfCare() {
               <path
                 d="M 200 100 C 200 20 40 20 40 100 C 40 180 200 180 200 100 C 200 20 360 20 360 100 C 360 180 200 180 200 100"
                 fill="none"
-                stroke="#10B981"
+                stroke="#66b2b2"
                 strokeWidth="1"
                 strokeDasharray="6 12"
                 className="opacity-40"
@@ -141,7 +142,7 @@ export default function SelfCare() {
 
               {/* The Cobra Head - Sliding tenderly on the infinity symbol */}
               <g filter="url(#headGlow)">
-                <circle r="10" fill="#10B981" className="shadow-[0_0_30px_#10B981]">
+                <circle r="10" fill="#66b2b2" className="shadow-[0_0_30px_#66b2b2]">
                   <animateMotion
                     dur="8s"
                     repeatCount="indefinite"
@@ -161,7 +162,7 @@ export default function SelfCare() {
               </g>
 
               {/* Breathing Glow Pulse - Central Heart */}
-              <circle cx="200" cy="100" r="50" fill="#10B981" className={cn(
+              <circle cx="200" cy="100" r="50" fill="#66b2b2" className={cn(
                 "transition-all duration-[4000ms] ease-in-out",
                 isInhaling ? "opacity-25 scale-150 blur-3xl" : "opacity-10 scale-100 blur-xl"
               )} />
