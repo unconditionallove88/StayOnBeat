@@ -17,7 +17,7 @@ import {
 /**
  * @fileOverview Vibe Mirror Component.
  * Full EN, DE, PT, RU support.
- * Updated: Russian vibe labels in neuter singular form.
+ * Updated: Color palette refined for prismatic resonance and F&B CC6 tones.
  */
 
 const VIBES = [
@@ -34,9 +34,10 @@ const VIBES = [
       pt: "Sua luz está brilhando forte hoje",
       ru: "Твой свет сияет ярко сегодня"
     },
-    color: "text-purple-400", 
-    bg: "bg-purple-500/10", 
-    border: "border-purple-500/30" 
+    color: "text-white", 
+    bg: "bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 opacity-80", 
+    border: "border-white/40",
+    isRainbow: true
   },
   { 
     key: "harmony", 
@@ -51,9 +52,9 @@ const VIBES = [
       pt: "Você está alinhado com seu ritmo interior",
       ru: "Ты в гармонии со своим внутренним ритмом"
     },
-    color: "text-[#EBFB3B]", 
-    bg: "bg-[#EBFB3B]/10", 
-    border: "border-[#EBFB3B]/30" 
+    color: "text-[#10B981]", 
+    bg: "bg-[#10B981]/10", 
+    border: "border-[#10B981]/30" 
   },
   { 
     key: "calm", 
@@ -68,9 +69,9 @@ const VIBES = [
       pt: "Tudo está exatamente como deveria estar",
       ru: "Все именно так как должно быть"
     },
-    color: "text-[#10B981]", 
-    bg: "bg-[#10B981]/10", 
-    border: "border-[#10B981]/30" 
+    color: "text-[#3B82F6]", 
+    bg: "bg-[#3B82F6]/10", 
+    border: "border-[#3B82F6]/30" 
   },
   { 
     key: "hazy", 
@@ -85,9 +86,9 @@ const VIBES = [
       pt: "Tudo bem descansar e ficar em silêncio",
       ru: "Это нормально отдыхать и быть в тишине"
     },
-    color: "text-slate-400", 
-    bg: "bg-slate-500/10", 
-    border: "border-slate-500/30" 
+    color: "text-[#93C5FD]", 
+    bg: "bg-[#93C5FD]/10", 
+    border: "border-[#93C5FD]/30" 
   },
   { 
     key: "overwhelmed", 
@@ -102,9 +103,9 @@ const VIBES = [
       pt: "Você é acolhido Seu círculo está aqui",
       ru: "Тебя поддерживают Твой круг рядом"
     },
-    color: "text-blue-400", 
-    bg: "bg-blue-500/10", 
-    border: "border-blue-500/30" 
+    color: "text-[#cbd5e1]", 
+    bg: "bg-[#cbd5e1]/10", 
+    border: "border-[#cbd5e1]/30" 
   },
 ];
 
@@ -165,17 +166,21 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
         className={cn(
           "flex items-center gap-3 px-5 py-3 rounded-full border transition-all active:scale-95 group", 
           currentTheme.border, 
-          currentTheme.bg, 
+          !currentTheme.isRainbow && currentTheme.bg,
+          currentTheme.isRainbow && "bg-white/5 relative overflow-hidden",
           "hover:bg-white/5 shadow-lg"
         )}
       >
-        <span className="group-hover:scale-110 transition-transform flex items-center justify-center">
-          <CurrentIcon size={20} color="currentColor" className={currentTheme.color} />
+        {currentTheme.isRainbow && (
+          <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 via-yellow-500/20 via-green-500/20 via-blue-500/20 to-purple-500/20 animate-pulse" />
+        )}
+        <span className="group-hover:scale-110 transition-transform flex items-center justify-center relative z-10">
+          <CurrentIcon size={20} color="currentColor" className={currentTheme.isRainbow ? "text-white" : currentTheme.color} />
         </span>
-        <span className={cn("text-[10px] font-black uppercase tracking-widest hidden sm:block", currentTheme.color, lang === 'ru' && "italic font-serif")}>
+        <span className={cn("text-[10px] font-black uppercase tracking-widest hidden sm:block relative z-10", currentTheme.isRainbow ? "text-white" : currentTheme.color, lang === 'ru' && "italic font-serif")}>
           {getLocalizedLabel(currentTheme)}
         </span>
-        <ChevronDown size={12} className={cn("opacity-40", currentTheme.color)} />
+        <ChevronDown size={12} className={cn("opacity-40 relative z-10", currentTheme.isRainbow ? "text-white" : currentTheme.color)} />
       </button>
 
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -203,14 +208,17 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
                   onClick={() => handleVibeSelect(v)} 
                   disabled={isSaving} 
                   className={cn(
-                    "flex items-center gap-6 p-6 rounded-[2.5rem] border-2 transition-all active:scale-[0.98] text-left group", 
+                    "flex items-center gap-6 p-6 rounded-[2.5rem] border-2 transition-all active:scale-[0.98] text-left group relative overflow-hidden", 
                     isActive ? `bg-white/5 ${v.border} shadow-2xl` : "bg-[#0a0a0a] border-white/5 hover:border-white/20"
                   )}
                 >
-                  <div className="w-12 flex justify-center group-hover:scale-110 transition-transform">
-                    <VibeIcon size={40} color="currentColor" className={isActive ? v.color : "text-white/20"} />
+                  {v.isRainbow && isActive && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-yellow-500/10 via-green-500/10 via-blue-500/10 to-purple-500/10 animate-pulse" />
+                  )}
+                  <div className="w-12 flex justify-center group-hover:scale-110 transition-transform relative z-10">
+                    <VibeIcon size={40} color="currentColor" className={isActive ? (v.isRainbow ? "text-white" : v.color) : "text-white/20"} />
                   </div>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col relative z-10">
                     <span className={cn("font-black text-base uppercase tracking-tight", isActive ? "text-white" : "text-white/60", lang === 'ru' && "italic font-serif")}>
                       {label}
                     </span>

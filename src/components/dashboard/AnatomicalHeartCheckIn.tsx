@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview MoodCheckIn Component.
- * Updated: Russian vibes using neuter singular gender.
+ * Updated: Prismatic color palette and F&B CC6 tones.
  */
 
 const CONTENT = {
@@ -39,11 +39,11 @@ export function AnatomicalHeartCheckIn() {
   }, []);
 
   const statuses = [
-    { id: "radiant", label: { en: "Radiant", de: "Strahlend", pt: "Radiante", ru: "Сияющее" }, color: "#A855F7", icon: RadiantIcon },
-    { id: "harmony", label: { en: "Harmony", de: "In Harmonie", pt: "Em Harmonia", ru: "Гармоничное" }, color: "#EBFB3B", icon: HarmonyIcon },
-    { id: "calm", label: { en: "Calm", de: "Beruhigt", pt: "Calmo", ru: "Спокойное" }, color: "#10B981", icon: CalmIcon },
-    { id: "hazy", label: { en: "Hazy", de: "Verschwommen", pt: "Nebuloso", ru: "Туманное" }, color: "#94A3B8", icon: HazyIcon },
-    { id: "overwhelmed", label: { en: "Held", de: "Überwältigt", pt: "Sobrecarregado", ru: "Бережное" }, color: "#3B82F6", icon: HeldIcon },
+    { id: "radiant", label: { en: "Radiant", de: "Strahlend", pt: "Radiante", ru: "Сияющее" }, color: "url(#rainbowGradient)", icon: RadiantIcon, isRainbow: true },
+    { id: "harmony", label: { en: "Harmony", de: "In Harmonie", pt: "Em Harmonia", ru: "Гармоничное" }, color: "#10B981", icon: HarmonyIcon },
+    { id: "calm", label: { en: "Calm", de: "Beruhigt", pt: "Calmo", ru: "Спокойное" }, color: "#3B82F6", icon: CalmIcon },
+    { id: "hazy", label: { en: "Hazy", de: "Verschwommen", pt: "Nebuloso", ru: "Туманное" }, color: "#93C5FD", icon: HazyIcon },
+    { id: "overwhelmed", label: { en: "Held", de: "Überwältigt", pt: "Sobrecarregado", ru: "Бережное" }, color: "#cbd5e1", icon: HeldIcon },
   ];
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export function AnatomicalHeartCheckIn() {
       state: localizedLabel,
       timestamp: new Date().toISOString(),
       context: "Dashboard Mood Check-in",
-      color: s.color
+      color: s.isRainbow ? "#ffffff" : s.color
     };
 
     updateDocumentNonBlocking(userDocRef, {
@@ -96,6 +96,16 @@ export function AnatomicalHeartCheckIn() {
 
       <div className="relative w-64 h-80 flex items-center justify-center">
         <svg viewBox="0 0 200 250" className="absolute w-full h-full drop-shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+          <defs>
+            <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#ef4444" />
+              <stop offset="20%" stopColor="#eab308" />
+              <stop offset="40%" stopColor="#22c55e" />
+              <stop offset="60%" stopColor="#3b82f6" />
+              <stop offset="80%" stopColor="#8b5cf6" />
+              <stop offset="100%" stopColor="#ec4899" />
+            </linearGradient>
+          </defs>
           <path
             d="M100 230C100 230 20 180 20 100C20 60 60 20 100 60C140 20 180 60 180 100C180 180 100 230 100 230Z"
             fill="none"
@@ -117,16 +127,19 @@ export function AnatomicalHeartCheckIn() {
                 key={s.id}
                 onClick={() => handleSelect(s)}
                 className={cn(
-                  "px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-500 border-2 flex items-center gap-3",
+                  "px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-500 border-2 flex items-center gap-3 relative overflow-hidden",
                   isActive 
                     ? "bg-white/10 border-white/40 scale-110 shadow-xl" 
                     : "bg-black/40 text-white/20 border-white/5 hover:border-white/20",
                   lang === 'ru' && "italic font-serif"
                 )}
-                style={isActive ? { borderColor: s.color, color: s.color } : {}}
+                style={isActive && !s.isRainbow ? { borderColor: s.color, color: s.color } : {}}
               >
-                <VibeIcon size={16} color="currentColor" />
-                <span>{localizedLabel}</span>
+                {s.isRainbow && isActive && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-yellow-500/10 via-green-500/10 via-blue-500/10 to-purple-500/10 animate-pulse" />
+                )}
+                <VibeIcon size={16} color="currentColor" className={isActive && s.isRainbow ? "text-white" : "currentColor"} />
+                <span className="relative z-10">{localizedLabel}</span>
               </button>
             );
           })}
@@ -140,7 +153,7 @@ export function AnatomicalHeartCheckIn() {
             "font-black text-2xl animate-pulse uppercase tracking-tighter transition-colors duration-1000",
             lang === 'ru' && "italic font-serif"
           )}
-          style={{ color: currentStatus.color }}
+          style={currentStatus.isRainbow ? { color: "white", textShadow: "0 0 10px rgba(255,255,255,0.5)" } : { color: currentStatus.color }}
         >
           {status}
         </p>

@@ -13,7 +13,7 @@ import NotificationPrompt from '@/components/dashboard/NotificationPrompt';
 /**
  * @fileOverview Mood Check-in Onboarding Step.
  * Full localization for EN, DE, PT, RU.
- * Updated: Russian vibes using neuter singular gender.
+ * Updated: Prismatic palette and F&B CC6 tones.
  */
 
 interface Step7VibeCheckProps {
@@ -28,31 +28,32 @@ const VIBE_OPTIONS = [
     id: 'radiant', label: 'Radiant', de: 'Strahlend', pt: 'Radiante', ru: 'Сияющее',
     icon: RadiantIcon, description: 'Your light is shining bright today', deDescription: 'Dein Licht leuchtet heute hell',
     ptDescription: 'Sua luz está brilhando forte hoje', ruDescription: 'Твой свет сияет ярко сегодня',
-    color: 'text-purple-400', activeColor: 'bg-purple-500/10 border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.3)]' 
+    color: 'text-white', activeColor: 'bg-gradient-to-r from-red-500/10 via-yellow-500/10 via-green-500/10 via-blue-500/10 to-purple-500/10 border-white/40 shadow-[0_0_30px_rgba(255,255,255,0.2)]',
+    isRainbow: true
   },
   { 
     id: 'harmony', label: 'In Harmony', de: 'In Harmonie', pt: 'Em Harmonia', ru: 'Гармоничное',
     icon: HarmonyIcon, description: 'You are aligned with your rhythm', deDescription: 'Du bist im Einklang mit deinem Rhythmus',
     ptDescription: 'Você está alinhado com seu ritmo', ruDescription: 'Вы в гармонии со своим ритмом',
-    color: 'text-[#EBFB3B]', activeColor: 'bg-[#EBFB3B]/10 border-[#EBFB3B] shadow-[0_0_20px_rgba(235,251,59,0.3)]' 
+    color: 'text-[#10B981]', activeColor: 'bg-[#10B981]/10 border-[#10B981] shadow-[0_0_20px_rgba(16,185,129,0.3)]' 
   },
   { 
     id: 'calm', label: 'Calm', de: 'Beruhigt', pt: 'Calmo', ru: 'Спокойное',
     icon: CalmIcon, description: 'Everything is exactly as it is supposed to be', deDescription: 'Alles ist im Gleichgewicht und klar',
     ptDescription: 'Tudo está exatamente como deveria estar', ruDescription: 'Все именно так как должно быть',
-    color: 'text-[#10B981]', activeColor: 'bg-[#10B981]/10 border-[#10B981] shadow-[0_0_20px_rgba(16,185,129,0.3)]' 
+    color: 'text-[#3B82F6]', activeColor: 'bg-[#3B82F6]/10 border-[#3B82F6] shadow-[0_0_20px_rgba(59,130,246,0.3)]' 
   },
   { 
     id: 'hazy', label: 'Hazy', de: 'Verschwommen', pt: 'Nebuloso', ru: 'Туманное',
     icon: HazyIcon, description: 'It is okay to rest and be still', deDescription: 'Es ist okay sich auszuruhen',
     ptDescription: 'Tudo bem descansar e ficar em silêncio', ruDescription: 'Это нормально отдыхать и быть в тишине',
-    color: 'text-slate-400', activeColor: 'bg-slate-500/10 border-slate-500 shadow-[0_0_20px_rgba(107,114,128,0.3)]' 
+    color: 'text-[#93C5FD]', activeColor: 'bg-[#93C5FD]/10 border-[#93C5FD] shadow-[0_0_20px_rgba(147,197,253,0.3)]' 
   },
   { 
     id: 'overwhelmed', label: 'Overwhelmed', de: 'Überwältigt', pt: 'Sobrecarregado', ru: 'Бережное',
     icon: HeldIcon, description: 'You are held. Your circle is here', deDescription: 'Du wirst gehalten Dein Kreis ist hier',
     ptDescription: 'Você é acolhido Seu círculo está aqui', ruDescription: 'Тебя поддерживают Твой круг рядом',
-    color: 'text-blue-400', activeColor: 'bg-blue-500/10 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)]' 
+    color: 'text-[#cbd5e1]', activeColor: 'bg-[#cbd5e1]/10 border-[#cbd5e1] shadow-[0_0_20px_rgba(203,213,225,0.3)]' 
   },
 ];
 
@@ -119,7 +120,18 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
           const label = lang === 'EN' ? vibe.label : lang === 'DE' ? vibe.de : lang === 'PT' ? vibe.pt : vibe.ru;
           const desc = lang === 'EN' ? vibe.description : lang === 'DE' ? vibe.deDescription : lang === 'PT' ? vibe.ptDescription : vibe.ruDescription;
           return (
-            <button key={vibe.id} onClick={() => setSelected(vibe.id)} disabled={isSaving} className={cn("p-5 rounded-[2.5rem] border-2 flex items-center gap-6 transition-all active:scale-[0.98] text-left", isSelected ? vibe.activeColor : "bg-[#0a0a0a] border-white/5 hover:border-white/20")}><div className="w-12 flex justify-center"><VibeIcon size={40} color="currentColor" className={isSelected ? vibe.color : "text-white/20"} /></div><div className="flex flex-col"><span className={cn("font-black text-lg uppercase tracking-tight", isSelected ? "text-white" : "text-white/60", lang === 'RU' && "italic font-serif")}>{label}</span><span className={cn("text-[10px] font-black text-white/30 uppercase tracking-widest leading-none mt-1", lang === 'RU' && "italic font-serif")}>{desc}</span></div></button>
+            <button key={vibe.id} onClick={() => setSelected(vibe.id)} disabled={isSaving} className={cn("p-5 rounded-[2.5rem] border-2 flex items-center gap-6 transition-all active:scale-[0.98] text-left relative overflow-hidden", isSelected ? vibe.activeColor : "bg-[#0a0a0a] border-white/5 hover:border-white/20")}>
+              {vibe.isRainbow && isSelected && (
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-yellow-500/10 via-green-500/10 via-blue-500/10 to-purple-500/10 animate-pulse" />
+              )}
+              <div className="w-12 flex justify-center relative z-10">
+                <VibeIcon size={40} color="currentColor" className={isSelected ? (vibe.isRainbow ? "text-white" : vibe.color) : "text-white/20"} />
+              </div>
+              <div className="flex flex-col relative z-10">
+                <span className={cn("font-black text-lg uppercase tracking-tight", isSelected ? "text-white" : "text-white/60", lang === 'RU' && "italic font-serif")}>{label}</span>
+                <span className={cn("text-[10px] font-black text-white/30 uppercase tracking-widest leading-none mt-1", lang === 'RU' && "italic font-serif")}>{desc}</span>
+              </div>
+            </button>
           );
         })}
       </div>
