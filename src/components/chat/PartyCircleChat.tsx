@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
@@ -230,7 +229,7 @@ export function PartyCircleChat() {
   if (isBlocked) {
     return (
       <div className="flex flex-col items-center justify-center h-full p-10 text-center space-y-8 bg-black font-headline overflow-hidden">
-        <div className="w-24 h-24 bg-[#A855F7]/10 rounded-full flex items-center justify-center border-2 border-[#A855F7]/30 shadow-[0_0_40px_rgba(168,85,247,0.2)]">
+        <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center border-2 border-primary/30 shadow-[0_0_40px_rgba(27,77,62,0.2)]">
           <GuardianLogo size={48} />
         </div>
         <div className="space-y-4">
@@ -240,7 +239,7 @@ export function PartyCircleChat() {
           </p>
         </div>
         <div className="bg-white/5 border border-white/10 rounded-3xl p-6 w-full flex items-center gap-4">
-          <Wind className="text-[#A855F7]" size={24} />
+          <Wind className="text-primary" size={24} />
           <p className={cn("text-[10px] font-black text-white/40 uppercase tracking-widest text-left", lang === 'ru' && "italic font-serif")}>
             {t.blockedAffirmation}
           </p>
@@ -254,8 +253,8 @@ export function PartyCircleChat() {
       <div className="flex flex-col h-full bg-black font-headline overflow-hidden">
         <ScrollArea className="flex-1">
           <div className="p-8 flex flex-col items-center justify-center text-center space-y-8">
-            <div className="w-20 h-20 bg-amber-500/10 rounded-full flex items-center justify-center border-2 border-amber-500/30">
-              <Users2 size={40} className="text-amber-500" />
+            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center border-2 border-primary/30">
+              <Users2 size={40} className="text-primary" />
             </div>
 
             <div className="space-y-3">
@@ -268,7 +267,7 @@ export function PartyCircleChat() {
             <div className="w-full space-y-3 text-left">
               {t.rules.map((rule, idx) => (
                 <div key={idx} className="p-4 bg-white/5 rounded-2xl border border-white/10 flex items-center gap-4">
-                  <div className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
+                  <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(27,77,62,0.8)]" />
                   <span className={cn("text-[11px] font-bold uppercase text-white/80", lang === 'ru' && "italic font-serif")}>{rule}</span>
                 </div>
               ))}
@@ -278,7 +277,7 @@ export function PartyCircleChat() {
               <button 
                 onClick={handleEnterChat}
                 disabled={isEntering}
-                className={cn("w-full bg-[#10B981] text-black h-20 rounded-2xl font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all flex items-center justify-center px-8", lang === 'ru' && "italic font-serif")}
+                className={cn("w-full bg-primary text-white h-20 rounded-2xl font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all flex items-center justify-center px-8", lang === 'ru' && "italic font-serif")}
               >
                 {isEntering ? <Loader2 className="animate-spin w-6 h-6" /> : <span className="text-xs leading-tight">{t.enterBtn}</span>}
               </button>
@@ -291,29 +290,29 @@ export function PartyCircleChat() {
 
   return (
     <div className="flex flex-col h-full bg-black font-body overflow-hidden">
-      <div className="bg-[#A855F7]/10 border-b border-[#A855F7]/30 px-8 py-3 flex items-center justify-between shrink-0">
+      <div className="bg-primary/10 border-b border-primary/30 px-8 py-3 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
           <GuardianLogo size={18} />
-          <span className={cn("text-[9px] font-black uppercase tracking-widest text-[#A855F7]", lang === 'ru' && "italic font-serif")}>{t.guardianNote}</span>
+          <span className={cn("text-[9px] font-black uppercase tracking-widest text-primary", lang === 'ru' && "italic font-serif")}>{t.guardianNote}</span>
         </div>
-        <CircleDot size={14} className="text-[#A855F7] animate-pulse" />
+        <CircleDot size={14} className="text-primary animate-pulse" />
       </div>
 
       <div className="px-8 py-6 border-b border-white/5 bg-black/80 backdrop-blur-xl flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 bg-amber-500/20 rounded-full flex items-center justify-center border border-amber-500/30">
-            <Users2 size={24} className="text-amber-500" />
+          <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center border border-primary/30">
+            <Users2 size={24} className="text-primary" />
           </div>
           <div>
             <h2 className={cn("text-lg font-black uppercase tracking-tight text-white", lang === 'ru' && "italic font-serif")}>{t.title}</h2>
-            <p className={cn("text-[9px] text-amber-500 font-bold uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.sub}</p>
+            <p className={cn("text-[9px] text-primary font-bold uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.sub}</p>
           </div>
         </div>
       </div>
 
       <ScrollArea className="flex-1 px-8 py-6 touch-pan-y" ref={scrollRef}>
         <div className="space-y-6 max-w-2xl mx-auto pb-10">
-          {isLoading && <div className="flex items-center justify-center py-20"><Loader2 className="w-8 h-8 text-amber-500 animate-spin" /></div>}
+          {isLoading && <div className="flex items-center justify-center py-20"><Loader2 className="w-8 h-8 text-primary animate-spin" /></div>}
           {messages?.map((msg) => {
             const isMe = msg.senderId === user?.uid;
             return (
@@ -322,7 +321,7 @@ export function PartyCircleChat() {
                   <span className={cn("text-[8px] font-black text-white/30 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{isMe ? (lang === 'ru' ? 'ТЫ' : lang === 'pt' ? 'VOCÊ' : 'YOU') : msg.senderAlias}</span>
                   {!isMe && <button onClick={() => logViolation(msg.text, `Reported by user from ${msg.senderAlias}`, 'USER_REPORT')} className="text-white/20 hover:text-red-500 transition-colors"><Flag size={12} /></button>}
                 </div>
-                <div className={cn("p-4 rounded-2xl text-sm font-medium leading-relaxed max-w-[85%] shadow-sm border transition-all", isMe ? "bg-amber-500 text-black border-amber-500 rounded-tr-none" : "bg-white/5 text-white border-white/10 rounded-tl-none", lang === 'ru' && "italic font-serif")}>{msg.text}</div>
+                <div className={cn("p-4 rounded-2xl text-sm font-medium leading-relaxed max-w-[85%] shadow-sm border transition-all", isMe ? "bg-primary text-white border-primary rounded-tr-none" : "bg-white/5 text-white border-white/10 rounded-tl-none", lang === 'ru' && "italic font-serif")}>{msg.text}</div>
               </div>
             );
           })}
@@ -331,8 +330,8 @@ export function PartyCircleChat() {
 
       <div className="px-6 py-8 bg-black border-t border-white/5 shrink-0">
         <div className="relative flex items-center max-w-2xl mx-auto gap-3">
-          <input value={input} onChange={(e) => setInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSend()} placeholder={t.placeholder} disabled={isSending} className={cn("flex-1 bg-white/5 border border-white/10 rounded-full py-5 px-8 text-base focus:border-[#A855F7] transition-all outline-none disabled:opacity-50 text-white", lang === 'ru' && "italic font-serif")} />
-          <button onClick={handleSend} disabled={!input.trim() || isSending} className="p-4 bg-amber-500 text-black rounded-full disabled:opacity-30 transition-all hover:scale-105 active:scale-95 shadow-lg">{isSending ? <Loader2 className="w-6 h-6 animate-spin" /> : <Send className="w-6 h-6" />}</button>
+          <input value={input} onChange={(e) => setInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSend()} placeholder={t.placeholder} disabled={isSending} className={cn("flex-1 bg-white/5 border border-white/10 rounded-full py-5 px-8 text-base focus:border-primary transition-all outline-none disabled:opacity-50 text-white", lang === 'ru' && "italic font-serif")} />
+          <button onClick={handleSend} disabled={!input.trim() || isSending} className="p-4 bg-primary text-white rounded-full disabled:opacity-30 transition-all hover:scale-105 active:scale-95 shadow-lg">{isSending ? <Loader2 className="w-6 h-6 animate-spin" /> : <Send className="w-6 h-6" />}</button>
         </div>
         <p className={cn("text-center text-[8px] text-white/20 uppercase tracking-[0.5em] mt-4 font-black", lang === 'ru' && "italic font-serif")}>{t.footer}</p>
       </div>

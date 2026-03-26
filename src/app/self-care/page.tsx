@@ -15,7 +15,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * Background color: Beautiful sea color #54a5d5.
  * Message: Inhale Love / Exhale Love.
  * Animation: Sunrise slowly appear (4s) and slowly disappear (4s).
- * Action Button: Wise intense dark green #1b4d3e.
+ * Action Button: Organic deep sea blue #1b3e4d.
  */
 
 const CONTENT = {
@@ -32,8 +32,8 @@ const CONTENT = {
   de: {
     title: "Atem der Liebe",
     breathing: "Ewiges Atmen",
-    inhale: "Liebe einatmen",
-    exhale: "Liebe ausatmen",
+    inhale: "Inhale Love",
+    exhale: "Exhale Love",
     guidance: "Ich fließe mit der Ewigkeit. Ich bin zu Hause. Entspannung ist meine Natur.",
     header: "Ich lebe von innen nach außen",
     headerHighlight: "mit offenem Herzen",
@@ -42,8 +42,8 @@ const CONTENT = {
   pt: {
     title: "Sopro de Amor",
     breathing: "Respiração da Eternidade",
-    inhale: "Inspire Amor",
-    exhale: "Expire Amor",
+    inhale: "Inhale Love",
+    exhale: "Exhale Love",
     guidance: "Eu fluo com a eternidade. Estou em casa. Relaxamento é minha natureza.",
     header: "Eu vivo de dentro para fora",
     headerHighlight: "com o coração aberto",
@@ -52,8 +52,8 @@ const CONTENT = {
   ru: {
     title: "Дыхание Любви",
     breathing: "Дыхание Вечности",
-    inhale: "Вдохни Любовь",
-    exhale: "Выдохни Любовь",
+    inhale: "Inhale Love",
+    exhale: "Exhale Love",
     guidance: "Я дышу вечностью. Я дома. Расслабление — моя природа.",
     header: "Я живу изнутри наружу",
     headerHighlight: "с открытым сердцем",
@@ -72,7 +72,7 @@ export default function SelfCare() {
 
     const interval = setInterval(() => {
       setIsInhaling((prev) => !prev);
-    }, 4000); // 4s inhale, 4s exhale cycle
+    }, 8000); // Staggered cycle
 
     return () => clearInterval(interval);
   }, []);
@@ -138,7 +138,7 @@ export default function SelfCare() {
                 className="opacity-40"
               />
 
-              {/* Sliding Cobra Head - 8s full loop */}
+              {/* Sliding Cobra Head - 8s full loop (4s inhale, 4s exhale) */}
               <g filter="url(#headGlow)">
                 <circle r="10" fill="#66b2b2">
                   <animateMotion
@@ -165,7 +165,8 @@ export default function SelfCare() {
               )} />
             </svg>
 
-            <div className="mt-8 text-center space-y-3 relative h-20 w-full flex items-center justify-center">
+            <div className="mt-8 text-center space-y-3 relative h-24 w-full flex items-center justify-center">
+              {/* Sunrise Staggered Text: 4s fade in, 4s fade out */}
               <h2 className={cn(
                 "text-4xl font-black uppercase tracking-tighter absolute animate-sunrise",
                 lang === 'ru' && "italic font-serif"
@@ -175,7 +176,7 @@ export default function SelfCare() {
               <h2 className={cn(
                 "text-4xl font-black uppercase tracking-tighter absolute animate-sunrise",
                 lang === 'ru' && "italic font-serif"
-              )} style={{ animationDelay: '4s' }}>
+              )} style={{ animationDelay: '8s' }}>
                 {t.exhale}
               </h2>
             </div>
@@ -216,7 +217,7 @@ export default function SelfCare() {
           onClick={() => { playHeartbeat(); router.push('/dashboard'); }}
           className={cn(
             "w-full max-sm h-16 rounded-full font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl flex items-center justify-center gap-3",
-            "bg-[#1b4d3e] text-white",
+            "bg-[#1b3e4d] text-white", // Organic Blue for the sea canvas
             lang === 'ru' && "italic font-serif"
           )}
         >
