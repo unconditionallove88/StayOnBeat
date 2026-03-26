@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -176,10 +177,15 @@ function DashboardContent() {
     return (
       <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
         <div className="relative flex items-center justify-center">
-          <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
-          <Heart size={64} fill="currentColor" className="relative z-10 animate-pulse-heart text-primary" style={{ filter: 'blur(12px)' }} />
+          <div className="absolute inset-0 w-32 h-32 bg-[#10B981]/10 blur-[60px] rounded-full" />
+          <Heart 
+            size={64} 
+            fill="#10B981" 
+            className="relative z-10 animate-pulse-heart text-[#10B981]" 
+            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #10B981)' }} 
+          />
         </div>
-        <Loader2 className="animate-spin text-primary/20" />
+        <Loader2 className="animate-spin text-[#10B981]/20" />
       </div>
     );
   }
@@ -210,7 +216,7 @@ function DashboardContent() {
             <Link 
               href="/profile" 
               onClick={() => playHeartbeat()}
-              className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-primary transition-all active:scale-95"
+              className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all active:scale-95"
             >
               <User size={20} className="text-white/40" />
             </Link>
@@ -251,7 +257,7 @@ function DashboardContent() {
                   lang={lang} 
                 />
                 <p className={cn(
-                  "text-xs font-bold uppercase tracking-widest text-primary px-10",
+                  "text-xs font-bold uppercase tracking-widest text-[#10B981] px-10",
                   lang === 'ru' ? "italic font-serif" : "italic"
                 )}>"{affirmation}"</p>
               </div>
@@ -369,7 +375,7 @@ function DashboardContent() {
                   onClick={() => playHeartbeat()}
                   className={cn(
                     "w-full flex items-center justify-center gap-2 py-4 text-[9px] font-black uppercase transition-all duration-500",
-                    guardianStatus === 'safe' && "text-primary opacity-40 hover:opacity-100",
+                    guardianStatus === 'safe' && "text-[#10B981] opacity-40 hover:opacity-100",
                     guardianStatus === 'caution' && "text-[#F59E0B] opacity-80 hover:opacity-100",
                     guardianStatus === 'locked' && "text-[#DC2626] opacity-100 animate-pulse",
                     lang === 'ru' && "italic font-serif"
@@ -468,10 +474,15 @@ export default function Dashboard() {
     <Suspense fallback={
       <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
         <div className="relative flex items-center justify-center">
-          <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
-          <Heart size={64} fill="currentColor" className="relative z-10 animate-pulse-heart text-primary" style={{ filter: 'blur(12px)' }} />
+          <div className="absolute inset-0 w-32 h-32 bg-[#10B981]/10 blur-[60px] rounded-full" />
+          <Heart 
+            size={64} 
+            fill="#10B981" 
+            className="relative z-10 animate-pulse-heart text-[#10B981]" 
+            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #10B981)' }} 
+          />
         </div>
-        <Loader2 className="animate-spin text-primary/20" />
+        <Loader2 className="animate-spin text-[#10B981]/20" />
       </div>
     }>
       <DashboardContent />

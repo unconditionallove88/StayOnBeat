@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -7,9 +8,9 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
- * Updated with objective wording: "Space for collective care, risk and harm minimization."
- * Slogan: "Founded on love and rhythm of life."
- * Unified ethereal blurry heart icon.
+ * Updated: Space for collective care, risk and harm minimization.
+ * Slogan: Founded on love and rhythm of life.
+ * Unified lovable emerald blurry heart.
  */
 
 export default function Home() {
@@ -78,35 +79,35 @@ export default function Home() {
         <div className="flex flex-col items-center justify-center mb-16">
           <div className="relative flex items-center justify-center">
             <div className="absolute inset-0 w-48 h-48 bg-primary/10 blur-[80px] rounded-full" />
-            <div className="w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center border-2 border-primary/20 shadow-[0_0_50px_rgba(16,185,129,0.15)] relative z-10">
+            <div className="w-32 h-32 bg-[#10B981]/10 rounded-full flex items-center justify-center border-2 border-[#10B981]/20 shadow-[0_0_50px_rgba(16,185,129,0.15)] relative z-10">
               <Heart 
                 size={64} 
-                fill="currentColor" 
-                className="text-primary animate-pulse-heart" 
-                style={{ filter: 'blur(12px)' }} 
+                fill="#10B981" 
+                className="text-[#10B981] animate-pulse-heart" 
+                style={{ filter: 'blur(12px) drop-shadow(0 0 10px #10B981)' }} 
               />
             </div>
           </div>
           <h1 className="mt-10 text-5xl md:text-7xl font-black tracking-tighter uppercase leading-none text-white text-center">STAY<span className="text-primary">ON</span>BEAT</h1>
-          <p className={cn("text-primary font-bold mt-4 tracking-[0.3em] uppercase text-[10px] italic opacity-80", lang === 'RU' && "font-serif")}>{content[lang].slogan}</p>
+          <p className={cn("text-[#10B981] font-bold mt-4 tracking-[0.3em] uppercase text-[10px] italic opacity-80", lang === 'RU' && "font-serif")}>{content[lang].slogan}</p>
         </div>
         
         <div className="w-full max-md space-y-4 mb-16">
-          <div className="flex items-start gap-5 p-8 bg-white/[0.03] rounded-[2.5rem] border border-white/10 text-center group hover:border-primary/30 transition-all shadow-2xl backdrop-blur-sm justify-center">
-            <ShieldCheck className="text-primary mt-1 flex-shrink-0" size={24} />
+          <div className="flex items-start gap-5 p-8 bg-white/[0.03] rounded-[2.5rem] border border-white/10 text-center group hover:border-[#10B981]/30 transition-all shadow-2xl backdrop-blur-sm justify-center">
+            <ShieldCheck className="text-[#10B981] mt-1 flex-shrink-0" size={24} />
             <p className={cn("text-sm font-bold text-white/60 leading-tight uppercase tracking-widest leading-relaxed", lang === 'RU' && "italic font-serif")}>{content[lang].valueProp}</p>
           </div>
         </div>
 
         <div className="flex flex-col gap-5 w-full max-sm mx-auto">
-          <button onClick={() => router.push('/auth?mode=signup')} className={cn("pill-button w-full bg-primary text-black text-xl font-black neon-glow active:scale-95 shadow-lg uppercase tracking-[0.1em] transition-all", lang === 'RU' && "italic font-serif")}>{content[lang].getStarted}</button>
-          <button onClick={() => router.push('/auth?mode=signin')} className={cn("pill-button w-full bg-white/[0.03] border-2 border-primary/20 text-primary text-lg font-black active:scale-95 uppercase tracking-[0.1em] backdrop-blur-sm", lang === 'RU' && "italic font-serif")}>{content[lang].signIn}</button>
+          <button onClick={() => router.push('/auth?mode=signup')} className={cn("pill-button w-full bg-[#10B981] text-black text-xl font-black neon-glow active:scale-95 shadow-lg uppercase tracking-[0.1em] transition-all", lang === 'RU' && "italic font-serif")}>{content[lang].getStarted}</button>
+          <button onClick={() => router.push('/auth?mode=signin')} className={cn("pill-button w-full bg-white/[0.03] border-2 border-[#10B981]/20 text-[#10B981] text-lg font-black active:scale-95 uppercase tracking-[0.1em] backdrop-blur-sm", lang === 'RU' && "italic font-serif")}>{content[lang].signIn}</button>
         </div>
       </div>
 
       <footer className="w-full text-center mt-12 relative z-10">
         <p className={cn("text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-2", lang === 'RU' && "italic font-serif")}>{content[lang].footer}</p>
-        <div className="w-8 h-1 bg-primary/20 rounded-full mx-auto" />
+        <div className="w-8 h-1 bg-[#10B981]/20 rounded-full mx-auto" />
       </footer>
     </main>
   );

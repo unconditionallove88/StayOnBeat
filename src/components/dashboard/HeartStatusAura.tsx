@@ -15,7 +15,7 @@ interface Props {
 /**
  * @fileOverview Inner Resonance Visualization (Living Heart Aura).
  * Sequential pulsation: Aura glows first, then inner heart beats.
- * Calm, slow, ethereal rhythm.
+ * Updated: More lovable emerald green color for the inner heart.
  * Supports EN, DE, PT, RU.
  */
 export default function HeartStatusAura({ 
@@ -29,8 +29,10 @@ export default function HeartStatusAura({
   const isHighRisk = heartRate > 130 || (hasPoppers && heartRate > 100);
   const isElevated = heartRate > 100 || activeSubstances.length > 2;
   
-  const stateColor = isHighRisk ? "#DC2626" : isElevated ? "#F59E0B" : "#10B981"; 
-  // Calm tempo requested
+  // High-fidelity emerald for the lovable core
+  const EMERALD = "#10B981";
+  const stateColor = isHighRisk ? "#DC2626" : isElevated ? "#F59E0B" : EMERALD; 
+  
   const loopDuration = isHighRisk ? "3s" : isElevated ? "4.5s" : "6s";
 
   const labels = {
@@ -44,7 +46,7 @@ export default function HeartStatusAura({
 
   return (
     <div className="flex flex-col items-center justify-center p-4 md:p-8 relative font-headline cursor-pointer group animate-in fade-in duration-1000">
-      {/* Aura Pulsates FIRST in the loop (see globals.css) */}
+      {/* Aura Pulsates FIRST in the loop */}
       <div 
         className="absolute w-64 h-64 md:w-80 md:h-80 rounded-full blur-[100px] opacity-20 transition-all duration-1000" 
         style={{ 
@@ -71,12 +73,13 @@ export default function HeartStatusAura({
             }}
           >
             <Heart 
-              className="w-24 h-24 md:w-28 md:h-28 drop-shadow-2xl transition-all duration-700" 
+              className="w-24 h-24 md:w-28 md:h-28 transition-all duration-700" 
               style={{ 
                 color: stateColor, 
                 fill: stateColor,
                 filter: 'blur(12px)',
-                opacity: 0.4
+                opacity: 0.6,
+                filter: `blur(12px) drop-shadow(0 0 15px ${stateColor === EMERALD ? '#10B981' : stateColor})`
               }} 
             />
           </div>
