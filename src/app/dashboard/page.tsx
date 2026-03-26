@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -55,23 +54,25 @@ function SkyIcon() {
     const hour = new Date().getHours();
     const isDay = hour >= 6 && hour < 18;
 
-    if (isDay) {
-      setIcon(
-        <div className="relative group flex-shrink-0">
-          <Sun className="w-5 h-5 md:w-7 md:h-7 text-yellow-400 fill-yellow-400" />
-          <div className="absolute inset-0 bg-yellow-400/20 blur-xl rounded-full opacity-30" />
-        </div>
-      );
-    } else {
-      setIcon(
-        <div className="relative flex items-center justify-center flex-shrink-0">
-          <div className="relative">
-            <Moon className="w-4 h-4 md:w-6 md:h-6 text-slate-100 fill-slate-100/10 rotate-[-15deg]" />
+    if (icon === null) {
+      if (isDay) {
+        setIcon(
+          <div className="relative group flex-shrink-0">
+            <Sun className="w-5 h-5 md:w-7 md:h-7 text-yellow-400 fill-yellow-400" />
+            <div className="absolute inset-0 bg-yellow-400/20 blur-xl rounded-full opacity-30" />
           </div>
-        </div>
-      );
+        );
+      } else {
+        setIcon(
+          <div className="relative flex items-center justify-center flex-shrink-0">
+            <div className="relative">
+              <Moon className="w-4 h-4 md:w-6 md:h-6 text-slate-100 fill-slate-100/10 rotate-[-15deg]" />
+            </div>
+          </div>
+        );
+      }
     }
-  }, []);
+  }, [icon]);
 
   return icon;
 }
@@ -177,15 +178,15 @@ function DashboardContent() {
     return (
       <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
         <div className="relative flex items-center justify-center">
-          <div className="absolute inset-0 w-32 h-32 bg-[#10B981]/10 blur-[60px] rounded-full" />
+          <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
           <Heart 
             size={64} 
-            fill="#10B981" 
-            className="relative z-10 animate-pulse-heart text-[#10B981]" 
-            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #10B981)' }} 
+            fill="#58c55a" 
+            className="relative z-10 animate-pulse-heart text-primary" 
+            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #58c55a)' }} 
           />
         </div>
-        <Loader2 className="animate-spin text-[#10B981]/20" />
+        <Loader2 className="animate-spin text-primary/20" />
       </div>
     );
   }
@@ -216,7 +217,7 @@ function DashboardContent() {
             <Link 
               href="/profile" 
               onClick={() => playHeartbeat()}
-              className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all active:scale-95"
+              className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-primary transition-all active:scale-95"
             >
               <User size={20} className="text-white/40" />
             </Link>
@@ -257,7 +258,7 @@ function DashboardContent() {
                   lang={lang} 
                 />
                 <p className={cn(
-                  "text-xs font-bold uppercase tracking-widest text-[#10B981] px-10",
+                  "text-xs font-bold uppercase tracking-widest text-primary px-10",
                   lang === 'ru' ? "italic font-serif" : "italic"
                 )}>"{affirmation}"</p>
               </div>
@@ -285,9 +286,9 @@ function DashboardContent() {
 
               <button 
                 onClick={() => handlePortalClick(() => setLabOpen(true))} 
-                className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-primary/30 hover:bg-primary/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
-                <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20 group-hover:scale-110 transition-transform">
+                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform">
                   <Microscope size={36} className="text-white" />
                 </div>
                 <div className="space-y-1">
@@ -361,9 +362,9 @@ function DashboardContent() {
             </Link>
             <button 
               onClick={() => handlePortalClick(() => setCoCreationOpen(true))} 
-              className="flex items-center gap-3 px-6 py-4 bg-[#90EE90]/10 rounded-full border border-[#90EE90]/20 hover:border-[#90EE90] transition-all active:scale-95"
+              className="flex items-center gap-3 px-6 py-4 bg-[#58c55a]/10 rounded-full border border-[#58c55a]/20 hover:border-[#58c55a] transition-all active:scale-95"
             >
-              <Sprout size={18} className="text-[#90EE90]" />
+              <Sprout size={18} className="text-primary" />
               <span className={cn("text-[10px] font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.cocreation}</span>
             </button>
           </div>
@@ -375,7 +376,7 @@ function DashboardContent() {
                   onClick={() => playHeartbeat()}
                   className={cn(
                     "w-full flex items-center justify-center gap-2 py-4 text-[9px] font-black uppercase transition-all duration-500",
-                    guardianStatus === 'safe' && "text-[#10B981] opacity-40 hover:opacity-100",
+                    guardianStatus === 'safe' && "text-primary opacity-40 hover:opacity-100",
                     guardianStatus === 'caution' && "text-[#F59E0B] opacity-80 hover:opacity-100",
                     guardianStatus === 'locked' && "text-[#DC2626] opacity-100 animate-pulse",
                     lang === 'ru' && "italic font-serif"
@@ -449,7 +450,7 @@ function DashboardContent() {
       </Dialog>
 
       <Dialog open={syncOpen} onOpenChange={setSyncOpen}>
-        <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[2rem] overflow-hidden flex flex-col h-auto max-h-[85dvh] top-[50%] -translate-y-[50%]">
+        <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85dvh] top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">Pulse Sync</DialogTitle>
           <div className="flex-1 overflow-y-auto">
             <WearablesSync onComplete={() => setSyncOpen(false)} />
@@ -474,15 +475,15 @@ export default function Dashboard() {
     <Suspense fallback={
       <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
         <div className="relative flex items-center justify-center">
-          <div className="absolute inset-0 w-32 h-32 bg-[#10B981]/10 blur-[60px] rounded-full" />
+          <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
           <Heart 
             size={64} 
-            fill="#10B981" 
-            className="relative z-10 animate-pulse-heart text-[#10B981]" 
-            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #10B981)' }} 
+            fill="#58c55a" 
+            className="relative z-10 animate-pulse-heart text-primary" 
+            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #58c55a)' }} 
           />
         </div>
-        <Loader2 className="animate-spin text-[#10B981]/20" />
+        <Loader2 className="animate-spin text-primary/20" />
       </div>
     }>
       <DashboardContent />

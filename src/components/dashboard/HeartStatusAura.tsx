@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -15,7 +14,7 @@ interface Props {
 /**
  * @fileOverview Inner Resonance Visualization (Living Heart Aura).
  * Sequential pulsation: Aura glows first, then inner heart beats.
- * Updated: More lovable emerald green color for the inner heart.
+ * Updated: Lovable emerald green #58c55a for the inner heart.
  * Supports EN, DE, PT, RU.
  */
 export default function HeartStatusAura({ 
@@ -30,7 +29,7 @@ export default function HeartStatusAura({
   const isElevated = heartRate > 100 || activeSubstances.length > 2;
   
   // High-fidelity emerald for the lovable core
-  const EMERALD = "#10B981";
+  const EMERALD = "#58c55a";
   const stateColor = isHighRisk ? "#DC2626" : isElevated ? "#F59E0B" : EMERALD; 
   
   const loopDuration = isHighRisk ? "3s" : isElevated ? "4.5s" : "6s";
@@ -79,7 +78,7 @@ export default function HeartStatusAura({
                 fill: stateColor,
                 filter: 'blur(12px)',
                 opacity: 0.6,
-                filter: `blur(12px) drop-shadow(0 0 15px ${stateColor === EMERALD ? '#10B981' : stateColor})`
+                filter: `blur(12px) drop-shadow(0 0 15px ${stateColor === EMERALD ? '#58c55a' : stateColor})`
               }} 
             />
           </div>

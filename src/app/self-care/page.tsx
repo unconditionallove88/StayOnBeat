@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -11,11 +10,9 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 /**
  * @fileOverview Breath of Love (Eternity Ouroboros).
  * A high-fidelity infinity resonance experience.
- * Features a wide horizontal eternity cobra eating its own tail.
+ * Features a wide horizontal eternity cobra eating its own tail in #66b2b2.
  * Background color: Beautiful sea color #54a5d5.
- * Snake color: Bespoke teal #66b2b2.
- * Rhythm: 4s Inhale / 4s Exhale.
- * Message: Inhale Love, Exhale Love.
+ * Message: Inhale Love, Exhale Love (Pulsating like a heartbeat).
  * Full localization for EN, DE, PT, RU.
  */
 
@@ -82,7 +79,6 @@ export default function SelfCare() {
 
   return (
     <main className="min-h-screen bg-[#54a5d5] text-white flex flex-col font-headline relative overflow-hidden transition-colors duration-1000">
-      {/* Subtle background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-white/5 blur-[120px] rounded-full pointer-events-none" />
 
       <header className="px-6 py-8 flex items-center justify-between sticky top-0 z-50 shrink-0">
@@ -101,7 +97,6 @@ export default function SelfCare() {
       <ScrollArea className="flex-1">
         <div className="flex flex-col items-center justify-center w-full max-w-3xl mx-auto px-6 py-12 space-y-12 pb-40 touch-pan-y h-full min-h-[70vh]">
           
-          {/* Eternity Ouroboros Animation - Wide Infinity in #66b2b2 */}
           <div className="relative flex flex-col items-center justify-center w-full h-[44vh] transition-transform duration-1000">
             <svg 
               viewBox="0 0 400 200" 
@@ -120,7 +115,6 @@ export default function SelfCare() {
                 </filter>
               </defs>
 
-              {/* The Infinity Body (Ouroboros Path) - Wide Layout */}
               <path
                 id="infinityPath"
                 d="M 200 100 C 200 20 40 20 40 100 C 40 180 200 180 200 100 C 200 20 360 20 360 100 C 360 180 200 180 200 100"
@@ -131,7 +125,6 @@ export default function SelfCare() {
                 className="opacity-50"
               />
               
-              {/* Glowing Inner Trace */}
               <path
                 d="M 200 100 C 200 20 40 20 40 100 C 40 180 200 180 200 100 C 200 20 360 20 360 100 C 360 180 200 180 200 100"
                 fill="none"
@@ -141,9 +134,8 @@ export default function SelfCare() {
                 className="opacity-40"
               />
 
-              {/* The Cobra Head - Sliding tenderly on the infinity symbol */}
               <g filter="url(#headGlow)">
-                <circle r="10" fill="#66b2b2" className="shadow-[0_0_30px_#66b2b2]">
+                <circle r="10" fill="#66b2b2">
                   <animateMotion
                     dur="8s"
                     repeatCount="indefinite"
@@ -151,7 +143,6 @@ export default function SelfCare() {
                     rotate="auto"
                   />
                 </circle>
-                {/* Visual Detail for the relaxed head */}
                 <circle r="4" fill="white" opacity="0.7">
                   <animateMotion
                     dur="8s"
@@ -162,7 +153,6 @@ export default function SelfCare() {
                 </circle>
               </g>
 
-              {/* Breathing Glow Pulse - Central Heart */}
               <circle cx="200" cy="100" r="50" fill="#66b2b2" className={cn(
                 "transition-all duration-[4000ms] ease-in-out",
                 isInhaling ? "opacity-25 scale-150 blur-3xl" : "opacity-10 scale-100 blur-xl"
@@ -171,7 +161,7 @@ export default function SelfCare() {
 
             <div className="mt-8 text-center space-y-3">
               <h2 className={cn(
-                "text-4xl font-black uppercase tracking-tighter transition-all duration-[4000ms] ease-in-out",
+                "text-4xl font-black uppercase tracking-tighter transition-all duration-[4000ms] ease-in-out animate-text-pulse",
                 isInhaling ? "text-white scale-110" : "text-white/40 scale-100",
                 lang === 'ru' && "italic font-serif"
               )}>
@@ -186,7 +176,6 @@ export default function SelfCare() {
             </div>
           </div>
 
-          {/* Language of Love Guidance */}
           <div className="space-y-10 w-full text-center">
             <div className="space-y-4 px-4">
               <p className={cn(
@@ -214,7 +203,8 @@ export default function SelfCare() {
         <button 
           onClick={() => { playHeartbeat(); router.push('/dashboard'); }}
           className={cn(
-            "w-full max-w-sm bg-white text-[#54a5d5] h-16 rounded-full font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl flex items-center justify-center gap-3",
+            "w-full max-w-sm h-16 rounded-full font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl flex items-center justify-center gap-3",
+            "bg-white text-[#54a5d5]",
             lang === 'ru' && "italic font-serif"
           )}
         >

@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -12,8 +11,7 @@ import NotificationPrompt from '@/components/dashboard/NotificationPrompt';
 
 /**
  * @fileOverview Mood Check-in Onboarding Step.
- * Full localization for EN, DE, PT, RU.
- * Updated: Prismatic palette and F&B CC6 tones.
+ * Action Buttons synchronized to #58c55a.
  */
 
 interface Step7VibeCheckProps {
@@ -35,7 +33,7 @@ const VIBE_OPTIONS = [
     id: 'harmony', label: 'In Harmony', de: 'In Harmonie', pt: 'Em Harmonia', ru: 'Гармоничное',
     icon: HarmonyIcon, description: 'You are aligned with your rhythm', deDescription: 'Du bist im Einklang mit deinem Rhythmus',
     ptDescription: 'Você está alinhado com seu ritmo', ruDescription: 'Вы в гармонии со своим ритмом',
-    color: 'text-[#10B981]', activeColor: 'bg-[#10B981]/10 border-[#10B981] shadow-[0_0_20px_rgba(16,185,129,0.3)]' 
+    color: 'text-primary', activeColor: 'bg-primary/10 border-primary shadow-[0_0_20px_rgba(88,197,90,0.3)]' 
   },
   { 
     id: 'calm', label: 'Calm', de: 'Beruhigt', pt: 'Calmo', ru: 'Спокойное',
@@ -103,7 +101,7 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
   if (isSaved) {
     return (
       <div className="w-full min-h-[80vh] flex flex-col items-center justify-center text-center px-6 font-headline animate-in fade-in zoom-in-95 duration-1000">
-        <h2 className={cn("text-4xl font-black uppercase tracking-tighter text-[#10B981] mb-4", lang === 'RU' && "italic font-serif")}>{t.success}</h2>
+        <h2 className={cn("text-4xl font-black uppercase tracking-tighter text-primary mb-4", lang === 'RU' && "italic font-serif")}>{t.success}</h2>
         <p className={cn("text-white/60 text-lg font-bold max-sm leading-tight", lang === 'RU' && "italic font-serif")}>{t.sub}</p>
       </div>
     );
@@ -135,7 +133,7 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
           );
         })}
       </div>
-      <div className="flex flex-col items-center gap-6 w-full"><button onClick={handleConfirm} disabled={!selected || isSaving} className={cn("pill-button w-full max-w-sm uppercase tracking-[0.2em] font-black text-xl h-[64px] transition-all", selected && !isSaving ? 'bg-[#10B981] text-black neon-glow' : 'bg-white/10 text-white/10 cursor-not-allowed opacity-50', lang === 'RU' && "italic font-serif")}>{isSaving ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : t.btn}</button><p className={cn("text-center text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]", lang === 'RU' && "italic font-serif")}>{t.footer}</p></div>
+      <div className="flex flex-col items-center gap-6 w-full"><button onClick={handleConfirm} disabled={!selected || isSaving} className={cn("pill-button w-full max-w-sm uppercase tracking-[0.2em] font-black text-xl h-[64px] transition-all", selected && !isSaving ? 'bg-[#58c55a] text-black neon-glow' : 'bg-white/10 text-white/10 cursor-not-allowed opacity-50', lang === 'RU' && "italic font-serif")}>{isSaving ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : t.btn}</button><p className={cn("text-center text-[10px] text-primary font-black uppercase tracking-[0.5em]", lang === 'RU' && "italic font-serif")}>{t.footer}</p></div>
     </div>
   );
 }

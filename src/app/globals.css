@@ -10,9 +10,9 @@
     --card-foreground: 0 0% 100%;
     --popover: 0 0% 2%;
     --popover-foreground: 0 0% 100%;
-    --primary: 161 64% 43%;
+    --primary: 121 50% 56%;
     --primary-foreground: 0 0% 0%;
-    --secondary: 161 30% 30%;
+    --secondary: 121 30% 30%;
     --secondary-foreground: 0 0% 100%;
     --muted: 0 0% 12%;
     --muted-foreground: 0 0% 63.9%;
@@ -22,7 +22,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 15%;
     --input: 0 0% 15%;
-    --ring: 161 64% 43%;
+    --ring: 121 50% 56%;
     --radius: 2.5rem;
   }
 }
@@ -68,12 +68,24 @@
   100% { transform: scale(1.4); opacity: 0; }
 }
 
+/* Text Heartbeat Pulsation */
+@keyframes text-heart-beat {
+  0%, 70%, 100% { transform: scale(1); }
+  75% { transform: scale(1.12); }
+  85% { transform: scale(1.05); }
+  90% { transform: scale(1.18); }
+}
+
 .animate-pulse-heart {
   animation: pulse-heart 4s ease-in-out infinite;
 }
 
 .animate-radiate-out {
   animation: radiate-out 4s ease-out infinite;
+}
+
+.animate-text-pulse {
+  animation: text-heart-beat 4s ease-in-out infinite;
 }
 
 .neon-glow {
