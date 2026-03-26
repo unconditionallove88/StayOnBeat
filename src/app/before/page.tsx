@@ -12,7 +12,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 /**
  * @fileOverview Phase: Before (Preparation Protocol).
  * Integrated core affirmation and support for EN, DE, PT, RU.
- * Refined RU typography for a "written" (cursive italic) feel.
+ * Ensured sentence spacing.
  */
 
 const CONTENT = {
@@ -34,7 +34,7 @@ const CONTENT = {
     hydrationAdvice: (liters: number) => `Basierend auf deinem Körpergewicht trink heute ${liters} Liter Wasser Füge Elektrolyte hinzu um den Haushalt zu stabilisieren`,
     nutritionAdvice: "Iss 3 Stunden vor dem Aufbruch eine ausgewogene Mahlzeit Vermeide schwere verarbeitete Lebensmittel",
     restAdvice: "Priorisiere erholsamen Schlaf und sei vor 23:00 Uhr im Bett damit dein Körper regenerieren und Energie für das Licht sammeln kann",
-    essentialsAdvice: "Lade dein Handy auf 100% Melde dich bei deinem Circle und kalibriere deine Pulse-Baseline",
+    essentialsAdvice: "Lade dein Handy auf 100% Melde dich bei deinem Circle und kalibriere deine Pulse-Basis",
     button: "Ich bin bereit",
     footerAdvice: "Vorbereitung ist der erste Akt der Selbstfürsorge Strahle deine Wahrheit von innen nach außen und dein zukünftiges Ich wird es dir danken"
   },
@@ -128,7 +128,7 @@ export default function BeforePhase() {
 
           <div className="grid gap-4">
             {sections.map((section, idx) => (
-              <div key={idx} className={cn("p-8 rounded-[2.5rem] border-2 transition-all group hover:scale-[1.02]", section.color)}>
+              <div key={idx} className={cn("p-8 rounded-[2rem] border-2 transition-all group hover:scale-[1.02]", section.color)}>
                 <div className="flex items-start gap-6">
                   <div className="p-4 rounded-2xl bg-black/40 border border-white/10 shadow-lg shrink-0">{section.icon}</div>
                   <div className="space-y-2">
@@ -143,7 +143,7 @@ export default function BeforePhase() {
             ))}
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 flex items-center gap-6">
+          <div className="bg-white/5 border border-white/10 rounded-[2rem] p-8 flex items-center gap-6">
             <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center shrink-0"><ShieldCheck className="text-emerald-500" size={24} /></div>
             <p className={cn(
               "text-[10px] font-black uppercase tracking-[0.2em] text-white/40 leading-relaxed",

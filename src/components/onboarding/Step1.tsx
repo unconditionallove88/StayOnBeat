@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -11,6 +12,7 @@ import type { LegalAgreements } from '@/app/onboarding/page';
 /**
  * @fileOverview Foundations of Care (Agreements).
  * Full localization for EN, DE, PT, RU.
+ * Updated: Risk and harm minimization slogans.
  */
 
 const CONTENT = {
@@ -18,7 +20,7 @@ const CONTENT = {
     back: "BACK", header: "Foundations of care", subtext: "I read and honor our shared understanding",
     agree: "I walk this path with love", understand: "I accept, respect and understand",
     sections: [
-      { id: 'harmReduction', title: 'Harm reduction', text: 'StayOnBeat is a harm reduction tool designed to provide information and support It is not intended to encourage illegal activities' },
+      { id: 'harmReduction', title: 'Harm minimization', text: 'StayOnBeat is a tool for risk and harm minimization designed to provide information and support It is not intended to encourage illegal activities' },
       { id: 'medicalAdvice', title: 'Not medical advice', text: 'The information provided by this sanctuary is for educational purposes and does not constitute medical advice or diagnosis' },
       { id: 'privacy', title: 'Freedom & trust (GDPR)', text: 'We take your privacy seriously Your biometric data is encrypted We honor your data sovereignty and comply with GDPR standards' },
       { id: 'safetyNetwork', title: 'Circle of love', text: 'StayOnBeat allows you to create a network of trusted bonds who can be notified in case of a need for connection or support' },
@@ -29,7 +31,7 @@ const CONTENT = {
     back: "ZURÜCK", header: "Fundament der Fürsorge", subtext: "Ich achte unser gemeinsames Verständnis",
     agree: "Ich gehe diesen Weg mit Liebe", understand: "Ich akzeptiere, respektiere und verstehe",
     sections: [
-      { id: 'harmReduction', title: 'Schadensminimierung', text: 'StayOnBeat ist ein Tool zur Schadensminimierung, das Informationen und Unterstützung bietet Es ist nicht dazu gedacht, illegale Aktivitäten zu fördern' },
+      { id: 'harmReduction', title: 'Schadensminimierung', text: 'StayOnBeat ist ein Tool zur Risiko- und Schadensminimierung, das Informationen und Unterstützung bietet Es ist nicht dazu gedacht, illegale Aktivitäten zu fördern' },
       { id: 'medicalAdvice', title: 'Kein medizinischer Rat', text: 'Die von diesem Sanctuary bereitgestellten Informationen dienen Bildungszwecken und stellen keine medizinische Beratung dar' },
       { id: 'privacy', title: 'Freiheit & Vertrauen (DSGVO)', text: 'Wir nehmen deine Privatsphäre ernst Deine biometrischen Daten sind verschlüsselt Wir achten deine Datensouveränität' },
       { id: 'safetyNetwork', title: 'Circle of Love', text: 'StayOnBeat ermöglicht es dir, ein Netzwerk aus vertrauenswürdigen Verbindungen zu erstellen, die bei Bedarf informiert werden können' },
@@ -40,7 +42,7 @@ const CONTENT = {
     back: "VOLTAR", header: "Fundamentos do cuidado", subtext: "Eu leio e honro nosso entendimento mútuo",
     agree: "Eu sigo este caminho com amor", understand: "Eu aceito, respeito e entendo",
     sections: [
-      { id: 'harmReduction', title: 'Redução de danos', text: 'StayOnBeat é uma ferramenta de redução de danos projetada para fornecer informação e suporte Não se destina a encorajar atividades ilegais' },
+      { id: 'harmReduction', title: 'Minimização de danos', text: 'StayOnBeat é uma ferramenta de minimização de riscos e danos projetada para fornecer informação e suporte Não se destina a encorajar atividades ilegais' },
       { id: 'medicalAdvice', title: 'Não é aconselhamento médico', text: 'As informações fornecidas por este santuário são para fins educacionais e não constituem aconselhamento médico ou diagnóstico' },
       { id: 'privacy', title: 'Liberdade e confiança (LGPD)', text: 'Levamos sua privacidade a sério Seus dados biométricos são criptografados Honramos sua soberania de dados' },
       { id: 'safetyNetwork', title: 'Círculo de amor', text: 'StayOnBeat permite que você crie uma rede de vínculos confiáveis que podem ser notificados em caso de necessidade' },
@@ -51,7 +53,7 @@ const CONTENT = {
     back: "НАЗАД", header: "Фундамент заботы", subtext: "Я читаю и принимаю наше общее понимание",
     agree: "Я иду по этому пути с любовью", understand: "Я принимаю, уважаю и понимаю",
     sections: [
-      { id: 'harmReduction', title: 'Снижение вреда', text: 'StayOnBeat — это инструмент снижения вреда для предоставления информации и поддержки Он не предназначен для поощрения незаконной деятельности' },
+      { id: 'harmReduction', title: 'Минимизация вреда', text: 'StayOnBeat — это инструмент минимизации рисков и вреда для предоставления информации и поддержки Он не предназначен для поощрения незаконной деятельности' },
       { id: 'medicalAdvice', title: 'Не является медсоветом', text: 'Информация предоставляется в образовательных целях и не является медицинской консультацией или диагнозом' },
       { id: 'privacy', title: 'Свобода и доверие (GDPR)', text: 'Мы серьезно относимся к вашей приватности Ваши биометрические данные зашифрованы Мы уважаем ваш суверенитет над данными' },
       { id: 'safetyNetwork', title: 'Круг любви', text: 'StayOnBeat позволяет создать сеть доверенных связей которые могут быть уведомлены в случае необходимости' },

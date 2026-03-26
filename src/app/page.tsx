@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
- * Updated with new slogans: "Based on love and rhythm of life".
- * Simplified value prop: "Sanctuary for risk reduction and collective care".
- * Punctuation-free for resonance.
+ * Updated with slogans: "Founded on love and rhythm of life".
+ * Refined value prop: "Sanctuary for risk and harm minimization and collective care".
+ * Minimalist and objective design.
  */
 
 export default function Home() {
@@ -31,29 +31,29 @@ export default function Home() {
 
   const content = {
     EN: { 
-      slogan: "Based on love and rhythm of life", 
-      valueProp: "Sanctuary for risk reduction and collective care", 
+      slogan: "Founded on love and rhythm of life", 
+      valueProp: "Sanctuary for risk and harm minimization and collective care", 
       getStarted: "Join the Circle", 
       signIn: "Welcome Home", 
       footer: "Protected by GDPR • Encrypted with Love" 
     },
     DE: { 
-      slogan: "Basierend auf Liebe und dem Rhythmus des Lebens", 
-      valueProp: "Sanctuary für Risk-Reduction und kollektive Fürsorge", 
+      slogan: "Gegründet auf Liebe und dem Rhythmus des Lebens", 
+      valueProp: "Sanctuary für Risiko- und Schadensminimierung sowie kollektive Fürsorge", 
       getStarted: "Werde Teil des Kreises", 
       signIn: "Willkommen Zuhause", 
       footer: "DSGVO-geschützt • Mit Liebe verschlüsselt" 
     },
     PT: { 
-      slogan: "Baseado no amor e no ritmo da vida", 
-      valueProp: "Santuário para redução de riscos e cuidado coletivo", 
+      slogan: "Fundado no amor e no ritmo da vida", 
+      valueProp: "Santuário para minimização de riscos e danos e cuidado coletivo", 
       getStarted: "Junte-se ao Círculo", 
       signIn: "Bem-vindo ao Lar", 
-      footer: "Protegido por GDPR • Criptografado com Amor" 
+      footer: "Protegido por LGPD • Criptografado com Amor" 
     },
     RU: { 
       slogan: "Основано на любви и ритме жизни", 
-      valueProp: "Пространство для снижения рисков и коллективной заботы", 
+      valueProp: "Пространство для минимизации рисков и вреда и коллективной заботы", 
       getStarted: "Присоединяйся к Нам", 
       signIn: "Мы рады Тебе", 
       footer: "Зашифровано с Любовью" 
@@ -84,7 +84,7 @@ export default function Home() {
             </div>
           </div>
           <h1 className="mt-10 text-5xl md:text-7xl font-black tracking-tighter uppercase leading-none text-white text-center">STAY<span className="text-primary">ON</span>BEAT</h1>
-          <p className={cn("text-primary font-bold mt-4 tracking-[0.3em] uppercase text-xs italic opacity-80", lang === 'RU' && "font-serif")}>{content[lang].slogan}</p>
+          <p className={cn("text-primary font-bold mt-4 tracking-[0.3em] uppercase text-[10px] italic opacity-80", lang === 'RU' && "font-serif")}>{content[lang].slogan}</p>
         </div>
         
         <div className="w-full max-md space-y-4 mb-16">

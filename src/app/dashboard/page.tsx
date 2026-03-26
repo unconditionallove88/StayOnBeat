@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -16,12 +17,10 @@ import {
   Microscope,
   Settings2,
   ChevronDown,
-  ArrowLeft,
   Radio,
   PenLine,
   Wind,
-  AlertCircle,
-  Sparkles
+  AlertCircle
 } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6SubstanceLab';
@@ -161,12 +160,13 @@ function DashboardContent() {
     { heartRate: simHeartRate }, 
     activeSubstances, 
     firestoreProfile?.pulseBaseline?.restingBPM,
-    medicalProfile
+    medicalProfile,
+    firestoreProfile?.vibe?.current
   );
 
   const isLocked = safetyStatus.isLocked;
   const cautionThreshold = 100 / (safetyStatus.riskMultiplier || 1.0);
-  const isCaution = !isLocked && (simHeartRate > cautionThreshold || activeSubstances.length >= 3);
+  const isCaution = !isLocked && (simHeartRate > cautionThreshold || (typeof activeSubstances === 'object' && activeSubstances.length >= 3));
   const guardianStatus: 'safe' | 'caution' | 'locked' = isLocked ? 'locked' : (isCaution ? 'caution' : 'safe');
 
   const handlePortalClick = (action: () => void) => {
@@ -248,7 +248,7 @@ function DashboardContent() {
                 </div>
               </button>
             )}
-            <GuardianStatusBar status={guardianStatus} heartRate={simHeartRate} lang={lang} />
+            <GuardianStatusBar status={guardianStatus} heartRate={simHeartRate} lang={lang} vibeKey={firestoreProfile?.vibe?.current} />
             <PulseGuardianBanner lang={lang} variant="banner" />
           </div>
 
@@ -262,7 +262,6 @@ function DashboardContent() {
                 <HeartStatusAura 
                   heartRate={simHeartRate} 
                   activeSubstances={activeSubstances} 
-                  mood={getLocalizedVibeLabel(firestoreProfile?.vibe)}
                   lang={lang} 
                 />
                 <p className={cn(
@@ -288,7 +287,7 @@ function DashboardContent() {
               <Link 
                 href="/map" 
                 onClick={() => playHeartbeat()}
-                className="aspect-square rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
                 <div className="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform">
                   <RadiatingThirdEye size={36} color="#3b82f6" />
@@ -301,7 +300,7 @@ function DashboardContent() {
 
               <button 
                 onClick={() => handlePortalClick(() => setLabOpen(true))} 
-                className="aspect-square rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
                 <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20 group-hover:scale-110 transition-transform">
                   <Microscope size={36} className="text-white" />
@@ -314,7 +313,7 @@ function DashboardContent() {
 
               <button 
                 onClick={() => handlePortalClick(() => setSyncOpen(true))} 
-                className="aspect-square rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-[#EBFB3B]/30 hover:bg-[#EBFB3B]/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-[#EBFB3B]/30 hover:bg-[#EBFB3B]/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
                 <div className="w-16 h-16 bg-[#EBFB3B]/10 rounded-2xl flex items-center justify-center border border-[#EBFB3B]/20 group-hover:scale-110 transition-transform">
                   <Watch size={32} className="text-[#EBFB3B]" />
@@ -327,39 +326,39 @@ function DashboardContent() {
 
               <button 
                 onClick={() => handlePortalClick(() => setLoveLetterOpen(true))} 
-                className="aspect-square rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-purple-500/30 hover:bg-purple-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-purple-500/30 hover:bg-purple-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
                 <div className="w-16 h-16 bg-purple-500/10 rounded-2xl flex items-center justify-center border border-purple-500/20 group-hover:scale-110 transition-transform">
                   <PenLine size={32} className="text-purple-400" />
                 </div>
                 <div className="space-y-1">
-                  <p className={cn("text-lg font-black uppercase tracking-tight leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Письма Любви' : lang === 'pt' ? 'Cartas de Amor' : lang === 'de' ? 'Liebesbriefe' : 'Love Letters'}</p>
+                  <p className={cn("text-lg font-black uppercase tracking-tight text-white leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Письма Любви' : lang === 'pt' ? 'Cartas de Amor' : lang === 'de' ? 'Liebesbriefe' : 'Love Letters'}</p>
                   <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>Future Self</p>
                 </div>
               </button>
 
               <button 
                 onClick={() => handlePortalClick(() => setAiBotOpen(true))}
-                className="aspect-square rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-[#10B981]/30 hover:bg-[#10B981]/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-[#10B981]/30 hover:bg-[#10B981]/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
                 <div className="w-16 h-16 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 group-hover:scale-110 transition-transform">
                   <Bot size={32} className="text-[#10B981]" />
                 </div>
                 <div className="space-y-1">
-                  <p className={cn("text-lg font-black uppercase tracking-tight leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Забота' : lang === 'pt' ? 'Assistente' : lang === 'de' ? 'KI-Begleiter' : 'Assistant'}</p>
+                  <p className={cn("text-lg font-black uppercase tracking-tight text-white leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Забота' : lang === 'pt' ? 'Assistente' : lang === 'de' ? 'KI-Begleiter' : 'Assistant'}</p>
                   <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>AI Portal</p>
                 </div>
               </button>
 
               <button 
                 onClick={() => handlePortalClick(() => setShowSOS(true))}
-                className="aspect-square rounded-[2.5rem] bg-red-600/10 border border-red-600/20 flex flex-col items-center justify-center gap-4 hover:bg-red-600 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-[2rem] bg-red-600/10 border border-red-600/20 flex flex-col items-center justify-center gap-4 hover:bg-red-600 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
                 <div className="w-16 h-16 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                   <Shield size={32} />
                 </div>
                 <div className="space-y-1">
-                  <p className={cn("text-lg font-black uppercase tracking-tight leading-none group-hover:text-white transition-colors", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Помощь' : lang === 'pt' ? 'Ajuda Imediata' : lang === 'de' ? 'Sofort-Hilfe' : 'Immediate Help'}</p>
+                  <p className={cn("text-lg font-black uppercase tracking-tight text-white leading-none group-hover:text-white transition-colors", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Помощь' : lang === 'pt' ? 'Ajuda Imediata' : lang === 'de' ? 'Sofort-Hilfe' : 'Immediate Help'}</p>
                   <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors", lang === 'ru' && "italic font-serif")}>Mesh SOS</p>
                 </div>
               </button>
@@ -425,7 +424,7 @@ function DashboardContent() {
       {showSOS && <SOSAlert onClose={() => setShowSOS(false)} />}
       
       <Dialog open={labOpen} onOpenChange={setLabOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[95dvh] max-h-[95dvh] sm:h-[90dvh] top-[50%] -translate-y-[50%]">
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[2rem] overflow-hidden flex flex-col h-[95dvh] max-h-[95dvh] sm:h-[90dvh] top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">Pulse Lab</DialogTitle>
           <PulseLab 
             userData={{ 
@@ -449,14 +448,14 @@ function DashboardContent() {
       </Dialog>
 
       <Dialog open={aiBotOpen} onOpenChange={setAiBotOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] max-h-[85dvh] top-[50%] -translate-y-[50%]">
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[2rem] overflow-hidden flex flex-col h-[85dvh] max-h-[85dvh] top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">AI Care Portal</DialogTitle>
           <AssistantPortal userProfile={firestoreProfile} />
         </DialogContent>
       </Dialog>
 
       <Dialog open={coCreationOpen} onOpenChange={setCoCreationOpen}>
-        <DialogContent className="bg-black border-white/10 max-lg p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85dvh] top-[50%] -translate-y-[50%]">
+        <DialogContent className="bg-black border-white/10 max-lg p-0 rounded-[2rem] overflow-hidden flex flex-col h-auto max-h-[85dvh] top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">Co-Creation</DialogTitle>
           <div className="flex-1 overflow-y-auto">
             <CoCreation onComplete={() => setCoCreationOpen(false)} />
@@ -465,7 +464,7 @@ function DashboardContent() {
       </Dialog>
 
       <Dialog open={syncOpen} onOpenChange={setSyncOpen}>
-        <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85dvh] top-[50%] -translate-y-[50%]">
+        <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[2rem] overflow-hidden flex flex-col h-auto max-h-[85dvh] top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">Pulse Sync</DialogTitle>
           <div className="flex-1 overflow-y-auto">
             <WearablesSync onComplete={() => setSyncOpen(false)} />
@@ -474,7 +473,7 @@ function DashboardContent() {
       </Dialog>
 
       <Dialog open={loveLetterOpen} onOpenChange={setLoveLetterOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85dvh] top-[50%] -translate-y-[50%]">
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[2rem] overflow-hidden flex flex-col h-auto max-h-[85dvh] top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">Love Letter</DialogTitle>
           <div className="flex-1 overflow-y-auto">
             <LoveLetter onComplete={() => setLoveLetterOpen(false)} />

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -22,10 +23,8 @@ import {
   Leaf,
   Lock,
   ChevronRight,
-  Loader2,
   ShieldCheck,
-  HelpCircle,
-  Activity
+  HelpCircle
 } from "lucide-react";
 import {
   Dialog,
@@ -39,7 +38,7 @@ import { cn } from "@/lib/utils";
 /**
  * @fileOverview Your Sanctuary (Profile Page).
  * Full localization for EN, DE, PT, RU.
- * Replaced CircleDot with ShieldCheck.
+ * Ensured sentence spacing and objective design.
  */
 
 const CONTENT = {
@@ -212,7 +211,7 @@ export default function ProfilePage() {
         )}
 
         <div className="space-y-6">
-          <div className="bg-white/5 rounded-[2.5rem] border border-white/10 p-8 space-y-8 relative overflow-hidden">
+          <div className="bg-white/5 rounded-[2rem] border border-white/10 p-8 space-y-8 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#10B981]/5 blur-3xl -z-10" />
             <h3 className={cn("text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3", lang === 'ru' && "italic font-serif")}><Leaf size={14} className="text-[#10B981]" /> {t.essence}</h3>
             <div className="space-y-6">
@@ -233,7 +232,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div className="bg-white/5 rounded-[2.5rem] border border-white/10 p-8 space-y-6">
+          <div className="bg-white/5 rounded-[2rem] border border-white/10 p-8 space-y-6">
             <h3 className={cn("text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em] flex items-center gap-3", lang === 'ru' && "italic font-serif")}><Shield size={14} className="text-[#10B981]" /> {t.circle}</h3>
             <button onClick={() => router.push("/safety-network")} className="w-full flex items-center justify-between p-6 bg-white/5 rounded-2xl border border-white/5 hover:border-[#10B981]/30 transition-all group">
               <div className="flex items-center gap-4">
@@ -251,7 +250,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div className="bg-white/5 rounded-[2.5rem] border border-white/10 p-8 text-center space-y-6">
+          <div className="bg-white/5 rounded-[2rem] border border-white/10 p-8 text-center space-y-6">
              <div className="flex justify-center"><Lock size={24} className="text-white/10" /></div>
              <p className={cn("text-[10px] text-white/30 font-bold uppercase tracking-widest leading-relaxed", lang === 'ru' && "italic font-serif")}>{t.journey}</p>
              <button onClick={() => setPrivacyOpen(true)} className={cn("text-[8px] font-black text-[#10B981] uppercase tracking-[0.3em] hover:underline underline-offset-8", lang === 'ru' && "italic font-serif")}>{t.promise}</button>
@@ -262,7 +261,7 @@ export default function ProfilePage() {
       </div>
 
       <Dialog open={privacyOpen} onOpenChange={setPrivacyOpen}>
-        <DialogContent className="bg-[#050505] border-white/10 max-lg p-0 rounded-[3rem] overflow-hidden flex flex-col font-headline h-[90vh] max-h-[90vh]">
+        <DialogContent className="bg-[#050505] border-white/10 max-lg p-0 rounded-[2rem] overflow-hidden flex flex-col font-headline h-[90vh] max-h-[90vh]">
           <DialogTitle className="sr-only">Privacy Policy</DialogTitle>
           <div className="p-8 pb-4 shrink-0">
             <div className="flex items-center gap-4 mb-6">
@@ -286,7 +285,7 @@ export default function ProfilePage() {
       </Dialog>
 
       <Dialog open={coCreationOpen} onOpenChange={setCoCreationOpen}>
-        <DialogContent className="bg-black border-white/10 max-lg p-0 rounded-[3rem] overflow-hidden">
+        <DialogContent className="bg-black border-white/10 max-lg p-0 rounded-[2rem] overflow-hidden">
           <DialogTitle className="sr-only">Co-Creation</DialogTitle>
           <CoCreation onComplete={() => setCoCreationOpen(false)} />
         </DialogContent>

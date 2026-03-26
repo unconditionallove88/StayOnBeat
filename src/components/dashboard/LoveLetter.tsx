@@ -1,16 +1,16 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useFirestore, useUser, addDocumentNonBlocking } from '@/firebase';
 import { collection, serverTimestamp } from 'firebase/firestore';
-import { PenLine, Send, Loader2, CircleDot, ShieldCheck } from 'lucide-react';
+import { PenLine, Send, Loader2, ShieldCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 /**
  * @fileOverview Love Letter Component.
  * Full localization for EN, DE, PT, RU.
- * Framing: I radiate love from the inside out.
- * Purity: Punctuation-free and emoji-free.
+ * Spacing between segments.
  */
 
 const CONTENT = {
