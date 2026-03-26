@@ -2,78 +2,60 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import { Heart, Coffee, Moon, ArrowLeft, Wind, Sparkles } from 'lucide-react';
+import { Heart, ArrowLeft, Wind, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
- * @fileOverview Eternity Breathing Sanctuary.
+ * @fileOverview Breath of Love (Eternity Ouroboros).
  * A high-fidelity infinity resonance experience.
- * Features a Lemniscate (8) animation sliding in unison with the breath.
+ * Features a wide horizontal "8" cobra eating its own tail.
+ * Background color: Beautiful sea color #54a5d5.
+ * Rhythm: 4s Inhale / 4s Exhale.
  * Full localization for EN, DE, PT, RU.
  */
 
 const CONTENT = {
   en: {
-    title: "Inner Resonance",
+    title: "Breath of Love",
     breathing: "Eternity Breathing",
-    inhale: "Inhale Light",
+    inhale: "Inhale Love",
     exhale: "Exhale Peace",
-    guidance: "I flow with eternity. Inhale light. Exhale peace. My breath is a gift.",
+    guidance: "I flow with eternity. I am home. Relaxation is my nature.",
     header: "I live inside out",
     headerHighlight: "with an open heart",
-    items: [
-      { label: "Hydrate", sub: "Small sips" },
-      { label: "Anchor", sub: "Feel feet" },
-      { label: "Rest", sub: "Close eyes" }
-    ],
     button: "Return to Sanctuary"
   },
   de: {
-    title: "Innere Resonanz",
+    title: "Atem der Liebe",
     breathing: "Ewiges Atmen",
-    inhale: "Licht einatmen",
+    inhale: "Liebe einatmen",
     exhale: "Frieden ausatmen",
-    guidance: "Ich fließe mit der Ewigkeit. Licht einatmen. Frieden ausatmen. Mein Atem ist ein Geschenk.",
+    guidance: "Ich fließe mit der Ewigkeit. Ich bin zu Hause. Entspannung ist meine Natur.",
     header: "Ich lebe von innen nach außen",
     headerHighlight: "mit offenem Herzen",
-    items: [
-      { label: "Hydrieren", sub: "Kleine Schlucke" },
-      { label: "Ankern", sub: "Füße spüren" },
-      { label: "Ruhen", sub: "Augen schließen" }
-    ],
     button: "Zurück zum Sanctuary"
   },
   pt: {
-    title: "Ressonância Interior",
+    title: "Sopro de Amor",
     breathing: "Respiração da Eternidade",
-    inhale: "Inspire Luz",
+    inhale: "Inspire Amor",
     exhale: "Expire Paz",
-    guidance: "Eu fluo com a eternidade. Inspire luz. Expire paz. Minha respiração é um presente.",
+    guidance: "Eu fluo com a eternidade. Estou em casa. Relaxamento é minha natureza.",
     header: "Eu vivo de dentro para fora",
     headerHighlight: "com o coração aberto",
-    items: [
-      { label: "Hidratar", sub: "Pequenos goles" },
-      { label: "Ancorar", sub: "Sinta os pés" },
-      { label: "Descansar", sub: "Feche os olhos" }
-    ],
     button: "Retornar ao Santuário"
   },
   ru: {
-    title: "Внутренний Резонанс",
+    title: "Дыхание Любви",
     breathing: "Дыхание Вечности",
-    inhale: "Вдохни Свет",
+    inhale: "Вдохни Любовь",
     exhale: "Выдохни Покой",
-    guidance: "Я дышу вечностью. Вдохни свет. Выдохни покой. Твой вдох — это дар.",
+    guidance: "Я дышу вечностью. Я дома. Расслабление — моя природа.",
     header: "Я живу изнутри наружу",
     headerHighlight: "с открытым сердцем",
-    items: [
-      { label: "Гидратация", sub: "Глоток воды" },
-      { label: "Заземление", sub: "Почувствуйте стопы" },
-      { label: "Отдых", sub: "Закройте глаза" }
-    ],
     button: "Вернуться в пространство"
   }
 };
@@ -97,76 +79,106 @@ export default function SelfCare() {
   const t = CONTENT[lang] || CONTENT.en;
 
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col font-headline relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-emerald-500/5 blur-[120px] rounded-full -z-10" />
+    <main className="min-h-screen bg-[#54a5d5] text-white flex flex-col font-headline relative overflow-hidden transition-colors duration-1000">
+      {/* Subtle background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-white/5 blur-[120px] rounded-full pointer-events-none" />
 
       <header className="px-6 py-8 flex items-center justify-between sticky top-0 z-50 shrink-0">
         <button 
           onClick={() => { playHeartbeat(); router.back(); }}
-          className="text-white/40 hover:text-white transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest p-3 bg-white/5 rounded-full border border-white/10"
+          className="text-white/60 hover:text-white transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest p-3 bg-white/10 rounded-full border border-white/20 backdrop-blur-md"
         >
           <ArrowLeft className="w-4 h-4" />
         </button>
-        <div className="flex items-center gap-2 px-4 py-1.5 bg-[#10B981]/10 border border-[#10B981]/30 rounded-full">
-          <Sparkles size={12} className="text-[#10B981] animate-pulse" />
-          <span className={cn("text-[9px] font-black uppercase text-[#10B981] tracking-widest", lang === 'ru' && "italic font-serif")}>{t.title}</span>
+        <div className="flex items-center gap-2 px-4 py-1.5 bg-white/10 border border-white/20 rounded-full backdrop-blur-md">
+          <Sparkles size={12} className="text-white animate-pulse" />
+          <span className={cn("text-[9px] font-black uppercase text-white tracking-widest", lang === 'ru' && "italic font-serif")}>{t.title}</span>
         </div>
       </header>
 
       <ScrollArea className="flex-1">
-        <div className="flex flex-col items-center justify-center w-full max-w-xl mx-auto px-6 py-12 space-y-16 pb-40 touch-pan-y">
+        <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-6 py-12 space-y-12 pb-40 touch-pan-y h-full min-h-[70vh]">
           
-          {/* Eternity Breath Animation */}
-          <div className="relative flex flex-col items-center justify-center w-full h-64">
-            <svg viewBox="0 0 200 100" className="w-full max-w-sm drop-shadow-[0_0_20px_rgba(16,185,129,0.2)]">
-              {/* The Infinity Path */}
+          {/* Eternity Ouroboros Animation - Horizontal 8 */}
+          <div className="relative flex flex-col items-center justify-center w-full h-[44vh] transition-transform duration-1000">
+            <svg 
+              viewBox="0 0 400 200" 
+              className="w-full h-full drop-shadow-[0_0_30px_rgba(16,185,129,0.3)] filter"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              <defs>
+                <linearGradient id="cobraGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#10B981" stopOpacity="0.8" />
+                  <stop offset="50%" stopColor="#059669" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#10B981" stopOpacity="0.8" />
+                </linearGradient>
+                <filter id="headGlow">
+                  <feGaussianBlur stdDeviation="4" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+
+              {/* The Infinity Body (Ouroboros Path) */}
               <path
                 id="infinityPath"
-                d="M 50 50 C 50 20 20 20 20 50 C 20 80 50 80 50 50 C 50 20 80 20 80 50 C 80 80 50 80 50 50"
+                d="M 100 100 C 100 20 20 20 20 100 C 20 180 100 180 100 100 C 100 20 180 20 180 100 C 180 180 100 180 100 100"
                 fill="none"
-                stroke="rgba(16, 185, 129, 0.1)"
-                strokeWidth="2"
-                transform="scale(2) translate(-25, -25)"
+                stroke="rgba(16, 185, 129, 0.15)"
+                strokeWidth="12"
+                strokeLinecap="round"
+                transform="scale(2) translate(-50, -50)"
+                className="opacity-40"
               />
               
-              {/* Glowing Trace Path */}
+              {/* Glowing Inner Trace */}
               <path
-                d="M 50 50 C 50 20 20 20 20 50 C 20 80 50 80 50 50 C 50 20 80 20 80 50 C 80 80 50 80 50 50"
+                d="M 100 100 C 100 20 20 20 20 100 C 20 180 100 180 100 100 C 100 20 180 20 180 100 C 180 180 100 180 100 100"
                 fill="none"
                 stroke="#10B981"
-                strokeWidth="0.5"
-                strokeDasharray="1, 10"
-                className="opacity-20"
-                transform="scale(2) translate(-25, -25)"
+                strokeWidth="1"
+                strokeDasharray="4 8"
+                className="opacity-30"
+                transform="scale(2) translate(-50, -50)"
               />
 
-              {/* The Breath Particle - Sliding on 8 */}
-              <circle r="3" fill="#10B981" className="shadow-[0_0_15px_#10B981]">
-                <animateMotion
-                  dur="8s"
-                  repeatCount="indefinite"
-                  path="M 50 50 C 50 20 20 20 20 50 C 20 80 50 80 50 50 C 50 20 80 20 80 50 C 80 80 50 80 50 50"
-                  rotate="auto"
-                />
-              </circle>
+              {/* The Cobra Head - Sliding tenderly on the 8 */}
+              <g filter="url(#headGlow)">
+                <circle r="8" fill="#10B981" className="shadow-[0_0_20px_#10B981]">
+                  <animateMotion
+                    dur="8s"
+                    repeatCount="indefinite"
+                    path="M 100 100 C 100 20 20 20 20 100 C 20 180 100 180 100 100 C 100 20 180 20 180 100 C 180 180 100 180 100 100"
+                    rotate="auto"
+                  />
+                </circle>
+                {/* Visual "Head" detail */}
+                <circle r="3" fill="white" opacity="0.6">
+                  <animateMotion
+                    dur="8s"
+                    repeatCount="indefinite"
+                    path="M 100 100 C 100 20 20 20 20 100 C 20 180 100 180 100 100 C 100 20 180 20 180 100 C 180 180 100 180 100 100"
+                    rotate="auto"
+                  />
+                </circle>
+              </g>
 
-              {/* Central Pulsing Heart Glow */}
-              <circle cx="100" cy="50" r="10" fill="#10B981" className={cn(
+              {/* Breathing Glow Pulse */}
+              <circle cx="200" cy="100" r="40" fill="#10B981" className={cn(
                 "transition-all duration-[4000ms] ease-in-out",
-                isInhaling ? "opacity-20 scale-150 blur-xl" : "opacity-5 scale-100 blur-md"
+                isInhaling ? "opacity-20 scale-150 blur-3xl" : "opacity-5 scale-100 blur-xl"
               )} />
             </svg>
 
-            <div className="mt-12 text-center space-y-3">
+            <div className="mt-8 text-center space-y-3">
               <h2 className={cn(
-                "text-3xl font-black uppercase tracking-tighter transition-all duration-[4000ms] ease-in-out",
-                isInhaling ? "text-[#10B981] scale-110" : "text-white/40 scale-100",
+                "text-4xl font-black uppercase tracking-tighter transition-all duration-[4000ms] ease-in-out",
+                isInhaling ? "text-white scale-110" : "text-white/40 scale-100",
                 lang === 'ru' && "italic font-serif"
               )}>
                 {isInhaling ? t.inhale : t.exhale}
               </h2>
               <p className={cn(
-                "text-[10px] font-black text-white/20 uppercase tracking-[0.4em] animate-pulse",
+                "text-[10px] font-black text-white/30 uppercase tracking-[0.4em] animate-pulse",
                 lang === 'ru' && "italic font-serif"
               )}>
                 {t.breathing}
@@ -175,49 +187,34 @@ export default function SelfCare() {
           </div>
 
           {/* Language of Love Guidance */}
-          <div className="space-y-8 w-full text-center">
+          <div className="space-y-10 w-full text-center">
             <div className="space-y-4 px-4">
               <p className={cn(
-                "text-xl font-black uppercase tracking-tighter text-white leading-tight",
+                "text-xl font-black uppercase tracking-tighter text-white/90 leading-tight max-w-[300px] mx-auto",
                 lang === 'ru' && "italic font-serif"
               )}>
                 {t.guidance}
               </p>
-              <div className="w-8 h-1 bg-[#10B981]/20 rounded-full mx-auto" />
+              <div className="w-12 h-1 bg-white/20 rounded-full mx-auto" />
             </div>
 
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <h1 className={cn("text-2xl font-black uppercase tracking-tighter leading-none", lang === 'ru' && "italic font-serif")}>
-                  {t.header} <br/> <span className="text-[#3EB489]">{t.headerHighlight}</span>
-                </h1>
-              </div>
-
-              <div className="grid grid-cols-3 gap-3 w-full">
-                {t.items.map((item, i) => {
-                  const Icons = [Coffee, Wind, Moon];
-                  const Icon = Icons[i];
-                  return (
-                    <div key={i} className="bg-white/5 border border-white/10 p-4 rounded-[2rem] flex flex-col items-center gap-2 group hover:border-emerald-500/40 transition-all">
-                      <Icon className="w-5 h-5 text-[#3EB489]" />
-                      <div className="text-center">
-                        <h3 className={cn("font-black uppercase tracking-widest text-[8px]", lang === 'ru' && "italic font-serif")}>{item.label}</h3>
-                        <p className={cn("text-[7px] font-bold text-white/30 uppercase tracking-tighter", lang === 'ru' && "italic font-serif")}>{item.sub}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+            <div className="space-y-2">
+              <h1 className={cn("text-2xl font-black uppercase tracking-tighter leading-none text-white", lang === 'ru' && "italic font-serif")}>
+                {t.header} <br/> <span className="text-emerald-300/80">{t.headerHighlight}</span>
+              </h1>
+              <p className={cn("text-[9px] font-bold text-white/40 uppercase tracking-[0.3em] mt-4", lang === 'ru' && "italic font-serif")}>
+                Feel home. You are loved.
+              </p>
             </div>
           </div>
         </div>
       </ScrollArea>
 
-      <footer className="fixed bottom-0 left-0 right-0 h-[100px] bg-black/90 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-50">
+      <footer className="fixed bottom-0 left-0 right-0 h-[120px] bg-black/10 backdrop-blur-md flex flex-col items-center justify-center px-6 z-50">
         <button 
           onClick={() => { playHeartbeat(); router.push('/dashboard'); }}
           className={cn(
-            "w-full max-w-sm bg-[#3EB489] text-black h-16 rounded-full font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_30px_rgba(62,180,137,0.3)] flex items-center justify-center gap-3",
+            "w-full max-w-sm bg-white text-[#54a5d5] h-16 rounded-full font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl flex items-center justify-center gap-3",
             lang === 'ru' && "italic font-serif"
           )}
         >
