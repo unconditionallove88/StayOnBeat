@@ -14,8 +14,8 @@ interface Props {
 
 /**
  * @fileOverview Inner Resonance Visualization (Living Heart Aura).
- * Sequential pulsation: Inner heart beats first (Lub-Dub), then aura radiates.
- * Featuring a beautiful blurry heart icon for high-fidelity organic feel.
+ * Sequential pulsation: Aura glows first, then inner heart beats.
+ * Calm, slow, ethereal rhythm.
  * Supports EN, DE, PT, RU.
  */
 export default function HeartStatusAura({ 
@@ -30,7 +30,8 @@ export default function HeartStatusAura({
   const isElevated = heartRate > 100 || activeSubstances.length > 2;
   
   const stateColor = isHighRisk ? "#DC2626" : isElevated ? "#F59E0B" : "#10B981"; 
-  const loopDuration = isHighRisk ? "2s" : isElevated ? "3s" : "4s";
+  // Calm tempo requested
+  const loopDuration = isHighRisk ? "3s" : isElevated ? "4.5s" : "6s";
 
   const labels = {
     en: { resonance: "My Inner Resonance" },
@@ -43,7 +44,7 @@ export default function HeartStatusAura({
 
   return (
     <div className="flex flex-col items-center justify-center p-4 md:p-8 relative font-headline cursor-pointer group animate-in fade-in duration-1000">
-      {/* Living Aura Glow Ring - Pulsates sequentially after the inner heart */}
+      {/* Aura Pulsates FIRST in the loop (see globals.css) */}
       <div 
         className="absolute w-64 h-64 md:w-80 md:h-80 rounded-full blur-[100px] opacity-20 transition-all duration-1000" 
         style={{ 
@@ -61,7 +62,7 @@ export default function HeartStatusAura({
           boxShadow: `0 0 80px ${stateColor}15` 
         }}
       >
-        {/* Blurry Living Heart - Pulsates Lub-Dub then rests */}
+        {/* Subtle Ethereal Heart Pulsates SECOND in the loop */}
         <div className="relative">
           <div 
             className="flex items-center justify-center"
@@ -74,8 +75,8 @@ export default function HeartStatusAura({
               style={{ 
                 color: stateColor, 
                 fill: stateColor,
-                filter: 'blur(4px)',
-                opacity: 0.8
+                filter: 'blur(12px)',
+                opacity: 0.4
               }} 
             />
           </div>

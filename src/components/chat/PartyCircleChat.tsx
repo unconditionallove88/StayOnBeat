@@ -12,16 +12,16 @@ import { moderateMessage } from '@/ai/flows/moderate-message';
 import { GuardianLogo } from '@/components/ui/guardian-logo';
 
 /**
- * @fileOverview The Witnesses (Public & Moderated).
+ * @fileOverview The Spectators (Public & Moderated).
  * Integrated with Pulse Guardian for active monitoring.
- * Removed clinical/fear words from all versions.
+ * Renamed from Witnesses to Spectators.
  * Full localization for EN, DE, PT, RU.
  */
 
 const CONTENT = {
   en: {
     guardianNote: "Pulse Guardian: Active Monitoring & Slang Guard",
-    title: "The Witnesses",
+    title: "The Spectators",
     sub: "Connected with Care",
     rulesHeader: "A space of collective care Guarded by Pulse Guardian",
     rules: [
@@ -32,7 +32,7 @@ const CONTENT = {
       "Political divisive rhetoric is not permitted"
     ],
     enterBtn: "Enter guarded sanctuary",
-    placeholder: "Share your witness...",
+    placeholder: "Share your resonance...",
     footer: "Grounded in Unconditional Love 🌿",
     blockedTitle: "Sanctuary Rest",
     blockedDesc: "Pulse Guardian has paused your communication To ensure the harmony of this circle illegal activities and divisive language are not permitted 🌿",
@@ -44,7 +44,7 @@ const CONTENT = {
   },
   de: {
     guardianNote: "Pulse Guardian: Aktive Überwachung & Slang-Schutz",
-    title: "Die Witnesser",
+    title: "Die Spectator",
     sub: "Verbunden durch Fürsorge",
     rulesHeader: "Ein Raum gemeinsamer Fürsorge Bewacht vom Pulse Guardian",
     rules: [
@@ -55,7 +55,7 @@ const CONTENT = {
       "Spaltende politische Rhetorik ist untersagt"
     ],
     enterBtn: "Bewachtes Sanctuary betreten",
-    placeholder: "Teile deine Bezeugung...",
+    placeholder: "Teile deine Resonanz...",
     footer: "Geerdet in bedingungsloser Liebe 🌿",
     blockedTitle: "Sanctuary Pause",
     blockedDesc: "Pulse Guardian hat deine Kommunikation pausiert Um die Harmonie zu gewährleisten sind illegale Aktivitäten und spaltende Sprache nicht erlaubt 🌿",
@@ -67,7 +67,7 @@ const CONTENT = {
   },
   pt: {
     guardianNote: "Pulse Guardian: Monitoramento Ativo e Filtro de Gírias",
-    title: "As Testemunhas",
+    title: "Os Espectadores",
     sub: "Conectados com Cuidado",
     rulesHeader: "Um espaço de cuidado coletivo Protegido pelo Pulse Guardian",
     rules: [
@@ -78,7 +78,7 @@ const CONTENT = {
       "Retórica política divisiva não é permitida"
     ],
     enterBtn: "Entrar no santuário protegido",
-    placeholder: "Compartilhe sua testemunha...",
+    placeholder: "Compartilhe sua ressonância...",
     footer: "Apoiado em Amor Incondicional 🌿",
     blockedTitle: "Descanso do Santuário",
     blockedDesc: "O Pulse Guardian pausou sua comunicação Para garantir a harmonia deste círculo atividades ilegais e linguagem divisiva não são permitidas 🌿",
@@ -90,7 +90,7 @@ const CONTENT = {
   },
   ru: {
     guardianNote: "Pulse Guardian: Активный мониторинг с любовью",
-    title: "Свидетели",
+    title: "Зрители",
     sub: "Связанные заботой",
     rulesHeader: "Пространство коллективной заботы Под охраной Pulse Guardian",
     rules: [
@@ -101,7 +101,7 @@ const CONTENT = {
       "Политическая риторика не допускается"
     ],
     enterBtn: "Войти в пространство заботы",
-    placeholder: "Поделись своим свидетельством...",
+    placeholder: "Поделись своим резонансом...",
     footer: "Основано на Безусловной Любви 🌿",
     blockedTitle: "Тишина в Пространстве",
     blockedDesc: "Pulse Guardian приостановил твое общение Для обеспечения гармонии этого круга незаконная деятельность и враждебная лексика не допускаются 🌿",
@@ -138,8 +138,8 @@ export function PartyCircleChat() {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
     if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
 
-    const agreed = localStorage.getItem('stayonbeat_witness_agreed');
-    const blocked = localStorage.getItem('stayonbeat_witness_blocked');
+    const agreed = localStorage.getItem('stayonbeat_spectator_agreed');
+    const blocked = localStorage.getItem('stayonbeat_spectator_blocked');
     if (agreed === 'true') setHasAgreedToRules(true);
     if (blocked === 'true') setIsBlocked(true);
   }, []);
@@ -188,7 +188,7 @@ export function PartyCircleChat() {
       
       if (!moderation.isSafe) {
         setIsBlocked(true);
-        localStorage.setItem('stayonbeat_witness_blocked', 'true');
+        localStorage.setItem('stayonbeat_spectator_blocked', 'true');
         await logViolation(text, moderation.reason || "Unsafe content detected", 'AI_FLAGGED');
         toast({
           variant: "destructive",
@@ -219,7 +219,7 @@ export function PartyCircleChat() {
 
   const handleEnterChat = () => {
     setIsEntering(true);
-    localStorage.setItem('stayonbeat_witness_agreed', 'true');
+    localStorage.setItem('stayonbeat_spectator_agreed', 'true');
     
     setTimeout(() => {
       setHasAgreedToRules(true);

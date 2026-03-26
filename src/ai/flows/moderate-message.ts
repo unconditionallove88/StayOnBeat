@@ -1,7 +1,8 @@
+
 'use server';
 
 /**
- * @fileOverview A Genkit flow for moderating chat messages in "The Witnesses" space.
+ * @fileOverview A Genkit flow for moderating chat messages in "The Spectators" space.
  * Features: Slang detection for substances, illegal activity monitoring, and collective care enforcement.
  * Punctuation-free for resonance.
  */
@@ -30,7 +31,7 @@ const prompt = ai.definePrompt({
   name: 'moderateMessagePrompt',
   input: { schema: ModerationInputSchema },
   output: { schema: ModerationOutputSchema },
-  prompt: `You are the Pulse Guardian AI Moderator for "The Witnesses" community chat.
+  prompt: `You are the Pulse Guardian AI Moderator for "The Spectators" community chat.
 The community is based on "Unconditional Love" and "Collective Care"
 
 Your primary objective is to maintain a safe sanctuary. You must scan for and immediately flag:

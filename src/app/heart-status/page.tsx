@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -18,7 +19,7 @@ import { cn } from '@/lib/utils';
  * @fileOverview My Heart Page (Individual Analytics).
  * Minimalist update: Focused purely on Inner Resonance and affirmations.
  * Fully localized for EN, DE, PT, RU.
- * Corrected Holders icon to HeartHandshake.
+ * Updated "Witnesses" to "Spectators".
  */
 export default function MyHeartPage() {
   const router = useRouter();
@@ -64,7 +65,7 @@ export default function MyHeartPage() {
       demo: "Demo Mode · My Rhythm",
       holders: "The Holders",
       holdersSub: "Private Bonds",
-      witnesses: "The Witnesses",
+      witnesses: "The Spectators",
       witnessesSub: "Public Care",
       baseline: "Pulse Baseline",
       baselineSub: "Your biological zero point",
@@ -78,7 +79,7 @@ export default function MyHeartPage() {
       demo: "Demo-Modus · Mein Rhythmus",
       holders: "Die Holder",
       holdersSub: "Privater Kreis",
-      witnesses: "Die Witnesser",
+      witnesses: "Die Spectator",
       witnessesSub: "Gemeinsame Fürsorge",
       baseline: "Puls-Basis",
       baselineSub: "Dein biologischer Nullpunkt",
@@ -92,7 +93,7 @@ export default function MyHeartPage() {
       demo: "Modo Demo · Meu Ritmo",
       holders: "Os Guardiões",
       holdersSub: "Vínculos Privados",
-      witnesses: "As Testemunhas",
+      witnesses: "Os Espectadores",
       witnessesSub: "Cuidado Público",
       baseline: "Linha de Base",
       baselineSub: "Seu ponto zero biológico",
@@ -106,7 +107,7 @@ export default function MyHeartPage() {
       demo: "Демо Режим · Мой Ритм",
       holders: "Хранители",
       holdersSub: "Личные Связи",
-      witnesses: "Свидетели",
+      witnesses: "Зрители",
       witnessesSub: "Общая Забота",
       baseline: "Базовый Пульс",
       baselineSub: "Твоя биологическая точка отсчета",
@@ -185,7 +186,7 @@ export default function MyHeartPage() {
           </button>
         </div>
         
-        <div className="w-full max-w-sm bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-8 animate-in slide-in-from-bottom-4 duration-700 relative overflow-hidden group">
+        <div className="w-full max-sm bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-8 animate-in slide-in-from-bottom-4 duration-700 relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#EBFB3B]/5 blur-3xl -z-10" />
           
           <div className="flex items-center justify-between mb-6">
