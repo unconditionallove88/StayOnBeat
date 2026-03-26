@@ -1,7 +1,8 @@
+
 "use client";
 
 import React from "react";
-import { HeartHandshake } from "lucide-react";
+import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -12,10 +13,10 @@ interface Props {
 }
 
 /**
- * @fileOverview Inner Resonance Visualization (Aura).
- * MINIMALIST UPDATE: Removed intensity labels to focus purely on visual resonance and title.
+ * @fileOverview Inner Resonance Visualization (Living Heart Aura).
+ * Sequential pulsation: Inner heart beats first (Lub-Dub), then aura radiates.
+ * Featuring a beautiful blurry heart icon for high-fidelity organic feel.
  * Supports EN, DE, PT, RU.
- * Refined RU typography for a "written" feel.
  */
 export default function HeartStatusAura({ 
   heartRate, 
@@ -29,7 +30,7 @@ export default function HeartStatusAura({
   const isElevated = heartRate > 100 || activeSubstances.length > 2;
   
   const stateColor = isHighRisk ? "#DC2626" : isElevated ? "#F59E0B" : "#10B981"; 
-  const pulseDuration = isHighRisk ? "1.5s" : isElevated ? "2.5s" : "4s";
+  const loopDuration = isHighRisk ? "2s" : isElevated ? "3s" : "4s";
 
   const labels = {
     en: { resonance: "My Inner Resonance" },
@@ -42,14 +43,13 @@ export default function HeartStatusAura({
 
   return (
     <div className="flex flex-col items-center justify-center p-4 md:p-8 relative font-headline cursor-pointer group animate-in fade-in duration-1000">
-      {/* Organic Glow Rings */}
+      {/* Living Aura Glow Ring - Pulsates sequentially after the inner heart */}
       <div 
-        className="absolute w-64 h-64 md:w-80 md:h-80 rounded-full blur-[100px] opacity-20 animate-pulse transition-all duration-1000" 
-        style={{ backgroundColor: stateColor, animationDuration: pulseDuration }} 
-      />
-      <div 
-        className="absolute w-48 h-48 md:w-64 md:h-64 rounded-full blur-3xl opacity-30 animate-pulse transition-all duration-1000" 
-        style={{ backgroundColor: stateColor, animationDuration: '5s' }} 
+        className="absolute w-64 h-64 md:w-80 md:h-80 rounded-full blur-[100px] opacity-20 transition-all duration-1000" 
+        style={{ 
+          backgroundColor: stateColor, 
+          animation: `aura-pulse-outer ${loopDuration} ease-in-out infinite` 
+        }} 
       />
       
       {/* Interactive Outer Shell */}
@@ -61,11 +61,24 @@ export default function HeartStatusAura({
           boxShadow: `0 0 80px ${stateColor}15` 
         }}
       >
+        {/* Blurry Living Heart - Pulsates Lub-Dub then rests */}
         <div className="relative">
-          <HeartHandshake 
-            className="w-24 h-24 md:w-28 md:h-28 drop-shadow-2xl transition-all duration-700" 
-            style={{ color: stateColor, opacity: 0.8 }} 
-          />
+          <div 
+            className="flex items-center justify-center"
+            style={{ 
+              animation: `heart-beat-inner ${loopDuration} ease-in-out infinite`
+            }}
+          >
+            <Heart 
+              className="w-24 h-24 md:w-28 md:h-28 drop-shadow-2xl transition-all duration-700" 
+              style={{ 
+                color: stateColor, 
+                fill: stateColor,
+                filter: 'blur(4px)',
+                opacity: 0.8
+              }} 
+            />
+          </div>
         </div>
       </div>
 

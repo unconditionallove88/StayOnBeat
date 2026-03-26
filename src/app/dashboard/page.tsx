@@ -31,7 +31,6 @@ import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
 import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 import GuardianSimulator from '@/components/dashboard/GuardianSimulator';
 import HeartStatusAura from '@/components/dashboard/HeartStatusAura';
-import LoveCircle from '@/components/dashboard/LoveCircle';
 import { CoCreation } from '@/components/dashboard/CoCreation';
 import { WearablesSync } from '@/components/dashboard/WearablesSync';
 import { LoveLetter } from '@/components/dashboard/LoveLetter';
@@ -190,18 +189,6 @@ function DashboardContent() {
   const t = TOOLTIPS[lang];
   const isMeshCalibrated = firestoreProfile?.guardActive !== undefined;
 
-  const getLocalizedVibeLabel = (vibe: any) => {
-    if (!vibe) return { en: "Steady", de: "Stabil", pt: "Estável", ru: "Спокойное" }[lang] || "Steady";
-    const vibeMap: Record<string, Record<string, string>> = {
-      radiant: { en: "Radiant", de: "Strahlend", pt: "Radiante", ru: "Сияющее" },
-      harmony: { en: "Harmony", de: "In Harmonie", pt: "Em Harmonia", ru: "Гармоничное" },
-      calm: { en: "Calm", de: "Beruhigt", pt: "Calmo", ru: "Спокойное" },
-      hazy: { en: "Hazy", de: "Verschwommen", pt: "Nebuloso", ru: "Туманное" },
-      overwhelmed: { en: "Held", de: "Überwältigt", pt: "Sobrecarregado", ru: "Бережное" }
-    };
-    return vibeMap[vibe.current]?.[lang] || vibe.currentLabel;
-  };
-
   return (
     <main className="min-h-screen bg-black text-white flex flex-col h-screen overflow-hidden font-headline">
       <div className="px-6 py-6 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
@@ -270,13 +257,6 @@ function DashboardContent() {
                 )}>"{affirmation}"</p>
               </div>
             </Link>
-          </div>
-
-          <div className="w-full flex flex-col items-center gap-6">
-            <h2 className={cn("text-[10px] font-black uppercase tracking-[0.4em] text-white/20", lang === 'ru' && "italic font-serif")}>
-              {lang === 'ru' ? 'Коллективный Резонанс' : lang === 'pt' ? 'Ressonância Coletiva' : lang === 'de' ? 'Gemeinsame Resonanz' : 'Collective Resonance'}
-            </h2>
-            <LoveCircle lang={lang} variant="dashboard" />
           </div>
 
           <div className="space-y-8">

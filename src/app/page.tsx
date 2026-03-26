@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 /**
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
  * Updated with slogans: "Founded on love and rhythm of life".
- * Refined value prop: "Sanctuary for risk and harm minimization and collective care".
+ * Refined value prop: "Space for collective care, risk and harm minimization".
  * Minimalist and objective design.
  */
 
@@ -32,28 +32,28 @@ export default function Home() {
   const content = {
     EN: { 
       slogan: "Founded on love and rhythm of life", 
-      valueProp: "Sanctuary for risk and harm minimization and collective care", 
+      valueProp: "Space for collective care, risk and harm minimization", 
       getStarted: "Join the Circle", 
       signIn: "Welcome Home", 
       footer: "Protected by GDPR • Encrypted with Love" 
     },
     DE: { 
       slogan: "Gegründet auf Liebe und dem Rhythmus des Lebens", 
-      valueProp: "Sanctuary für Risiko- und Schadensminimierung sowie kollektive Fürsorge", 
+      valueProp: "Raum für kollektive Fürsorge, Risiko- und Schadensminimierung", 
       getStarted: "Werde Teil des Kreises", 
       signIn: "Willkommen Zuhause", 
       footer: "DSGVO-geschützt • Mit Liebe verschlüsselt" 
     },
     PT: { 
       slogan: "Fundado no amor e no ritmo da vida", 
-      valueProp: "Santuário para minimização de riscos e danos e cuidado coletivo", 
+      valueProp: "Espaço para cuidado coletivo, redução de riscos e danos", 
       getStarted: "Junte-se ao Círculo", 
       signIn: "Bem-vindo ao Lar", 
       footer: "Protegido por LGPD • Criptografado com Amor" 
     },
     RU: { 
       slogan: "Основано на любви и ритме жизни", 
-      valueProp: "Пространство для минимизации рисков и вреда и коллективной заботы", 
+      valueProp: "Пространство для коллективной заботы, минимизации рисков и вреда", 
       getStarted: "Присоединяйся к Нам", 
       signIn: "Мы рады Тебе", 
       footer: "Зашифровано с Любовью" 
