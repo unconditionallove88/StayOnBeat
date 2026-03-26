@@ -15,6 +15,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * Background color: Beautiful sea color #54a5d5.
  * Snake color: Bespoke teal #66b2b2.
  * Rhythm: 4s Inhale / 4s Exhale.
+ * Message: Inhale Love, Exhale Love.
  * Full localization for EN, DE, PT, RU.
  */
 
@@ -23,7 +24,7 @@ const CONTENT = {
     title: "Breath of Love",
     breathing: "Eternity Breathing",
     inhale: "Inhale Love",
-    exhale: "Exhale Peace",
+    exhale: "Exhale Love",
     guidance: "I flow with eternity. I am home. Relaxation is my nature.",
     header: "I live inside out",
     headerHighlight: "with an open heart",
@@ -33,7 +34,7 @@ const CONTENT = {
     title: "Atem der Liebe",
     breathing: "Ewiges Atmen",
     inhale: "Liebe einatmen",
-    exhale: "Frieden ausatmen",
+    exhale: "Liebe ausatmen",
     guidance: "Ich fließe mit der Ewigkeit. Ich bin zu Hause. Entspannung ist meine Natur.",
     header: "Ich lebe von innen nach außen",
     headerHighlight: "mit offenem Herzen",
@@ -43,7 +44,7 @@ const CONTENT = {
     title: "Sopro de Amor",
     breathing: "Respiração da Eternidade",
     inhale: "Inspire Amor",
-    exhale: "Expire Paz",
+    exhale: "Expire Amor",
     guidance: "Eu fluo com a eternidade. Estou em casa. Relaxamento é minha natureza.",
     header: "Eu vivo de dentro para fora",
     headerHighlight: "com o coração aberto",
@@ -53,7 +54,7 @@ const CONTENT = {
     title: "Дыхание Любви",
     breathing: "Дыхание Вечности",
     inhale: "Вдохни Любовь",
-    exhale: "Выдохни Покой",
+    exhale: "Выдохни Любовь",
     guidance: "Я дышу вечностью. Я дома. Расслабление — моя природа.",
     header: "Я живу изнутри наружу",
     headerHighlight: "с открытым сердцем",
