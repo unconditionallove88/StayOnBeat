@@ -71,9 +71,8 @@
 
 /* Meditative Sunrise Text Animation: 4s appear, 4s disappear */
 @keyframes sunrise-fade {
-  0% { opacity: 0; transform: translateY(10px); }
+  0%, 100% { opacity: 0; transform: translateY(10px); }
   50% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-5px); }
 }
 
 .animate-pulse-heart {

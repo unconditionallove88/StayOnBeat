@@ -32,8 +32,8 @@ const CONTENT = {
   de: {
     title: "Atem der Liebe",
     breathing: "Ewiges Atmen",
-    inhale: "Inhale Love",
-    exhale: "Exhale Love",
+    inhale: "Liebe einatmen",
+    exhale: "Liebe ausatmen",
     guidance: "Ich fließe mit der Ewigkeit. Ich bin zu Hause. Entspannung ist meine Natur.",
     header: "Ich lebe von innen nach außen",
     headerHighlight: "mit offenem Herzen",
@@ -42,8 +42,8 @@ const CONTENT = {
   pt: {
     title: "Sopro de Amor",
     breathing: "Respiração da Eternidade",
-    inhale: "Inhale Love",
-    exhale: "Exhale Love",
+    inhale: "Inspire Amor",
+    exhale: "Expire Amor",
     guidance: "Eu fluo com a eternidade. Estou em casa. Relaxamento é minha natureza.",
     header: "Eu vivo de dentro para fora",
     headerHighlight: "com o coração aberto",
@@ -52,8 +52,8 @@ const CONTENT = {
   ru: {
     title: "Дыхание Любви",
     breathing: "Дыхание Вечности",
-    inhale: "Inhale Love",
-    exhale: "Exhale Love",
+    inhale: "Вдохни Любовь",
+    exhale: "Выдохни Любовь",
     guidance: "Я дышу вечностью. Я дома. Расслабление — моя природа.",
     header: "Я живу изнутри наружу",
     headerHighlight: "с открытым сердцем",
@@ -167,17 +167,15 @@ export default function SelfCare() {
 
             <div className="mt-8 text-center space-y-3 relative h-20 w-full flex items-center justify-center">
               <h2 className={cn(
-                "text-4xl font-black uppercase tracking-tighter absolute transition-all",
-                isInhaling ? "animate-sunrise opacity-100" : "opacity-0",
+                "text-4xl font-black uppercase tracking-tighter absolute animate-sunrise",
                 lang === 'ru' && "italic font-serif"
               )}>
                 {t.inhale}
               </h2>
               <h2 className={cn(
-                "text-4xl font-black uppercase tracking-tighter absolute transition-all",
-                !isInhaling ? "animate-sunrise opacity-100" : "opacity-0",
+                "text-4xl font-black uppercase tracking-tighter absolute animate-sunrise",
                 lang === 'ru' && "italic font-serif"
-              )}>
+              )} style={{ animationDelay: '4s' }}>
                 {t.exhale}
               </h2>
             </div>
@@ -217,7 +215,7 @@ export default function SelfCare() {
         <button 
           onClick={() => { playHeartbeat(); router.push('/dashboard'); }}
           className={cn(
-            "w-full max-w-sm h-16 rounded-full font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl flex items-center justify-center gap-3",
+            "w-full max-sm h-16 rounded-full font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl flex items-center justify-center gap-3",
             "bg-[#1b4d3e] text-white",
             lang === 'ru' && "italic font-serif"
           )}
