@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -7,8 +6,7 @@ import { cn } from '@/lib/utils';
 
 /**
  * @fileOverview Protection Window Component.
- * Triggered when sessionStatus.isLocked is true.
- * Shows high-fidelity recovery state, reason, and countdown.
+ * Linguistic purification: Removed "safety" terminology.
  */
 
 interface ProtectionWindowProps {
@@ -51,9 +49,9 @@ export function ProtectionWindow({ status }: ProtectionWindowProps) {
   }, [status.unlockAt]);
 
   const reasonMap: Record<string, string> = {
-    "vitals_threshold_exceeded": "Vitals Threshold Exceeded",
+    "vitals_threshold_exceeded": "Resonance Threshold Exceeded",
     "critical_interaction": "Critical Interaction Detected",
-    "intake_limit": "Safety Intake Limit Reached"
+    "intake_limit": "Harm Reduction Intake Limit Reached"
   };
 
   return (
@@ -69,9 +67,9 @@ export function ProtectionWindow({ status }: ProtectionWindowProps) {
               <ShieldAlert size={28} className="text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-black uppercase tracking-tighter text-white">Protection Active</h2>
+              <h2 className="text-2xl font-black uppercase tracking-tighter text-white">Resonance Active</h2>
               <p className="text-[10px] font-bold text-red-400 uppercase tracking-[0.3em] mt-1">
-                {reasonMap[status.lockReason] || "Safety Threshold Reached"}
+                {reasonMap[status.lockReason] || "Resonance Threshold Reached"}
               </p>
             </div>
           </div>
@@ -84,7 +82,7 @@ export function ProtectionWindow({ status }: ProtectionWindowProps) {
         {/* Guidance */}
         <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
           <p className="text-sm font-bold text-white/80 leading-relaxed uppercase tracking-widest">
-            I love and respect my body enough to rest. For your safety, additional intake is currently paused while we monitor your recovery 🌿
+            I love and respect my body enough to rest. For your resonance, additional intake is currently paused while we monitor your recovery 🌿
           </p>
         </div>
 
@@ -110,7 +108,7 @@ export function ProtectionWindow({ status }: ProtectionWindowProps) {
 
         {/* CTA */}
         <button className="w-full h-16 bg-white text-black rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-95 transition-all">
-          View Recovery Protocol <ArrowRight size={14} />
+          View Integration Protocol <ArrowRight size={14} />
         </button>
       </div>
     </div>

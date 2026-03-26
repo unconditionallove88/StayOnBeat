@@ -29,7 +29,6 @@ import { cn } from '@/lib/utils';
 import { AiSafetyChat } from '@/components/chat/AiSafetyChat';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import CareShield from '@/components/dashboard/CareShield';
 import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -157,8 +156,7 @@ export function Step6SubstanceLab({
     }
     setActiveSubstance(substance);
     if (substance.id === 'alcohol') {
-      const subtypes = lang === 'en' ? substance.subTypes : lang === 'de' ? substance.deSubTypes : lang === 'pt' ? substance.ptSubTypes : substance.ruSubTypes;
-      setAlcoholCart((subtypes || ['Beer', 'Wine', 'Shot', 'Mixer']).map((type: string) => ({ type, count: 0 })));
+      setAlcoholCart(['Beer', 'Wine', 'Shot', 'Mixer'].map(type => ({ type, count: 0 })));
     }
   };
 
@@ -274,7 +272,7 @@ export function Step6SubstanceLab({
       </footer>
 
       <Dialog open={responsibilityOpen} onOpenChange={setResponsibilityOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-md p-0 rounded-[3.5rem] overflow-hidden flex flex-col font-headline">
+        <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3.5rem] overflow-hidden flex flex-col font-headline">
           <DialogTitle className="sr-only">Responsibility Affirmation</DialogTitle>
           <div className="p-10 flex flex-col items-center text-center space-y-10">
             <div className="relative">
@@ -312,7 +310,7 @@ export function Step6SubstanceLab({
 
           <div className="flex-1 min-h-0 overflow-hidden">
             <ScrollArea className="h-full px-8 touch-pan-y">
-              <div className="flex flex-col items-center space-y-10 py-10 max-w-md mx-auto w-full pb-40">
+              <div className="flex flex-col items-center space-y-10 py-10 max-md mx-auto w-full pb-40">
                 {(activeSubstance.isHeavy && (currentVibe === 'hazy' || currentVibe === 'overwhelmed')) && (
                   <div className="w-full p-6 bg-amber-500/5 border-2 border-amber-500/20 rounded-[2rem] space-y-4 animate-in fade-in zoom-in-95">
                     <div className="flex items-center gap-3">
@@ -358,7 +356,7 @@ export function Step6SubstanceLab({
       )}
 
       <Dialog open={chatOpen} onOpenChange={setChatOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] top-[50%] -translate-y-[50%] shadow-[0_0_100px_rgba(0,0,0,0.9)]">
+        <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] top-[50%] -translate-y-[50%] shadow-[0_0_100px_rgba(0,0,0,0.9)]">
           <DialogTitle className="sr-only">AI Safety Advisor</DialogTitle>
           <AiSafetyChat userProfile={userData} currentIntake={sessionLogs.map(l => l.name).join(', ')} />
         </DialogContent>

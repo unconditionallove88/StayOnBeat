@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
- * Updated greetings for Russian to be warmer and lovable.
+ * Linguistic purification: Removed "safe" and "secure".
  * Punctuation-free for resonance.
  */
 
@@ -28,10 +28,10 @@ export default function Home() {
   };
 
   const content = {
-    EN: { slogan: "Your light starts here", valueProp: "A safe sanctuary to radiate your truth through health monitoring and collective care", getStarted: "Join the Circle", signIn: "Welcome Home", footer: "Protected by GDPR • Encrypted with Love" },
-    DE: { slogan: "Dein Licht beginnt hier", valueProp: "Ein sicheres Sanctuary um deine Wahrheit durch Gesundheitsmonitoring und Fürsorge zu strahlen", getStarted: "Werde Teil des Kreises", signIn: "Willkommen Zuhause", footer: "DSGVO-geschützt • Mit Liebe verschlüsselt" },
-    PT: { slogan: "Sua luz começa aqui", valueProp: "Um santuário seguro para irradiar sua verdade através do monitoramento de saúde e cuidado coletivo", getStarted: "Junte-se ao Círculo", signIn: "Bem-vindo ao Lar", footer: "Protegido por GDPR • Criptografado com Amor" },
-    RU: { slogan: "Твой свет начинается здесь", valueProp: "Безопасное пространство для сияния твоей истины через мониторинг здоровья и коллективную заботу", getStarted: "Присоединяйся к Нам", signIn: "Мы рады Тебе", footer: "Зашифровано с Любовью" }
+    EN: { slogan: "Your light starts here", valueProp: "A sanctuary to radiate your truth through health monitoring and collective care", getStarted: "Join the Circle", signIn: "Welcome Home", footer: "Protected by GDPR • Encrypted with Love" },
+    DE: { slogan: "Dein Licht beginnt hier", valueProp: "Ein Sanctuary um deine Wahrheit durch Gesundheitsmonitoring und Fürsorge zu strahlen", getStarted: "Werde Teil des Kreises", signIn: "Willkommen Zuhause", footer: "DSGVO-geschützt • Mit Liebe verschlüsselt" },
+    PT: { slogan: "Sua luz começa aqui", valueProp: "Um santuário para irradiar sua verdade através do monitoramento de saúde e cuidado coletivo", getStarted: "Junte-se ao Círculo", signIn: "Bem-vindo ao Lar", footer: "Protegido por GDPR • Criptografado com Amor" },
+    RU: { slogan: "Твой свет начинается здесь", valueProp: "Пространство для сияния твоей истины через мониторинг здоровья и коллективную заботу", getStarted: "Присоединяйся к Нам", signIn: "Мы рады Тебе", footer: "Зашифровано с Любовью" }
   };
 
   if (!mounted) return null;
@@ -61,21 +61,21 @@ export default function Home() {
           <p className={cn("text-primary font-bold mt-4 tracking-[0.3em] uppercase text-xs italic opacity-80", lang === 'RU' && "font-serif")}>{content[lang].slogan}</p>
         </div>
         
-        <div className="w-full max-w-md space-y-4 mb-16">
+        <div className="w-full max-md space-y-4 mb-16">
           <div className="flex items-start gap-5 p-8 bg-white/[0.03] rounded-[2.5rem] border border-white/10 text-left group hover:border-primary/30 transition-all shadow-2xl backdrop-blur-sm">
             <ShieldCheck className="text-primary mt-1 flex-shrink-0" size={24} />
-            <p className={cn("text-sm font-bold text-white/60 leading-tight uppercase tracking-widest leading-relaxed", lang === 'RU' && "italic font-serif italic")}>{content[lang].valueProp}</p>
+            <p className={cn("text-sm font-bold text-white/60 leading-tight uppercase tracking-widest leading-relaxed", lang === 'RU' && "italic font-serif")}>{content[lang].valueProp}</p>
           </div>
         </div>
 
         <div className="flex flex-col gap-5 w-full max-w-sm">
-          <button onClick={() => router.push('/auth?mode=signup')} className={cn("pill-button w-full bg-primary text-black text-xl font-black neon-glow active:scale-95 shadow-lg uppercase tracking-[0.1em] transition-all", lang === 'RU' && "italic font-serif italic")}>{content[lang].getStarted}</button>
-          <button onClick={() => router.push('/auth?mode=signin')} className={cn("pill-button w-full bg-white/[0.03] border-2 border-primary/20 text-primary text-lg font-black active:scale-95 uppercase tracking-[0.1em] backdrop-blur-sm", lang === 'RU' && "italic font-serif italic")}>{content[lang].signIn}</button>
+          <button onClick={() => router.push('/auth?mode=signup')} className={cn("pill-button w-full bg-primary text-black text-xl font-black neon-glow active:scale-95 shadow-lg uppercase tracking-[0.1em] transition-all", lang === 'RU' && "italic font-serif")}>{content[lang].getStarted}</button>
+          <button onClick={() => router.push('/auth?mode=signin')} className={cn("pill-button w-full bg-white/[0.03] border-2 border-primary/20 text-primary text-lg font-black active:scale-95 uppercase tracking-[0.1em] backdrop-blur-sm", lang === 'RU' && "italic font-serif")}>{content[lang].signIn}</button>
         </div>
       </div>
 
       <footer className="w-full text-center mt-12 relative z-10">
-        <p className={cn("text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-2", lang === 'RU' && "italic font-serif italic")}>{content[lang].footer}</p>
+        <p className={cn("text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-2", lang === 'RU' && "italic font-serif")}>{content[lang].footer}</p>
         <div className="w-8 h-1 bg-primary/20 rounded-full mx-auto" />
       </footer>
     </main>

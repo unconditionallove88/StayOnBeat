@@ -9,33 +9,31 @@ import { useToast } from '@/hooks/use-toast';
 
 /**
  * @fileOverview AiSafetyChat Component.
- * Supports EN, DE, PT, RU.
- * Passes language code to Genkit flow for localized AI responses.
- * Updated RU: "Как я могу быть полезен?"
+ * Linguistic purification: Removed "safety" from greetings.
  */
 
 const CONTENT = {
   en: {
-    context: "Active intake context", question: "How can I help you stay safe tonight?", sub: "I'm aware of your profile and intake. Ask me anything.",
-    water: "💧 Water check", banana: "magnesium", placeholder: "Ask a safety question...", analyzing: "Analyzing risk factors...",
-    interrupted: "Connection interrupted. Please ensure your safety is managed by on-site staff if this is an emergency.",
+    context: "Active intake context", question: "How can I help you stay aware tonight?", sub: "I'm aware of your profile and intake. Ask me anything.",
+    water: "💧 Water check", banana: "magnesium", placeholder: "Ask an awareness question...", analyzing: "Analyzing resonance factors...",
+    interrupted: "Connection interrupted. Please ensure your care is managed by on-site staff if this is an emergency.",
     voiceError: "Voice Input Error", voiceDesc: "Could not access microphone or understand speech.", voiceNotSupported: "Speech Not Supported", voiceNotSupportedDesc: "Your browser does not support voice input."
   },
   de: {
     context: "Aktueller Kontext", question: "Wie kann ich dich heute begleiten?", sub: "Ich kenne dein Profil und deine Einträge. Frag mich alles.",
-    water: "💧 Wasser-Check", banana: "Magnesium", placeholder: "Sicherheits-Frage stellen...", analyzing: "Risiken werden sanft geprüft...",
+    water: "💧 Wasser-Check", banana: "Magnesium", placeholder: "Resonanz-Frage stellen...", analyzing: "Faktoren werden sanft geprüft...",
     interrupted: "Verbindung unterbrochen. Bitte wende dich im Notfall direkt an das Awareness-Team vor Ort.",
     voiceError: "Spracheingabe-Fehler", voiceDesc: "Mikrofon-Zugriff nicht möglich oder Sprache nicht erkannt.", voiceNotSupported: "Sprache nicht unterstützt", voiceNotSupportedDesc: "Dein Browser unterstützt keine Spracheingabe."
   },
   pt: {
-    context: "Contexto de consumo", question: "Como posso ajudar você a ficar seguro?", sub: "Eu conheço seu perfil e consumo. Pergunte qualquer coisa.",
-    water: "💧 Água", banana: "magnésio", placeholder: "Faça uma pergunta...", analyzing: "Analisando riscos...",
+    context: "Contexto de consumo", question: "Como posso ajudar você a ficar consciente?", sub: "Eu conheço seu perfil e consumo. Pergunte qualquer coisa.",
+    water: "💧 Água", banana: "magnésio", placeholder: "Faça uma pergunta...", analyzing: "Analisando ressonância...",
     interrupted: "Conexão interrompida. Procure a equipe no local se for uma emergência.",
     voiceError: "Erro de voz", voiceDesc: "Não foi possível acessar o microfone.", voiceNotSupported: "Sem suporte", voiceNotSupportedDesc: "Seu navegador não suporta entrada de voz."
   },
   ru: {
     context: "Контекст сессии", question: "Как я могу быть полезен?", sub: "Я знаю твой профиль и потребление. Спрашивай о чем угодно.",
-    water: "💧 Вода", banana: "Магний", placeholder: "Задай вопрос...", analyzing: "Анализирую риски...",
+    water: "💧 Вода", banana: "Магний", placeholder: "Задай вопрос...", analyzing: "Анализирую резонанс...",
     interrupted: "Связь прервана. Обратись к персоналу, если это экстренная ситуация.",
     voiceError: "Ошибка голоса", voiceDesc: "Нет доступа к микрофону.", voiceNotSupported: "Не поддерживается", voiceNotSupportedDesc: "Твой браузер не поддерживает голосовой ввод."
   }
@@ -54,7 +52,6 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
   const [isListening, setIsListening] = useState(false);
   const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
   const scrollRef = useRef<HTMLDivElement>(null);
-  const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;

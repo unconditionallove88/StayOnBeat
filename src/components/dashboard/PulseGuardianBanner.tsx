@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -22,7 +21,7 @@ import {
 
 /**
  * @fileOverview PulseGuardianBanner Component.
- * Removed "security" and "protection" terminology from RU to maintain judging-free tone.
+ * Linguistic purification: Removed "security" and "protection" terminology.
  * Punctuation-free affirmations for resonance.
  */
 
@@ -35,41 +34,41 @@ const CONTENT = {
   en: {
     title: "Pulse Guardian",
     sub: "Central Intelligence",
-    intro: "Pulse Guardian is your sanctuary's central intelligence I continuously aggregate data from all tools to ensure your journey stays safe and resonant",
+    intro: "Pulse Guardian is your sanctuary's central intelligence I continuously aggregate data from all tools to ensure your journey stays resonant and aligned",
     sections: [
       { title: "Pulse Sync Integration", desc: "Reads live vitals from your wearable to monitor physiological stress" },
-      { title: "Pulse Lab Awareness", desc: "Automatically recalibrates safety limits based on your substance intake logs" },
+      { title: "Pulse Lab Awareness", desc: "Automatically recalibrates resonance limits based on your substance intake logs" },
       { title: "Profile Calibration", desc: "Adjusts thresholds based on your health conditions and medications" },
-      { title: "Immediate Help Connection", desc: "Triggers emergency protocols and the Protection Window if thresholds are breached" },
+      { title: "Immediate Help Connection", desc: "Triggers care protocols and the Protection Window if thresholds are breached" },
     ],
     footer: "Processed locally with love",
-    tapInfo: "Integrated Safety Engine Tap to see how I protect you"
+    tapInfo: "Integrated Intelligence Engine Tap to see how I guide you"
   },
   de: {
     title: "Pulse Guardian",
     sub: "Zentrale Intelligenz",
-    intro: "Pulse Guardian ist die zentrale Intelligenz deines Raums Ich sammle kontinuierlich Daten aus allen Tools, um sicherzustellen, dass deine Reise sicher und resonant bleibt",
+    intro: "Pulse Guardian ist die zentrale Intelligenz deines Raums Ich sammle kontinuierlich Daten aus allen Tools, um sicherzustellen, dass deine Reise resonant und stimmig bleibt",
     sections: [
       { title: "Pulse Sync Integration", desc: "Liest Live-Vitalwerte von deinem Wearable, um physiologischen Stress zu überwachen" },
-      { title: "Pulse Lab Bewusstsein", desc: "Kalibriert Sicherheitslimits automatisch basierend auf deinen Substanz-Protokollen" },
+      { title: "Pulse Lab Bewusstsein", desc: "Kalibriert Resonanzlimits automatisch basierend auf deinen Substanz-Protokollen" },
       { title: "Profil-Kalibrierung", desc: "Passt Schwellenwerte basierend auf deinen Gesundheitszuständen und Medikamenten an" },
-      { title: "Sofort-Hilfe Verbindung", desc: "Aktiviert Notfallprotokolle und das Schutzfenster, falls Schwellenwerte überschritten werden" },
+      { title: "Sofort-Hilfe Verbindung", desc: "Aktiviert Fürsorgeprotokolle und das Schutzfenster, falls Schwellenwerte überschritten werden" },
     ],
     footer: "Lokal verarbeitet mit Liebe",
-    tapInfo: "Integrierte Sicherheits-Engine Tippe um zu sehen, wie ich dich schütze"
+    tapInfo: "Integrierte Intelligenz-Engine Tippe um zu sehen, wie ich dich begleite"
   },
   pt: {
     title: "Pulse Guardian",
     sub: "Inteligência Central",
-    intro: "Pulse Guardian é a inteligência central do seu santuário Eu agrego continuamente dados de todas as ferramentas para garantir que sua jornada permaneça segura e ressonante",
+    intro: "Pulse Guardian é a inteligência central do seu santuário Eu agrego continuamente dados de todas as ferramentas para garantir que sua jornada permaneça ressonante e alinhada",
     sections: [
       { title: "Integração Pulse Sync", desc: "Lê sinais vitais ao vivo do seu wearable para monitorar o estresse fisiológico" },
-      { title: "Consciência do Pulse Lab", desc: "Recalibra automaticamente os limites de segurança com base em seus registros de consumo" },
+      { title: "Consciência do Pulse Lab", desc: "Recalibra automaticamente os limites de ressonância com base em seus registros de consumo" },
       { title: "Calibração de Perfil", desc: "Ajusta os limites com base em suas condições de saúde e medicamentos" },
-      { title: "Conexão de Ajuda Imediata", desc: "Aciona protocolos de emergência e a Janela de Proteção se os limites forem atingidos" },
+      { title: "Conexão de Ajuda Imediata", desc: "Aciona protocolos de cuidado e a Janela de Proteção se os limites forem atingidos" },
     ],
     footer: "Processado localmente com amor",
-    tapInfo: "Mecanismo de Segurança Integrado Toque para ver como eu te protejo"
+    tapInfo: "Mecanismo de Inteligência Integrado Toque para ver como eu te guio"
   },
   ru: {
     title: "Pulse Guardian",
@@ -93,7 +92,7 @@ export default function PulseGuardianBanner({
   const t = CONTENT[lang] || CONTENT.en;
 
   const InfoContent = () => (
-    <div className="w-full max-w-2xl mx-auto pb-12 font-headline relative">
+    <div className="w-full max-md mx-auto pb-12 font-headline relative">
       <p className={cn(
         "text-white/60 text-sm font-bold leading-relaxed mb-10 uppercase tracking-wide px-2", 
         lang === 'ru' && "italic font-serif"

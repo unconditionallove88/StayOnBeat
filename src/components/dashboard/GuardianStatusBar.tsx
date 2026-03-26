@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview GuardianStatusBar Component.
+ * Linguistic purification: Removed "safety" and "protection".
  * Soulful calibration: Refined status messages for organic feel across all languages.
  * Vibe-aware nuance: Includes emotional alignment in the status message.
  */
@@ -53,7 +54,7 @@ export default function GuardianStatusBar({
       icon: <ShieldAlert size={16} />,
       vibeIcon: <ShieldAlert size={14} />,
       text: {
-        en: "Pulse Guardian: Session paused for safety",
+        en: "Pulse Guardian: Session paused for resonance",
         de: "Pulse Guardian: Sitzung zur Ruhe pausiert",
         pt: "Pulse Guardian: Sessão pausada para seu descanso",
         ru: "Pulse Guardian: Сессия приостановлена для отдыха"

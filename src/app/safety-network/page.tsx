@@ -31,7 +31,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview Circle of Love (Safety Network) Page.
- * High-fidelity management of trusted guardians and emergency protocols.
+ * Linguistic purification: Removed "safety" and replaced with Care/Love.
  */
 
 const RELATIONSHIP_OPTIONS = [
@@ -115,7 +115,7 @@ export default function SafetyNetworkPage() {
     <main className="min-h-screen bg-black text-white font-headline pb-32">
       {/* Header */}
       <nav className="bg-black/90 backdrop-blur-2xl border-b border-white/5 px-6 py-8 sticky top-0 z-[100]">
-        <div className="max-w-xl mx-auto flex items-center justify-between">
+        <div className="max-md mx-auto flex items-center justify-between">
           <button 
             onClick={() => router.push("/dashboard")} 
             className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-[#3EB489] transition-all"
@@ -129,7 +129,7 @@ export default function SafetyNetworkPage() {
         </div>
       </nav>
 
-      <div className="px-6 py-10 max-w-xl mx-auto space-y-10">
+      <div className="px-6 py-10 max-md mx-auto space-y-10">
         
         {/* Intro Affirmation Card */}
         <section className="bg-gradient-to-br from-[#3EB489] to-teal-600 rounded-[2.5rem] p-8 text-black shadow-lg relative overflow-hidden group">
@@ -137,11 +137,11 @@ export default function SafetyNetworkPage() {
           <div className="relative z-10">
             <div className="flex items-center gap-2 mb-2">
               <ShieldCheck size={18} className="text-black/40" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40">Safety Network</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40">Care Network</span>
             </div>
             <h2 className="text-3xl font-black uppercase tracking-tighter leading-none mb-4">Who holds you?</h2>
             <p className="text-sm font-bold leading-relaxed opacity-80 max-w-[280px]">
-              Add the people who love you unconditionally. If you ever feel unsafe, we will alert them instantly with your heart status
+              Add the people who love you unconditionally. If you ever feel in need of connection, we will alert them instantly with your resonance status
             </p>
           </div>
         </section>
@@ -272,7 +272,7 @@ export default function SafetyNetworkPage() {
             </div>
             <div>
               <h3 className="text-xl font-black uppercase tracking-tight">The Secret Word</h3>
-              <p className="text-[10px] font-bold text-amber-500/60 uppercase tracking-widest">Emergency Dispatch Code</p>
+              <p className="text-[10px] font-bold text-amber-500/60 uppercase tracking-widest">Resonance Dispatch Code</p>
             </div>
           </div>
           
@@ -307,7 +307,7 @@ export default function SafetyNetworkPage() {
         <footer className="text-center space-y-4 pt-10 opacity-30">
           <Heart size={24} className="mx-auto text-[#3EB489]" />
           <p className="text-[9px] font-black text-white uppercase tracking-[0.4em] max-w-[200px] mx-auto leading-relaxed">
-            Your safety network is protected by end-to-end encryption
+            Your care network is private and encrypted
           </p>
         </footer>
 
