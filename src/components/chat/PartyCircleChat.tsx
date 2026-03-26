@@ -14,7 +14,7 @@ import { GuardianLogo } from '@/components/ui/guardian-logo';
 /**
  * @fileOverview The Witnesses (Public & Moderated).
  * Integrated with Pulse Guardian for active monitoring.
- * Removed clinical/fear words from RU to maintain purity.
+ * Removed clinical/fear words from all versions.
  * Full localization for EN, DE, PT, RU.
  */
 
@@ -35,10 +35,10 @@ const CONTENT = {
     placeholder: "Share your witness...",
     footer: "Grounded in Unconditional Love 🌿",
     blockedTitle: "Sanctuary Rest",
-    blockedDesc: "Pulse Guardian has paused your communication To ensure the safety of this circle illegal activities and divisive language are not permitted 🌿",
+    blockedDesc: "Pulse Guardian has paused your communication To ensure the harmony of this circle illegal activities and divisive language are not permitted 🌿",
     blockedAffirmation: "I love and respect my need for stillness Use this time to ground yourself",
     violationTitle: "Pulse Guardian: Protocol Violation",
-    violationDesc: "Your session in this chat has been paused for community safety",
+    violationDesc: "Your session in this chat has been paused for community harmony",
     errorTitle: "Connection Error",
     errorDesc: "Could not send message to the sanctuary"
   },
@@ -58,10 +58,10 @@ const CONTENT = {
     placeholder: "Teile deine Bezeugung...",
     footer: "Geerdet in bedingungsloser Liebe 🌿",
     blockedTitle: "Sanctuary Pause",
-    blockedDesc: "Pulse Guardian hat deine Kommunikation pausiert Um die Sicherheit zu gewährleisten sind illegale Aktivitäten und spaltende Sprache nicht erlaubt 🌿",
+    blockedDesc: "Pulse Guardian hat deine Kommunikation pausiert Um die Harmonie zu gewährleisten sind illegale Aktivitäten und spaltende Sprache nicht erlaubt 🌿",
     blockedAffirmation: "Ich achte mein Bedürfnis nach Ruhe Nutze diese Zeit zur Erdung",
     violationTitle: "Pulse Guardian: Protokoll-Verstoß",
-    violationDesc: "Deine Sitzung in diesem Chat wurde zur Sicherheit pausiert",
+    violationDesc: "Deine Sitzung in diesem Chat wurde zur Harmonie pausiert",
     errorTitle: "Verbindungsfehler",
     errorDesc: "Nachricht konnte nicht gesendet werden"
   },
@@ -81,10 +81,10 @@ const CONTENT = {
     placeholder: "Compartilhe sua testemunha...",
     footer: "Apoiado em Amor Incondicional 🌿",
     blockedTitle: "Descanso do Santuário",
-    blockedDesc: "O Pulse Guardian pausou sua comunicação Para garantir a segurança deste círculo atividades ilegais e linguagem divisiva não são permitidas 🌿",
+    blockedDesc: "O Pulse Guardian pausou sua comunicação Para garantir a harmonia deste círculo atividades ilegais e linguagem divisiva não são permitidas 🌿",
     blockedAffirmation: "Eu amo e respeito minha necessidade de silêncio Use este tempo para se aterrar",
     violationTitle: "Pulse Guardian: Violação de Protocolo",
-    violationDesc: "Sua sessão neste chat foi pausada para a segurança da comunidade",
+    violationDesc: "Sua sessão neste chat foi pausada para a harmonia da comunidade",
     errorTitle: "Erro de Conexão",
     errorDesc: "Não foi possível enviar a mensagem ao santuário"
   },

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -7,36 +8,37 @@ import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
 /**
  * @fileOverview Identity Calibration step with full multilingual support.
+ * Linguistic purification: Removed "safe" and "secure".
  */
 
 const CONTENT = {
   EN: {
-    back: "BACK", header: "A Safe Space for Adults", sub: "To honor German safety standards and protect our community, we verify your age via a secure payment method",
-    stripeLabel: "Secure Verification via Stripe",
+    back: "BACK", header: "Sanctuary for Adults", sub: "To honor community standards and protect our circle we verify your age via a private payment method",
+    stripeLabel: "Private Verification via Stripe",
     peaceOfMind: "Your peace of mind matters No charge will be made This is a zero-euro authorization Data is encrypted and never stored by StayOnBeat",
     button: "Verify My Identity", verifying: "Verifying...", successHeader: "Identity Verified",
-    successSub: "Thank you for helping us keep this sanctuary safe Your account is now calibrated", footer: "PCI-DSS Compliant • Encrypted • Secure"
+    successSub: "Thank you for helping us keep this sanctuary resonant Your account is now calibrated", footer: "PCI-DSS Compliant • Encrypted • Private"
   },
   DE: {
-    back: "ZURÜCK", header: "Ein sicherer Raum für Erwachsene", sub: "Um die deutschen Sicherheitsstandards zu erfüllen und unsere Gemeinschaft zu schützen, verifizieren wir dein Alter über eine sichere Zahlungsmethode",
-    stripeLabel: "Sichere Verifizierung über Stripe",
+    back: "ZURÜCK", header: "Sanctuary für Erwachsene", sub: "Um Community-Standards zu erfüllen und unseren Kreis zu schützen verifizieren wir dein Alter über eine private Zahlungsmethode",
+    stripeLabel: "Private Verifizierung über Stripe",
     peaceOfMind: "Dein Seelenfrieden ist uns wichtig Es wird keine Gebühr erhoben Dies ist eine Null-Euro-Autorisierung Die Daten sind verschlüsselt und werden niemals von StayOnBeat gespeichert",
     button: "Identität verifizieren", verifying: "Wird verifiziert...", successHeader: "Identität verifiziert",
-    successSub: "Danke, dass du uns hilfst, dieses Refugium sicher zu halten Dein Konto ist nun kalibriert", footer: "PCI-DSS-konform • Verschlüsselt • Sicher"
+    successSub: "Danke dass du uns hilfst dieses Sanctuary resonant zu halten Dein Konto ist nun kalibriert", footer: "PCI-DSS-konform • Verschlüsselt • Privat"
   },
   PT: {
-    back: "VOLTAR", header: "Um espaço seguro para adultos", sub: "Para honrar os padrões de segurança e proteger nossa comunidade, verificamos sua idade via um método de pagamento seguro",
-    stripeLabel: "Verificação segura via Stripe",
+    back: "VOLTAR", header: "Santuário para Adultos", sub: "Para honrar os padrões da comunidade e proteger nosso círculo verificamos sua idade via um método de pagamento privado",
+    stripeLabel: "Verificação privada via Stripe",
     peaceOfMind: "Sua paz de espírito importa Nenhuma cobrança será feita Esta é uma autorização de zero euros Seus dados são criptografados e nunca armazenados",
     button: "Verificar Identidade", verifying: "Verificando...", successHeader: "Identidade Verificada",
-    successSub: "Obrigado por nos ajudar a manter este santuário seguro Sua conta está calibrada", footer: "PCI-DSS Compliant • Criptografado • Seguro"
+    successSub: "Obrigado por nos ajudar a manter este santuário ressonante Sua conta está calibrada", footer: "PCI-DSS Compliant • Criptografado • Privado"
   },
   RU: {
-    back: "НАЗАД", header: "Безопасное пространство", sub: "Для соблюдения стандартов безопасности и защиты сообщества мы проверяем возраст через безопасный способ оплаты",
-    stripeLabel: "Безопасная проверка через Stripe",
-    peaceOfMind: "Ваше спокойствие важно Плата не взимается Это авторизация на ноль евро Данные зашифрованы и не хранятся у нас",
+    back: "НАЗАД", header: "Пространство для Взрослых", sub: "Для соблюдения стандартов сообщества мы подтверждаем твой возраст через приватный способ оплаты",
+    stripeLabel: "Приватная проверка через Stripe",
+    peaceOfMind: "Твое спокойствие важно Плата не взимается Это авторизация на ноль евро Данные зашифрованы и не хранятся у нас",
     button: "Подтвердить личность", verifying: "Проверка...", successHeader: "Личность подтверждена",
-    successSub: "Спасибо за помощь в обеспечении безопасности пространства Ваш аккаунт откалиброван", footer: "PCI-DSS • Зашифровано • Безопасно"
+    successSub: "Спасибо за помощь в сохранении резонанса пространства Твой аккаунт откалиброван", footer: "PCI-DSS • Зашифровано • Приватно"
   }
 };
 

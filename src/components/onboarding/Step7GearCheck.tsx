@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -12,10 +13,10 @@ const ITEMS_CONTENT = {
 };
 
 const UI_CONTENT = {
-  EN: { header: "Gear check", sub: "Prepare your kit for the party", streak: "Safety streak", boost: "Check 5+ items to boost your safety streak! 🔥", button: "I'm ready" },
-  DE: { header: "Ausrüstungs-Check", sub: "Bereite dein Kit für die Party vor", streak: "Sicherheits-Streak", boost: "Prüfe 5+ Artikel, um deinen Sicherheits-Streak zu steigern! 🔥", button: "Ich bin bereit" },
-  PT: { header: "Check-list de equipamentos", sub: "Prepare seu kit para a festa", streak: "Safety streak", boost: "Marque 5+ itens para aumentar seu safety streak! 🔥", button: "Estou pronto" },
-  RU: { header: "Проверка снаряжения", sub: "Подготовьте свой набор для вечеринки", streak: "Стрик безопасности", boost: "Выберите 5+ пунктов для бонуса! 🔥", button: "Я готов" }
+  EN: { header: "Gear check", sub: "Prepare your kit for the party", streak: "Care streak", boost: "Check 5+ items to boost your care streak! 🔥", button: "I'm ready" },
+  DE: { header: "Ausrüstungs-Check", sub: "Bereite dein Kit für die Party vor", streak: "Care-Streak", boost: "Prüfe 5+ Artikel um deinen Care-Streak zu steigern! 🔥", button: "Ich bin bereit" },
+  PT: { header: "Check-list de equipamentos", sub: "Prepare seu kit para a festa", streak: "Care streak", boost: "Marque 5+ itens para aumentar seu care streak! 🔥", button: "Estou pronto" },
+  RU: { header: "Проверка снаряжения", sub: "Подготовьте свой набор для вечеринки", streak: "Стрик заботы", boost: "Выберите 5+ пунктов для бонуса! 🔥", button: "Я готов" }
 };
 
 export function Step7GearCheck({ onComplete, onBack }: { onComplete: () => void, onBack?: () => void }) {
@@ -23,7 +24,7 @@ export function Step7GearCheck({ onComplete, onBack }: { onComplete: () => void,
   const [lang, setLang] = useState<'EN' | 'DE' | 'PT' | 'RU'>('EN');
 
   useEffect(() => {
-    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toUpperCase() as any;
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
     if (['EN', 'DE', 'PT', 'RU'].includes(savedLang)) setLang(savedLang);
   }, []);
 

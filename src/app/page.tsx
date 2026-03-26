@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -7,7 +8,8 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
- * Linguistic purification: Removed "safe" and "secure".
+ * Updated with new slogans: "Based on love and rhythm of life".
+ * Simplified value prop: "Sanctuary for risk reduction and collective care".
  * Punctuation-free for resonance.
  */
 
@@ -28,10 +30,34 @@ export default function Home() {
   };
 
   const content = {
-    EN: { slogan: "Your light starts here", valueProp: "A sanctuary to radiate your truth through health monitoring and collective care", getStarted: "Join the Circle", signIn: "Welcome Home", footer: "Protected by GDPR • Encrypted with Love" },
-    DE: { slogan: "Dein Licht beginnt hier", valueProp: "Ein Sanctuary um deine Wahrheit durch Gesundheitsmonitoring und Fürsorge zu strahlen", getStarted: "Werde Teil des Kreises", signIn: "Willkommen Zuhause", footer: "DSGVO-geschützt • Mit Liebe verschlüsselt" },
-    PT: { slogan: "Sua luz começa aqui", valueProp: "Um santuário para irradiar sua verdade através do monitoramento de saúde e cuidado coletivo", getStarted: "Junte-se ao Círculo", signIn: "Bem-vindo ao Lar", footer: "Protegido por GDPR • Criptografado com Amor" },
-    RU: { slogan: "Твой свет начинается здесь", valueProp: "Пространство для сияния твоей истины через мониторинг здоровья и коллективную заботу", getStarted: "Присоединяйся к Нам", signIn: "Мы рады Тебе", footer: "Зашифровано с Любовью" }
+    EN: { 
+      slogan: "Based on love and rhythm of life", 
+      valueProp: "Sanctuary for risk reduction and collective care", 
+      getStarted: "Join the Circle", 
+      signIn: "Welcome Home", 
+      footer: "Protected by GDPR • Encrypted with Love" 
+    },
+    DE: { 
+      slogan: "Basierend auf Liebe und dem Rhythmus des Lebens", 
+      valueProp: "Sanctuary für Risk-Reduction und kollektive Fürsorge", 
+      getStarted: "Werde Teil des Kreises", 
+      signIn: "Willkommen Zuhause", 
+      footer: "DSGVO-geschützt • Mit Liebe verschlüsselt" 
+    },
+    PT: { 
+      slogan: "Baseado no amor e no ritmo da vida", 
+      valueProp: "Santuário para redução de riscos e cuidado coletivo", 
+      getStarted: "Junte-se ao Círculo", 
+      signIn: "Bem-vindo ao Lar", 
+      footer: "Protegido por GDPR • Criptografado com Amor" 
+    },
+    RU: { 
+      slogan: "Основано на любви и ритме жизни", 
+      valueProp: "Пространство для снижения рисков и коллективной заботы", 
+      getStarted: "Присоединяйся к Нам", 
+      signIn: "Мы рады Тебе", 
+      footer: "Зашифровано с Любовью" 
+    }
   };
 
   if (!mounted) return null;
@@ -62,7 +88,7 @@ export default function Home() {
         </div>
         
         <div className="w-full max-md space-y-4 mb-16">
-          <div className="flex items-start gap-5 p-8 bg-white/[0.03] rounded-[2.5rem] border border-white/10 text-left group hover:border-primary/30 transition-all shadow-2xl backdrop-blur-sm">
+          <div className="flex items-start gap-5 p-8 bg-white/[0.03] rounded-[2.5rem] border border-white/10 text-center group hover:border-primary/30 transition-all shadow-2xl backdrop-blur-sm justify-center">
             <ShieldCheck className="text-primary mt-1 flex-shrink-0" size={24} />
             <p className={cn("text-sm font-bold text-white/60 leading-tight uppercase tracking-widest leading-relaxed", lang === 'RU' && "italic font-serif")}>{content[lang].valueProp}</p>
           </div>

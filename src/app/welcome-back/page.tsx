@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -7,7 +8,7 @@ import { ShieldCheck, Heart } from 'lucide-react';
 /**
  * @fileOverview Welcome Back Calibration Page.
  * Visuals refined for subtle influence and "Inside Out" vision.
- * Updated: Organic iconography replacement (CircleDot -> Heart).
+ * Updated: Removed "safety" terminology.
  */
 
 export default function WelcomeBack() {
@@ -32,13 +33,13 @@ export default function WelcomeBack() {
     EN: {
       title: "HEY, NICE TO",
       highlight: "SEE YOU AGAIN",
-      subtitle: "YOUR SAFETY PROFILE IS READY LET’S GET YOU CALIBRATED",
+      subtitle: "YOUR RESONANCE PROFILE IS READY LET’S GET YOU CALIBRATED",
       button: "ACCESS DASHBOARD"
     },
     DE: {
       title: "HEY, SCHÖN DICH",
       highlight: "WIEDERZUSEHEN",
-      subtitle: "DEIN SICHERHEITSPROFIL IST BEREIT SCHÜTZEN WIR DICH",
+      subtitle: "DEIN RESONANZ-PROFIL IST BEREIT SCHÜTZEN WIR DICH",
       button: "ZUM DASHBOARD GEHEN"
     }
   };
@@ -95,7 +96,7 @@ export default function WelcomeBack() {
           
           <div className="flex items-center justify-center gap-3 text-white/20">
             <ShieldCheck className="w-4 h-4" />
-            <span className="text-[10px] font-black uppercase tracking-[0.3em]">Guardian Protocol v2.5</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.3em]">Resonance Protocol v2.5</span>
           </div>
         </div>
       </div>
