@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -7,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview GuardianStatusBar Component.
- * Updated: Primary safe color set to wise dark green #1b4d3e.
+ * Status color sync: #1b4d3e
  */
 
 type Status = "safe" | "caution" | "locked";
@@ -15,7 +14,7 @@ type Status = "safe" | "caution" | "locked";
 interface Props {
   status: Status;
   heartRate?: number;
-  lang?: "en" | "de" | "pt" | "ru";
+  lang?: "en" | "de" | "pt";
   vibeKey?: string;
 }
 
@@ -33,8 +32,7 @@ export default function GuardianStatusBar({
       text: {
         en: "Pulse Guardian: You are in a steady rhythm",
         de: "Pulse Guardian: Dein Rhythmus ist sanft und stabil",
-        pt: "Pulse Guardian: Seu ritmo está estável e tranquilo",
-        ru: "Pulse Guardian: Твой ритм стабилен и гармоничен"
+        pt: "Pulse Guardian: Seu ritmo está estável e tranquilo"
       }
     },
     caution: {
@@ -44,8 +42,7 @@ export default function GuardianStatusBar({
       text: {
         en: "Pulse Guardian: Your heart is elevated",
         de: "Pulse Guardian: Dein Herzschlag ist erhöht",
-        pt: "Pulse Guardian: Seu coração está acelerado",
-        ru: "Pulse Guardian: Твой пульс немного завышен"
+        pt: "Pulse Guardian: Seu coração está acelerado"
       }
     },
     locked: {
@@ -55,8 +52,7 @@ export default function GuardianStatusBar({
       text: {
         en: "Pulse Guardian: Session paused for resonance",
         de: "Pulse Guardian: Sitzung zur Ruhe pausiert",
-        pt: "Pulse Guardian: Sessão pausada para seu descanso",
-        ru: "Pulse Guardian: Сессия приостановлена для отдыха"
+        pt: "Pulse Guardian: Sessão pausada para seu descanso"
       }
     },
   };
@@ -65,11 +61,11 @@ export default function GuardianStatusBar({
   const displayText = (current.text as any)[lang] || (current.text as any).en;
 
   const vibeTextMap: Record<string, Record<string, string>> = {
-    hazy: { en: "Honoring my drifting state", de: "Meinen schwebenden Zustand achtend", pt: "Honrando meu estado à deriva", ru: "Уважаю свое туманное состояние" },
-    overwhelmed: { en: "Acting with extra care", de: "Mit besonderer Achtsamkeit handelnd", pt: "Agindo com cuidado redobrado", ru: "Действую с особой бережностью" },
-    radiant: { en: "Radiating inner light", de: "Inneres Licht strahlend", pt: "Irradiando luz interior", ru: "Сияю внутренним светом" },
-    harmony: { en: "Aligned in balance", de: "Im Gleichgewicht ausgerichtet", pt: "Alinhado em equilíbrio", ru: "В балансе и гармонии" },
-    calm: { en: "Steady and clear", de: "Ruhig und klar", pt: "Estável e claro", ru: "Спокоен и ясен" }
+    hazy: { en: "Honoring my drifting state", de: "Meinen schwebenden Zustand achtend", pt: "Honrando meu estado à deriva" },
+    overwhelmed: { en: "Acting with extra care", de: "Mit besonderer Achtsamkeit handelnd", pt: "Agindo com cuidado redobrado" },
+    radiant: { en: "Radiating inner light", de: "Inneres Licht strahlend", pt: "Irradiando luz interior" },
+    harmony: { en: "Aligned in balance", de: "Im Gleichgewicht ausgerichtet", pt: "Alinhado em equilíbrio" },
+    calm: { en: "Steady and clear", de: "Ruhig und klar", pt: "Estável e claro" }
   };
 
   const vibeNote = vibeKey ? vibeTextMap[vibeKey]?.[lang || 'en'] : null;
@@ -85,10 +81,7 @@ export default function GuardianStatusBar({
         }}
       >
         <div className="flex-shrink-0">{current.icon}</div>
-        <p className={cn(
-          "text-[11px] font-black uppercase tracking-wider leading-none",
-          lang === 'ru' && "italic font-serif"
-        )}>
+        <p className="text-[11px] font-black uppercase tracking-wider leading-none">
           {displayText}
           {heartRate !== undefined && ` • ${heartRate} BPM`}
         </p>
@@ -97,7 +90,7 @@ export default function GuardianStatusBar({
       {vibeNote && status !== 'locked' && (
         <div className="px-4 flex items-center gap-2 text-white/30">
           {current.vibeIcon}
-          <span className={cn("text-[9px] font-bold uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>
+          <span className="text-[9px] font-bold uppercase tracking-widest">
             {vibeNote}
           </span>
         </div>

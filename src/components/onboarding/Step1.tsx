@@ -10,7 +10,7 @@ import type { LegalAgreements } from '@/app/onboarding/page';
 
 /**
  * @fileOverview Foundations of Care (Agreements).
- * Updated: Primary command color to wise dark green (#1b4d3e).
+ * Languages: EN, DE, PT.
  */
 
 const CONTENT = {
@@ -46,29 +46,18 @@ const CONTENT = {
       { id: 'safetyNetwork', title: 'Círculo de amor', text: 'StayOnBeat permite que você crie uma rede de vínculos confiáveis que podem ser notificados em caso de necessidade' },
       { id: 'immediateHelp', title: 'Suporte do santuário', text: 'Em caso de necessidade, você pode notificar seu Círculo ou os Guardiões do Santuário Alertas são tratados com absoluta discrição' },
     ]
-  },
-  RU: {
-    back: "НАЗАД", header: "Фундамент заботы", subtext: "Я читаю и принимаю наше общее понимание",
-    agree: "Иди по этому пути с любовью", understand: "Я принимаю и уважаю",
-    sections: [
-      { id: 'harmReduction', title: 'Минимизация вреда', text: 'StayOnBeat — это инструмент минимизации рисков и вреда для предоставления информации и поддержки Он не предназначен для поощрения незаконной деятельности' },
-      { id: 'medicalAdvice', title: 'Не является медсоветом', text: 'Информация предоставляется в образовательных целях и не является медицинской консультацией или диагнозом' },
-      { id: 'privacy', title: 'Свобода и доверие (GDPR)', text: 'Мы серьезно относимся к вашей приватности Ваши биометрические данные зашифрованы Мы уважаем ваш суверенитет над данными' },
-      { id: 'safetyNetwork', title: 'Круг любви', text: 'StayOnBeat позволяет создать сеть доверенных связей которые могут быть уведомлены в случае необходимости' },
-      { id: 'immediateHelp', title: 'Поддержка пространства', text: 'При необходимости вы можете уведомить свой Круг или Команду Пространства Оповещения обрабатываются конфиденциально' },
-    ]
   }
 };
 
 export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalAgreements) => void }) {
-  const [lang, setLang] = useState<'EN' | 'DE' | 'PT' | 'RU'>('EN');
+  const [lang, setLang] = useState<'EN' | 'DE' | 'PT'>('EN');
   const [agreements, setAgreements] = useState({
     harmReduction: false, medicalAdvice: false, privacy: false, safetyNetwork: false, immediateHelp: false,
   });
   
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toUpperCase() as any;
-    if (['EN', 'DE', 'PT', 'RU'].includes(savedLang)) setLang(savedLang);
+    if (['EN', 'DE', 'PT'].includes(savedLang)) setLang(savedLang);
   }, []);
 
   const t = CONTENT[lang] || CONTENT.EN;
@@ -97,7 +86,7 @@ export function Step1ImportantStuff({ onComplete }: { onComplete: (legal: LegalA
           </AccordionItem>
         ))}
       </Accordion>
-      <button onClick={() => onComplete({ agreedToHarmReduction: agreements.harmReduction, agreedToMedicalDisclaimer: agreements.medicalAdvice, agreedToGDPR: agreements.privacy, agreedToSafetyNetwork: agreements.safetyNetwork, agreedToImmediateHelp: agreements.immediateHelp, termsAcceptedAt: new Date().toISOString(), appVersion: "1.0.0" })} disabled={!allAgreed} className={`pill-button w-full max-w-sm text-lg font-black uppercase tracking-[0.2em] transition-all ${allAgreed ? 'bg-primary text-white neon-glow active:scale-95' : 'bg-white/10 text-white/10 cursor-not-allowed border-2 border-white/5'}`}>{t.agree}</button>
+      <button onClick={() => onComplete({ agreedToHarmReduction: agreements.harmReduction, agreedToMedicalDisclaimer: agreements.medicalAdvice, agreedToGDPR: agreements.privacy, agreedToSafetyNetwork: agreements.safetyNetwork, agreedToImmediateHelp: agreements.immediateHelp, termsAcceptedAt: new Date().toISOString(), appVersion: "1.0.0" })} disabled={!allAgreed} className={`pill-button w-full max-w-sm text-lg font-black uppercase tracking-[0.2em] transition-all ${allAgreed ? 'bg-[#1b4d3e] text-white neon-glow active:scale-95' : 'bg-white/10 text-white/10 cursor-not-allowed border-2 border-white/5'}`}>{t.agree}</button>
     </div>
   );
 }

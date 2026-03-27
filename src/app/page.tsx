@@ -7,22 +7,21 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
- * Updated: Action Buttons set to wise dark green #1b4d3e.
- * Languages: EN, DE, PT, TR.
+ * Languages: EN, DE, PT.
  */
 
 export default function Home() {
   const router = useRouter();
-  const [lang, setLang] = useState<'EN' | 'DE' | 'PT' | 'TR'>('EN');
+  const [lang, setLang] = useState<'EN' | 'DE' | 'PT'>('EN');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const savedLang = typeof window !== 'undefined' ? localStorage.getItem('stayonbeat_lang') : 'EN';
-    if (['EN', 'DE', 'PT', 'TR'].includes(savedLang as string)) setLang(savedLang as any);
+    if (['EN', 'DE', 'PT'].includes(savedLang as string)) setLang(savedLang as any);
   }, []);
 
-  const handleLangChange = (newLang: 'EN' | 'DE' | 'PT' | 'TR') => {
+  const handleLangChange = (newLang: 'EN' | 'DE' | 'PT') => {
     setLang(newLang);
     localStorage.setItem('stayonbeat_lang', newLang);
   };
@@ -48,13 +47,6 @@ export default function Home() {
       getStarted: "Junte-se ao Círculo", 
       signIn: "Bem-vindo ao Lar", 
       footer: "Protegido por LGPD • Criptografado com Amor" 
-    },
-    TR: { 
-      slogan: "Aşk ve hayatın ritmi üzerine kuruldu", 
-      valueProp: "Kolektif bakım, risk ve zarar azaltma alanı", 
-      getStarted: "Çembere Dahil Ol", 
-      signIn: "Eve Hoş Geldin", 
-      footer: "GDPR Korumalı • Sevgiyle Şifrelendi" 
     }
   };
 
@@ -65,10 +57,10 @@ export default function Home() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 blur-[150px] rounded-full pointer-events-none animate-pulse" />
 
       <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-6 py-2.5 rounded-full border border-white/10 z-50 shrink-0 shadow-2xl overflow-x-auto max-w-full no-scrollbar">
-        {['EN', 'DE', 'PT', 'TR'].map((l, i) => (
+        {['EN', 'DE', 'PT'].map((l, i) => (
           <div key={l} className="flex items-center gap-4">
             <button onClick={() => handleLangChange(l as any)} className={cn("text-[10px] font-black tracking-[0.3em] transition-all whitespace-nowrap", lang === l ? 'text-primary' : 'text-white/40')}>{l}</button>
-            {i < 3 && <span className="text-white/10 font-black">|</span>}
+            {i < 2 && <span className="text-white/10 font-black">|</span>}
           </div>
         ))}
       </div>

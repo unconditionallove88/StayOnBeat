@@ -11,8 +11,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview Access Sanctuary (Auth) Page.
- * Action Buttons updated to abundant dark green #1b4d3e.
- * TR Language added.
+ * Action Buttons: #1b4d3e
  */
 
 const CONTENT = {
@@ -39,14 +38,6 @@ const CONTENT = {
     entering: "Entrando...", begin: "Começar Jornada", enter: "Entrar no Santuário",
     alreadyAccount: "Já tem uma conta? Entrar", newHere: "Novo aqui? Junte-se ao círculo",
     staffAccess: "StayOnBeat • Acesso da Equipe via awareness@love.com", errorMsg: "O santuário está calibrando, por favor tente novamente"
-  },
-  tr: {
-    welcome: "Eve Hoş Geldin", create: "Sığınak Oluştur", prototype: "Prototip Modu Aktif 🔒",
-    emailLabel: "E-posta Adresi", emailPlaceholder: "soul@stayonbeat.com",
-    passwordLabel: "Şifre", passwordPlaceholder: "••••••••",
-    entering: "Giriliyor...", begin: "Yolculuğa Başla", enter: "Sığınağa Gir",
-    alreadyAccount: "Zaten hesabın var mı? Giriş Yap", newHere: "Yeni misin? Çembere katıl",
-    staffAccess: "StayOnBeat • Ekip Erişimi: awareness@love.com", errorMsg: "Sığınak kalibre ediliyor lütfen tekrar dene"
   }
 };
 
@@ -64,14 +55,14 @@ function AuthContent() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'tr'>('en');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt'>('en');
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt', 'tr'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de', 'pt'].includes(savedLang)) setLang(savedLang);
   }, []);
 
-  const t = CONTENT[lang];
+  const t = CONTENT[lang] || CONTENT.en;
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,7 +110,7 @@ function AuthContent() {
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/5 blur-[120px] rounded-full" />
 
-      <div className="w-full max-w-md bg-[#0a0a0a] p-10 rounded-[3rem] border border-white/10 relative z-10 shadow-2xl shadow-primary/5">
+      <div className="w-full max-md bg-[#0a0a0a] p-10 rounded-[3rem] border border-white/10 relative z-10 shadow-2xl shadow-primary/5">
         <button onClick={() => router.push("/")} className="absolute top-8 left-8 text-white/40 hover:text-primary transition-colors p-2"><ChevronLeft size={24} /></button>
         <div className="text-center mb-10 mt-4">
           <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-primary/20 shadow-[0_0_30px_rgba(27,77,62,0.1)]">

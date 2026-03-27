@@ -9,7 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 
 /**
  * @fileOverview AiSafetyChat Component.
- * Linguistic purification: Removed "safety" from greetings.
+ * Languages: EN, DE, PT.
  */
 
 const CONTENT = {
@@ -30,12 +30,6 @@ const CONTENT = {
     water: "💧 Água", banana: "magnésio", placeholder: "Faça uma pergunta...", analyzing: "Analisando ressonância...",
     interrupted: "Conexão interrompida. Procure a equipe no local se for uma emergência.",
     voiceError: "Erro de voz", voiceDesc: "Não foi possível acessar o microfone.", voiceNotSupported: "Sem suporte", voiceNotSupportedDesc: "Seu navegador não suporta entrada de voz."
-  },
-  ru: {
-    context: "Контекст сессии", question: "Как я могу быть полезен?", sub: "Я знаю твой профиль и потребление. Спрашивай о чем угодно.",
-    water: "💧 Вода", banana: "Магний", placeholder: "Задай вопрос...", analyzing: "Анализирую резонанс...",
-    interrupted: "Связь прервана. Обратись к персоналу, если это экстренная ситуация.",
-    voiceError: "Ошибка голоса", voiceDesc: "Нет доступа к микрофону.", voiceNotSupported: "Не поддерживается", voiceNotSupportedDesc: "Твой браузер не поддерживает голосовой ввод."
   }
 };
 
@@ -50,12 +44,12 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt'>('en');
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de', 'pt'].includes(savedLang)) setLang(savedLang);
 
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -96,7 +90,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
         <div className="bg-blue-600/10 border-b border-blue-500/20 px-8 py-3 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <Info size={14} className="text-blue-400" />
-            <span className={cn("text-[9px] font-black uppercase tracking-widest text-blue-400 truncate max-w-[250px]", lang === 'ru' && "italic font-serif")}>
+            <span className="text-[9px] font-black uppercase tracking-widest text-blue-400 truncate max-w-[250px]">
               {t.context}: {currentIntake}
             </span>
           </div>
@@ -112,21 +106,21 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
                 <Bot className="w-8 h-8 text-white/20" />
               </div>
               <div className="space-y-2">
-                <p className={cn("text-lg font-bold text-white/80", lang === 'ru' && "italic font-serif")}>{t.question}</p>
-                <p className={cn("text-sm text-white/40 leading-relaxed", lang === 'ru' && "italic font-serif")}>{t.sub}</p>
+                <p className="text-lg font-bold text-white/80">{t.question}</p>
+                <p className="text-sm text-white/40 leading-relaxed">{t.sub}</p>
               </div>
             </div>
           )}
           {messages.map((msg, i) => (
             <div key={i} className={cn("flex gap-6 items-start animate-in slide-in-from-bottom-2 duration-300", msg.role === 'user' ? "flex-row-reverse" : "flex-row")}>
               <div className={cn("w-10 h-10 rounded-full flex items-center justify-center shrink-0 border", msg.role === 'user' ? "bg-white/10 border-white/10" : "bg-blue-600/20 border-blue-500/30 text-blue-500")}>{msg.role === 'user' ? <User className="w-5 h-5" /> : <CircleDot className="w-5 h-5" />}</div>
-              <div className={cn("p-5 rounded-3xl text-sm leading-relaxed max-w-[80%] shadow-lg", msg.role === 'user' ? "bg-white/5 text-white rounded-tr-none" : "bg-white/10 text-white/90 rounded-tl-none border border-white/5", lang === 'ru' && "italic font-serif")}>{msg.content}</div>
+              <div className={cn("p-5 rounded-3xl text-sm leading-relaxed max-w-[80%] shadow-lg", msg.role === 'user' ? "bg-white/5 text-white rounded-tr-none" : "bg-white/10 text-white/90 rounded-tl-none border border-white/5")}>{msg.content}</div>
             </div>
           ))}
           {isLoading && (
             <div className="flex gap-6 items-start">
               <div className="w-10 h-10 rounded-full bg-blue-600/20 border border-blue-500/30 text-blue-500 flex items-center justify-center"><Loader2 className="w-5 h-5 animate-spin" /></div>
-              <div className={cn("p-5 rounded-3xl bg-white/10 text-white/40 italic text-sm animate-pulse", lang === 'ru' && "font-serif")}>{t.analyzing}</div>
+              <div className="p-5 rounded-3xl bg-white/10 text-white/40 italic text-sm animate-pulse">{t.analyzing}</div>
             </div>
           )}
         </div>
@@ -134,7 +128,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
 
       <div className="px-6 py-8 bg-black border-t border-white/5 shrink-0 pb-safe">
         <div className="relative flex items-center max-w-2xl mx-auto gap-3">
-          <input value={input} onChange={(e) => setInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSend()} placeholder={t.placeholder} className={cn("w-full bg-white/5 border border-white/10 rounded-full py-5 pl-8 pr-12 text-base focus:border-blue-500 transition-all outline-none text-white shadow-inner", lang === 'ru' && "italic font-serif")} />
+          <input value={input} onChange={(e) => setInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSend()} placeholder={t.placeholder} className="w-full bg-white/5 border border-white/10 rounded-full py-5 pl-8 pr-12 text-base focus:border-blue-500 transition-all outline-none text-white shadow-inner" />
           <button onClick={handleSend} disabled={!input.trim() || isLoading} className="p-4 bg-blue-600 text-white rounded-full disabled:opacity-30 transition-all hover:scale-105 active:scale-95 shadow-lg"><Send className="w-6 h-6" /></button>
         </div>
       </div>

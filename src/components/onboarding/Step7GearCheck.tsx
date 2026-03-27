@@ -6,31 +6,29 @@ import { Flame, Check, ArrowLeft } from 'lucide-react';
 
 /**
  * @fileOverview Gear check step.
- * Updated: Primary command color to wise dark green (#1b4d3e).
- * TR Language added.
+ * Action color: #1b4d3e
+ * Languages: EN, DE, PT.
  */
 
 const ITEMS_CONTENT = {
   EN: ['Enough sleep or rest', 'Drink enough water', 'Take electrolytes', 'Healthy snacks', 'Sunglasses', 'Gum', 'Fidget toys', 'Earplugs', 'Vitamins', 'Comfy shoes', 'Tissues', 'Power bank and cable', 'ID and cash or card', 'Hand sanitizer'],
   DE: ['Genug Schlaf oder Ruhe', 'Ausreichend Wasser trinken', 'Elektrolyte einnehmen', 'Gesunde Snacks', 'Sonnenbrille', 'Kaugummi', 'Fidget-Spielzeug', 'Ohrstöpsel', 'Vitamine', 'Bequeme Schuhe', 'Taschentücher', 'Powerbank und Kabel', 'Ausweis und Bargeld/Karte', 'Desinfektionsmittel'],
-  PT: ['Sono ou descanso suficiente', 'Beber água suficiente', 'Tomar eletrólitos', 'Lanches saudáveis', 'Óculos de sol', 'Chiclete', 'Brinquedos sensoriais', 'Protetores auriculares', 'Vitaminas', 'Sapatos confortáveis', 'Lenços', 'Power bank e cabo', 'Documento e dinheiro/cartão', 'Álcool em gel'],
-  TR: ['Yeterli uyku ve dinlenme', 'Yeterli miktarda su içmek', 'Elektrolit desteği almak', 'Sağlıklı atıştırmalıklar', 'Güneş gözlüğü takmak', 'Sakız bulundurmak', 'Stres oyuncağı almak', 'Kulak tıkacı kullanmak', 'Vitamin takviyesi yapmak', 'Rahat ayakkabılar giymek', 'Kağıt mendil almak', 'Taşınabilir şarj cihazı', 'Kimlik ve nakit para', 'El dezenfektanı kullanmak']
+  PT: ['Sono ou descanso suficiente', 'Beber água suficiente', 'Tomar eletrólitos', 'Lanches saudáveis', 'Óculos de sol', 'Chiclete', 'Brinquedos sensoriais', 'Protetores auriculares', 'Vitaminas', 'Sapatos confortáveis', 'Lenços', 'Power bank e cabo', 'Documento e dinheiro/cartão', 'Álcool em gel']
 };
 
 const UI_CONTENT = {
   EN: { header: "Gear check", sub: "Prepare your kit for the party", streak: "Care streak", boost: "Check 5+ items to boost your care streak! 🔥", button: "I'm ready" },
   DE: { header: "Ausrüstungs-Check", sub: "Bereite dein Kit für die Party vor", streak: "Care-Streak", boost: "Prüfe 5+ Artikel um deinen Care-Streak zu steigern! 🔥", button: "Ich bin bereit" },
-  PT: { header: "Check-list de equipamentos", sub: "Prepare seu kit para a festa", streak: "Care streak", boost: "Marque 5+ itens para aumentar seu care streak! 🔥", button: "Estou pronto" },
-  TR: { header: "Hazırlık kontrolü", sub: "Parti için kitini hazırla", streak: "Özen serisi", boost: "Serini artırmak için 5+ seç! 🔥", button: "Hazırım" }
+  PT: { header: "Check-list de equipamentos", sub: "Prepare seu kit para a festa", streak: "Care streak", boost: "Marque 5+ itens para aumentar seu care streak! 🔥", button: "Estou pronto" }
 };
 
 export function Step7GearCheck({ onComplete, onBack }: { onComplete: () => void, onBack?: () => void }) {
   const [checked, setChecked] = useState<string[]>([]);
-  const [lang, setLang] = useState<'EN' | 'DE' | 'PT' | 'TR'>('EN');
+  const [lang, setLang] = useState<'EN' | 'DE' | 'PT'>('EN');
 
   useEffect(() => {
-    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['EN', 'DE', 'PT', 'TR'].includes(savedLang)) setLang(savedLang);
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toUpperCase() as any;
+    if (['EN', 'DE', 'PT'].includes(savedLang)) setLang(savedLang);
   }, []);
 
   const toggle = (item: string) => setChecked(prev => prev.includes(item) ? prev.filter(x => x !== item) : [...prev, item]);

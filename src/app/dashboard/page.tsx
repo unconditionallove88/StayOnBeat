@@ -80,8 +80,7 @@ function SkyIcon() {
 const AFFIRMATIONS = {
   EN: ["I am loved", "Truth is love", "Life is radiant", "Cherish this breath", "Equality is nature", "Unconditional love always"],
   DE: ["Ich werde geliebt heute", "Wahrheit ist Liebe pur", "Das Leben strahlt hell", "Schätze diesen Atem jetzt", "Gleichheit ist unsere Natur", "Bedingungslose Liebe immerzu hier"],
-  PT: ["Eu sou muito amado", "A verdade é amor", "Vida é presente radiante", "Eu valorizo este sopro", "Igualdade é minha natureza", "Amor incondicional sempre aqui"],
-  TR: ["Sevgiyle sarmalanmış durumdayım", "Gerçek olan sadece sevgidir", "Hayat parlayan bir armağan", "Nefesini şimdi fark et", "Eşitlik bizim öz doğamız", "Koşulsuz sevgi her zaman"]
+  PT: ["Eu sou muito amado", "A verdade é amor", "Vida é presente radiante", "Eu valorizo este sopro", "Igualdade é minha natureza", "Amor incondicional sempre aqui"]
 };
 
 const TOOLTIPS = {
@@ -96,10 +95,6 @@ const TOOLTIPS = {
   pt: { 
     vibe: "Sincronia de Humor", cocreation: "Co-Criação", assistant: "Assistente IA", profile: "Meu Perfil", logout: "Sair", mesh: "Modo Offline: Mesh Ativo",
     meshCalibration: "Calibração de Mesh Necessária", meshCalibrationSub: "Definir visibilidade"
-  },
-  tr: { 
-    vibe: "Ruh Hali Kontrolü", cocreation: "Birlikte Yaratım", assistant: "Asistan", profile: "Profilim", logout: "Ayrıl", mesh: "Çevrimdışı: Mesh Aktif",
-    meshCalibration: "Mesh Kalibrasyonu Gerekli", meshCalibrationSub: "Görünürlüğü ayarlamak için dokun"
   }
 };
 
@@ -111,7 +106,7 @@ function DashboardContent() {
   const firestore = useFirestore();
   const [mounted, setMounted] = useState(false);
   const [affirmation, setAffirmation] = useState("");
-  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'tr'>('en');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt'>('en');
   
   const [simHeartRate, setSimHeartRate] = useState(75);
   const [activeSubstances, setActiveSubstances] = useState<string[]>([]);
@@ -127,7 +122,7 @@ function DashboardContent() {
   useEffect(() => {
     setMounted(true);
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    const currentLang = ['en', 'de', 'pt', 'tr'].includes(savedLang) ? savedLang : 'en';
+    const currentLang = ['en', 'de', 'pt'].includes(savedLang) ? savedLang : 'en';
     setLang(currentLang);
 
     const pool = AFFIRMATIONS[currentLang.toUpperCase() as keyof typeof AFFIRMATIONS];
@@ -192,7 +187,7 @@ function DashboardContent() {
   }
 
   const displayName = firestoreProfile?.name || "VALUED SOUL";
-  const t = TOOLTIPS[lang];
+  const t = TOOLTIPS[lang] || TOOLTIPS.en;
   const isMeshCalibrated = firestoreProfile?.guardActive !== undefined;
 
   return (
@@ -201,7 +196,7 @@ function DashboardContent() {
         <header className="flex justify-between items-center max-w-4xl mx-auto w-full gap-4">
           <div className="flex-1 min-w-0">
             <h1 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-3 truncate">
-              <span className="truncate">{lang === 'tr' ? `PARLA, ${displayName}` : lang === 'pt' ? `BRILHE, ${displayName}` : lang === 'de' ? `STRAHLE, ${displayName}` : `SHINE, ${displayName}`}</span>
+              <span className="truncate">{lang === 'pt' ? `BRILHE, ${displayName}` : lang === 'de' ? `STRAHLE, ${displayName}` : `SHINE, ${displayName}`}</span>
               <SkyIcon />
             </h1>
             <div className="flex items-center gap-2 mt-1">
@@ -276,7 +271,7 @@ function DashboardContent() {
                   <RadiatingThirdEye size={36} color="#3b82f6" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'tr' ? 'Nabız' : lang === 'pt' ? 'O Pulso' : lang === 'de' ? 'Der Puls' : 'The Pulse'}</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'pt' ? 'O Pulso' : lang === 'de' ? 'Der Puls' : 'The Pulse'}</p>
                   <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Radar</p>
                 </div>
               </Link>
@@ -289,7 +284,7 @@ function DashboardContent() {
                   <Microscope size={36} className="text-white" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'tr' ? 'Laboratuvar' : lang === 'pt' ? 'Pulse Lab' : lang === 'de' ? 'Sitzungs-Labor' : 'Pulse Lab'}</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'pt' ? 'Pulse Lab' : lang === 'de' ? 'Sitzungs-Labor' : 'Pulse Lab'}</p>
                   <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Intake</p>
                 </div>
               </button>
@@ -302,7 +297,7 @@ function DashboardContent() {
                   <Watch size={32} className="text-accent" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'tr' ? 'Senkronizasyon' : lang === 'pt' ? 'Pulse Sync' : lang === 'de' ? 'Vital-Sync' : 'Pulse Sync'}</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'pt' ? 'Pulse Sync' : lang === 'de' ? 'Vital-Sync' : 'Pulse Sync'}</p>
                   <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Sync</p>
                 </div>
               </button>
@@ -315,7 +310,7 @@ function DashboardContent() {
                   <PenLine size={32} className="text-purple-400" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight text-white leading-none">{lang === 'tr' ? 'Sevgi Mektubu' : lang === 'pt' ? 'Cartas de Amor' : lang === 'de' ? 'Liebesbriefe' : 'Love Letters'}</p>
+                  <p className="text-lg font-black uppercase tracking-tight text-white leading-none">{lang === 'pt' ? 'Cartas de Amor' : lang === 'de' ? 'Liebesbriefe' : 'Love Letters'}</p>
                   <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Future Self</p>
                 </div>
               </button>
@@ -328,7 +323,7 @@ function DashboardContent() {
                   <Bot size={32} className="text-primary" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight text-white leading-none">{lang === 'tr' ? 'Asistan' : lang === 'pt' ? 'Assistente' : lang === 'de' ? 'KI-Begleiter' : 'Assistant'}</p>
+                  <p className="text-lg font-black uppercase tracking-tight text-white leading-none">{lang === 'pt' ? 'Assistente' : lang === 'de' ? 'KI-Begleiter' : 'Assistant'}</p>
                   <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">AI Portal</p>
                 </div>
               </button>
@@ -341,7 +336,7 @@ function DashboardContent() {
                   <Shield size={32} />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight text-white leading-none group-hover:text-white transition-colors">{lang === 'tr' ? 'Yardım' : lang === 'pt' ? 'Ajuda Imediata' : lang === 'de' ? 'Sofort-Hilfe' : 'Immediate Help'}</p>
+                  <p className="text-lg font-black uppercase tracking-tight text-white leading-none group-hover:text-white transition-colors">{lang === 'pt' ? 'Ajuda Imediata' : lang === 'de' ? 'Sofort-Hilfe' : 'Immediate Help'}</p>
                   <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors">Mesh SOS</p>
                 </div>
               </button>
@@ -355,7 +350,7 @@ function DashboardContent() {
               className="flex items-center gap-3 px-6 py-4 bg-blue-600/10 rounded-full border border-blue-500/20 hover:border-blue-500 transition-all active:scale-95"
             >
               <Wind size={18} className="text-blue-400" />
-              <span className="text-[10px] font-black uppercase tracking-widest">{lang === 'tr' ? 'Sevgi Nefesi' : lang === 'pt' ? 'Sopro de Amor' : lang === 'de' ? 'Atem der Liebe' : 'Breath of Love'}</span>
+              <span className="text-[10px] font-black uppercase tracking-widest">{lang === 'pt' ? 'Sopro de Amor' : lang === 'de' ? 'Atem der Liebe' : 'Breath of Love'}</span>
             </Link>
             <button 
               onClick={() => handlePortalClick(() => setCoCreationOpen(true))} 
@@ -379,7 +374,7 @@ function DashboardContent() {
                   )}
                 >
                   <Settings2 size={12} />
-                  {lang === 'tr' ? 'Kalibrasyon (Dev)' : lang === 'pt' ? 'Calibração (Dev)' : lang === 'de' ? 'Labor-Kalibrierung' : 'Lab Calibration'}
+                  {lang === 'pt' ? 'Calibração (Dev)' : lang === 'de' ? 'Labor-Kalibrierung' : 'Lab Calibration'}
                   <ChevronDown className={cn("transition-transform", isSimulatorOpen && "rotate-180")} size={12} />
                 </button>
               </CollapsibleTrigger>

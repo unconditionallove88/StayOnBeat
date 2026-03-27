@@ -9,7 +9,7 @@ import { playHeartbeat } from '@/lib/resonance';
  * @fileOverview Breath of Love (Pure Resonance Ritual).
  * Optimized for iPhone: Single-screen layout, no scrolling.
  * Affirmations: Sequential Sunrise letter-by-letter fade in/out.
- * Rule: 3 words (EN) / 4 words (TR/DE/PT).
+ * Rule: 3 words (EN) / 4 words (DE/PT).
  */
 
 const CONTENT = {
@@ -19,29 +19,24 @@ const CONTENT = {
     button: "Return to Sanctuary"
   },
   de: {
-    inhale: "Aşkı içine çek",
-    exhale: "Aşkı dışarı bırak",
-    button: "Sığınağa geri dön"
+    inhale: "Liebe sanft einatmen",
+    exhale: "Liebe sanft ausatmen",
+    button: "Zum Sanctuary zurückkehren"
   },
   pt: {
     inhale: "Eu inspiro amor",
     exhale: "Eu expiro amor",
     button: "Retornar ao santuário"
-  },
-  tr: {
-    inhale: "Aşkı içine çek",
-    exhale: "Aşkı dışarı bırak",
-    button: "Sığınağa geri dön"
   }
 };
 
 export default function SelfCare() {
   const router = useRouter();
-  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'tr'>('en');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt'>('en');
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt', 'tr'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de', 'pt'].includes(savedLang)) setLang(savedLang);
   }, []);
 
   const t = CONTENT[lang] || CONTENT.en;

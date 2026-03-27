@@ -1,8 +1,7 @@
 'use server';
 /**
  * @fileOverview A Genkit flow for answering substance safety questions.
- * Integrated with exponential backoff retry logic and language detection.
- * Languages: en, de, pt, tr.
+ * Languages: en, de, pt.
  */
 
 import {ai} from '@/ai/genkit';
@@ -24,7 +23,7 @@ const AiSafetyChatInputSchema = z.object({
     medications: z.array(z.string()),
     healthConditions: z.array(z.string()),
   }),
-  lang: z.enum(['en', 'de', 'pt', 'tr']).optional().default('en'),
+  lang: z.enum(['en', 'de', 'pt']).optional().default('en'),
 });
 export type AiSafetyChatInput = z.infer<typeof AiSafetyChatInputSchema>;
 
