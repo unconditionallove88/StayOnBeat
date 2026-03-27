@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, User, Bot, Loader2, Mic, MicOff, Info, CircleDot } from 'lucide-react';
+import { Send, User, Loader2, Info, CircleDot } from 'lucide-react';
+import { SupporterIcon } from '@/components/ui/supporter-icon';
 import { aiSafetyChat, type ChatMessage } from '@/ai/flows/substance-safety-chat';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -9,27 +10,20 @@ import { useToast } from '@/hooks/use-toast';
 
 /**
  * @fileOverview AiSafetyChat Component.
- * Languages: EN, DE, PT.
+ * Refined terminology: Assistant -> Supporter.
+ * Icon: Algiz-inspired silhouette.
  */
 
 const CONTENT = {
   en: {
     context: "Active intake context", question: "How can I help you stay aware tonight?", sub: "I'm aware of your profile and intake. Ask me anything.",
-    water: "💧 Water check", banana: "magnesium", placeholder: "Ask an awareness question...", analyzing: "Analyzing resonance factors...",
-    interrupted: "Connection interrupted. Please ensure your care is managed by on-site staff if this is an emergency.",
-    voiceError: "Voice Input Error", voiceDesc: "Could not access microphone or understand speech.", voiceNotSupported: "Speech Not Supported", voiceNotSupportedDesc: "Your browser does not support voice input."
+    water: "💧 Water check", placeholder: "Ask an awareness question...", analyzing: "Analyzing resonance factors...",
+    interrupted: "Connection interrupted. Please ensure your care is managed by on-site staff if this is an emergency."
   },
   de: {
     context: "Aktueller Kontext", question: "Wie kann ich dich heute begleiten?", sub: "Ich kenne dein Profil und deine Einträge. Frag mich alles.",
-    water: "💧 Wasser-Check", banana: "Magnesium", placeholder: "Resonanz-Frage stellen...", analyzing: "Faktoren werden sanft geprüft...",
-    interrupted: "Verbindung unterbrochen. Bitte wende dich im Notfall direkt an das Awareness-Team vor Ort.",
-    voiceError: "Spracheingabe-Fehler", voiceDesc: "Mikrofon-Zugriff nicht möglich oder Sprache nicht erkannt.", voiceNotSupported: "Sprache nicht unterstützt", voiceNotSupportedDesc: "Dein Browser unterstützt keine Spracheingabe."
-  },
-  pt: {
-    context: "Contexto de consumo", question: "Como posso ajudar você a ficar consciente?", sub: "Eu conheço seu perfil e consumo. Pergunte qualquer coisa.",
-    water: "💧 Água", banana: "magnésio", placeholder: "Faça uma pergunta...", analyzing: "Analisando ressonância...",
-    interrupted: "Conexão interrompida. Procure a equipe no local se for uma emergência.",
-    voiceError: "Erro de voz", voiceDesc: "Não foi possível acessar o microfone.", voiceNotSupported: "Sem suporte", voiceNotSupportedDesc: "Seu navegador não suporta entrada de voz."
+    water: "💧 Wasser-Check", placeholder: "Resonanz-Frage stellen...", analyzing: "Faktoren werden sanft geprüft...",
+    interrupted: "Verbindung unterbrochen. Bitte wende dich im Notfall direkt an das Awareness-Team vor Ort."
   }
 };
 
@@ -43,13 +37,12 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isListening, setIsListening] = useState(false);
-  const [lang, setLang] = useState<'en' | 'de' | 'pt'>('en');
+  const [lang, setLang] = useState<'en' | 'de'>('en');
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de'].includes(savedLang)) setLang(savedLang);
 
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -103,7 +96,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
           {messages.length === 0 && (
             <div className="flex flex-col items-center justify-center py-12 text-center space-y-6">
               <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center border border-white/10">
-                <Bot className="w-8 h-8 text-white/20" />
+                <SupporterIcon className="w-8 h-8 text-white/20" />
               </div>
               <div className="space-y-2">
                 <p className="text-lg font-bold text-white/80">{t.question}</p>
@@ -113,7 +106,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
           )}
           {messages.map((msg, i) => (
             <div key={i} className={cn("flex gap-6 items-start animate-in slide-in-from-bottom-2 duration-300", msg.role === 'user' ? "flex-row-reverse" : "flex-row")}>
-              <div className={cn("w-10 h-10 rounded-full flex items-center justify-center shrink-0 border", msg.role === 'user' ? "bg-white/10 border-white/10" : "bg-blue-600/20 border-blue-500/30 text-blue-500")}>{msg.role === 'user' ? <User className="w-5 h-5" /> : <CircleDot className="w-5 h-5" />}</div>
+              <div className={cn("w-10 h-10 rounded-full flex items-center justify-center shrink-0 border", msg.role === 'user' ? "bg-white/10 border-white/10" : "bg-blue-600/20 border-blue-500/30 text-blue-500")}>{msg.role === 'user' ? <User className="w-5 h-5" /> : <SupporterIcon className="w-5 h-5" />}</div>
               <div className={cn("p-5 rounded-3xl text-sm leading-relaxed max-w-[80%] shadow-lg", msg.role === 'user' ? "bg-white/5 text-white rounded-tr-none" : "bg-white/10 text-white/90 rounded-tl-none border border-white/5")}>{msg.content}</div>
             </div>
           ))}

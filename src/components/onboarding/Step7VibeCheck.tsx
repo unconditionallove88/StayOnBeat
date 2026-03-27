@@ -13,7 +13,7 @@ import NotificationPrompt from '@/components/dashboard/NotificationPrompt';
  * @fileOverview Mood Check-in Onboarding Step.
  * Action color: #1b4d3e (Wise dark green)
  * Languages: EN, DE.
- * 3/4 Word Affirmation Rule Applied.
+ * Affirmation Colors: Refined for effective resonance.
  */
 
 interface Step7VibeCheckProps {
@@ -27,28 +27,28 @@ const VIBE_OPTIONS = [
   { 
     id: 'radiant', label: 'Radiant', de: 'Strahlend',
     icon: RadiantIcon, description: 'Your light shines', deDescription: 'Dein Licht leuchtet hell',
-    color: 'text-white', activeColor: 'bg-gradient-to-r from-red-500/10 via-yellow-500/10 via-green-500/10 via-blue-500/10 to-purple-500/10 border-white/40 shadow-[0_0_30px_rgba(255,255,255,0.2)]',
+    color: 'text-white', activeBorder: 'border-white/40 shadow-[0_0_30px_rgba(255,255,255,0.2)]',
     isRainbow: true
   },
   { 
     id: 'harmony', label: 'In Harmony', de: 'In Harmonie',
     icon: HarmonyIcon, description: 'You are Aligned', deDescription: 'Du bist im Einklang',
-    color: 'text-[#58c55a]', activeColor: 'bg-[#58c55a]/10 border-[#58c55a] shadow-[0_0_20px_rgba(88,197,90,0.3)]' 
+    color: 'text-[#58c55a]', activeBorder: 'border-[#58c55a] shadow-[0_0_20px_rgba(88,197,90,0.3)]' 
   },
   { 
     id: 'calm', label: 'Calm', de: 'Beruhigt',
     icon: CalmIcon, description: 'Everything is Aligned', deDescription: 'Alles ist im Gleichgewicht',
-    color: 'text-[#3B82F6]', activeColor: 'bg-[#3B82F6]/10 border-[#3B82F6] shadow-[0_0_20px_rgba(59,130,246,0.3)]' 
+    color: 'text-[#3B82F6]', activeBorder: 'border-[#3B82F6] shadow-[0_0_20px_rgba(59,130,246,0.3)]' 
   },
   { 
     id: 'hazy', label: 'Hazy', de: 'Verschwommen',
     icon: HazyIcon, description: 'Rest and Stillness', deDescription: 'Ruhe und Stille jetzt',
-    color: 'text-[#93C5FD]', activeColor: 'bg-[#93C5FD]/10 border-[#93C5FD] shadow-[0_0_20px_rgba(147,197,253,0.3)]' 
+    color: 'text-[#93C5FD]', activeBorder: 'border-[#93C5FD] shadow-[0_0_20px_rgba(147,197,253,0.3)]' 
   },
   { 
     id: 'overwhelmed', label: 'Overwhelmed', de: 'Überwältigt',
     icon: HeldIcon, description: 'You are Held', deDescription: 'Du wirst jetzt gehalten',
-    color: 'text-[#cbd5e1]', activeColor: 'bg-[#cbd5e1]/10 border-[#cbd5e1] shadow-[0_0_20px_rgba(203,213,225,0.3)]' 
+    color: 'text-[#cbd5e1]', activeBorder: 'border-[#cbd5e1] shadow-[0_0_20px_rgba(203,213,225,0.3)]' 
   },
 ];
 
@@ -96,7 +96,7 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
   if (isSaved) {
     return (
       <div className="w-full min-h-[80vh] flex flex-col items-center justify-center text-center px-6 font-headline animate-in fade-in zoom-in-95 duration-1000">
-        <h2 className="text-4xl font-black uppercase tracking-tighter text-primary mb-4">{t.success}</h2>
+        <h2 className="text-4xl font-black uppercase tracking-tighter text-[#1b4d3e] mb-4">{t.success}</h2>
         <p className="text-white/60 text-lg font-bold max-sm leading-tight">{t.sub}</p>
       </div>
     );
@@ -113,15 +113,28 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
           const label = lang === 'EN' ? vibe.label : vibe.de;
           const desc = lang === 'EN' ? vibe.description : vibe.deDescription;
           return (
-            <button key={vibe.id} onClick={() => setSelected(vibe.id)} disabled={isSaving} className={cn("p-5 rounded-[2.5rem] border-2 flex items-center gap-6 transition-all active:scale-[0.98] text-left relative overflow-hidden", isSelected ? vibe.activeColor : "bg-[#0a0a0a] border-white/5 hover:border-white/20")}>
+            <button 
+              key={vibe.id} 
+              onClick={() => setSelected(vibe.id)} 
+              disabled={isSaving} 
+              className={cn(
+                "p-5 rounded-[2.5rem] border-2 flex items-center gap-6 transition-all active:scale-[0.98] text-left relative overflow-hidden", 
+                isSelected ? `bg-white/5 ${vibe.activeBorder}` : "bg-[#0a0a0a] border-white/5 hover:border-white/20"
+              )}
+            >
               {vibe.isRainbow && isSelected && (
                 <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-yellow-500/10 via-green-500/10 via-blue-500/10 to-purple-500/10 animate-pulse" />
               )}
               <div className="w-12 flex justify-center relative z-10">
-                <VibeIcon size={40} color="currentColor" className={isSelected ? (vibe.isRainbow ? "text-white" : vibe.color) : "text-white/20"} />
+                <VibeIcon size={40} color="currentColor" className={isSelected ? (vibe.isRainbow ? "text-white" : vibe.color.replace('text-', '')) : "text-white/20"} style={isSelected && !vibe.isRainbow ? { color: vibe.color.split('[')[1].split(']')[0] } : {}} />
               </div>
               <div className="flex flex-col relative z-10">
-                <span className={cn("font-black text-lg uppercase tracking-tight transition-colors", isSelected ? vibe.color : "text-white")}>{label}</span>
+                <span 
+                  className={cn("font-black text-lg uppercase tracking-tight transition-colors")}
+                  style={isSelected && !vibe.isRainbow ? { color: vibe.color.split('[')[1].split(']')[0] } : isSelected && vibe.isRainbow ? { color: 'white' } : { color: 'rgba(255,255,255,0.6)' }}
+                >
+                  {label}
+                </span>
                 <span className="text-[10px] font-black text-white/30 uppercase tracking-widest leading-none mt-1">{desc}</span>
               </div>
             </button>
@@ -139,7 +152,7 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
         >
           {isSaving ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : t.btn}
         </button>
-        <p className="text-center text-[10px] text-primary font-black uppercase tracking-[0.5em]">{t.footer}</p>
+        <p className="text-center text-[10px] text-[#1b4d3e] font-black uppercase tracking-[0.5em]">{t.footer}</p>
       </div>
     </div>
   );

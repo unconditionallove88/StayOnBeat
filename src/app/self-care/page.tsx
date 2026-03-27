@@ -10,13 +10,13 @@ import { playHeartbeat } from '@/lib/resonance';
  * Optimized for iPhone: Single-screen layout, no scrolling.
  * Affirmations: Sequential Sunrise letter-by-letter fade in/out.
  * Rule: 3 words (EN) / 4 words (DE).
- * Timing: 4s from appearance to dissolution per word.
+ * Timing: 4s from appearance to dissolution per word (8s cycle).
  */
 
 const CONTENT = {
   en: {
-    inhale: "Inhale Pure Love",
-    exhale: "Exhale Pure Love",
+    inhale: "Breathe In Love",
+    exhale: "Breathe Out Love",
     button: "Return to Sanctuary"
   },
   de: {
@@ -37,8 +37,6 @@ export default function SelfCare() {
 
   const t = CONTENT[lang] || CONTENT.en;
 
-  // Staggered letter animation helper
-  // delayBase sets the phase: 0 for inhale, 4 for exhale (within 8s cycle)
   const renderLetters = (text: string, delayBase: number) => {
     return text.split('').map((char, i) => (
       <span 
@@ -55,15 +53,16 @@ export default function SelfCare() {
     <main className="h-screen w-full bg-[#54a5d5] text-white flex flex-col font-headline relative overflow-hidden">
       <div className="flex-1 flex flex-col items-center justify-center px-6">
         <div className="w-full text-center space-y-12">
-          {/* Sequential Staggered Text on one line - 8s total cycle */}
           <div className="flex items-center justify-center gap-12 relative min-h-[120px]">
-            <div className="text-4xl md:text-6xl font-black uppercase tracking-tighter flex whitespace-nowrap justify-center items-center transition-all">
+            {/* Inhale - Starts at 0s of 8s cycle */}
+            <div className="absolute text-4xl md:text-6xl font-black uppercase tracking-tighter flex whitespace-nowrap justify-center items-center">
               <div className="flex">
                 {renderLetters(t.inhale, 0)}
               </div>
             </div>
             
-            <div className="text-4xl md:text-6xl font-black uppercase tracking-tighter flex whitespace-nowrap justify-center items-center transition-all">
+            {/* Exhale - Starts at 4s of 8s cycle */}
+            <div className="absolute text-4xl md:text-6xl font-black uppercase tracking-tighter flex whitespace-nowrap justify-center items-center">
               <div className="flex">
                 {renderLetters(t.exhale, 4)}
               </div>
@@ -72,13 +71,12 @@ export default function SelfCare() {
         </div>
       </div>
 
-      {/* Subtle, tender return tab */}
       <footer className="p-12 flex flex-col items-center justify-center shrink-0 pb-16">
         <button 
           onClick={() => { playHeartbeat(); router.push('/dashboard'); }}
-          className="px-8 py-3 rounded-full border border-white/20 bg-white/5 backdrop-blur-md transition-all active:scale-95 group hover:bg-white/10"
+          className="px-8 py-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-md transition-all active:scale-95 group hover:bg-white/10"
         >
-          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/80 group-hover:text-white transition-colors">
+          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white transition-colors">
             {t.button}
           </span>
         </button>

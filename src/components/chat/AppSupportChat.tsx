@@ -1,8 +1,8 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, User, Bot, Loader2, MessageCircle, CircleDot } from 'lucide-react';
+import { Send, User, Loader2, MessageCircle, CircleDot } from 'lucide-react';
+import { SupporterIcon } from '@/components/ui/supporter-icon';
 import { appSupportChat } from '@/ai/flows/app-support-chat';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -66,7 +66,7 @@ export function AppSupportChat() {
           {messages.length === 0 && (
             <div className="flex flex-col items-center justify-center py-20 text-center space-y-6">
               <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center border border-white/10">
-                <CircleDot className="w-8 h-8 text-[#3EB489]" />
+                <SupporterIcon className="w-8 h-8 text-[#1b4d3e]" />
               </div>
               <div className="space-y-2">
                 <p className="text-lg font-bold text-white/80">How can we improve your experience?</p>
@@ -87,7 +87,7 @@ export function AppSupportChat() {
                 "w-10 h-10 rounded-full flex items-center justify-center shrink-0 border",
                 msg.role === 'user' ? "bg-white/10 border-white/10" : "bg-blue-600/20 border-blue-500/30 text-blue-500"
               )}>
-                {msg.role === 'user' ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
+                {msg.role === 'user' ? <User className="w-5 h-5" /> : <SupporterIcon className="w-5 h-5" />}
               </div>
               <div className={cn(
                 "p-5 rounded-3xl text-sm leading-relaxed max-w-[80%]",
@@ -118,12 +118,12 @@ export function AppSupportChat() {
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
             placeholder="Type your feedback or question..."
-            className="w-full bg-white/5 border border-white/10 rounded-full py-5 px-8 text-base focus:border-[#3EB489] transition-all outline-none"
+            className="w-full bg-white/5 border border-white/10 rounded-full py-5 px-8 text-base focus:border-[#1b4d3e] transition-all outline-none"
           />
           <button
             onClick={handleSend}
             disabled={!input.trim() || isLoading}
-            className="p-4 bg-[#3EB489] text-black rounded-full disabled:opacity-30 transition-all hover:scale-105 active:scale-95 shadow-lg"
+            className="p-4 bg-[#1b4d3e] text-white rounded-full disabled:opacity-30 transition-all hover:scale-105 active:scale-95 shadow-lg"
           >
             <Send className="w-6 h-6" />
           </button>

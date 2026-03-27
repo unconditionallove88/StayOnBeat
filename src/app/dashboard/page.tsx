@@ -7,7 +7,6 @@ import {
   Heart, 
   User, 
   Loader2, 
-  Bot, 
   Sprout, 
   Watch, 
   Shield, 
@@ -21,6 +20,7 @@ import {
   Wind,
   AlertCircle
 } from 'lucide-react';
+import { SupporterIcon } from '@/components/ui/supporter-icon';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6SubstanceLab';
 import { VibeMirror } from '@/components/dashboard/VibeMirror';
@@ -84,11 +84,11 @@ const AFFIRMATIONS = {
 
 const TOOLTIPS = {
   en: { 
-    vibe: "Mood Check-in", cocreation: "Co-Creation", assistant: "Assistant", profile: "My Profile", logout: "Step away", mesh: "Offline Mode: Mesh Active",
+    vibe: "Mood Check-in", cocreation: "Co-Creation", supporter: "Supporter", profile: "My Profile", logout: "Step away", mesh: "Offline Mode: Mesh Active",
     meshCalibration: "Mesh Calibration Required", meshCalibrationSub: "Tap to set visibility"
   },
   de: { 
-    vibe: "Stimmungs Check-in", cocreation: "Ko-Kreation", assistant: "KI-Begleiter", profile: "Mein Profil", logout: "Abmelden", mesh: "Offline-Modus: Mesh aktiv",
+    vibe: "Stimmungs Check-in", cocreation: "Ko-Kreation", supporter: "Unterstützer", profile: "Mein Profil", logout: "Abmelden", mesh: "Offline-Modus: Mesh aktiv",
     meshCalibration: "Mesh-Kalibrierung nötig", meshCalibrationSub: "Sichtbarkeit festlegen"
   }
 };
@@ -108,7 +108,7 @@ function DashboardContent() {
   const [isSimulatorOpen, setIsSimulatorOpen] = useState(false);
 
   const [labOpen, setLabOpen] = useState(false);
-  const [aiBotOpen, setAiBotOpen] = useState(false);
+  const [supporterOpen, setSupporterOpen] = useState(false);
   const [coCreationOpen, setCoCreationOpen] = useState(false);
   const [syncOpen, setSyncOpen] = useState(false);
   const [loveLetterOpen, setLoveLetterOpen] = useState(false);
@@ -311,14 +311,14 @@ function DashboardContent() {
               </button>
 
               <button 
-                onClick={() => handlePortalClick(() => setAiBotOpen(true))}
+                onClick={() => handlePortalClick(() => setSupporterOpen(true))}
                 className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-primary/30 hover:bg-primary/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
                 <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform">
-                  <Bot size={32} className="text-primary" />
+                  <SupporterIcon size={32} className="text-primary" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight text-white leading-none">{lang === 'de' ? 'KI-Begleiter' : 'Assistant'}</p>
+                  <p className="text-lg font-black uppercase tracking-tight text-white leading-none">{lang === 'de' ? 'Unterstützer' : 'Supporter'}</p>
                   <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">AI Portal</p>
                 </div>
               </button>
@@ -419,7 +419,7 @@ function DashboardContent() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={aiBotOpen} onOpenChange={setAiBotOpen}>
+      <Dialog open={supporterOpen} onOpenChange={setSupporterOpen}>
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] max-h-[85dvh] top-[50%] -translate-y-[50%] shadow-[0_0_100px_rgba(0,0,0,0.9)]">
           <DialogTitle className="sr-only">AI Care Portal</DialogTitle>
           <AssistantPortal userProfile={firestoreProfile} />

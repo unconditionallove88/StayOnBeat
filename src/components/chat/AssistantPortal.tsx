@@ -1,14 +1,16 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Heart, Battery, Droplets, Moon, Zap, ArrowRight, Bot } from 'lucide-react';
+import { Heart, Battery, Droplets, Moon, Zap, ArrowRight } from 'lucide-react';
+import { SupporterIcon } from '@/components/ui/supporter-icon';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
- * @fileOverview AssistantPortal Component.
- * Languages: EN, DE, PT.
+ * @fileOverview SupporterPortal Component.
+ * Refined terminology: Assistant -> Supporter.
+ * Icon: Algiz-inspired human silhouette.
  */
 
 interface AssistantPortalProps {
@@ -18,9 +20,9 @@ interface AssistantPortalProps {
 const i18n = {
   en: {
     title: "StayOnBeat",
-    personalAssistant: "Assistant",
+    supporter: "Supporter",
     question: "How is your inner state?",
-    subtitle: "Select your current phase for high-fidelity, tailored support. 🌿",
+    subtitle: "Select your current phase for tailored guidance and love. 🌿",
     phases: [
       { title: "Before", desc: "Prepare your body & mind" },
       { title: "During", desc: "Stay safe & connected" },
@@ -29,35 +31,24 @@ const i18n = {
   },
   de: {
     title: "StayOnBeat",
-    personalAssistant: "Persönlicher Assistent",
+    supporter: "Unterstützer",
     question: "Wie ist dein innerer Zustand?",
-    subtitle: "Wähle deine aktuelle Phase für maßgeschneiderte Unterstützung. 🌿",
+    subtitle: "Wähle deine aktuelle Phase für maßgeschneiderte Begleitung. 🌿",
     phases: [
       { title: "Vorher", desc: "Körper & Geist vorbereiten" },
       { title: "Währenddessen", desc: "Sicher & verbunden bleiben" },
       { title: "Danach", desc: "Erholen & regenerieren" }
-    ]
-  },
-  pt: {
-    title: "StayOnBeat",
-    personalAssistant: "Assistente Pessoal",
-    question: "Como está seu estado interior?",
-    subtitle: "Selecione sua fase atual para suporte personalizado de alta fidelidade. 🌿",
-    phases: [
-      { title: "Antes", desc: "Prepare seu corpo e mente" },
-      { title: "Durante", desc: "Fique seguro e conectado" },
-      { title: "Depois", desc: "Recupere e restaure" }
     ]
   }
 };
 
 export function AssistantPortal({ userProfile }: AssistantPortalProps) {
   const router = useRouter();
-  const [lang, setLang] = useState<'en' | 'de' | 'pt'>('en');
+  const [lang, setLang] = useState<'en' | 'de'>('en');
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de'].includes(savedLang)) setLang(savedLang);
   }, []);
 
   const t = i18n[lang] || i18n.en;
@@ -103,8 +94,8 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
       <ScrollArea className="flex-1 px-8 relative z-10 touch-pan-y min-h-0">
         <section className="mb-8 pt-4">
           <div className="flex items-center gap-3 mb-2">
-            <Bot className="text-emerald-500" size={20} />
-            <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.4em]">{t.personalAssistant}</p>
+            <SupporterIcon className="text-emerald-500" size={20} />
+            <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.4em]">{t.supporter}</p>
           </div>
           <h2 className="text-4xl font-black uppercase tracking-tighter leading-none mb-4">
             {t.question.split(' ').slice(0, -1).join(' ')} <br /> <span className="text-emerald-500">{t.question.split(' ').pop()}</span>
