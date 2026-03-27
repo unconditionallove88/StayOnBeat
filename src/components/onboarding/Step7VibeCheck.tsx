@@ -11,7 +11,7 @@ import NotificationPrompt from '@/components/dashboard/NotificationPrompt';
 
 /**
  * @fileOverview Mood Check-in Onboarding Step.
- * Action Buttons synchronized to #58c55a.
+ * Action Buttons synchronized to the wise dark green #1b4d3e.
  */
 
 interface Step7VibeCheckProps {
@@ -33,7 +33,7 @@ const VIBE_OPTIONS = [
     id: 'harmony', label: 'In Harmony', de: 'In Harmonie', pt: 'Em Harmonia', ru: 'Гармоничное',
     icon: HarmonyIcon, description: 'You are aligned with your rhythm', deDescription: 'Du bist im Einklang mit deinem Rhythmus',
     ptDescription: 'Você está alinhado com seu ritmo', ruDescription: 'Вы в гармонии со своим ритмом',
-    color: 'text-primary', activeColor: 'bg-primary/10 border-primary shadow-[0_0_20px_rgba(88,197,90,0.3)]' 
+    color: 'text-[#58c55a]', activeColor: 'bg-[#58c55a]/10 border-[#58c55a] shadow-[0_0_20px_rgba(88,197,90,0.3)]' 
   },
   { 
     id: 'calm', label: 'Calm', de: 'Beruhigt', pt: 'Calmo', ru: 'Спокойное',
@@ -133,7 +133,20 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
           );
         })}
       </div>
-      <div className="flex flex-col items-center gap-6 w-full"><button onClick={handleConfirm} disabled={!selected || isSaving} className={cn("pill-button w-full max-w-sm uppercase tracking-[0.2em] font-black text-xl h-[64px] transition-all", selected && !isSaving ? 'bg-[#58c55a] text-black neon-glow' : 'bg-white/10 text-white/10 cursor-not-allowed opacity-50', lang === 'RU' && "italic font-serif")}>{isSaving ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : t.btn}</button><p className={cn("text-center text-[10px] text-primary font-black uppercase tracking-[0.5em]", lang === 'RU' && "italic font-serif")}>{t.footer}</p></div>
+      <div className="flex flex-col items-center gap-6 w-full">
+        <button 
+          onClick={handleConfirm} 
+          disabled={!selected || isSaving} 
+          className={cn(
+            "pill-button w-full max-w-sm uppercase tracking-[0.2em] font-black text-xl h-[64px] transition-all", 
+            selected && !isSaving ? 'bg-primary text-white neon-glow' : 'bg-white/10 text-white/10 cursor-not-allowed opacity-50', 
+            lang === 'RU' && "italic font-serif"
+          )}
+        >
+          {isSaving ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : t.btn}
+        </button>
+        <p className={cn("text-center text-[10px] text-primary font-black uppercase tracking-[0.5em]", lang === 'RU' && "italic font-serif")}>{t.footer}</p>
+      </div>
     </div>
   );
 }

@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -12,7 +11,7 @@ import { playHeartbeat } from '@/lib/resonance';
  * Optimized for iPhone: Single-screen layout, no scrolling.
  * Background: Sea color #54a5d5.
  * Visual: Large organic glowing disc breathing tenderly.
- * Text: "Inhale Love" and "Exhale Love" on one line with letter-by-letter staggered animation.
+ * Text: Sequential Sunrise animation for Inhale/Exhale on one line.
  */
 
 const CONTENT = {
@@ -61,7 +60,7 @@ export default function SelfCare() {
     return text.split('').map((char, i) => (
       <span 
         key={i} 
-        style={{ animationDelay: `${delayBase + (i * 0.15)}s` }}
+        style={{ animationDelay: `${delayBase + (i * 0.1)}s` }}
         className="inline-block animate-letter-fade opacity-0"
       >
         {char === ' ' ? '\u00A0' : char}
@@ -99,15 +98,16 @@ export default function SelfCare() {
         </div>
 
         <div className="space-y-10 w-full text-center">
-          {/* enlarged Staggered Text on one line */}
-          <div className="h-16 flex items-center justify-center gap-4">
-            <div className={cn("text-3xl md:text-4xl font-black uppercase tracking-tighter flex whitespace-nowrap", lang === 'ru' && "italic font-serif")}>
+          {/* Sequential Staggered Text on one line - 16s cycle */}
+          <div className="h-16 flex items-center justify-center gap-4 relative">
+            <div className={cn("text-3xl md:text-4xl font-black uppercase tracking-tighter flex whitespace-nowrap absolute inset-0 justify-center items-center", lang === 'ru' && "italic font-serif")}>
               <div className="flex">
                 {renderLetters(t.inhale, 0)}
               </div>
-              <span className="mx-4 opacity-20 text-xl font-thin">|</span>
+            </div>
+            <div className={cn("text-3xl md:text-4xl font-black uppercase tracking-tighter flex whitespace-nowrap absolute inset-0 justify-center items-center", lang === 'ru' && "italic font-serif")}>
               <div className="flex">
-                {renderLetters(t.exhale, 4)}
+                {renderLetters(t.exhale, 8)}
               </div>
             </div>
           </div>
