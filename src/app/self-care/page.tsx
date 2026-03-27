@@ -10,17 +10,18 @@ import { playHeartbeat } from '@/lib/resonance';
  * Optimized for iPhone: Single-screen layout, no scrolling.
  * Affirmations: Sequential Sunrise letter-by-letter fade in/out.
  * Rule: 3 words (EN) / 4 words (DE).
+ * Timing: 4s from appearance to dissolution per word.
  */
 
 const CONTENT = {
   en: {
-    inhale: "Inhale Love",
-    exhale: "Exhale Love",
+    inhale: "Inhale Pure Love",
+    exhale: "Exhale Pure Love",
     button: "Return to Sanctuary"
   },
   de: {
-    inhale: "Liebe sanft einatmen",
-    exhale: "Liebe sanft ausatmen",
+    inhale: "Atme sanft Liebe ein",
+    exhale: "Atme sanft Liebe aus",
     button: "Zum Sanctuary zurückkehren"
   }
 };
@@ -37,6 +38,7 @@ export default function SelfCare() {
   const t = CONTENT[lang] || CONTENT.en;
 
   // Staggered letter animation helper
+  // delayBase sets the phase: 0 for inhale, 4 for exhale (within 8s cycle)
   const renderLetters = (text: string, delayBase: number) => {
     return text.split('').map((char, i) => (
       <span 
@@ -53,7 +55,7 @@ export default function SelfCare() {
     <main className="h-screen w-full bg-[#54a5d5] text-white flex flex-col font-headline relative overflow-hidden">
       <div className="flex-1 flex flex-col items-center justify-center px-6">
         <div className="w-full text-center space-y-12">
-          {/* Sequential Staggered Text on one line - 16s cycle */}
+          {/* Sequential Staggered Text on one line - 8s total cycle */}
           <div className="flex items-center justify-center gap-12 relative min-h-[120px]">
             <div className="text-4xl md:text-6xl font-black uppercase tracking-tighter flex whitespace-nowrap justify-center items-center transition-all">
               <div className="flex">
@@ -63,7 +65,7 @@ export default function SelfCare() {
             
             <div className="text-4xl md:text-6xl font-black uppercase tracking-tighter flex whitespace-nowrap justify-center items-center transition-all">
               <div className="flex">
-                {renderLetters(t.exhale, 8)}
+                {renderLetters(t.exhale, 4)}
               </div>
             </div>
           </div>
