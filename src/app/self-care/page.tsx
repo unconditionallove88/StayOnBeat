@@ -1,62 +1,47 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Wind, Sparkles } from 'lucide-react';
+import { ArrowLeft, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
- * @fileOverview Breath of Love (Eternity Ouroboros).
- * A high-fidelity infinity resonance experience.
- * Features a wide horizontal eternity cobra eating its own tail in #66b2b2.
- * Size optimized to take up 44% of the screen.
- * Background color: Beautiful sea color #54a5d5.
- * Message: Inhale Love / Exhale Love.
- * Animation: Staggered Sunrise (4s appear, 4s disappear).
- * Action Button: Organic deep sea blue #1b3e4d.
+ * @fileOverview Breath of Love (Golden Disc & Resonance Aura).
+ * A high-fidelity meditative experience.
+ * Background: Sea color #54a5d5.
+ * Visual: Golden disc orbiting a white/blue glowing aura.
+ * Text: "Inhale Love" and "Exhale Love" on one line with letter-by-letter staggered animation.
  */
 
 const CONTENT = {
   en: {
     title: "Breath of Love",
-    breathing: "Eternity Breathing",
     inhale: "Inhale Love",
     exhale: "Exhale Love",
-    guidance: "I flow with eternity. I am home. Relaxation is my nature.",
-    header: "I live inside out",
-    headerHighlight: "with an open heart",
+    guidance: "I flow with eternity I am home Relaxation is my nature",
     button: "Return to Sanctuary"
   },
   de: {
     title: "Atem der Liebe",
-    breathing: "Ewiges Atmen",
     inhale: "Liebe einatmen",
     exhale: "Liebe ausatmen",
-    guidance: "Ich fließe mit der Ewigkeit. Ich bin zu Hause. Entspannung ist meine Natur.",
-    header: "Ich lebe von innen nach außen",
-    headerHighlight: "mit offenem Herzen",
+    guidance: "Ich fließe mit der Ewigkeit Ich bin zu Hause Entspannung ist meine Natur",
     button: "Zurück zum Sanctuary"
   },
   pt: {
     title: "Sopro de Amor",
-    breathing: "Respiração da Eternidade",
     inhale: "Inspire Amor",
     exhale: "Expire Amor",
-    guidance: "Eu fluo com a eternidade. Estou em casa. Relaxamento é minha natureza.",
-    header: "Eu vivo de dentro para fora",
-    headerHighlight: "com o coração aberto",
+    guidance: "Eu fluo com a eternidade Estou em casa Relaxamento é minha natureza",
     button: "Retornar ao Santuário"
   },
   ru: {
     title: "Дыхание Любви",
-    breathing: "Дыхание Вечности",
     inhale: "Вдохни Любовь",
     exhale: "Выдохни Любовь",
-    guidance: "Я дышу вечностью. Я дома. Расслабление — моя природа.",
-    header: "Я живу изнутри наружу",
-    headerHighlight: "с открытым сердцем",
+    guidance: "Я дышу вечностью Я дома Расслабление моя природа",
     button: "Вернуться в пространство"
   }
 };
@@ -72,14 +57,26 @@ export default function SelfCare() {
 
   const t = CONTENT[lang] || CONTENT.en;
 
+  const renderLetters = (text: string, delayBase: number) => {
+    return text.split('').map((char, i) => (
+      <span 
+        key={i} 
+        style={{ animationDelay: `${delayBase + (i * 0.1)}s` }}
+        className="inline-block animate-[letter-fade_8s_infinite] opacity-0"
+      >
+        {char === ' ' ? '\u00A0' : char}
+      </span>
+    ));
+  };
+
   return (
     <main className="min-h-screen bg-[#54a5d5] text-white flex flex-col font-headline relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-white/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute inset-0 bg-white/5 blur-[120px] rounded-full pointer-events-none" />
 
       <header className="px-6 py-8 flex items-center justify-between sticky top-0 z-50 shrink-0">
         <button 
           onClick={() => { playHeartbeat(); router.back(); }}
-          className="text-white/60 hover:text-white transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest p-3 bg-white/10 rounded-full border border-white/20 backdrop-blur-md"
+          className="text-white/60 hover:text-white transition-colors flex items-center gap-2 p-3 bg-white/10 rounded-full border border-white/20 backdrop-blur-md"
         >
           <ArrowLeft className="w-4 h-4" />
         </button>
@@ -92,114 +89,57 @@ export default function SelfCare() {
       <ScrollArea className="flex-1">
         <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto px-6 py-12 space-y-12 pb-40 touch-pan-y min-h-[75vh]">
           
-          {/* Eternity Ouroboros Animation - Wide horizontal Figure-Eight */}
-          <div className="relative flex flex-col items-center justify-center w-full h-[44vh]">
-            <svg 
-              viewBox="0 0 400 200" 
-              className="w-full h-full drop-shadow-[0_0_40px_rgba(102,178,178,0.4)]"
-              preserveAspectRatio="xMidYMid meet"
-            >
-              <defs>
-                <filter id="headGlow">
-                  <feGaussianBlur stdDeviation="6" result="blur" />
-                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
-              </defs>
-
-              {/* Wide Eternity Path */}
-              <path
-                id="infinityPath"
-                d="M 200 100 C 200 20 20 20 20 100 C 20 180 200 180 200 100 C 200 20 380 20 380 100 C 380 180 200 180 200 100"
-                fill="none"
-                stroke="rgba(102, 178, 178, 0.2)"
-                strokeWidth="12"
-                strokeLinecap="round"
-                className="opacity-50"
-              />
-              
-              <path
-                d="M 200 100 C 200 20 20 20 20 100 C 20 180 200 180 200 100 C 200 20 380 20 380 100 C 380 180 200 180 200 100"
-                fill="none"
-                stroke="#66b2b2"
-                strokeWidth="1"
-                strokeDasharray="6 12"
-                className="opacity-40"
-              />
-
-              {/* Sliding Cobra Head - 16s cycle */}
-              <g filter="url(#headGlow)">
-                <circle r="10" fill="#66b2b2">
-                  <animateMotion
-                    dur="16s"
-                    repeatCount="indefinite"
-                    path="M 200 100 C 200 20 20 20 20 100 C 20 180 200 180 200 100 C 200 20 380 20 380 100 C 380 180 200 180 200 100"
-                    rotate="auto"
-                  />
-                </circle>
-                <circle r="4" fill="white" opacity="0.7">
-                  <animateMotion
-                    dur="16s"
-                    repeatCount="indefinite"
-                    path="M 200 100 C 200 20 20 20 20 100 C 20 180 200 180 200 100 C 200 20 380 20 380 100 C 380 180 200 180 200 100"
-                    rotate="auto"
-                  />
-                </circle>
-              </g>
-            </svg>
-
-            <div className="mt-12 text-center relative h-24 w-full flex items-center justify-center">
-              {/* Sunrise Staggered Text - No overlapping */}
-              <h2 className={cn(
-                "text-4xl font-black uppercase tracking-tighter absolute animate-sunrise-inhale",
-                lang === 'ru' && "italic font-serif"
-              )}>
-                {t.inhale}
-              </h2>
-              <h2 className={cn(
-                "text-4xl font-black uppercase tracking-tighter absolute animate-sunrise-exhale opacity-0",
-                lang === 'ru' && "italic font-serif"
-              )}>
-                {t.exhale}
-              </h2>
-            </div>
+          {/* Resonance Aura & Golden Disc */}
+          <div className="relative w-64 h-64 flex items-center justify-center mb-12">
+            {/* White Aura Layer */}
+            <div className="absolute w-48 h-48 bg-white rounded-full animate-aura opacity-20 blur-3xl" />
+            {/* Blue Aura Layer */}
+            <div className="absolute w-56 h-56 bg-blue-400 rounded-full animate-aura opacity-30 blur-2xl" style={{ animationDelay: '0.5s' }} />
             
-            <p className={cn(
-              "text-[10px] font-black text-white/30 uppercase tracking-[0.4em] animate-pulse mt-4",
-              lang === 'ru' && "italic font-serif"
-            )}>
-              {t.breathing}
-            </p>
+            {/* Orbit Path */}
+            <div className="absolute w-[240px] h-[240px] rounded-full border border-white/10" />
+            
+            {/* Golden Disc */}
+            <div className="absolute w-6 h-6 bg-yellow-400 rounded-full shadow-[0_0_20px_rgba(250,204,21,0.8)] animate-orbit" />
+            
+            <div className="relative z-10 text-center">
+               <Sparkles className="w-8 h-8 text-white/40 animate-pulse" />
+            </div>
           </div>
 
-          <div className="space-y-10 w-full text-center">
-            <div className="space-y-4 px-4">
+          <div className="space-y-16 w-full text-center">
+            {/* Breathing Text - One Line, Letter by Letter */}
+            <div className="h-12 flex items-center justify-center gap-8">
+              <div className={cn("text-3xl font-black uppercase tracking-tighter flex whitespace-nowrap", lang === 'ru' && "italic font-serif")}>
+                <div className="flex">
+                  {renderLetters(t.inhale, 0)}
+                </div>
+                <span className="mx-4 opacity-20">|</span>
+                <div className="flex">
+                  {renderLetters(t.exhale, 4)}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-6">
               <p className={cn(
-                "text-xl font-black uppercase tracking-tighter text-white/90 leading-tight max-w-[300px] mx-auto",
+                "text-lg font-black uppercase tracking-widest text-white/80 leading-tight max-w-[320px] mx-auto",
                 lang === 'ru' && "italic font-serif"
               )}>
                 {t.guidance}
               </p>
               <div className="w-12 h-1 bg-white/20 rounded-full mx-auto" />
             </div>
-
-            <div className="space-y-2">
-              <h1 className={cn("text-2xl font-black uppercase tracking-tighter leading-none text-white", lang === 'ru' && "italic font-serif")}>
-                {t.header} <br/> <span className="text-emerald-300/80">{t.headerHighlight}</span>
-              </h1>
-              <p className={cn("text-[9px] font-bold text-white/40 uppercase tracking-[0.3em] mt-4", lang === 'ru' && "italic font-serif")}>
-                Feel home. You are loved.
-              </p>
-            </div>
           </div>
         </div>
       </ScrollArea>
 
-      <footer className="fixed bottom-0 left-0 right-0 h-[120px] bg-black/10 backdrop-blur-md flex flex-col items-center justify-center px-6 z-50">
+      <footer className="fixed bottom-0 left-0 right-0 h-[120px] bg-black/10 backdrop-blur-md flex flex-col items-center justify-center px-6 z-50 pb-safe">
         <button 
           onClick={() => { playHeartbeat(); router.push('/dashboard'); }}
           className={cn(
-            "w-full max-sm h-16 rounded-full font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl flex items-center justify-center gap-3",
-            "bg-[#1b3e4d] text-white", // Organic Blue for the sea canvas
+            "w-full max-sm h-16 rounded-full font-black uppercase tracking-widest active:scale-95 transition-all shadow-2xl flex items-center justify-center gap-3",
+            "bg-[#1b3e4d] text-white",
             lang === 'ru' && "italic font-serif"
           )}
         >
