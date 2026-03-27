@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -12,8 +11,7 @@ import { playHeartbeat } from "@/lib/resonance";
 
 /**
  * @fileOverview Phase: During.
- * Support for EN, DE, PT, RU.
- * Integrated Breath of Love shortcut for grounding.
+ * Updated: Affirmations to 3-word/4-word rhythmic rule.
  */
 export default function DuringPhase() {
   const router = useRouter();
@@ -44,41 +42,41 @@ export default function DuringPhase() {
     en: {
       title: "Safety Advisor",
       phase: "Phase: During",
-      affirmation: "I love unconditionally. I accept without expectations. I am free and I give freedom.",
+      affirmation: "Unconditional love always",
       ritualTitle: "Breath of Love",
-      ritualSub: "I love and respect my need for grounding",
+      ritualSub: "Honoring my grounded state",
       ritualBtn: "Open Ritual"
     },
     de: {
       title: "Sicherheits-Berater",
       phase: "Phase: Währenddessen",
-      affirmation: "Ich liebe bedingungslos. Ich akzeptiere ohne Erwartungen. Ich bin frei und schenke Freiheit.",
+      affirmation: "Bedingungslose Liebe immerzu hier",
       ritualTitle: "Atem der Liebe",
-      ritualSub: "Ich achte mein Bedürfnis nach Erdung",
+      ritualSub: "Meinen geerdeten Zustand achtend",
       ritualBtn: "Ritual öffnen"
     },
     pt: {
       title: "Assessor de Segurança",
       phase: "Fase: Durante",
-      affirmation: "Eu amo incondicionalmente. Eu aceito sem expectativas. Eu sou livre e dou liberdade.",
+      affirmation: "Amor incondicional sempre aqui",
       ritualTitle: "Sopro de Amor",
-      ritualSub: "Eu amo e respeito minha necessidade de aterramento",
+      ritualSub: "Honrando meu estado aterrado",
       ritualBtn: "Abrir Ritual"
     },
     ru: {
       title: "Забота",
       phase: "Фаза: Во время",
-      affirmation: "Я люблю безусловно. Я принимаю без ожиданий. Я свободен и даю свободу.",
+      affirmation: "Безусловная любовь всегда здесь",
       ritualTitle: "Дыхание Любви",
-      ritualSub: "Я люблю и уважаю свою потребность в заземлении",
+      ritualSub: "Уважаю свое состояние заземления",
       ritualBtn: "Начать"
     }
   }[lang] || {
     title: "Safety Advisor",
     phase: "Phase: During",
-    affirmation: "I love unconditionally. I accept without expectations. I am free and I give freedom.",
+    affirmation: "Unconditional love always",
     ritualTitle: "Breath of Love",
-    ritualSub: "I love and respect my need for grounding",
+    ritualSub: "Honoring my grounded state",
     ritualBtn: "Open Ritual"
   };
 

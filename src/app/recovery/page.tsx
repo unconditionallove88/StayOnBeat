@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -9,8 +8,7 @@ import { playHeartbeat } from '@/lib/resonance';
 
 /**
  * @fileOverview Recovery Protocol Page.
- * Support for EN, DE, PT, RU.
- * Integrated Breath of Love as the first integration step.
+ * Updated: Affirmations to 3-word/4-word rhythmic rule.
  */
 
 export default function RecoveryView() {
@@ -144,11 +142,11 @@ export default function RecoveryView() {
   };
 
   const affirmation = {
-    en: "I love unconditionally. I accept without expectations. I am free and I give freedom.",
-    de: "Ich liebe bedingungslos. Ich akzeptiere ohne Erwartungen. Ich bin frei und schenke Freiheit.",
-    pt: "Eu amo incondicionalmente. Eu aceito sem expectativas. Eu sou livre e dou liberdade.",
-    ru: "Я люблю безусловно. Я принимаю без ожиданий. Я свободен и даю свободу."
-  }[lang] || "I love unconditionally. I accept without expectations. I am free and I give freedom.";
+    en: "Unconditional love always",
+    de: "Bedingungslose Liebe immerzu hier",
+    pt: "Amor incondicional sempre aqui",
+    ru: "Безусловная любовь всегда здесь"
+  }[lang] || "Unconditional love always";
 
   const generateDetox = (logs: any[]) => {
     const plan: any[] = [];

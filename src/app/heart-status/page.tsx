@@ -16,9 +16,8 @@ import { cn } from '@/lib/utils';
 
 /**
  * @fileOverview My Heart Page (Individual Analytics).
- * Minimalist update: Focused purely on Inner Resonance and affirmations.
- * Fully localized for EN, DE, PT, RU.
- * Updated "Witnesses" to "Spectators".
+ * Corrected import: 'next/navigation'.
+ * Updated: Primary command color to wise dark green (#1b4d3e).
  */
 export default function MyHeartPage() {
   const router = useRouter();
@@ -119,7 +118,7 @@ export default function MyHeartPage() {
   return (
     <div className="flex flex-col min-h-screen bg-[#050505] p-6 pb-32 font-headline overflow-x-hidden relative">
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
-        <div className="w-full h-full bg-[radial-gradient(#10B981_1px,transparent_1px)] [background-size:24px_24px]" />
+        <div className="w-full h-full bg-[radial-gradient(#58c55a_1px,transparent_1px)] [background-size:24px_24px]" />
       </div>
 
       <header className="flex items-center gap-4 mb-8 shrink-0 z-10">
@@ -133,7 +132,7 @@ export default function MyHeartPage() {
           <h1 className={cn("text-2xl font-black uppercase tracking-tighter", lang === 'ru' && "italic font-serif")}>
             {t.title}
           </h1>
-          <p className={cn("text-[10px] text-[#10B981] font-black uppercase tracking-[0.3em]", lang === 'ru' && "italic font-serif")}>
+          <p className={cn("text-[10px] text-primary font-black uppercase tracking-[0.3em]", lang === 'ru' && "italic font-serif")}>
             {t.sub}
           </p>
         </div>
@@ -154,15 +153,15 @@ export default function MyHeartPage() {
         <div className="grid grid-cols-1 gap-4 w-full max-w-sm">
           <button 
             onClick={() => setHoldersOpen(true)}
-            className="w-full p-6 rounded-[2.5rem] bg-white/[0.02] border border-white/5 flex items-center justify-between hover:bg-white/5 hover:border-[#10B981]/30 transition-all group shadow-2xl"
+            className="w-full p-6 rounded-[2.5rem] bg-white/[0.02] border border-white/5 flex items-center justify-between hover:bg-white/5 hover:border-primary/30 transition-all group shadow-2xl"
           >
             <div className="flex items-center gap-5">
-              <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 group-hover:scale-110 transition-transform">
-                <HeartHandshake size={28} className="text-[#10B981]" />
+              <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform">
+                <HeartHandshake size={28} className="text-primary" />
               </div>
               <div className="text-left">
                 <p className={cn("text-lg font-black uppercase tracking-tight text-white", lang === 'ru' && "italic font-serif")}>{t.holders}</p>
-                <p className={cn("text-[8px] font-bold text-[#10B981] uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.holdersSub}</p>
+                <p className={cn("text-[8px] font-bold text-primary uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.holdersSub}</p>
               </div>
             </div>
             <ChevronRight size={20} className="text-white/10 group-hover:text-white transition-all" />
@@ -170,15 +169,15 @@ export default function MyHeartPage() {
 
           <button 
             onClick={() => setWitnessesOpen(true)}
-            className="w-full p-6 rounded-[2.5rem] bg-white/[0.02] border border-white/5 flex items-center justify-between hover:bg-white/5 hover:border-amber-500/30 transition-all group shadow-2xl"
+            className="w-full p-6 rounded-[2.5rem] bg-white/[0.02] border border-white/5 flex items-center justify-between hover:bg-white/5 hover:border-accent/30 transition-all group shadow-2xl"
           >
             <div className="flex items-center gap-5">
-              <div className="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center border border-amber-500/20 group-hover:scale-110 transition-transform">
-                <Users2 size={28} className="text-amber-500" />
+              <div className="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center border border-accent/20 group-hover:scale-110 transition-transform">
+                <Users2 size={28} className="text-accent" />
               </div>
               <div className="text-left">
                 <p className={cn("text-lg font-black uppercase tracking-tight text-white", lang === 'ru' && "italic font-serif")}>{t.witnesses}</p>
-                <p className={cn("text-[8px] font-bold text-amber-500 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.witnessesSub}</p>
+                <p className={cn("text-[8px] font-bold text-accent uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.witnessesSub}</p>
               </div>
             </div>
             <ChevronRight size={20} className="text-white/10 group-hover:text-white transition-all" />

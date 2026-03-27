@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -29,7 +28,7 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
   const content = {
     en: {
       successTitle: "Reminders active",
-      successSub: "We will check in on your heart every day with kindness",
+      successSub: "I am loved",
       header: "Daily Heart Check-in",
       sub: "Choose when you would like us to check in",
       enable: "Enable Reminders",
@@ -43,7 +42,7 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
     },
     de: {
       successTitle: "Erinnerungen aktiv",
-      successSub: "Wir werden jeden Tag liebevoll nach deinem Herzen sehen",
+      successSub: "Ich werde geliebt heute",
       header: "Täglicher Heart Check-in",
       sub: "Wähle aus, wann wir bei dir nachfragen sollen",
       enable: "Erinnerungen aktivieren",
@@ -57,7 +56,7 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
     },
     pt: {
       successTitle: "Lembretes ativos",
-      successSub: "Cuidaremos do seu coração todos os dias com carinho",
+      successSub: "Eu sou muito amado",
       header: "Check-in Diário",
       sub: "Escolha o melhor horário para cuidarmos de você",
       enable: "Ativar Lembretes",
@@ -71,7 +70,7 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
     },
     ru: {
       successTitle: "Напоминания активны",
-      successSub: "Мы будем заботливо проверять ваше состояние каждый день",
+      successSub: "Я очень сильно любим",
       header: "Ежедневная Проверка",
       sub: "Выберите время для напоминания о себе",
       enable: "Включить",
@@ -90,15 +89,15 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
   if (isEnabled) {
     return (
       <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[5000] flex items-end sm:items-center justify-center p-0 sm:p-6 animate-in fade-in duration-500 font-headline">
-        <div className="bg-[#0a0a0a] w-full max-w-md rounded-t-[3rem] sm:rounded-[3rem] border-t-2 sm:border-2 border-[#3EB489]/30 p-12 text-center shadow-[0_-20px_100px_rgba(0,0,0,0.5)]">
-          <div className="w-24 h-24 bg-[#3EB489]/10 rounded-full flex items-center justify-center mx-auto mb-8 border-2 border-[#3EB489]/20 shadow-[0_0_40px_rgba(62,180,137,0.1)]">
-            <Heart size={48} fill="#3EB489" className="text-[#3EB489] animate-pulse-heart" />
+        <div className="bg-[#0a0a0a] w-full max-w-md rounded-t-[3rem] sm:rounded-[3rem] border-t-2 sm:border-2 border-primary/30 p-12 text-center shadow-[0_-20px_100px_rgba(0,0,0,0.5)]">
+          <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-8 border-2 border-primary/20 shadow-[0_0_40px_rgba(27,77,62,0.1)]">
+            <Heart size={48} fill="currentColor" className="text-primary animate-pulse-heart" />
           </div>
-          <h2 className="text-3xl font-black uppercase tracking-tighter text-[#3EB489] mb-4">
+          <h2 className="text-3xl font-black uppercase tracking-tighter text-primary mb-4">
             {t.successTitle}
           </h2>
           <p className="text-white/60 text-lg font-bold leading-tight">
-            {t.successSub}
+            "{t.successSub}"
           </p>
         </div>
       </div>
@@ -108,7 +107,7 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[5000] flex items-end sm:items-center justify-center p-0 sm:p-6 animate-in fade-in duration-500 font-headline">
       <div className="bg-[#0a0a0a] w-full max-w-md rounded-t-[3rem] sm:rounded-[3rem] border-t-2 sm:border-2 border-white/10 p-8 pb-12 shadow-[0_-20px_100px_rgba(0,0,0,0.5)] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-[#3EB489]/5 blur-3xl -z-10" />
+        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl -z-10" />
         
         <div className="w-16 h-1 bg-white/10 rounded-full mx-auto mb-10 sm:hidden" />
 
@@ -120,8 +119,8 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
         </button>
 
         <div className="text-center mb-10">
-          <div className="w-20 h-20 bg-[#3EB489]/10 border-2 border-[#3EB489]/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_40px_rgba(62,180,137,0.1)]">
-            <Bell size={32} className="text-[#3EB489]" />
+          <div className="w-20 h-20 bg-primary/10 border-2 border-primary/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_40px_rgba(27,77,62,0.1)]">
+            <Bell size={32} className="text-primary" />
           </div>
           <h2 className="text-3xl font-black uppercase tracking-tighter text-white leading-none">
             {t.header}
@@ -140,7 +139,7 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
               className={cn(
                 "py-5 px-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all border-2",
                 preferredHour === option.value
-                  ? "bg-[#3EB489]/10 border-[#3EB489] text-[#3EB489] shadow-lg shadow-[#3EB489]/10"
+                  ? "bg-primary/10 border-primary text-primary shadow-lg shadow-primary/10"
                   : "bg-white/5 border-white/5 text-white/40 hover:border-white/20"
               )}
             >
@@ -152,7 +151,7 @@ export default function NotificationPrompt({ onClose }: NotificationPromptProps)
         <div className="space-y-4">
           <button
             onClick={handleEnable}
-            className="w-full h-20 bg-[#3EB489] text-black rounded-[1.5rem] font-black text-xl uppercase tracking-widest transition-all active:scale-95 shadow-lg"
+            className="w-full h-20 bg-primary text-white rounded-[1.5rem] font-black text-xl uppercase tracking-widest transition-all active:scale-95 shadow-lg"
           >
             {t.enable}
           </button>

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -11,14 +10,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 /**
  * @fileOverview Phase: Before (Preparation Protocol).
- * Integrated core affirmation and support for EN, DE, PT, RU.
- * Unified ethereal lovable emerald heart for loading.
+ * Updated: Affirmations to 3-word/4-word rhythmic rule.
  */
 
 const CONTENT = {
   en: {
     title: "Preparation", subtitle: "Radiate from within", header: "Ready to shine?",
-    description: "I love unconditionally. I accept without expectations. I am free and I give freedom.",
+    description: "Unconditional love always",
     sections: { hydration: "Hydration", nutrition: "Nutrition", rest: "Rest", essentials: "Essentials" },
     hydrationAdvice: (liters: number) => `Based on your essence, drink ${liters} liters of water today Add electrolytes to maintain mineral balance`,
     nutritionAdvice: "Eat a solid balanced meal 3 hours before you head out Avoid heavy processed foods",
@@ -29,7 +27,7 @@ const CONTENT = {
   },
   de: {
     title: "Vorbereitung", subtitle: "Von innen heraus strahlen", header: "Bereit zu strahlen?",
-    description: "Ich liebe bedingungslos. Ich akzeptiere ohne Erwartungen. Ich bin frei und schenke Freiheit.",
+    description: "Bedingungslose Liebe immerzu hier",
     sections: { hydration: "Hydrierung", nutrition: "Ernährung", rest: "Erholung", essentials: "Essentials" },
     hydrationAdvice: (liters: number) => `Basierend auf deinem Körpergewicht trink heute ${liters} Liter Wasser Füge Elektrolyte hinzu um den Haushalt zu stabilisieren`,
     nutritionAdvice: "Iss 3 Stunden vor dem Aufbruch eine ausgewogene Mahlzeit Vermeide schwere verarbeitete Lebensmittel",
@@ -40,7 +38,7 @@ const CONTENT = {
   },
   pt: {
     title: "Preparação", subtitle: "Irradie por dentro", header: "Pronto para brilhar?",
-    description: "Eu amo incondicionalmente. Eu aceito sem expectativas. Eu sou livre e dou liberdade.",
+    description: "Amor incondicional sempre aqui",
     sections: { hydration: "Hidratação", nutrition: "Nutrição", rest: "Repouso", essentials: "Essenciais" },
     hydrationAdvice: (liters: number) => `Com base na sua essência, beba ${liters} litros de água hoje Adicione eletrólitos para manter o equilíbrio mineral`,
     nutritionAdvice: "Faça uma refeição equilibrada 3 horas antes de sair Evite alimentos pesados processados",
@@ -51,7 +49,7 @@ const CONTENT = {
   },
   ru: {
     title: "Подготовка", subtitle: "Сияй изнутри", header: "Готов сиять?",
-    description: "Я люблю безусловно. Я принимаю без ожиданий. Я свободен и даю свободу.",
+    description: "Безусловная любовь всегда здесь",
     sections: { hydration: "Гидратация", nutrition: "Питание", rest: "Отдых", essentials: "Главное" },
     hydrationAdvice: (liters: number) => `Исходя из твоего веса, выпей ${liters} литра воды сегодня Добавь электролиты для баланса минералов`,
     nutritionAdvice: "Поешь сбалансированную еду за 3 часа до выхода Избегай тяжелой обработанной пищи",
@@ -86,15 +84,15 @@ export default function BeforePhase() {
     return (
       <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
         <div className="relative flex items-center justify-center">
-          <div className="absolute inset-0 w-32 h-32 bg-[#10B981]/10 blur-[60px] rounded-full" />
+          <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
           <Heart 
             size={64} 
-            fill="#10B981" 
-            className="relative z-10 animate-pulse-heart text-[#10B981]" 
-            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #10B981)' }} 
+            fill="#58c55a" 
+            className="relative z-10 animate-pulse-heart text-[#58c55a]" 
+            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #58c55a)' }} 
           />
         </div>
-        <Loader2 className="animate-spin text-[#10B981]/20" />
+        <Loader2 className="animate-spin text-primary/20" />
       </div>
     );
   }
@@ -115,10 +113,10 @@ export default function BeforePhase() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-emerald-500/5 blur-[120px] rounded-full -z-10" />
 
       <header className="px-6 py-8 border-b border-white/5 bg-black/80 backdrop-blur-xl flex items-center gap-4 sticky top-0 z-50">
-        <button onClick={() => router.push("/dashboard")} className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all"><ArrowLeft className="w-5 h-5 text-white/40" /></button>
+        <button onClick={() => router.push("/dashboard")} className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-primary transition-all"><ArrowLeft className="w-5 h-5 text-white/40" /></button>
         <div>
           <h1 className={cn("text-xl font-black uppercase tracking-tighter", lang === 'ru' && "italic font-serif")}>{t.title}</h1>
-          <p className={cn("text-[10px] font-black text-[#10B981] uppercase tracking-[0.3em]", lang === 'ru' && "italic font-serif")}>{t.subtitle}</p>
+          <p className={cn("text-[10px] font-black text-primary uppercase tracking-[0.3em]", lang === 'ru' && "italic font-serif")}>{t.subtitle}</p>
         </div>
       </header>
 
@@ -127,7 +125,7 @@ export default function BeforePhase() {
           <section className="text-center space-y-4">
             <h2 className={cn("text-4xl font-black uppercase tracking-tighter leading-none", lang === 'ru' && "italic font-serif")}>{t.header}</h2>
             <p className={cn(
-              "text-[#10B981] text-sm font-bold uppercase tracking-widest leading-relaxed max-w-[340px] mx-auto",
+              "text-primary text-sm font-bold uppercase tracking-widest leading-relaxed max-w-[340px] mx-auto",
               lang === 'ru' ? "italic font-serif" : "italic"
             )}>
               "{t.description}"
@@ -164,7 +162,7 @@ export default function BeforePhase() {
       </ScrollArea>
 
       <footer className="fixed bottom-0 left-0 right-0 h-[100px] bg-black/90 backdrop-blur-xl border-t border-white/5 flex items-center justify-center px-6 z-50 pb-safe">
-        <button onClick={() => router.push("/dashboard")} className={cn("w-full max-sm py-6 bg-[#10B981] text-black rounded-full font-black uppercase text-lg tracking-[0.1em] active:scale-95 transition-all shadow-lg shadow-emerald-500/20", lang === 'ru' && "italic font-serif")}>{t.button}</button>
+        <button onClick={() => router.push("/dashboard")} className={cn("w-full max-sm py-6 bg-primary text-white rounded-full font-black uppercase text-lg tracking-[0.1em] active:scale-95 transition-all shadow-lg shadow-primary/20", lang === 'ru' && "italic font-serif")}>{t.button}</button>
       </footer>
     </main>
   );

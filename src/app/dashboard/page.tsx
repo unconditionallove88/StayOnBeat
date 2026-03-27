@@ -78,10 +78,10 @@ function SkyIcon() {
 }
 
 const AFFIRMATIONS = {
-  EN: ["I am loved", "Truth is love", "Life is a radiant gift", "I cherish this breath", "Equality is my nature", "I love unconditionally. I accept without expectations. I am free and I give freedom."],
-  DE: ["Ich bin geliebt", "Wahrheit ist liebe", "Das Leben ist ein strahlendes Geschenk", "Ich schätze diesen Atemzug", "Gleichheit ist meine Natur", "Ich liebe bedingungslos. Ich akzeptiere ohne Erwartungen. Ich bin frei und schenke Freiheit."],
-  PT: ["Eu sou amado", "A verdade é amor", "A vida é um presente radiante", "Eu valorizo este sopro", "A igualdade é a minha natureza", "Eu amo incondicionalmente. Eu aceito sem expectativas. Eu sou livre e dou liberdade."],
-  RU: ["Я любим", "Истина есть любовь", "Жизнь — это сияющий дар", "Я дорожу этим вдохом", "Равенство — моя природа", "Я люблю безусловно. Я принимаю без ожиданий. Я свободен и даю свободу."]
+  EN: ["I am loved", "Truth is love", "Life is radiant", "Cherish this breath", "Equality is nature", "Unconditional love always"],
+  DE: ["Ich werde geliebt heute", "Wahrheit ist Liebe pur", "Das Leben strahlt hell", "Schätze diesen Atem jetzt", "Gleichheit ist unsere Natur", "Bedingungslose Liebe immerzu hier"],
+  PT: ["Eu sou muito amado", "A verdade é amor", "Vida é presente radiante", "Eu valorizo este sopro", "Igualdade é minha natureza", "Amor incondicional sempre aqui"],
+  RU: ["Я очень сильно любим", "Истина это только любовь", "Жизнь это сияющий дар", "Я дорожу этим вдохом", "Равенство это моя природа", "Безусловная любовь всегда здесь"]
 };
 
 const TOOLTIPS = {
@@ -181,9 +181,9 @@ function DashboardContent() {
           <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
           <Heart 
             size={64} 
-            fill="#10B981" 
-            className="relative z-10 animate-pulse-heart text-[#10B981]" 
-            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #10B981)' }} 
+            fill="#58c55a" 
+            className="relative z-10 animate-pulse-heart text-[#58c55a]" 
+            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #58c55a)' }} 
           />
         </div>
         <Loader2 className="animate-spin text-primary/20" />
@@ -478,9 +478,9 @@ export default function Dashboard() {
           <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
           <Heart 
             size={64} 
-            fill="#10B981" 
-            className="relative z-10 animate-pulse-heart text-[#10B981]" 
-            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #10B981)' }} 
+            fill="#58c55a" 
+            className="relative z-10 animate-pulse-heart text-[#58c55a]" 
+            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #58c55a)' }} 
           />
         </div>
         <Loader2 className="animate-spin text-primary/20" />

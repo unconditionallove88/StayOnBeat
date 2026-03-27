@@ -8,31 +8,29 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview Breath of Love (Pure Resonance Ritual).
  * Optimized for iPhone: Single-screen layout, no scrolling.
- * Background: Sea color #54a5d5.
- * Visual: Pure large text "Inhale Love" and "Exhale Love" on one line.
- * Animation: Sequential Sunrise letter-by-letter fade in/out.
- * Navigation: Subtle, tender return tab with white wording.
+ * Affirmations: Sequential Sunrise letter-by-letter fade in/out.
+ * Rule: 3 words (EN) / 4 words (Others).
  */
 
 const CONTENT = {
   en: {
-    inhale: "Inhale Love",
-    exhale: "Exhale Love",
+    inhale: "I Inhale Love",
+    exhale: "I Exhale Love",
     button: "Return to Sanctuary"
   },
   de: {
-    inhale: "Liebe einatmen",
-    exhale: "Liebe ausatmen",
+    inhale: "Ich atme Liebe ein",
+    exhale: "Ich atme Liebe aus",
     button: "Zurück zum Sanctuary"
   },
   pt: {
-    inhale: "Inspire Amor",
-    exhale: "Expire Amor",
+    inhale: "Eu inspiro puro amor",
+    exhale: "Eu expiro puro amor",
     button: "Retornar ao Santuário"
   },
   ru: {
-    inhale: "Вдохни Любовь",
-    exhale: "Выдохни Любовь",
+    inhale: "Я вдыхаю только любовь",
+    exhale: "Я выдыхаю только любовь",
     button: "Вернуться в пространство"
   }
 };
