@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -6,9 +7,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview GuardianStatusBar Component.
- * Linguistic purification: Removed "safety" and "protection".
- * Soulful calibration: Refined status messages for organic feel across all languages.
- * Vibe-aware nuance: Includes emotional alignment in the status message.
+ * Updated: Primary safe color set to wise dark green #1b4d3e.
  */
 
 type Status = "safe" | "caution" | "locked";
@@ -28,7 +27,7 @@ export default function GuardianStatusBar({
 }: Props) {
   const config = {
     safe: {
-      color: "#10B981",
+      color: "#1b4d3e",
       icon: <HeartHandshake size={16} />,
       vibeIcon: <Sparkles size={14} />,
       text: {
