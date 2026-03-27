@@ -9,39 +9,39 @@ import { playHeartbeat } from '@/lib/resonance';
  * @fileOverview Breath of Love (Pure Resonance Ritual).
  * Optimized for iPhone: Single-screen layout, no scrolling.
  * Affirmations: Sequential Sunrise letter-by-letter fade in/out.
- * Rule: 3 words (EN) / 4 words (Others).
+ * Rule: 3 words (EN) / 4 words (TR/DE/PT).
  */
 
 const CONTENT = {
   en: {
-    inhale: "I Inhale Love",
-    exhale: "I Exhale Love",
+    inhale: "Inhale Love",
+    exhale: "Exhale Love",
     button: "Return to Sanctuary"
   },
   de: {
-    inhale: "Ich atme Liebe ein",
-    exhale: "Ich atme Liebe aus",
-    button: "Zurück zum Sanctuary"
+    inhale: "Aşkı içine çek",
+    exhale: "Aşkı dışarı bırak",
+    button: "Sığınağa geri dön"
   },
   pt: {
-    inhale: "Eu inspiro puro amor",
-    exhale: "Eu expiro puro amor",
-    button: "Retornar ao Santuário"
+    inhale: "Eu inspiro amor",
+    exhale: "Eu expiro amor",
+    button: "Retornar ao santuário"
   },
-  ru: {
-    inhale: "Я вдыхаю только любовь",
-    exhale: "Я выдыхаю только любовь",
-    button: "Вернуться в пространство"
+  tr: {
+    inhale: "Aşkı içine çek",
+    exhale: "Aşkı dışarı bırak",
+    button: "Sığınağa geri dön"
   }
 };
 
 export default function SelfCare() {
   const router = useRouter();
-  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'tr'>('en');
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de', 'pt', 'tr'].includes(savedLang)) setLang(savedLang);
   }, []);
 
   const t = CONTENT[lang] || CONTENT.en;
@@ -65,19 +65,13 @@ export default function SelfCare() {
         <div className="w-full text-center space-y-12">
           {/* Sequential Staggered Text on one line - 16s cycle */}
           <div className="flex items-center justify-center gap-12 relative min-h-[120px]">
-            <div className={cn(
-              "text-4xl md:text-6xl font-black uppercase tracking-tighter flex whitespace-nowrap justify-center items-center transition-all",
-              lang === 'ru' && "italic font-serif"
-            )}>
+            <div className="text-4xl md:text-6xl font-black uppercase tracking-tighter flex whitespace-nowrap justify-center items-center transition-all">
               <div className="flex">
                 {renderLetters(t.inhale, 0)}
               </div>
             </div>
             
-            <div className={cn(
-              "text-4xl md:text-6xl font-black uppercase tracking-tighter flex whitespace-nowrap justify-center items-center transition-all",
-              lang === 'ru' && "italic font-serif"
-            )}>
+            <div className="text-4xl md:text-6xl font-black uppercase tracking-tighter flex whitespace-nowrap justify-center items-center transition-all">
               <div className="flex">
                 {renderLetters(t.exhale, 8)}
               </div>
@@ -90,10 +84,7 @@ export default function SelfCare() {
       <footer className="p-12 flex flex-col items-center justify-center shrink-0 pb-16">
         <button 
           onClick={() => { playHeartbeat(); router.push('/dashboard'); }}
-          className={cn(
-            "px-8 py-3 rounded-full border border-white/20 bg-white/5 backdrop-blur-md transition-all active:scale-95 group hover:bg-white/10",
-            lang === 'ru' && "italic font-serif"
-          )}
+          className="px-8 py-3 rounded-full border border-white/20 bg-white/5 backdrop-blur-md transition-all active:scale-95 group hover:bg-white/10"
         >
           <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/80 group-hover:text-white transition-colors">
             {t.button}

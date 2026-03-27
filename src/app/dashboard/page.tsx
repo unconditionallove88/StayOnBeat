@@ -81,7 +81,7 @@ const AFFIRMATIONS = {
   EN: ["I am loved", "Truth is love", "Life is radiant", "Cherish this breath", "Equality is nature", "Unconditional love always"],
   DE: ["Ich werde geliebt heute", "Wahrheit ist Liebe pur", "Das Leben strahlt hell", "Schätze diesen Atem jetzt", "Gleichheit ist unsere Natur", "Bedingungslose Liebe immerzu hier"],
   PT: ["Eu sou muito amado", "A verdade é amor", "Vida é presente radiante", "Eu valorizo este sopro", "Igualdade é minha natureza", "Amor incondicional sempre aqui"],
-  RU: ["Я очень сильно любим", "Истина это только любовь", "Жизнь это сияющий дар", "Я дорожу этим вдохом", "Равенство это моя природа", "Безусловная любовь всегда здесь"]
+  TR: ["Sevgiyle sarmalanmış durumdayım", "Gerçek olan sadece sevgidir", "Hayat parlayan bir armağan", "Nefesini şimdi fark et", "Eşitlik bizim öz doğamız", "Koşulsuz sevgi her zaman"]
 };
 
 const TOOLTIPS = {
@@ -97,9 +97,9 @@ const TOOLTIPS = {
     vibe: "Sincronia de Humor", cocreation: "Co-Criação", assistant: "Assistente IA", profile: "Meu Perfil", logout: "Sair", mesh: "Modo Offline: Mesh Ativo",
     meshCalibration: "Calibração de Mesh Necessária", meshCalibrationSub: "Definir visibilidade"
   },
-  ru: { 
-    vibe: "Настроение", cocreation: "Со-творение", assistant: "Забота", profile: "Мой Профиль", logout: "Выйти", mesh: "Оффлайн: Mesh Активен",
-    meshCalibration: "Нужна калибровка Mesh", meshCalibrationSub: "Настроить видимость"
+  tr: { 
+    vibe: "Ruh Hali Kontrolü", cocreation: "Birlikte Yaratım", assistant: "Asistan", profile: "Profilim", logout: "Ayrıl", mesh: "Çevrimdışı: Mesh Aktif",
+    meshCalibration: "Mesh Kalibrasyonu Gerekli", meshCalibrationSub: "Görünürlüğü ayarlamak için dokun"
   }
 };
 
@@ -111,7 +111,7 @@ function DashboardContent() {
   const firestore = useFirestore();
   const [mounted, setMounted] = useState(false);
   const [affirmation, setAffirmation] = useState("");
-  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'tr'>('en');
   
   const [simHeartRate, setSimHeartRate] = useState(75);
   const [activeSubstances, setActiveSubstances] = useState<string[]>([]);
@@ -127,7 +127,7 @@ function DashboardContent() {
   useEffect(() => {
     setMounted(true);
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    const currentLang = ['en', 'de', 'pt', 'ru'].includes(savedLang) ? savedLang : 'en';
+    const currentLang = ['en', 'de', 'pt', 'tr'].includes(savedLang) ? savedLang : 'en';
     setLang(currentLang);
 
     const pool = AFFIRMATIONS[currentLang.toUpperCase() as keyof typeof AFFIRMATIONS];
@@ -200,14 +200,14 @@ function DashboardContent() {
       <div className="px-6 py-6 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
         <header className="flex justify-between items-center max-w-4xl mx-auto w-full gap-4">
           <div className="flex-1 min-w-0">
-            <h1 className={cn("text-2xl font-black uppercase tracking-tighter flex items-center gap-3 truncate", lang === 'ru' && "italic font-serif")}>
-              <span className="truncate">{lang === 'ru' ? `СИЯЙ, ${displayName}` : lang === 'pt' ? `BRILHE, ${displayName}` : lang === 'de' ? `STRAHLE, ${displayName}` : `SHINE, ${displayName}`}</span>
+            <h1 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-3 truncate">
+              <span className="truncate">{lang === 'tr' ? `PARLA, ${displayName}` : lang === 'pt' ? `BRILHE, ${displayName}` : lang === 'de' ? `STRAHLE, ${displayName}` : `SHINE, ${displayName}`}</span>
               <SkyIcon />
             </h1>
             <div className="flex items-center gap-2 mt-1">
               <div className="px-2 py-0.5 bg-blue-500/10 border border-blue-500/20 rounded-full flex items-center gap-1.5 animate-in fade-in duration-1000">
                 <Radio size={8} className="text-blue-400 animate-pulse" />
-                <span className={cn("text-[7px] font-black uppercase tracking-widest text-blue-400/80", lang === 'ru' && "italic font-serif")}>{t.mesh}</span>
+                <span className="text-[7px] font-black uppercase tracking-widest text-blue-400/80">{t.mesh}</span>
               </div>
             </div>
           </div>
@@ -236,8 +236,8 @@ function DashboardContent() {
               >
                 <AlertCircle className="text-blue-400 shrink-0" size={24} />
                 <div className="text-left">
-                  <p className={cn("text-[10px] font-black uppercase tracking-widest text-blue-400", lang === 'ru' && "italic font-serif")}>{t.meshCalibration}</p>
-                  <p className={cn("text-[8px] font-bold text-white/40 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.meshCalibrationSub}</p>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-blue-400">{t.meshCalibration}</p>
+                  <p className="text-[8px] font-bold text-white/40 uppercase tracking-widest">{t.meshCalibrationSub}</p>
                 </div>
               </button>
             )}
@@ -257,16 +257,13 @@ function DashboardContent() {
                   activeSubstances={activeSubstances} 
                   lang={lang} 
                 />
-                <p className={cn(
-                  "text-xs font-bold uppercase tracking-widest text-primary px-10",
-                  lang === 'ru' ? "italic font-serif" : "italic"
-                )}>"{affirmation}"</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-primary px-10 italic">"{affirmation}"</p>
               </div>
             </Link>
           </div>
 
           <div className="space-y-8">
-            <h2 className={cn("text-[10px] font-black uppercase tracking-[0.4em] text-white/20 text-center", lang === 'ru' && "italic font-serif")}>
+            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 text-center">
               Sanctuary Tools
             </h2>
             <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto">
@@ -279,8 +276,8 @@ function DashboardContent() {
                   <RadiatingThirdEye size={36} color="#3b82f6" />
                 </div>
                 <div className="space-y-1">
-                  <p className={cn("text-lg font-black uppercase tracking-tight leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Пульс' : lang === 'pt' ? 'O Pulso' : lang === 'de' ? 'Der Puls' : 'The Pulse'}</p>
-                  <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>Mesh Radar</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'tr' ? 'Nabız' : lang === 'pt' ? 'O Pulso' : lang === 'de' ? 'Der Puls' : 'The Pulse'}</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Radar</p>
                 </div>
               </Link>
 
@@ -292,8 +289,8 @@ function DashboardContent() {
                   <Microscope size={36} className="text-white" />
                 </div>
                 <div className="space-y-1">
-                  <p className={cn("text-lg font-black uppercase tracking-tight leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Лаборатория' : lang === 'pt' ? 'Pulse Lab' : lang === 'de' ? 'Sitzungs-Labor' : 'Pulse Lab'}</p>
-                  <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>Intake</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'tr' ? 'Laboratuvar' : lang === 'pt' ? 'Pulse Lab' : lang === 'de' ? 'Sitzungs-Labor' : 'Pulse Lab'}</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Intake</p>
                 </div>
               </button>
 
@@ -305,8 +302,8 @@ function DashboardContent() {
                   <Watch size={32} className="text-accent" />
                 </div>
                 <div className="space-y-1">
-                  <p className={cn("text-lg font-black uppercase tracking-tight leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Синхронизация' : lang === 'pt' ? 'Pulse Sync' : lang === 'de' ? 'Vital-Sync' : 'Pulse Sync'}</p>
-                  <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>Mesh Sync</p>
+                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'tr' ? 'Senkronizasyon' : lang === 'pt' ? 'Pulse Sync' : lang === 'de' ? 'Vital-Sync' : 'Pulse Sync'}</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Sync</p>
                 </div>
               </button>
 
@@ -318,8 +315,8 @@ function DashboardContent() {
                   <PenLine size={32} className="text-purple-400" />
                 </div>
                 <div className="space-y-1">
-                  <p className={cn("text-lg font-black uppercase tracking-tight text-white leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Письма Любви' : lang === 'pt' ? 'Cartas de Amor' : lang === 'de' ? 'Liebesbriefe' : 'Love Letters'}</p>
-                  <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>Future Self</p>
+                  <p className="text-lg font-black uppercase tracking-tight text-white leading-none">{lang === 'tr' ? 'Sevgi Mektubu' : lang === 'pt' ? 'Cartas de Amor' : lang === 'de' ? 'Liebesbriefe' : 'Love Letters'}</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Future Self</p>
                 </div>
               </button>
 
@@ -331,8 +328,8 @@ function DashboardContent() {
                   <Bot size={32} className="text-primary" />
                 </div>
                 <div className="space-y-1">
-                  <p className={cn("text-lg font-black uppercase tracking-tight text-white leading-none", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Забота' : lang === 'pt' ? 'Assistente' : lang === 'de' ? 'KI-Begleiter' : 'Assistant'}</p>
-                  <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>AI Portal</p>
+                  <p className="text-lg font-black uppercase tracking-tight text-white leading-none">{lang === 'tr' ? 'Asistan' : lang === 'pt' ? 'Assistente' : lang === 'de' ? 'KI-Begleiter' : 'Assistant'}</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">AI Portal</p>
                 </div>
               </button>
 
@@ -344,8 +341,8 @@ function DashboardContent() {
                   <Shield size={32} />
                 </div>
                 <div className="space-y-1">
-                  <p className={cn("text-lg font-black uppercase tracking-tight text-white leading-none group-hover:text-white transition-colors", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Помощь' : lang === 'pt' ? 'Ajuda Imediata' : lang === 'de' ? 'Sofort-Hilфе' : 'Immediate Help'}</p>
-                  <p className={cn("text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors", lang === 'ru' && "italic font-serif")}>Mesh SOS</p>
+                  <p className="text-lg font-black uppercase tracking-tight text-white leading-none group-hover:text-white transition-colors">{lang === 'tr' ? 'Yardım' : lang === 'pt' ? 'Ajuda Imediata' : lang === 'de' ? 'Sofort-Hilfe' : 'Immediate Help'}</p>
+                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors">Mesh SOS</p>
                 </div>
               </button>
             </div>
@@ -358,14 +355,14 @@ function DashboardContent() {
               className="flex items-center gap-3 px-6 py-4 bg-blue-600/10 rounded-full border border-blue-500/20 hover:border-blue-500 transition-all active:scale-95"
             >
               <Wind size={18} className="text-blue-400" />
-              <span className={cn("text-[10px] font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{lang === 'ru' ? 'Дыхание Любви' : lang === 'pt' ? 'Sopro de Amor' : lang === 'de' ? 'Atem der Liebe' : 'Breath of Love'}</span>
+              <span className="text-[10px] font-black uppercase tracking-widest">{lang === 'tr' ? 'Sevgi Nefesi' : lang === 'pt' ? 'Sopro de Amor' : lang === 'de' ? 'Atem der Liebe' : 'Breath of Love'}</span>
             </Link>
             <button 
               onClick={() => handlePortalClick(() => setCoCreationOpen(true))} 
               className="flex items-center gap-3 px-6 py-4 bg-primary/10 rounded-full border border-primary/20 hover:border-primary transition-all active:scale-95"
             >
               <Sprout size={18} className="text-primary" />
-              <span className={cn("text-[10px] font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.cocreation}</span>
+              <span className="text-[10px] font-black uppercase tracking-widest">{t.cocreation}</span>
             </button>
           </div>
 
@@ -378,12 +375,11 @@ function DashboardContent() {
                     "w-full flex items-center justify-center gap-2 py-4 text-[9px] font-black uppercase transition-all duration-500",
                     guardianStatus === 'safe' && "text-primary opacity-40 hover:opacity-100",
                     guardianStatus === 'caution' && "text-[#F59E0B] opacity-80 hover:opacity-100",
-                    guardianStatus === 'locked' && "text-[#DC2626] opacity-100 animate-pulse",
-                    lang === 'ru' && "italic font-serif"
+                    guardianStatus === 'locked' && "text-[#DC2626] opacity-100 animate-pulse"
                   )}
                 >
                   <Settings2 size={12} />
-                  {lang === 'ru' ? 'Калибровка (Dev)' : lang === 'pt' ? 'Calibração (Dev)' : lang === 'de' ? 'Labor-Kalibrierung' : 'Lab Calibration'}
+                  {lang === 'tr' ? 'Kalibrasyon (Dev)' : lang === 'pt' ? 'Calibração (Dev)' : lang === 'de' ? 'Labor-Kalibrierung' : 'Lab Calibration'}
                   <ChevronDown className={cn("transition-transform", isSimulatorOpen && "rotate-180")} size={12} />
                 </button>
               </CollapsibleTrigger>
@@ -444,7 +440,7 @@ function DashboardContent() {
         <DialogContent className="bg-black border-white/10 max-lg p-0 rounded-[2rem] overflow-hidden flex flex-col h-auto max-h-[85dvh] top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">Co-Creation</DialogTitle>
           <div className="flex-1 overflow-y-auto">
-            <CoCreation onComplete={() => setCoCreationOpen(false)} />
+            <CoCreation onComplete={() => coCreationOpen && setCoCreationOpen(false)} />
           </div>
         </DialogContent>
       </Dialog>
@@ -453,7 +449,7 @@ function DashboardContent() {
         <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85dvh] top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">Pulse Sync</DialogTitle>
           <div className="flex-1 overflow-y-auto">
-            <WearablesSync onComplete={() => setSyncOpen(false)} />
+            <WearablesSync onComplete={() => syncOpen && setSyncOpen(false)} />
           </div>
         </DialogContent>
       </Dialog>
@@ -462,7 +458,7 @@ function DashboardContent() {
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[2rem] overflow-hidden flex flex-col h-auto max-h-[85dvh] top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">Love Letter</DialogTitle>
           <div className="flex-1 overflow-y-auto">
-            <LoveLetter onComplete={() => setLoveLetterOpen(false)} />
+            <LoveLetter onComplete={() => loveLetterOpen && setLoveLetterOpen(false)} />
           </div>
         </DialogContent>
       </Dialog>

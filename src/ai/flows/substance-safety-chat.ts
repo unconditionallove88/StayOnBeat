@@ -2,6 +2,7 @@
 /**
  * @fileOverview A Genkit flow for answering substance safety questions.
  * Integrated with exponential backoff retry logic and language detection.
+ * Languages: en, de, pt, tr.
  */
 
 import {ai} from '@/ai/genkit';
@@ -23,7 +24,7 @@ const AiSafetyChatInputSchema = z.object({
     medications: z.array(z.string()),
     healthConditions: z.array(z.string()),
   }),
-  lang: z.enum(['en', 'de', 'pt', 'ru']).optional().default('en'),
+  lang: z.enum(['en', 'de', 'pt', 'tr']).optional().default('en'),
 });
 export type AiSafetyChatInput = z.infer<typeof AiSafetyChatInputSchema>;
 
@@ -51,7 +52,6 @@ User Question: {{{question}}}
 
 LANGUAGE REQUIREMENT:
 Respond exclusively in the language code: {{{lang}}}.
-If lang is 'ru', use warm, personal, informal language ("ты/твой").
 
 CRITICAL GUIDELINES:
 1. If mixing (Alcohol + GHB, Stimulant + Stimulant, SSRIs + MDMA), provide an immediate **CRITICAL WARNING** in all-caps.

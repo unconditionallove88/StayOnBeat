@@ -8,22 +8,21 @@ import { cn } from "@/lib/utils";
 /**
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
  * Updated: Action Buttons set to wise dark green #1b4d3e.
- * Slogan: Founded on love and rhythm of life.
- * Value Prop: Space for collective care, risk and harm minimization.
+ * Languages: EN, DE, PT, TR.
  */
 
 export default function Home() {
   const router = useRouter();
-  const [lang, setLang] = useState<'EN' | 'DE' | 'PT' | 'RU'>('EN');
+  const [lang, setLang] = useState<'EN' | 'DE' | 'PT' | 'TR'>('EN');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const savedLang = typeof window !== 'undefined' ? localStorage.getItem('stayonbeat_lang') : 'EN';
-    if (['EN', 'DE', 'PT', 'RU'].includes(savedLang as string)) setLang(savedLang as any);
+    if (['EN', 'DE', 'PT', 'TR'].includes(savedLang as string)) setLang(savedLang as any);
   }, []);
 
-  const handleLangChange = (newLang: 'EN' | 'DE' | 'PT' | 'RU') => {
+  const handleLangChange = (newLang: 'EN' | 'DE' | 'PT' | 'TR') => {
     setLang(newLang);
     localStorage.setItem('stayonbeat_lang', newLang);
   };
@@ -50,12 +49,12 @@ export default function Home() {
       signIn: "Bem-vindo ao Lar", 
       footer: "Protegido por LGPD • Criptografado com Amor" 
     },
-    RU: { 
-      slogan: "Основано на любви и ритме жизни", 
-      valueProp: "Пространство для коллективной заботы, минимизации рисков и вреда", 
-      getStarted: "Присоединяйся к Нам", 
-      signIn: "Мы рады Тебе", 
-      footer: "Зашифровано с Любовью" 
+    TR: { 
+      slogan: "Aşk ve hayatın ritmi üzerine kuruldu", 
+      valueProp: "Kolektif bakım, risk ve zarar azaltma alanı", 
+      getStarted: "Çembere Dahil Ol", 
+      signIn: "Eve Hoş Geldin", 
+      footer: "GDPR Korumalı • Sevgiyle Şifrelendi" 
     }
   };
 
@@ -66,7 +65,7 @@ export default function Home() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 blur-[150px] rounded-full pointer-events-none animate-pulse" />
 
       <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-6 py-2.5 rounded-full border border-white/10 z-50 shrink-0 shadow-2xl overflow-x-auto max-w-full no-scrollbar">
-        {['EN', 'DE', 'PT', 'RU'].map((l, i) => (
+        {['EN', 'DE', 'PT', 'TR'].map((l, i) => (
           <div key={l} className="flex items-center gap-4">
             <button onClick={() => handleLangChange(l as any)} className={cn("text-[10px] font-black tracking-[0.3em] transition-all whitespace-nowrap", lang === l ? 'text-primary' : 'text-white/40')}>{l}</button>
             {i < 3 && <span className="text-white/10 font-black">|</span>}
@@ -88,24 +87,24 @@ export default function Home() {
             </div>
           </div>
           <h1 className="mt-10 text-5xl md:text-7xl font-black tracking-tighter uppercase leading-none text-white text-center">STAY<span className="text-primary">ON</span>BEAT</h1>
-          <p className={cn("text-primary font-bold mt-4 tracking-[0.3em] uppercase text-[10px] italic opacity-80", lang === 'RU' && "font-serif")}>{content[lang].slogan}</p>
+          <p className="text-primary font-bold mt-4 tracking-[0.3em] uppercase text-[10px] italic opacity-80">{content[lang].slogan}</p>
         </div>
         
         <div className="w-full max-md space-y-4 mb-16">
           <div className="flex items-start gap-5 p-8 bg-white/[0.03] rounded-[2.5rem] border border-white/10 text-center group hover:border-primary/30 transition-all shadow-2xl backdrop-blur-sm justify-center">
             <ShieldCheck className="text-primary mt-1 flex-shrink-0" size={24} />
-            <p className={cn("text-sm font-bold text-white/60 leading-tight uppercase tracking-widest leading-relaxed", lang === 'RU' ? "italic font-serif" : "italic")}>{content[lang].valueProp}</p>
+            <p className="text-sm font-bold text-white/60 leading-tight uppercase tracking-widest leading-relaxed italic">{content[lang].valueProp}</p>
           </div>
         </div>
 
         <div className="flex flex-col gap-5 w-full max-sm mx-auto">
-          <button onClick={() => router.push('/auth?mode=signup')} className={cn("pill-button w-full bg-[#1b4d3e] text-white text-xl font-black active:scale-95 shadow-lg uppercase tracking-[0.1em] transition-all", lang === 'RU' && "italic font-serif")}>{content[lang].getStarted}</button>
-          <button onClick={() => router.push('/auth?mode=signin')} className={cn("pill-button w-full bg-white/[0.03] border-2 border-primary/20 text-primary text-lg font-black active:scale-95 uppercase tracking-[0.1em] backdrop-blur-sm", lang === 'RU' && "italic font-serif")}>{content[lang].signIn}</button>
+          <button onClick={() => router.push('/auth?mode=signup')} className="pill-button w-full bg-[#1b4d3e] text-white text-xl font-black active:scale-95 shadow-lg uppercase tracking-[0.1em] transition-all">{content[lang].getStarted}</button>
+          <button onClick={() => router.push('/auth?mode=signin')} className="pill-button w-full bg-white/[0.03] border-2 border-primary/20 text-primary text-lg font-black active:scale-95 uppercase tracking-[0.1em] backdrop-blur-sm">{content[lang].signIn}</button>
         </div>
       </div>
 
       <footer className="w-full text-center mt-12 relative z-10">
-        <p className={cn("text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-2", lang === 'RU' && "italic font-serif")}>{content[lang].footer}</p>
+        <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-2">{content[lang].footer}</p>
         <div className="w-8 h-1 bg-primary/20 rounded-full mx-auto" />
       </footer>
     </main>

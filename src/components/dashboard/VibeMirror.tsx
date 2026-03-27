@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -16,8 +15,8 @@ import {
 
 /**
  * @fileOverview Vibe Mirror Component.
- * Full EN, DE, PT, RU support.
- * Updated: Color palette refined for prismatic resonance and F&B CC6 tones.
+ * Full EN, DE, PT, TR support.
+ * Updated: TR Language added.
  */
 
 const VIBES = [
@@ -26,13 +25,13 @@ const VIBES = [
     label: "Radiant", 
     de: "Strahlend", 
     pt: "Radiante",
-    ru: "Сияющее",
+    tr: "Işıldayan",
     icon: RadiantIcon, 
     affirmation: {
       en: "Your light is shining bright today",
       de: "Dein Licht leuchtet heute hell",
       pt: "Sua luz está brilhando forte hoje",
-      ru: "Твой свет сияет ярко сегодня"
+      tr: "Işığın bugün çok parlak parlıyor"
     },
     color: "text-white", 
     bg: "bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 opacity-80", 
@@ -44,13 +43,13 @@ const VIBES = [
     label: "In Harmony", 
     de: "In Harmonie", 
     pt: "Em Harmonia",
-    ru: "Гармоничное",
+    tr: "Uyum İçinde",
     icon: HarmonyIcon, 
     affirmation: {
       en: "You are aligned with your inner rhythm",
       de: "Du bist im Einklang mit deinem Rhythmus",
       pt: "Você está alinhado com seu ritmo interior",
-      ru: "Ты в гармонии со своим внутренним ритмом"
+      tr: "İç ritminle tam bir uyumdasın"
     },
     color: "text-[#10B981]", 
     bg: "bg-[#10B981]/10", 
@@ -61,13 +60,13 @@ const VIBES = [
     label: "Calm", 
     de: "Beruhigt", 
     pt: "Calmo",
-    ru: "Спокойное",
+    tr: "Sakin",
     icon: CalmIcon, 
     affirmation: {
       en: "Everything is exactly as it is supposed to be",
       de: "Alles ist genau so wie es sein soll",
       pt: "Tudo está exatamente como deveria estar",
-      ru: "Все именно так как должно быть"
+      tr: "Her şey tam olması gerektiği gibi"
     },
     color: "text-[#3B82F6]", 
     bg: "bg-[#3B82F6]/10", 
@@ -78,13 +77,13 @@ const VIBES = [
     label: "Hazy", 
     de: "Verschwommen", 
     pt: "Nebuloso",
-    ru: "Туманное",
+    tr: "Puslu",
     icon: HazyIcon, 
     affirmation: {
       en: "It is okay to rest and be still",
       de: "Es ist okay sich auszuruhen",
       pt: "Tudo bem descansar e ficar em silêncio",
-      ru: "Это нормально отдыхать и быть в тишине"
+      tr: "Dinlenmek ve sessiz kalmak normaldir"
     },
     color: "text-[#93C5FD]", 
     bg: "bg-[#93C5FD]/10", 
@@ -95,13 +94,13 @@ const VIBES = [
     label: "Overwhelmed", 
     de: "Überwältigt", 
     pt: "Sobrecarregado",
-    ru: "Бережное",
+    tr: "Bunalmış",
     icon: HeldIcon, 
     affirmation: {
       en: "You are held. Your circle is here",
       de: "Du wirst gehalten Dein Kreis ist hier",
       pt: "Você é acolhido Seu círculo está aqui",
-      ru: "Тебя поддерживают Твой круг рядом"
+      tr: "Destekleniyorsun Çemberin seninle burada"
     },
     color: "text-[#cbd5e1]", 
     bg: "bg-[#cbd5e1]/10", 
@@ -119,11 +118,11 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
   const { user } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'tr'>('en');
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de', 'pt', 'tr'].includes(savedLang)) setLang(savedLang);
   }, []);
 
   const currentTheme = VIBES.find((v) => v.key === vibe?.current) || VIBES[2];
@@ -133,7 +132,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
     setIsSaving(true);
     if (user && firestore) {
       const userRef = doc(firestore, "users", user.uid);
-      const labelMap = { en: selected.label, de: selected.de, pt: selected.pt, ru: selected.ru };
+      const labelMap = { en: selected.label, de: selected.de, pt: selected.pt, tr: selected.tr };
       const newVibeData = {
         current: selected.key,
         currentLabel: labelMap[lang],
@@ -148,7 +147,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
   const getLocalizedLabel = (v: typeof VIBES[0]) => {
     if (lang === 'de') return v.de;
     if (lang === 'pt') return v.pt;
-    if (lang === 'ru') return v.ru;
+    if (lang === 'tr') return v.tr;
     return v.label;
   };
 
@@ -156,7 +155,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
     en: { header: "Check Your Vibe", sub: "I honor my current state", footer: "Processed locally with love" },
     de: { header: "Stimmungs Check-in", sub: "Ich achte auf meinen Zustand", footer: "Lokal verarbeitet mit Liebe" },
     pt: { header: "Sincronia de Humor", sub: "Eu honro meu estado atual", footer: "Processado localmente com amor" },
-    ru: { header: "Проверка Настроения", sub: "Я принимаю свое состояние", footer: "Обработано локально с любовью" }
+    tr: { header: "Ruh Halini Yokla", sub: "Mevcut halime saygı duyuyorum", footer: "Sevgiyle yerel olarak işlendi" }
   }[lang];
 
   return (
@@ -177,7 +176,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
         <span className="group-hover:scale-110 transition-transform flex items-center justify-center relative z-10">
           <CurrentIcon size={20} color="currentColor" className={currentTheme.isRainbow ? "text-white" : currentTheme.color} />
         </span>
-        <span className={cn("text-[10px] font-black uppercase tracking-widest hidden sm:block relative z-10", currentTheme.isRainbow ? "text-white" : currentTheme.color, lang === 'ru' && "italic font-serif")}>
+        <span className={cn("text-[10px] font-black uppercase tracking-widest hidden sm:block relative z-10", currentTheme.isRainbow ? "text-white" : currentTheme.color)}>
           {getLocalizedLabel(currentTheme)}
         </span>
         <ChevronDown size={12} className={cn("opacity-40 relative z-10", currentTheme.isRainbow ? "text-white" : currentTheme.color)} />
@@ -189,10 +188,10 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
             <div className="w-16 h-16 bg-[#10B981]/10 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-[#10B981]/20">
               <Heart className="text-[#10B981]" size={32} />
             </div>
-            <SheetTitle className={cn("text-center text-2xl font-black uppercase tracking-tighter text-white", lang === 'ru' && "italic font-serif")}>
+            <SheetTitle className="text-center text-2xl font-black uppercase tracking-tighter text-white">
               {UI.header}
             </SheetTitle>
-            <p className={cn("text-center text-[10px] font-black uppercase tracking-[0.4em] mt-2 text-[#10B981]", lang === 'ru' && "italic font-serif")}>
+            <p className="text-center text-[10px] font-black uppercase tracking-[0.4em] mt-2 text-[#10B981]">
               {UI.sub}
             </p>
           </SheetHeader>
@@ -219,10 +218,10 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
                     <VibeIcon size={40} color="currentColor" className={isActive ? (v.isRainbow ? "text-white" : v.color) : "text-white/20"} />
                   </div>
                   <div className="flex flex-col relative z-10">
-                    <span className={cn("font-black text-base uppercase tracking-tight", isActive ? "text-white" : "text-white/60", lang === 'ru' && "italic font-serif")}>
+                    <span className={cn("font-black text-base uppercase tracking-tight", isActive ? "text-white" : "text-white/60")}>
                       {label}
                     </span>
-                    <span className={cn("text-[10px] font-bold text-white/20 uppercase tracking-widest leading-none mt-1", lang === 'ru' && "italic font-serif")}>
+                    <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest leading-none mt-1">
                       {v.affirmation[lang]}
                     </span>
                   </div>
@@ -232,7 +231,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
           </div>
           
           <div className="mt-4 pt-6 border-t border-white/5 max-w-md mx-auto">
-            <p className={cn("text-center text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]", lang === 'ru' && "italic font-serif")}>
+            <p className="text-center text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]">
               {UI.footer}
             </p>
           </div>

@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 /**
  * @fileOverview Access Sanctuary (Auth) Page.
  * Action Buttons updated to abundant dark green #1b4d3e.
+ * TR Language added.
  */
 
 const CONTENT = {
@@ -32,20 +33,20 @@ const CONTENT = {
     staffAccess: "StayOnBeat • Team-Zugang über awareness@love.com", errorMsg: "Das Sanctuary kalibriert sich bitte versuche es erneut"
   },
   pt: {
-    welcome: "Bem-vindo ao Lar", create: "Criar Santuário", prototype: "Modo Protótipo Ativo 🔒",
+    welcome: "Bem-vindo al Lar", create: "Criar Santuário", prototype: "Modo Protótipo Ativo 🔒",
     emailLabel: "Endereço de E-mail", emailPlaceholder: "alma@stayonbeat.com",
     passwordLabel: "Password", passwordPlaceholder: "••••••••",
     entering: "Entrando...", begin: "Começar Jornada", enter: "Entrar no Santuário",
     alreadyAccount: "Já tem uma conta? Entrar", newHere: "Novo aqui? Junte-se ao círculo",
     staffAccess: "StayOnBeat • Acesso da Equipe via awareness@love.com", errorMsg: "O santuário está calibrando, por favor tente novamente"
   },
-  ru: {
-    welcome: "Мы рады Тебе", create: "Создать Пространство", prototype: "Активен режим прототипа 🔒",
-    emailLabel: "Адрес электронной почты", emailPlaceholder: "soul@stayonbeat.com",
-    passwordLabel: "Пароль", passwordPlaceholder: "••••••••",
-    entering: "Вход...", begin: "Начать путешествие", enter: "Войти в пространство",
-    alreadyAccount: "Уже есть аккаунт? Войти", newHere: "Впервые здесь? Присоединяйся к Нам",
-    staffAccess: "StayOnBeat • Доступ персонала через awareness@love.com", errorMsg: "Пространство калибруется, пожалуйста, попробуйте позже"
+  tr: {
+    welcome: "Eve Hoş Geldin", create: "Sığınak Oluştur", prototype: "Prototip Modu Aktif 🔒",
+    emailLabel: "E-posta Adresi", emailPlaceholder: "soul@stayonbeat.com",
+    passwordLabel: "Şifre", passwordPlaceholder: "••••••••",
+    entering: "Giriliyor...", begin: "Yolculuğa Başla", enter: "Sığınağa Gir",
+    alreadyAccount: "Zaten hesabın var mı? Giriş Yap", newHere: "Yeni misin? Çembere katıl",
+    staffAccess: "StayOnBeat • Ekip Erişimi: awareness@love.com", errorMsg: "Sığınak kalibre ediliyor lütfen tekrar dene"
   }
 };
 
@@ -63,11 +64,11 @@ function AuthContent() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'tr'>('en');
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de', 'pt', 'tr'].includes(savedLang)) setLang(savedLang);
   }, []);
 
   const t = CONTENT[lang];
@@ -119,7 +120,7 @@ function AuthContent() {
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/5 blur-[120px] rounded-full" />
 
       <div className="w-full max-w-md bg-[#0a0a0a] p-10 rounded-[3rem] border border-white/10 relative z-10 shadow-2xl shadow-primary/5">
-        <button onClick={() => router.push("/")} className="absolute top-8 left-8 text-white/20 hover:text-primary transition-colors p-2"><ChevronLeft size={24} /></button>
+        <button onClick={() => router.push("/")} className="absolute top-8 left-8 text-white/40 hover:text-primary transition-colors p-2"><ChevronLeft size={24} /></button>
         <div className="text-center mb-10 mt-4">
           <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-primary/20 shadow-[0_0_30px_rgba(27,77,62,0.1)]">
             <Heart 
@@ -129,27 +130,27 @@ function AuthContent() {
               style={{ filter: 'blur(12px) drop-shadow(0 0 8px #10B981)' }} 
             />
           </div>
-          <h1 className={cn("text-4xl font-black text-white tracking-tighter uppercase leading-none mb-2", lang === 'ru' && "italic font-serif")}>{isSignUp ? t.create : t.welcome}</h1>
-          <p className={cn("text-primary text-[10px] font-black uppercase tracking-[0.4em]", lang === 'ru' && "italic font-serif")}>{t.prototype}</p>
+          <h1 className="text-4xl font-black text-white tracking-tighter uppercase leading-none mb-2">{isSignUp ? t.create : t.welcome}</h1>
+          <p className="text-primary text-[10px] font-black uppercase tracking-[0.4em]">{t.prototype}</p>
         </div>
 
         <form onSubmit={handleAuth} className="space-y-5">
           <div className="space-y-1.5">
-            <label className={cn("text-[9px] font-black uppercase tracking-[0.3em] text-primary ml-2", lang === 'ru' && "italic font-serif")}>{t.emailLabel}</label>
-            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className={cn("w-full h-16 px-8 rounded-2xl border-2 border-white/5 bg-white/5 text-white placeholder:text-white/10 focus:border-primary outline-none transition-all font-bold", lang === 'ru' && "italic font-serif")} placeholder={t.emailPlaceholder} required />
+            <label className="text-[9px] font-black uppercase tracking-[0.3em] text-primary ml-2">{t.emailLabel}</label>
+            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full h-16 px-8 rounded-2xl border-2 border-white/5 bg-white/5 text-white placeholder:text-white/10 focus:border-primary outline-none transition-all font-bold" placeholder={t.emailPlaceholder} required />
           </div>
           <div className="space-y-1.5">
-            <label className={cn("text-[9px] font-black uppercase tracking-[0.3em] text-primary ml-2", lang === 'ru' && "italic font-serif")}>{t.passwordLabel}</label>
+            <label className="text-[9px] font-black uppercase tracking-[0.3em] text-primary ml-2">{t.passwordLabel}</label>
             <div className="relative">
-              <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} className={cn("w-full h-16 px-8 rounded-2xl border-2 border-white/5 bg-white/5 text-white placeholder:text-white/10 focus:border-primary outline-none transition-all font-bold", lang === 'ru' && "italic font-serif")} placeholder={t.passwordPlaceholder} required />
+              <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} className="w-full h-16 px-8 rounded-2xl border-2 border-white/5 bg-white/5 text-white placeholder:text-white/10 focus:border-primary outline-none transition-all font-bold" placeholder={t.passwordPlaceholder} required />
               <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-6 top-1/2 -translate-y-1/2 text-white/20 hover:text-primary">{showPassword ? <EyeOff size={20} /> : <Eye size={20} />}</button>
             </div>
           </div>
-          {error && <div className={cn("p-4 bg-red-600/10 border border-red-600/20 rounded-2xl text-red-500 text-[10px] text-center font-black uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{error}</div>}
-          <button type="submit" disabled={isLoading} className={cn("w-full h-20 bg-[#1b4d3e] text-white rounded-2xl font-black text-lg uppercase tracking-[0.1em] shadow-lg shadow-primary/10 transition-all active:scale-[0.98] flex items-center justify-center gap-3 mt-4", isLoading && "opacity-50 cursor-not-allowed", lang === 'ru' && "italic font-serif")}>{isLoading ? <><Loader2 size={24} className="animate-spin" /><span>{t.entering}</span></> : <span className="flex items-center gap-3">{isSignUp ? t.begin : t.enter}</span>}</button>
+          {error && <div className="p-4 bg-red-600/10 border border-red-600/20 rounded-2xl text-red-500 text-[10px] text-center font-black uppercase tracking-widest">{error}</div>}
+          <button type="submit" disabled={isLoading} className={cn("w-full h-20 bg-[#1b4d3e] text-white rounded-2xl font-black text-lg uppercase tracking-[0.1em] shadow-lg shadow-primary/10 transition-all active:scale-[0.98] flex items-center justify-center gap-3 mt-4", isLoading && "opacity-50 cursor-not-allowed")}>{isLoading ? <><Loader2 size={24} className="animate-spin" /><span>{t.entering}</span></> : <span className="flex items-center gap-3">{isSignUp ? t.begin : t.enter}</span>}</button>
         </form>
-        <button onClick={() => router.push(isSignUp ? "/auth?mode=signin" : "/auth?mode=signup")} className={cn("w-full mt-10 text-[9px] font-black text-white/20 hover:text-primary transition-colors uppercase tracking-[0.4em] flex items-center justify-center gap-2", lang === 'ru' && "italic font-serif")}>{isSignUp ? t.alreadyAccount : t.newHere}</button>
-        <div className="mt-12 pt-8 border-t border-white/5"><p className={cn("text-center text-[8px] text-white/10 uppercase tracking-[0.5em] font-black", lang === 'ru' && "italic font-serif")}>{t.staffAccess}</p></div>
+        <button onClick={() => router.push(isSignUp ? "/auth?mode=signin" : "/auth?mode=signup")} className="w-full mt-10 text-[9px] font-black text-white/20 hover:text-primary transition-colors uppercase tracking-[0.4em] flex items-center justify-center gap-2">{isSignUp ? t.alreadyAccount : t.newHere}</button>
+        <div className="mt-12 pt-8 border-t border-white/5"><p className="text-center text-[8px] text-white/10 uppercase tracking-[0.5em] font-black">{t.staffAccess}</p></div>
       </div>
     </main>
   );

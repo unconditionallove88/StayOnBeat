@@ -2,6 +2,7 @@
 /**
  * @fileOverview A Genkit flow for assessing substance interaction risks.
  * Integrated with exponential backoff retry logic.
+ * Languages: en, de, pt, tr.
  */
 
 import {ai} from '@/ai/genkit';
@@ -14,7 +15,7 @@ const SubstanceInteractionRiskAssessmentInputSchema = z.object({
   substancesToTake: z.array(z.string()).describe('A list of substances the user plans to take.'),
   age: z.number().int().min(18).describe('The user\'s age.'),
   weightKg: z.number().positive().describe('The user\'s weight in kilograms.'),
-  lang: z.enum(['en', 'de', 'pt', 'ru']).optional().default('en'),
+  lang: z.enum(['en', 'de', 'pt', 'tr']).optional().default('en'),
 });
 export type SubstanceInteractionRiskAssessmentInput = z.infer<typeof SubstanceInteractionRiskAssessmentInputSchema>;
 
@@ -52,7 +53,6 @@ Substances: {{#each substancesToTake}}{{{this}}}, {{/each}}
 
 LANGUAGE REQUIREMENT:
 Respond exclusively in the language code: {{{lang}}}. 
-If lang is 'ru', use warm, personal, informal language ("ты/твой").
 
 Specific Risks to Check (CRITICAL):
 - SSRIs/SNRIs + MDMA/3-MMC/4-MMC: Critical Serotonin Syndrome risk.
