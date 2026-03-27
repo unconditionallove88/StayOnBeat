@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -17,25 +16,21 @@ import { playHeartbeat } from '@/lib/resonance';
 
 const CONTENT = {
   en: {
-    title: "Breath of Love",
     inhale: "Inhale Love",
     exhale: "Exhale Love",
     button: "Return to Sanctuary"
   },
   de: {
-    title: "Atem der Liebe",
     inhale: "Liebe einatmen",
     exhale: "Liebe ausatmen",
     button: "Zurück zum Sanctuary"
   },
   pt: {
-    title: "Sopro de Amor",
     inhale: "Inspire Amor",
     exhale: "Expire Amor",
     button: "Retornar ao Santuário"
   },
   ru: {
-    title: "Дыхание Любви",
     inhale: "Вдохни Любовь",
     exhale: "Выдохни Любовь",
     button: "Вернуться в пространство"
@@ -53,6 +48,7 @@ export default function SelfCare() {
 
   const t = CONTENT[lang] || CONTENT.en;
 
+  // Staggered letter animation helper
   const renderLetters = (text: string, delayBase: number) => {
     return text.split('').map((char, i) => (
       <span 
@@ -92,6 +88,7 @@ export default function SelfCare() {
         </div>
       </div>
 
+      {/* Subtle, tender return tab */}
       <footer className="p-12 flex flex-col items-center justify-center shrink-0 pb-16">
         <button 
           onClick={() => { playHeartbeat(); router.push('/dashboard'); }}
