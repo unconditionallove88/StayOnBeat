@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect, Suspense } from 'react';
@@ -16,7 +15,7 @@ import LoveCircle from '@/components/dashboard/LoveCircle';
 /**
  * @fileOverview High-Fidelity Organic Radar ("The Pulse").
  * Integrated with the Sovereign Mesh for location sharing.
- * Fully localized for EN, DE, PT, and RU.
+ * Fully localized for EN, DE.
  */
 
 const CONTENT = {
@@ -43,30 +42,6 @@ const CONTENT = {
     currentPulse: (status: string) => `Aktueller Status: ${status}`,
     notify: "Awareness rufen",
     meshActive: "Mesh-Ortung aktiv"
-  },
-  pt: {
-    loading: "Calibrando Ressonância",
-    here: "Estou aqui 🌿",
-    visible: "Visível",
-    private: "Privado",
-    respect: "Eu respeito meu estado",
-    sanctuary: "Privacidade é meu santuário",
-    distress: (name: string) => `${name} precisa de cuidado`,
-    currentPulse: (status: string) => `Pulso Atual: ${status}`,
-    notify: "Notificar Equipe",
-    meshActive: "Localização Mesh Ativa"
-  },
-  ru: {
-    loading: "Калибровка Резонанса",
-    here: "Я здесь 🌿",
-    visible: "Виден",
-    private: "Приватно",
-    respect: "Я уважаю свое состояние",
-    sanctuary: "Приватность — мое убежище",
-    distress: (name: string) => `${name} нужна помощь`,
-    currentPulse: (status: string) => `Текущий Пульс: ${status}`,
-    notify: "Вызвать Помощь",
-    meshActive: "Локация Mesh Активна"
   }
 };
 
@@ -77,7 +52,7 @@ function MapContent() {
   const [sosActive, setSosActive] = useState(false);
   const [isSharing, setIsSharing] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
+  const [lang, setLang] = useState<'en' | 'de'>('en');
   
   const focusName = searchParams.get('focus');
   const focusStatus = searchParams.get('status');
@@ -93,7 +68,7 @@ function MapContent() {
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) {
+    if (['en', 'de'].includes(savedLang)) {
       setLang(savedLang);
     }
 

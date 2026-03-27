@@ -1,7 +1,7 @@
 'use server';
 /**
  * @fileOverview A Genkit flow for assessing substance interaction risks.
- * Languages: en, de, pt.
+ * Languages: en, de.
  */
 
 import {ai} from '@/ai/genkit';
@@ -14,7 +14,7 @@ const SubstanceInteractionRiskAssessmentInputSchema = z.object({
   substancesToTake: z.array(z.string()).describe('A list of substances the user plans to take.'),
   age: z.number().int().min(18).describe('The user\'s age.'),
   weightKg: z.number().positive().describe('The user\'s weight in kilograms.'),
-  lang: z.enum(['en', 'de', 'pt']).optional().default('en'),
+  lang: z.enum(['en', 'de']).optional().default('en'),
 });
 export type SubstanceInteractionRiskAssessmentInput = z.infer<typeof SubstanceInteractionRiskAssessmentInputSchema>;
 

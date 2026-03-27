@@ -1,7 +1,7 @@
 'use server';
 /**
  * @fileOverview A Genkit flow for answering substance safety questions.
- * Languages: en, de, pt.
+ * Languages: en, de.
  */
 
 import {ai} from '@/ai/genkit';
@@ -23,7 +23,7 @@ const AiSafetyChatInputSchema = z.object({
     medications: z.array(z.string()),
     healthConditions: z.array(z.string()),
   }),
-  lang: z.enum(['en', 'de', 'pt']).optional().default('en'),
+  lang: z.enum(['en', 'de']).optional().default('en'),
 });
 export type AiSafetyChatInput = z.infer<typeof AiSafetyChatInputSchema>;
 

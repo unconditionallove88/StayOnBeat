@@ -11,8 +11,8 @@ import NotificationPrompt from '@/components/dashboard/NotificationPrompt';
 
 /**
  * @fileOverview Mood Check-in Onboarding Step.
- * Action color: #1b4d3e
- * Languages: EN, DE, PT.
+ * Action color: #1b4d3e (Wise dark green)
+ * Languages: EN, DE.
  */
 
 interface Step7VibeCheckProps {
@@ -24,42 +24,36 @@ interface Step7VibeCheckProps {
 
 const VIBE_OPTIONS = [
   { 
-    id: 'radiant', label: 'Radiant', de: 'Strahlend', pt: 'Radiante',
+    id: 'radiant', label: 'Radiant', de: 'Strahlend',
     icon: RadiantIcon, description: 'Your light is shining bright today', deDescription: 'Dein Licht leuchtet heute hell',
-    ptDescription: 'Sua luz está brilhando forte hoje',
     color: 'text-white', activeColor: 'bg-gradient-to-r from-red-500/10 via-yellow-500/10 via-green-500/10 via-blue-500/10 to-purple-500/10 border-white/40 shadow-[0_0_30px_rgba(255,255,255,0.2)]',
     isRainbow: true
   },
   { 
-    id: 'harmony', label: 'In Harmony', de: 'In Harmonie', pt: 'Em Harmonia',
+    id: 'harmony', label: 'In Harmony', de: 'In Harmonie',
     icon: HarmonyIcon, description: 'You are aligned with your rhythm', deDescription: 'Du bist im Einklang mit deinem Rhythmus',
-    ptDescription: 'Você está alinhado com seu ritmo',
     color: 'text-[#58c55a]', activeColor: 'bg-[#58c55a]/10 border-[#58c55a] shadow-[0_0_20px_rgba(88,197,90,0.3)]' 
   },
   { 
-    id: 'calm', label: 'Calm', de: 'Beruhigt', pt: 'Calmo',
+    id: 'calm', label: 'Calm', de: 'Beruhigt',
     icon: CalmIcon, description: 'Everything is exactly as it is supposed to be', deDescription: 'Alles ist im Gleichgewicht und klar',
-    ptDescription: 'Tudo está exatamente como deveria estar',
     color: 'text-[#3B82F6]', activeColor: 'bg-[#3B82F6]/10 border-[#3B82F6] shadow-[0_0_20px_rgba(59,130,246,0.3)]' 
   },
   { 
-    id: 'hazy', label: 'Hazy', de: 'Verschwommen', pt: 'Nebuloso',
+    id: 'hazy', label: 'Hazy', de: 'Verschwommen',
     icon: HazyIcon, description: 'It is okay to rest and be still', deDescription: 'Es ist okay sich auszuruhen',
-    ptDescription: 'Tudo bem descansar e ficar em silêncio',
     color: 'text-[#93C5FD]', activeColor: 'bg-[#93C5FD]/10 border-[#93C5FD] shadow-[0_0_20px_rgba(147,197,253,0.3)]' 
   },
   { 
-    id: 'overwhelmed', label: 'Overwhelmed', de: 'Überwältigt', pt: 'Sobrecarregado',
+    id: 'overwhelmed', label: 'Overwhelmed', de: 'Überwältigt',
     icon: HeldIcon, description: 'You are held. Your circle is here', deDescription: 'Du wirst gehalten Dein Kreis ist hier',
-    ptDescription: 'Você é acolhido Seu círculo está aqui',
     color: 'text-[#cbd5e1]', activeColor: 'bg-[#cbd5e1]/10 border-[#cbd5e1] shadow-[0_0_20px_rgba(203,213,225,0.3)]' 
   },
 ];
 
 const CONTENT = {
   EN: { header: 'How is your mood today?', success: 'Mood calibrated', sub: 'StayOnBeat sees you I am loved', back: 'BACK', footer: 'Processed locally with love', btn: 'CONTINUE WITH LOVE' },
-  DE: { header: 'Wie ist deine Stimmung heute?', success: 'Stimmung kalibriert', sub: 'StayOnBeat sieht dich Ich werde geliebt', back: 'ZURÜCK', footer: 'Lokal verarbeitet mit Liebe', btn: 'MIT LIEBE WEITER' },
-  PT: { header: 'Como está seu humor hoje?', success: 'Humor calibrado', sub: 'StayOnBeat vê você Eu sou amado', back: 'VOLTAR', footer: 'Processado localmente com amor', btn: 'CONTINUAR COM AMOR' }
+  DE: { header: 'Wie ist deine Stimmung heute?', success: 'Stimmung kalibriert', sub: 'StayOnBeat sieht dich Ich werde geliebt', back: 'ZURÜCK', footer: 'Lokal verarbeitet mit Liebe', btn: 'MIT LIEBE WEITER' }
 };
 
 export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, finalOnboardingData }: Step7VibeCheckProps) {
@@ -67,13 +61,13 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
   const [isSaving, setIsSaving] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [showNotificationPrompt, setShowNotificationPrompt] = useState(false);
-  const [lang, setLang] = useState<'EN' | 'DE' | 'PT'>('EN');
+  const [lang, setLang] = useState<'EN' | 'DE'>('EN');
   const firestore = useFirestore();
   const { user } = useUser();
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toUpperCase() as any;
-    if (['EN', 'DE', 'PT'].includes(savedLang)) setLang(savedLang);
+    if (['EN', 'DE'].includes(savedLang)) setLang(savedLang);
   }, []);
 
   const t = CONTENT[lang] || CONTENT.EN;
@@ -82,7 +76,7 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
     if (!selected || !user || !firestore) return;
     setIsSaving(true);
     const selectedVibe = VIBE_OPTIONS.find(v => v.id === selected);
-    const label = lang === 'EN' ? selectedVibe?.label : lang === 'DE' ? selectedVibe?.de : selectedVibe?.pt;
+    const label = lang === 'EN' ? selectedVibe?.label : selectedVibe?.de;
 
     const payload: any = isOnboarding && finalOnboardingData ? {
       uid: user.uid, name: finalOnboardingData.name, trustLevel: "verified_adult",
@@ -115,8 +109,8 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
         {VIBE_OPTIONS.map((vibe) => {
           const VibeIcon = vibe.icon;
           const isSelected = selected === vibe.id;
-          const label = lang === 'EN' ? vibe.label : lang === 'DE' ? vibe.de : vibe.pt;
-          const desc = lang === 'EN' ? vibe.description : lang === 'DE' ? vibe.deDescription : vibe.ptDescription;
+          const label = lang === 'EN' ? vibe.label : vibe.de;
+          const desc = lang === 'EN' ? vibe.description : vibe.deDescription;
           return (
             <button key={vibe.id} onClick={() => setSelected(vibe.id)} disabled={isSaving} className={cn("p-5 rounded-[2.5rem] border-2 flex items-center gap-6 transition-all active:scale-[0.98] text-left relative overflow-hidden", isSelected ? vibe.activeColor : "bg-[#0a0a0a] border-white/5 hover:border-white/20")}>
               {vibe.isRainbow && isSelected && (
@@ -126,7 +120,7 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
                 <VibeIcon size={40} color="currentColor" className={isSelected ? (vibe.isRainbow ? "text-white" : vibe.color) : "text-white/20"} />
               </div>
               <div className="flex flex-col relative z-10">
-                <span className="font-black text-lg uppercase tracking-tight">{isSelected ? "text-white" : "text-white/60"}</span>
+                <span className="font-black text-lg uppercase tracking-tight text-white">{label}</span>
                 <span className="text-[10px] font-black text-white/30 uppercase tracking-widest leading-none mt-1">{desc}</span>
               </div>
             </button>

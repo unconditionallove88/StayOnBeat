@@ -36,7 +36,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview Your Sanctuary (Profile Page).
- * Languages: EN, DE, PT.
+ * Languages: EN, DE.
  */
 
 const CONTENT = {
@@ -79,26 +79,6 @@ const CONTENT = {
       acceptanceDesc: "Wir sammeln nur Informationen die notwendig sind um dich sicher zu halten Jeder Datenpunkt dient dazu deinen Schutz zu kalibrieren und dein Wohlbefinden zu fördern",
       questions: "Hast du noch Fragen?", qBtn: "Fragen?", footer: "Verschlüsselt mit Liebe • Sanctuary-Protokoll"
     }
-  },
-  pt: {
-    sanctuary: "Santuário", entering: "Entrando no santuário", reflection: "Seu perfil reflete sua luz",
-    greeting: "Você está exatamente onde precisa estar", essence: "Sua Essência", name: "Nome de usuário",
-    weight: "Peso (kg)", height: "Altura (cm)", circle: "Círculo de Amor", trusted: "Vínculos de Confiança",
-    resonant: "Contatos ressonantes", reminders: "Lembretes do Coração", checkins: "Check-ins diários ativos",
-    journey: "Sua jornada é sua Usamos criptografia de alta fidelidade para garantir que seu santuário permaneça privado e sua alma livre",
-    promise: "Nossa Promessa de Liberdade e Confiança", logout: "Sair por um momento",
-    privacy: {
-      title: "Liberdade e Confiança",
-      sovereignty: "Soberania de Dados",
-      sovereigntyDesc: "Eu amo e respeito minha privacidade Meus dados são meus StayOnBeat é construído no princípio de que sua jornada pessoal é um pacto sagrado",
-      encryption: "Criptografia de Alta Fidelidade",
-      encryptionDesc: "Todos os sinais biométricos perfis de saúde e logs de localização são protegidos Garantimos que suas informações sensíveis sejam visíveis apenas para você e quem você confiar",
-      freedom: "Liberdade Interior",
-      freedomDesc: "Nunca vendemos ou trocamos seus dados Sua ressonância permanece no santuário Nossa missão é puro suporte amor cuidado e redução de danos",
-      acceptance: "Aceitação Incondicional",
-      acceptanceDesc: "Coletamos apenas as informações necessárias para manter você seguro Cada dado é usado para calibrar sua proteção e nutrir seu bem-estar",
-      questions: "Tem mais perguntas?", qBtn: "Dúvidas?", footer: "Criptografado com Amor • Protocolo do Santuário"
-    }
   }
 };
 
@@ -111,12 +91,12 @@ export default function ProfilePage() {
   const [mounted, setMounted] = useState(false);
   const [privacyOpen, setPrivacyOpen] = useState(false);
   const [coCreationOpen, setCoCreationOpen] = useState(false);
-  const [lang, setLang] = useState<'en' | 'de' | 'pt'>('en');
+  const [lang, setLang] = useState<'en' | 'de'>('en');
 
   useEffect(() => {
     setMounted(true);
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de'].includes(savedLang)) setLang(savedLang);
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) router.replace("/auth");
@@ -153,7 +133,7 @@ export default function ProfilePage() {
     );
   }
 
-  const displayName = profile?.name || (lang === 'pt' ? "ALMA VALORIZADA" : "VALUED SOUL");
+  const displayName = profile?.name || "VALUED SOUL";
 
   return (
     <main className="min-h-screen bg-black text-white font-headline pb-32">

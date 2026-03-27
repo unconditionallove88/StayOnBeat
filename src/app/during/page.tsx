@@ -11,18 +11,18 @@ import { playHeartbeat } from "@/lib/resonance";
 
 /**
  * @fileOverview Phase: During.
- * Updated: Affirmations to 3-word/4-word rhythmic rule.
+ * Updated: Affirmations to 3-word (EN) / 4-word (DE) rhythmic rule.
  */
 export default function DuringPhase() {
   const router = useRouter();
   const { user, isUserLoading } = useUser();
   const firestore = useFirestore();
-  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
+  const [lang, setLang] = useState<'en' | 'de'>('en');
   const [activeIntake, setActiveIntake] = useState<string>("");
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de'].includes(savedLang)) setLang(savedLang);
 
     const logs = JSON.parse(localStorage.getItem('stayonbeat_logs') || '[]');
     if (logs.length > 0) {
@@ -54,22 +54,6 @@ export default function DuringPhase() {
       ritualTitle: "Atem der Liebe",
       ritualSub: "Meinen geerdeten Zustand achtend",
       ritualBtn: "Ritual öffnen"
-    },
-    pt: {
-      title: "Assessor de Segurança",
-      phase: "Fase: Durante",
-      affirmation: "Amor incondicional sempre aqui",
-      ritualTitle: "Sopro de Amor",
-      ritualSub: "Honrando meu estado aterrado",
-      ritualBtn: "Abrir Ritual"
-    },
-    ru: {
-      title: "Забота",
-      phase: "Фаза: Во время",
-      affirmation: "Безусловная любовь всегда здесь",
-      ritualTitle: "Дыхание Любви",
-      ritualSub: "Уважаю свое состояние заземления",
-      ritualBtn: "Начать"
     }
   }[lang] || {
     title: "Safety Advisor",
@@ -97,10 +81,10 @@ export default function DuringPhase() {
       <header className="px-6 py-8 border-b border-white/5 bg-black/80 backdrop-blur-xl flex items-center gap-4 shrink-0">
         <button onClick={() => router.push("/dashboard")} className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-primary transition-all"><ArrowLeft className="w-5 h-5 text-white/40" /></button>
         <div>
-          <h1 className={cn("text-xl font-black uppercase tracking-tighter", lang === 'ru' && "italic font-serif")}>
+          <h1 className="text-xl font-black uppercase tracking-tighter">
             {t.title}
           </h1>
-          <p className={cn("text-[10px] font-black text-primary uppercase tracking-[0.3em]", lang === 'ru' && "italic font-serif")}>
+          <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">
             {t.phase}
           </p>
         </div>
@@ -108,10 +92,7 @@ export default function DuringPhase() {
 
       {/* Radiant Affirmation Pillar */}
       <div className="bg-primary/10 border-b border-primary/20 py-5 px-10 text-center animate-in fade-in duration-1000 shrink-0">
-        <p className={cn(
-          "text-[13px] font-black uppercase tracking-[0.05em] text-primary leading-tight max-w-[340px] mx-auto",
-          lang === 'ru' ? "italic font-serif" : "italic"
-        )}>
+        <p className="text-[13px] font-black uppercase tracking-[0.05em] text-primary leading-tight max-w-[340px] mx-auto italic">
           "{t.affirmation}"
         </p>
       </div>
@@ -126,13 +107,13 @@ export default function DuringPhase() {
                   <Wind className="text-primary" size={24} />
                 </div>
                 <div className="text-left">
-                  <h3 className={cn("text-lg font-black uppercase tracking-tight", lang === 'ru' && "italic font-serif")}>{t.ritualTitle}</h3>
-                  <p className={cn("text-[9px] font-black uppercase tracking-widest text-primary/60", lang === 'ru' && "italic font-serif")}>{t.ritualSub}</p>
+                  <h3 className="text-lg font-black uppercase tracking-tight">{t.ritualTitle}</h3>
+                  <p className="text-[9px] font-black uppercase tracking-widest text-primary/60">{t.ritualSub}</p>
                 </div>
               </div>
               <button 
                 onClick={() => { playHeartbeat(); router.push('/self-care'); }}
-                className={cn("w-full py-4 bg-primary text-white rounded-xl font-black uppercase text-[10px] tracking-widest shadow-lg active:scale-95 transition-all", lang === 'ru' && "italic font-serif")}
+                className="w-full py-4 bg-[#1b4d3e] text-white rounded-xl font-black uppercase text-[10px] tracking-widest shadow-lg active:scale-95 transition-all"
               >
                 {t.ritualBtn}
               </button>

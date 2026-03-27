@@ -7,21 +7,21 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
- * Languages: EN, DE, PT.
+ * Languages: EN, DE.
  */
 
 export default function Home() {
   const router = useRouter();
-  const [lang, setLang] = useState<'EN' | 'DE' | 'PT'>('EN');
+  const [lang, setLang] = useState<'EN' | 'DE'>('EN');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const savedLang = typeof window !== 'undefined' ? localStorage.getItem('stayonbeat_lang') : 'EN';
-    if (['EN', 'DE', 'PT'].includes(savedLang as string)) setLang(savedLang as any);
+    if (['EN', 'DE'].includes(savedLang as string)) setLang(savedLang as any);
   }, []);
 
-  const handleLangChange = (newLang: 'EN' | 'DE' | 'PT') => {
+  const handleLangChange = (newLang: 'EN' | 'DE') => {
     setLang(newLang);
     localStorage.setItem('stayonbeat_lang', newLang);
   };
@@ -40,13 +40,6 @@ export default function Home() {
       getStarted: "Werde Teil des Kreises", 
       signIn: "Willkommen Zuhause", 
       footer: "DSGVO-geschützt • Mit Liebe verschlüsselt" 
-    },
-    PT: { 
-      slogan: "Fundado no amor e no ritmo da vida", 
-      valueProp: "Espaço para cuidado coletivo, redução de riscos e danos", 
-      getStarted: "Junte-se ao Círculo", 
-      signIn: "Bem-vindo ao Lar", 
-      footer: "Protegido por LGPD • Criptografado com Amor" 
     }
   };
 
@@ -57,10 +50,10 @@ export default function Home() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 blur-[150px] rounded-full pointer-events-none animate-pulse" />
 
       <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-6 py-2.5 rounded-full border border-white/10 z-50 shrink-0 shadow-2xl overflow-x-auto max-w-full no-scrollbar">
-        {['EN', 'DE', 'PT'].map((l, i) => (
+        {['EN', 'DE'].map((l, i) => (
           <div key={l} className="flex items-center gap-4">
             <button onClick={() => handleLangChange(l as any)} className={cn("text-[10px] font-black tracking-[0.3em] transition-all whitespace-nowrap", lang === l ? 'text-primary' : 'text-white/40')}>{l}</button>
-            {i < 2 && <span className="text-white/10 font-black">|</span>}
+            {i < 1 && <span className="text-white/10 font-black">|</span>}
           </div>
         ))}
       </div>

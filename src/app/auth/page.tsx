@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview Access Sanctuary (Auth) Page.
- * Action Buttons: #1b4d3e
+ * Action Buttons: #1b4d3e (Wise dark green)
  */
 
 const CONTENT = {
@@ -30,14 +30,6 @@ const CONTENT = {
     entering: "Eintritt...", begin: "Reise beginnen", enter: "Sanctuary betreten",
     alreadyAccount: "Bereits ein Konto? Anmelden", newHere: "Neu hier? Werde Teil des Kreises",
     staffAccess: "StayOnBeat • Team-Zugang über awareness@love.com", errorMsg: "Das Sanctuary kalibriert sich bitte versuche es erneut"
-  },
-  pt: {
-    welcome: "Bem-vindo al Lar", create: "Criar Santuário", prototype: "Modo Protótipo Ativo 🔒",
-    emailLabel: "Endereço de E-mail", emailPlaceholder: "alma@stayonbeat.com",
-    passwordLabel: "Password", passwordPlaceholder: "••••••••",
-    entering: "Entrando...", begin: "Começar Jornada", enter: "Entrar no Santuário",
-    alreadyAccount: "Já tem uma conta? Entrar", newHere: "Novo aqui? Junte-se ao círculo",
-    staffAccess: "StayOnBeat • Acesso da Equipe via awareness@love.com", errorMsg: "O santuário está calibrando, por favor tente novamente"
   }
 };
 
@@ -55,11 +47,11 @@ function AuthContent() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [lang, setLang] = useState<'en' | 'de' | 'pt'>('en');
+  const [lang, setLang] = useState<'en' | 'de'>('en');
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de'].includes(savedLang)) setLang(savedLang);
   }, []);
 
   const t = CONTENT[lang] || CONTENT.en;

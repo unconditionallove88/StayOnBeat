@@ -8,7 +8,7 @@ import { playHeartbeat } from '@/lib/resonance';
 
 /**
  * @fileOverview Recovery Protocol Page.
- * Languages: EN, DE, PT.
+ * Languages: EN, DE.
  */
 
 export default function RecoveryView() {
@@ -18,12 +18,12 @@ export default function RecoveryView() {
   const [mounted, setMounted] = useState(false);
   const [sessionLogs, setSessionLogs] = useState<any[]>([]);
   const [isFinished, setIsFinished] = useState(false);
-  const [lang, setLang] = useState<'en' | 'de' | 'pt'>('en');
+  const [lang, setLang] = useState<'en' | 'de'>('en');
 
   useEffect(() => {
     setMounted(true);
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de'].includes(savedLang)) setLang(savedLang);
 
     const logs = JSON.parse(localStorage.getItem('stayonbeat_logs') || '[]');
     setSessionLogs(logs);
@@ -82,25 +82,6 @@ export default function RecoveryView() {
       minutes: "4 Minuten · anonym",
       ritualTitle: "Atem der Liebe",
       ritualDesc: "Führe das Resonance-Ritual durch, um dein Nervensystem zu kalibrieren und die Integration zu fördern"
-    },
-    pt: {
-      integrated: "Integrado",
-      recovery: "Recuperação",
-      personalProtocol: "Protocolo personalizado",
-      activeProtection: "Proteção Ativa",
-      secureWipe: "Seus dados de sessão foram apagados com segurança",
-      protocolGenerated: "Protocolo personalizado gerado com base nos seus registros",
-      privacyFinalized: "Protocolos de privacidade finalizados",
-      dataAnalyzed: (count: number) => `Dados analisados: ${count} registros de consumo`,
-      timeline: "Sua linha do tempo de integração",
-      noLogs: "Nenhum registro de sessão detectado",
-      wipeWarning: "Concluir este protocolo apagará permanentemente os registros da sessão e o histórico de localização",
-      finishBtn: "Concluir Sessão e Logar Streak",
-      returnBtn: "Retornar ao Santuário",
-      improveBtn: "Ajude-nos a melhorar o StayOnBeat",
-      minutes: "4 minutos · anônimo",
-      ritualTitle: "Sopro de Amor",
-      ritualDesc: "Realize o ritual de ressonância guiada para recalibrar seu sistema nervoso"
     }
   }[lang] || {
     integrated: "Integrated",
@@ -124,8 +105,7 @@ export default function RecoveryView() {
 
   const affirmation = {
     en: "Unconditional love always",
-    de: "Bedingungslose Liebe immerzu hier",
-    pt: "Amor incondicional sempre aqui"
+    de: "Bedingungslose Liebe immerzu hier"
   }[lang] || "Unconditional love always";
 
   const generateDetox = (logs: any[]) => {
@@ -237,7 +217,7 @@ export default function RecoveryView() {
 
       <footer className="fixed bottom-0 left-0 right-0 h-auto min-h-[120px] py-8 bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-50 gap-4 pb-safe">
         {!isFinished ? (
-          <button onClick={handleFinish} className="w-full max-w-sm py-6 bg-primary text-white rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-primary/20">{t.finishBtn}</button>
+          <button onClick={handleFinish} className="w-full max-w-sm py-6 bg-[#1b4d3e] text-white rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-primary/20">{t.finishBtn}</button>
         ) : (
           <div className="w-full max-w-sm flex flex-col gap-4 animate-in slide-in-from-bottom-4 duration-500">
             <button onClick={() => router.push('/dashboard')} className="w-full py-6 bg-white text-black rounded-full font-black uppercase text-lg tracking-[0.1em] active:scale-95 transition-all shadow-lg">{t.returnBtn}</button>
