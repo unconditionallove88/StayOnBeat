@@ -11,9 +11,7 @@ import NotificationPrompt from '@/components/dashboard/NotificationPrompt';
 
 /**
  * @fileOverview Mood Check-in Onboarding Step.
- * Action color: #1b4d3e (Wise dark green)
- * Languages: EN, DE.
- * Affirmation Colors: Refined for effective resonance.
+ * Updated: Natural icons and colors.
  */
 
 interface Step7VibeCheckProps {
@@ -27,28 +25,27 @@ const VIBE_OPTIONS = [
   { 
     id: 'radiant', label: 'Radiant', de: 'Strahlend',
     icon: RadiantIcon, description: 'Your light shines', deDescription: 'Dein Licht leuchtet hell',
-    color: 'text-white', activeBorder: 'border-white/40 shadow-[0_0_30px_rgba(255,255,255,0.2)]',
-    isRainbow: true
+    color: '#FFD700', activeBorder: 'border-[#FFD700] shadow-[0_0_30px_rgba(255,215,0,0.2)]'
   },
   { 
     id: 'harmony', label: 'In Harmony', de: 'In Harmonie',
     icon: HarmonyIcon, description: 'You are Aligned', deDescription: 'Du bist im Einklang',
-    color: 'text-[#58c55a]', activeBorder: 'border-[#58c55a] shadow-[0_0_20px_rgba(88,197,90,0.3)]' 
+    color: '#8FBC8F', activeBorder: 'border-[#8FBC8F] shadow-[0_0_20px_rgba(143,188,143,0.3)]' 
   },
   { 
     id: 'calm', label: 'Calm', de: 'Beruhigt',
     icon: CalmIcon, description: 'Everything is Aligned', deDescription: 'Alles ist im Gleichgewicht',
-    color: 'text-[#3B82F6]', activeBorder: 'border-[#3B82F6] shadow-[0_0_20px_rgba(59,130,246,0.3)]' 
+    color: '#87CEEB', activeBorder: 'border-[#87CEEB] shadow-[0_0_20px_rgba(135,206,235,0.3)]' 
   },
   { 
     id: 'hazy', label: 'Hazy', de: 'Verschwommen',
     icon: HazyIcon, description: 'Rest and Stillness', deDescription: 'Ruhe und Stille jetzt',
-    color: 'text-[#93C5FD]', activeBorder: 'border-[#93C5FD] shadow-[0_0_20px_rgba(147,197,253,0.3)]' 
+    color: '#C0C0C0', activeBorder: 'border-[#C0C0C0] shadow-[0_0_20px_rgba(192,192,192,0.3)]' 
   },
   { 
     id: 'overwhelmed', label: 'Overwhelmed', de: 'Überwältigt',
     icon: HeldIcon, description: 'You are Held', deDescription: 'Du wirst jetzt gehalten',
-    color: 'text-[#cbd5e1]', activeBorder: 'border-[#cbd5e1] shadow-[0_0_20px_rgba(203,213,225,0.3)]' 
+    color: '#E2725B', activeBorder: 'border-[#E2725B] shadow-[0_0_20px_rgba(226,114,91,0.3)]' 
   },
 ];
 
@@ -67,7 +64,7 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
   const { user } = useUser();
 
   useEffect(() => {
-    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toUpperCase() as any;
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
     if (['EN', 'DE'].includes(savedLang)) setLang(savedLang);
   }, []);
 
@@ -122,16 +119,13 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
                 isSelected ? `bg-white/5 ${vibe.activeBorder}` : "bg-[#0a0a0a] border-white/5 hover:border-white/20"
               )}
             >
-              {vibe.isRainbow && isSelected && (
-                <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-yellow-500/10 via-green-500/10 via-blue-500/10 to-purple-500/10 animate-pulse" />
-              )}
               <div className="w-12 flex justify-center relative z-10">
-                <VibeIcon size={40} color="currentColor" className={isSelected ? (vibe.isRainbow ? "text-white" : vibe.color.replace('text-', '')) : "text-white/20"} style={isSelected && !vibe.isRainbow ? { color: vibe.color.split('[')[1].split(']')[0] } : {}} />
+                <VibeIcon size={40} color={isSelected ? vibe.color : "rgba(255,255,255,0.2)"} />
               </div>
               <div className="flex flex-col relative z-10">
                 <span 
                   className={cn("font-black text-lg uppercase tracking-tight transition-colors")}
-                  style={isSelected && !vibe.isRainbow ? { color: vibe.color.split('[')[1].split(']')[0] } : isSelected && vibe.isRainbow ? { color: 'white' } : { color: 'rgba(255,255,255,0.6)' }}
+                  style={{ color: isSelected ? vibe.color : 'rgba(255,255,255,0.6)' }}
                 >
                   {label}
                 </span>

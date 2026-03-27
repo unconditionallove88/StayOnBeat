@@ -14,9 +14,9 @@ import {
 } from "@/components/ui/sheet";
 
 /**
- * @fileOverview Vibe Mirror Component.
- * Full EN, DE, PT, TR support.
- * Updated: TR Language added.
+ * @fileOverview Check Your Mood Component.
+ * Full EN, DE support.
+ * Updated: Natural icons and earthy colors.
  */
 
 const VIBES = [
@@ -24,87 +24,71 @@ const VIBES = [
     key: "radiant", 
     label: "Radiant", 
     de: "Strahlend", 
-    pt: "Radiante",
-    tr: "Işıldayan",
     icon: RadiantIcon, 
     affirmation: {
       en: "Your light is shining bright today",
-      de: "Dein Licht leuchtet heute hell",
-      pt: "Sua luz está brilhando forte hoje",
-      tr: "Işığın bugün çok parlak parlıyor"
+      de: "Dein Licht leuchtet heute hell"
     },
-    color: "text-white", 
-    bg: "bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 opacity-80", 
-    border: "border-white/40",
-    isRainbow: true
+    color: "text-[#FFD700]", 
+    bg: "bg-[#FFD700]/10", 
+    border: "border-[#FFD700]/30",
+    hex: "#FFD700"
   },
   { 
     key: "harmony", 
     label: "In Harmony", 
     de: "In Harmonie", 
-    pt: "Em Harmonia",
-    tr: "Uyum İçinde",
     icon: HarmonyIcon, 
     affirmation: {
       en: "You are aligned with your inner rhythm",
-      de: "Du bist im Einklang mit deinem Rhythmus",
-      pt: "Você está alinhado com seu ritmo interior",
-      tr: "İç ritminle tam bir uyumdasın"
+      de: "Du bist im Einklang mit deinem Rhythmus"
     },
-    color: "text-[#10B981]", 
-    bg: "bg-[#10B981]/10", 
-    border: "border-[#10B981]/30" 
+    color: "text-[#8FBC8F]", 
+    bg: "bg-[#8FBC8F]/10", 
+    border: "border-[#8FBC8F]/30",
+    hex: "#8FBC8F"
   },
   { 
     key: "calm", 
     label: "Calm", 
     de: "Beruhigt", 
-    pt: "Calmo",
-    tr: "Sakin",
     icon: CalmIcon, 
     affirmation: {
       en: "Everything is exactly as it is supposed to be",
-      de: "Alles ist genau so wie es sein soll",
-      pt: "Tudo está exatamente como deveria estar",
-      tr: "Her şey tam olması gerektiği gibi"
+      de: "Alles ist genau so wie es sein soll"
     },
-    color: "text-[#3B82F6]", 
-    bg: "bg-[#3B82F6]/10", 
-    border: "border-[#3B82F6]/30" 
+    color: "text-[#87CEEB]", 
+    bg: "bg-[#87CEEB]/10", 
+    border: "border-[#87CEEB]/30",
+    hex: "#87CEEB"
   },
   { 
     key: "hazy", 
     label: "Hazy", 
     de: "Verschwommen", 
-    pt: "Nebuloso",
-    tr: "Puslu",
     icon: HazyIcon, 
     affirmation: {
       en: "It is okay to rest and be still",
-      de: "Es ist okay sich auszuruhen",
-      pt: "Tudo bem descansar e ficar em silêncio",
-      tr: "Dinlenmek ve sessiz kalmak normaldir"
+      de: "Es ist okay sich auszuruhen"
     },
-    color: "text-[#93C5FD]", 
-    bg: "bg-[#93C5FD]/10", 
-    border: "border-[#93C5FD]/30" 
+    color: "text-[#C0C0C0]", 
+    bg: "bg-[#C0C0C0]/10", 
+    border: "border-[#C0C0C0]/30",
+    hex: "#C0C0C0"
   },
   { 
     key: "overwhelmed", 
     label: "Overwhelmed", 
     de: "Überwältigt", 
-    pt: "Sobrecarregado",
-    tr: "Bunalmış",
     icon: HeldIcon, 
     affirmation: {
       en: "You are held. Your circle is here",
-      de: "Du wirst gehalten Dein Kreis ist hier",
-      pt: "Você é acolhido Seu círculo está aqui",
-      tr: "Destekleniyorsun Çemberin seninle burada"
+      de: "Du wirst gehalten Dein Kreis ist hier"
     },
-    color: "text-[#cbd5e1]", 
-    bg: "bg-[#cbd5e1]/10", 
-    border: "border-[#cbd5e1]/30" 
+    color: "text-[#E2725B]", 
+    bg: "bg-[#E2725B]/10", 
+    border: "border-[#E2725B]/30",
+    hex: "#E2725B"
   },
 ];
 
@@ -118,11 +102,11 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
   const { user } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'tr'>('en');
+  const [lang, setLang] = useState<'en' | 'de'>('en');
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt', 'tr'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de'].includes(savedLang)) setLang(savedLang);
   }, []);
 
   const currentTheme = VIBES.find((v) => v.key === vibe?.current) || VIBES[2];
@@ -132,7 +116,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
     setIsSaving(true);
     if (user && firestore) {
       const userRef = doc(firestore, "users", user.uid);
-      const labelMap = { en: selected.label, de: selected.de, pt: selected.pt, tr: selected.tr };
+      const labelMap = { en: selected.label, de: selected.de };
       const newVibeData = {
         current: selected.key,
         currentLabel: labelMap[lang],
@@ -144,18 +128,9 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
     } else setIsSaving(false);
   };
 
-  const getLocalizedLabel = (v: typeof VIBES[0]) => {
-    if (lang === 'de') return v.de;
-    if (lang === 'pt') return v.pt;
-    if (lang === 'tr') return v.tr;
-    return v.label;
-  };
-
   const UI = {
-    en: { header: "Check Your Vibe", sub: "I honor my current state", footer: "Processed locally with love" },
-    de: { header: "Stimmungs Check-in", sub: "Ich achte auf meinen Zustand", footer: "Lokal verarbeitet mit Liebe" },
-    pt: { header: "Sincronia de Humor", sub: "Eu honro meu estado atual", footer: "Processado localmente com amor" },
-    tr: { header: "Ruh Halini Yokla", sub: "Mevcut halime saygı duyuyorum", footer: "Sevgiyle yerel olarak işlendi" }
+    en: { header: "Check Your Mood", sub: "I honor my current state", footer: "Processed locally with love" },
+    de: { header: "Check dein Befinden", sub: "Ich achte auf meinen Zustand", footer: "Lokal verarbeitet mit Liebe" }
   }[lang];
 
   return (
@@ -165,21 +140,17 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
         className={cn(
           "flex items-center gap-3 px-5 py-3 rounded-full border transition-all active:scale-95 group", 
           currentTheme.border, 
-          !currentTheme.isRainbow && currentTheme.bg,
-          currentTheme.isRainbow && "bg-white/5 relative overflow-hidden",
+          currentTheme.bg,
           "hover:bg-white/5 shadow-lg"
         )}
       >
-        {currentTheme.isRainbow && (
-          <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 via-yellow-500/20 via-green-500/20 via-blue-500/20 to-purple-500/20 animate-pulse" />
-        )}
         <span className="group-hover:scale-110 transition-transform flex items-center justify-center relative z-10">
-          <CurrentIcon size={20} color="currentColor" className={currentTheme.isRainbow ? "text-white" : currentTheme.color} />
+          <CurrentIcon size={20} color={currentTheme.hex} className={currentTheme.color} />
         </span>
-        <span className={cn("text-[10px] font-black uppercase tracking-widest hidden sm:block relative z-10", currentTheme.isRainbow ? "text-white" : currentTheme.color)}>
-          {getLocalizedLabel(currentTheme)}
+        <span className={cn("text-[10px] font-black uppercase tracking-widest hidden sm:block relative z-10", currentTheme.color)}>
+          {lang === 'de' ? currentTheme.de : currentTheme.label}
         </span>
-        <ChevronDown size={12} className={cn("opacity-40 relative z-10", currentTheme.isRainbow ? "text-white" : currentTheme.color)} />
+        <ChevronDown size={12} className={cn("opacity-40 relative z-10", currentTheme.color)} />
       </button>
 
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -200,7 +171,7 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
             {VIBES.map((v) => {
               const VibeIcon = v.icon;
               const isActive = vibe?.current === v.key;
-              const label = getLocalizedLabel(v);
+              const label = lang === 'de' ? v.de : v.label;
               return (
                 <button 
                   key={v.key} 
@@ -211,14 +182,11 @@ export function VibeMirror({ vibe, onVibeUpdate }: VibeMirrorProps) {
                     isActive ? `bg-white/5 ${v.border} shadow-2xl` : "bg-[#0a0a0a] border-white/5 hover:border-white/20"
                   )}
                 >
-                  {v.isRainbow && isActive && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-yellow-500/10 via-green-500/10 via-blue-500/10 to-purple-500/10 animate-pulse" />
-                  )}
                   <div className="w-12 flex justify-center group-hover:scale-110 transition-transform relative z-10">
-                    <VibeIcon size={40} color="currentColor" className={isActive ? (v.isRainbow ? "text-white" : v.color) : "text-white/20"} />
+                    <VibeIcon size={40} color={v.hex} className={isActive ? v.color : "text-white/20"} />
                   </div>
                   <div className="flex flex-col relative z-10">
-                    <span className={cn("font-black text-base uppercase tracking-tight", isActive ? "text-white" : "text-white/60")}>
+                    <span className={cn("font-black text-base uppercase tracking-tight", isActive ? v.color : "text-white/60")}>
                       {label}
                     </span>
                     <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest leading-none mt-1">

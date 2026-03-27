@@ -84,12 +84,10 @@ const AFFIRMATIONS = {
 
 const TOOLTIPS = {
   en: { 
-    vibe: "Mood Check-in", cocreation: "Co-Creation", supporter: "Supporter", profile: "My Profile", logout: "Step away", mesh: "Offline Mode: Mesh Active",
-    meshCalibration: "Mesh Calibration Required", meshCalibrationSub: "Tap to set visibility"
+    vibe: "Mood Check-in", cocreation: "Co-Creation", supporter: "Supporter", profile: "My Profile", logout: "Step away", mesh: "Offline Mode: Mesh Active"
   },
   de: { 
-    vibe: "Stimmungs Check-in", cocreation: "Ko-Kreation", supporter: "Unterstützer", profile: "Mein Profil", logout: "Abmelden", mesh: "Offline-Modus: Mesh aktiv",
-    meshCalibration: "Mesh-Kalibrierung nötig", meshCalibrationSub: "Sichtbarkeit festlegen"
+    vibe: "Stimmungs Check-in", cocreation: "Ko-Kreation", supporter: "Unterstützer", profile: "Mein Profil", logout: "Abmelden", mesh: "Offline-Modus: Mesh aktiv"
   }
 };
 
@@ -183,7 +181,6 @@ function DashboardContent() {
 
   const displayName = firestoreProfile?.name || "VALUED SOUL";
   const t = TOOLTIPS[lang] || TOOLTIPS.en;
-  const isMeshCalibrated = firestoreProfile?.guardActive !== undefined;
 
   return (
     <main className="min-h-screen bg-black text-white flex flex-col h-screen overflow-hidden font-headline">
@@ -219,18 +216,6 @@ function DashboardContent() {
         <div className="max-w-4xl mx-auto px-6 py-8 space-y-12 pb-40 touch-pan-y">
           
           <div className="space-y-3">
-            {!isMeshCalibrated && (
-              <button 
-                onClick={() => router.push('/map')}
-                className="w-full bg-blue-600/10 border-2 border-dashed border-blue-500/30 rounded-2xl p-4 flex items-center gap-4 group hover:bg-blue-600/20 transition-all animate-pulse"
-              >
-                <AlertCircle className="text-blue-400 shrink-0" size={24} />
-                <div className="text-left">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-blue-400">{t.meshCalibration}</p>
-                  <p className="text-[8px] font-bold text-white/40 uppercase tracking-widest">{t.meshCalibrationSub}</p>
-                </div>
-              </button>
-            )}
             <GuardianStatusBar status={guardianStatus} heartRate={simHeartRate} lang={lang} vibeKey={firestoreProfile?.vibe?.current} />
             <PulseGuardianBanner lang={lang} variant="banner" />
           </div>
@@ -256,83 +241,83 @@ function DashboardContent() {
             <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 text-center">
               Sanctuary Tools
             </h2>
-            <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-2xl mx-auto px-4">
               <Link 
                 href="/map" 
                 onClick={() => playHeartbeat()}
-                className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
-                <div className="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform">
-                  <RadiatingThirdEye size={36} color="#3b82f6" />
+                <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform">
+                  <RadiatingThirdEye size={32} color="#3b82f6" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'de' ? 'Der Puls' : 'The Pulse'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Radar</p>
+                  <p className="text-sm font-black uppercase tracking-tight leading-none">{lang === 'de' ? 'Der Puls' : 'The Pulse'}</p>
+                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Radar</p>
                 </div>
               </Link>
 
               <button 
                 onClick={() => handlePortalClick(() => setLabOpen(true))} 
-                className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-primary/30 hover:bg-primary/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-primary/30 hover:bg-primary/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
-                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform">
-                  <Microscope size={36} className="text-white" />
+                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform">
+                  <Microscope size={32} className="text-white" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'de' ? 'Sitzungs-Labor' : 'Pulse Lab'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Intake</p>
+                  <p className="text-sm font-black uppercase tracking-tight leading-none">{lang === 'de' ? 'Sitzungs-Labor' : 'Pulse Lab'}</p>
+                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest leading-none">Intake</p>
                 </div>
               </button>
 
               <button 
                 onClick={() => handlePortalClick(() => setSyncOpen(true))} 
-                className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-accent/30 hover:bg-accent/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-accent/30 hover:bg-accent/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
-                <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center border border-accent/20 group-hover:scale-110 transition-transform">
-                  <Watch size={32} className="text-accent" />
+                <div className="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center border border-accent/20 group-hover:scale-110 transition-transform">
+                  <Watch size={28} className="text-accent" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight leading-none">{lang === 'de' ? 'Vital-Sync' : 'Pulse Sync'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Sync</p>
+                  <p className="text-sm font-black uppercase tracking-tight leading-none">{lang === 'de' ? 'Vital-Sync' : 'Pulse Sync'}</p>
+                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Sync</p>
                 </div>
               </button>
 
               <button 
                 onClick={() => handlePortalClick(() => setLoveLetterOpen(true))} 
-                className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-purple-500/30 hover:bg-purple-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-purple-500/30 hover:bg-purple-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
-                <div className="w-16 h-16 bg-purple-500/10 rounded-2xl flex items-center justify-center border border-purple-500/20 group-hover:scale-110 transition-transform">
-                  <PenLine size={32} className="text-purple-400" />
+                <div className="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center border border-purple-500/20 group-hover:scale-110 transition-transform">
+                  <PenLine size={28} className="text-purple-400" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight text-white leading-none">{lang === 'de' ? 'Liebesbriefe' : 'Love Letters'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">Future Self</p>
+                  <p className="text-sm font-black uppercase tracking-tight text-white leading-none">{lang === 'de' ? 'Liebesbriefe' : 'Love Letters'}</p>
+                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest leading-none">Future Self</p>
                 </div>
               </button>
 
               <button 
                 onClick={() => handlePortalClick(() => setSupporterOpen(true))}
-                className="aspect-square rounded-[2rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-primary/30 hover:bg-primary/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-primary/30 hover:bg-primary/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
-                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform">
-                  <SupporterIcon size={32} className="text-primary" />
+                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform">
+                  <SupporterIcon size={28} className="text-primary" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight text-white leading-none">{lang === 'de' ? 'Unterstützer' : 'Supporter'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none">AI Portal</p>
+                  <p className="text-sm font-black uppercase tracking-tight text-white leading-none">{lang === 'de' ? 'Unterstützer' : 'Supporter'}</p>
+                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest leading-none">AI Portal</p>
                 </div>
               </button>
 
               <button 
                 onClick={() => handlePortalClick(() => setShowSOS(true))}
-                className="aspect-square rounded-[2rem] bg-red-600/10 border border-red-600/20 flex flex-col items-center justify-center gap-4 hover:bg-red-600 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-full bg-red-600/10 border border-red-600/20 flex flex-col items-center justify-center gap-4 hover:bg-red-600 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
-                <div className="w-16 h-16 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                  <Shield size={32} />
+                <div className="w-14 h-14 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <Shield size={28} />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black uppercase tracking-tight text-white leading-none group-hover:text-white transition-colors">{lang === 'de' ? 'Sofort-Hilfe' : 'Immediate Help'}</p>
-                  <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors">Mesh SOS</p>
+                  <p className="text-sm font-black uppercase tracking-tight text-white leading-none group-hover:text-white transition-colors">{lang === 'de' ? 'Sofort-Hilfe' : 'Immediate Help'}</p>
+                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors">Mesh SOS</p>
                 </div>
               </button>
             </div>
@@ -352,7 +337,7 @@ function DashboardContent() {
               className="flex items-center gap-3 px-6 py-4 bg-primary/10 rounded-full border border-primary/20 hover:border-primary transition-all active:scale-95"
             >
               <Sprout size={18} className="text-primary" />
-              <span className="text-[10px] font-black uppercase tracking-widest">{t.cocreation}</span>
+              <span className="text-[10px] font-black uppercase tracking-widest">Co-Creation</span>
             </button>
           </div>
 
@@ -421,7 +406,7 @@ function DashboardContent() {
 
       <Dialog open={supporterOpen} onOpenChange={setSupporterOpen}>
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] max-h-[85dvh] top-[50%] -translate-y-[50%] shadow-[0_0_100px_rgba(0,0,0,0.9)]">
-          <DialogTitle className="sr-only">AI Care Portal</DialogTitle>
+          <DialogTitle className="sr-only">AI Supporter Portal</DialogTitle>
           <AssistantPortal userProfile={firestoreProfile} />
         </DialogContent>
       </Dialog>
