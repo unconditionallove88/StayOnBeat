@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview GuardianStatusBar Component.
- * Status color sync: #1b4d3e
+ * Status color sync: #1b4d3e (Abundant Green)
  */
 
 type Status = "safe" | "caution" | "locked";
@@ -14,7 +14,7 @@ type Status = "safe" | "caution" | "locked";
 interface Props {
   status: Status;
   heartRate?: number;
-  lang?: "en" | "de" | "pt";
+  lang?: "en" | "de";
   vibeKey?: string;
 }
 
@@ -26,13 +26,12 @@ export default function GuardianStatusBar({
 }: Props) {
   const config = {
     safe: {
-      color: "#1b4d3e",
+      color: "#1b4d3e", // Wise and abundant green
       icon: <HeartHandshake size={16} />,
       vibeIcon: <Sparkles size={14} />,
       text: {
         en: "Pulse Guardian: You are in a steady rhythm",
-        de: "Pulse Guardian: Dein Rhythmus ist sanft und stabil",
-        pt: "Pulse Guardian: Seu ritmo está estável e tranquilo"
+        de: "Pulse Guardian: Dein Rhythmus ist sanft und stabil"
       }
     },
     caution: {
@@ -41,8 +40,7 @@ export default function GuardianStatusBar({
       vibeIcon: <Wind size={14} />,
       text: {
         en: "Pulse Guardian: Your heart is elevated",
-        de: "Pulse Guardian: Dein Herzschlag ist erhöht",
-        pt: "Pulse Guardian: Seu coração está acelerado"
+        de: "Pulse Guardian: Dein Herzschlag ist erhöht"
       }
     },
     locked: {
@@ -51,8 +49,7 @@ export default function GuardianStatusBar({
       vibeIcon: <ShieldAlert size={14} />,
       text: {
         en: "Pulse Guardian: Session paused for resonance",
-        de: "Pulse Guardian: Sitzung zur Ruhe pausiert",
-        pt: "Pulse Guardian: Sessão pausada para seu descanso"
+        de: "Pulse Guardian: Sitzung zur Ruhe pausiert"
       }
     },
   };
@@ -61,11 +58,11 @@ export default function GuardianStatusBar({
   const displayText = (current.text as any)[lang] || (current.text as any).en;
 
   const vibeTextMap: Record<string, Record<string, string>> = {
-    hazy: { en: "Honoring my drifting state", de: "Meinen schwebenden Zustand achtend", pt: "Honrando meu estado à deriva" },
-    overwhelmed: { en: "Acting with extra care", de: "Mit besonderer Achtsamkeit handelnd", pt: "Agindo com cuidado redobrado" },
-    radiant: { en: "Radiating inner light", de: "Inneres Licht strahlend", pt: "Irradiando luz interior" },
-    harmony: { en: "Aligned in balance", de: "Im Gleichgewicht ausgerichtet", pt: "Alinhado em equilíbrio" },
-    calm: { en: "Steady and clear", de: "Ruhig und klar", pt: "Estável e claro" }
+    hazy: { en: "Honoring my drifting state", de: "Meinen schwebenden Zustand achtend" },
+    overwhelmed: { en: "Acting with extra care", de: "Mit besonderer Achtsamkeit handelnd" },
+    radiant: { en: "Radiating inner light", de: "Inneres Licht strahlend" },
+    harmony: { en: "Aligned in balance", de: "Im Gleichgewicht ausgerichtet" },
+    calm: { en: "Steady and clear", de: "Ruhig und klar" }
   };
 
   const vibeNote = vibeKey ? vibeTextMap[vibeKey]?.[lang || 'en'] : null;

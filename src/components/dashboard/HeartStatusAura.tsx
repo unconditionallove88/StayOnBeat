@@ -7,15 +7,14 @@ import { cn } from "@/lib/utils";
 interface Props {
   heartRate: number;
   activeSubstances: string[];
-  lang?: "en" | "de" | "pt" | "ru";
+  lang?: "en" | "de";
   mood?: string; 
 }
 
 /**
  * @fileOverview Inner Resonance Visualization (Living Heart Aura).
- * Fixed: Re-implemented high-fidelity glowing animations.
- * Updated: Lovable emerald green #58c55a for the inner heart core.
- * Supports EN, DE, PT, RU.
+ * Re-implemented high-fidelity glowing animations.
+ * Lovable emerald core #58c55a.
  */
 export default function HeartStatusAura({ 
   heartRate, 
@@ -28,7 +27,6 @@ export default function HeartStatusAura({
   const isHighRisk = heartRate > 130 || (hasPoppers && heartRate > 100);
   const isElevated = heartRate > 100 || activeSubstances.length > 2;
   
-  // High-fidelity emerald for the lovable core
   const EMERALD = "#58c55a";
   const stateColor = isHighRisk ? "#DC2626" : isElevated ? "#F59E0B" : EMERALD; 
   
@@ -36,9 +34,7 @@ export default function HeartStatusAura({
 
   const labels = {
     en: { resonance: "My Inner Resonance" },
-    de: { resonance: "Meine Innere Resonanz" },
-    pt: { resonance: "Minha Ressonância" },
-    ru: { resonance: "Внутренний Резонанс" }
+    de: { resonance: "Meine Innere Resonanz" }
   };
 
   const t = labels[lang as keyof typeof labels] || labels.en;
@@ -83,10 +79,7 @@ export default function HeartStatusAura({
       </div>
 
       <div className="mt-10 md:mt-12 text-center z-10 space-y-1">
-        <p className={cn(
-          "text-white/40 text-[10px] md:text-[11px] uppercase tracking-[0.6em] font-black",
-          lang === 'ru' && "italic font-serif"
-        )}>
+        <p className="text-white/40 text-[10px] md:text-[11px] uppercase tracking-[0.6em] font-black">
           {t.resonance}
         </p>
       </div>

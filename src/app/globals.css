@@ -36,6 +36,8 @@
     @apply bg-black text-foreground font-body antialiased;
     height: 100%;
     overflow-x: hidden;
+    /* Prevent overscroll bounce on critical pages */
+    overscroll-behavior-y: none;
   }
 
   h1 { @apply text-[28px] font-black tracking-tighter font-headline; }
@@ -43,20 +45,15 @@
   h3 { @apply text-[18px] font-bold tracking-tight font-headline; }
 }
 
+/* Safe Area Utility */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+
 /* Resonance Aura Animations */
-@keyframes aura-tender-breath {
-  0%, 100% { opacity: 0.3; transform: scale(0.9); filter: blur(40px); }
-  50% { opacity: 0.9; transform: scale(1.15); filter: blur(60px); }
-}
-
-/* Sunrise letter-by-letter fade in/out cycle (8s total cycle) */
-/* 4s for appearance to full dissolving (0% to 50% of cycle) */
-@keyframes letter-fade-sunrise {
-  0%, 100% { opacity: 0; transform: translateY(10px); filter: blur(10px); }
-  15%, 35% { opacity: 1; transform: translateY(0); filter: blur(0); }
-  50% { opacity: 0; transform: translateY(-10px); filter: blur(10px); }
-}
-
 @keyframes aura-pulse-outer {
   0%, 100% { opacity: 0.2; transform: scale(1); filter: blur(80px); }
   50% { opacity: 0.6; transform: scale(1.3); filter: blur(100px); }
@@ -71,8 +68,11 @@
   100% { transform: scale(1); }
 }
 
-.animate-aura-tender {
-  animation: aura-tender-breath 8s ease-in-out infinite;
+/* Sunrise letter-by-letter fade in/out cycle (8s total cycle) */
+@keyframes letter-fade-sunrise {
+  0%, 100% { opacity: 0; transform: translateY(10px); filter: blur(10px); }
+  15%, 35% { opacity: 1; transform: translateY(0); filter: blur(0); }
+  50% { opacity: 0; transform: translateY(-10px); filter: blur(10px); }
 }
 
 .animate-letter-fade {

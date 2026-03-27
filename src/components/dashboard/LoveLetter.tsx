@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -9,8 +8,8 @@ import { cn } from '@/lib/utils';
 
 /**
  * @fileOverview Love Letter Component.
- * Full localization for EN, DE, PT, RU.
- * Spacing between segments.
+ * Full localization for EN, DE.
+ * Affirmation rule: 3 words (EN) / 4 words (DE).
  */
 
 const CONTENT = {
@@ -24,7 +23,8 @@ const CONTENT = {
     successTitle: "Letter Sealed",
     successMsg: "We will keep this safe When you need a reminder of your own strength we will bring it back to you",
     return: "Return to Sanctuary",
-    footer: "End-to-End Encrypted Sanctuary Note"
+    footer: "End-to-End Encrypted Sanctuary Note",
+    affirmation: "Unconditional love always"
   },
   de: {
     title: "Liebesbrief",
@@ -36,31 +36,8 @@ const CONTENT = {
     successTitle: "Brief versiegelt",
     successMsg: "Wir werden dies sicher aufbewahren Wenn du eine Erinnerung an deine eigene Stärke brauchst bringen wir sie dir zurück",
     return: "Zurück zum Sanctuary",
-    footer: "Ende-zu-Ende verschlüsselte Sanctuary-Notiz"
-  },
-  pt: {
-    title: "Carta de Amor",
-    sub: "Para o seu eu do futuro",
-    prompt: "Enquanto você sente esta luz hoje escreva uma pequena nota para o seu eu de amanhã O que você gostaria de dizer a si mesmo quando as coisas parecerem pesadas",
-    placeholder: "Querido eu lembre-se de que você é amado",
-    button: "Selar com Amor",
-    sealing: "Selando...",
-    successTitle: "Carta Selada",
-    successMsg: "Manteremos isto seguro Quando você precisar de um lembrete da sua própria força nós a traremos de volta",
-    return: "Retornar ao Santuário",
-    footer: "Nota do Santuário Criptografada de Ponta a Ponta"
-  },
-  ru: {
-    title: "Письмо Любви",
-    sub: "Твоему будущему «я»",
-    prompt: "Пока ты чувствуешь этот свет сегодня напиши короткое послание себе завтрашнему Что бы ты хотел сказать себе когда станет тяжело",
-    placeholder: "Дорогой я помни что тебя любят",
-    button: "Запечатать с Любовью",
-    sealing: "Запечатываем...",
-    successTitle: "Письмо запечатано",
-    successMsg: "Мы сохраним это в тайне Когда тебе понадобится напоминание о твоей силе мы вернем это тебе",
-    return: "Вернуться в пространство",
-    footer: "Зашифрованное послание из пространства"
+    footer: "Ende-zu-Ende verschlüsselte Sanctuary-Notiz",
+    affirmation: "Bedingungslose Liebe immerzu hier"
   }
 };
 
@@ -70,14 +47,14 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
   const [message, setMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
-  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
+  const [lang, setLang] = useState<'en' | 'de'>('en');
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de'].includes(savedLang)) setLang(savedLang);
   }, []);
 
-  const t = CONTENT[lang as keyof typeof CONTENT] || CONTENT.en;
+  const t = CONTENT[lang] || CONTENT.en;
 
   const handleSend = () => {
     if (!message.trim() || !user || !firestore) return;
@@ -109,8 +86,8 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
         </div>
         <div className="space-y-3">
           <h3 className="text-3xl font-black uppercase tracking-tighter text-white">{t.successTitle}</h3>
-          <p className="text-white/60 text-sm font-bold leading-tight max-w-xs mx-auto uppercase tracking-widest">
-            {t.successMsg}
+          <p className="text-white/60 text-sm font-bold leading-tight max-w-xs mx-auto uppercase tracking-widest italic">
+            "{t.affirmation}"
           </p>
         </div>
         <button 
@@ -154,7 +131,7 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
             "w-full h-20 rounded-full font-black text-xl uppercase tracking-widest transition-all shadow-lg flex items-center justify-center gap-4",
             !message.trim() || isSending 
               ? "bg-white/5 text-white/10 border-2 border-white/5 cursor-not-allowed"
-              : "bg-[#3EB489] text-black neon-glow active:scale-95"
+              : "bg-[#1b4d3e] text-white neon-glow active:scale-95"
           )}
         >
           {isSending ? <Loader2 className="w-6 h-6 animate-spin" /> : <>{t.button} <Send size={24} /></>}

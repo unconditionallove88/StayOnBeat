@@ -17,8 +17,7 @@ import {
   ChevronDown,
   Radio,
   PenLine,
-  Wind,
-  AlertCircle
+  Wind
 } from 'lucide-react';
 import { SupporterIcon } from '@/components/ui/supporter-icon';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
@@ -184,7 +183,7 @@ function DashboardContent() {
 
   return (
     <main className="min-h-screen bg-black text-white flex flex-col h-screen overflow-hidden font-headline">
-      <div className="px-6 py-6 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0">
+      <div className="px-6 py-6 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50 shrink-0 pt-safe">
         <header className="flex justify-between items-center max-w-4xl mx-auto w-full gap-4">
           <div className="flex-1 min-w-0">
             <h1 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-3 truncate">

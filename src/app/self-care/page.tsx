@@ -50,7 +50,7 @@ export default function SelfCare() {
   };
 
   return (
-    <main className="h-screen w-full bg-[#54a5d5] text-white flex flex-col font-headline relative overflow-hidden">
+    <main className="h-screen w-full bg-[#54a5d5] text-white flex flex-col font-headline relative overflow-hidden pt-safe pb-safe">
       <div className="flex-1 flex flex-col items-center justify-center px-6">
         <div className="w-full text-center space-y-12">
           <div className="flex items-center justify-center gap-12 relative min-h-[120px]">

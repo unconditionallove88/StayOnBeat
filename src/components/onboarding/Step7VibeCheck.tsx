@@ -94,13 +94,13 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
     return (
       <div className="w-full min-h-[80vh] flex flex-col items-center justify-center text-center px-6 font-headline animate-in fade-in zoom-in-95 duration-1000">
         <h2 className="text-4xl font-black uppercase tracking-tighter text-[#1b4d3e] mb-4">{t.success}</h2>
-        <p className="text-white/60 text-lg font-bold max-sm leading-tight">{t.sub}</p>
+        <p className="text-white/60 text-lg font-bold max-sm leading-tight">"{lang === 'EN' ? 'Unconditional love always' : 'Bedingungslose Liebe immerzu hier'}"</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full min-h-[80vh] flex flex-col items-center justify-center font-headline max-xl mx-auto px-4 text-center relative">
+    <div className="w-full min-h-[80vh] flex flex-col items-center justify-center font-headline max-xl mx-auto px-4 text-center relative pt-safe pb-safe">
       {onBack && <button onClick={onBack} disabled={isSaving} className="absolute top-0 left-4 text-white/40 hover:text-white flex items-center gap-2 text-[10px] font-black uppercase tracking-widest z-50"><ArrowLeft className="w-4 h-4" /> {t.back}</button>}
       <div className="mt-12 mb-10"><h2 className="text-[28px] font-black uppercase mb-2 text-white leading-none tracking-tighter">{t.header}</h2></div>
       <div className="grid grid-cols-1 gap-3 w-full mb-12 overflow-y-auto max-h-[50vh] pr-2 custom-scrollbar">
@@ -135,12 +135,12 @@ export function Step7VibeCheck({ onComplete, onBack, isOnboarding = false, final
           );
         })}
       </div>
-      <div className="flex flex-col items-center gap-6 w-full">
+      <div className="flex flex-col items-center gap-6 w-full shrink-0">
         <button 
           onClick={handleConfirm} 
           disabled={!selected || isSaving} 
           className={cn(
-            "pill-button w-full max-w-sm uppercase tracking-[0.2em] font-black text-xl h-[64px] transition-all", 
+            "pill-button w-full max-w-sm uppercase tracking-[0.2em] font-black text-xl h-[64px] transition-all shadow-lg", 
             selected && !isSaving ? 'bg-[#1b4d3e] text-white neon-glow' : 'bg-white/10 text-white/10 cursor-not-allowed opacity-50'
           )}
         >
