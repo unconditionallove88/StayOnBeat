@@ -8,10 +8,10 @@ import { playHeartbeat } from '@/lib/resonance';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
- * @fileOverview Breath of Love (Golden Disc & Resonance Aura).
+ * @fileOverview Breath of Love (Resonance Aura Ritual).
  * A high-fidelity meditative experience.
  * Background: Sea color #54a5d5.
- * Visual: Golden disc orbiting a white/blue glowing aura.
+ * Visual: High-contrast white and blue glowing aura breathing tenderly.
  * Text: "Inhale Love" and "Exhale Love" on one line with letter-by-letter staggered animation.
  */
 
@@ -61,8 +61,8 @@ export default function SelfCare() {
     return text.split('').map((char, i) => (
       <span 
         key={i} 
-        style={{ animationDelay: `${delayBase + (i * 0.1)}s` }}
-        className="inline-block animate-[letter-fade_8s_infinite] opacity-0"
+        style={{ animationDelay: `${delayBase + (i * 0.15)}s` }}
+        className="inline-block animate-letter-fade opacity-0"
       >
         {char === ' ' ? '\u00A0' : char}
       </span>
@@ -87,34 +87,28 @@ export default function SelfCare() {
       </header>
 
       <ScrollArea className="flex-1">
-        <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto px-6 py-12 space-y-12 pb-40 touch-pan-y min-h-[75vh]">
+        <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto px-6 py-12 space-y-16 pb-40 touch-pan-y min-h-[75vh]">
           
-          {/* Resonance Aura & Golden Disc */}
-          <div className="relative w-64 h-64 flex items-center justify-center mb-12">
-            {/* White Aura Layer */}
-            <div className="absolute w-48 h-48 bg-white rounded-full animate-aura opacity-20 blur-3xl" />
-            {/* Blue Aura Layer */}
-            <div className="absolute w-56 h-56 bg-blue-400 rounded-full animate-aura opacity-30 blur-2xl" style={{ animationDelay: '0.5s' }} />
-            
-            {/* Orbit Path */}
-            <div className="absolute w-[240px] h-[240px] rounded-full border border-white/10" />
-            
-            {/* Golden Disc */}
-            <div className="absolute w-6 h-6 bg-yellow-400 rounded-full shadow-[0_0_20px_rgba(250,204,21,0.8)] animate-orbit" />
-            
-            <div className="relative z-10 text-center">
-               <Sparkles className="w-8 h-8 text-white/40 animate-pulse" />
+          {/* Enhanced Resonance Aura */}
+          <div className="relative w-72 h-72 flex items-center justify-center mb-12">
+            {/* High-Contrast White Inner Glow */}
+            <div className="absolute w-48 h-48 bg-white rounded-full animate-aura-tender blur-[40px]" />
+            {/* Fresh Azure Outer Glow */}
+            <div className="absolute w-64 h-64 bg-blue-400 rounded-full animate-aura-tender blur-[60px]" style={{ animationDelay: '0.2s' }} />
+            {/* Tender Core */}
+            <div className="relative z-10 w-16 h-16 bg-white/20 backdrop-blur-xl rounded-full border border-white/30 flex items-center justify-center shadow-inner">
+               <Sparkles className="w-6 h-6 text-white/60 animate-pulse" />
             </div>
           </div>
 
           <div className="space-y-16 w-full text-center">
-            {/* Breathing Text - One Line, Letter by Letter */}
-            <div className="h-12 flex items-center justify-center gap-8">
-              <div className={cn("text-3xl font-black uppercase tracking-tighter flex whitespace-nowrap", lang === 'ru' && "italic font-serif")}>
+            {/* Enlarged Staggered Text */}
+            <div className="h-20 flex items-center justify-center gap-8">
+              <div className={cn("text-4xl md:text-5xl font-black uppercase tracking-tighter flex whitespace-nowrap", lang === 'ru' && "italic font-serif")}>
                 <div className="flex">
                   {renderLetters(t.inhale, 0)}
                 </div>
-                <span className="mx-4 opacity-20">|</span>
+                <span className="mx-6 opacity-20 text-2xl">|</span>
                 <div className="flex">
                   {renderLetters(t.exhale, 4)}
                 </div>

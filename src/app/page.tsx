@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
- * Updated: Action Buttons set to abundant dark green #1b4d3e.
+ * Updated: Action Buttons set to wise dark green #1b4d3e.
  * Slogan: Founded on love and rhythm of life.
  * Value Prop: Space for collective care, risk and harm minimization.
  */
