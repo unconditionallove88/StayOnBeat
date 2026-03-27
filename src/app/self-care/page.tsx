@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -5,13 +6,12 @@ import { ArrowLeft, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
  * @fileOverview Breath of Love (Resonance Aura Ritual).
- * A high-fidelity meditative experience.
+ * Optimized for iPhone: Single-screen layout, no scrolling.
  * Background: Sea color #54a5d5.
- * Visual: High-contrast white and blue glowing aura breathing tenderly.
+ * Visual: Large organic glowing disc breathing tenderly.
  * Text: "Inhale Love" and "Exhale Love" on one line with letter-by-letter staggered animation.
  */
 
@@ -20,28 +20,28 @@ const CONTENT = {
     title: "Breath of Love",
     inhale: "Inhale Love",
     exhale: "Exhale Love",
-    guidance: "I flow with eternity I am home Relaxation is my nature",
+    guidance: "I flow with eternity I am home",
     button: "Return to Sanctuary"
   },
   de: {
     title: "Atem der Liebe",
     inhale: "Liebe einatmen",
     exhale: "Liebe ausatmen",
-    guidance: "Ich fließe mit der Ewigkeit Ich bin zu Hause Entspannung ist meine Natur",
+    guidance: "Ich fließe mit der Ewigkeit",
     button: "Zurück zum Sanctuary"
   },
   pt: {
     title: "Sopro de Amor",
     inhale: "Inspire Amor",
     exhale: "Expire Amor",
-    guidance: "Eu fluo com a eternidade Estou em casa Relaxamento é minha natureza",
+    guidance: "Eu fluo com a eternidade",
     button: "Retornar ao Santuário"
   },
   ru: {
     title: "Дыхание Любви",
     inhale: "Вдохни Любовь",
     exhale: "Выдохни Любовь",
-    guidance: "Я дышу вечностью Я дома Расслабление моя природа",
+    guidance: "Я дышу вечностью",
     button: "Вернуться в пространство"
   }
 };
@@ -70,10 +70,11 @@ export default function SelfCare() {
   };
 
   return (
-    <main className="min-h-screen bg-[#54a5d5] text-white flex flex-col font-headline relative overflow-hidden">
+    <main className="h-screen w-full bg-[#54a5d5] text-white flex flex-col font-headline relative overflow-hidden">
+      {/* Subtle Depth Glows */}
       <div className="absolute inset-0 bg-white/5 blur-[120px] rounded-full pointer-events-none" />
 
-      <header className="px-6 py-8 flex items-center justify-between sticky top-0 z-50 shrink-0">
+      <header className="px-6 py-6 flex items-center justify-between z-50 shrink-0">
         <button 
           onClick={() => { playHeartbeat(); router.back(); }}
           className="text-white/60 hover:text-white transition-colors flex items-center gap-2 p-3 bg-white/10 rounded-full border border-white/20 backdrop-blur-md"
@@ -86,54 +87,49 @@ export default function SelfCare() {
         </div>
       </header>
 
-      <ScrollArea className="flex-1">
-        <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto px-6 py-12 space-y-16 pb-40 touch-pan-y min-h-[75vh]">
-          
-          {/* Enhanced Resonance Aura */}
-          <div className="relative w-72 h-72 flex items-center justify-center mb-12">
-            {/* High-Contrast White Inner Glow */}
-            <div className="absolute w-48 h-48 bg-white rounded-full animate-aura-tender blur-[40px]" />
-            {/* Fresh Azure Outer Glow */}
-            <div className="absolute w-64 h-64 bg-blue-400 rounded-full animate-aura-tender blur-[60px]" style={{ animationDelay: '0.2s' }} />
-            {/* Tender Core */}
-            <div className="relative z-10 w-16 h-16 bg-white/20 backdrop-blur-xl rounded-full border border-white/30 flex items-center justify-center shadow-inner">
-               <Sparkles className="w-6 h-6 text-white/60 animate-pulse" />
-            </div>
-          </div>
+      <div className="flex-1 flex flex-col items-center justify-center gap-12 px-6 pb-20">
+        {/* Large Organic Resonance Disc */}
+        <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
+          {/* High-Contrast White Inner Glow */}
+          <div className="absolute w-40 h-40 md:w-56 md:h-56 bg-white rounded-full animate-aura-tender blur-[40px]" />
+          {/* Fresh Azure Outer Glow */}
+          <div className="absolute w-56 h-56 md:w-72 md:h-72 bg-blue-400 rounded-full animate-aura-tender blur-[60px]" style={{ animationDelay: '0.2s' }} />
+          {/* Organic Disc Core */}
+          <div className="relative z-10 w-20 h-20 bg-white/30 backdrop-blur-2xl rounded-full border border-white/40 shadow-inner animate-pulse" />
+        </div>
 
-          <div className="space-y-16 w-full text-center">
-            {/* Enlarged Staggered Text */}
-            <div className="h-20 flex items-center justify-center gap-8">
-              <div className={cn("text-4xl md:text-5xl font-black uppercase tracking-tighter flex whitespace-nowrap", lang === 'ru' && "italic font-serif")}>
-                <div className="flex">
-                  {renderLetters(t.inhale, 0)}
-                </div>
-                <span className="mx-6 opacity-20 text-2xl">|</span>
-                <div className="flex">
-                  {renderLetters(t.exhale, 4)}
-                </div>
+        <div className="space-y-10 w-full text-center">
+          {/* enlarged Staggered Text on one line */}
+          <div className="h-16 flex items-center justify-center gap-4">
+            <div className={cn("text-3xl md:text-4xl font-black uppercase tracking-tighter flex whitespace-nowrap", lang === 'ru' && "italic font-serif")}>
+              <div className="flex">
+                {renderLetters(t.inhale, 0)}
+              </div>
+              <span className="mx-4 opacity-20 text-xl font-thin">|</span>
+              <div className="flex">
+                {renderLetters(t.exhale, 4)}
               </div>
             </div>
+          </div>
 
-            <div className="space-y-6">
-              <p className={cn(
-                "text-lg font-black uppercase tracking-widest text-white/80 leading-tight max-w-[320px] mx-auto",
-                lang === 'ru' && "italic font-serif"
-              )}>
-                {t.guidance}
-              </p>
-              <div className="w-12 h-1 bg-white/20 rounded-full mx-auto" />
-            </div>
+          <div className="space-y-4">
+            <p className={cn(
+              "text-base font-black uppercase tracking-[0.2em] text-white/80 leading-tight",
+              lang === 'ru' && "italic font-serif"
+            )}>
+              {t.guidance}
+            </p>
+            <div className="w-10 h-1 bg-white/20 rounded-full mx-auto" />
           </div>
         </div>
-      </ScrollArea>
+      </div>
 
-      <footer className="fixed bottom-0 left-0 right-0 h-[120px] bg-black/10 backdrop-blur-md flex flex-col items-center justify-center px-6 z-50 pb-safe">
+      <footer className="p-8 flex flex-col items-center justify-center shrink-0 pb-safe">
         <button 
           onClick={() => { playHeartbeat(); router.push('/dashboard'); }}
           className={cn(
-            "w-full max-sm h-16 rounded-full font-black uppercase tracking-widest active:scale-95 transition-all shadow-2xl flex items-center justify-center gap-3",
-            "bg-[#1b3e4d] text-white",
+            "w-full max-w-sm h-16 rounded-full font-black uppercase tracking-widest active:scale-95 transition-all shadow-2xl flex items-center justify-center gap-3",
+            "bg-[#1b3e4d] text-white/90 border border-white/10 backdrop-blur-md",
             lang === 'ru' && "italic font-serif"
           )}
         >

@@ -15,7 +15,8 @@ import {
   Users, 
   PhoneCall,
   CircleDot,
-  Radio
+  Radio,
+  Sparkles
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -49,10 +50,10 @@ const CONTENT = {
       button: "Notify My Circle"
     },
     stillness: {
-      title: "Grounding Path",
-      sub: "Self-Care Mode",
-      desc: "I love and respect my need for stillness Access breathing tools and calming guidance",
-      button: "Open Stillness Tools"
+      title: "Breath of Love",
+      sub: "Self-Care Ritual",
+      desc: "I love and respect my need for stillness Return to your center with the guided resonance ritual",
+      button: "Start Breath of Love"
     },
     connecting: "Negotiating Mesh Handshake...",
     honoring: "Honoring the request for care",
@@ -84,10 +85,10 @@ const CONTENT = {
       button: "Meinen Kreis rufen"
     },
     stillness: {
-      title: "Erdungspfad",
+      title: "Atem der Liebe",
       sub: "Selbstfürsorge",
-      desc: "Ich achte auf mein Bedürfnis nach Ruhe Nutze Atem-Tools und sanfte Führung",
-      button: "Ruhe-Tools öffnen"
+      desc: "Ich achte auf mein Bedürfnis nach Ruhe Finde zurück in deine Mitte mit dem Resonance-Ritual",
+      button: "Atem der Liebe starten"
     },
     connecting: "Mesh-Verbindung wird aufgebaut...",
     honoring: "Die Anfrage wird liebevoll bearbeitet",
@@ -119,10 +120,10 @@ const CONTENT = {
       button: "Notificar Meu Círculo"
     },
     stillness: {
-      title: "Caminho de Aterramento",
-      sub: "Modo Autocuidado",
-      desc: "Eu amo e respeito minha necessidade de silêncio Acesse ferramentas de respiração",
-      button: "Abrir Ferramentas"
+      title: "Sopro de Amor",
+      sub: "Ritual de Autocuidado",
+      desc: "Eu amo e respeito minha necessidade de silêncio Volte ao seu centro com o ritual de ressonância",
+      button: "Iniciar Sopro de Amor"
     },
     connecting: "Negociando Handshake da Mesh...",
     honoring: "Honrando o pedido de cuidado",
@@ -154,10 +155,10 @@ const CONTENT = {
       button: "Уведомить Мой Круг"
     },
     stillness: {
-      title: "Путь Заземления",
-      sub: "Режим Самопомощи",
-      desc: "Я люблю и уважаю свою потребность в тишине Используй техники дыхания",
-      button: "Открыть Инструменты"
+      title: "Дыхание Любви",
+      sub: "Ритуал заботы",
+      desc: "Я люблю и уважаю свою потребность в тишине Вернись в центр с помощью медитации",
+      button: "Дыхание Любви"
     },
     connecting: "Установка Mesh-соединения...",
     honoring: "Принимаем твой запрос на заботу",
@@ -244,24 +245,24 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
     return (
       <div className="fixed inset-0 bg-[#050505] z-[4000] flex flex-col items-center justify-center px-8 text-center font-headline animate-in fade-in duration-700">
         <div className="mb-8 relative">
-          <Heart size={100} fill="#10B981" className="text-[#10B981] animate-pulse-heart drop-shadow-[0_0_40px_rgba(16,185,129,0.5)]" />
+          <Heart size={100} fill="#58c55a" className="text-[#58c55a] animate-pulse-heart drop-shadow-[0_0_40px_rgba(88,197,90,0.5)]" />
         </div>
         
         <div className="space-y-6 max-w-sm">
           <h1 className={cn("text-4xl font-black uppercase tracking-tighter text-white leading-none", lang === 'ru' && "italic font-serif")}>
-            {isFriendMode ? t.friendLoved(friendName!) : t.loved} <br/> <span className="text-[#10B981]">{t.takenCareOf}</span>
+            {isFriendMode ? t.friendLoved(friendName!) : t.loved} <br/> <span className="text-[#58c55a]">{t.takenCareOf}</span>
           </h1>
-          <div className="bg-white/5 border border-[#10B981]/20 rounded-[2.5rem] p-8 space-y-4 text-left">
+          <div className="bg-white/5 border border-[#58c55a]/20 rounded-[2.5rem] p-8 space-y-4 text-left">
             <div className="flex items-center gap-4 text-white/80">
-              <CheckCircle2 size={18} className="text-[#10B981]" />
+              <CheckCircle2 size={18} className="text-[#58c55a]" />
               <p className={cn("text-xs font-bold uppercase tracking-widest leading-tight", lang === 'ru' && "italic font-serif")}>{t.dispatched}</p>
             </div>
             <div className="flex items-center gap-4 text-white/80">
-              <Radio size={18} className="text-[#10B981] animate-pulse" />
+              <Radio size={18} className="text-[#58c55a] animate-pulse" />
               <p className={cn("text-xs font-bold uppercase tracking-widest leading-tight", lang === 'ru' && "italic font-serif")}>{t.meshShared}</p>
             </div>
             <div className="flex items-center gap-4 text-white/80">
-              <ShieldCheck size={18} className="text-[#10B981]" />
+              <ShieldCheck size={18} className="text-[#58c55a]" />
               <p className={cn("text-xs font-bold uppercase tracking-widest leading-tight", lang === 'ru' && "italic font-serif")}>{t.privacyActive}</p>
             </div>
           </div>
@@ -277,9 +278,9 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
   if (step === 'sending') {
     return (
       <div className="fixed inset-0 bg-black/95 z-[4000] flex flex-col items-center justify-center px-8 text-center font-headline">
-        <Loader2 size={80} className="text-[#10B981] animate-spin mb-8" />
+        <Loader2 size={80} className="text-[#58c55a] animate-spin mb-8" />
         <h1 className={cn("text-3xl font-black uppercase tracking-tighter text-white mb-2", lang === 'ru' && "italic font-serif")}>{t.connecting}</h1>
-        <p className={cn("text-[#10B981] font-black uppercase tracking-[0.3em] text-[10px]", lang === 'ru' && "italic font-serif")}>
+        <p className={cn("text-[#58c55a] font-black uppercase tracking-[0.3em] text-[10px]", lang === 'ru' && "italic font-serif")}>
           {t.honoring}
         </p>
       </div>
@@ -304,7 +305,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
           <h2 className={cn("text-3xl font-black uppercase tracking-tighter text-white leading-none", lang === 'ru' && "italic font-serif")}>
             {isFriendMode ? t.helping(friendName!) : t.question}
           </h2>
-          <p className={cn("text-[#10B981] text-[9px] font-black uppercase mt-3 tracking-[0.3em]", lang === 'ru' && "italic font-serif")}>
+          <p className={cn("text-primary text-[9px] font-black uppercase mt-3 tracking-[0.3em]", lang === 'ru' && "italic font-serif")}>
             {isFriendMode ? t.friendSubtitle(friendName!) : t.subtitle}
           </p>
         </div>
@@ -320,7 +321,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                   {t.tabs.circle}
                 </TabsTrigger>
                 {!isFriendMode && (
-                  <TabsTrigger value="stillness" className={cn("flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-[#10B981] data-[state=active]:text-black", lang === 'ru' && "italic font-serif")}>
+                  <TabsTrigger value="stillness" className={cn("flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-primary data-[state=active]:text-white", lang === 'ru' && "italic font-serif")}>
                     {t.tabs.stillness}
                   </TabsTrigger>
                 )}
@@ -374,14 +375,14 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
 
               {!isFriendMode && (
                 <TabsContent value="stillness" className="space-y-4 animate-in fade-in slide-in-from-bottom-2 focus-visible:outline-none">
-                  <div className="p-6 bg-emerald-500/5 border-2 border-emerald-500/20 rounded-[2rem] space-y-4">
+                  <div className="p-6 bg-primary/5 border-2 border-primary/20 rounded-[2rem] space-y-4">
                     <div className="flex items-center gap-4">
-                      <div className="p-3 bg-emerald-500/20 rounded-xl">
-                        <Wind className="text-emerald-500" size={24} />
+                      <div className="p-3 bg-primary/20 rounded-xl">
+                        <Wind className="text-primary" size={24} />
                       </div>
                       <div>
                         <p className={cn("text-sm font-black uppercase text-white tracking-tight", lang === 'ru' && "italic font-serif")}>{t.stillness.title}</p>
-                        <p className={cn("text-[10px] font-bold text-emerald-500 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.stillness.sub}</p>
+                        <p className={cn("text-[10px] font-bold text-primary uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.stillness.sub}</p>
                       </div>
                     </div>
                     <p className={cn("text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide", lang === 'ru' && "italic font-serif")}>
@@ -389,7 +390,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                     </p>
                     <button 
                       onClick={() => handleSendSOS('grounding')}
-                      className={cn("w-full py-6 bg-[#10B981] text-black rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg active:scale-95 transition-all", lang === 'ru' && "italic font-serif")}
+                      className={cn("w-full py-6 bg-primary text-white rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg active:scale-95 transition-all", lang === 'ru' && "italic font-serif")}
                     >
                       {t.stillness.button}
                     </button>
@@ -401,7 +402,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
             <div className="mt-6 pt-6 border-t border-white/5 text-center">
               <button 
                 onClick={() => { playHeartbeat(); onClose(); }}
-                className={cn("text-[#10B981] font-black text-xs uppercase tracking-[0.4em] hover:underline underline-offset-8 transition-all active:scale-95", lang === 'ru' && "italic font-serif")}
+                className={cn("text-primary font-black text-xs uppercase tracking-[0.4em] hover:underline underline-offset-8 transition-all active:scale-95", lang === 'ru' && "italic font-serif")}
               >
                 {t.allIsWell}
               </button>
