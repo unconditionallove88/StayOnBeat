@@ -14,7 +14,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * Size optimized to take up 44% of the screen.
  * Background color: Beautiful sea color #54a5d5.
  * Message: Inhale Love / Exhale Love.
- * Animation: Sunrise slowly appear (4s) and slowly disappear (4s).
+ * Animation: Staggered Sunrise (4s appear, 4s disappear).
  * Action Button: Organic deep sea blue #1b3e4d.
  */
 
@@ -32,8 +32,8 @@ const CONTENT = {
   de: {
     title: "Atem der Liebe",
     breathing: "Ewiges Atmen",
-    inhale: "Inhale Love",
-    exhale: "Exhale Love",
+    inhale: "Liebe einatmen",
+    exhale: "Liebe ausatmen",
     guidance: "Ich fließe mit der Ewigkeit. Ich bin zu Hause. Entspannung ist meine Natur.",
     header: "Ich lebe von innen nach außen",
     headerHighlight: "mit offenem Herzen",
@@ -42,8 +42,8 @@ const CONTENT = {
   pt: {
     title: "Sopro de Amor",
     breathing: "Respiração da Eternidade",
-    inhale: "Inhale Love",
-    exhale: "Exhale Love",
+    inhale: "Inspire Amor",
+    exhale: "Expire Amor",
     guidance: "Eu fluo com a eternidade. Estou em casa. Relaxamento é minha natureza.",
     header: "Eu vivo de dentro para fora",
     headerHighlight: "com o coração aberto",
@@ -52,8 +52,8 @@ const CONTENT = {
   ru: {
     title: "Дыхание Любви",
     breathing: "Дыхание Вечности",
-    inhale: "Inhale Love",
-    exhale: "Exhale Love",
+    inhale: "Вдохни Любовь",
+    exhale: "Выдохни Любовь",
     guidance: "Я дышу вечностью. Я дома. Расслабление — моя природа.",
     header: "Я живу изнутри наружу",
     headerHighlight: "с открытым сердцем",
@@ -64,23 +64,16 @@ const CONTENT = {
 export default function SelfCare() {
   const router = useRouter();
   const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
-  const [isInhaling, setIsInhaling] = useState(true);
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
     if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
-
-    const interval = setInterval(() => {
-      setIsInhaling((prev) => !prev);
-    }, 8000); // Staggered cycle
-
-    return () => clearInterval(interval);
   }, []);
 
   const t = CONTENT[lang] || CONTENT.en;
 
   return (
-    <main className="min-h-screen bg-[#54a5d5] text-white flex flex-col font-headline relative overflow-hidden transition-colors duration-1000">
+    <main className="min-h-screen bg-[#54a5d5] text-white flex flex-col font-headline relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-white/5 blur-[120px] rounded-full pointer-events-none" />
 
       <header className="px-6 py-8 flex items-center justify-between sticky top-0 z-50 shrink-0">
@@ -97,21 +90,16 @@ export default function SelfCare() {
       </header>
 
       <ScrollArea className="flex-1">
-        <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto px-6 py-12 space-y-12 pb-40 touch-pan-y h-full min-h-[70vh]">
+        <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto px-6 py-12 space-y-12 pb-40 touch-pan-y min-h-[75vh]">
           
-          {/* Eternity Ouroboros Animation - 44% Screen Size */}
-          <div className="relative flex flex-col items-center justify-center w-full h-[44vh] transition-transform duration-1000">
+          {/* Eternity Ouroboros Animation - Wide horizontal Figure-Eight */}
+          <div className="relative flex flex-col items-center justify-center w-full h-[44vh]">
             <svg 
               viewBox="0 0 400 200" 
-              className="w-full h-full drop-shadow-[0_0_40px_rgba(102,178,178,0.4)] filter"
+              className="w-full h-full drop-shadow-[0_0_40px_rgba(102,178,178,0.4)]"
               preserveAspectRatio="xMidYMid meet"
             >
               <defs>
-                <linearGradient id="cobraGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#66b2b2" stopOpacity="0.8" />
-                  <stop offset="50%" stopColor="#4d8a8a" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#66b2b2" stopOpacity="0.8" />
-                </linearGradient>
                 <filter id="headGlow">
                   <feGaussianBlur stdDeviation="6" result="blur" />
                   <feComposite in="SourceGraphic" in2="blur" operator="over" />
@@ -121,7 +109,7 @@ export default function SelfCare() {
               {/* Wide Eternity Path */}
               <path
                 id="infinityPath"
-                d="M 200 100 C 200 10 40 10 40 100 C 40 190 200 190 200 100 C 200 10 360 10 360 100 C 360 190 200 190 200 100"
+                d="M 200 100 C 200 20 20 20 20 100 C 20 180 200 180 200 100 C 200 20 380 20 380 100 C 380 180 200 180 200 100"
                 fill="none"
                 stroke="rgba(102, 178, 178, 0.2)"
                 strokeWidth="12"
@@ -130,7 +118,7 @@ export default function SelfCare() {
               />
               
               <path
-                d="M 200 100 C 200 10 40 10 40 100 C 40 190 200 190 200 100 C 200 10 360 10 360 100 C 360 190 200 190 200 100"
+                d="M 200 100 C 200 20 20 20 20 100 C 20 180 200 180 200 100 C 200 20 380 20 380 100 C 380 180 200 180 200 100"
                 fill="none"
                 stroke="#66b2b2"
                 strokeWidth="1"
@@ -138,45 +126,39 @@ export default function SelfCare() {
                 className="opacity-40"
               />
 
-              {/* Sliding Cobra Head - 8s full loop (4s inhale, 4s exhale) */}
+              {/* Sliding Cobra Head - 16s cycle */}
               <g filter="url(#headGlow)">
                 <circle r="10" fill="#66b2b2">
                   <animateMotion
-                    dur="8s"
+                    dur="16s"
                     repeatCount="indefinite"
-                    path="M 200 100 C 200 10 40 10 40 100 C 40 190 200 190 200 100 C 200 10 360 10 360 100 C 360 190 200 190 200 100"
+                    path="M 200 100 C 200 20 20 20 20 100 C 20 180 200 180 200 100 C 200 20 380 20 380 100 C 380 180 200 180 200 100"
                     rotate="auto"
                   />
                 </circle>
                 <circle r="4" fill="white" opacity="0.7">
                   <animateMotion
-                    dur="8s"
+                    dur="16s"
                     repeatCount="indefinite"
-                    path="M 200 100 C 200 10 40 10 40 100 C 40 190 200 190 200 100 C 200 10 360 10 360 100 C 360 190 200 190 200 100"
+                    path="M 200 100 C 200 20 20 20 20 100 C 20 180 200 180 200 100 C 200 20 380 20 380 100 C 380 180 200 180 200 100"
                     rotate="auto"
                   />
                 </circle>
               </g>
-
-              {/* Centered Resonance Glow */}
-              <circle cx="200" cy="100" r="50" fill="#66b2b2" className={cn(
-                "transition-all duration-[4000ms] ease-in-out",
-                isInhaling ? "opacity-25 scale-150 blur-3xl" : "opacity-10 scale-100 blur-xl"
-              )} />
             </svg>
 
-            <div className="mt-8 text-center space-y-3 relative h-24 w-full flex items-center justify-center">
-              {/* Sunrise Staggered Text: 4s fade in, 4s fade out */}
+            <div className="mt-12 text-center relative h-24 w-full flex items-center justify-center">
+              {/* Sunrise Staggered Text - No overlapping */}
               <h2 className={cn(
-                "text-4xl font-black uppercase tracking-tighter absolute animate-sunrise",
+                "text-4xl font-black uppercase tracking-tighter absolute animate-sunrise-inhale",
                 lang === 'ru' && "italic font-serif"
               )}>
                 {t.inhale}
               </h2>
               <h2 className={cn(
-                "text-4xl font-black uppercase tracking-tighter absolute animate-sunrise",
+                "text-4xl font-black uppercase tracking-tighter absolute animate-sunrise-exhale opacity-0",
                 lang === 'ru' && "italic font-serif"
-              )} style={{ animationDelay: '8s' }}>
+              )}>
                 {t.exhale}
               </h2>
             </div>

@@ -10,7 +10,7 @@
     --card-foreground: 0 0% 100%;
     --popover: 0 0% 2%;
     --popover-foreground: 0 0% 100%;
-    /* Wise intense dark green #1b4d3e */
+    /* Wise intense abundant dark green #1b4d3e */
     --primary: 162 48% 20%;
     --primary-foreground: 0 0% 100%;
     --secondary: 162 30% 15%;
@@ -50,7 +50,6 @@
   100% { transform: scale(1); opacity: 0.4; }
 }
 
-/* Sequential Living Beat - Alternating Loop */
 @keyframes heart-beat-inner {
   0%, 50% { transform: scale(1); opacity: 0.2; filter: blur(12px); }
   75% { transform: scale(1.15); opacity: 0.6; filter: blur(8px); }
@@ -69,10 +68,20 @@
   100% { transform: scale(1.4); opacity: 0; }
 }
 
-/* Meditative Sunrise Text Animation: 4s appear, 4s disappear */
-@keyframes sunrise-fade {
-  0%, 100% { opacity: 0; transform: translateY(10px); }
-  50% { opacity: 1; transform: translateY(0); }
+/* Staggered Sunrise Animation: 4s appear, 4s disappear, 8s pause */
+@keyframes sunrise-cycle {
+  0% { opacity: 0; transform: translateY(15px); }
+  25% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 0; transform: translateY(-15px); }
+  100% { opacity: 0; }
+}
+
+.animate-sunrise-inhale {
+  animation: sunrise-cycle 16s ease-in-out infinite;
+}
+
+.animate-sunrise-exhale {
+  animation: sunrise-cycle 16s ease-in-out infinite 8s;
 }
 
 .animate-pulse-heart {
@@ -81,10 +90,6 @@
 
 .animate-radiate-out {
   animation: radiate-out 4s ease-out infinite;
-}
-
-.animate-sunrise {
-  animation: sunrise-fade 8s ease-in-out infinite;
 }
 
 .neon-glow {
