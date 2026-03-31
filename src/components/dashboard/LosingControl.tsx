@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -8,10 +9,9 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 /**
  * @fileOverview "Losing Control" (Beauty of Life) Tool.
- * Specifically for grounding users during over-stimulation or sleep deprivation.
+ * Prismatic Color Visions: Blue, Green, Light Blue, Purple, White.
  * Rhythmic Rules: 3 words (EN) / 4 words (DE).
  * iPhone optimized: Single-screen immersive experience.
- * Content: Visions of Love (Mother, Brother, Unconditional, Humanity).
  */
 
 interface LosingControlProps {
@@ -27,7 +27,8 @@ const CONTENT = {
       "Motherly care heals",
       "Brotherly bonds hold",
       "Unconditional love always",
-      "Acceptance unites humanity"
+      "Acceptance unites humanity",
+      "Pure presence now"
     ],
     button: "Show Beauty",
     return: "Return to Sanctuary"
@@ -40,7 +41,8 @@ const CONTENT = {
       "Mütterliche Fürsorge heilt heute",
       "Brüderliche Bande halten heute",
       "Bedingungslose Liebe immerzu hier",
-      "Akzeptanz vereint die Menschheit"
+      "Akzeptanz vereint die Menschheit",
+      "Reine Gegenwart jetzt hier"
     ],
     button: "Schönheit zeigen",
     return: "Zum Sanctuary zurückkehren"
@@ -76,15 +78,15 @@ export function LosingControl({ onClose }: LosingControlProps) {
   if (mode === 'beauty') {
     return (
       <div className="fixed inset-0 bg-black z-[1000] flex flex-col font-headline animate-in fade-in duration-1000 overflow-hidden">
-        {/* Immersive Image Layer */}
+        {/* Immersive Color Vision Layer */}
         <div className="absolute inset-0 transition-opacity duration-1000" style={{ opacity: isFading ? 0.3 : 1 }}>
           <img 
             src={PlaceHolderImages[currentSlide].imageUrl} 
-            alt="Beauty of Life" 
+            alt="Color Vision" 
             className="w-full h-full object-cover scale-110 animate-[pulse_20s_infinite_alternate]"
             data-ai-hint={PlaceHolderImages[currentSlide].imageHint}
           />
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
         </div>
 
         {/* Affirmation Layer */}

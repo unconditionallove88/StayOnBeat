@@ -86,10 +86,12 @@ const AFFIRMATIONS = {
 
 const TOOLTIPS = {
   en: { 
-    cocreation: "Co-Creation", supporter: "Supporter", profile: "My Profile", logout: "Step away", mesh: "Offline Mode: Mesh Active"
+    cocreation: "Co-Creation", supporter: "Supporter", profile: "My Profile", logout: "Step away", mesh: "Offline Mode: Mesh Active", 
+    intervention: "Return to presence"
   },
   de: { 
-    cocreation: "Ko-Kreation", supporter: "Unterstützer", profile: "Mein Profil", logout: "Abmelden", mesh: "Offline-Modus: Mesh aktiv"
+    cocreation: "Ko-Kreation", supporter: "Unterstützer", profile: "Mein Profil", logout: "Abmelden", mesh: "Offline-Modus: Mesh aktiv",
+    intervention: "Kehre jetzt zurück hier"
   }
 };
 
@@ -250,7 +252,7 @@ function DashboardContent() {
                   <div className="absolute inset-0 bg-[#10B981] rounded-full animate-ping opacity-40" />
                   <RadiatingThirdEye size={40} color="white" />
                   <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-[#10B981] px-4 py-1.5 rounded-full border border-white shadow-lg whitespace-nowrap animate-in slide-in-from-bottom-2 duration-500">
-                    <span className="text-[10px] font-black uppercase text-white tracking-widest">Reality Check 🌿</span>
+                    <span className="text-[10px] font-black uppercase text-white tracking-widest">{t.intervention} 🌿</span>
                   </div>
                 </button>
               </div>

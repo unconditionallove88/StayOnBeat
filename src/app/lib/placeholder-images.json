@@ -1,0 +1,35 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "color-blue",
+      "description": "Deep blue vision of stability",
+      "imageUrl": "https://picsum.photos/seed/deepblue/800/1200",
+      "imageHint": "deep blue"
+    },
+    {
+      "id": "color-green",
+      "description": "Emerald green vision of growth",
+      "imageUrl": "https://picsum.photos/seed/emeraldgreen/800/1200",
+      "imageHint": "emerald green"
+    },
+    {
+      "id": "color-lightblue",
+      "description": "Light blue vision of love",
+      "imageUrl": "https://picsum.photos/seed/skyblue/800/1200",
+      "imageHint": "light blue"
+    },
+    {
+      "id": "color-purple",
+      "description": "Purple vision of humanity",
+      "imageUrl": "https://picsum.photos/seed/lavenderpurple/800/1200",
+      "imageHint": "purple vision"
+    },
+    {
+      "id": "color-white",
+      "description": "White vision of presence",
+      "imageUrl": "https://picsum.photos/seed/purewhite/800/1200",
+      "imageHint": "pure white"
+    }
+  ]
+}
