@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -12,6 +11,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
  * Specifically for grounding users during over-stimulation or sleep deprivation.
  * Rhythmic Rules: 3 words (EN) / 4 words (DE).
  * iPhone optimized: Single-screen immersive experience.
+ * Content: Visions of Love (Mother, Brother, Unconditional, Humanity).
  */
 
 interface LosingControlProps {
@@ -24,11 +24,10 @@ const CONTENT = {
     sub: "Return to presence",
     intro: "I am here",
     affirmations: [
-      "Life is beauty",
-      "I am here",
-      "Peace is now",
-      "Love is present",
-      "Truth is life"
+      "Motherly care heals",
+      "Brotherly bonds hold",
+      "Unconditional love always",
+      "Acceptance unites humanity"
     ],
     button: "Show Beauty",
     return: "Return to Sanctuary"
@@ -38,11 +37,10 @@ const CONTENT = {
     sub: "Zurück in die Gegenwart",
     intro: "Ich bin genau hier",
     affirmations: [
-      "Leben ist pure Schönheit",
-      "Ich bin genau hier",
-      "Frieden im Augenblick jetzt",
-      "Liebe ist gegenwärtig heute",
-      "Wahrheit ist das Leben"
+      "Mütterliche Fürsorge heilt heute",
+      "Brüderliche Bande halten heute",
+      "Bedingungslose Liebe immerzu hier",
+      "Akzeptanz vereint die Menschheit"
     ],
     button: "Schönheit zeigen",
     return: "Zum Sanctuary zurückkehren"

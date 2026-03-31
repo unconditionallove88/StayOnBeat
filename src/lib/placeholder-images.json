@@ -1,28 +1,28 @@
 {
   "placeholderImages": [
     {
-      "id": "beauty-1",
-      "description": "Sunlight through forest leaves",
-      "imageUrl": "https://picsum.photos/seed/10/800/1200",
-      "imageHint": "forest sunlight"
+      "id": "love-mother",
+      "description": "Motherly love and care",
+      "imageUrl": "https://picsum.photos/seed/lovemother/800/1200",
+      "imageHint": "mother care"
     },
     {
-      "id": "beauty-2",
-      "description": "Morning dew on a single leaf",
-      "imageUrl": "https://picsum.photos/seed/22/800/1200",
-      "imageHint": "nature macro"
+      "id": "love-brother",
+      "description": "Brotherly bond and fraternity",
+      "imageUrl": "https://picsum.photos/seed/lovebrother/800/1200",
+      "imageHint": "sibling bond"
     },
     {
-      "id": "beauty-3",
-      "description": "Soft ocean waves at dusk",
-      "imageUrl": "https://picsum.photos/seed/35/800/1200",
-      "imageHint": "calm ocean"
+      "id": "love-unconditional",
+      "description": "Unconditional love heart",
+      "imageUrl": "https://picsum.photos/seed/loveheart/800/1200",
+      "imageHint": "unconditional heart"
     },
     {
-      "id": "beauty-4",
-      "description": "Infinite mountain horizon",
-      "imageUrl": "https://picsum.photos/seed/48/800/1200",
-      "imageHint": "mountain landscape"
+      "id": "love-humanity",
+      "description": "Humanity unity and respect",
+      "imageUrl": "https://picsum.photos/seed/humanityunity/800/1200",
+      "imageHint": "humanity unity"
     }
   ]
 }
