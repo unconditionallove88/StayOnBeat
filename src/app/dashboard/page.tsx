@@ -22,7 +22,6 @@ import {
 import { SupporterIcon } from '@/components/ui/supporter-icon';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Step6SubstanceLab as PulseLab } from '@/components/onboarding/Step6SubstanceLab';
-import { VibeMirror } from '@/components/dashboard/VibeMirror';
 import { SOSAlert } from '@/components/dashboard/SOSAlert';
 import { RadiatingThirdEye } from '@/components/ui/radiating-third-eye';
 import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
@@ -77,16 +76,16 @@ function SkyIcon() {
 }
 
 const AFFIRMATIONS = {
-  EN: ["I am loved", "Truth is love", "Life is radiant", "Cherish this breath", "Equality is nature", "Unconditional love always"],
-  DE: ["Ich werde geliebt heute", "Wahrheit ist Liebe pur", "Das Leben strahlt hell", "Schätze diesen Atem jetzt", "Gleichheit ist unsere Natur", "Bedingungslose Liebe immerzu hier"]
+  EN: ["I am loved", "Truth is love", "Life is radiant", "Equality is nature", "Unconditional love always"],
+  DE: ["Ich werde geliebt heute", "Wahrheit ist Liebe pur", "Das Leben strahlt hell", "Gleichheit ist unsere Natur", "Bedingungslose Liebe immerzu hier"]
 };
 
 const TOOLTIPS = {
   en: { 
-    vibe: "Mood Check-in", cocreation: "Co-Creation", supporter: "Supporter", profile: "My Profile", logout: "Step away", mesh: "Offline Mode: Mesh Active"
+    cocreation: "Co-Creation", supporter: "Supporter", profile: "My Profile", logout: "Step away", mesh: "Offline Mode: Mesh Active"
   },
   de: { 
-    vibe: "Stimmungs Check-in", cocreation: "Ko-Kreation", supporter: "Unterstützer", profile: "Mein Profil", logout: "Abmelden", mesh: "Offline-Modus: Mesh aktiv"
+    cocreation: "Ko-Kreation", supporter: "Unterstützer", profile: "Mein Profil", logout: "Abmelden", mesh: "Offline-Modus: Mesh aktiv"
   }
 };
 
@@ -147,8 +146,7 @@ function DashboardContent() {
     { heartRate: simHeartRate }, 
     activeSubstances, 
     firestoreProfile?.pulseBaseline?.restingBPM,
-    medicalProfile,
-    firestoreProfile?.vibe?.current
+    medicalProfile
   );
 
   const isLocked = safetyStatus.isLocked;
@@ -168,9 +166,9 @@ function DashboardContent() {
           <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
           <Heart 
             size={64} 
-            fill="#58c55a" 
-            className="relative z-10 animate-pulse-heart text-[#58c55a]" 
-            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #58c55a)' }} 
+            fill="#1b4d3e" 
+            className="relative z-10 animate-pulse-heart text-[#1b4d3e]" 
+            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #1b4d3e)' }} 
           />
         </div>
         <Loader2 className="animate-spin text-primary/20" />
@@ -199,7 +197,6 @@ function DashboardContent() {
           </div>
           
           <div className="flex items-center gap-2 flex-shrink-0">
-            <VibeMirror vibe={firestoreProfile?.vibe} />
             <Link 
               href="/profile" 
               onClick={() => playHeartbeat()}
@@ -215,7 +212,7 @@ function DashboardContent() {
         <div className="max-w-4xl mx-auto px-6 py-8 space-y-12 pb-40 touch-pan-y">
           
           <div className="space-y-3">
-            <GuardianStatusBar status={guardianStatus} heartRate={simHeartRate} lang={lang} vibeKey={firestoreProfile?.vibe?.current} />
+            <GuardianStatusBar status={guardianStatus} heartRate={simHeartRate} lang={lang} />
             <PulseGuardianBanner lang={lang} variant="banner" />
           </div>
 
@@ -448,9 +445,9 @@ export default function Dashboard() {
           <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
           <Heart 
             size={64} 
-            fill="#58c55a" 
-            className="relative z-10 animate-pulse-heart text-[#58c55a]" 
-            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #58c55a)' }} 
+            fill="#1b4d3e" 
+            className="relative z-10 animate-pulse-heart text-[#1b4d3e]" 
+            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #1b4d3e)' }} 
           />
         </div>
         <Loader2 className="animate-spin text-primary/20" />

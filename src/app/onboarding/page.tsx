@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from 'react';
@@ -8,10 +7,11 @@ import { Step2WhoAreYou } from '@/components/onboarding/Step2';
 import { Step3HealthConditions } from '@/components/onboarding/Step3HealthConditions';
 import { Step4Medications } from '@/components/onboarding/Step4Medications';
 import { Step6StripeVerify } from '@/components/onboarding/Step6StripeVerify';
-import { Step7VibeCheck } from '@/components/onboarding/Step7VibeCheck';
 import { StepPartyGoal } from '@/components/onboarding/StepPartyGoal';
+import { Step9Summary } from '@/components/onboarding/Step8Summary';
 import { safeStringify } from '@/lib/safe-storage';
-import { useAuth, signOutAfterRegistration } from '@/firebase';
+import { useAuth, useFirestore, signOutAfterRegistration } from '@/firebase';
+import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 
 export type LegalAgreements = {
   agreedToHarmReduction: boolean;
@@ -40,6 +40,7 @@ export type OnboardingData = {
 export default function Onboarding() {
   const router = useRouter();
   const auth = useAuth();
+  const firestore = useFirestore();
   const [step, setStep] = useState(1);
   const [data, setData] = useState<OnboardingData>({
     name: '',
@@ -67,11 +68,31 @@ export default function Onboarding() {
 
   const handleOnboardingComplete = async () => {
     try {
-      // Step7VibeCheck already handles the Firestore save before calling this.
-      // We now sign the user out to reset for their first real session check-in.
+      const user = auth.currentUser;
+      if (user && firestore) {
+        await setDoc(doc(firestore, 'users', user.uid), {
+          uid: user.uid,
+          name: data.name,
+          trustLevel: "verified_adult",
+          onboardingStatus: "completed",
+          onboardingCompletedAt: serverTimestamp(),
+          goals: data.goals || [],
+          healthConditions: data.healthConditions || [],
+          medications: data.medications || [],
+          biometrics: {
+            weightKg: data.weight,
+            heightCm: data.height,
+            ageGroup: data.age && data.age >= 18 ? "adult" : "unknown"
+          },
+          legal: {
+            harmReductionAccepted: data.legalAgreements?.agreedToHarmReduction,
+            gdprAccepted: data.legalAgreements?.agreedToGDPR,
+            termsAcceptedAt: data.legalAgreements?.termsAcceptedAt
+          }
+        }, { merge: true });
+      }
+
       await signOutAfterRegistration(auth);
-      
-      // Redirect to sign-in with the welcome param
       router.push("/auth?welcome=true");
     } catch (error) {
       console.error("Onboarding completion error:", error);
@@ -119,11 +140,9 @@ export default function Onboarding() {
         )}
 
         {step === 7 && (
-          <Step7VibeCheck 
-            onBack={prevStep}
+          <Step9Summary 
+            data={data}
             onComplete={handleOnboardingComplete} 
-            isOnboarding={true}
-            finalOnboardingData={data}
           />
         )}
       </div>

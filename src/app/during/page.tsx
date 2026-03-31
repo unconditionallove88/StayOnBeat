@@ -8,10 +8,11 @@ import { AiSafetyChat } from "@/components/chat/AiSafetyChat";
 import { ArrowLeft, Loader2, Heart, Sparkles, Wind } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { playHeartbeat } from "@/lib/resonance";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 /**
  * @fileOverview Phase: During.
- * Updated: Affirmations to 3-word (EN) / 4-word (DE) rhythmic rule.
+ * Purified of mood-based banners.
  */
 export default function DuringPhase() {
   const router = useRouter();
@@ -44,7 +45,7 @@ export default function DuringPhase() {
       phase: "Phase: During",
       affirmation: "Unconditional love always",
       ritualTitle: "Breath of Love",
-      ritualSub: "Honoring my grounded state",
+      ritualSub: "Honoring my state",
       ritualBtn: "Open Ritual"
     },
     de: {
@@ -52,7 +53,7 @@ export default function DuringPhase() {
       phase: "Phase: Währenddessen",
       affirmation: "Bedingungslose Liebe immerzu hier",
       ritualTitle: "Atem der Liebe",
-      ritualSub: "Meinen geerdeten Zustand achtend",
+      ritualSub: "Meinen Zustand achtend",
       ritualBtn: "Ritual öffnen"
     }
   }[lang] || {
@@ -60,7 +61,7 @@ export default function DuringPhase() {
     phase: "Phase: During",
     affirmation: "Unconditional love always",
     ritualTitle: "Breath of Love",
-    ritualSub: "Honoring my grounded state",
+    ritualSub: "Honoring my state",
     ritualBtn: "Open Ritual"
   };
 
@@ -69,7 +70,7 @@ export default function DuringPhase() {
       <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
         <div className="relative flex items-center justify-center">
           <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
-          <Heart size={64} fill="currentColor" className="relative z-10 animate-pulse-heart text-primary" style={{ filter: 'blur(12px)' }} />
+          <Heart size={64} fill="#1b4d3e" className="relative z-10 animate-pulse-heart text-[#1b4d3e]" style={{ filter: 'blur(12px)' }} />
         </div>
         <Loader2 className="animate-spin text-primary/20" />
       </div>

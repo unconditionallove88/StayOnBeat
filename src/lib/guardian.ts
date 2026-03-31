@@ -2,8 +2,8 @@
 
 /**
  * @fileOverview The Pulse Guardian's decision engine.
- * Calibrates safety status based on physiological thresholds, intake volume, medical profile, and current Vibe.
- * Vibe-aware integration: Vulnerable states (Hazy/Overwhelmed) trigger lower thresholds.
+ * Calibrates safety status based on physiological thresholds, intake volume, and medical profile.
+ * Purified of vibe-aware integration to focus on physical protocols.
  */
 
 export interface Vitals {
@@ -18,7 +18,7 @@ export interface UserMedicalProfile {
 
 export interface SessionStatus {
   isLocked: boolean;
-  lockReason?: 'vitals_high' | 'limit_reached' | 'critical_interaction' | 'medical_threshold' | 'vibe_vulnerability' | 'manual';
+  lockReason?: 'vitals_high' | 'limit_reached' | 'critical_interaction' | 'medical_threshold' | 'manual';
   lockedAt?: string;
   unlockAt?: string;
   lastHeartRate?: number;
@@ -33,8 +33,7 @@ export const checkSafetyStatus = (
   vitals: Vitals, 
   activeSubstances: string[] | number,
   baselineHR?: number,
-  profile?: UserMedicalProfile,
-  vibeKey?: string
+  profile?: UserMedicalProfile
 ): SessionStatus => {
   const activeSubs = typeof activeSubstances === 'number' ? [] : activeSubstances;
   const intakeCount = typeof activeSubstances === 'number' ? activeSubstances : activeSubstances.length;
@@ -42,7 +41,7 @@ export const checkSafetyStatus = (
   
   const normalizedSubs = activeSubs.map(s => s.toLowerCase());
 
-  // 1. CALCULATE RISK MULTIPLIER (Medical + Vibe)
+  // 1. CALCULATE RISK MULTIPLIER (Medical only)
   let riskMultiplier = 1.0;
   
   if (profile) {
@@ -54,10 +53,6 @@ export const checkSafetyStatus = (
     const hasHighRiskMed = profile.medications.some(m => highRiskMeds.includes(m.toLowerCase()));
     if (hasHighRiskMed) riskMultiplier += 0.2;
   }
-
-  // Vibe Awareness: Hazy and Overwhelmed increase sensitivity
-  if (vibeKey === 'hazy') riskMultiplier += 0.15;
-  if (vibeKey === 'overwhelmed') riskMultiplier += 0.3;
 
   // 2. CRITICAL INTERACTION CHECK (Pulse Lab Data)
   const hasPoppers = normalizedSubs.some(s => s.includes('poppers'));
@@ -92,7 +87,7 @@ export const checkSafetyStatus = (
   if (vitals.heartRate > hrThreshold) {
     return {
       isLocked: true,
-      lockReason: vibeKey === 'overwhelmed' || vibeKey === 'hazy' ? 'vibe_vulnerability' : (riskMultiplier > 1.0 ? 'medical_threshold' : 'vitals_high'),
+      lockReason: riskMultiplier > 1.0 ? 'medical_threshold' : 'vitals_high',
       lockedAt: now.toISOString(),
       unlockAt: new Date(now.getTime() + 4 * 60 * 60 * 1000).toISOString(),
       lastHeartRate: vitals.heartRate,
@@ -102,9 +97,7 @@ export const checkSafetyStatus = (
   }
 
   // 4. INTAKE VOLUME LIMIT
-  // If overwhelmed, limit is stricter (3 instead of 5)
-  const MAX_INTAKES = vibeKey === 'overwhelmed' ? 3 : 5;
-  if (intakeCount >= MAX_INTAKES) {
+  if (intakeCount >= 5) {
     return {
       isLocked: true,
       lockReason: 'limit_reached',

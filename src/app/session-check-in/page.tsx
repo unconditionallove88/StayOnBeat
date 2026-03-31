@@ -1,16 +1,14 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Step7VibeCheck } from '@/components/onboarding/Step7VibeCheck';
 import { StepPartyGoal } from '@/components/onboarding/StepPartyGoal';
 import { Step7GearCheck } from '@/components/onboarding/Step7GearCheck';
 import type { OnboardingData } from '@/app/onboarding/page';
 
 /**
  * @fileOverview Mandatory session check-in flow for returning users.
- * This flow ensures every session starts with calibrated intentions and a safety check.
+ * Refined to skip mood check and focus on intention and gear.
  */
 export default function SessionCheckIn() {
   const router = useRouter();
@@ -58,19 +56,8 @@ export default function SessionCheckIn() {
     <main className="min-h-screen bg-black text-white px-6 py-4 flex flex-col items-center justify-center overflow-hidden">
       <div className="w-full max-w-xl">
         {step === 1 && (
-          <Step7VibeCheck 
-            onBack={() => router.push('/auth')}
-            onComplete={(vibeIds) => {
-              updateProfile({ vibe: vibeIds });
-              nextStep();
-            }} 
-            isOnboarding={false} 
-          />
-        )}
-
-        {step === 2 && (
           <StepPartyGoal 
-            onBack={prevStep}
+            onBack={() => router.push('/auth')}
             onComplete={(goals) => {
               updateProfile({ goals });
               nextStep();
@@ -78,7 +65,7 @@ export default function SessionCheckIn() {
           />
         )}
 
-        {step === 3 && (
+        {step === 2 && (
           <Step7GearCheck 
             onBack={prevStep}
             onComplete={() => {
