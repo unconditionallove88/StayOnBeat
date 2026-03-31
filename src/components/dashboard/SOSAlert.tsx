@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -15,7 +16,8 @@ import {
   PhoneCall,
   CircleDot,
   Radio,
-  Sparkles
+  Sparkles,
+  Eye
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -24,8 +26,8 @@ import { playHeartbeat } from '@/lib/resonance';
 
 /**
  * @fileOverview Immediate Help (SOS) Portal.
- * Categorized support pathways with full EN, DE, PT, RU support.
- * Enhanced with Mesh-based location sharing.
+ * Categorized support pathways with full EN, DE support.
+ * Enhanced with "Losing Control" pathway for grounding.
  * Punctuation-free for resonance.
  */
 
@@ -35,7 +37,7 @@ const CONTENT = {
     helping: (name: string) => `Helping ${name}`,
     subtitle: "Choose the pathway that resonates now",
     friendSubtitle: (name: string) => `Choose the pathway of care for ${name}`,
-    tabs: { emergency: "Emergency", circle: "Circle", stillness: "Stillness" },
+    tabs: { emergency: "Emergency", circle: "Circle", stillness: "Presence" },
     emergency: {
       title: "Awareness Dispatch",
       sub: "Medical & Security",
@@ -49,10 +51,10 @@ const CONTENT = {
       button: "Notify My Circle"
     },
     stillness: {
-      title: "Breath of Love",
-      sub: "Self-Care Ritual",
-      desc: "I love and respect my need for stillness Return to your center with the guided resonance ritual",
-      button: "Start Breath of Love"
+      title: "Presence Reset",
+      sub: "Losing Control Tool",
+      desc: "I love and respect my need for grounding Shift focus to the beauty of life right now",
+      button: "Start Losing Control Tool"
     },
     connecting: "Negotiating Mesh Handshake...",
     honoring: "Honoring the request for care",
@@ -70,7 +72,7 @@ const CONTENT = {
     helping: (name: string) => `${name} braucht Begleitung`,
     subtitle: "Wähle den Weg, der sich jetzt richtig anfühlt",
     friendSubtitle: (name: string) => `Wähle einen Weg der Fürsorge für ${name}`,
-    tabs: { emergency: "Notfall", circle: "Kreis", stillness: "Ruhe" },
+    tabs: { emergency: "Notfall", circle: "Kreis", stillness: "Präsenz" },
     emergency: {
       title: "Awareness-Einsatz",
       sub: "Medizin & Sicherheit",
@@ -84,10 +86,10 @@ const CONTENT = {
       button: "Meinen Kreis rufen"
     },
     stillness: {
-      title: "Atem der Liebe",
-      sub: "Selbstfürsorge",
-      desc: "Ich achte auf mein Bedürfnis nach Ruhe Finde zurück in deine Mitte mit dem Resonance-Ritual",
-      button: "Atem der Liebe starten"
+      title: "Präsenz Reset",
+      sub: "Kontrolle Verlieren Tool",
+      desc: "Ich achte auf mein Bedürfnis nach Erdung Lenke den Fokus auf die Schönheit jetzt",
+      button: "Kontrolle Verlieren starten"
     },
     connecting: "Mesh-Verbindung wird aufgebaut...",
     honoring: "Die Anfrage wird liebevoll bearbeitet",
@@ -99,97 +101,28 @@ const CONTENT = {
     meshShared: "Mesh-Ortung geteilt",
     privacyActive: "Schutzprotokolle sind aktiv",
     returning: (s: number) => `Rückkehr zum Dashboard in ${s}s`
-  },
-  pt: {
-    question: "Você precisa de ajuda?",
-    helping: (name: string) => `Ajudando ${name}`,
-    subtitle: "Escolha o caminho que ressoa agora",
-    friendSubtitle: (name: string) => `Escolha o caminho de cuidado para ${name}`,
-    tabs: { emergency: "Emergência", circle: "Círculo", stillness: "Silêncio" },
-    emergency: {
-      title: "Despacho de Equipe",
-      sub: "Médico e Segurança",
-      desc: "Solicite suporte profissional para seu Grid Tático da Mesh Lidado com absoluta discrição",
-      button: "Notificar Equipe"
-    },
-    circle: {
-      title: "Alerta de Círculo",
-      sub: "Cuidado Mútuo",
-      desc: "Deixe seu círculo íntimo saber que um momento de conexão ou assistência é necessário",
-      button: "Notificar Meu Círculo"
-    },
-    stillness: {
-      title: "Sopro de Amor",
-      sub: "Ritual de Autocuidado",
-      desc: "Eu amo e respeito minha necessidade de silêncio Volte ao seu centro com o ritual de ressonância",
-      button: "Iniciar Sopro de Amor"
-    },
-    connecting: "Negociando Handshake da Mesh...",
-    honoring: "Honrando o pedido de cuidado",
-    allIsWell: "Tudo está bem",
-    loved: "Eu sou amado",
-    friendLoved: (name: string) => `${name} é amado`,
-    takenCareOf: "e estou sendo cuidado",
-    dispatched: "Pedido de ajuda via Mesh enviado",
-    meshShared: "Localização Mesh Compartilhada",
-    privacyActive: "Protocolos de privacidade ativos",
-    returning: (s: number) => `Retornando ao santuário em ${s}s`
-  },
-  ru: {
-    question: "Нужна помощь?",
-    helping: (name: string) => `Помогаем ${name}`,
-    subtitle: "Выбери путь который резонирует сейчас",
-    friendSubtitle: (name: string) => `Выбери путь заботы для ${name}`,
-    tabs: { emergency: "Экстренно", circle: "Круг", stillness: "Тишина" },
-    emergency: {
-      title: "Вызов Помощи",
-      sub: "Медики и Охрана",
-      desc: "Запроси профессиональную поддержку по твоей Mesh-сетке Обрабатывается конфиденциально",
-      button: "Вызвать Команду"
-    },
-    circle: {
-      title: "Сигнал Кругу",
-      sub: "Взаимная Забота",
-      desc: "Дай твоему кругу знать что тебе нужна поддержка или общение через Mesh-Sync",
-      button: "Уведомить Мой Круг"
-    },
-    stillness: {
-      title: "Дыхание Любви",
-      sub: "Ритуал заботы",
-      desc: "Я люблю и уважаю свою потребность в тишине Вернись в центр с помощью медитации",
-      button: "Дыхание Любви"
-    },
-    connecting: "Установка Mesh-соединения...",
-    honoring: "Принимаем твой запрос на заботу",
-    allIsWell: "Все хорошо",
-    loved: "Я любим",
-    friendLoved: (name: string) => `${name} любим`,
-    takenCareOf: "и о нем заботятся",
-    dispatched: "Запрос помощи через Mesh отправлен",
-    meshShared: "Локация Mesh передана",
-    privacyActive: "Протоколы приватности активны",
-    returning: (s: number) => `Возврат в пространство через ${s}с`
   }
 };
 
 interface SOSAlertProps {
   onClose: () => void;
+  onLosingControl?: () => void;
   friendName?: string;
   friendStatus?: string;
 }
 
-export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
+export function SOSAlert({ onClose, onLosingControl, friendName, friendStatus }: SOSAlertProps) {
   const auth = useAuth();
   const firestore = useFirestore();
   const router = useRouter();
   const [step, setStep] = useState<'confirm' | 'sending' | 'sent'>('confirm');
   const [countdown, setCountdown] = useState(15);
-  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
+  const [lang, setLang] = useState<'en' | 'de'>('en');
   const isFriendMode = !!friendName;
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de'].includes(savedLang)) setLang(savedLang);
 
     playHeartbeat();
     let timer: NodeJS.Timeout;
@@ -207,8 +140,8 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
     playHeartbeat();
     
     if (priority === 'grounding') {
-      onClose();
-      router.push('/self-care');
+      if (onLosingControl) onLosingControl();
+      else router.push('/self-care');
       return;
     }
 
@@ -248,26 +181,26 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
         </div>
         
         <div className="space-y-6 max-w-sm">
-          <h1 className={cn("text-4xl font-black uppercase tracking-tighter text-white leading-none", lang === 'ru' && "italic font-serif")}>
+          <h1 className="text-4xl font-black uppercase tracking-tighter text-white leading-none">
             {isFriendMode ? t.friendLoved(friendName!) : t.loved} <br/> <span className="text-[#58c55a]">{t.takenCareOf}</span>
           </h1>
           <div className="bg-white/5 border border-[#58c55a]/20 rounded-[2.5rem] p-8 space-y-4 text-left">
             <div className="flex items-center gap-4 text-white/80">
               <CheckCircle2 size={18} className="text-[#58c55a]" />
-              <p className={cn("text-xs font-bold uppercase tracking-widest leading-tight", lang === 'ru' && "italic font-serif")}>{t.dispatched}</p>
+              <p className="text-xs font-bold uppercase tracking-widest leading-tight">{t.dispatched}</p>
             </div>
             <div className="flex items-center gap-4 text-white/80">
               <Radio size={18} className="text-[#58c55a] animate-pulse" />
-              <p className={cn("text-xs font-bold uppercase tracking-widest leading-tight", lang === 'ru' && "italic font-serif")}>{t.meshShared}</p>
+              <p className="text-xs font-bold uppercase tracking-widest leading-tight">{t.meshShared}</p>
             </div>
             <div className="flex items-center gap-4 text-white/80">
               <ShieldCheck size={18} className="text-[#58c55a]" />
-              <p className={cn("text-xs font-bold uppercase tracking-widest leading-tight", lang === 'ru' && "italic font-serif")}>{t.privacyActive}</p>
+              <p className="text-xs font-bold uppercase tracking-widest leading-tight">{t.privacyActive}</p>
             </div>
           </div>
         </div>
 
-        <button onClick={onClose} className={cn("mt-10 text-white/20 hover:text-white transition-colors text-[10px] font-black uppercase tracking-widest underline underline-offset-8", lang === 'ru' && "italic font-serif")}>
+        <button onClick={onClose} className="mt-10 text-white/20 hover:text-white transition-colors text-[10px] font-black uppercase tracking-widest underline underline-offset-8">
           {t.returning(countdown)}
         </button>
       </div>
@@ -278,8 +211,8 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
     return (
       <div className="fixed inset-0 bg-black/95 z-[4000] flex flex-col items-center justify-center px-8 text-center font-headline">
         <Loader2 size={80} className="text-[#58c55a] animate-spin mb-8" />
-        <h1 className={cn("text-3xl font-black uppercase tracking-tighter text-white mb-2", lang === 'ru' && "italic font-serif")}>{t.connecting}</h1>
-        <p className={cn("text-[#58c55a] font-black uppercase tracking-[0.3em] text-[10px]", lang === 'ru' && "italic font-serif")}>
+        <h1 className="text-3xl font-black uppercase tracking-tighter text-white mb-2">{t.connecting}</h1>
+        <p className="text-[#58c55a] font-black uppercase tracking-[0.3em] text-[10px]">
           {t.honoring}
         </p>
       </div>
@@ -301,10 +234,10 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
           <div className="w-16 h-16 bg-red-600/10 border-2 border-red-600/30 rounded-full flex items-center justify-center mx-auto mb-4 shadow-2xl">
             <Heart size={32} className="text-[#DC2626]" fill="#DC2626" />
           </div>
-          <h2 className={cn("text-3xl font-black uppercase tracking-tighter text-white leading-none", lang === 'ru' && "italic font-serif")}>
+          <h2 className="text-3xl font-black uppercase tracking-tighter text-white leading-none">
             {isFriendMode ? t.helping(friendName!) : t.question}
           </h2>
-          <p className={cn("text-primary text-[9px] font-black uppercase mt-3 tracking-[0.3em]", lang === 'ru' && "italic font-serif")}>
+          <p className="text-primary text-[9px] font-black uppercase mt-3 tracking-[0.3em]">
             {isFriendMode ? t.friendSubtitle(friendName!) : t.subtitle}
           </p>
         </div>
@@ -313,14 +246,14 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
           <div className="max-w-md mx-auto w-full pb-32">
             <Tabs defaultValue="emergency" className="w-full">
               <TabsList className="w-full h-14 bg-white/5 border border-white/10 rounded-full p-1.5 mb-6">
-                <TabsTrigger value="emergency" className={cn("flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-red-600 data-[state=active]:text-white", lang === 'ru' && "italic font-serif")}>
+                <TabsTrigger value="emergency" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-red-600 data-[state=active]:text-white">
                   {t.tabs.emergency}
                 </TabsTrigger>
-                <TabsTrigger value="support" className={cn("flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-[#F59E0B] data-[state=active]:text-black", lang === 'ru' && "italic font-serif")}>
+                <TabsTrigger value="support" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-[#F59E0B] data-[state=active]:text-black">
                   {t.tabs.circle}
                 </TabsTrigger>
                 {!isFriendMode && (
-                  <TabsTrigger value="stillness" className={cn("flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-primary data-[state=active]:text-white", lang === 'ru' && "italic font-serif")}>
+                  <TabsTrigger value="stillness" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-primary data-[state=active]:text-white">
                     {t.tabs.stillness}
                   </TabsTrigger>
                 )}
@@ -333,16 +266,16 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                       <PhoneCall className="text-red-500" size={24} />
                     </div>
                     <div>
-                      <p className={cn("text-sm font-black uppercase text-white tracking-tight", lang === 'ru' && "italic font-serif")}>{t.emergency.title}</p>
-                      <p className={cn("text-[10px] font-bold text-red-400 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.emergency.sub}</p>
+                      <p className="text-sm font-black uppercase text-white tracking-tight">{t.emergency.title}</p>
+                      <p className="text-[10px] font-bold text-red-400 uppercase tracking-widest">{t.emergency.sub}</p>
                     </div>
                   </div>
-                  <p className={cn("text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide", lang === 'ru' && "italic font-serif")}>
+                  <p className="text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide">
                     {t.emergency.desc}
                   </p>
                   <button 
                     onClick={() => handleSendSOS('urgent')}
-                    className={cn("w-full py-6 bg-red-600 text-white rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg shadow-red-600/20 active:scale-95 transition-all", lang === 'ru' && "italic font-serif")}
+                    className="w-full py-6 bg-red-600 text-white rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg shadow-red-600/20 active:scale-95 transition-all"
                   >
                     {t.emergency.button}
                   </button>
@@ -356,16 +289,16 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                       <Users className="text-amber-500" size={24} />
                     </div>
                     <div>
-                      <p className={cn("text-sm font-black uppercase text-white tracking-tight", lang === 'ru' && "italic font-serif")}>{t.circle.title}</p>
-                      <p className={cn("text-[10px] font-bold text-amber-500 uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.circle.sub}</p>
+                      <p className="text-sm font-black uppercase text-white tracking-tight">{t.circle.title}</p>
+                      <p className="text-[10px] font-bold text-amber-500 uppercase tracking-widest">{t.circle.sub}</p>
                     </div>
                   </div>
-                  <p className={cn("text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide", lang === 'ru' && "italic font-serif")}>
+                  <p className="text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide">
                     {t.circle.desc}
                   </p>
                   <button 
                     onClick={() => handleSendSOS('standard')}
-                    className={cn("w-full py-6 bg-[#F59E0B] text-black rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg active:scale-95 transition-all", lang === 'ru' && "italic font-serif")}
+                    className="w-full py-6 bg-[#F59E0B] text-black rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg active:scale-95 transition-all"
                   >
                     {t.circle.button}
                   </button>
@@ -377,19 +310,19 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
                   <div className="p-6 bg-primary/5 border-2 border-primary/20 rounded-[2rem] space-y-4">
                     <div className="flex items-center gap-4">
                       <div className="p-3 bg-primary/20 rounded-xl">
-                        <Wind className="text-primary" size={24} />
+                        <Eye className="text-primary" size={24} />
                       </div>
                       <div>
-                        <p className={cn("text-sm font-black uppercase text-white tracking-tight", lang === 'ru' && "italic font-serif")}>{t.stillness.title}</p>
-                        <p className={cn("text-[10px] font-bold text-primary uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.stillness.sub}</p>
+                        <p className="text-sm font-black uppercase text-white tracking-tight">{t.stillness.title}</p>
+                        <p className="text-[10px] font-bold text-primary uppercase tracking-widest">{t.stillness.sub}</p>
                       </div>
                     </div>
-                    <p className={cn("text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide", lang === 'ru' && "italic font-serif")}>
+                    <p className="text-xs text-white/60 leading-relaxed font-medium uppercase tracking-wide">
                       {t.stillness.desc}
                     </p>
                     <button 
                       onClick={() => handleSendSOS('grounding')}
-                      className={cn("w-full py-6 bg-primary text-white rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg active:scale-95 transition-all", lang === 'ru' && "italic font-serif")}
+                      className="w-full py-6 bg-primary text-white rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg active:scale-95 transition-all"
                     >
                       {t.stillness.button}
                     </button>
@@ -401,7 +334,7 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
             <div className="mt-6 pt-6 border-t border-white/5 text-center">
               <button 
                 onClick={() => { playHeartbeat(); onClose(); }}
-                className={cn("text-primary font-black text-xs uppercase tracking-[0.4em] hover:underline underline-offset-8 transition-all active:scale-95", lang === 'ru' && "italic font-serif")}
+                className="text-primary font-black text-xs uppercase tracking-[0.4em] hover:underline underline-offset-8 transition-all active:scale-95"
               >
                 {t.allIsWell}
               </button>
@@ -410,8 +343,8 @@ export function SOSAlert({ onClose, friendName, friendStatus }: SOSAlertProps) {
         </ScrollArea>
 
         <div className="p-8 pt-4 bg-black/40 backdrop-blur-md border-t border-white/5 text-center shrink-0">
-          <p className={cn("text-[8px] font-black uppercase tracking-[0.5em] text-white/20", lang === 'ru' && "italic font-serif")}>
-            Sanctuary Support Protocol • Encrypted with Love
+          <p className="text-[8px] font-black uppercase tracking-[0.5em] text-white/20">
+            Sanctuary Support Protocol • Created in harmony
           </p>
         </div>
       </div>

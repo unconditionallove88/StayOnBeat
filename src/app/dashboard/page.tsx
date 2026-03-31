@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -17,7 +18,8 @@ import {
   ChevronDown,
   Radio,
   PenLine,
-  Wind
+  Wind,
+  Eye
 } from 'lucide-react';
 import { SupporterIcon } from '@/components/ui/supporter-icon';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
@@ -31,7 +33,8 @@ import HeartStatusAura from '@/components/dashboard/HeartStatusAura';
 import { CoCreation } from '@/components/dashboard/CoCreation';
 import { WearablesSync } from '@/components/dashboard/WearablesSync';
 import { LoveLetter } from '@/components/dashboard/LoveLetter';
-import { AssistantPortal } from '@/components/chat/AssistantPortal';
+import { AssistantPortal as SupporterPortal } from '@/components/chat/AssistantPortal';
+import { LosingControl } from '@/components/dashboard/LosingControl';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUser, useFirestore, useDoc, useMemoFirebase, useAuth } from '@/firebase';
 import { doc } from 'firebase/firestore';
@@ -108,6 +111,7 @@ function DashboardContent() {
   const [coCreationOpen, setCoCreationOpen] = useState(false);
   const [syncOpen, setSyncOpen] = useState(false);
   const [loveLetterOpen, setLoveLetterOpen] = useState(false);
+  const [losingControlOpen, setLosingControlOpen] = useState(false);
   const [showSOS, setShowSOS] = useState(false);
 
   useEffect(() => {
@@ -305,8 +309,21 @@ function DashboardContent() {
               </button>
 
               <button 
+                onClick={() => handlePortalClick(() => setLosingControlOpen(true))}
+                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-primary/30 hover:bg-primary/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+              >
+                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform">
+                  <Eye size={32} className="text-primary" />
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm font-black uppercase tracking-tight text-white leading-none">{lang === 'de' ? 'Kontrolle verlieren' : 'Losing Control'}</p>
+                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest leading-none">Presence</p>
+                </div>
+              </button>
+
+              <button 
                 onClick={() => handlePortalClick(() => setShowSOS(true))}
-                className="aspect-square rounded-full bg-red-600/10 border border-red-600/20 flex flex-col items-center justify-center gap-4 hover:bg-red-600 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-full bg-red-600/10 border border-red-600/20 flex flex-col items-center justify-center gap-4 hover:bg-red-600 transition-all shadow-2xl active:scale-95 group text-center p-6 col-span-2 md:col-span-1 md:mx-auto"
               >
                 <div className="w-14 h-14 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                   <Shield size={28} />
@@ -374,7 +391,7 @@ function DashboardContent() {
         </div>
       </ScrollArea>
 
-      {showSOS && <SOSAlert onClose={() => setShowSOS(false)} />}
+      {showSOS && <SOSAlert onClose={() => setShowSOS(false)} onLosingControl={() => { setShowSOS(false); setLosingControlOpen(true); }} />}
       
       <Dialog open={labOpen} onOpenChange={setLabOpen}>
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[2rem] overflow-hidden flex flex-col h-[95dvh] max-h-[95dvh] sm:h-[90dvh] top-[50%] -translate-y-[50%]">
@@ -403,7 +420,7 @@ function DashboardContent() {
       <Dialog open={supporterOpen} onOpenChange={setSupporterOpen}>
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] max-h-[85dvh] top-[50%] -translate-y-[50%] shadow-[0_0_100px_rgba(0,0,0,0.9)]">
           <DialogTitle className="sr-only">AI Supporter Portal</DialogTitle>
-          <AssistantPortal userProfile={firestoreProfile} />
+          <SupporterPortal userProfile={firestoreProfile} />
         </DialogContent>
       </Dialog>
 
@@ -433,6 +450,8 @@ function DashboardContent() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {losingControlOpen && <LosingControl onClose={() => setLosingControlOpen(false)} />}
     </main>
   );
 }

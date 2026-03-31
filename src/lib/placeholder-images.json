@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "beauty-1",
+      "description": "Sunlight through forest leaves",
+      "imageUrl": "https://picsum.photos/seed/10/800/1200",
+      "imageHint": "forest sunlight"
+    },
+    {
+      "id": "beauty-2",
+      "description": "Morning dew on a single leaf",
+      "imageUrl": "https://picsum.photos/seed/22/800/1200",
+      "imageHint": "nature macro"
+    },
+    {
+      "id": "beauty-3",
+      "description": "Soft ocean waves at dusk",
+      "imageUrl": "https://picsum.photos/seed/35/800/1200",
+      "imageHint": "calm ocean"
+    },
+    {
+      "id": "beauty-4",
+      "description": "Infinite mountain horizon",
+      "imageUrl": "https://picsum.photos/seed/48/800/1200",
+      "imageHint": "mountain landscape"
+    }
+  ]
 }
