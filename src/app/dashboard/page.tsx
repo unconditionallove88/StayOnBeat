@@ -19,7 +19,8 @@ import {
   Radio,
   PenLine,
   Wind,
-  Eye
+  Eye,
+  Sparkles
 } from 'lucide-react';
 import { SupporterIcon } from '@/components/ui/supporter-icon';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
@@ -154,9 +155,12 @@ function DashboardContent() {
   );
 
   const isLocked = safetyStatus.isLocked;
-  const cautionThreshold = 100 / (safetyStatus.riskMultiplier || 1.0);
+  const cautionThreshold = 110;
   const isCaution = !isLocked && (simHeartRate > cautionThreshold || (typeof activeSubstances === 'object' && activeSubstances.length >= 3));
   const guardianStatus: 'safe' | 'caution' | 'locked' = isLocked ? 'locked' : (isCaution ? 'caution' : 'safe');
+
+  // Pulse Guardian Intervention: Shining Light for high HR
+  const showShiningLight = simHeartRate > 110;
 
   const handlePortalClick = (action: () => void) => {
     playHeartbeat();
@@ -220,7 +224,7 @@ function DashboardContent() {
             <PulseGuardianBanner lang={lang} variant="banner" />
           </div>
 
-          <div className="space-y-4 text-center">
+          <div className="space-y-4 text-center relative">
             <Link 
               href="/heart-status" 
               onClick={() => playHeartbeat()}
@@ -235,6 +239,22 @@ function DashboardContent() {
                 <p className="text-xs font-bold uppercase tracking-widest text-primary px-10 italic">"{affirmation}"</p>
               </div>
             </Link>
+
+            {/* Pulse Guardian Intervention: The Shining Light */}
+            {showShiningLight && (
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+                <button 
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); handlePortalClick(() => setLosingControlOpen(true)); }}
+                  className="w-20 h-20 bg-[#10B981] rounded-full flex items-center justify-center border-4 border-white shadow-[0_0_50px_rgba(16,185,129,0.8)] animate-pulse group relative"
+                >
+                  <div className="absolute inset-0 bg-[#10B981] rounded-full animate-ping opacity-40" />
+                  <RadiatingThirdEye size={40} color="white" />
+                  <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-[#10B981] px-4 py-1.5 rounded-full border border-white shadow-lg whitespace-nowrap animate-in slide-in-from-bottom-2 duration-500">
+                    <span className="text-[10px] font-black uppercase text-white tracking-widest">Reality Check 🌿</span>
+                  </div>
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="space-y-8">

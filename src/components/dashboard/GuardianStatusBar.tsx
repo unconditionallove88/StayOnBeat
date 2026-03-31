@@ -1,7 +1,8 @@
+
 "use client";
 
 import React from "react";
-import { HeartHandshake, AlertTriangle, ShieldAlert } from "lucide-react";
+import { HeartHandshake, AlertTriangle, ShieldAlert, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -34,18 +35,18 @@ export default function GuardianStatusBar({
     },
     caution: {
       color: "#F59E0B",
-      icon: <AlertTriangle size={16} />,
+      icon: <Sparkles size={16} className="animate-pulse" />,
       text: {
-        en: "Pulse Guardian: Your heart is elevated",
-        de: "Pulse Guardian: Dein Herzschlag ist erhöht"
+        en: "Pulse Guardian: Elevated vitals detected Grounding light active",
+        de: "Pulse Guardian: Erhöhte Werte erkannt Erdungs-Licht aktiv"
       }
     },
     locked: {
       color: "#DC2626",
       icon: <ShieldAlert size={16} />,
       text: {
-        en: "Pulse Guardian: Session paused for resonance",
-        de: "Pulse Guardian: Sitzung zur Ruhe pausiert"
+        en: "Pulse Guardian: Physiological stress detected Focus on the Light",
+        de: "Pulse Guardian: Physischer Stress erkannt Fokus auf das Licht"
       }
     },
   };
