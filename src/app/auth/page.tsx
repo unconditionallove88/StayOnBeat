@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 /**
  * @fileOverview Access Sanctuary (Auth) Page.
  * Action Buttons: #1b4d3e (Wise dark green)
+ * Affirmations: 3 words (EN) / 4 words (DE)
  */
 
 const CONTENT = {
@@ -21,7 +22,7 @@ const CONTENT = {
     passwordLabel: "Password", passwordPlaceholder: "••••••••",
     entering: "Entering...", begin: "Begin Journey", enter: "Enter Sanctuary",
     alreadyAccount: "Already have an account? Sign In", newHere: "New here? Join the circle",
-    staffAccess: "StayOnBeat • Staff Access via awareness@love.com", errorMsg: "The sanctuary is calibrating please try again"
+    staffAccess: "Staff Access Only", errorMsg: "Sanctuary is calibrating"
   },
   de: {
     welcome: "Willkommen Zuhause", create: "Sanctuary erstellen", prototype: "Prototyp-Modus Aktiv 🔒",
@@ -29,7 +30,7 @@ const CONTENT = {
     passwordLabel: "Passwort", passwordPlaceholder: "••••••••",
     entering: "Eintritt...", begin: "Reise beginnen", enter: "Sanctuary betreten",
     alreadyAccount: "Bereits ein Konto? Anmelden", newHere: "Neu hier? Werde Teil des Kreises",
-    staffAccess: "StayOnBeat • Team-Zugang über awareness@love.com", errorMsg: "Das Sanctuary kalibriert sich bitte versuche es erneut"
+    staffAccess: "Nur für Team Zugang", errorMsg: "Das Sanctuary kalibriert gerade"
   }
 };
 
@@ -78,12 +79,7 @@ function AuthContent() {
           email: userEmail || "soul@stayonbeat.app",
           name: userName,
           createdAt: serverTimestamp(),
-          trustLevel: isSignUp ? "unverified" : "verified_adult",
-          vibe: { 
-            current: "calm", 
-            currentEmoji: "🍃", 
-            currentLabel: "Calm" 
-          }
+          trustLevel: isSignUp ? "unverified" : "verified_adult"
         },
         { merge: true }
       );
@@ -98,11 +94,11 @@ function AuthContent() {
   };
 
   return (
-    <main className="min-h-screen bg-black flex flex-col items-center justify-center px-6 font-headline relative overflow-hidden">
+    <main className="min-h-screen bg-black flex flex-col items-center justify-center px-6 font-headline relative overflow-hidden pt-safe pb-safe">
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/5 blur-[120px] rounded-full" />
 
-      <div className="w-full max-md bg-[#0a0a0a] p-10 rounded-[3rem] border border-white/10 relative z-10 shadow-2xl shadow-primary/5">
+      <div className="w-full max-w-md bg-[#0a0a0a] p-10 rounded-[3rem] border border-white/10 relative z-10 shadow-2xl shadow-primary/5">
         <button onClick={() => router.push("/")} className="absolute top-8 left-8 text-white/40 hover:text-primary transition-colors p-2"><ChevronLeft size={24} /></button>
         <div className="text-center mb-10 mt-4">
           <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-primary/20 shadow-[0_0_30px_rgba(27,77,62,0.1)]">

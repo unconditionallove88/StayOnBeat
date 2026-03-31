@@ -10,7 +10,8 @@ import { useToast } from '@/hooks/use-toast';
 
 /**
  * @fileOverview The Holders (Those who hold your heart from afar).
- * Languages: EN, DE, PT.
+ * Languages: EN, DE.
+ * Affirmations: 3 words (EN) / 4 words (DE)
  */
 
 const CONTENT = {
@@ -31,8 +32,8 @@ const CONTENT = {
     resonanceStart: "Start a resonance with your holders",
     successTitle: "Bond Initialized",
     successMsg: (name: string) => `Your bond of care "${name}" has been created Waiting for resonance`,
-    footer: "Mutual Bonds of Care",
-    encrypted: "End-to-End Encrypted Sanctuary"
+    footer: "Bonds of Care",
+    encrypted: "Created in harmony"
   },
   de: {
     title: "Die Holder",
@@ -51,28 +52,8 @@ const CONTENT = {
     resonanceStart: "Starte eine Resonanz mit deinen Holdern",
     successTitle: "Band initialisiert",
     successMsg: (name: string) => `Dein Band der Fürsorge "${name}" wurde erstellt Warte auf Resonanz`,
-    footer: "Gegenseitige Fürsorge",
-    encrypted: "Ende-zu-Ende verschlüsseltes Sanctuary"
-  },
-  pt: {
-    title: "Os Guardiões",
-    sub: "Vínculo Sagrado de Ressonância",
-    desc: "Aqueles que cuidam do seu coração de longe Seu vínculo sagrado de cuidado e confiança",
-    items: [
-      { title: "Vínculo Sagrado", sub: "Compartilhado apenas com seu círculo íntimo", icon: Lock },
-      { title: "Cuidado Mútuo", sub: "Unidade através da ressonância", icon: HeartHandshake }
-    ],
-    button: "Acessar Vínculos",
-    createTitle: "NOME DO VÍNCULO",
-    inviteTitle: "CONVIDAR POR E-MAIL",
-    createBtn: "Criar Vínculo",
-    cancelBtn: "Cancelar",
-    placeholder: "Mensagem para seus guardiões",
-    resonanceStart: "Inicie uma ressonância com seus guardiões",
-    successTitle: "Vínculo Iniciado",
-    successMsg: (name: string) => `Seu vínculo de cuidado "${name}" foi criado Aguardando ressonância`,
-    footer: "Vínculos Mútuos de Cuidado",
-    encrypted: "Santuário Criptografado de Ponta a Ponta"
+    footer: "Bänder der Fürsorge heute",
+    encrypted: "In Harmonie erschaffen hier"
   }
 };
 
@@ -85,12 +66,12 @@ export function LoveCircleChat() {
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const [groupName, setGroupName] = useState('');
   const [inviteEmail, setInviteEmail] = useState('');
-  const [lang, setLang] = useState<'en' | 'de' | 'pt'>('en');
+  const [lang, setLang] = useState<'en' | 'de'>('en');
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de'].includes(savedLang)) setLang(savedLang);
   }, []);
 
   const t = CONTENT[lang] || CONTENT.en;
@@ -199,7 +180,7 @@ export function LoveCircleChat() {
   }
 
   return (
-    <div className="flex flex-col h-full bg-black font-body overflow-hidden">
+    <div className="flex flex-col h-full bg-black font-body overflow-hidden pb-safe">
       <div className="px-8 py-8 border-b border-white/5 bg-black/80 backdrop-blur-xl flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 bg-[#10B981]/10 rounded-2xl flex items-center justify-center border border-[#10B981]/20 shadow-lg">
@@ -267,7 +248,7 @@ export function LoveCircleChat() {
             return (
               <div key={msg.id} className={cn("flex flex-col gap-3 animate-in slide-in-from-bottom-2 duration-500", isMe ? "items-end" : "items-start")}>
                 <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.4em] px-3">
-                  {isMe ? (lang === 'pt' ? 'VOCÊ' : 'YOU') : msg.senderName}
+                  {isMe ? 'YOU' : msg.senderName}
                 </span>
                 <div className={cn(
                   "p-6 rounded-[2.5rem] text-sm font-bold leading-relaxed max-w-[85%] shadow-2xl border transition-all",
@@ -283,7 +264,7 @@ export function LoveCircleChat() {
         </div>
       </ScrollArea>
 
-      <div className="px-6 py-10 bg-black border-t border-white/5 shrink-0 pb-safe">
+      <div className="px-6 py-10 bg-black border-t border-white/5 shrink-0">
         <div className="relative flex items-center max-w-2xl mx-auto gap-4">
           <input
             value={input}

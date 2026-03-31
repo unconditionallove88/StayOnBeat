@@ -23,10 +23,11 @@ import {
  * @fileOverview PulseGuardianBanner Component.
  * Linguistic purification: Removed "security" and "protection" terminology.
  * Punctuation-free affirmations for resonance.
+ * Updated: Processed locally -> Created in harmony.
  */
 
 interface PulseGuardianBannerProps {
-  lang?: "en" | "de" | "pt" | "ru";
+  lang?: "en" | "de";
   variant?: "banner" | "icon";
 }
 
@@ -41,8 +42,8 @@ const CONTENT = {
       { title: "Profile Calibration", desc: "Adjusts thresholds based on your health conditions and medications" },
       { title: "Immediate Help Connection", desc: "Triggers care protocols and the Protection Window if thresholds are breached" },
     ],
-    footer: "Processed locally with love",
-    tapInfo: "Integrated Intelligence Engine Tap to see how I guide you"
+    footer: "Created in harmony",
+    tapInfo: "Integrated Intelligence Engine"
   },
   de: {
     title: "Pulse Guardian",
@@ -54,34 +55,8 @@ const CONTENT = {
       { title: "Profil-Kalibrierung", desc: "Passt Schwellenwerte basierend auf deinen Gesundheitszuständen und Medikamenten an" },
       { title: "Sofort-Hilfe Verbindung", desc: "Aktiviert Fürsorgeprotokolle und das Schutzfenster, falls Schwellenwerte überschritten werden" },
     ],
-    footer: "Lokal verarbeitet mit Liebe",
-    tapInfo: "Integrierte Intelligenz-Engine Tippe um zu sehen, wie ich dich begleite"
-  },
-  pt: {
-    title: "Pulse Guardian",
-    sub: "Inteligência Central",
-    intro: "Pulse Guardian é a inteligência central do seu santuário Eu agrego continuamente dados de todas as ferramentas para garantir que sua jornada permaneça ressonante e alinhada",
-    sections: [
-      { title: "Integração Pulse Sync", desc: "Lê sinais vitais ao vivo do seu wearable para monitorar o estresse fisiológico" },
-      { title: "Consciência do Pulse Lab", desc: "Recalibra automaticamente os limites de ressonância com base em seus registros de consumo" },
-      { title: "Calibração de Perfil", desc: "Ajusta os limites com base em suas condições de saúde e medicamentos" },
-      { title: "Conexão de Ajuda Imediata", desc: "Aciona protocolos de cuidado e a Janela de Proteção se os limites forem atingidos" },
-    ],
-    footer: "Processado localmente com amor",
-    tapInfo: "Mecanismo de Inteligência Integrado Toque para ver como eu te guio"
-  },
-  ru: {
-    title: "Pulse Guardian",
-    sub: "Центральный интеллект",
-    intro: "Pulse Guardian это центральный интеллект твоего пространства Я постоянно собираю данные чтобы твое путешествие оставалось осознанным и гармоничным",
-    sections: [
-      { title: "Интеграция Pulse Sync", desc: "Считывает показатели в реальном времени для твоего спокойствия" },
-      { title: "Осведомленность Лаборатории", desc: "Автоматически пересчитывает ритмы на основе твоих записей" },
-      { title: "Калибровка профиля", desc: "Настраивает резонанс на основе твоего состояния здоровья" },
-      { title: "Связь и Поддержка", desc: "Запускает протоколы заботы и окно тишины при необходимости" },
-    ],
-    footer: "Обработано локально с любовью",
-    tapInfo: "Центральный интеллект Нажми чтобы узнать больше о резонансе"
+    footer: "In Harmonie erschaffen hier",
+    tapInfo: "Integrierte Intelligenz Engine hier"
   }
 };
 
@@ -93,10 +68,7 @@ export default function PulseGuardianBanner({
 
   const InfoContent = () => (
     <div className="w-full max-md mx-auto pb-12 font-headline relative">
-      <p className={cn(
-        "text-white/60 text-sm font-bold leading-relaxed mb-10 uppercase tracking-wide px-2", 
-        lang === 'ru' && "italic font-serif"
-      )}>
+      <p className="text-white/60 text-sm font-bold leading-relaxed mb-10 uppercase tracking-wide px-2">
         {t.intro}
       </p>
 
@@ -113,8 +85,8 @@ export default function PulseGuardianBanner({
                 <Icon size={18} />
               </div>
               <div className="space-y-1">
-                <p className={cn("text-white text-xs font-black uppercase tracking-tight", lang === 'ru' && "italic font-serif")}>{item.title}</p>
-                <p className={cn("text-white/30 text-[10px] font-bold uppercase tracking-widest leading-relaxed", lang === 'ru' && "italic font-serif")}>{item.desc}</p>
+                <p className="text-white text-xs font-black uppercase tracking-tight">{item.title}</p>
+                <p className="text-white/30 text-[10px] font-bold uppercase tracking-widest leading-relaxed">{item.desc}</p>
               </div>
             </div>
           );
@@ -122,7 +94,7 @@ export default function PulseGuardianBanner({
       </div>
 
       <div className="mt-12 pt-8 border-t border-white/5 text-center">
-        <p className={cn("text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]", lang === 'ru' && "italic font-serif")}>
+        <p className="text-[10px] text-[#10B981] font-black uppercase tracking-[0.5em]">
           {t.footer}
         </p>
       </div>
@@ -131,25 +103,27 @@ export default function PulseGuardianBanner({
 
   return (
     <Sheet>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <SheetTrigger asChild>
-            {variant === "banner" ? (
-              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl mb-6 border border-[#A855F7]/20 bg-[#A855F7]/5 text-left transition hover:border-[#A855F7]/40 active:scale-[0.99]">
-                <GuardianLogo size={24} className="shrink-0" />
-                <div className="flex-1">
-                  <p className={cn("text-[#A855F7] text-[10px] font-black uppercase tracking-widest leading-none", lang === 'ru' && "italic font-serif")}>{t.title}</p>
-                  <p className={cn("text-white/40 text-[9px] mt-1 font-bold uppercase tracking-widest", lang === 'ru' && "italic font-serif")}>{t.tapInfo}</p>
-                </div>
-                <span className="text-white/20 text-[10px]">›</span>
-              </button>
-            ) : (
-              <button type="button" className="p-2 bg-[#A855F7]/10 rounded-full border border-[#A855F7]/30 hover:border-[#A855F7] transition-all active:scale-95 flex items-center justify-center group"><GuardianLogo size={28} /></button>
-            )}
-          </SheetTrigger>
-        </TooltipTrigger>
-        <TooltipContent side="bottom" className={cn("bg-zinc-900 border-white/10 text-[#A855F7] font-bold uppercase text-[9px] tracking-widest px-4 py-2", lang === 'ru' && "italic font-serif")}>{t.title}: {t.sub}</TooltipContent>
-      </Tooltip>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <SheetTrigger asChild>
+              {variant === "banner" ? (
+                <button className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl mb-6 border border-[#A855F7]/20 bg-[#A855F7]/5 text-left transition hover:border-[#A855F7]/40 active:scale-[0.99]">
+                  <GuardianLogo size={24} className="shrink-0" />
+                  <div className="flex-1">
+                    <p className="text-[#A855F7] text-[10px] font-black uppercase tracking-widest leading-none">{t.title}</p>
+                    <p className="text-white/40 text-[9px] mt-1 font-bold uppercase tracking-widest">{t.tapInfo}</p>
+                  </div>
+                  <span className="text-white/20 text-[10px]">›</span>
+                </button>
+              ) : (
+                <button type="button" className="p-2 bg-[#A855F7]/10 rounded-full border border-[#A855F7]/30 hover:border-[#A855F7] transition-all active:scale-95 flex items-center justify-center group"><GuardianLogo size={28} /></button>
+              )}
+            </SheetTrigger>
+          </TooltipTrigger>
+          <TooltipContent side="bottom" className="bg-zinc-900 border-white/10 text-[#A855F7] font-bold uppercase text-[9px] tracking-widest px-4 py-2">{t.title}: {t.sub}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
 
       <SheetContent side="top" className="bg-black border-white/10 p-0 rounded-b-[3.5rem] h-[90vh] max-h-[90vh] overflow-hidden flex flex-col shadow-[0_30px_100px_rgba(0,0,0,0.8)] z-[5000]">
         <SheetHeader className="p-8 pb-4 shrink-0">
@@ -157,8 +131,8 @@ export default function PulseGuardianBanner({
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 rounded-2xl bg-[#A855F7]/10 border border-[#A855F7]/20 flex items-center justify-center shadow-lg"><GuardianLogo size={32} /></div>
               <div>
-                <SheetTitle className={cn("text-white font-black text-2xl uppercase tracking-tighter leading-none text-left", lang === 'ru' && "italic font-serif")}>{t.title}</SheetTitle>
-                <p className={cn("text-[9px] text-[#A855F7] font-black uppercase tracking-[0.3em] mt-1.5 text-left", lang === 'ru' && "italic font-serif")}>{t.sub}</p>
+                <SheetTitle className="text-white font-black text-2xl uppercase tracking-tighter leading-none text-left">{t.title}</SheetTitle>
+                <p className="text-[9px] text-[#A855F7] font-black uppercase tracking-[0.3em] mt-1.5 text-left">{t.sub}</p>
               </div>
             </div>
           </div>

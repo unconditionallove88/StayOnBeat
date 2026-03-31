@@ -9,8 +9,8 @@ import { useToast } from '@/hooks/use-toast';
 
 /**
  * @fileOverview Co-Creation Component.
- * Full localization for EN, DE, PT, RU.
- * Command Color: Wise Dark Green #1b4d3e.
+ * Full localization for EN, DE.
+ * Affirmations: 3 words (EN) / 4 words (DE)
  */
 
 const i18n = {
@@ -30,7 +30,7 @@ const i18n = {
     successTitle: "Heard",
     successMsg: "Your words have been received with love They will help this space grow",
     shareMore: "Share more",
-    receivedWithLove: "Received with Unconditional Love"
+    receivedWithLove: "Received with Love"
   },
   de: {
     title: "Ko-Kreation",
@@ -48,43 +48,7 @@ const i18n = {
     successTitle: "Gehört",
     successMsg: "Deine Worte wurden mit Liebe empfangen Sie helfen diesem Raum zu wachsen",
     shareMore: "Mehr teilen",
-    receivedWithLove: "Mit bedingungsloser Liebe empfangen"
-  },
-  pt: {
-    title: "Co-Criação",
-    subtitle: "Sua voz molda este santuário",
-    types: [
-      { key: "resonance", label: "O que ressoa?", placeholder: "O que parece certo quente ou verdadeiro para você neste app" },
-      { key: "dissonance", label: "Onde está a dissonância?", placeholder: "O que parece errado faltando ou poderia ser mais humano" },
-      { key: "evolution", label: "O que você adicionaria?", placeholder: "Uma função uma palavra um sentimento que você gostaria aqui" },
-      { key: "safety", label: "Você se sente cuidado?", placeholder: "Diga-nos honestamente Sentir-se cuidado é nossa base" },
-      { key: "survey", label: "Pesquisa do App 📋", placeholder: "Ajude-nos a testar o santuário Seu feedback nos ajuda a crescer" },
-    ],
-    send: "Enviar do Coração",
-    openSurvey: "Abrir Pesquisa do Santuário",
-    sending: "Enviando...",
-    successTitle: "Ouvido",
-    successMsg: "Suas palavras foram recebidas com amor Elas ajudarão este espaço a crescer",
-    shareMore: "Compartilhar mais",
-    receivedWithLove: "Recebido com Amor Incondicional"
-  },
-  ru: {
-    title: "Со-творение",
-    subtitle: "Ваш голос формирует это пространство",
-    types: [
-      { key: "resonance", label: "Что резонирует?", placeholder: "Что кажется правильным теплым или верным в этом приложении" },
-      { key: "dissonance", label: "Где диссонанс?", placeholder: "Что кажется неправильным отсутствующим или могло бы быть человечнее" },
-      { key: "evolution", label: "Что бы вы добавили?", placeholder: "Функцию слово или чувство которое вы хотели бы видеть здесь" },
-      { key: "safety", label: "Чувствуете ли вы заботу?", placeholder: "Скажите нам честно Чувство заботы — это наш фундамент" },
-      { key: "survey", label: "Опрос 📋", placeholder: "Помогите нам протестировать пространство Ваша обратная связь помогает нам расти" },
-    ],
-    send: "Отправить от сердца",
-    openSurvey: "Открыть опрос пространства",
-    sending: "Отправка...",
-    successTitle: "Услышано",
-    successMsg: "Ваши слова приняты с любовью Они помогут этому пространству расти",
-    shareMore: "Поделиться еще",
-    receivedWithLove: "Принято с безусловной любовью"
+    receivedWithLove: "Mit Liebe empfangen heute"
   }
 };
 
@@ -93,25 +57,18 @@ const SURVEY_LINK = "https://ev32k2sgx09.typeform.com/to/a33evEfp";
 export function CoCreation({ onComplete }: { onComplete?: () => void }) {
   const { user } = useUser();
   const firestore = useFirestore();
-  const [lang, setLang] = useState<"en" | "de" | "pt" | "ru">("en");
+  const [lang, setLang] = useState<"en" | "de">("en");
   const [activeType, setActiveType] = useState(0);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
-  const userDocRef = useMemoFirebase(() => {
-    if (!firestore || !user?.uid) return null;
-    return doc(firestore, 'users', user.uid);
-  }, [firestore, user?.uid]);
-  
-  const { data: profile } = useDoc(userDocRef);
-
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de'].includes(savedLang)) setLang(savedLang);
   }, []);
 
-  const t = i18n[lang as keyof typeof i18n] || i18n.en;
+  const t = i18n[lang] || i18n.en;
   const isSurvey = t.types[activeType].key === 'survey';
 
   const handleSend = async (e: React.FormEvent) => {
@@ -129,7 +86,6 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
         language: lang,
         type: t.types[activeType].key,
         message: message.trim(),
-        vibeAtMoment: profile?.vibe?.currentLabel || "Unknown",
         status: "heard",
         createdAt: serverTimestamp(),
       });
@@ -140,7 +96,7 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
   };
 
   return (
-    <div className="w-full bg-black p-8 font-headline">
+    <div className="w-full bg-black p-8 font-headline pb-safe">
       {sent ? (
         <div className="w-full min-h-[400px] flex flex-col items-center justify-center p-10 text-center animate-in fade-in zoom-in-95 duration-500 font-headline bg-black rounded-[3rem]">
           <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-8 border-2 border-primary/20 shadow-[0_0_40px_rgba(27,77,62,0.1)]">
@@ -149,7 +105,7 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
           <h3 className="text-white font-black text-3xl mb-4 uppercase tracking-tighter">{t.successTitle}</h3>
           <p className="text-white/60 text-base font-bold leading-relaxed max-xs mx-auto mb-10">{t.successMsg}</p>
           <button onClick={onComplete} className="text-[10px] font-black uppercase text-white/20 tracking-[0.4em] hover:text-white transition-colors">
-            {lang === 'en' ? "Close Sanctuary" : lang === 'de' ? "Schließen" : lang === 'pt' ? "Fechar Santuário" : "Закрыть"}
+            {lang === 'en' ? "Close Sanctuary" : "Schließen"}
           </button>
         </div>
       ) : (

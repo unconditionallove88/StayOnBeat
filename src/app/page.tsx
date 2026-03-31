@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 /**
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
  * Languages: EN, DE.
+ * Affirmations: 3 words (EN) / 4 words (DE)
  */
 
 export default function Home() {
@@ -28,25 +29,25 @@ export default function Home() {
 
   const content = {
     EN: { 
-      slogan: "Founded on love and rhythm of life", 
-      valueProp: "Space for collective care, risk and harm minimization", 
+      slogan: "Life is resonant", 
+      valueProp: "Unconditional love always", 
       getStarted: "Join the Circle", 
       signIn: "Welcome Home", 
-      footer: "Protected by GDPR • Encrypted with Love" 
+      footer: "Encrypted with Love" 
     },
     DE: { 
-      slogan: "Gegründet auf Liebe und dem Rhythmus des Lebens", 
-      valueProp: "Raum für kollektive Fürsorge, Risiko- und Schadensminimierung", 
+      slogan: "Das Leben ist resonant", 
+      valueProp: "Bedingungslose Liebe immerzu hier", 
       getStarted: "Werde Teil des Kreises", 
       signIn: "Willkommen Zuhause", 
-      footer: "DSGVO-geschützt • Mit Liebe verschlüsselt" 
+      footer: "Mit Liebe verschlüsselt hier" 
     }
   };
 
   if (!mounted) return null;
 
   return (
-    <main className="min-h-screen w-full bg-black text-white flex flex-col items-center justify-between py-12 px-6 overflow-y-auto font-headline relative overflow-hidden">
+    <main className="min-h-screen w-full bg-black text-white flex flex-col items-center justify-between py-12 px-6 overflow-y-auto font-headline relative overflow-hidden pt-safe pb-safe">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 blur-[150px] rounded-full pointer-events-none animate-pulse" />
 
       <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-6 py-2.5 rounded-full border border-white/10 z-50 shrink-0 shadow-2xl overflow-x-auto max-w-full no-scrollbar">

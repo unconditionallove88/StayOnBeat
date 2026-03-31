@@ -37,16 +37,17 @@ import { cn } from "@/lib/utils";
 /**
  * @fileOverview Your Sanctuary (Profile Page).
  * Languages: EN, DE.
+ * Affirmations: 3 words (EN) / 4 words (DE)
  */
 
 const CONTENT = {
   en: {
-    sanctuary: "Sanctuary", entering: "Entering sanctuary", reflection: "Your profile reflects your light",
-    greeting: "You are exactly where you need to be", essence: "Your Essence", name: "Username",
+    sanctuary: "Sanctuary", entering: "Entering sanctuary", reflection: "Profile reflects light",
+    greeting: "You are exactly here", essence: "Your Essence", name: "Username",
     weight: "Weight (kg)", height: "Height (cm)", circle: "Circle of Love", trusted: "Trusted Bonds",
-    resonant: "Resonant contacts", reminders: "Heart Reminders", checkins: "Daily check-ins active",
+    resonant: "Resonant contacts", reminders: "Heart Reminders", checkins: "Check-ins are active",
     journey: "Your journey is your own We use high-fidelity encryption to ensure your sanctuary remains private and your soul free",
-    promise: "Our Promise of Freedom and Trust", logout: "Step away for a moment",
+    promise: "Bonds of Trust", logout: "Step away now",
     privacy: {
       title: "Freedom & Trust",
       sovereignty: "Data Sovereignty",
@@ -57,16 +58,16 @@ const CONTENT = {
       freedomDesc: "We never sell rent or trade your data Your resonance remains within the sanctuary Our mission is pure support love care and harm reduction",
       acceptance: "Unconditional Acceptance",
       acceptanceDesc: "We collect only the information necessary to keep you safe and provide high-fidelity support Every data point is used to calibrate your protection and nurture your well-being",
-      questions: "Have more questions?", qBtn: "Questions?", footer: "Encrypted with Love • Protected by Sanctuary Protocol"
+      questions: "Have more questions?", qBtn: "Questions?", footer: "Created in harmony"
     }
   },
   de: {
-    sanctuary: "Sanctuary", entering: "Eintritt...", reflection: "Dein Profil spiegelt dein Licht wider",
-    greeting: "Du bist genau dort, wo du sein musst", essence: "Deine Essenz", name: "Benutzername",
+    sanctuary: "Sanctuary", entering: "Eintritt...", reflection: "Profil spiegelt Licht heute",
+    greeting: "Du bist genau hier", essence: "Deine Essenz", name: "Benutzername",
     weight: "Gewicht (kg)", height: "Größe (cm)", circle: "Circle of Love", trusted: "Vertrauenswürdige Bindungen",
     resonant: "Resonante Kontakte", reminders: "Heart Reminders", checkins: "Tägliche Check-ins aktiv",
     journey: "Deine Reise gehört dir allein Wir nutzen High-Fidelity-Verschlüsselung um sicherzustellen dass dein Sanctuary privat und deine Seele frei bleibt",
-    promise: "Unser Versprechen von Freiheit und Vertrauen", logout: "Einen Moment heraustreten",
+    promise: "Bindungen des Vertrauens", logout: "Jetzt heraustreten hier",
     privacy: {
       title: "Freiheit & Vertrauen",
       sovereignty: "Datensouveränität",
@@ -77,7 +78,7 @@ const CONTENT = {
       freedomDesc: "Wir verkaufen oder handeln niemals mit deinen Daten Deine Resonanz bleibt im Sanctuary Unsere Mission ist reine Unterstützung Liebe Fürsorge und Schadensminimierung",
       acceptance: "Bedingungslose Akzeptanz",
       acceptanceDesc: "Wir sammeln nur Informationen die notwendig sind um dich sicher zu halten Jeder Datenpunkt dient dazu deinen Schutz zu kalibrieren und dein Wohlbefinden zu fördern",
-      questions: "Hast du noch Fragen?", qBtn: "Fragen?", footer: "Verschlüsselt mit Liebe • Sanctuary-Protokoll"
+      questions: "Hast du noch Fragen?", qBtn: "Fragen?", footer: "In Harmonie erschaffen hier"
     }
   }
 };
@@ -136,7 +137,7 @@ export default function ProfilePage() {
   const displayName = profile?.name || "VALUED SOUL";
 
   return (
-    <main className="min-h-screen bg-black text-white font-headline pb-32">
+    <main className="min-h-screen bg-black text-white font-headline pb-32 pt-safe">
       <nav className="bg-black/90 backdrop-blur-2xl border-b border-white/5 px-6 py-8 sticky top-0 z-[100]">
         <div className="max-w-xl mx-auto flex items-center justify-between">
           <button onClick={() => router.push("/dashboard")} className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-primary transition-all"><ArrowLeft className="w-5 h-5 text-white/40" /></button>
@@ -219,7 +220,7 @@ export default function ProfilePage() {
       </div>
 
       <Dialog open={privacyOpen} onOpenChange={setPrivacyOpen}>
-        <DialogContent className="bg-[#050505] border-white/10 max-lg p-0 rounded-[2rem] overflow-hidden flex flex-col font-headline h-[90vh] max-h-[90vh]">
+        <DialogContent className="bg-[#050505] border-white/10 max-lg p-0 rounded-[2rem] overflow-hidden flex flex-col font-headline h-[90vh] max-h-[90vh] pb-safe">
           <DialogTitle className="sr-only">Privacy Policy</DialogTitle>
           <div className="p-8 pb-4 shrink-0">
             <div className="flex items-center gap-4 mb-6">

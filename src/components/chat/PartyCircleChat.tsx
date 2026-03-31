@@ -12,12 +12,13 @@ import { GuardianLogo } from '@/components/ui/guardian-logo';
 
 /**
  * @fileOverview The Spectators (Public & Moderated).
- * Languages: EN, DE, PT.
+ * Languages: EN, DE.
+ * Affirmations: 3 words (EN) / 4 words (DE)
  */
 
 const CONTENT = {
   en: {
-    guardianNote: "Pulse Guardian: Active Monitoring & Slang Guard",
+    guardianNote: "Pulse Guardian: Active Monitoring",
     title: "The Spectators",
     sub: "Connected with Care",
     rulesHeader: "A space of collective care Guarded by Pulse Guardian",
@@ -30,17 +31,17 @@ const CONTENT = {
     ],
     enterBtn: "Enter guarded sanctuary",
     placeholder: "Share your resonance...",
-    footer: "Grounded in Unconditional Love 🌿",
+    footer: "Grounded in Love 🌿",
     blockedTitle: "Sanctuary Rest",
     blockedDesc: "Pulse Guardian has paused your communication To ensure the harmony of this circle illegal activities and divisive language are not permitted 🌿",
-    blockedAffirmation: "I love and respect my need for stillness Use this time to ground yourself",
-    violationTitle: "Pulse Guardian: Protocol Violation",
-    violationDesc: "Your session in this chat has been paused for community harmony",
+    blockedAffirmation: "Rest and stillness",
+    violationTitle: "Pulse Guardian: Violation",
+    violationDesc: "Your session in this chat has been paused",
     errorTitle: "Connection Error",
-    errorDesc: "Could not send message to the sanctuary"
+    errorDesc: "Could not send message"
   },
   de: {
-    guardianNote: "Pulse Guardian: Aktive Überwachung & Slang-Schutz",
+    guardianNote: "Pulse Guardian: Aktive Überwachung",
     title: "Die Spectator",
     sub: "Verbunden durch Fürsorge",
     rulesHeader: "Ein Raum gemeinsamer Fürsorge Bewacht vom Pulse Guardian",
@@ -53,37 +54,14 @@ const CONTENT = {
     ],
     enterBtn: "Bewachtes Sanctuary betreten",
     placeholder: "Teile deine Resonanz...",
-    footer: "Geerdet in bedingungsloser Liebe 🌿",
+    footer: "Geerdet in Liebe immerzu 🌿",
     blockedTitle: "Sanctuary Pause",
     blockedDesc: "Pulse Guardian hat deine Kommunikation pausiert Um die Harmonie zu gewährleisten sind illegale Aktivitäten und spaltende Sprache nicht erlaubt 🌿",
-    blockedAffirmation: "Ich achte mein Bedürfnis nach Ruhe Nutze diese Zeit zur Erdung",
-    violationTitle: "Pulse Guardian: Protokoll-Verstoß",
-    violationDesc: "Deine Sitzung in diesem Chat wurde zur Harmonie pausiert",
+    blockedAffirmation: "Ruhe und Stille jetzt",
+    violationTitle: "Pulse Guardian: Verstoß",
+    violationDesc: "Deine Sitzung wurde pausiert hier",
     errorTitle: "Verbindungsfehler",
-    errorDesc: "Nachricht konnte nicht gesendet werden"
-  },
-  pt: {
-    guardianNote: "Pulse Guardian: Monitoramento Ativo e Filtro de Gírias",
-    title: "Os Espectadores",
-    sub: "Conectados com Cuidado",
-    rulesHeader: "Um espaço de cuidado coletivo Protegido pelo Pulse Guardian",
-    rules: [
-      "Gentileza incondicional para todos",
-      "Tolerância zero para atividades ilegais",
-      "Proibido o uso de gírias para substâncias",
-      "Proteja o seu anonimato e o dos outros",
-      "Retórica política divisiva não é permitida"
-    ],
-    enterBtn: "Entrar no santuário protegido",
-    placeholder: "Compartilhe sua ressonância...",
-    footer: "Apoiado em Amor Incondicional 🌿",
-    blockedTitle: "Descanso do Santuário",
-    blockedDesc: "O Pulse Guardian pausou sua comunicação Para garantir a harmonia deste círculo atividades ilegais e linguagem divisiva não são permitidas 🌿",
-    blockedAffirmation: "Eu amo e respeito minha necessidade de silêncio Use este tempo para se aterrar",
-    violationTitle: "Pulse Guardian: Violação de Protocolo",
-    violationDesc: "Sua sessão neste chat foi pausada para a harmonia da comunidade",
-    errorTitle: "Erro de Conexão",
-    errorDesc: "Não foi possível enviar a mensagem ao santuário"
+    errorDesc: "Nachricht nicht gesendet hier"
   }
 };
 
@@ -99,7 +77,7 @@ export function PartyCircleChat() {
   const [isEntering, setIsEntering] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
-  const [lang, setLang] = useState<'en' | 'de' | 'pt'>('en');
+  const [lang, setLang] = useState<'en' | 'de'>('en');
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const natureName = useMemo(() => {
@@ -110,7 +88,7 @@ export function PartyCircleChat() {
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de'].includes(savedLang)) setLang(savedLang);
 
     const agreed = localStorage.getItem('stayonbeat_spectator_agreed');
     const blocked = localStorage.getItem('stayonbeat_spectator_blocked');
@@ -293,7 +271,7 @@ export function PartyCircleChat() {
             return (
               <div key={msg.id} className={cn("flex flex-col gap-2 animate-in slide-in-from-bottom-2 duration-300", isMe ? "items-end" : "items-start")}>
                 <div className="flex items-center gap-3 px-2">
-                  <span className="text-[8px] font-black text-white/30 uppercase tracking-widest">{isMe ? (lang === 'pt' ? 'VOCÊ' : 'YOU') : msg.senderAlias}</span>
+                  <span className="text-[8px] font-black text-white/30 uppercase tracking-widest">{isMe ? 'YOU' : msg.senderAlias}</span>
                   {!isMe && <button onClick={() => logViolation(msg.text, `Reported by user from ${msg.senderAlias}`, 'USER_REPORT')} className="text-white/20 hover:text-red-500 transition-colors"><Flag size={12} /></button>}
                 </div>
                 <div className={cn("p-4 rounded-2xl text-sm font-medium leading-relaxed max-w-[85%] shadow-sm border transition-all", isMe ? "bg-primary text-white border-primary rounded-tr-none" : "bg-white/5 text-white border-white/10 rounded-tl-none")}>{msg.text}</div>
@@ -303,7 +281,7 @@ export function PartyCircleChat() {
         </div>
       </ScrollArea>
 
-      <div className="px-6 py-8 bg-black border-t border-white/5 shrink-0">
+      <div className="px-6 py-8 bg-black border-t border-white/5 shrink-0 pb-safe">
         <div className="relative flex items-center max-w-2xl mx-auto gap-3">
           <input value={input} onChange={(e) => setInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSend()} placeholder={t.placeholder} disabled={isSending} className="flex-1 bg-white/5 border border-white/10 rounded-full py-5 px-8 text-base focus:border-primary transition-all outline-none disabled:opacity-50 text-white" />
           <button onClick={handleSend} disabled={!input.trim() || isSending} className="p-4 bg-primary text-white rounded-full disabled:opacity-30 transition-all hover:scale-105 active:scale-95 shadow-lg">{isSending ? <Loader2 className="w-6 h-6 animate-spin" /> : <Send className="w-6 h-6" />}</button>

@@ -9,6 +9,7 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview Recovery Protocol Page.
  * Languages: EN, DE.
+ * Affirmations: 3 words (EN) / 4 words (DE)
  */
 
 export default function RecoveryView() {
@@ -50,57 +51,41 @@ export default function RecoveryView() {
       recovery: "Recovery",
       personalProtocol: "Personalized protocol",
       activeProtection: "Active Protection",
-      secureWipe: "Your session data has been securely wiped",
-      protocolGenerated: "Personalized protocol generated based on your session logs",
+      secureWipe: "Session data wiped",
+      protocolGenerated: "Personalized protocol generated",
       privacyFinalized: "Privacy protocols finalized",
-      dataAnalyzed: (count: number) => `Data analyzed: ${count} intake events recorded`,
-      timeline: "Your Integration Timeline",
-      noLogs: "No session logs detected",
-      wipeWarning: "Completing this protocol will permanently wipe session logs and location history for your privacy",
-      finishBtn: "Complete Session & Log Streak",
+      dataAnalyzed: (count: number) => `Data analyzed: ${count} entries`,
+      timeline: "Integration Timeline",
+      noLogs: "No logs detected",
+      wipeWarning: "Completing this protocol will permanently wipe session logs and location history",
+      finishBtn: "Complete Session",
       returnBtn: "Return to Sanctuary",
-      improveBtn: "Help us improve StayOnBeat",
+      improveBtn: "Help us improve",
       minutes: "4minutes · anonymous",
       ritualTitle: "Breath of Love",
-      ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system and integration"
+      ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system"
     },
     de: {
       integrated: "Integriert",
       recovery: "Erholung",
       personalProtocol: "Persönlicher Protokoll",
       activeProtection: "Aktiver Schutz",
-      secureWipe: "Deine Sitzungsdaten wurden sicher gelöscht",
-      protocolGenerated: "Persönliches Protokoll basierend auf deinen Einträgen erstellt",
-      privacyFinalized: "Schutzprotokolle abgeschlossen",
-      dataAnalyzed: (count: number) => `Daten analysiert: ${count} Einträge erfasst`,
-      timeline: "Deine Integrations-Zeitachse",
+      secureWipe: "Sitzungsdaten gelöscht hier",
+      protocolGenerated: "Persönliches Protokoll erstellt hier",
+      privacyFinalized: "Schutzprotokolle abgeschlossen hier",
+      dataAnalyzed: (count: number) => `Daten analysiert: ${count} Einträge`,
+      timeline: "Integrations Zeitachse heute",
       noLogs: "Keine Sitzungsdaten gefunden",
-      wipeWarning: "Der Abschluss dieses Protokolls löscht dauerhaft Sitzungsprotokolle und Standortverlauf für deine Privatsphäre",
-      finishBtn: "Session abschließen & Streak sichern",
+      wipeWarning: "Der Abschluss dieses Protokolls löscht dauerhaft alle Sitzungsprotokolle und Verläufe",
+      finishBtn: "Session jetzt abschließen",
       returnBtn: "Zurück zum Sanctuary",
-      improveBtn: "Hilf uns StayOnBeat zu verbessern",
+      improveBtn: "Hilf uns verbessern",
       minutes: "4 Minuten · anonym",
       ritualTitle: "Atem der Liebe",
-      ritualDesc: "Führe das Resonance-Ritual durch, um dein Nervensystem zu kalibrieren und die Integration zu fördern"
+      ritualDesc: "Führe das Ritual durch um dein Nervensystem sanft zu kalibrieren"
     }
   }[lang] || {
-    integrated: "Integrated",
-    recovery: "Recovery",
-    personalProtocol: "Personalized protocol",
-    activeProtection: "Active Protection",
-    secureWipe: "Your session data has been securely wiped",
-    protocolGenerated: "Personalized protocol generated based on your session logs",
-    privacyFinalized: "Privacy protocols finalized",
-    dataAnalyzed: (count: number) => `Data analyzed: ${count} intake events recorded`,
-    timeline: "Your Integration Timeline",
-    noLogs: "No session logs detected",
-    wipeWarning: "Completing this protocol will permanently wipe session logs and location history for your privacy",
-    finishBtn: "Complete Session & Log Streak",
-    returnBtn: "Return to Sanctuary",
-    improveBtn: "Help us improve StayOnBeat",
-    minutes: "4minutes · anonymous",
-    ritualTitle: "Breath of Love",
-    ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system and integration"
+    en: { integrated: "Integrated", recovery: "Recovery", personalProtocol: "Personalized protocol", activeProtection: "Active Protection", secureWipe: "Session data wiped", protocolGenerated: "Personalized protocol generated", privacyFinalized: "Privacy protocols finalized", dataAnalyzed: (count: number) => `Data analyzed: ${count} entries`, timeline: "Integration Timeline", noLogs: "No logs detected", wipeWarning: "Completing this protocol will permanently wipe session logs and location history", finishBtn: "Complete Session", returnBtn: "Return to Sanctuary", improveBtn: "Help us improve", minutes: "4minutes · anonymous", ritualTitle: "Breath of Love", ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system" }
   };
 
   const affirmation = {
@@ -111,7 +96,6 @@ export default function RecoveryView() {
   const generateDetox = (logs: any[]) => {
     const plan: any[] = [];
     
-    // Always recommend Breath of Love first
     plan.push({
       id: 'ritual', time: "Immediate", text: t.ritualTitle,
       desc: t.ritualDesc, icon: Wind, color: "text-primary", isAction: true
@@ -121,14 +105,6 @@ export default function RecoveryView() {
       id: 'h2o', time: "10m", text: "Isotonic Rehydration", 
       desc: "Consume 500ml water with electrolytes to restore mineral balance", icon: Droplets, color: "text-blue-500"
     });
-
-    const activeIds = Array.from(new Set(logs.map(l => l.id)));
-    if (activeIds.some(id => ['mdma', 'ecstasy', '3mmc', '4mmc'].includes(id))) {
-      plan.push({ 
-        id: 'serotonin', time: "Next 24h", text: "Serotonin Support", 
-        desc: "5-HTP + Green Tea Extract Wait at least 24h after your last dose", icon: Zap, color: "text-purple-500"
-      });
-    }
 
     setDetoxPlan(plan);
   };
@@ -146,7 +122,7 @@ export default function RecoveryView() {
   if (!mounted) return null;
 
   return (
-    <main className="min-h-screen bg-black text-white font-headline pb-64">
+    <main className="min-h-screen bg-black text-white font-headline pb-64 pt-safe">
       <div className="bg-black/95 backdrop-blur-xl border-b border-white/5 px-6 py-8 sticky top-0 z-50">
         <div className="max-w-xl mx-auto space-y-6">
           <button onClick={() => router.back()} className="flex items-center gap-2 text-white/40 uppercase font-black text-[10px] tracking-widest hover:text-primary transition-colors"><ArrowLeft className="w-4 h-4" /> Back to sanctuary</button>
@@ -217,7 +193,7 @@ export default function RecoveryView() {
 
       <footer className="fixed bottom-0 left-0 right-0 h-auto min-h-[120px] py-8 bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-50 gap-4 pb-safe">
         {!isFinished ? (
-          <button onClick={handleFinish} className="w-full max-w-sm py-6 bg-[#1b4d3e] text-white rounded-full font-black uppercase text-lg tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg shadow-primary/20">{t.finishBtn}</button>
+          <button onClick={handleFinish} className="w-full max-w-sm py-6 bg-[#1b4d3e] text-white rounded-full font-black uppercase text-lg tracking-[0.1em] active:scale-95 transition-all shadow-lg shadow-primary/20">{t.finishBtn}</button>
         ) : (
           <div className="w-full max-w-sm flex flex-col gap-4 animate-in slide-in-from-bottom-4 duration-500">
             <button onClick={() => router.push('/dashboard')} className="w-full py-6 bg-white text-black rounded-full font-black uppercase text-lg tracking-[0.1em] active:scale-95 transition-all shadow-lg">{t.returnBtn}</button>
