@@ -9,6 +9,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 /**
  * @fileOverview "Losing Control" (Beauty of Life) Tool.
+ * Specifically for grounding users during over-stimulation or sleep deprivation.
  * Rhythmic Rules: 3 words (EN) / 4 words (DE).
  * iPhone optimized: Single-screen immersive experience.
  */
