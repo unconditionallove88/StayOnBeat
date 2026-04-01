@@ -2,14 +2,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Sparkles, X, Heart, Wind, Eye } from 'lucide-react';
+import { X, Wind, Eye, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 /**
  * @fileOverview "Vision of Love" (Presence & Grounding) Tool.
- * Visuals: Blue sea on a beautiful sunny day.
+ * Visuals: Pure Emerald Field (#1b4d3e).
  * Rhythmic Rules: 3 words (EN) / 4 words (DE).
  * iPhone optimized: Single-screen immersive experience.
  */
@@ -24,13 +23,13 @@ const CONTENT = {
     sub: "Return to presence",
     intro: "I am here",
     affirmations: [
-      "Motherly sea heals",
-      "Brotherly waves hold",
+      "Motherly love heals",
+      "Brotherly bonds hold",
       "Unconditional love always",
       "Acceptance unites humanity",
       "Pure presence now"
     ],
-    button: "Show Beauty",
+    button: "Enter Vision",
     return: "Return to Sanctuary"
   },
   de: {
@@ -38,13 +37,13 @@ const CONTENT = {
     sub: "Zurück in die Gegenwart",
     intro: "Ich bin genau hier",
     affirmations: [
-      "Mütterliches Meer heilt heute",
-      "Brüderliche Wellen halten heute",
+      "Mütterliche Liebe heilt heute",
+      "Brüderliche Bande halten heute",
       "Bedingungslose Liebe immerzu hier",
       "Akzeptanz vereint die Menschheit",
       "Reine Gegenwart jetzt hier"
     ],
-    button: "Schönheit zeigen",
+    button: "Vision öffnen",
     return: "Zum Sanctuary zurückkehren"
   }
 };
@@ -65,7 +64,7 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
       const interval = setInterval(() => {
         setIsFading(true);
         setTimeout(() => {
-          setCurrentSlide((prev) => (prev + 1) % PlaceHolderImages.length);
+          setCurrentSlide((prev) => (prev + 1) % 5);
           setIsFading(false);
         }, 1000);
       }, 6000);
@@ -77,17 +76,10 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
 
   if (mode === 'beauty') {
     return (
-      <div className="fixed inset-0 bg-black z-[1000] flex flex-col font-headline animate-in fade-in duration-1000 overflow-hidden">
-        {/* Immersive Sea Vision Layer */}
-        <div className="absolute inset-0 transition-opacity duration-1000" style={{ opacity: isFading ? 0.3 : 1 }}>
-          <img 
-            src={PlaceHolderImages[currentSlide].imageUrl} 
-            alt="Sea Vision" 
-            className="w-full h-full object-cover scale-110 animate-[pulse_20s_infinite_alternate]"
-            data-ai-hint={PlaceHolderImages[currentSlide].imageHint}
-          />
-          <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
-        </div>
+      <div className="fixed inset-0 bg-[#1b4d3e] z-[1000] flex flex-col font-headline animate-in fade-in duration-1000 overflow-hidden pt-safe pb-safe">
+        {/* Subtle Radiating Glow Layer */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-black/20 pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.05)_0%,_transparent_70%)] animate-pulse" />
 
         {/* Affirmation Layer */}
         <div className="relative z-10 flex-1 flex flex-col items-center justify-center p-8 text-center">
@@ -98,22 +90,22 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
               translateY: isFading ? '20px' : '0px'
             }}
           >
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white drop-shadow-2xl leading-none">
-              {t.affirmations[currentSlide % t.affirmations.length]}
+            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white drop-shadow-2xl leading-tight max-w-lg mx-auto">
+              {t.affirmations[currentSlide]}
             </h2>
           </div>
         </div>
 
         {/* Footer Navigation */}
-        <footer className="relative z-10 p-12 flex flex-col items-center gap-6 pb-safe">
+        <footer className="relative z-10 p-12 flex flex-col items-center gap-6">
           <div className="flex gap-2">
-            {PlaceHolderImages.map((_, i) => (
+            {[0, 1, 2, 3, 4].map((i) => (
               <div key={i} className={cn("w-1.5 h-1.5 rounded-full transition-all duration-500", i === currentSlide ? "bg-white w-6" : "bg-white/20")} />
             ))}
           </div>
           <button 
             onClick={() => { playHeartbeat(); onClose(); }}
-            className="px-8 py-3 rounded-full border border-white/20 bg-black/40 backdrop-blur-md text-white font-black uppercase text-[10px] tracking-[0.4em] active:scale-95 transition-all"
+            className="px-8 py-3 rounded-full border border-white/20 bg-white/5 backdrop-blur-md text-white font-black uppercase text-[10px] tracking-[0.4em] active:scale-95 transition-all hover:bg-white/10"
           >
             {t.return}
           </button>
@@ -123,7 +115,7 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black z-[1000] flex flex-col items-center justify-center p-8 text-center font-headline animate-in slide-in-from-bottom-4 duration-700 pb-safe pt-safe">
+    <div className="fixed inset-0 bg-black z-[1000] flex flex-col items-center justify-center px-8 text-center font-headline animate-in slide-in-from-bottom-4 duration-700 pb-safe pt-safe overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/10 blur-[120px] rounded-full pointer-events-none animate-pulse" />
       
       <button 
@@ -152,7 +144,7 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
 
         <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 space-y-4">
           <div className="flex items-center gap-4 text-left">
-            <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center border border-primary/30">
+            <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center border border-primary/30 shrink-0">
               <Sparkles size={20} className="text-primary" />
             </div>
             <p className="text-xs font-bold text-white/60 uppercase tracking-widest leading-relaxed">
