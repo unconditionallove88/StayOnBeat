@@ -24,7 +24,9 @@ import {
   Sparkles,
   Wind,
   Info,
-  BookOpen
+  BookOpen,
+  Plus,
+  Minus
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -47,7 +49,8 @@ const CONTENT = {
     confirm: "Confirm & Log Intake", cancel: "Cancel Entry", amount: "Amount", doseLogged: "Dose logged",
     addedToDiary: "added to your session diary", causionTitle: "Pulse Guardian: Caution 🧪",
     poppersHR: (hr: number) => `Your heart rate is ${hr} BPM Poppers will drop your blood pressure sharply Please sit down and breathe before use`,
-    responsibility: "I respect myself I take full responsibility for my actions",
+    responsibility: "I take full responsibility for my actions",
+    affirmBtn: "I Affirm",
     syncProceed: "Proceed with Love", noResults: "No substances found",
     wisdom: "Mixing Wisdom"
   },
@@ -57,7 +60,8 @@ const CONTENT = {
     confirm: "Bestätigen & Notieren", cancel: "Abbrechen", amount: "Menge", doseLogged: "Dosis notiert",
     addedToDiary: "wurde deinem Tagebuch hinzugefügt", causionTitle: "Pulse Guardian: Vorsicht 🧪",
     poppersHR: (hr: number) => `Dein Puls liegt bei ${hr} BPM Poppers senkt den Blutdruck stark ab Bitte nimm dir einen Moment Zeit, setz dich hin und atme tief durch`,
-    responsibility: "Ich respektiere mich selbst Ich übernehme volle Verantwortung",
+    responsibility: "Ich übernehme volle Verantwortung",
+    affirmBtn: "Ich bestätige",
     syncProceed: "Mit Liebe fortfahren", noResults: "Keine Substanzen gefunden",
     wisdom: "Misch-Weisheiten"
   }
@@ -99,6 +103,7 @@ export function Step6SubstanceLab({
   const [chatOpen, setChatOpen] = useState(false);
   const [wisdomOpen, setWisdomOpen] = useState(false);
   const [responsibilityOpen, setResponsibilityOpen] = useState(false);
+  const [pendingEntry, setPendingEntry] = useState<any>(null);
   const [lang, setLang] = useState<'en' | 'de'>('en');
 
   useEffect(() => {
@@ -131,7 +136,7 @@ export function Step6SubstanceLab({
     }
   };
 
-  const saveLog = () => {
+  const handleSaveAttempt = () => {
     if (isLocked) return;
     let entry: any;
     const localizedSub = SUBSTANCES.find(s => s.id === activeSubstance.id);
@@ -146,13 +151,23 @@ export function Step6SubstanceLab({
       entry = { id: activeSubstance.id, name: substanceName, value: manualValue, unit: activeSubstance.unit, timestamp: new Date().toISOString() };
     }
 
-    const updated = [...sessionLogs, entry];
+    setPendingEntry(entry);
+    setResponsibilityOpen(true);
+  };
+
+  const confirmResponsibility = () => {
+    if (!pendingEntry) return;
+    
+    const updated = [...sessionLogs, pendingEntry];
     setSessionLogs(updated);
     localStorage.setItem('stayonbeat_logs', JSON.stringify(updated));
     setActiveSubstance(null);
     setManualValue('');
     setAlcoholCart([]);
-    toast({ title: t.doseLogged, description: `${substanceName} ${t.addedToDiary}` });
+    setPendingEntry(null);
+    setResponsibilityOpen(false);
+    
+    toast({ title: t.doseLogged, description: `${pendingEntry.name} ${t.addedToDiary}` });
   };
 
   const removeLog = (index: number) => {
@@ -246,12 +261,60 @@ export function Step6SubstanceLab({
 
       <footer className="shrink-0 h-[100px] bg-black/95 backdrop-blur-2xl border-t border-white/5 flex items-center justify-center px-6 z-[70] pb-safe">
         <button 
-          onClick={() => setResponsibilityOpen(true)} 
+          onClick={() => onComplete(sessionLogs)} 
           className="w-full py-5 bg-[#3EB489] text-black rounded-full font-black uppercase text-base tracking-[0.1em] neon-glow active:scale-95 transition-all shadow-lg flex items-center justify-center gap-3"
         >
           <CheckCircle2 size={20} /> {t.sync}
         </button>
       </footer>
+
+      {/* Detail Input View */}
+      {activeSubstance && (
+        <div className="fixed inset-0 z-[100] bg-black/95 animate-in slide-in-from-bottom duration-500 flex flex-col pt-safe">
+          <div className="px-6 py-10 flex flex-col items-center text-center space-y-8 flex-1">
+            <button onClick={() => setActiveSubstance(null)} className="absolute top-8 right-8 p-3 bg-white/5 rounded-full border border-white/10"><X size={20} /></button>
+            
+            <div className={cn("w-24 h-24 rounded-[2rem] bg-white/5 flex items-center justify-center border-2 border-white/10 shadow-2xl mb-4", activeSubstance.color)}>
+              <activeSubstance.icon size={48} />
+            </div>
+
+            <div className="space-y-2">
+              <h2 className="text-4xl font-black uppercase tracking-tighter text-white">{lang === 'en' ? activeSubstance.name : activeSubstance.deName}</h2>
+              <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em]">{t.intake}</p>
+            </div>
+
+            {activeSubstance.inputType === 'manual' ? (
+              <div className="w-full max-w-xs space-y-6">
+                <div className="flex flex-col items-center gap-4">
+                  <span className="text-[10px] font-black text-[#10B981] uppercase tracking-widest">{t.amount} ({activeSubstance.unit})</span>
+                  <input 
+                    type="number" step="0.1" value={manualValue} onChange={(e) => setManualValue(e.target.value)} 
+                    placeholder="0.0" className="w-full h-24 bg-white/5 border-2 border-white/10 rounded-[2rem] text-center text-5xl font-black text-white focus:border-[#3EB489] transition-all outline-none" 
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="w-full max-w-md grid grid-cols-2 gap-3">
+                {alcoholCart.map((item, i) => (
+                  <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col items-center gap-3">
+                    <span className="text-[10px] font-black uppercase text-white/40">{item.type}</span>
+                    <div className="flex items-center gap-4">
+                      <button onClick={() => setAlcoholCart(prev => prev.map((c, idx) => idx === i ? { ...c, count: Math.max(0, c.count - 1) } : c))} className="p-2 bg-white/5 rounded-lg"><Minus size={14} /></button>
+                      <span className="text-xl font-black text-white">{item.count}</span>
+                      <button onClick={() => setAlcoholCart(prev => prev.map((c, idx) => idx === i ? { ...c, count: c.count + 1 } : c))} className="p-2 bg-primary/20 rounded-lg text-primary"><Plus size={14} /></button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="w-full max-w-sm pt-10">
+              <button onClick={handleSaveAttempt} className="w-full h-20 bg-primary text-white rounded-3xl font-black text-xl uppercase tracking-widest active:scale-95 shadow-lg shadow-primary/20 transition-all">{t.confirm}</button>
+              <button onClick={() => setActiveSubstance(null)} className="w-full h-14 mt-4 text-[10px] font-black text-white/20 uppercase tracking-[0.4em]">{t.cancel}</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Dialog open={wisdomOpen} onOpenChange={setWisdomOpen}>
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[90dvh] top-[50%] -translate-y-[50%] shadow-[0_0_100px_rgba(0,0,0,0.9)]">
@@ -262,21 +325,31 @@ export function Step6SubstanceLab({
         </DialogContent>
       </Dialog>
 
+      {/* Mandatory Responsibility Modal */}
       <Dialog open={responsibilityOpen} onOpenChange={setResponsibilityOpen}>
         <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3.5rem] overflow-hidden flex flex-col font-headline">
-          <DialogTitle className="sr-only">Responsibility Affirmation</DialogTitle>
+          <DialogTitle className="sr-only">Sovereign Responsibility</DialogTitle>
           <div className="p-10 flex flex-col items-center text-center space-y-10">
             <div className="relative">
               <div className="absolute inset-0 bg-[#3EB489]/20 blur-3xl rounded-full animate-pulse" />
-              <div className="w-20 h-20 bg-[#3EB489]/10 border-2 border-[#3EB489]/30 rounded-full flex items-center justify-center relative z-10 shadow-2xl"><ShieldCheck size={40} className="text-[#3EB489]" /></div>
+              <div className="w-20 h-20 bg-[#3EB489]/10 border-2 border-[#3EB489]/30 rounded-full flex items-center justify-center relative z-10 shadow-2xl">
+                <HeartHandshake size={40} className="text-[#3EB489]" />
+              </div>
             </div>
             
             <div className="space-y-6">
-              <p className="text-xl md:text-2xl font-black uppercase tracking-tighter text-white leading-tight">{t.responsibility}</p>
+              <p className="text-xl md:text-2xl font-black uppercase tracking-tighter text-white leading-tight">
+                {t.responsibility}
+              </p>
               <div className="w-10 h-1 bg-[#3EB489]/20 rounded-full mx-auto" />
             </div>
 
-            <button onClick={() => { setResponsibilityOpen(false); onComplete(sessionLogs); }} className="w-full h-16 bg-[#3EB489] text-black rounded-2xl font-black uppercase text-base tracking-widest active:scale-95 transition-all shadow-lg">{t.syncProceed}</button>
+            <button 
+              onClick={pendingEntry ? confirmResponsibility : () => { setResponsibilityOpen(false); onComplete(sessionLogs); }} 
+              className="w-full h-16 bg-[#3EB489] text-black rounded-2xl font-black uppercase text-base tracking-widest active:scale-95 transition-all shadow-lg"
+            >
+              {pendingEntry ? t.affirmBtn : t.syncProceed}
+            </button>
           </div>
         </DialogContent>
       </Dialog>
