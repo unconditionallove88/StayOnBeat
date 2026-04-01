@@ -296,7 +296,7 @@ function DashboardContent() {
                   <p className="text-sm font-black uppercase tracking-tight leading-none">{lang === 'de' ? 'Vital-Sync' : 'Pulse Sync'}</p>
                   <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Sync</p>
                 </div>
-              </Link>
+              </button>
 
               <button 
                 onClick={() => handlePortalClick(() => setLoveLetterOpen(true))} 
