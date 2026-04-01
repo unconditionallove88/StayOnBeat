@@ -1,17 +1,14 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Check, Ban, Clock, Moon, GlassWater, ZapOff, Info, AlertTriangle, ShieldAlert } from 'lucide-react';
+import { ArrowLeft, Check, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Switch } from '@/components/ui/switch';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
  * @fileOverview "Something to Remember" (Safety Protocol Step).
- * Features: Expanded Mixing Wisdom Table, Intake Limits, and Sanctuary Alarms.
- * Optimized for iPhone: Full vertical scrollability.
- * Languages: EN, DE.
+ * Features: Expanded Mixing Wisdom Table.
+ * Languages: EN (3 words), DE (4 words).
  */
 
 const MIXING_WISDOM = [
@@ -23,6 +20,8 @@ const MIXING_WISDOM = [
   { s1: 'LSD', s2: 'Cannabis', risk: 'Moderate', color: 'text-amber-500', note: 'Intense thought loops' },
   { s1: 'Benzos', s2: 'Alcohol', risk: 'Critical', color: 'text-red-500', note: 'Fatal blackouts and overdose' },
   { s1: 'Poppers', s2: 'Viagra', risk: 'Critical', color: 'text-red-500', note: 'Fatal blood pressure drop' },
+  { s1: 'Cocaine', s2: 'MDMA', risk: 'Moderate', color: 'text-amber-500', note: 'Masks MDMA effects, extra heart strain' },
+  { s1: 'Ketamine', s2: 'GHB/GBL', risk: 'Critical', color: 'text-red-500', note: 'Severe nausea and risk of suffocation' },
 ];
 
 const UI = {
@@ -31,13 +30,7 @@ const UI = {
     sub: "Wisdom for your journey",
     wisdom: "Mixing Wisdom Table",
     acknowledge: "I acknowledge this",
-    limits: "Commit to limits",
-    alarms: "Sanctuary Alarms",
-    limitIntake: "Limit total intake",
-    leaveEarly: "Set leave time",
-    danceBreaks: "Rest break alarms",
-    hydration: "Hydration reminders",
-    confirm: "Set sanctuary boundaries",
+    confirm: "Set sanctuary wisdom",
     created: "Created in harmony"
   },
   DE: {
@@ -45,13 +38,7 @@ const UI = {
     sub: "Weisheit für deine Reise",
     wisdom: "Misch-Weisheiten Tabelle",
     acknowledge: "Ich bestätige das heute",
-    limits: "Limits festlegen heute",
-    alarms: "Sanctuary Alarme heute",
-    limitIntake: "Gesamtmenge begrenzen heute",
-    leaveEarly: "Aufbruchszeit festlegen heute",
-    danceBreaks: "Pausen Alarme heute",
-    hydration: "Wasser Erinnerungen heute",
-    confirm: "Grenzen jetzt setzen",
+    confirm: "Weisheit jetzt setzen hier",
     created: "In Harmonie erschaffen hier"
   }
 };
@@ -59,35 +46,29 @@ const UI = {
 export function StepSomethingToRemember({ onComplete, onBack, isStandAlone = false }: { onComplete: (data: any) => void, onBack?: () => void, isStandAlone?: boolean }) {
   const [lang, setLang] = useState<'EN' | 'DE'>('EN');
   const [acknowledged, setAcknowledge] = useState(false);
-  const [settings, setSettings] = useState({
-    limitIntake: true,
-    leaveEarly: false,
-    danceBreaks: true,
-    hydration: true,
-  });
 
   useEffect(() => {
-    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toUpperCase() as any;
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
     if (['EN', 'DE'].includes(savedLang)) setLang(savedLang);
   }, []);
 
   const t = UI[lang] || UI.EN;
 
   return (
-    <div className="w-full h-full flex flex-col font-headline bg-black relative">
+    <div className="w-full h-full flex flex-col font-headline bg-black relative animate-in fade-in duration-700">
       {!isStandAlone && onBack && (
         <button onClick={onBack} className="absolute top-0 left-4 text-white/40 hover:text-white flex items-center gap-2 text-[10px] font-black uppercase tracking-widest z-[100] pt-4">
           <ArrowLeft className="w-4 h-4" /> BACK
         </button>
       )}
 
-      <div className={cn("px-6 shrink-0", isStandAlone ? "pt-4" : "pt-16")}>
+      <div className={cn("px-6 shrink-0 text-center", isStandAlone ? "pt-4" : "pt-16")}>
         <h2 className="text-[22px] font-black uppercase mb-1 text-white leading-tight tracking-tighter">{t.header}</h2>
         <p className="text-white/40 font-black uppercase tracking-[0.2em] text-[10px] mb-6">{t.sub}</p>
       </div>
 
       <ScrollArea className="flex-1 px-6">
-        <div className="space-y-8 pb-32">
+        <div className="space-y-8 pb-40">
           {/* Wisdom Table */}
           <section className="space-y-4">
             <div className="flex items-center justify-between px-1">
@@ -143,43 +124,15 @@ export function StepSomethingToRemember({ onComplete, onBack, isStandAlone = fal
             </button>
           </section>
 
-          {/* Alarms & Reminders */}
-          <section className="space-y-4">
-            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 px-1">{t.alarms}</h3>
-            
-            <div className="grid gap-3">
-              {[
-                { id: 'limitIntake', label: t.limitIntake, icon: ZapOff, color: "text-amber-500" },
-                { id: 'leaveEarly', label: t.leaveEarly, icon: Clock, color: "text-blue-400" },
-                { id: 'danceBreaks', label: t.danceBreaks, icon: Moon, color: "text-purple-400" },
-                { id: 'hydration', label: t.hydration, icon: GlassWater, color: "text-cyan-400" },
-              ].map((item) => (
-                <div key={item.id} className="flex items-center justify-between p-5 bg-[#0a0a0a] border border-white/10 rounded-2xl group hover:border-white/20 transition-all shadow-md">
-                  <div className="flex items-center gap-4">
-                    <div className="p-2.5 bg-white/5 rounded-xl group-hover:scale-110 transition-transform">
-                      <item.icon className={cn("w-4 h-4", item.color)} />
-                    </div>
-                    <span className="text-xs font-black uppercase tracking-tight text-white/80">{item.label}</span>
-                  </div>
-                  <Switch 
-                    checked={settings[item.id as keyof typeof settings]}
-                    onCheckedChange={(val) => setSettings(prev => ({...prev, [item.id]: val}))}
-                    className="data-[state=checked]:bg-primary"
-                  />
-                </div>
-              ))}
-            </div>
-          </section>
-
           <div className="pt-4 text-center opacity-20">
             <p className="text-[8px] font-black uppercase tracking-[0.5em]">{t.created}</p>
           </div>
         </div>
       </ScrollArea>
 
-      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black via-black to-transparent pt-12 pointer-events-none">
+      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black via-black to-transparent pt-12 pointer-events-none pb-safe">
         <button 
-          onClick={() => onComplete({ acknowledged, settings })} 
+          onClick={() => onComplete({ acknowledged })} 
           disabled={!acknowledged}
           className={cn(
             "pointer-events-auto w-full max-w-sm mx-auto h-20 rounded-full uppercase tracking-[0.2em] font-black text-lg transition-all shadow-2xl flex items-center justify-center gap-3",
