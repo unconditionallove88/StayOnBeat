@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -29,7 +30,7 @@ const UI = {
     header: "Something to remember",
     sub: "Wisdom for your journey",
     wisdom: "Mixing Wisdom Table",
-    acknowledge: "I acknowledge this",
+    acknowledge: "I take full responsibility for my actions",
     confirm: "Set sanctuary wisdom",
     created: "Created in harmony"
   },
@@ -37,7 +38,7 @@ const UI = {
     header: "Etwas zum Erinnern heute",
     sub: "Weisheit für deine Reise",
     wisdom: "Misch-Weisheiten Tabelle",
-    acknowledge: "Ich bestätige das heute",
+    acknowledge: "Ich übernehme die volle Verantwortung",
     confirm: "Weisheit jetzt setzen hier",
     created: "In Harmonie erschaffen hier"
   }
@@ -118,7 +119,7 @@ export function StepSomethingToRemember({ onComplete, onBack, isStandAlone = fal
               )}>
                 {acknowledged && <Check className="w-3.5 h-3.5 text-white" />}
               </div>
-              <span className={cn("text-[10px] font-black uppercase tracking-widest", acknowledged ? "text-primary" : "text-white/40")}>
+              <span className={cn("text-[10px] font-black uppercase tracking-widest text-left", acknowledged ? "text-primary" : "text-white/40")}>
                 {t.acknowledge}
               </span>
             </button>
@@ -136,7 +137,7 @@ export function StepSomethingToRemember({ onComplete, onBack, isStandAlone = fal
           disabled={!acknowledged}
           className={cn(
             "pointer-events-auto w-full max-w-sm mx-auto h-20 rounded-full uppercase tracking-[0.2em] font-black text-lg transition-all shadow-2xl flex items-center justify-center gap-3",
-            acknowledged ? 'bg-[#1b4d3e] text-white neon-glow active:scale-95' : 'bg-white/5 text-white/10 border-2 border-white/5 cursor-not-allowed opacity-50'
+            acknowledged ? 'bg-[#1b4d3e] text-white neon-glow active:scale-95' : 'bg-white/10 text-white/10 border-2 border-white/5 cursor-not-allowed opacity-50'
           )}
         >
           {t.confirm}

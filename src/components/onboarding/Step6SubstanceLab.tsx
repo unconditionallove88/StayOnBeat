@@ -183,7 +183,7 @@ export function Step6SubstanceLab({
               <span className="text-[9px] font-black uppercase text-white tracking-widest">{t.wisdom}</span>
             </button>
             <button onClick={() => setChatOpen(true)} className="p-3 bg-blue-600/10 border border-blue-500/30 rounded-xl active:scale-95 transition-all">
-              <Sparkles size={18} className="text-blue-400 animate-pulse" />
+              <HeartHandshake size={18} className="text-blue-400 animate-pulse" />
             </button>
           </div>
         </div>
