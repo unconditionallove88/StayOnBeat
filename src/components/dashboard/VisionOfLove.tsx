@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -62,7 +61,7 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
         setTimeout(() => {
           setCurrentSlide((prev) => (prev + 1) % CONTENT.en.affirmations.length);
           setIsFading(false);
-        }, 1000);
+        }, 6000);
       }, 6000);
       return () => clearInterval(interval);
     }

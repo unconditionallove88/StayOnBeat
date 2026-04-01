@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -308,7 +307,7 @@ export function Step6SubstanceLab({
               </div>
             )}
 
-            <div className="w-full max-w-sm pt-10">
+            <div className="w-full max-sm pt-10">
               <button onClick={handleSaveAttempt} className="w-full h-20 bg-primary text-white rounded-3xl font-black text-xl uppercase tracking-widest active:scale-95 shadow-lg shadow-primary/20 transition-all">{t.confirm}</button>
               <button onClick={() => setActiveSubstance(null)} className="w-full h-14 mt-4 text-[10px] font-black text-white/20 uppercase tracking-[0.4em]">{t.cancel}</button>
             </div>
@@ -345,10 +344,10 @@ export function Step6SubstanceLab({
             </div>
 
             <button 
-              onClick={pendingEntry ? confirmResponsibility : () => { setResponsibilityOpen(false); onComplete(sessionLogs); }} 
+              onClick={confirmResponsibility} 
               className="w-full h-16 bg-[#3EB489] text-black rounded-2xl font-black uppercase text-base tracking-widest active:scale-95 transition-all shadow-lg"
             >
-              {pendingEntry ? t.affirmBtn : t.syncProceed}
+              {t.affirmBtn}
             </button>
           </div>
         </DialogContent>
