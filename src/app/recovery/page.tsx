@@ -9,8 +9,6 @@ import { playHeartbeat } from '@/lib/resonance';
 
 /**
  * @fileOverview Recovery Protocol Page.
- * Languages: EN, DE.
- * Affirmations: 3 words (EN) / 4 words (DE)
  */
 
 export default function RecoveryView() {
@@ -90,9 +88,9 @@ export default function RecoveryView() {
   };
 
   const affirmation = {
-    en: "Unconditional love always",
-    de: "Bedingungslose Liebe immerzu hier"
-  }[lang] || "Unconditional love always";
+    en: "I am love",
+    de: "Ich bin pure Liebe"
+  }[lang] || "I am love";
 
   const generateDetox = (logs: any[]) => {
     const plan: any[] = [];
@@ -165,7 +163,7 @@ export default function RecoveryView() {
                   onClick={() => p.isAction && router.push('/self-care')}
                   className={cn(
                     "p-8 rounded-[2.5rem] border border-white/10 bg-white/5 flex flex-col gap-4 group transition-all",
-                    p.isAction ? "border-primary/40 bg-primary/5 cursor-pointer hover:bg-primary/10" : "hover:border-primary/40"
+                    p.isAction ? "border-primary/40 bg-primary/5 cursor-pointer hover:bg-primary/10" : "hover:bg-primary/40"
                   )}
                 >
                   <div className="flex items-center justify-between">

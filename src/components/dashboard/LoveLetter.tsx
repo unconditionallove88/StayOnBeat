@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -8,8 +9,6 @@ import { cn } from '@/lib/utils';
 
 /**
  * @fileOverview Love Letter Component.
- * Full localization for EN, DE.
- * Affirmation rule: 3 words (EN) / 4 words (DE).
  */
 
 const CONTENT = {
@@ -24,7 +23,7 @@ const CONTENT = {
     successMsg: "We will keep this safe When you need a reminder of your own strength we will bring it back to you",
     return: "Return to Sanctuary",
     footer: "End-to-End Encrypted Sanctuary Note",
-    affirmation: "Unconditional love always"
+    affirmation: "I respect myself"
   },
   de: {
     title: "Liebesbrief",
@@ -37,7 +36,7 @@ const CONTENT = {
     successMsg: "Wir werden dies sicher aufbewahren Wenn du eine Erinnerung an deine eigene Stärke brauchst bringen wir sie dir zurück",
     return: "Zurück zum Sanctuary",
     footer: "Ende-zu-Ende verschlüsselte Sanctuary-Notiz",
-    affirmation: "Bedingungslose Liebe immerzu hier"
+    affirmation: "Ich respektiere mich selbst"
   }
 };
 

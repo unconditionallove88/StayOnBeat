@@ -44,7 +44,7 @@ export default function DuringPhase() {
     en: {
       title: "Safety Advisor",
       phase: "Phase: During",
-      affirmation: "Unconditional love always",
+      affirmation: "I love myself",
       ritualTitle: "Breath of Love",
       ritualSub: "Honoring my state",
       ritualBtn: "Open Ritual"
@@ -52,7 +52,7 @@ export default function DuringPhase() {
     de: {
       title: "Sicherheits-Berater",
       phase: "Phase: Währenddessen",
-      affirmation: "Bedingungslose Liebe immerzu hier",
+      affirmation: "Ich liebe mich selbst",
       ritualTitle: "Atem der Liebe",
       ritualSub: "Meinen Zustand achtend",
       ritualBtn: "Ritual öffnen"
@@ -60,7 +60,7 @@ export default function DuringPhase() {
   }[lang] || {
     title: "Safety Advisor",
     phase: "Phase: During",
-    affirmation: "Unconditional love always",
+    affirmation: "I love myself",
     ritualTitle: "Breath of Love",
     ritualSub: "Honoring my state",
     ritualBtn: "Open Ritual"

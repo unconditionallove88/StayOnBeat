@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -10,13 +11,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 /**
  * @fileOverview Phase: Before (Preparation Protocol).
- * Updated: Affirmations to 3-word (EN) / 4-word (DE) rhythmic rule.
  */
 
 const CONTENT = {
   en: {
     title: "Preparation", subtitle: "Radiate from within", header: "Ready to shine?",
-    description: "Unconditional love always",
+    description: "I respect myself",
     sections: { hydration: "Hydration", nutrition: "Nutrition", rest: "Rest", essentials: "Essentials" },
     hydrationAdvice: (liters: number) => `Based on your essence, drink ${liters} liters of water today Add electrolytes to maintain mineral balance`,
     nutritionAdvice: "Eat a solid balanced meal 3 hours before you head out Avoid heavy processed foods",
@@ -27,8 +27,8 @@ const CONTENT = {
   },
   de: {
     title: "Vorbereitung", subtitle: "Von innen heraus strahlen", header: "Bereit zu strahlen?",
-    description: "Bedingungslose Liebe immerzu hier",
-    sections: { hydration: "Hydrierung", nutrition: "Ernährung", rest: "Erholung", essentials: "Essentials" },
+    description: "Ich respektiere mich selbst",
+    sections: { hydration: "Hydrierung", nutrition: "Erährung", rest: "Erholung", essentials: "Essentials" },
     hydrationAdvice: (liters: number) => `Basierend auf deinem Körpergewicht trink heute ${liters} Liter Wasser Füge Elektrolyte hinzu um den Haushalt zu stabilisieren`,
     nutritionAdvice: "Iss 3 Stunden vor dem Aufbruch eine ausgewogene Mahlzeit Vermeide schwere verarbeitete Lebensmittel",
     restAdvice: "Priorisiere erholsamen Schlaf und sei vor 23:00 Uhr im Bett damit dein Körper regenerieren und Energie für das Licht sammeln kann",

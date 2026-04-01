@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -20,13 +21,13 @@ const CONTENT = {
   en: {
     title: "Vision of Love",
     sub: "Return to presence",
-    intro: "I am here",
+    intro: "I respect myself",
     affirmations: [
-      "Motherly love heals",
-      "Brotherly bonds hold",
-      "Unconditional love always",
-      "Acceptance unites humanity",
-      "Stay in presence"
+      "I love myself",
+      "I accept myself",
+      "Worthy of love",
+      "I am love",
+      "I forgive myself"
     ],
     button: "Enter Vision",
     return: "Return to Sanctuary"
@@ -34,13 +35,13 @@ const CONTENT = {
   de: {
     title: "Vision der Liebe",
     sub: "Zurück in die Gegenwart",
-    intro: "Ich bin genau hier",
+    intro: "Ich respektiere mich selbst",
     affirmations: [
-      "Mütterliche Liebe heilt heute",
-      "Brüderliche Bande halten heute",
-      "Bedingungslose Liebe immerzu hier",
-      "Akzeptanz vereint die Menschheit",
-      "Reine Gegenwart jetzt hier"
+      "Ich liebe mich selbst",
+      "Ich akzeptiere mich selbst",
+      "Ich verdiene Liebe heute",
+      "Ich bin pure Liebe",
+      "Ich vergebe mir selbst"
     ],
     button: "Vision öffnen",
     return: "Zum Sanctuary zurückkehren"

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -79,8 +80,26 @@ function SkyIcon() {
 }
 
 const AFFIRMATIONS = {
-  EN: ["I am loved", "Truth is love", "Life is radiant", "Equality is nature", "Unconditional love always"],
-  DE: ["Ich werde geliebt heute", "Wahrheit ist Liebe pur", "Das Leben strahlt hell", "Gleichheit ist unsere Natur", "Bedingungslose Liebe immerzu hier"]
+  EN: [
+    "I respect myself", 
+    "I love myself", 
+    "I accept myself", 
+    "Worthy of love", 
+    "I am love", 
+    "I love everyone", 
+    "I forgive myself", 
+    "Life is love"
+  ],
+  DE: [
+    "Ich respektiere mich selbst", 
+    "Ich liebe mich selbst", 
+    "Ich akzeptiere mich selbst", 
+    "Ich verdiene Liebe heute", 
+    "Ich bin pure Liebe", 
+    "Ich liebe alle Menschen", 
+    "Ich vergebe mir selbst", 
+    "Leben ist Liebe heute"
+  ]
 };
 
 const TOOLTIPS = {
