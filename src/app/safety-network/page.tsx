@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { 
   useFirestore, 
@@ -17,21 +17,21 @@ import {
   Heart, 
   Plus, 
   Trash2, 
-  Shield, 
   ArrowLeft, 
   User, 
-  Phone, 
   Loader2, 
   Lock, 
   ShieldCheck,
   UserPlus,
-  HeartHandshake
+  HeartHandshake,
+  Sparkles
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * @fileOverview Circle of Love (Safety Network) Page.
- * Linguistic purification: Removed "safety" and replaced with Care/Love.
+ * @fileOverview Circle of Love (Trusted Bonds) Page.
+ * Languages: EN (3 words), DE (4 words).
+ * Affirmation Rhythm: 3/4 words.
  */
 
 const RELATIONSHIP_OPTIONS = [
@@ -40,9 +40,51 @@ const RELATIONSHIP_OPTIONS = [
   "Sister",
   "Brother",
   "Parent",
-  "Therapist",
   "Trusted Friend",
 ];
+
+const CONTENT = {
+  en: {
+    back: "BACK",
+    title: "Circle of Love",
+    header: "Who holds you?",
+    sub: "Add people who love you unconditionally We alert them if resonance is needed",
+    guardians: "Your Trusted Bonds",
+    slots: (count: number) => `${count}/5 Bonds`,
+    empty: "Your circle is open",
+    add: "Add someone who loves you",
+    newTitle: "New Trusted Bond",
+    save: "Save Bond",
+    codeTitle: "The Resonance Code",
+    codeSub: "Sacred Dispatch Word",
+    codeDesc: "If you text this word to your bonds they know to hold space for you immediately",
+    codePlaceholder: "e.g. PINEAPPLE",
+    seal: "Seal Code 🔒",
+    activeCode: (code: string) => `Active Code: ${code}`,
+    footer: "Bonds are private and encrypted",
+    created: "Created in harmony"
+  },
+  de: {
+    back: "ZURÜCK",
+    title: "Circle of Love",
+    header: "Wer hält dich heute?",
+    sub: "Füge Menschen hinzu die dich lieben Wir informieren sie bei Bedarf heute",
+    guardians: "Deine vertrauten Bindungen",
+    slots: (count: number) => `${count}/5 Bindungen`,
+    empty: "Dein Circle ist offen",
+    add: "Jemanden der dich liebt",
+    newTitle: "Neue vertraute Bindung",
+    save: "Bindung jetzt speichern",
+    codeTitle: "Das Resonanz-Wort",
+    codeSub: "Heiliges Dispatch Wort heute",
+    codeDesc: "Wenn du dieses Wort schreibst wissen deine Bindungen dass du Halt brauchst",
+    codePlaceholder: "z.B. ANANAS",
+    seal: "Wort jetzt versiegeln 🔒",
+    activeCode: (code: string) => `Aktives Wort: ${code}`,
+    footer: "Bindungen sind privat geschützt",
+    created: "In Harmonie erschaffen hier"
+  }
+};
 
 export default function SafetyNetworkPage() {
   const router = useRouter();
@@ -50,8 +92,8 @@ export default function SafetyNetworkPage() {
   const { user } = useUser();
   const [showAddForm, setShowAddForm] = useState(false);
   const [secretWordInput, setSecretWordInput] = useState("");
+  const [lang, setLang] = useState<'en' | 'de'>('en');
   
-  // Form State
   const [form, setForm] = useState({
     name: "", 
     relationship: "", 
@@ -61,7 +103,13 @@ export default function SafetyNetworkPage() {
     notifyByEmail: true 
   });
 
-  // Fetch Safety Network (Guardians)
+  useEffect(() => {
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    if (['en', 'de'].includes(savedLang)) setLang(savedLang);
+  }, []);
+
+  const t = CONTENT[lang] || CONTENT.en;
+
   const contactsQuery = useMemoFirebase(() => {
     if (!firestore || !user?.uid) return null;
     return collection(firestore, 'users', user.uid, 'safetyNetwork');
@@ -69,7 +117,6 @@ export default function SafetyNetworkPage() {
 
   const { data: contacts, isLoading: isContactsLoading } = useCollection(contactsQuery);
 
-  // Fetch User Profile (for Secret Word)
   const userDocRef = useMemoFirebase(() => {
     if (!firestore || !user?.uid) return null;
     return doc(firestore, 'users', user.uid);
@@ -100,87 +147,72 @@ export default function SafetyNetworkPage() {
 
   const handleSaveSecretWord = () => {
     if (!userDocRef || !secretWordInput.trim()) return;
-    
-    updateDocumentNonBlocking(userDocRef, {
-      secretWord: secretWordInput.trim()
-    });
-    
-    // Clear local input to show it was "sealed"
+    updateDocumentNonBlocking(userDocRef, { secretWord: secretWordInput.trim() });
     setSecretWordInput("");
   };
 
   const guardiansCount = contacts?.length || 0;
 
   return (
-    <main className="min-h-screen bg-black text-white font-headline pb-32">
-      {/* Header */}
+    <main className="min-h-screen bg-black text-white font-headline pb-32 pt-safe">
       <nav className="bg-black/90 backdrop-blur-2xl border-b border-white/5 px-6 py-8 sticky top-0 z-[100]">
         <div className="max-md mx-auto flex items-center justify-between">
-          <button 
-            onClick={() => router.push("/dashboard")} 
-            className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-[#3EB489] transition-all"
-          >
+          <button onClick={() => router.push("/dashboard")} className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-primary transition-all">
             <ArrowLeft className="w-5 h-5 text-white/40" />
           </button>
-          <div className="flex items-center gap-2 px-4 py-1.5 bg-[#3EB489]/10 border border-[#3EB489]/30 rounded-full">
-            <Shield className="w-3.5 h-3.5 text-[#3EB489]" />
-            <span className="text-[10px] font-black uppercase text-[#3EB489] tracking-widest">Circle of Love</span>
+          <div className="flex items-center gap-2 px-4 py-1.5 bg-primary/10 border border-primary/30 rounded-full">
+            <HeartHandshake className="w-3.5 h-3.5 text-primary" />
+            <span className="text-[10px] font-black uppercase text-primary tracking-widest">{t.title}</span>
           </div>
         </div>
       </nav>
 
       <div className="px-6 py-10 max-md mx-auto space-y-10">
-        
-        {/* Intro Affirmation Card */}
-        <section className="bg-gradient-to-br from-[#3EB489] to-teal-600 rounded-[2.5rem] p-8 text-black shadow-lg relative overflow-hidden group">
-          <Heart className="absolute -right-6 -bottom-6 opacity-10 rotate-12 transition-transform group-hover:scale-110" size={160} fill="white" />
+        <section className="bg-gradient-to-br from-[#1b4d3e] to-[#0a0a0a] rounded-[2.5rem] p-10 text-white shadow-2xl relative overflow-hidden group border border-primary/20">
+          <Heart className="absolute -right-6 -bottom-6 opacity-10 rotate-12 transition-transform group-hover:scale-110" size={160} fill="currentColor" />
           <div className="relative z-10">
-            <div className="flex items-center gap-2 mb-2">
-              <ShieldCheck size={18} className="text-black/40" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40">Care Network</span>
+            <div className="flex items-center gap-3 mb-4">
+              <Sparkles size={18} className="text-primary animate-pulse" />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Sacred Holding</span>
             </div>
-            <h2 className="text-3xl font-black uppercase tracking-tighter leading-none mb-4">Who holds you?</h2>
-            <p className="text-sm font-bold leading-relaxed opacity-80 max-w-[280px]">
-              Add the people who love you unconditionally. If you ever feel in need of connection, we will alert them instantly with your resonance status
+            <h2 className="text-4xl font-black uppercase tracking-tighter leading-none mb-6">{t.header}</h2>
+            <p className="text-sm font-bold leading-relaxed text-white/60 max-w-[300px]">
+              {t.sub}
             </p>
           </div>
         </section>
 
-        {/* Guardians List */}
         <section className="space-y-6">
           <div className="flex items-center justify-between px-2">
-            <h3 className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em]">Your Guardians</h3>
-            <span className="text-[9px] font-black text-[#3EB489] bg-[#3EB489]/10 px-3 py-1 rounded-full border border-[#3EB489]/20 uppercase">
-              {guardiansCount}/5 Slots
+            <h3 className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em]">{t.guardians}</h3>
+            <span className="text-[9px] font-black text-primary bg-primary/10 px-3 py-1 rounded-full border border-primary/20 uppercase">
+              {t.slots(guardiansCount)}
             </span>
           </div>
 
           <div className="grid gap-4">
             {isContactsLoading ? (
-              <div className="py-20 flex justify-center"><Loader2 className="w-8 h-8 animate-spin text-[#3EB489]" /></div>
+              <div className="py-20 flex justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
             ) : contacts?.length ? (
               contacts.map((contact) => (
-                <div key={contact.id} className="bg-white/5 border border-white/10 rounded-[2rem] p-6 flex items-center justify-between group hover:border-[#3EB489]/30 transition-all">
+                <div key={contact.id} className="bg-white/5 border border-white/10 rounded-[2.5rem] p-6 flex items-center justify-between group hover:border-primary/30 transition-all">
                   <div className="flex items-center gap-5">
-                    <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:border-[#3EB489]/20 transition-colors">
-                      <User className="w-6 h-6 text-white/40" />
+                    <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20">
+                      <User className="w-6 h-6 text-primary" />
                     </div>
                     <div>
                       <h3 className="text-lg font-black uppercase tracking-tight text-white">{contact.name}</h3>
-                      <p className="text-[10px] font-bold text-[#3EB489] uppercase tracking-widest">{contact.relationship} • {contact.phone}</p>
+                      <p className="text-[10px] font-bold text-primary uppercase tracking-widest">{contact.relationship} • {contact.phone}</p>
                     </div>
                   </div>
-                  <button 
-                    onClick={() => handleRemoveContact(contact.id)} 
-                    className="p-3 bg-red-600/10 rounded-xl border border-red-500/20 hover:bg-red-600 text-red-500 hover:text-white transition-all"
-                  >
+                  <button onClick={() => handleRemoveContact(contact.id)} className="p-3 bg-red-600/10 rounded-xl border border-red-500/20 hover:bg-red-600 text-red-500 hover:text-white transition-all">
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               ))
             ) : (
               <div className="py-20 text-center border-2 border-dashed border-white/5 rounded-[3rem] opacity-40">
-                <p className="text-[10px] font-black uppercase tracking-[0.4em]">Empty circle</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.4em]">{t.empty}</p>
               </div>
             )}
           </div>
@@ -188,129 +220,70 @@ export default function SafetyNetworkPage() {
           {guardiansCount < 5 && !showAddForm && (
             <button 
               onClick={() => setShowAddForm(true)} 
-              className="w-full bg-white/5 border-2 border-dashed border-white/10 rounded-[2rem] py-10 flex flex-col items-center gap-4 hover:bg-[#3EB489]/5 hover:border-[#3EB489]/30 transition-all group"
+              className="w-full bg-white/5 border-2 border-dashed border-white/10 rounded-[2.5rem] py-12 flex flex-col items-center gap-4 hover:bg-primary/5 hover:border-primary/30 transition-all group"
             >
-              <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center border border-white/10 group-hover:border-[#3EB489]/30 transition-all">
-                <UserPlus className="w-6 h-6 text-white/20 group-hover:text-[#3EB489]" />
+              <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center border border-white/10 group-hover:border-primary transition-all">
+                <UserPlus className="w-6 h-6 text-white/20 group-hover:text-primary" />
               </div>
-              <span className="text-[10px] font-black uppercase text-white/20 group-hover:text-[#3EB489] tracking-[0.3em]">Add someone who loves you</span>
+              <span className="text-[10px] font-black uppercase text-white/20 group-hover:text-primary tracking-[0.3em]">{t.add}</span>
             </button>
           )}
 
-          {/* Add Guardian Form */}
           {showAddForm && (
-            <form onSubmit={handleAddContact} className="bg-[#0a0a0a] border-2 border-[#3EB489]/30 rounded-[2.5rem] p-8 space-y-6 animate-in slide-in-from-bottom-4 duration-300">
+            <form onSubmit={handleAddContact} className="bg-[#0a0a0a] border-2 border-primary/30 rounded-[3rem] p-10 space-y-8 animate-in slide-in-from-bottom-4 duration-300">
               <div className="flex items-center gap-3 mb-2">
-                <UserPlus size={20} className="text-[#3EB489]" />
-                <h2 className="text-xl font-black uppercase tracking-tight">New Guardian</h2>
+                <UserPlus size={24} className="text-primary" />
+                <h2 className="text-2xl font-black uppercase tracking-tight">{t.newTitle}</h2>
               </div>
-              
-              <div className="space-y-4">
-                <div className="space-y-1.5">
+              <div className="space-y-6">
+                <div className="space-y-2">
                   <label className="text-[9px] font-black uppercase text-white/30 tracking-widest ml-1">Full Name</label>
-                  <input 
-                    value={form.name} 
-                    onChange={(e) => setForm({...form, name: e.target.value})} 
-                    placeholder="Enter name" 
-                    className="w-full bg-white/5 border border-white/10 h-14 px-6 rounded-2xl focus:border-[#3EB489] outline-none text-white font-bold"
-                    required
-                  />
+                  <input value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} placeholder="Enter name" className="w-full bg-white/5 border-2 border-white/10 h-16 px-6 rounded-2xl focus:border-primary outline-none text-white font-bold" required />
                 </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
                     <label className="text-[9px] font-black uppercase text-white/30 tracking-widest ml-1">Relationship</label>
-                    <select 
-                      value={form.relationship} 
-                      onChange={(e) => setForm({...form, relationship: e.target.value})} 
-                      className="w-full bg-white/5 border border-white/10 h-14 px-6 rounded-2xl focus:border-[#3EB489] outline-none text-white font-bold appearance-none"
-                      required
-                    >
+                    <select value={form.relationship} onChange={(e) => setForm({...form, relationship: e.target.value})} className="w-full bg-white/5 border-2 border-white/10 h-16 px-6 rounded-2xl focus:border-primary outline-none text-white font-bold appearance-none" required>
                       <option value="" className="bg-black">Select role</option>
                       {RELATIONSHIP_OPTIONS.map(opt => <option key={opt} value={opt} className="bg-black">{opt}</option>)}
                     </select>
                   </div>
-                  <div className="space-y-1.5">
+                  <div className="space-y-2">
                     <label className="text-[9px] font-black uppercase text-white/30 tracking-widest ml-1">Phone Number</label>
-                    <input 
-                      value={form.phone} 
-                      onChange={(e) => setForm({...form, phone: e.target.value})} 
-                      placeholder="+49..." 
-                      className="w-full bg-white/5 border border-white/10 h-14 px-6 rounded-2xl focus:border-[#3EB489] outline-none text-white font-bold"
-                      required
-                    />
+                    <input value={form.phone} onChange={(e) => setForm({...form, phone: e.target.value})} placeholder="+..." className="w-full bg-white/5 border-2 border-white/10 h-16 px-6 rounded-2xl focus:border-primary outline-none text-white font-bold" required />
                   </div>
                 </div>
               </div>
-
-              <div className="grid grid-cols-2 gap-3 pt-4">
-                <button 
-                  type="button" 
-                  onClick={() => setShowAddForm(false)} 
-                  className="bg-white/5 text-white/40 font-black uppercase text-[10px] py-5 rounded-2xl border border-white/5 hover:bg-white/10 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button 
-                  type="submit" 
-                  className="bg-[#3EB489] text-black font-black uppercase text-[10px] py-5 rounded-2xl neon-glow active:scale-[0.98] transition-all"
-                >
-                  Save Guardian
-                </button>
+              <div className="grid grid-cols-2 gap-4 pt-4">
+                <button type="button" onClick={() => setShowAddForm(false)} className="h-16 bg-white/5 text-white/40 font-black uppercase text-[10px] rounded-2xl border border-white/5">Cancel</button>
+                <button type="submit" className="h-16 bg-primary text-white font-black uppercase text-[10px] rounded-2xl shadow-xl active:scale-95 transition-all">{t.save}</button>
               </div>
             </form>
           )}
         </section>
 
-        {/* Secret Word Section */}
-        <section className="bg-white/5 rounded-[2.5rem] border-2 border-amber-500/20 p-8 space-y-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 blur-3xl -z-10" />
-          
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-amber-500/10 rounded-2xl border border-amber-500/20">
-              <Lock size={24} className="text-amber-500" />
-            </div>
+        <section className="bg-white/5 rounded-[3rem] border-2 border-primary/20 p-10 space-y-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl -z-10" />
+          <div className="flex items-center gap-5">
+            <div className="p-4 bg-primary/10 rounded-2xl border border-primary/20"><Lock size={32} className="text-primary" /></div>
             <div>
-              <h3 className="text-xl font-black uppercase tracking-tight">The Secret Word</h3>
-              <p className="text-[10px] font-bold text-amber-500/60 uppercase tracking-widest">Resonance Dispatch Code</p>
+              <h3 className="text-2xl font-black uppercase tracking-tight">{t.codeTitle}</h3>
+              <p className="text-[10px] font-bold text-primary uppercase tracking-widest">{t.codeSub}</p>
             </div>
           </div>
-          
-          <p className="text-xs font-bold text-white/40 leading-relaxed uppercase tracking-widest">
-            If you text this word to your Circle, they know to come get you immediately — no questions asked
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-3">
-            <input 
-              type="text"
-              value={secretWordInput}
-              onChange={(e) => setSecretWordInput(e.target.value)}
-              placeholder={profile?.secretWord || "e.g. PINEAPPLE"}
-              className="flex-1 bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-sm font-black uppercase placeholder:text-white/10 outline-none focus:border-amber-500 transition-all"
-            />
-            <button 
-              onClick={handleSaveSecretWord}
-              className="bg-amber-500 text-black px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-amber-500/10"
-            >
-              Seal Code 🔒
-            </button>
+          <p className="text-sm font-bold text-white/40 leading-relaxed uppercase tracking-widest">{t.codeDesc}</p>
+          <div className="flex flex-col gap-4">
+            <input type="text" value={secretWordInput} onChange={(e) => setSecretWordInput(e.target.value)} placeholder={profile?.secretWord || t.codePlaceholder} className="w-full bg-white/5 border-2 border-white/10 rounded-2xl px-8 py-5 text-xl font-black uppercase outline-none focus:border-primary transition-all" />
+            <button onClick={handleSaveSecretWord} className="w-full bg-primary text-white py-6 rounded-2xl font-black text-xs uppercase tracking-widest active:scale-95 transition-all shadow-xl shadow-primary/20">{t.seal}</button>
           </div>
-
-          {profile?.secretWord && (
-            <p className="text-[9px] font-black text-[#3EB489] uppercase tracking-[0.2em] text-center animate-pulse">
-              Active Code: {profile.secretWord}
-            </p>
-          )}
+          {profile?.secretWord && <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] text-center animate-pulse">{t.activeCode(profile.secretWord)}</p>}
         </section>
 
-        {/* Trust Footer */}
-        <footer className="text-center space-y-4 pt-10 opacity-30">
-          <Heart size={24} className="mx-auto text-[#3EB489]" />
-          <p className="text-[9px] font-black text-white uppercase tracking-[0.4em] max-w-[200px] mx-auto leading-relaxed">
-            Your care network is private and encrypted
-          </p>
+        <footer className="text-center space-y-6 pt-10 opacity-40">
+          <Heart size={32} className="mx-auto text-primary" />
+          <p className="text-[10px] font-black text-white uppercase tracking-[0.5em]">{t.footer}</p>
+          <p className="text-[8px] font-black text-primary uppercase tracking-[0.6em]">{t.created}</p>
         </footer>
-
       </div>
     </main>
   );

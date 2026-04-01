@@ -6,8 +6,9 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 /**
- * @fileOverview Love Circle Component (The Radiant Unity Orb).
- * Updated: Removed CircleDot in favor of organic HeartHandshake and unified symbols.
+ * @fileOverview Circle of Love Component (The Radiant Unity Orb).
+ * Redesigned as a high-fidelity visual representation of the human network.
+ * Languages: EN (3 words), DE (4 words).
  */
 
 interface Friend {
@@ -29,6 +30,7 @@ export default function LoveCircle({
   const router = useRouter();
   const isMap = variant === "map";
   
+  // Demo data for visual resonance
   const circle: Friend[] = [
     { name: "Sarah", status: "steady", color: "#10B981", avatar: "S" }, 
     { name: "Max", status: "intense", color: "#DC2626", avatar: "M" },
@@ -43,8 +45,6 @@ export default function LoveCircle({
     }
   };
 
-  const hasDistress = circle.some(p => p.status !== 'steady');
-  
   const worstStatus = circle.reduce((acc, curr) => {
     if (curr.status === 'intense') return 'intense';
     if (curr.status === 'elevated' && acc !== 'intense') return 'elevated';
@@ -56,39 +56,23 @@ export default function LoveCircle({
   const CONTENT = {
     en: {
       title: "Love Circle",
-      sub: "Radiant Unity",
-      souls: "Active Souls",
-      distress: "Care Needed",
-      sync: "Collective Resonance",
-      enter: "Enter Circle"
+      sub: "Radiant Unity Orb",
+      souls: "Active Souls now",
+      distress: "Care Needed Now",
+      sync: "Collective Resonance Active",
+      enter: "Enter Circle Now"
     },
     de: {
       title: "Circle of Love",
-      sub: "Strahlende Einheit",
-      souls: "Verbundene Seelen",
-      distress: "Fürsorge benötigt",
-      sync: "Gemeinsame Resonanz",
-      enter: "Circle betreten"
-    },
-    pt: {
-      title: "Círculo de Amor",
-      sub: "Unidade Radiante",
-      souls: "Almas Ativas",
-      distress: "Cuidado Necessário",
-      sync: "Ressonância Coletiva",
-      enter: "Entrar no Círculo"
-    },
-    ru: {
-      title: "Круг Любви",
-      sub: "Сияющее Единство",
-      souls: "Активные Души",
-      distress: "Нужна Помощь",
-      sync: "Коллективный Резонанс",
-      enter: "Войти в Круг"
+      sub: "Strahlende Einheit heute",
+      souls: "Verbundene Seelen heute",
+      distress: "Fürsorge wird benötigt",
+      sync: "Gemeinsame Resonanz aktiv",
+      enter: "Circle betreten heute"
     }
   };
 
-  const t = CONTENT[lang] || CONTENT.en;
+  const t = CONTENT[lang as 'en'|'de'] || CONTENT.en;
 
   return (
     <div 
@@ -104,6 +88,7 @@ export default function LoveCircle({
       }}
       onClick={() => !isMap && router.push('/heart-status')}
     >
+      {/* Immersive Pulse Layer */}
       <div 
         className="absolute inset-0 opacity-30 animate-pulse-heart pointer-events-none" 
         style={{ 
@@ -132,6 +117,7 @@ export default function LoveCircle({
         </div>
       )}
 
+      {/* Interconnected Souls Path */}
       <div className={cn("flex-1 w-full flex items-center justify-center px-6 z-10 overflow-hidden", isMap ? "pt-4" : "")}>
         <div className={cn("flex flex-wrap justify-center", isMap ? "gap-3" : "gap-5 md:gap-8")}>
           {circle.map((person, i) => (
@@ -141,7 +127,6 @@ export default function LoveCircle({
                 className={cn(
                   "relative rounded-full flex items-center justify-center font-black text-black transition-all duration-700 hover:scale-110 active:scale-95 group/avatar",
                   isMap ? "w-12 h-12 text-[11px]" : "w-16 h-16 text-xs",
-                  person.status === 'intense' && "animate-alert-pulse",
                 )}
                 style={{ 
                   backgroundColor: person.status === 'intense' ? '#DC2626' : person.status === 'elevated' ? '#F59E0B' : '#10B981',
@@ -184,8 +169,9 @@ export default function LoveCircle({
         </div>
       </div>
 
+      {/* Orb Status Footer */}
       <div className={cn("z-10 shrink-0 w-full", isMap ? "pb-6 px-6" : "pb-10 px-10")}>
-        {hasDistress ? (
+        {worstStatus === 'intense' ? (
           <button 
             onClick={(e) => { e.stopPropagation(); router.push('/map?focus=max&status=intense'); }}
             className={cn(
