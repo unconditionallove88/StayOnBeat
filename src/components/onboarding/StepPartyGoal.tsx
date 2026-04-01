@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -15,15 +14,15 @@ import { cn } from '@/lib/utils';
 const POSITIVE_GOALS = [
   { id: 'dance', icon: Music, label: 'Dance all night', de: 'Die ganze Nacht tanzen' },
   { id: 'social', icon: Users, label: 'Meet new people', de: 'Neue Leute treffen heute' },
-  { id: 'forget-self', icon: CircleDot, label: 'Forget myself', de: 'Sich ganz vergessen jetzt' },
-  { id: 'intimacy', icon: Heart, label: 'Find intimacy', de: 'Intimität heute finden hier' },
-  { id: 'hydrate', icon: Shield, label: 'Stay hydrated', de: 'Immer genug Wasser trinken' },
-  { id: 'discover', icon: Target, label: 'Discover music', de: 'Neue Musik heute entdecken' },
+  { id: 'forget-self', icon: CircleDot, label: 'Forget myself now', de: 'Sich ganz vergessen jetzt' },
+  { id: 'intimacy', icon: Heart, label: 'Find intimacy today', de: 'Intimität heute finden hier' },
+  { id: 'hydrate', icon: Shield, label: 'Stay hydrated always', de: 'Immer genug Wasser trinken' },
+  { id: 'discover', icon: Target, label: 'Discover music today', de: 'Neue Musik heute entdecken' },
 ];
 
 const RESONANCE_GOALS = [
-  { id: 'radiate-presence', icon: Radio, label: 'Radiate Presence', de: 'Präsenz heute ausstrahlen hier' },
-  { id: 'deep-listening', icon: Ear, label: 'Deep Listening', de: 'Tiefes Zuhören heute üben' },
+  { id: 'radiate-presence', icon: Radio, label: 'Radiate Presence Now', de: 'Präsenz heute ausstrahlen hier' },
+  { id: 'deep-listening', icon: Ear, label: 'Practice Deep Listening', de: 'Tiefes Zuhören heute üben' },
   { id: 'shining-love', icon: Heart, label: 'Shining with Love', de: 'Mit Liebe heute strahlen' },
 ];
 
@@ -37,7 +36,7 @@ export function StepPartyGoal({ onComplete, onBack }: { onComplete: (goals: stri
   const [lang, setLang] = useState<'EN' | 'DE'>('EN');
 
   useEffect(() => {
-    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toUpperCase() as any;
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
     if (['EN', 'DE'].includes(savedLang)) setLang(savedLang);
   }, []);
 
@@ -50,7 +49,7 @@ export function StepPartyGoal({ onComplete, onBack }: { onComplete: (goals: stri
       <div className="mt-12 mb-8"><h2 className="text-[22px] font-black uppercase mb-2 text-white leading-tight tracking-tighter">{t.header}</h2><p className="text-white/40 font-black uppercase tracking-[0.2em] text-[10px] max-w-[280px] mx-auto">{t.sub}</p></div>
       <div className="flex-1 w-full overflow-y-auto max-h-[55vh] custom-scrollbar pr-2 mb-8 space-y-8">
         <div className="space-y-3"><h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary text-left px-2">{t.res}</h3><div className="grid grid-cols-1 gap-3">{RESONANCE_GOALS.map((goal) => (<button key={goal.id} onClick={() => toggleGoal(goal.id)} className={cn("p-5 rounded-[1.5rem] border-2 flex items-center gap-6 transition-all active:scale-[0.98] text-left", selected.includes(goal.id) ? 'bg-primary/10 border-primary shadow-[0_0_20px_rgba(27,77,62,0.2)]' : 'bg-[#0a0a0a] border-white/10 hover:border-white/20')}><div className={cn("p-3 rounded-xl", selected.includes(goal.id) ? 'bg-[#1b4d3e] text-white' : 'bg-white/5 text-white/40')}><goal.icon className="w-5 h-5" /></div><span className={cn("font-black text-base uppercase tracking-tight", selected.includes(goal.id) ? 'text-white' : 'text-white/60')}>{lang === 'EN' ? goal.label : goal.de}</span></button>))}</div></div>
-        <div className="space-y-3"><h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 text-left px-2">{t.pos}</h3><div className="grid grid-cols-1 gap-3">{POSITIVE_GOALS.map((goal) => (<button key={goal.id} onClick={() => toggleGoal(goal.id)} className={cn("p-5 rounded-[1.5rem] border-2 flex items-center gap-6 transition-all active:scale-[0.98] text-left", selected.includes(goal.id) ? 'bg-primary/10 border-primary shadow-[0_0_20px_rgba(27,77,62,0.2)]' : 'bg-[#0a0a0a] border-white/10 hover:border-white/30')}><div className={cn("p-3 rounded-xl", selected.includes(goal.id) ? 'bg-[#1b4d3e] text-white' : 'bg-white/5 text-white/40')}><goal.icon className="w-5 h-5" /></div><span className={cn("font-black text-base uppercase tracking-tight", selected.includes(goal.id) ? 'text-white' : 'text-white/60')}>{lang === 'EN' ? goal.label : goal.de}</span></button>))}</div></div>
+        <div className="space-y-3"><h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 text-left px-2">{t.pos}</h3><div className="grid grid-cols-1 gap-3">{POSITIVE_GOALS.map((goal) => (<button key={goal.id} onClick={() => toggleGoal(goal.id)} className={cn("p-5 rounded-[1.5rem] border-2 flex items-center gap-6 transition-all active:scale-[0.98] text-left", selected.includes(goal.id) ? 'bg-primary/10 border-primary shadow-[0_0_20px_rgba(27,77,62,0.2)]' : 'bg-[#0a0a0a] border-white/10 hover:border-white/20')}><div className={cn("p-3 rounded-xl", selected.includes(goal.id) ? 'bg-[#1b4d3e] text-white' : 'bg-white/5 text-white/40')}><goal.icon className="w-5 h-5" /></div><span className={cn("font-black text-base uppercase tracking-tight", selected.includes(goal.id) ? 'text-white' : 'text-white/60')}>{lang === 'EN' ? goal.label : goal.de}</span></button>))}</div></div>
       </div>
       <button onClick={() => onComplete(selected)} disabled={selected.length === 0} className={cn("pill-button w-full max-w-sm uppercase tracking-[0.2em] font-black text-xl h-[64px] transition-all", selected.length > 0 ? 'bg-[#1b4d3e] text-white neon-glow active:scale-95' : 'bg-white/10 text-white/10 cursor-not-allowed border-2 border-white/5 opacity-50')}>{t.confirm}</button>
     </div>

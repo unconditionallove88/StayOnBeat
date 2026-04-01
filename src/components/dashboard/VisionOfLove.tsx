@@ -26,7 +26,7 @@ const CONTENT = {
       "Brotherly bonds hold",
       "Unconditional love always",
       "Acceptance unites humanity",
-      "Pure presence now"
+      "Stay in presence"
     ],
     button: "Enter Vision",
     return: "Return to Sanctuary"

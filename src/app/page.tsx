@@ -32,14 +32,14 @@ export default function Home() {
       slogan: "Life is resonant", 
       valueProp: "Unconditional love always", 
       getStarted: "Join the Circle", 
-      signIn: "Welcome Home", 
+      signIn: "Welcome Home Soul", 
       footer: "Created in harmony" 
     },
     DE: { 
       slogan: "Das Leben ist resonant", 
       valueProp: "Bedingungslose Liebe immerzu hier", 
       getStarted: "Werde Teil des Kreises", 
-      signIn: "Willkommen Zuhause", 
+      signIn: "Willkommen Zuhause heute hier", 
       footer: "In Harmonie erschaffen hier" 
     }
   };

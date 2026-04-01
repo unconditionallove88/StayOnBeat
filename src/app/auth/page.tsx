@@ -17,19 +17,19 @@ import { cn } from "@/lib/utils";
 
 const CONTENT = {
   en: {
-    welcome: "Welcome Home", create: "Create Sanctuary", prototype: "Prototype Mode Active",
+    welcome: "Welcome Home Soul", create: "Create Sanctuary Soul", prototype: "Prototype Mode Active",
     emailLabel: "Email Address", emailPlaceholder: "soul@stayonbeat.com",
     passwordLabel: "Password", passwordPlaceholder: "••••••••",
-    entering: "Entering...", begin: "Begin Journey", enter: "Enter Sanctuary",
+    entering: "Entering...", begin: "Begin Journey Now", enter: "Enter Sanctuary Now",
     alreadyAccount: "Already have an account? Sign In", newHere: "New here? Join the circle",
     staffAccess: "Staff Access Only", errorMsg: "Sanctuary is calibrating",
     footer: "Created in harmony"
   },
   de: {
-    welcome: "Willkommen Zuhause", create: "Sanctuary erstellen", prototype: "Prototyp Modus Aktiv jetzt",
+    welcome: "Willkommen Zuhause heute hier", create: "Soll ich Sanctuary erstellen", prototype: "Prototyp Modus Aktiv jetzt",
     emailLabel: "E-Mail-Adresse", emailPlaceholder: "seele@stayonbeat.com",
     passwordLabel: "Passwort", passwordPlaceholder: "••••••••",
-    entering: "Eintritt...", begin: "Reise beginnen heute", enter: "Sanctuary betreten heute",
+    entering: "Eintritt...", begin: "Reise beginnen heute hier", enter: "Sanctuary betreten heute hier",
     alreadyAccount: "Bereits ein Konto? Anmelden", newHere: "Neu hier? Werde Teil des Kreises",
     staffAccess: "Nur für Team Zugang", errorMsg: "Das Sanctuary kalibriert gerade",
     footer: "In Harmonie erschaffen hier"

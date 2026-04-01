@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -94,8 +93,8 @@ const CONTENT = {
     connecting: "Mesh-Verbindung wird aufgebaut...",
     honoring: "Die Anfrage wird liebevoll bearbeitet",
     allIsWell: "Alles ist gut",
-    loved: "Ich werde geliebt",
-    friendLoved: (name: string) => `${name} wird geliebt`,
+    loved: "Ich werde geliebt heute",
+    friendLoved: (name: string) => `${name} wird geliebt heute`,
     takenCareOf: "und bin in Sicherheit",
     dispatched: "Mesh-Anfrage wurde versendet",
     meshShared: "Mesh-Ortung geteilt",
