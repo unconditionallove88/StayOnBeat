@@ -30,14 +30,14 @@ export default function Home() {
   const content = {
     EN: { 
       slogan: "Life is resonant", 
-      valueProp: "Unconditional love always", 
+      valueProp: "Love is everywhere", 
       getStarted: "Join the Circle", 
       signIn: "Welcome Home Soul", 
       footer: "Created in harmony" 
     },
     DE: { 
       slogan: "Das Leben ist resonant", 
-      valueProp: "Bedingungslose Liebe immerzu hier", 
+      valueProp: "Liebe ist überall hier", 
       getStarted: "Werde Teil des Kreises", 
       signIn: "Willkommen Zuhause heute hier", 
       footer: "In Harmonie erschaffen hier" 
