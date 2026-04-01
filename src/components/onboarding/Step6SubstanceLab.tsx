@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -21,13 +22,16 @@ import {
   HeartHandshake,
   ShieldCheck,
   Sparkles,
-  Wind
+  Wind,
+  Info,
+  BookOpen
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { AiSafetyChat } from '@/components/chat/AiSafetyChat';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { StepSomethingToRemember as WisdomProtocol } from '@/components/onboarding/StepSomethingToRemember';
 import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
@@ -44,7 +48,8 @@ const CONTENT = {
     addedToDiary: "added to your session diary", causionTitle: "Pulse Guardian: Caution 🧪",
     poppersHR: (hr: number) => `Your heart rate is ${hr} BPM Poppers will drop your blood pressure sharply Please sit down and breathe before use`,
     responsibility: "I love and respect myself I take full responsibility for my actions",
-    syncProceed: "Proceed with Love", noResults: "No substances found"
+    syncProceed: "Proceed with Love", noResults: "No substances found",
+    wisdom: "Mixing Wisdom"
   },
   de: {
     title: "Sitzungs-Labor", advisor: "Sicherheits-Begleiter", search: "Suchen...",
@@ -53,7 +58,8 @@ const CONTENT = {
     addedToDiary: "wurde deinem Tagebuch hinzugefügt", causionTitle: "Pulse Guardian: Vorsicht 🧪",
     poppersHR: (hr: number) => `Dein Puls liegt bei ${hr} BPM Poppers senkt den Blutdruck stark ab Bitte nimm dir einen Moment Zeit, setz dich hin und atme tief durch`,
     responsibility: "Ich liebe und achte mich selbst Ich übernehme die volle Verantwortung für mein Handeln",
-    syncProceed: "Mit Liebe fortfahren", noResults: "Keine Substanzen gefunden"
+    syncProceed: "Mit Liebe fortfahren", noResults: "Keine Substanzen gefunden",
+    wisdom: "Misch-Weisheiten"
   }
 };
 
@@ -91,6 +97,7 @@ export function Step6SubstanceLab({
   const [manualValue, setManualValue] = useState('');
   const [alcoholCart, setAlcoholCart] = useState<{type: string, count: number}[]>([]);
   const [chatOpen, setChatOpen] = useState(false);
+  const [wisdomOpen, setWisdomOpen] = useState(false);
   const [responsibilityOpen, setResponsibilityOpen] = useState(false);
   const [lang, setLang] = useState<'en' | 'de'>('en');
 
@@ -167,7 +174,18 @@ export function Step6SubstanceLab({
             <div className="w-10 h-10 rounded-xl bg-[#10B981]/10 flex items-center justify-center border border-[#10B981]/20"><Microscope size={24} className="text-white" /></div>
             <h1 className="text-xl font-black tracking-tighter uppercase leading-none text-white">{t.title}</h1>
           </div>
-          <button onClick={() => setChatOpen(true)} className="p-3 bg-blue-600/10 border border-blue-500/30 rounded-xl active:scale-95 transition-all"><Sparkles size={18} className="text-blue-400 animate-pulse" /></button>
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={() => setWisdomOpen(true)}
+              className="px-4 py-2 bg-[#1b4d3e] border border-primary/30 rounded-full flex items-center gap-2 active:scale-95 transition-all shadow-lg"
+            >
+              <BookOpen size={14} className="text-primary" />
+              <span className="text-[9px] font-black uppercase text-white tracking-widest">{t.wisdom}</span>
+            </button>
+            <button onClick={() => setChatOpen(true)} className="p-3 bg-blue-600/10 border border-blue-500/30 rounded-xl active:scale-95 transition-all">
+              <Sparkles size={18} className="text-blue-400 animate-pulse" />
+            </button>
+          </div>
         </div>
         
         <GuardianStatusBar status={guardianStatus} heartRate={lastHR > 0 ? lastHR : 75} lang={lang} />
@@ -235,6 +253,15 @@ export function Step6SubstanceLab({
         </button>
       </footer>
 
+      <Dialog open={wisdomOpen} onOpenChange={setWisdomOpen}>
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[90dvh] top-[50%] -translate-y-[50%] shadow-[0_0_100px_rgba(0,0,0,0.9)]">
+          <DialogTitle className="sr-only">Mixing Wisdom</DialogTitle>
+          <div className="flex-1 overflow-hidden">
+            <WisdomProtocol isStandAlone={true} onComplete={() => setWisdomOpen(false)} />
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <Dialog open={responsibilityOpen} onOpenChange={setResponsibilityOpen}>
         <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3.5rem] overflow-hidden flex flex-col font-headline">
           <DialogTitle className="sr-only">Responsibility Affirmation</DialogTitle>
@@ -253,51 +280,6 @@ export function Step6SubstanceLab({
           </div>
         </DialogContent>
       </Dialog>
-
-      {activeSubstance && (
-        <div className="absolute inset-0 bg-black/95 backdrop-blur-2xl z-[100] animate-in fade-in duration-300 flex flex-col font-headline">
-          <header className="shrink-0 p-8 flex justify-between items-center">
-            <div className="flex items-center gap-4">
-              <div className={cn("w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 shadow-xl", activeSubstance.color)}><activeSubstance.icon size={24} /></div>
-              <h2 className="text-xl font-black uppercase tracking-tighter text-white">{lang === 'en' ? activeSubstance.name : activeSubstance.deName}</h2>
-            </div>
-            <button onClick={() => setActiveSubstance(null)} className="p-3 bg-white/5 rounded-full border border-white/10 text-white/40 active:scale-90 transition-all"><X size={20} /></button>
-          </header>
-
-          <div className="flex-1 min-h-0 overflow-hidden">
-            <ScrollArea className="h-full px-8 touch-pan-y">
-              <div className="flex flex-col items-center space-y-10 py-10 max-md mx-auto w-full pb-40">
-                {activeSubstance.id === 'alcohol' ? (
-                  <div className="space-y-3 w-full">
-                    {alcoholCart.map((item, idx) => (
-                      <div key={idx} className="flex items-center justify-between bg-white/[0.03] p-5 rounded-2xl border border-white/5 shadow-lg">
-                        <span className="text-sm font-black uppercase tracking-widest text-white/80">{item.type}</span>
-                        <div className="flex items-center gap-6">
-                          <button onClick={() => { const next = [...alcoholCart]; next[idx].count = Math.max(0, next[idx].count - 1); setAlcoholCart(next); }} className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 transition-all active:scale-90">-</button>
-                          <span className="w-6 text-center font-black text-2xl text-white tabular-nums">{item.count}</span>
-                          <button onClick={() => { const next = [...alcoholCart]; next[idx].count += 1; setAlcoholCart(next); }} className="w-10 h-10 rounded-full bg-[#3EB489] text-black flex items-center justify-center transition-all active:scale-90 shadow-lg">+</button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="space-y-4 w-full text-center">
-                    <label className="text-[9px] font-black uppercase tracking-[0.4em] text-white/30 block">{t.amount} ({activeSubstance.unit})</label>
-                    <input 
-                      type="number" value={manualValue} onChange={(e) => setManualValue(e.target.value)} autoFocus inputMode="decimal" 
-                      className="w-full bg-transparent border-b-2 border-[#3EB489] py-2 text-6xl font-black outline-none text-white text-center shadow-none transition-all placeholder:text-white/5" placeholder="0.00" 
-                    />
-                  </div>
-                )}
-                <div className="w-full space-y-3 pt-6">
-                  <button onClick={saveLog} className="w-full h-20 bg-[#3EB489] text-black rounded-3xl font-black uppercase tracking-widest neon-glow active:scale-[0.98] shadow-xl flex items-center justify-center gap-3 text-lg">{t.confirm}</button>
-                  <button onClick={() => setActiveSubstance(null)} className="w-full h-12 text-white/20 font-black uppercase text-[9px] tracking-[0.5em] transition-colors hover:text-white">{t.cancel}</button>
-                </div>
-              </div>
-            </ScrollArea>
-          </div>
-        </div>
-      )}
 
       <Dialog open={chatOpen} onOpenChange={setChatOpen}>
         <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] top-[50%] -translate-y-[50%] shadow-[0_0_100px_rgba(0,0,0,0.9)]">
