@@ -267,7 +267,6 @@ export function Step6SubstanceLab({
         </button>
       </footer>
 
-      {/* Detail Input View */}
       {activeSubstance && (
         <div className="fixed inset-0 z-[100] bg-black/95 animate-in slide-in-from-bottom duration-500 flex flex-col pt-safe">
           <div className="px-6 py-10 flex flex-col items-center text-center space-y-8 flex-1">
@@ -324,7 +323,6 @@ export function Step6SubstanceLab({
         </DialogContent>
       </Dialog>
 
-      {/* Mandatory Responsibility Modal */}
       <Dialog open={responsibilityOpen} onOpenChange={setResponsibilityOpen}>
         <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3.5rem] overflow-hidden flex flex-col font-headline">
           <DialogTitle className="sr-only">Sovereign Responsibility</DialogTitle>

@@ -8,7 +8,7 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview "Vision of Love" (Presence & Grounding) Tool.
  * Visuals: Pure Emerald Field (#1b4d3e).
- * Specific Sequence: Welcome to Harmony. You are loved. Let's get back on beat together.
+ * Wording: Welcome to Harmony. You are loved. Let's get back on beat together.
  * iPhone optimized: Single-screen immersive text resonance.
  */
 
@@ -19,19 +19,19 @@ interface VisionOfLoveProps {
 const CONTENT = {
   en: {
     title: "Vision of Love",
-    sub: "Return to presence",
+    sub: "Welcome to Harmony. You are loved. Let's get back on beat together.",
     intro: "I respect myself",
     affirmations: [
       "Welcome to Harmony",
       "You are loved",
-      "Let's get back on beat together"
+      "Back on beat together"
     ],
     button: "Enter Vision",
     return: "Return to Sanctuary"
   },
   de: {
     title: "Vision der Liebe",
-    sub: "Zurück in die Gegenwart",
+    sub: "Willkommen in Harmonie heute. Du wirst geliebt heute. Gemeinsam im Takt heute.",
     intro: "Ich respektiere mich selbst",
     affirmations: [
       "Willkommen in Harmonie heute",
@@ -72,11 +72,9 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
   if (mode === 'beauty') {
     return (
       <div className="fixed inset-0 bg-[#1b4d3e] z-[1000] flex flex-col font-headline animate-in fade-in duration-1000 overflow-hidden pt-safe pb-safe">
-        {/* Subtle Radiating Glow Layer */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-black/20 pointer-events-none" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.05)_0%,_transparent_70%)] animate-pulse" />
 
-        {/* Affirmation Layer */}
         <div className="relative z-10 flex-1 flex flex-col items-center justify-center p-8 text-center">
           <div 
             className="transition-all duration-1000 transform"
@@ -91,7 +89,6 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
           </div>
         </div>
 
-        {/* Footer Navigation */}
         <footer className="relative z-10 p-12 flex flex-col items-center gap-6">
           <div className="flex gap-2">
             {t.affirmations.map((_, i) => (
@@ -120,7 +117,7 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
         <X size={20} />
       </button>
 
-      <div className="relative z-10 space-y-12 max-w-sm">
+      <div className="relative z-10 space-y-12 max-w-md">
         <div className="relative inline-block">
           <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full animate-pulse" />
           <div className="w-32 h-32 bg-primary/10 border-2 border-primary/30 rounded-full flex items-center justify-center relative z-10 shadow-2xl">
@@ -132,20 +129,15 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
           <h1 className="text-4xl font-black uppercase tracking-tighter text-white leading-none">
             {t.title}
           </h1>
-          <p className="text-primary text-sm font-bold uppercase tracking-[0.3em] italic">
-            "{t.intro}"
+          <p className="text-primary text-sm font-bold uppercase tracking-widest leading-relaxed max-w-[300px] mx-auto italic">
+            {t.sub}
           </p>
         </div>
 
-        <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 space-y-4">
-          <div className="flex items-center gap-4 text-left">
-            <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center border border-primary/30 shrink-0">
-              <Sparkles size={20} className="text-primary" />
-            </div>
-            <p className="text-xs font-bold text-white/60 uppercase tracking-widest leading-relaxed">
-              {t.sub}
-            </p>
-          </div>
+        <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8">
+          <p className="text-[10px] font-black text-white/40 uppercase tracking-[0.4em]">
+            "{t.intro}"
+          </p>
         </div>
 
         <button 
