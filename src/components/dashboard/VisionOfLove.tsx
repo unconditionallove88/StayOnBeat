@@ -9,7 +9,7 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview "Vision of Love" (Presence & Grounding) Tool.
  * Visuals: Pure Emerald Field (#1b4d3e).
- * Affirmation Rhythms: 3 words (EN) / 4 words (DE).
+ * Specific Sequence: Welcome to Harmony. You are loved. Let's get back on beat together.
  * iPhone optimized: Single-screen immersive text resonance.
  */
 
@@ -23,11 +23,9 @@ const CONTENT = {
     sub: "Return to presence",
     intro: "I respect myself",
     affirmations: [
-      "I love myself",
-      "I accept myself",
-      "Worthy of love",
-      "I am love",
-      "I forgive myself"
+      "Welcome to Harmony",
+      "You are loved",
+      "Let's get back on beat together"
     ],
     button: "Enter Vision",
     return: "Return to Sanctuary"
@@ -37,11 +35,9 @@ const CONTENT = {
     sub: "Zurück in die Gegenwart",
     intro: "Ich respektiere mich selbst",
     affirmations: [
-      "Ich liebe mich selbst",
-      "Ich akzeptiere mich selbst",
-      "Ich verdiene Liebe heute",
-      "Ich bin pure Liebe",
-      "Ich vergebe mir selbst"
+      "Willkommen in Harmonie heute",
+      "Du wirst geliebt heute",
+      "Wieder im Takt heute"
     ],
     button: "Vision öffnen",
     return: "Zum Sanctuary zurückkehren"
@@ -64,7 +60,7 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
       const interval = setInterval(() => {
         setIsFading(true);
         setTimeout(() => {
-          setCurrentSlide((prev) => (prev + 1) % 5);
+          setCurrentSlide((prev) => (prev + 1) % CONTENT.en.affirmations.length);
           setIsFading(false);
         }, 1000);
       }, 6000);
@@ -99,7 +95,7 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
         {/* Footer Navigation */}
         <footer className="relative z-10 p-12 flex flex-col items-center gap-6">
           <div className="flex gap-2">
-            {[0, 1, 2, 3, 4].map((i) => (
+            {t.affirmations.map((_, i) => (
               <div key={i} className={cn("w-1.5 h-1.5 rounded-full transition-all duration-500", i === currentSlide ? "bg-white w-6" : "bg-white/20")} />
             ))}
           </div>
