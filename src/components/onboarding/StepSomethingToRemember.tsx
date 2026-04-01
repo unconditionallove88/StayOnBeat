@@ -38,7 +38,7 @@ const UI = {
     header: "Etwas zum Erinnern heute",
     sub: "Weisheit für deine Reise",
     wisdom: "Misch-Weisheiten Tabelle",
-    acknowledge: "Ich übernehme die volle Verantwortung",
+    acknowledge: "Ich übernehme volle Verantwortung",
     confirm: "Weisheit jetzt setzen hier",
     created: "In Harmonie erschaffen hier"
   }
@@ -49,7 +49,7 @@ export function StepSomethingToRemember({ onComplete, onBack, isStandAlone = fal
   const [acknowledged, setAcknowledge] = useState(false);
 
   useEffect(() => {
-    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toUpperCase() as any;
     if (['EN', 'DE'].includes(savedLang)) setLang(savedLang);
   }, []);
 
@@ -78,7 +78,7 @@ export function StepSomethingToRemember({ onComplete, onBack, isStandAlone = fal
             </div>
             <div className="bg-[#0a0a0a] border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl">
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse min-w-[300px]">
+                <table className="w-full text-left border-collapse min-w-[500px]">
                   <thead className="bg-white/5 border-b border-white/10">
                     <tr>
                       <th className="p-4 text-[8px] font-black uppercase tracking-widest text-white/30">Combination</th>

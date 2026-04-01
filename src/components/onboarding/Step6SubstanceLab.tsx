@@ -47,7 +47,7 @@ const CONTENT = {
     confirm: "Confirm & Log Intake", cancel: "Cancel Entry", amount: "Amount", doseLogged: "Dose logged",
     addedToDiary: "added to your session diary", causionTitle: "Pulse Guardian: Caution 🧪",
     poppersHR: (hr: number) => `Your heart rate is ${hr} BPM Poppers will drop your blood pressure sharply Please sit down and breathe before use`,
-    responsibility: "I love and respect myself I take full responsibility for my actions",
+    responsibility: "I respect myself I take full responsibility for my actions",
     syncProceed: "Proceed with Love", noResults: "No substances found",
     wisdom: "Mixing Wisdom"
   },
@@ -57,7 +57,7 @@ const CONTENT = {
     confirm: "Bestätigen & Notieren", cancel: "Abbrechen", amount: "Menge", doseLogged: "Dosis notiert",
     addedToDiary: "wurde deinem Tagebuch hinzugefügt", causionTitle: "Pulse Guardian: Vorsicht 🧪",
     poppersHR: (hr: number) => `Dein Puls liegt bei ${hr} BPM Poppers senkt den Blutdruck stark ab Bitte nimm dir einen Moment Zeit, setz dich hin und atme tief durch`,
-    responsibility: "Ich liebe und achte mich selbst Ich übernehme die volle Verantwortung für mein Handeln",
+    responsibility: "Ich respektiere mich selbst Ich übernehme volle Verantwortung",
     syncProceed: "Mit Liebe fortfahren", noResults: "Keine Substanzen gefunden",
     wisdom: "Misch-Weisheiten"
   }
