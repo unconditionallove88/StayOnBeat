@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -86,11 +85,11 @@ const AFFIRMATIONS = {
 
 const TOOLTIPS = {
   en: { 
-    cocreation: "Co-Creation", supporter: "Supporter", profile: "My Profile", logout: "Step away", mesh: "Offline Mode: Mesh Active", 
+    cocreation: "Co-Creation", supporter: "Supporter", profile: "My Profile", logout: "Step away", mesh: "Mesh Active", 
     intervention: "Return to presence"
   },
   de: { 
-    cocreation: "Ko-Kreation", supporter: "Unterstützer", profile: "Mein Profil", logout: "Abmelden", mesh: "Offline-Modus: Mesh aktiv",
+    cocreation: "Ko-Kreation", supporter: "Unterstützer", profile: "Mein Profil", logout: "Abmelden", mesh: "Mesh aktiv",
     intervention: "Kehre jetzt zurück hier"
   }
 };
@@ -161,7 +160,6 @@ function DashboardContent() {
   const isCaution = !isLocked && (simHeartRate > cautionThreshold || (typeof activeSubstances === 'object' && activeSubstances.length >= 3));
   const guardianStatus: 'safe' | 'caution' | 'locked' = isLocked ? 'locked' : (isCaution ? 'caution' : 'safe');
 
-  // Pulse Guardian Intervention: Shining Light for high HR
   const showShiningLight = simHeartRate > 110;
 
   const handlePortalClick = (action: () => void) => {
@@ -242,7 +240,6 @@ function DashboardContent() {
               </div>
             </Link>
 
-            {/* Pulse Guardian Intervention: The Shining Light */}
             {showShiningLight && (
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
                 <button 
@@ -260,9 +257,6 @@ function DashboardContent() {
           </div>
 
           <div className="space-y-8">
-            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 text-center">
-              Sanctuary Tools
-            </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-2xl mx-auto px-4">
               <Link 
                 href="/map" 

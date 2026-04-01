@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
- * Languages: EN, DE.
- * Affirmations: 3 words (EN) / 4 words (DE)
+ * Languages: EN (3 words), DE (4 words).
+ * Affirmation Rhythm applied globally.
  */
 
 export default function Home() {
@@ -33,14 +33,14 @@ export default function Home() {
       valueProp: "Unconditional love always", 
       getStarted: "Join the Circle", 
       signIn: "Welcome Home", 
-      footer: "Encrypted with Love" 
+      footer: "Created in harmony" 
     },
     DE: { 
       slogan: "Das Leben ist resonant", 
       valueProp: "Bedingungslose Liebe immerzu hier", 
       getStarted: "Werde Teil des Kreises", 
       signIn: "Willkommen Zuhause", 
-      footer: "Mit Liebe verschlüsselt hier" 
+      footer: "In Harmonie erschaffen hier" 
     }
   };
 

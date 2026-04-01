@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -9,8 +8,8 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview "Vision of Love" (Presence & Grounding) Tool.
  * Visuals: Pure Emerald Field (#1b4d3e).
- * Rhythmic Rules: 3 words (EN) / 4 words (DE).
- * iPhone optimized: Single-screen immersive experience.
+ * Affirmation Rhythms: 3 words (EN) / 4 words (DE).
+ * iPhone optimized: Single-screen immersive text resonance.
  */
 
 interface VisionOfLoveProps {

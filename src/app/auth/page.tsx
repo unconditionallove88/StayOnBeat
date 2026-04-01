@@ -11,26 +11,28 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview Access Sanctuary (Auth) Page.
- * Action Buttons: #1b4d3e (Wise dark green)
- * Affirmations: 3 words (EN) / 4 words (DE)
+ * Languages: EN (3 words), DE (4 words).
+ * Action Buttons: #1b4d3e (Wise dark green).
  */
 
 const CONTENT = {
   en: {
-    welcome: "Welcome Home", create: "Create Sanctuary", prototype: "Prototype Mode Active 🔒",
+    welcome: "Welcome Home", create: "Create Sanctuary", prototype: "Prototype Mode Active",
     emailLabel: "Email Address", emailPlaceholder: "soul@stayonbeat.com",
     passwordLabel: "Password", passwordPlaceholder: "••••••••",
     entering: "Entering...", begin: "Begin Journey", enter: "Enter Sanctuary",
     alreadyAccount: "Already have an account? Sign In", newHere: "New here? Join the circle",
-    staffAccess: "Staff Access Only", errorMsg: "Sanctuary is calibrating"
+    staffAccess: "Staff Access Only", errorMsg: "Sanctuary is calibrating",
+    footer: "Created in harmony"
   },
   de: {
-    welcome: "Willkommen Zuhause", create: "Sanctuary erstellen", prototype: "Prototyp-Modus Aktiv 🔒",
+    welcome: "Willkommen Zuhause", create: "Sanctuary erstellen", prototype: "Prototyp Modus Aktiv jetzt",
     emailLabel: "E-Mail-Adresse", emailPlaceholder: "seele@stayonbeat.com",
     passwordLabel: "Passwort", passwordPlaceholder: "••••••••",
-    entering: "Eintritt...", begin: "Reise beginnen", enter: "Sanctuary betreten",
+    entering: "Eintritt...", begin: "Reise beginnen heute", enter: "Sanctuary betreten heute",
     alreadyAccount: "Bereits ein Konto? Anmelden", newHere: "Neu hier? Werde Teil des Kreises",
-    staffAccess: "Nur für Team Zugang", errorMsg: "Das Sanctuary kalibriert gerade"
+    staffAccess: "Nur für Team Zugang", errorMsg: "Das Sanctuary kalibriert gerade",
+    footer: "In Harmonie erschaffen hier"
   }
 };
 
@@ -129,7 +131,7 @@ function AuthContent() {
           <button type="submit" disabled={isLoading} className={cn("w-full h-20 bg-[#1b4d3e] text-white rounded-2xl font-black text-lg uppercase tracking-[0.1em] shadow-lg shadow-primary/10 transition-all active:scale-[0.98] flex items-center justify-center gap-3 mt-4", isLoading && "opacity-50 cursor-not-allowed")}>{isLoading ? <><Loader2 size={24} className="animate-spin" /><span>{t.entering}</span></> : <span className="flex items-center gap-3">{isSignUp ? t.begin : t.enter}</span>}</button>
         </form>
         <button onClick={() => router.push(isSignUp ? "/auth?mode=signin" : "/auth?mode=signup")} className="w-full mt-10 text-[9px] font-black text-white/20 hover:text-primary transition-colors uppercase tracking-[0.4em] flex items-center justify-center gap-2">{isSignUp ? t.alreadyAccount : t.newHere}</button>
-        <div className="mt-12 pt-8 border-t border-white/5"><p className="text-center text-[8px] text-white/10 uppercase tracking-[0.5em] font-black">{t.staffAccess}</p></div>
+        <div className="mt-12 pt-8 border-t border-white/5"><p className="text-center text-[8px] text-white/10 uppercase tracking-[0.5em] font-black">{t.footer}</p></div>
       </div>
     </main>
   );

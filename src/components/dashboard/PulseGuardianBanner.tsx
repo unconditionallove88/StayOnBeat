@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -24,7 +23,7 @@ import {
  * @fileOverview PulseGuardianBanner Component.
  * Linguistic purification: Removed "security" and "protection" terminology.
  * Punctuation-free affirmations for resonance.
- * Updated: Processed locally -> Created in harmony.
+ * Updated: Created in harmony (EN - 3 words) / In Harmonie erschaffen hier (DE - 4 words).
  */
 
 interface PulseGuardianBannerProps {
@@ -57,7 +56,7 @@ const CONTENT = {
       { title: "Sofort-Hilfe Verbindung", desc: "Aktiviert Fürsorgeprotokolle und das Schutzfenster, falls Schwellenwerte überschritten werden" },
     ],
     footer: "In Harmonie erschaffen hier",
-    tapInfo: "Integrierte Intelligenz Engine hier"
+    tapInfo: "Integrierte Intelligenz Engine"
   }
 };
 
