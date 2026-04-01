@@ -35,7 +35,7 @@ import { CoCreation } from '@/components/dashboard/CoCreation';
 import { WearablesSync } from '@/components/dashboard/WearablesSync';
 import { LoveLetter } from '@/components/dashboard/LoveLetter';
 import { AssistantPortal as SupporterPortal } from '@/components/chat/AssistantPortal';
-import { LosingControl } from '@/components/dashboard/LosingControl';
+import { VisionOfLove } from '@/components/dashboard/VisionOfLove';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUser, useFirestore, useDoc, useMemoFirebase, useAuth } from '@/firebase';
 import { doc } from 'firebase/firestore';
@@ -114,7 +114,7 @@ function DashboardContent() {
   const [coCreationOpen, setCoCreationOpen] = useState(false);
   const [syncOpen, setSyncOpen] = useState(false);
   const [loveLetterOpen, setLoveLetterOpen] = useState(false);
-  const [losingControlOpen, setLosingControlOpen] = useState(false);
+  const [visionOfLoveOpen, setVisionOfLoveOpen] = useState(false);
   const [showSOS, setShowSOS] = useState(false);
 
   useEffect(() => {
@@ -246,7 +246,7 @@ function DashboardContent() {
             {showShiningLight && (
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
                 <button 
-                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); handlePortalClick(() => setLosingControlOpen(true)); }}
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); handlePortalClick(() => setVisionOfLoveOpen(true)); }}
                   className="w-20 h-20 bg-[#10B981] rounded-full flex items-center justify-center border-4 border-white shadow-[0_0_50px_rgba(16,185,129,0.8)] animate-pulse group relative"
                 >
                   <div className="absolute inset-0 bg-[#10B981] rounded-full animate-ping opacity-40" />
@@ -331,14 +331,14 @@ function DashboardContent() {
               </button>
 
               <button 
-                onClick={() => handlePortalClick(() => setLosingControlOpen(true))}
+                onClick={() => handlePortalClick(() => setVisionOfLoveOpen(true))}
                 className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-primary/30 hover:bg-primary/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
                 <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform">
                   <Eye size={32} className="text-primary" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm font-black uppercase tracking-tight text-white leading-none">{lang === 'de' ? 'Kontrolle verlieren' : 'Losing Control'}</p>
+                  <p className="text-sm font-black uppercase tracking-tight text-white leading-none">{lang === 'de' ? 'Vision der Liebe' : 'Vision of Love'}</p>
                   <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest leading-none">Presence</p>
                 </div>
               </button>
@@ -413,7 +413,7 @@ function DashboardContent() {
         </div>
       </ScrollArea>
 
-      {showSOS && <SOSAlert onClose={() => setShowSOS(false)} onLosingControl={() => { setShowSOS(false); setLosingControlOpen(true); }} />}
+      {showSOS && <SOSAlert onClose={() => setShowSOS(false)} onVisionOfLove={() => { setShowSOS(false); setVisionOfLoveOpen(true); }} />}
       
       <Dialog open={labOpen} onOpenChange={setLabOpen}>
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[2rem] overflow-hidden flex flex-col h-[95dvh] max-h-[95dvh] sm:h-[90dvh] top-[50%] -translate-y-[50%]">
@@ -473,7 +473,7 @@ function DashboardContent() {
         </DialogContent>
       </Dialog>
 
-      {losingControlOpen && <LosingControl onClose={() => setLosingControlOpen(false)} />}
+      {visionOfLoveOpen && <VisionOfLove onClose={() => setVisionOfLoveOpen(false)} />}
     </main>
   );
 }

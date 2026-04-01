@@ -2,34 +2,34 @@
 {
   "placeholderImages": [
     {
-      "id": "color-blue",
-      "description": "Deep blue vision of stability",
-      "imageUrl": "https://picsum.photos/seed/deepblue/800/1200",
-      "imageHint": "deep blue"
+      "id": "sea-mother",
+      "description": "Blue sea sunny day motherly",
+      "imageUrl": "https://picsum.photos/seed/sunnysea1/800/1200",
+      "imageHint": "blue sea sunny"
     },
     {
-      "id": "color-green",
-      "description": "Emerald green vision of growth",
-      "imageUrl": "https://picsum.photos/seed/emeraldgreen/800/1200",
-      "imageHint": "emerald green"
+      "id": "sea-brother",
+      "description": "Blue sea sunny day brotherly",
+      "imageUrl": "https://picsum.photos/seed/sunnysea2/800/1200",
+      "imageHint": "blue sea sunny"
     },
     {
-      "id": "color-lightblue",
-      "description": "Light blue vision of love",
-      "imageUrl": "https://picsum.photos/seed/skyblue/800/1200",
-      "imageHint": "light blue"
+      "id": "sea-unconditional",
+      "description": "Blue sea sunny day love",
+      "imageUrl": "https://picsum.photos/seed/sunnysea3/800/1200",
+      "imageHint": "blue sea sunny"
     },
     {
-      "id": "color-purple",
-      "description": "Purple vision of humanity",
-      "imageUrl": "https://picsum.photos/seed/lavenderpurple/800/1200",
-      "imageHint": "purple vision"
+      "id": "sea-humanity",
+      "description": "Blue sea sunny day humanity",
+      "imageUrl": "https://picsum.photos/seed/sunnysea4/800/1200",
+      "imageHint": "blue sea sunny"
     },
     {
-      "id": "color-white",
-      "description": "White vision of presence",
-      "imageUrl": "https://picsum.photos/seed/purewhite/800/1200",
-      "imageHint": "pure white"
+      "id": "sea-presence",
+      "description": "Blue sea sunny day presence",
+      "imageUrl": "https://picsum.photos/seed/sunnysea5/800/1200",
+      "imageHint": "blue sea sunny"
     }
   ]
 }

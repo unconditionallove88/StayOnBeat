@@ -27,7 +27,7 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview Immediate Help (SOS) Portal.
  * Categorized support pathways with full EN, DE support.
- * Enhanced with "Losing Control" pathway for grounding.
+ * Enhanced with "Vision of Love" pathway for grounding.
  * Punctuation-free for resonance.
  */
 
@@ -52,9 +52,9 @@ const CONTENT = {
     },
     stillness: {
       title: "Presence Reset",
-      sub: "Losing Control Tool",
+      sub: "Vision of Love Tool",
       desc: "I love and respect my need for grounding Shift focus to the beauty of life right now",
-      button: "Start Losing Control Tool"
+      button: "Start Vision of Love Tool"
     },
     connecting: "Negotiating Mesh Handshake...",
     honoring: "Honoring the request for care",
@@ -87,9 +87,9 @@ const CONTENT = {
     },
     stillness: {
       title: "Präsenz Reset",
-      sub: "Kontrolle Verlieren Tool",
+      sub: "Vision der Liebe Tool",
       desc: "Ich achte auf mein Bedürfnis nach Erdung Lenke den Fokus auf die Schönheit jetzt",
-      button: "Kontrolle Verlieren starten"
+      button: "Vision der Liebe starten"
     },
     connecting: "Mesh-Verbindung wird aufgebaut...",
     honoring: "Die Anfrage wird liebevoll bearbeitet",
@@ -106,12 +106,12 @@ const CONTENT = {
 
 interface SOSAlertProps {
   onClose: () => void;
-  onLosingControl?: () => void;
+  onVisionOfLove?: () => void;
   friendName?: string;
   friendStatus?: string;
 }
 
-export function SOSAlert({ onClose, onLosingControl, friendName, friendStatus }: SOSAlertProps) {
+export function SOSAlert({ onClose, onVisionOfLove, friendName, friendStatus }: SOSAlertProps) {
   const auth = useAuth();
   const firestore = useFirestore();
   const router = useRouter();
@@ -140,7 +140,7 @@ export function SOSAlert({ onClose, onLosingControl, friendName, friendStatus }:
     playHeartbeat();
     
     if (priority === 'grounding') {
-      if (onLosingControl) onLosingControl();
+      if (onVisionOfLove) onVisionOfLove();
       else router.push('/self-care');
       return;
     }
