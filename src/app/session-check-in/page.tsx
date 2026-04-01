@@ -1,14 +1,17 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { StepPartyGoal } from '@/components/onboarding/StepPartyGoal';
+import { StepSomethingToRemember } from '@/components/onboarding/StepSomethingToRemember';
 import { Step7GearCheck } from '@/components/onboarding/Step7GearCheck';
 import type { OnboardingData } from '@/app/onboarding/page';
 
 /**
  * @fileOverview Mandatory session check-in flow for returning users.
  * Refined to skip mood check and focus on intention and gear.
+ * Includes new 'Something to Remember' wisdom protocol.
  */
 export default function SessionCheckIn() {
   const router = useRouter();
@@ -66,6 +69,16 @@ export default function SessionCheckIn() {
         )}
 
         {step === 2 && (
+          <StepSomethingToRemember
+            onBack={prevStep}
+            onComplete={(boundaries) => {
+              updateProfile({ sanctuaryBoundaries: boundaries });
+              nextStep();
+            }}
+          />
+        )}
+
+        {step === 3 && (
           <Step7GearCheck 
             onBack={prevStep}
             onComplete={() => {

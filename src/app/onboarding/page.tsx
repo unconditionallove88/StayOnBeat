@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from 'react';
@@ -8,6 +9,7 @@ import { Step3HealthConditions } from '@/components/onboarding/Step3HealthCondit
 import { Step4Medications } from '@/components/onboarding/Step4Medications';
 import { Step6StripeVerify } from '@/components/onboarding/Step6StripeVerify';
 import { StepPartyGoal } from '@/components/onboarding/StepPartyGoal';
+import { StepSomethingToRemember } from '@/components/onboarding/StepSomethingToRemember';
 import { Step9Summary } from '@/components/onboarding/Step8Summary';
 import { safeStringify } from '@/lib/safe-storage';
 import { useAuth, useFirestore, signOutAfterRegistration } from '@/firebase';
@@ -35,6 +37,7 @@ export type OnboardingData = {
   goals: string[];
   legalAgreements?: LegalAgreements;
   verification?: { stripeCustomerId: string; last4: string; method: string; isAgeVerified: boolean };
+  sanctuaryBoundaries?: any;
 };
 
 export default function Onboarding() {
@@ -79,6 +82,7 @@ export default function Onboarding() {
           goals: data.goals || [],
           healthConditions: data.healthConditions || [],
           medications: data.medications || [],
+          sanctuaryBoundaries: data.sanctuaryBoundaries || null,
           biometrics: {
             weightKg: data.weight,
             heightCm: data.height,
@@ -113,16 +117,20 @@ export default function Onboarding() {
         {step === 3 && (
           <StepPartyGoal onBack={prevStep} onComplete={(goals) => { updateAndPersist({ goals }); nextStep(); }} />
         )}
-        
+
         {step === 4 && (
-          <Step3HealthConditions selected={data.healthConditions} onBack={prevStep} onComplete={(conditions) => { updateAndPersist({ healthConditions: conditions }); nextStep(); }} />
+          <StepSomethingToRemember onBack={prevStep} onComplete={(boundaries) => { updateAndPersist({ sanctuaryBoundaries: boundaries }); nextStep(); }} />
         )}
         
         {step === 5 && (
+          <Step3HealthConditions selected={data.healthConditions} onBack={prevStep} onComplete={(conditions) => { updateAndPersist({ healthConditions: conditions }); nextStep(); }} />
+        )}
+        
+        {step === 6 && (
           <Step4Medications selected={data.medications} onBack={prevStep} onComplete={(meds) => { updateAndPersist({ medications: meds }); nextStep(); }} />
         )}
 
-        {step === 6 && (
+        {step === 7 && (
           <Step6StripeVerify
             onBack={prevStep}
             onComplete={(stripeData) => {
@@ -134,12 +142,12 @@ export default function Onboarding() {
                   last4: stripeData.last4,
                 },
               });
-              setStep(7);
+              setStep(8);
             }}
           />
         )}
 
-        {step === 7 && (
+        {step === 8 && (
           <Step9Summary 
             data={data}
             onComplete={handleOnboardingComplete} 
