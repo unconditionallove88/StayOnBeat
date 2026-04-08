@@ -7,8 +7,8 @@ import { playHeartbeat } from '@/lib/resonance';
 
 /**
  * @fileOverview "Vision of Love" (Presence & Grounding) Tool.
+ * Updated: Features the specific welcome sequence under the title.
  * Visuals: Pure Emerald Field (#1b4d3e).
- * Wording: Welcome to Harmony. You are loved. Let's get back on beat together.
  * iPhone optimized: Single-screen immersive text resonance.
  */
 
@@ -149,9 +149,11 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
         </button>
       </div>
 
-      <p className="absolute bottom-12 text-[8px] font-black text-white/20 uppercase tracking-[0.5em]">
-        Created in harmony
-      </p>
+      <footer className="absolute bottom-12 text-center w-full">
+        <p className="text-[8px] font-black text-white/20 uppercase tracking-[0.5em]">
+          Created in harmony
+        </p>
+      </footer>
     </div>
   );
 }

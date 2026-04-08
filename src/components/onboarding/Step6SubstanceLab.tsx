@@ -142,7 +142,7 @@ export function Step6SubstanceLab({
     const substanceName = lang === 'en' ? localizedSub?.name : localizedSub?.deName;
     
     if (activeSubstance.id === 'alcohol') {
-      const activeItems = alcoholCart.filter(c => c.count > 0);
+      const activeItems = alcoholCart.filter(c => count > 0);
       if (activeItems.length === 0) return;
       entry = { id: 'alcohol', name: substanceName, items: activeItems, timestamp: new Date().toISOString() };
     } else {

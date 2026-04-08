@@ -7,7 +7,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
  * @fileOverview "Something to Remember" (Safety Protocol Step).
- * Features: Expanded Mixing Wisdom Table.
+ * Features: Expanded Mixing Wisdom Table with 500px min-width for scrollability.
  * Languages: EN (3 words), DE (4 words).
  */
 
@@ -69,13 +69,12 @@ export function StepSomethingToRemember({ onComplete, onBack, isStandAlone = fal
 
       <ScrollArea className="flex-1 px-6">
         <div className="space-y-8 pb-40">
-          {/* Wisdom Table */}
           <section className="space-y-4">
             <div className="flex items-center justify-between px-1">
               <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{t.wisdom}</h3>
               <Info size={12} className="text-primary/40" />
             </div>
-            <div className="bg-[#0a0a0a] border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl">
+            <div className="bg-[#0a0a0a] border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse min-w-[500px]">
                   <thead className="bg-white/5 border-b border-white/10">
@@ -105,23 +104,25 @@ export function StepSomethingToRemember({ onComplete, onBack, isStandAlone = fal
               </div>
             </div>
             
-            <button 
-              onClick={() => setAcknowledge(!acknowledged)}
-              className={cn(
-                "w-full p-6 rounded-2xl border-2 flex items-center gap-4 transition-all active:scale-[0.98] shadow-lg",
-                acknowledged ? "bg-primary/10 border-primary" : "bg-white/5 border-white/10"
-              )}
-            >
-              <div className={cn(
-                "w-6 h-6 rounded-full border flex items-center justify-center shrink-0 transition-all",
-                acknowledged ? "bg-primary border-primary shadow-[0_0_10px_rgba(27,77,62,0.5)]" : "border-white/20"
-              )}>
-                {acknowledged && <Check className="w-3.5 h-3.5 text-white" />}
-              </div>
-              <span className={cn("text-[10px] font-black uppercase tracking-widest text-left", acknowledged ? "text-primary" : "text-white/40")}>
-                {t.acknowledge}
-              </span>
-            </button>
+            {!isStandAlone && (
+              <button 
+                onClick={() => setAcknowledge(!acknowledged)}
+                className={cn(
+                  "w-full p-6 rounded-2xl border-2 flex items-center gap-4 transition-all active:scale-[0.98] shadow-lg",
+                  acknowledged ? "bg-primary/10 border-primary" : "bg-white/5 border-white/10"
+                )}
+              >
+                <div className={cn(
+                  "w-6 h-6 rounded-full border flex items-center justify-center shrink-0 transition-all",
+                  acknowledged ? "bg-primary border-primary shadow-[0_0_10px_rgba(27,77,62,0.5)]" : "border-white/20"
+                )}>
+                  {acknowledged && <Check className="w-3.5 h-3.5 text-white" />}
+                </div>
+                <span className={cn("text-[10px] font-black uppercase tracking-widest text-left", acknowledged ? "text-primary" : "text-white/40")}>
+                  {t.acknowledge}
+                </span>
+              </button>
+            )}
           </section>
 
           <div className="pt-4 text-center opacity-20">
@@ -130,18 +131,20 @@ export function StepSomethingToRemember({ onComplete, onBack, isStandAlone = fal
         </div>
       </ScrollArea>
 
-      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black via-black to-transparent pt-12 pointer-events-none pb-safe">
-        <button 
-          onClick={() => onComplete({ acknowledged })} 
-          disabled={!acknowledged}
-          className={cn(
-            "pointer-events-auto w-full max-w-sm mx-auto h-20 rounded-full uppercase tracking-[0.2em] font-black text-lg transition-all shadow-2xl flex items-center justify-center gap-3",
-            acknowledged ? 'bg-[#1b4d3e] text-white neon-glow active:scale-95' : 'bg-white/10 text-white/10 border-2 border-white/5 cursor-not-allowed opacity-50'
-          )}
-        >
-          {t.confirm}
-        </button>
-      </div>
+      {!isStandAlone && (
+        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black via-black to-transparent pt-12 pointer-events-none pb-safe">
+          <button 
+            onClick={() => onComplete({ acknowledged })} 
+            disabled={!acknowledged}
+            className={cn(
+              "pointer-events-auto w-full max-w-sm mx-auto h-20 rounded-full uppercase tracking-[0.2em] font-black text-lg transition-all shadow-2xl flex items-center justify-center gap-3",
+              acknowledged ? 'bg-[#1b4d3e] text-white neon-glow active:scale-95' : 'bg-white/10 text-white/10 border-2 border-white/5 cursor-not-allowed opacity-50'
+            )}
+          >
+            {t.confirm}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
