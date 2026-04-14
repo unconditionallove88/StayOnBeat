@@ -7,12 +7,12 @@ import { useAuth, useFirestore } from "@/firebase";
 import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { signInAnonymously } from "firebase/auth";
 import { doc, serverTimestamp } from "firebase/firestore";
-import { Eye, EyeOff, Loader2, ChevronLeft, Heart } from "lucide-react";
+import { Eye, EyeOff, Loader2, ChevronLeft, Heart, ShieldAlert } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview Access Sanctuary (Auth) Page.
- * Restored Awareness login logic.
+ * Restored Awareness login logic with explicit Staff button.
  */
 
 const CONTENT = {
@@ -22,7 +22,7 @@ const CONTENT = {
     passwordLabel: "Password", passwordPlaceholder: "••••••••",
     entering: "Entering...", begin: "Begin Journey Now", enter: "Enter Sanctuary Now",
     alreadyAccount: "Already have an account? Sign In", newHere: "New here? Join the circle",
-    staffAccess: "Staff Access Only", errorMsg: "Sanctuary is calibrating",
+    staffAccess: "Awareness Staff Access", errorMsg: "Sanctuary is calibrating",
     footer: "Created in harmony"
   },
   de: {
@@ -31,7 +31,7 @@ const CONTENT = {
     passwordLabel: "Passwort", passwordPlaceholder: "••••••••",
     entering: "Eintritt...", begin: "Reise beginnen heute hier", enter: "Sanctuary betreten heute hier",
     alreadyAccount: "Bereits ein Konto? Anmelden", newHere: "Neu hier? Werde Teil des Kreises",
-    staffAccess: "Nur für Team Zugang", errorMsg: "Das Sanctuary kalibriert gerade",
+    staffAccess: "Awareness Team Zugang", errorMsg: "Das Sanctuary kalibriert gerade",
     footer: "In Harmonie erschaffen hier"
   }
 };
@@ -65,15 +65,17 @@ function AuthContent() {
     setIsLoading(true);
 
     try {
-      const cred = await signInAnonymously(auth);
       const userEmail = email.toLowerCase().trim();
-      const userName = userEmail.split("@")[0].toUpperCase();
-
-      // Restoration: Awareness Team Login
+      
+      // Awareness Team Login Logic
       if (userEmail === 'awareness@love.com') {
+        const cred = await signInAnonymously(auth);
         router.push("/awareness");
         return;
       }
+
+      const cred = await signInAnonymously(auth);
+      const userName = userEmail.split("@")[0].toUpperCase();
 
       setDocumentNonBlocking(
         doc(db, "users", cred.user.uid), 
@@ -98,11 +100,11 @@ function AuthContent() {
 
   return (
     <main className="min-h-screen bg-black flex flex-col items-center justify-center px-6 font-headline relative overflow-hidden pt-safe pb-safe">
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/5 blur-[120px] rounded-full" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="w-full max-w-md bg-[#0a0a0a] p-10 rounded-[3rem] border border-white/10 relative z-10 shadow-2xl shadow-primary/5">
         <button onClick={() => router.push("/")} className="absolute top-8 left-8 text-white/40 hover:text-primary transition-colors p-2"><ChevronLeft size={24} /></button>
+        
         <div className="text-center mb-10 mt-4">
           <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-primary/20 shadow-[0_0_30px_rgba(27,77,62,0.1)]">
             <Heart 
@@ -131,8 +133,22 @@ function AuthContent() {
           {error && <div className="p-4 bg-red-600/10 border border-red-600/20 rounded-2xl text-red-500 text-[10px] text-center font-black uppercase tracking-widest">{error}</div>}
           <button type="submit" disabled={isLoading} className={cn("w-full h-20 bg-[#1b4d3e] text-white rounded-2xl font-black text-lg uppercase tracking-[0.1em] shadow-lg shadow-primary/10 transition-all active:scale-[0.98] flex items-center justify-center gap-3 mt-4", isLoading && "opacity-50 cursor-not-allowed")}>{isLoading ? <><Loader2 size={24} className="animate-spin" /><span>{t.entering}</span></> : <span className="flex items-center gap-3">{isSignUp ? t.begin : t.enter}</span>}</button>
         </form>
-        <button onClick={() => router.push(isSignUp ? "/auth?mode=signin" : "/auth?mode=signup")} className="w-full mt-10 text-[9px] font-black text-white/20 hover:text-primary transition-colors uppercase tracking-[0.4em] flex items-center justify-center gap-2">{isSignUp ? t.alreadyAccount : t.newHere}</button>
-        <div className="mt-12 pt-8 border-t border-white/5"><p className="text-center text-[8px] text-white/10 uppercase tracking-[0.5em] font-black">{t.footer}</p></div>
+
+        <div className="mt-8 space-y-4">
+          <button onClick={() => router.push(isSignUp ? "/auth?mode=signin" : "/auth?mode=signup")} className="w-full text-[9px] font-black text-white/20 hover:text-primary transition-colors uppercase tracking-[0.4em] flex items-center justify-center gap-2">{isSignUp ? t.alreadyAccount : t.newHere}</button>
+          
+          <div className="pt-6 border-t border-white/5">
+            <button 
+              onClick={() => { setEmail('awareness@love.com'); setPassword('staff'); }}
+              className="w-full py-4 bg-red-600/10 border border-red-600/20 rounded-xl text-red-500 text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-red-600/20 transition-all"
+            >
+              <ShieldAlert size={14} />
+              {t.staffAccess}
+            </button>
+          </div>
+        </div>
+
+        <div className="mt-10 pt-8 border-t border-white/5"><p className="text-center text-[8px] text-white/10 uppercase tracking-[0.5em] font-black">{t.footer}</p></div>
       </div>
     </main>
   );

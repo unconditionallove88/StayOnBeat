@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from 'react';
@@ -11,6 +12,7 @@ import { StepPartyGoal } from '@/components/onboarding/StepPartyGoal';
 import { StepSomethingToRemember } from '@/components/onboarding/StepSomethingToRemember';
 import { StepSanctuaryAlarms } from '@/components/onboarding/StepSanctuaryAlarms';
 import { Step9Summary } from '@/components/onboarding/Step8Summary';
+import { SanctuaryGuide } from '@/components/dashboard/SanctuaryGuide';
 import { safeStringify } from '@/lib/safe-storage';
 import { useAuth, useFirestore, signOutAfterRegistration } from '@/firebase';
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
@@ -97,11 +99,21 @@ export default function Onboarding() {
           }
         }, { merge: true });
       }
-
-      await signOutAfterRegistration(auth);
-      router.push("/auth?welcome=true");
+      
+      // Move to interactive guide before final dashboard entry
+      setStep(10);
     } catch (error) {
       console.error("Onboarding completion error:", error);
+    }
+  };
+
+  const handleFinalRedirect = async () => {
+    const user = auth.currentUser;
+    if (user) {
+      // Logic to finalize and sign out if needed, or redirect
+      router.push("/dashboard");
+    } else {
+      router.push("/auth?welcome=true");
     }
   };
 
@@ -158,6 +170,10 @@ export default function Onboarding() {
             data={data}
             onComplete={handleOnboardingComplete} 
           />
+        )}
+
+        {step === 10 && (
+          <SanctuaryGuide forceOpen={true} onDismiss={handleFinalRedirect} />
         )}
       </div>
     </main>
