@@ -36,6 +36,7 @@ import { WearablesSync } from '@/components/dashboard/WearablesSync';
 import { LoveLetter } from '@/components/dashboard/LoveLetter';
 import { AssistantPortal as SupporterPortal } from '@/components/chat/AssistantPortal';
 import { VisionOfLove } from '@/components/dashboard/VisionOfLove';
+import { SanctuaryGuide } from '@/components/dashboard/SanctuaryGuide';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUser, useFirestore, useDoc, useMemoFirebase, useAuth } from '@/firebase';
 import { doc } from 'firebase/firestore';
@@ -238,6 +239,8 @@ function DashboardContent() {
       <ScrollArea className="flex-1">
         <div className="max-w-4xl mx-auto px-6 py-8 space-y-12 pb-40 touch-pan-y">
           
+          <SanctuaryGuide lang={lang} />
+
           <div className="space-y-3">
             <GuardianStatusBar status={guardianStatus} heartRate={simHeartRate} lang={lang} />
             <PulseGuardianBanner lang={lang} variant="banner" />

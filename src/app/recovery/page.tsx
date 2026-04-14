@@ -2,13 +2,15 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Trash2, HeartPulse, CheckCircle2, Heart, ShieldCheck, Timer, Droplets, Zap, Coffee, Moon, ExternalLink, Wind } from 'lucide-react';
+import { ArrowLeft, Trash2, HeartPulse, CheckCircle2, Heart, ShieldCheck, Timer, Droplets, Zap, Coffee, Moon, ExternalLink, Wind, Volume2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
+import { textToSpeech } from '@/ai/flows/text-to-speech';
 
 /**
  * @fileOverview Recovery Protocol Page.
+ * Languages: EN, DE, PT, RU.
  */
 
 export default function RecoveryView() {
@@ -18,12 +20,13 @@ export default function RecoveryView() {
   const [mounted, setMounted] = useState(false);
   const [sessionLogs, setSessionLogs] = useState<any[]>([]);
   const [isFinished, setIsFinished] = useState(false);
-  const [lang, setLang] = useState<'en' | 'de'>('en');
+  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de'].includes(savedLang)) setLang(savedLang);
+    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
 
     const logs = JSON.parse(localStorage.getItem('stayonbeat_logs') || '[]');
     setSessionLogs(logs);
@@ -46,50 +49,26 @@ export default function RecoveryView() {
 
   const t = {
     en: {
-      integrated: "Integrated",
-      recovery: "Recovery",
-      personalProtocol: "Personalized protocol",
-      activeProtection: "Active Protection",
-      secureWipe: "Session data wiped",
-      protocolGenerated: "Personalized protocol generated",
-      privacyFinalized: "Privacy protocols finalized",
-      dataAnalyzed: (count: number) => `Data analyzed: ${count} entries`,
-      timeline: "Integration Timeline",
-      noLogs: "No logs detected",
-      wipeWarning: "Completing this protocol will permanently wipe session logs and location history",
-      finishBtn: "Complete Session",
-      returnBtn: "Return to Sanctuary",
-      improveBtn: "Help us improve",
-      minutes: "4minutes · anonymous",
-      ritualTitle: "Breath of Love",
-      ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system"
+      integrated: "Integrated", recovery: "Recovery", personalProtocol: "Personalized protocol", activeProtection: "Active Protection", secureWipe: "Session data wiped", protocolGenerated: "Personalized protocol generated", privacyFinalized: "Privacy protocols finalized", dataAnalyzed: (count: number) => `Data analyzed: ${count} entries`, timeline: "Integration Timeline", noLogs: "No logs detected", wipeWarning: "Completing this protocol will permanently wipe session logs and location history", finishBtn: "Complete Session", returnBtn: "Return to Sanctuary", improveBtn: "Help us improve", minutes: "4minutes · anonymous", ritualTitle: "Breath of Love", ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system"
     },
     de: {
-      integrated: "Integriert",
-      recovery: "Erholung",
-      personalProtocol: "Persönlicher Protokoll",
-      activeProtection: "Aktiver Schutz",
-      secureWipe: "Sitzungsdaten gelöscht hier",
-      protocolGenerated: "Persönliches Protokoll erstellt hier",
-      privacyFinalized: "Schutzprotokolle abgeschlossen hier",
-      dataAnalyzed: (count: number) => `Daten analysiert: ${count} Einträge`,
-      timeline: "Integrations Zeitachse heute",
-      noLogs: "Keine Sitzungsdaten gefunden",
-      wipeWarning: "Der Abschluss dieses Protokolls löscht dauerhaft alle Sitzungsprotokolle und Verläufe",
-      finishBtn: "Session jetzt abschließen",
-      returnBtn: "Zurück zum Sanctuary",
-      improveBtn: "Hilf uns verbessern",
-      minutes: "4 Minuten · anonym",
-      ritualTitle: "Atem der Liebe",
-      ritualDesc: "Führe das Ritual durch um dein Nervensystem sanft zu kalibrieren"
+      integrated: "Integriert", recovery: "Erholung", personalProtocol: "Persönlicher Protokoll", activeProtection: "Aktiver Schutz", secureWipe: "Sitzungsdaten gelöscht hier", protocolGenerated: "Persönliches Protokoll erstellt hier", privacyFinalized: "Schutzprotokolle abgeschlossen hier", dataAnalyzed: (count: number) => `Daten analysiert: ${count} Einträge`, timeline: "Integrations Zeitachse heute", noLogs: "Keine Sitzungsdaten gefunden", wipeWarning: "Der Abschluss dieses Protokolls löscht dauerhaft alle Sitzungsprotokolle und Verläufe", finishBtn: "Session jetzt abschließen", returnBtn: "Zurück zum Sanctuary", improveBtn: "Hilf uns verbessern", minutes: "4 Minuten · anonym", ritualTitle: "Atem der Liebe", ritualDesc: "Führe das Ritual durch um dein Nervensystem sanft zu kalibrieren"
+    },
+    pt: {
+      integrated: "Integrado", recovery: "Recuperação", personalProtocol: "Protocolo personalizado", activeProtection: "Proteção Ativa", secureWipe: "Dados limpos agora", protocolGenerated: "Protocolo personalizado criado", privacyFinalized: "Protocolos finalizados aqui", dataAnalyzed: (count: number) => `Dados analisados: ${count} entradas`, timeline: "Linha do tempo", noLogs: "Sem registros aqui", wipeWarning: "Concluir este protocolo limpará permanentemente todos os registros", finishBtn: "Concluir Sessão Agora", returnBtn: "Voltar ao Santuário", improveBtn: "Ajude-nos a melhorar", minutes: "4 minutos · anônimo", ritualTitle: "Sopro de Amor", ritualDesc: "Realize o ritual de ressonância para recalibrar seu sistema nervoso"
+    },
+    ru: {
+      integrated: "Интегрировано", recovery: "Восстановление", personalProtocol: "Персональный протокол", activeProtection: "Активная защита", secureWipe: "Данные сессии удалены", protocolGenerated: "Протокол сформирован здесь", privacyFinalized: "Протоколы завершены здесь", dataAnalyzed: (count: number) => `Анализ: ${count} записей`, timeline: "График интеграции здесь", noLogs: "Записи не найдены", wipeWarning: "Завершение протокола навсегда удалит все данные сессии", finishBtn: "Завершить сессию сейчас", returnBtn: "Вернуться в пространство", improveBtn: "Помогите нам стать лучше", minutes: "4 минуты · анонимно", ritualTitle: "Дыхание Любви", ritualDesc: "Выполните ритуал резонанса для восстановления нервной системы"
     }
   }[lang] || {
-    en: { integrated: "Integrated", recovery: "Recovery", personalProtocol: "Personalized protocol", activeProtection: "Active Protection", secureWipe: "Session data wiped", protocolGenerated: "Personalized protocol generated", privacyFinalized: "Privacy protocols finalized", dataAnalyzed: (count: number) => `Data analyzed: ${count} entries`, timeline: "Integration Timeline", noLogs: "No logs detected", wipeWarning: "Completing this protocol will permanently wipe session logs and location history", finishBtn: "Complete Session", returnBtn: "Return to Sanctuary", improveBtn: "Help us improve", minutes: "4minutes · anonymous", ritualTitle: "Breath of Love", ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system" }
+    integrated: "Integrated", recovery: "Recovery", personalProtocol: "Personalized protocol", activeProtection: "Active Protection", secureWipe: "Session data wiped", protocolGenerated: "Personalized protocol generated", privacyFinalized: "Privacy protocols finalized", dataAnalyzed: (count: number) => `Data analyzed: ${count} entries`, timeline: "Integration Timeline", noLogs: "No logs detected", wipeWarning: "Completing this protocol will permanently wipe session logs and location history", finishBtn: "Complete Session", returnBtn: "Return to Sanctuary", improveBtn: "Help us improve", minutes: "4minutes · anonymous", ritualTitle: "Breath of Love", ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system"
   };
 
   const affirmation = {
     en: "I am love",
-    de: "Ich bin pure Liebe"
+    de: "Ich bin pure Liebe",
+    pt: "Eu sou amor",
+    ru: "Я есть любовь"
   }[lang] || "I am love";
 
   const generateDetox = (logs: any[]) => {
@@ -118,6 +97,20 @@ export default function RecoveryView() {
     setIsFinished(true);
   };
 
+  const handleVoice = async () => {
+    if (isSpeaking) return;
+    setIsSpeaking(true);
+    try {
+      const text = isFinished ? affirmation : `${t.protocolGenerated}. ${t.timeline}: ${detoxPlan.map(p => `${p.text} at ${p.time}`).join('. ')}`;
+      const { audioDataUri } = await textToSpeech({ text, lang });
+      const audio = new Audio(audioDataUri);
+      audio.onended = () => setIsSpeaking(false);
+      audio.play();
+    } catch (e) {
+      setIsSpeaking(false);
+    }
+  };
+
   if (!mounted) return null;
 
   return (
@@ -127,7 +120,12 @@ export default function RecoveryView() {
           <button onClick={() => router.back()} className="flex items-center gap-2 text-white/40 uppercase font-black text-[10px] tracking-widest hover:text-primary transition-colors"><ArrowLeft className="w-4 h-4" /> Back to sanctuary</button>
           <div className="flex justify-between items-end">
             <div>
-              <h1 className="text-4xl font-black uppercase tracking-tighter leading-none">{isFinished ? t.integrated : t.recovery}</h1>
+              <div className="flex items-center gap-3">
+                <h1 className="text-4xl font-black uppercase tracking-tighter leading-none">{isFinished ? t.integrated : t.recovery}</h1>
+                <button onClick={handleVoice} disabled={isSpeaking} className="p-2 bg-white/5 rounded-full border border-white/10 hover:border-primary transition-all disabled:opacity-30">
+                  {isSpeaking ? <Loader2 className="w-4 h-4 animate-spin text-primary" /> : <Volume2 className="w-4 h-4 text-primary" />}
+                </button>
+              </div>
               <p className="text-primary text-[10px] font-black uppercase tracking-[0.3em] mt-2">"{isFinished ? affirmation : t.personalProtocol}"</p>
             </div>
             <div className="flex flex-col items-end gap-3">

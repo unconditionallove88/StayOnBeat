@@ -1,12 +1,14 @@
+
 "use client";
 
 import React from "react";
-import { Activity, Shield } from "lucide-react";
+import { Activity, Shield, AlertCircle } from "lucide-react";
 import { playHeartbeat } from "@/lib/resonance";
 
 /**
  * @fileOverview Guardian Simulator.
  * Supports EN, DE, PT, RU.
+ * Includes "Simulate Limit Lock" for testing protective states.
  */
 
 interface Props {
@@ -18,10 +20,10 @@ interface Props {
 }
 
 const CONTENT = {
-  en: { pulse: "Simulator Pulse", intake: "Sim. Session Intake" },
-  de: { pulse: "Sim. Puls", intake: "Sim. Aufnahme" },
-  pt: { pulse: "Pulso Simulado", intake: "Sim. Consumo" },
-  ru: { pulse: "Симулятор Пульса", intake: "Sim. Потребление" }
+  en: { pulse: "Simulator Pulse", intake: "Sim. Session Intake", simLimit: "Simulate Limit Lock" },
+  de: { pulse: "Sim. Puls", intake: "Sim. Aufnahme", simLimit: "Limit-Sperre simulieren" },
+  pt: { pulse: "Pulso Simulado", intake: "Sim. Consumo", simLimit: "Simular Limite" },
+  ru: { pulse: "Симулятор Пульса", intake: "Sim. Потребление", simLimit: "Симуляция Лимита" }
 };
 
 export default function GuardianSimulator({ 
@@ -41,6 +43,12 @@ export default function GuardianSimulator({
   const handleSubChange = (count: number) => {
     playHeartbeat();
     setSubstanceCount(count);
+  };
+
+  const triggerLimitLock = () => {
+    playHeartbeat();
+    setSubstanceCount(5);
+    setHeartRate(145);
   };
 
   return (
@@ -72,6 +80,14 @@ export default function GuardianSimulator({
             ))}
           </div>
         </div>
+
+        <button 
+          onClick={triggerLimitLock}
+          className="w-full flex items-center justify-center gap-3 p-4 bg-red-600/10 border border-red-600/20 rounded-xl text-red-500 font-black uppercase text-[10px] tracking-widest hover:bg-red-600/20 transition-all"
+        >
+          <AlertCircle size={14} />
+          {t.simLimit}
+        </button>
       </div>
     </div>
   );

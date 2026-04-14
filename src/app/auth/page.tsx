@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
@@ -11,8 +12,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview Access Sanctuary (Auth) Page.
- * Languages: EN (3 words), DE (4 words).
- * Action Buttons: #1b4d3e (Wise dark green).
+ * Restored Awareness login logic.
  */
 
 const CONTENT = {
@@ -69,6 +69,7 @@ function AuthContent() {
       const userEmail = email.toLowerCase().trim();
       const userName = userEmail.split("@")[0].toUpperCase();
 
+      // Restoration: Awareness Team Login
       if (userEmail === 'awareness@love.com') {
         router.push("/awareness");
         return;

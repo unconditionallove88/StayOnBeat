@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -7,39 +8,31 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
  * @fileOverview "Something to Remember" (Safety Protocol Step).
- * Features: Expanded Mixing Wisdom Table with 500px min-width for scrollability.
+ * Features: Expanded Mixing Wisdom with responsive Card layout for Mobile.
  * Languages: EN (3 words), DE (4 words).
  */
 
 const MIXING_WISDOM = [
-  { s1: 'Alcohol', s2: 'GHB/GBL', risk: 'Critical', color: 'text-red-500', note: 'Extreme respiratory failure risk' },
-  { s1: 'MDMA', s2: 'SSRIs', risk: 'High', color: 'text-red-400', note: 'Serotonin syndrome risk' },
-  { s1: 'Alcohol', s2: 'Ketamine', risk: 'High', color: 'text-red-400', note: 'Severe nausea and choking risk' },
-  { s1: 'Cocaine', s2: 'Alcohol', risk: 'Moderate', color: 'text-amber-500', note: 'Increased cardiotoxicity' },
-  { s1: 'Speed', s2: 'MDMA', risk: 'Moderate', color: 'text-amber-500', note: 'Extreme heart strain' },
-  { s1: 'LSD', s2: 'Cannabis', risk: 'Moderate', color: 'text-amber-500', note: 'Intense thought loops' },
-  { s1: 'Benzos', s2: 'Alcohol', risk: 'Critical', color: 'text-red-500', note: 'Fatal blackouts and overdose' },
-  { s1: 'Poppers', s2: 'Viagra', risk: 'Critical', color: 'text-red-500', note: 'Fatal blood pressure drop' },
-  { s1: 'Cocaine', s2: 'MDMA', risk: 'Moderate', color: 'text-amber-500', note: 'Masks MDMA effects, extra heart strain' },
-  { s1: 'Ketamine', s2: 'GHB/GBL', risk: 'Critical', color: 'text-red-500', note: 'Severe nausea and risk of suffocation' },
+  { s1: 'Alcohol', s2: 'GHB/GBL', risk: 'Critical', color: 'text-red-500', note: 'Extreme respiratory failure risk', deNote: 'Extremes Risiko Atemstillstand' },
+  { s1: 'MDMA', s2: 'SSRIs', risk: 'High', color: 'text-red-400', note: 'Serotonin syndrome risk', deNote: 'Risiko Serotonin-Syndrom' },
+  { s1: 'Alcohol', s2: 'Ketamine', risk: 'High', color: 'text-red-400', note: 'Severe nausea and choking risk', deNote: 'Übelkeit und Erstickungsgefahr' },
+  { s1: 'Cocaine', s2: 'Alcohol', risk: 'Moderate', color: 'text-amber-500', note: 'Increased cardiotoxicity', deNote: 'Erhöhte Herztoxizität' },
+  { s1: 'Speed', s2: 'MDMA', risk: 'Moderate', color: 'text-amber-500', note: 'Extreme heart strain', deNote: 'Extreme Herzbelastung' },
+  { s1: 'LSD', s2: 'Cannabis', risk: 'Moderate', color: 'text-amber-500', note: 'Intense thought loops', deNote: 'Intensive Gedankenschleifen' },
+  { s1: 'Benzos', s2: 'Alcohol', risk: 'Critical', color: 'text-red-500', note: 'Fatal blackouts and overdose', deNote: 'Tödliche Blackouts möglich' },
+  { s1: 'Poppers', s2: 'Viagra', risk: 'Critical', color: 'text-red-500', note: 'Fatal blood pressure drop', deNote: 'Tödlicher Blutdruckabfall' },
+  { s1: 'Cocaine', s2: 'MDMA', risk: 'Moderate', color: 'text-amber-500', note: 'Masks MDMA, heart strain', deNote: 'Maskiert MDMA Wirkung' },
+  { s1: 'Ketamine', s2: 'GHB/GBL', risk: 'Critical', color: 'text-red-500', note: 'Severe respiratory risk', deNote: 'Schwere Atemnot Gefahr' },
 ];
 
 const UI = {
   EN: {
-    header: "Something to remember",
-    sub: "Wisdom for your journey",
-    wisdom: "Mixing Wisdom Table",
-    acknowledge: "I take full responsibility for my actions",
-    confirm: "Set sanctuary wisdom",
-    created: "Created in harmony"
+    header: "Something to remember", sub: "Wisdom for your journey", wisdom: "Mixing Wisdom Guide",
+    acknowledge: "I take full responsibility for my actions", confirm: "Set sanctuary wisdom", created: "Created in harmony"
   },
   DE: {
-    header: "Etwas zum Erinnern heute",
-    sub: "Weisheit für deine Reise",
-    wisdom: "Misch-Weisheiten Tabelle",
-    acknowledge: "Ich übernehme volle Verantwortung",
-    confirm: "Weisheit jetzt setzen hier",
-    created: "In Harmonie erschaffen hier"
+    header: "Etwas zum Erinnern heute", sub: "Weisheit für deine Reise", wisdom: "Misch-Weisheiten Guide",
+    acknowledge: "Ich übernehme volle Verantwortung", confirm: "Weisheit jetzt setzen hier", created: "In Harmonie erschaffen hier"
   }
 };
 
@@ -74,34 +67,21 @@ export function StepSomethingToRemember({ onComplete, onBack, isStandAlone = fal
               <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{t.wisdom}</h3>
               <Info size={12} className="text-primary/40" />
             </div>
-            <div className="bg-[#0a0a0a] border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse min-w-[500px]">
-                  <thead className="bg-white/5 border-b border-white/10">
-                    <tr>
-                      <th className="p-4 text-[8px] font-black uppercase tracking-widest text-white/30">Combination</th>
-                      <th className="p-4 text-[8px] font-black uppercase tracking-widest text-white/30 text-right">Risk Level</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/5">
-                    {MIXING_WISDOM.map((row, i) => (
-                      <tr key={i} className="group hover:bg-white/[0.02] transition-colors">
-                        <td className="p-4">
-                          <div className="flex flex-col gap-1">
-                            <span className="text-[10px] font-black text-white/90 uppercase tracking-tight">{row.s1} + {row.s2}</span>
-                            <span className="text-[8px] font-bold text-white/30 uppercase leading-none">{row.note}</span>
-                          </div>
-                        </td>
-                        <td className="p-4 text-right align-top">
-                          <span className={cn("text-[9px] font-black uppercase px-2 py-1 rounded-md bg-white/5", row.color)}>
-                            {row.risk}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+            
+            <div className="grid grid-cols-1 gap-3">
+              {MIXING_WISDOM.map((row, i) => (
+                <div key={i} className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-5 flex flex-col gap-3 transition-all hover:border-primary/30 group">
+                  <div className="flex justify-between items-start">
+                    <span className="text-xs font-black text-white/90 uppercase tracking-tight">{row.s1} + {row.s2}</span>
+                    <span className={cn("text-[8px] font-black uppercase px-2 py-1 rounded-md bg-white/5", row.color)}>
+                      {row.risk}
+                    </span>
+                  </div>
+                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest leading-tight leading-relaxed">
+                    {lang === 'DE' ? row.deNote : row.note}
+                  </p>
+                </div>
+              ))}
             </div>
             
             {!isStandAlone && (

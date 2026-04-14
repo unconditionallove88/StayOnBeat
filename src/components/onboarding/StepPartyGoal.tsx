@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -5,25 +6,24 @@ import { ArrowLeft, Target, Music, Users, Shield, Radio, Ear, Heart, CircleDot }
 import { cn } from '@/lib/utils';
 
 /**
- * @fileOverview Intention Calibration (formerly Party Goals).
- * Languages: EN, DE.
- * 3/4 Word Affirmation Rule Applied.
+ * @fileOverview Intention Calibration.
+ * Optimized with German translations.
  * Command Color Sync: #1b4d3e.
  */
 
 const POSITIVE_GOALS = [
-  { id: 'dance', icon: Music, label: 'Dance all night', de: 'Die ganze Nacht tanzen' },
-  { id: 'social', icon: Users, label: 'Meet new people', de: 'Neue Leute treffen heute' },
-  { id: 'forget-self', icon: CircleDot, label: 'Forget myself now', de: 'Sich ganz vergessen jetzt' },
-  { id: 'intimacy', icon: Heart, label: 'Find intimacy today', de: 'Intimität heute finden hier' },
-  { id: 'hydrate', icon: Shield, label: 'Stay hydrated always', de: 'Immer genug Wasser trinken' },
-  { id: 'discover', icon: Target, label: 'Discover music today', de: 'Neue Musik heute entdecken' },
+  { id: 'dance', icon: Music, label: 'Dance all night', de: 'Die Nacht tanzen' },
+  { id: 'social', icon: Users, label: 'Meet new people', de: 'Neue Leute treffen' },
+  { id: 'forget-self', icon: CircleDot, label: 'Forget myself now', de: 'Sich ganz vergessen' },
+  { id: 'intimacy', icon: Heart, label: 'Find intimacy today', de: 'Intimität heute finden' },
+  { id: 'hydrate', icon: Shield, label: 'Stay hydrated always', de: 'Immer Wasser trinken' },
+  { id: 'discover', icon: Target, label: 'Discover music today', de: 'Musik heute entdecken' },
 ];
 
 const RESONANCE_GOALS = [
-  { id: 'radiate-presence', icon: Radio, label: 'Radiate Presence Now', de: 'Präsenz heute ausstrahlen hier' },
-  { id: 'deep-listening', icon: Ear, label: 'Practice Deep Listening', de: 'Tiefes Zuhören heute üben' },
-  { id: 'shining-love', icon: Heart, label: 'Shining with Love', de: 'Mit Liebe heute strahlen' },
+  { id: 'radiate-presence', icon: Radio, label: 'Radiate Presence Now', de: 'Präsenz heute ausstrahlen' },
+  { id: 'deep-listening', icon: Ear, label: 'Practice Deep Listening', de: 'Tiefes Zuhören üben' },
+  { id: 'shining-love', icon: Heart, label: 'Shining with Love', de: 'Mit Liebe strahlen' },
 ];
 
 const UI = {
@@ -36,7 +36,7 @@ export function StepPartyGoal({ onComplete, onBack }: { onComplete: (goals: stri
   const [lang, setLang] = useState<'EN' | 'DE'>('EN');
 
   useEffect(() => {
-    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toUpperCase() as any;
     if (['EN', 'DE'].includes(savedLang)) setLang(savedLang);
   }, []);
 
