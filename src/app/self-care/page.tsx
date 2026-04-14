@@ -1,28 +1,29 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
+import { ArrowRight, HeartHandshake } from 'lucide-react';
 
 /**
  * @fileOverview Breath of Love (Pure Resonance Ritual).
- * Optimized for iPhone: Single-screen layout, no scrolling.
- * Affirmations: Sequential Sunrise letter-by-letter fade in/out.
- * Rule: 3 words (EN) / 4 words (DE).
- * Timing: 4s from appearance to dissolution per word (8s cycle).
+ * Updated: Integrated into the recovery grounding sequence.
  */
 
 const CONTENT = {
   en: {
     inhale: "Breathe In Love",
     exhale: "Breathe Out Love",
-    button: "Return to Sanctuary"
+    button: "Return to Sanctuary",
+    next: "Circle of Love (Support)"
   },
   de: {
     inhale: "Atme sanft Liebe ein",
     exhale: "Atme sanft Liebe aus",
-    button: "Zum Sanctuary zurückkehren"
+    button: "Zum Sanctuary zurückkehren",
+    next: "Circle of Love (Halt)"
   }
 };
 
@@ -71,7 +72,13 @@ export default function SelfCare() {
         </div>
       </div>
 
-      <footer className="p-12 flex flex-col items-center justify-center shrink-0 pb-16">
+      <footer className="p-12 flex flex-col items-center justify-center shrink-0 pb-16 gap-4">
+        <button 
+          onClick={() => { playHeartbeat(); router.push('/heart-status'); }}
+          className="w-full max-w-sm py-5 bg-white text-black rounded-full font-black uppercase text-[10px] tracking-[0.4em] active:scale-95 transition-all flex items-center justify-center gap-3 shadow-2xl"
+        >
+          <HeartHandshake size={18} /> {t.next} <ArrowRight size={14} />
+        </button>
         <button 
           onClick={() => { playHeartbeat(); router.push('/dashboard'); }}
           className="px-8 py-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-md transition-all active:scale-95 group hover:bg-white/10"

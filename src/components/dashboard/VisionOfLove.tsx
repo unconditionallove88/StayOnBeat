@@ -1,15 +1,15 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { X, Wind, Eye, Sparkles } from 'lucide-react';
+import { X, Wind, Eye, Sparkles, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
+import { useRouter } from 'next/navigation';
 
 /**
  * @fileOverview "Vision of Love" (Presence & Grounding) Tool.
- * Updated: Features the specific welcome sequence under the title.
- * Visuals: Pure Emerald Field (#1b4d3e).
- * iPhone optimized: Single-screen immersive text resonance.
+ * Updated: Integrated into the recovery sequence.
  */
 
 interface VisionOfLoveProps {
@@ -27,7 +27,8 @@ const CONTENT = {
       "Back on beat together"
     ],
     button: "Enter Vision",
-    return: "Return to Sanctuary"
+    return: "Return to Sanctuary",
+    next: "Next: Breath of Love"
   },
   de: {
     title: "Vision der Liebe",
@@ -39,11 +40,13 @@ const CONTENT = {
       "Wieder im Takt heute"
     ],
     button: "Vision öffnen",
-    return: "Zum Sanctuary zurückkehren"
+    return: "Zum Sanctuary zurückkehren",
+    next: "Weiter: Atem der Liebe"
   }
 };
 
 export function VisionOfLove({ onClose }: VisionOfLoveProps) {
+  const router = useRouter();
   const [mode, setMode] = useState<'intro' | 'beauty'>('intro');
   const [lang, setLang] = useState<'en' | 'de'>('en');
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -95,12 +98,20 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
               <div key={i} className={cn("w-1.5 h-1.5 rounded-full transition-all duration-500", i === currentSlide ? "bg-white w-6" : "bg-white/20")} />
             ))}
           </div>
-          <button 
-            onClick={() => { playHeartbeat(); onClose(); }}
-            className="px-8 py-3 rounded-full border border-white/20 bg-white/5 backdrop-blur-md text-white font-black uppercase text-[10px] tracking-[0.4em] active:scale-95 transition-all hover:bg-white/10"
-          >
-            {t.return}
-          </button>
+          <div className="flex flex-col gap-3 w-full max-w-sm">
+            <button 
+              onClick={() => { playHeartbeat(); router.push('/self-care'); }}
+              className="w-full py-5 bg-white text-black rounded-full font-black uppercase text-[10px] tracking-[0.4em] active:scale-95 transition-all flex items-center justify-center gap-3"
+            >
+              {t.next} <ArrowRight size={14} />
+            </button>
+            <button 
+              onClick={() => { playHeartbeat(); onClose(); }}
+              className="px-8 py-3 rounded-full border border-white/20 bg-white/5 backdrop-blur-md text-white font-black uppercase text-[10px] tracking-[0.4em] active:scale-95 transition-all"
+            >
+              {t.return}
+            </button>
+          </div>
         </footer>
       </div>
     );
