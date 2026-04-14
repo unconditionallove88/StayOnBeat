@@ -8,8 +8,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
  * @fileOverview "Something to Remember" (Safety Protocol Step).
- * Features: Expanded Mixing Wisdom with responsive Card layout for Mobile.
- * Languages: EN (3 words), DE (4 words).
+ * Fixed: Mobile width overflow resolved by wrapping substance names and allowing growth.
+ * Languages: Unified to lowercase en/de.
  */
 
 const MIXING_WISDOM = [
@@ -26,29 +26,29 @@ const MIXING_WISDOM = [
 ];
 
 const UI = {
-  EN: {
+  en: {
     header: "Something to remember", sub: "Wisdom for your journey", wisdom: "Mixing Wisdom Guide",
     acknowledge: "I take full responsibility for my actions", confirm: "Set sanctuary wisdom", created: "Created in harmony"
   },
-  DE: {
+  de: {
     header: "Etwas zum Erinnern heute", sub: "Weisheit für deine Reise", wisdom: "Misch-Weisheiten Guide",
     acknowledge: "Ich übernehme volle Verantwortung", confirm: "Weisheit jetzt setzen hier", created: "In Harmonie erschaffen hier"
   }
 };
 
 export function StepSomethingToRemember({ onComplete, onBack, isStandAlone = false }: { onComplete: (data: any) => void, onBack?: () => void, isStandAlone?: boolean }) {
-  const [lang, setLang] = useState<'EN' | 'DE'>('EN');
+  const [lang, setLang] = useState<'en' | 'de'>('en');
   const [acknowledged, setAcknowledge] = useState(false);
 
   useEffect(() => {
-    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toUpperCase() as any;
-    if (['EN', 'DE'].includes(savedLang)) setLang(savedLang);
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'en').toLowerCase() as any;
+    if (['en', 'de'].includes(savedLang)) setLang(savedLang);
   }, []);
 
-  const t = UI[lang] || UI.EN;
+  const t = UI[lang] || UI.en;
 
   return (
-    <div className="w-full h-full flex flex-col font-headline bg-black relative animate-in fade-in duration-700">
+    <div className="w-full h-full flex flex-col font-headline bg-black relative animate-in fade-in duration-700 overflow-x-hidden">
       {!isStandAlone && onBack && (
         <button onClick={onBack} className="absolute top-0 left-4 text-white/40 hover:text-white flex items-center gap-2 text-[10px] font-black uppercase tracking-widest z-[100] pt-4">
           <ArrowLeft className="w-4 h-4" /> BACK
@@ -70,15 +70,15 @@ export function StepSomethingToRemember({ onComplete, onBack, isStandAlone = fal
             
             <div className="grid grid-cols-1 gap-3">
               {MIXING_WISDOM.map((row, i) => (
-                <div key={i} className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-5 flex flex-col gap-3 transition-all hover:border-primary/30 group">
-                  <div className="flex justify-between items-start">
-                    <span className="text-xs font-black text-white/90 uppercase tracking-tight">{row.s1} + {row.s2}</span>
-                    <span className={cn("text-[8px] font-black uppercase px-2 py-1 rounded-md bg-white/5", row.color)}>
+                <div key={i} className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-5 flex flex-col gap-3 transition-all hover:border-primary/30 group w-full overflow-hidden">
+                  <div className="flex justify-between items-start gap-4">
+                    <span className="text-xs font-black text-white/90 uppercase tracking-tight flex-1 break-words">{row.s1} + {row.s2}</span>
+                    <span className={cn("text-[8px] font-black uppercase px-2 py-1 rounded-md bg-white/5 shrink-0", row.color)}>
                       {row.risk}
                     </span>
                   </div>
-                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest leading-tight leading-relaxed">
-                    {lang === 'DE' ? row.deNote : row.note}
+                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest leading-relaxed">
+                    {lang === 'de' ? row.deNote : row.note}
                   </p>
                 </div>
               ))}

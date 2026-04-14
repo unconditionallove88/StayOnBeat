@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -7,35 +8,34 @@ import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
- * Languages: EN (3 words), DE (4 words).
- * Affirmation Rhythm applied globally.
+ * Languages: en (lowercase), de (lowercase).
  */
 
 export default function Home() {
   const router = useRouter();
-  const [lang, setLang] = useState<'EN' | 'DE'>('EN');
+  const [lang, setLang] = useState<'en' | 'de'>('en');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const savedLang = typeof window !== 'undefined' ? localStorage.getItem('stayonbeat_lang') : 'EN';
-    if (['EN', 'DE'].includes(savedLang as string)) setLang(savedLang as any);
+    const savedLang = typeof window !== 'undefined' ? localStorage.getItem('stayonbeat_lang') : 'en';
+    if (['en', 'de'].includes(savedLang?.toLowerCase() as string)) setLang(savedLang?.toLowerCase() as any);
   }, []);
 
-  const handleLangChange = (newLang: 'EN' | 'DE') => {
+  const handleLangChange = (newLang: 'en' | 'de') => {
     setLang(newLang);
     localStorage.setItem('stayonbeat_lang', newLang);
   };
 
   const content = {
-    EN: { 
+    en: { 
       slogan: "Life is resonant", 
       valueProp: "Love is everywhere", 
       getStarted: "Join the Circle", 
       signIn: "Welcome Home Soul", 
       footer: "Created in harmony" 
     },
-    DE: { 
+    de: { 
       slogan: "Das Leben ist resonant", 
       valueProp: "Liebe ist überall hier", 
       getStarted: "Werde Teil des Kreises", 
@@ -51,9 +51,9 @@ export default function Home() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 blur-[150px] rounded-full pointer-events-none animate-pulse" />
 
       <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-6 py-2.5 rounded-full border border-white/10 z-50 shrink-0 shadow-2xl overflow-x-auto max-w-full no-scrollbar">
-        {['EN', 'DE'].map((l, i) => (
+        {['en', 'de'].map((l, i) => (
           <div key={l} className="flex items-center gap-4">
-            <button onClick={() => handleLangChange(l as any)} className={cn("text-[10px] font-black tracking-[0.3em] transition-all whitespace-nowrap", lang === l ? 'text-primary' : 'text-white/40')}>{l}</button>
+            <button onClick={() => handleLangChange(l as any)} className={cn("text-[10px] font-black tracking-[0.3em] transition-all uppercase whitespace-nowrap", lang === l ? 'text-primary' : 'text-white/40')}>{l}</button>
             {i < 1 && <span className="text-white/10 font-black">|</span>}
           </div>
         ))}

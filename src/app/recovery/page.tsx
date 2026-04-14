@@ -37,7 +37,8 @@ import { VisionOfLove } from '@/components/dashboard/VisionOfLove';
 
 /**
  * @fileOverview Recovery Protocol Page.
- * Features: Active Mental Integration and clinical GP pathways.
+ * Fixed: Imports verified, typos in minutes string resolved.
+ * Unified language handling.
  */
 
 const PRACTITIONERS = [
@@ -53,7 +54,7 @@ export default function RecoveryView() {
   const [mounted, setMounted] = useState(false);
   const [sessionLogs, setSessionLogs] = useState<any[]>([]);
   const [isFinished, setIsFinished] = useState(false);
-  const [lang, setLang] = useState<'en' | 'de' | 'pt' | 'ru'>('en');
+  const [lang, setLang] = useState<'en' | 'de'>('en');
   const [isSpeaking, setIsSpeaking] = useState(false);
 
   // Dialog states
@@ -63,13 +64,12 @@ export default function RecoveryView() {
 
   useEffect(() => {
     setMounted(true);
-    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
-    if (['en', 'de', 'pt', 'ru'].includes(savedLang)) setLang(savedLang);
+    const savedLang = (localStorage.getItem('stayonbeat_lang') || 'en').toLowerCase() as any;
+    if (['en', 'de'].includes(savedLang)) setLang(savedLang);
 
     const logs = JSON.parse(localStorage.getItem('stayonbeat_logs') || '[]');
     setSessionLogs(logs);
-    generateDetox();
-
+    
     const timer = setInterval(() => {
       setTimeLeft(prev => {
         const parts = prev.split(':').map(Number);
@@ -85,7 +85,7 @@ export default function RecoveryView() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [lang]);
+  }, []);
 
   const t = {
     en: {
@@ -96,7 +96,7 @@ export default function RecoveryView() {
       timeline: "Integration Timeline", noLogs: "No logs detected",
       wipeWarning: "Completing this protocol will permanently wipe session logs and location history",
       finishBtn: "Complete Session", returnBtn: "Return to Sanctuary",
-      improveBtn: "Help us improve", minutes: "4minutes · anonymous",
+      improveBtn: "Help us improve", minutes: "4 minutes · anonymous",
       ritualTitle: "Breath of Love", ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system",
       gpTitle: "GP Consultation", gpDesc: "Contact your General Practitioner for high-fidelity STD testing and post-session health checks",
       mentalTitle: "Mental Integration", mentalDesc: "Guidance for paranoia or intense side-effects Return to harmony through presence",
@@ -120,22 +120,22 @@ export default function RecoveryView() {
       mentalIntro: "Wie fühlst du dich?", mentalVision: "Vision der Liebe (Erdung)", mentalProfessional: "Mit Profis sprechen", mentalSOS: "SOS - Hilfe vom Kreis",
       gpIntro: "Wähle eine Praxis", gpUrgent: "Dringender Besuch (Notfall)", gpBook: "Termin buchen", gpPartners: "Sanctuary Partner"
     }
-  }[lang as 'en'|'de'] || {
+  }[lang] || {
     integrated: "Integrated", recovery: "Recovery", personalProtocol: "Personalized protocol",
     activeProtection: "Active Protection", secureWipe: "Session data wiped",
     protocolGenerated: "Personalized protocol generated", privacyFinalized: "Privacy protocols finalized",
-    dataAnalyzed: (count: number) => `Data analyzed: ${count} entries`,
+    dataAnalyzed: (count: number) => `Data analyzed: 0 entries`,
     timeline: "Integration Timeline", noLogs: "No logs detected",
     wipeWarning: "Completing this protocol will permanently wipe session logs and location history",
     finishBtn: "Complete Session", returnBtn: "Return to Sanctuary",
-    improveBtn: "Help us improve", minutes: "4minutes · anonymous",
+    improveBtn: "Help us improve", minutes: "4 minutes · anonymous",
     ritualTitle: "Breath of Love", ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system",
     gpTitle: "GP Consultation", gpDesc: "Contact your General Practitioner for high-fidelity STD testing and post-session health checks",
     mentalTitle: "Mental Integration", mentalDesc: "Guidance for paranoia or intense side-effects Return to harmony through presence",
     emergencyBtn: "Call Emergency Directly"
   };
 
-  const generateDetox = () => {
+  useEffect(() => {
     const plan: any[] = [
       { id: 'ritual', time: "Immediate", text: t.ritualTitle, desc: t.ritualDesc, icon: Wind, color: "text-primary", action: () => router.push('/self-care') },
       { id: 'mental', time: "Immediate", text: t.mentalTitle, desc: t.mentalDesc, icon: BrainCircuit, color: "text-purple-400", action: () => setMentalOpen(true) },
@@ -143,7 +143,7 @@ export default function RecoveryView() {
       { id: 'gp', time: "24h", text: t.gpTitle, desc: t.gpDesc, icon: Stethoscope, color: "text-blue-400", action: () => setGPOpen(true) }
     ];
     setDetoxPlan(plan);
-  };
+  }, [t, router]);
 
   const handleFinish = () => {
     playHeartbeat();

@@ -20,15 +20,17 @@ import { RadiatingThirdEye } from '@/components/ui/radiating-third-eye';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 /**
  * @fileOverview Sanctuary Guide Component.
- * Interactive full-screen presentation for all sanctuary tools.
- * Optimized for iPhone and Android.
+ * Fixed: Imports corrected, unrelated pictures replaced with relevant tool previews.
+ * Unified language handling to lowercase for consistency.
  */
 
 const STEPS = [
   {
+    id: 'radar',
     title: { en: "The Pulse Radar", de: "Der Puls-Radar" },
     desc: { 
       en: "Your mesh-based location tracker. Shared only with those you love. Pulse Guardian monitors your proximity to help stations and friends.", 
@@ -41,9 +43,10 @@ const STEPS = [
     icon: RadiatingThirdEye,
     color: "text-blue-400",
     bg: "bg-blue-500/10",
-    image: "https://picsum.photos/seed/radar/800/600"
+    imageId: "guide-radar"
   },
   {
+    id: 'lab',
     title: { en: "Pulse Lab", de: "Sitzungs-Labor" },
     desc: { 
       en: "Log your session intake responsibly. Pulse Guardian calibrates your safety thresholds in real-time based on pharmacology and volume.", 
@@ -56,9 +59,10 @@ const STEPS = [
     icon: Microscope,
     color: "text-primary",
     bg: "bg-primary/10",
-    image: "https://picsum.photos/seed/lab/800/600"
+    imageId: "guide-lab"
   },
   {
+    id: 'sync',
     title: { en: "Pulse Sync", de: "Vital-Sync" },
     desc: { 
       en: "Connect your wearable. We monitor your heart rate to ensure your rhythm stays steady against your session baseline.", 
@@ -71,9 +75,10 @@ const STEPS = [
     icon: Watch,
     color: "text-accent",
     bg: "bg-accent/10",
-    image: "https://picsum.photos/seed/sync/800/600"
+    imageId: "guide-sync"
   },
   {
+    id: 'letters',
     title: { en: "Love Letters", de: "Liebesbriefe" },
     desc: { 
       en: "A note to your future self. Written in light, stored in the sanctuary for when you need it most during your recovery.", 
@@ -86,9 +91,10 @@ const STEPS = [
     icon: PenLine,
     color: "text-purple-400",
     bg: "bg-purple-500/10",
-    image: "https://picsum.photos/seed/letters/800/600"
+    imageId: "guide-letters"
   },
   {
+    id: 'supporter',
     title: { en: "The Supporter", de: "Unterstützer" },
     desc: { 
       en: "Your sentient AI companion. Ask anything about safety, phases, or grounding. Available 24/7 within your private sanctuary.", 
@@ -101,9 +107,10 @@ const STEPS = [
     icon: Shield,
     color: "text-primary",
     bg: "bg-primary/10",
-    image: "https://picsum.photos/seed/supporter/800/600"
+    imageId: "guide-supporter"
   },
   {
+    id: 'vision',
     title: { en: "Vision of Love", de: "Vision der Liebe" },
     desc: { 
       en: "A sensory grounding tool. Return to harmony through visual and textual resonance when things feel heavy.", 
@@ -116,7 +123,7 @@ const STEPS = [
     icon: Eye,
     color: "text-[#10B981]",
     bg: "bg-[#10B981]/10",
-    image: "https://picsum.photos/seed/vision/800/600"
+    imageId: "guide-vision"
   }
 ];
 
@@ -124,6 +131,9 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
   const [isOpen, setIsOpen] = useState(forceOpen);
   const [currentStep, setCurrentStep] = useState(0);
   const [hasDismissed, setHasDismissed] = useState(false);
+
+  // Normalize lang to lowercase for safety
+  const currentLang = lang.toLowerCase() as 'en' | 'de';
 
   useEffect(() => {
     const dismissed = localStorage.getItem('stayonbeat_guide_dismissed');
@@ -141,6 +151,7 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
 
   const step = STEPS[currentStep];
   const Icon = step.icon;
+  const imageData = PlaceHolderImages.find(img => img.id === step.imageId);
 
   return (
     <div className={cn("w-full", !isOpen && "mb-8")}>
@@ -155,10 +166,10 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
             </div>
             <div className="text-left">
               <span className="block text-[10px] font-black uppercase text-primary tracking-[0.2em]">
-                {lang === 'en' ? "Sanctuary Guide" : "Sanctuary Begleiter"}
+                {currentLang === 'en' ? "Sanctuary Guide" : "Sanctuary Begleiter"}
               </span>
               <p className="text-[9px] font-bold text-white/40 uppercase tracking-widest">
-                {lang === 'en' ? "Presentation of tools" : "Vorstellung der Tools"}
+                {currentLang === 'en' ? "Presentation of tools" : "Vorstellung der Tools"}
               </p>
             </div>
           </div>
@@ -175,10 +186,10 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
               </div>
               <div>
                 <h2 className="text-xl font-black uppercase tracking-tighter text-white">
-                  {lang === 'en' ? "Sanctuary Guide" : "Sanctuary Begleiter"}
+                  {currentLang === 'en' ? "Sanctuary Guide" : "Sanctuary Begleiter"}
                 </h2>
                 <p className="text-[9px] font-black text-primary uppercase tracking-[0.3em]">
-                  {lang === 'en' ? `Tool ${currentStep + 1} of ${STEPS.length}` : `Tool ${currentStep + 1} von ${STEPS.length}`}
+                  {currentLang === 'en' ? `Tool ${currentStep + 1} of ${STEPS.length}` : `Tool ${currentStep + 1} von ${STEPS.length}`}
                 </p>
               </div>
             </div>
@@ -191,14 +202,13 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
 
           <ScrollArea className="flex-1 relative z-10 px-8">
             <div className="max-w-2xl mx-auto space-y-10 pb-40">
-              {/* Visual Presentation Card */}
               <div className="space-y-8 animate-in slide-in-from-bottom-4 duration-700">
                 <div className="relative aspect-video rounded-[2.5rem] overflow-hidden border-2 border-white/10 shadow-2xl group">
                   <img 
-                    src={step.image} 
-                    alt={step.title[lang]} 
+                    src={imageData?.imageUrl || `https://picsum.photos/seed/${step.id}/800/600`} 
+                    alt={step.title[currentLang]} 
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
-                    data-ai-hint="sanctuary presentation tool"
+                    data-ai-hint={imageData?.imageHint || "app interface"}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
                   <div className="absolute bottom-8 left-8 flex items-center gap-4">
@@ -206,17 +216,15 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
                       <Icon size={32} className={step.color} />
                     </div>
                     <h3 className="text-3xl font-black uppercase tracking-tighter text-white drop-shadow-lg">
-                      {step.title[lang]}
+                      {step.title[currentLang]}
                     </h3>
                   </div>
                 </div>
 
                 <div className="space-y-6 px-2">
-                  <div className="space-y-2">
-                    <p className="text-lg font-bold text-white leading-relaxed uppercase tracking-tight">
-                      {step.desc[lang]}
-                    </p>
-                  </div>
+                  <p className="text-lg font-bold text-white leading-relaxed uppercase tracking-tight">
+                    {step.desc[currentLang]}
+                  </p>
 
                   <div className="p-6 bg-primary/5 border border-primary/20 rounded-[2rem] space-y-3">
                     <div className="flex items-center gap-3">
@@ -226,7 +234,7 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
                       </span>
                     </div>
                     <p className="text-xs font-bold text-white/60 leading-relaxed uppercase tracking-widest">
-                      {step.connection[lang]}
+                      {step.connection[currentLang]}
                     </p>
                   </div>
                 </div>
@@ -264,7 +272,7 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
                       onClick={() => { playHeartbeat(); setCurrentStep(prev => prev + 1); }}
                       className="px-10 py-5 bg-primary text-white rounded-2xl font-black uppercase text-xs tracking-widest flex items-center gap-3 shadow-lg shadow-primary/20 active:scale-95 transition-all"
                     >
-                      Next Tool <ChevronRight size={18} />
+                      Next <ChevronRight size={18} />
                     </button>
                   ) : (
                     <button 
