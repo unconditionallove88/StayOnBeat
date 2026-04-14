@@ -37,6 +37,7 @@ import { LoveLetter } from '@/components/dashboard/LoveLetter';
 import { AssistantPortal as SupporterPortal } from '@/components/chat/AssistantPortal';
 import { VisionOfLove } from '@/components/dashboard/VisionOfLove';
 import { SanctuaryGuide } from '@/components/dashboard/SanctuaryGuide';
+import LoveCircle from '@/components/dashboard/LoveCircle';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUser, useFirestore, useDoc, useMemoFirebase, useAuth } from '@/firebase';
 import { doc } from 'firebase/firestore';
@@ -153,6 +154,10 @@ function DashboardContent() {
       setSyncOpen(true);
     }
 
+    if (searchParams.get('vision') === 'true') {
+      setVisionOfLoveOpen(true);
+    }
+
     return () => unsubscribe();
   }, [auth, router, searchParams]);
 
@@ -247,23 +252,14 @@ function DashboardContent() {
           </div>
 
           <div className="space-y-4 text-center relative">
-            <Link 
-              href="/heart-status" 
-              onClick={() => playHeartbeat()}
-              className="block transition-all active:scale-95"
-            >
-              <div className="flex flex-col items-center gap-4">
-                <HeartStatusAura 
-                  heartRate={simHeartRate} 
-                  activeSubstances={activeSubstances} 
-                  lang={lang} 
-                />
-                <p className="text-xs font-bold uppercase tracking-widest text-primary px-10 italic">"{affirmation}"</p>
-              </div>
-            </Link>
+            {/* The Mandala of Love centerpiece */}
+            <div className="py-10">
+              <LoveCircle lang={lang} />
+            </div>
+            <p className="text-xs font-bold uppercase tracking-widest text-primary px-10 italic">"{affirmation}"</p>
 
             {showShiningLight && (
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+              <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100]">
                 <button 
                   onClick={(e) => { e.preventDefault(); e.stopPropagation(); handlePortalClick(() => setVisionOfLoveOpen(true)); }}
                   className="w-20 h-20 bg-[#10B981] rounded-full flex items-center justify-center border-4 border-white shadow-[0_0_50px_rgba(16,185,129,0.8)] animate-pulse group relative"
@@ -347,21 +343,8 @@ function DashboardContent() {
               </button>
 
               <button 
-                onClick={() => handlePortalClick(() => setVisionOfLoveOpen(true))}
-                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-primary/30 hover:bg-primary/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
-              >
-                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform">
-                  <Eye size={32} className="text-primary" />
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-black uppercase tracking-tight text-white leading-none">{lang === 'de' ? 'Vision der Liebe' : 'Vision of Love'}</p>
-                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest leading-none">Presence</p>
-                </div>
-              </button>
-
-              <button 
                 onClick={() => handlePortalClick(() => setShowSOS(true))}
-                className="aspect-square rounded-full bg-red-600/10 border border-red-600/20 flex flex-col items-center justify-center gap-4 hover:bg-red-600 transition-all shadow-2xl active:scale-95 group text-center p-6 col-span-2 md:col-span-1 md:mx-auto"
+                className="aspect-square rounded-full bg-red-600/10 border border-red-600/20 flex flex-col items-center justify-center gap-4 hover:bg-red-600 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
                 <div className="w-14 h-14 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                   <Shield size={28} />
