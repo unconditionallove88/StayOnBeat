@@ -158,6 +158,10 @@ function DashboardContent() {
       setVisionOfLoveOpen(true);
     }
 
+    if (searchParams.get('sos') === 'true') {
+      setShowSOS(true);
+    }
+
     return () => unsubscribe();
   }, [auth, router, searchParams]);
 
@@ -252,7 +256,6 @@ function DashboardContent() {
           </div>
 
           <div className="space-y-4 text-center relative">
-            {/* The Mandala of Love centerpiece */}
             <div className="py-10">
               <LoveCircle lang={lang} />
             </div>
@@ -317,7 +320,7 @@ function DashboardContent() {
               </button>
 
               <button 
-                onClick={() => handlePortalClick(() => setLoveLetterOpen(true))} 
+                onClick={() => handlePortalClick(() => loveLetterOpen ? setLoveLetterOpen(false) : setLoveLetterOpen(true))} 
                 className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-purple-500/30 hover:bg-purple-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
               >
                 <div className="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center border border-purple-500/20 group-hover:scale-110 transition-transform">
