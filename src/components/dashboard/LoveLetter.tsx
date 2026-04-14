@@ -4,12 +4,14 @@
 import { useState, useEffect } from 'react';
 import { useFirestore, useUser, addDocumentNonBlocking } from '@/firebase';
 import { collection, serverTimestamp } from 'firebase/firestore';
-import { PenLine, Send, Loader2, ShieldCheck, Volume2 } from 'lucide-react';
+import { PenLine, Send, Loader2, ShieldCheck, Volume2, Mic, MicOff } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { textToSpeech } from '@/ai/flows/text-to-speech';
+import { useToast } from '@/hooks/use-toast';
 
 /**
  * @fileOverview Love Letter Component.
+ * Features: Voice dictation for emotional ease.
  */
 
 const CONTENT = {
@@ -24,7 +26,8 @@ const CONTENT = {
     successMsg: "We will keep this safe When you need a reminder of your own strength we will bring it back to you",
     return: "Return to Sanctuary",
     footer: "End-to-End Encrypted Sanctuary Note",
-    affirmation: "I respect myself"
+    affirmation: "I respect myself",
+    listening: "Listening..."
   },
   de: {
     title: "Liebesbrief",
@@ -37,16 +40,19 @@ const CONTENT = {
     successMsg: "Wir werden dies sicher aufbewahren Wenn du eine Erinnerung an deine eigene Stärke brauchst bringen wir sie dir zurück",
     return: "Zurück zum Sanctuary",
     footer: "Ende-zu-Ende verschlüsselte Sanctuary-Notiz",
-    affirmation: "Ich respektiere mich selbst"
+    affirmation: "Ich respektiere mich selbst",
+    listening: "Höre zu..."
   }
 };
 
 export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
-  const { firestore } = useFirestore();
+  const { toast } = useToast();
+  const firestore = useFirestore();
   const { user } = useUser();
   const [message, setMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const [lang, setLang] = useState<'en' | 'de'>('en');
   const [isSpeaking, setIsSpeaking] = useState(false);
 
@@ -89,6 +95,30 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
     }
   };
 
+  const startDictation = () => {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      toast({ variant: "destructive", title: "Not Supported", description: "Your browser does not support voice dictation." });
+      return;
+    }
+
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = lang === 'de' ? 'de-DE' : 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => setIsListening(false);
+    recognition.onerror = () => setIsListening(false);
+    
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setMessage(prev => (prev + ' ' + transcript).trim());
+    };
+
+    recognition.start();
+  };
+
   if (isSent) {
     return (
       <div className="p-10 text-center animate-in zoom-in duration-500 font-headline flex flex-col items-center gap-8 bg-black min-h-[400px] justify-center">
@@ -105,7 +135,7 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
               {isSpeaking ? <Loader2 className="w-4 h-4 animate-spin text-primary" /> : <Volume2 className="w-4 h-4 text-primary" />}
             </button>
           </div>
-          <p className="text-white/60 text-sm font-bold leading-tight max-w-xs mx-auto uppercase tracking-widest italic">
+          <p className="text-white/60 text-sm font-bold leading-tight max-xs mx-auto uppercase tracking-widest italic">
             "{t.affirmation}"
           </p>
         </div>
@@ -121,14 +151,25 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
 
   return (
     <div className="p-8 font-headline flex flex-col h-full bg-black min-h-[500px]">
-      <div className="flex items-center gap-4 mb-8">
-        <div className="p-4 bg-[#3EB489]/20 rounded-2xl border border-[#3EB489]/30">
-          <PenLine size={24} className="text-[#3EB489]" />
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-4">
+          <div className="p-4 bg-[#3EB489]/20 rounded-2xl border border-[#3EB489]/30">
+            <PenLine size={24} className="text-[#3EB489]" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-black uppercase tracking-tighter text-white">{t.title}</h2>
+            <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">{t.sub}</p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-2xl font-black uppercase tracking-tighter text-white">{t.title}</h2>
-          <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">{t.sub}</p>
-        </div>
+        <button 
+          onClick={startDictation}
+          className={cn(
+            "p-4 rounded-2xl transition-all",
+            isListening ? "bg-[#3EB489] text-black animate-pulse shadow-lg" : "bg-white/5 text-white/20 hover:text-[#3EB489]"
+          )}
+        >
+          {isListening ? <MicOff size={24} /> : <Mic size={24} />}
+        </button>
       </div>
 
       <p className="text-xs text-white/40 mb-6 leading-relaxed font-bold uppercase tracking-widest">
@@ -138,7 +179,7 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
       <textarea
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        placeholder={t.placeholder}
+        placeholder={isListening ? t.listening : t.placeholder}
         className="w-full flex-1 p-6 bg-white/5 border-2 border-white/10 rounded-[2rem] focus:border-[#3EB489] outline-none text-base text-white placeholder:text-white/10 resize-none transition-all mb-8 font-bold"
       />
 

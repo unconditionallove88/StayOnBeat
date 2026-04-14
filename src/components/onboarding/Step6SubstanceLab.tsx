@@ -28,7 +28,9 @@ import {
   Plus,
   Minus,
   Volume2,
-  Skull
+  Skull,
+  Mic,
+  MicOff
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -38,6 +40,11 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { StepSomethingToRemember as WisdomProtocol } from '@/components/onboarding/StepSomethingToRemember';
 import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 import { textToSpeech } from '@/ai/flows/text-to-speech';
+
+/**
+ * @fileOverview Pulse Lab Component.
+ * Features: High-fidelity intake logging with voice dictation support.
+ */
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -55,7 +62,8 @@ const CONTENT = {
     responsibility: "I take full responsibility for my actions",
     affirmBtn: "I Affirm",
     syncProceed: "Proceed with Love", noResults: "No substances found",
-    wisdom: "Mixing Wisdom"
+    wisdom: "Mixing Wisdom",
+    listening: "Listening..."
   },
   de: {
     title: "Sitzungs-Labor", advisor: "Sicherheits-Begleiter", search: "Suchen...",
@@ -66,7 +74,8 @@ const CONTENT = {
     responsibility: "Ich übernehme volle Verantwortung",
     affirmBtn: "Ich bestätige",
     syncProceed: "Mit Liebe fortfahren", noResults: "Keine Substanzen gefunden",
-    wisdom: "Misch-Weisheiten"
+    wisdom: "Misch-Weisheiten",
+    listening: "Höre zu..."
   }
 };
 
@@ -108,6 +117,7 @@ export function Step6SubstanceLab({
   const [wisdomOpen, setWisdomOpen] = useState(false);
   const [responsibilityOpen, setResponsibilityOpen] = useState(false);
   const [pendingEntry, setPendingEntry] = useState<any>(null);
+  const [isListening, setIsListening] = useState(false);
   const [lang, setLang] = useState<'en' | 'de'>('en');
   const [isSpeaking, setIsSpeaking] = useState(false);
 
@@ -139,6 +149,35 @@ export function Step6SubstanceLab({
     if (substance.id === 'alcohol') {
       setAlcoholCart(['Beer', 'Wine', 'Shot', 'Mixer'].map(type => ({ type, count: 0 })));
     }
+  };
+
+  const startDictation = (target: 'search' | 'manual') => {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      toast({ variant: "destructive", title: "Not Supported", description: "Your browser does not support voice dictation." });
+      return;
+    }
+
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = lang === 'de' ? 'de-DE' : 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => setIsListening(false);
+    recognition.onerror = () => setIsListening(false);
+    
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      if (target === 'search') {
+        setSearchTerm(transcript.trim());
+      } else {
+        const num = transcript.match(/\d+(\.\d+)?/);
+        if (num) setManualValue(num[0]);
+      }
+    };
+
+    recognition.start();
   };
 
   const handleSaveAttempt = () => {
@@ -227,9 +266,18 @@ export function Step6SubstanceLab({
         <div className="relative w-full">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/20" />
           <input 
-            type="search" placeholder={t.search} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} 
-            className="w-full bg-white/5 border border-white/10 h-12 pl-10 pr-4 rounded-2xl focus:border-[#3EB489] text-sm outline-none text-white transition-all"
+            type="search" placeholder={isListening ? t.listening : t.search} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} 
+            className="w-full bg-white/5 border border-white/10 h-12 pl-10 pr-12 rounded-2xl focus:border-[#3EB489] text-sm outline-none text-white transition-all"
           />
+          <button 
+            onClick={() => startDictation('search')}
+            className={cn(
+              "absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-lg transition-all",
+              isListening ? "text-[#3EB489] animate-pulse" : "text-white/20 hover:text-[#3EB489]"
+            )}
+          >
+            {isListening ? <MicOff size={16} /> : <Mic size={16} />}
+          </button>
         </div>
       </header>
 
@@ -303,12 +351,23 @@ export function Step6SubstanceLab({
 
             {activeSubstance.inputType === 'manual' ? (
               <div className="w-full max-w-xs space-y-6">
-                <div className="flex flex-col items-center gap-4">
+                <div className="flex flex-col items-center gap-4 relative">
                   <span className="text-[10px] font-black text-[#10B981] uppercase tracking-widest">{t.amount} ({activeSubstance.unit})</span>
-                  <input 
-                    type="number" step="0.1" value={manualValue} onChange={(e) => setManualValue(e.target.value)} 
-                    placeholder="0.0" className="w-full h-24 bg-white/5 border-2 border-white/10 rounded-[2rem] text-center text-5xl font-black text-white focus:border-[#3EB489] transition-all outline-none" 
-                  />
+                  <div className="relative w-full">
+                    <input 
+                      type="number" step="0.1" value={manualValue} onChange={(e) => setManualValue(e.target.value)} 
+                      placeholder="0.0" className="w-full h-24 bg-white/5 border-2 border-white/10 rounded-[2rem] text-center text-5xl font-black text-white focus:border-[#3EB489] transition-all outline-none" 
+                    />
+                    <button 
+                      onClick={() => startDictation('manual')}
+                      className={cn(
+                        "absolute right-6 top-1/2 -translate-y-1/2 p-3 rounded-2xl transition-all",
+                        isListening ? "bg-[#3EB489] text-black animate-pulse shadow-lg" : "bg-white/10 text-white/40 hover:text-[#3EB489]"
+                      )}
+                    >
+                      {isListening ? <MicOff size={24} /> : <Mic size={24} />}
+                    </button>
+                  </div>
                 </div>
               </div>
             ) : (

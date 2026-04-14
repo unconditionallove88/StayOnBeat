@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Heart, Loader2, Lock, Users, HeartHandshake, Sparkles, Volume2 } from 'lucide-react';
+import { Send, Heart, Loader2, Lock, Users, HeartHandshake, Sparkles, Volume2, Mic, MicOff } from 'lucide-react';
 import { useFirestore, useUser, useCollection, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection, query, orderBy, limit, serverTimestamp } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
@@ -14,6 +14,7 @@ import { textToSpeech } from '@/ai/flows/text-to-speech';
  * @fileOverview The Holders (Those who hold your heart from afar).
  * Languages: EN, DE.
  * Affirmations: 3 words (EN) / 4 words (DE)
+ * Features: Dictation option for hands-free connection.
  */
 
 const CONTENT = {
@@ -35,7 +36,8 @@ const CONTENT = {
     successTitle: "Bond Initialized",
     successMsg: (name: string) => `Your bond of care "${name}" has been created Waiting for resonance`,
     footer: "Bonds of Care",
-    encrypted: "Created in harmony"
+    encrypted: "Created in harmony",
+    listening: "Listening..."
   },
   de: {
     title: "Die Holder",
@@ -55,7 +57,8 @@ const CONTENT = {
     successTitle: "Band initialisiert",
     successMsg: (name: string) => `Dein Band der Fürsorge "${name}" wurde erstellt Warte auf Resonanz`,
     footer: "Bänder der Fürsorge heute",
-    encrypted: "In Harmonie erschaffen hier"
+    encrypted: "In Harmonie erschaffen hier",
+    listening: "Höre zu..."
   }
 };
 
@@ -70,6 +73,7 @@ export function LoveCircleChat() {
   const [inviteEmail, setInviteEmail] = useState('');
   const [lang, setLang] = useState<'en' | 'de'>('en');
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -91,6 +95,30 @@ export function LoveCircleChat() {
     } catch (e) {
       setIsSpeaking(false);
     }
+  };
+
+  const startDictation = () => {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      toast({ variant: "destructive", title: "Not Supported", description: "Your browser does not support voice dictation." });
+      return;
+    }
+
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = lang === 'de' ? 'de-DE' : 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => setIsListening(false);
+    recognition.onerror = () => setIsListening(false);
+    
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setInput(prev => (prev + ' ' + transcript).trim());
+    };
+
+    recognition.start();
   };
 
   const chatQuery = useMemoFirebase(() => {
@@ -288,13 +316,24 @@ export function LoveCircleChat() {
 
       <div className="px-6 py-10 bg-black border-t border-white/5 shrink-0">
         <div className="relative flex items-center max-w-2xl mx-auto gap-4">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-            placeholder={t.placeholder}
-            className="flex-1 bg-white/[0.02] border border-white/10 rounded-full py-6 px-10 text-base font-bold focus:border-[#10B981] transition-all outline-none text-white shadow-inner"
-          />
+          <div className="relative flex-1">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+              placeholder={isListening ? t.listening : t.placeholder}
+              className="w-full bg-white/[0.02] border border-white/10 rounded-full py-6 px-10 pr-16 text-base font-bold focus:border-[#10B981] transition-all outline-none text-white shadow-inner"
+            />
+            <button 
+              onClick={startDictation}
+              className={cn(
+                "absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full transition-all",
+                isListening ? "bg-[#10B981] text-black animate-pulse" : "text-white/20 hover:text-[#10B981]"
+              )}
+            >
+              {isListening ? <MicOff size={20} /> : <Mic size={20} />}
+            </button>
+          </div>
           <button
             onClick={handleSend}
             disabled={!input.trim()}

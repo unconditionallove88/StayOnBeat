@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, User, Loader2, Info, CircleDot, Volume2 } from 'lucide-react';
+import { Send, User, Loader2, Info, CircleDot, Volume2, Mic, MicOff } from 'lucide-react';
 import { SupporterIcon } from '@/components/ui/supporter-icon';
 import { aiSafetyChat, type ChatMessage } from '@/ai/flows/substance-safety-chat';
 import { textToSpeech } from '@/ai/flows/text-to-speech';
@@ -12,19 +12,21 @@ import { useToast } from '@/hooks/use-toast';
 
 /**
  * @fileOverview AiSafetyChat Component.
- * Features: Multi-speaker TTS integration.
+ * Features: Multi-speaker TTS integration and Voice Dictation.
  */
 
 const CONTENT = {
   en: {
     context: "Active intake context", question: "How can I help you stay aware tonight?", sub: "I'm aware of your profile and intake. Ask me anything.",
-    water: "💧 Water check", placeholder: "Ask an awareness question...", analyzing: "Analyzing resonance factors...",
-    interrupted: "Connection interrupted. Please ensure your care is managed by on-site staff if this is an emergency."
+    water: "Check-in", placeholder: "Ask an awareness question...", analyzing: "Analyzing resonance factors...",
+    interrupted: "Connection interrupted. Please ensure your care is managed by on-site staff if this is an emergency.",
+    listening: "Listening..."
   },
   de: {
     context: "Aktueller Kontext", question: "Wie kann ich dich heute begleiten?", sub: "Ich kenne dein Profil und deine Einträge. Frag mich alles.",
-    water: "💧 Wasser-Check", placeholder: "Resonanz-Frage stellen...", analyzing: "Faktoren werden sanft geprüft...",
-    interrupted: "Verbindung unterbrochen. Bitte wende dich im Notfall direkt an das Awareness-Team vor Ort."
+    water: "Check-in", placeholder: "Resonanz-Frage stellen...", analyzing: "Faktoren werden sanft geprüft...",
+    interrupted: "Verbindung unterbrochen. Bitte wende dich im Notfall direkt an das Awareness-Team vor Ort.",
+    listening: "Höre zu..."
   }
 };
 
@@ -39,6 +41,7 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState<number | null>(null);
+  const [isListening, setIsListening] = useState(false);
   const [lang, setLang] = useState<'en' | 'de'>('en');
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -90,6 +93,30 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
     } catch (e) {
       setIsSpeaking(null);
     }
+  };
+
+  const startDictation = () => {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      toast({ variant: "destructive", title: "Not Supported", description: "Your browser does not support voice dictation." });
+      return;
+    }
+
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = lang === 'de' ? 'de-DE' : 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => setIsListening(false);
+    recognition.onerror = () => setIsListening(false);
+    
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setInput(prev => (prev + ' ' + transcript).trim());
+    };
+
+    recognition.start();
   };
 
   return (
@@ -149,7 +176,18 @@ export function AiSafetyChat({ userProfile, currentIntake }: Props) {
 
       <div className="px-6 py-8 bg-black border-t border-white/5 shrink-0 pb-safe">
         <div className="relative flex items-center max-w-2xl mx-auto gap-3">
-          <input value={input} onChange={(e) => setInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSend()} placeholder={t.placeholder} className="w-full bg-white/5 border border-white/10 rounded-full py-5 pl-8 pr-12 text-base focus:border-blue-500 transition-all outline-none text-white shadow-inner" />
+          <div className="relative flex-1">
+            <input value={input} onChange={(e) => setInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSend()} placeholder={isListening ? t.listening : t.placeholder} className="w-full bg-white/5 border border-white/10 rounded-full py-5 pl-8 pr-14 text-base focus:border-blue-500 transition-all outline-none text-white shadow-inner" />
+            <button 
+              onClick={startDictation}
+              className={cn(
+                "absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full transition-all",
+                isListening ? "bg-blue-600 text-white animate-pulse" : "text-white/20 hover:text-blue-400"
+              )}
+            >
+              {isListening ? <MicOff size={20} /> : <Mic size={20} />}
+            </button>
+          </div>
           <button onClick={handleSend} disabled={!input.trim() || isLoading} className="p-4 bg-blue-600 text-white rounded-full disabled:opacity-30 transition-all hover:scale-105 active:scale-95 shadow-lg"><Send className="w-6 h-6" /></button>
         </div>
       </div>

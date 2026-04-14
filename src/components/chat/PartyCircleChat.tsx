@@ -1,7 +1,8 @@
+
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { Send, Loader2, Flag, Users2, Shield, Wind, CircleDot } from 'lucide-react';
+import { Send, Loader2, Flag, Users2, Shield, Wind, CircleDot, Mic, MicOff } from 'lucide-react';
 import { useFirestore, useUser, useCollection, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection, query, orderBy, limit, serverTimestamp } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
@@ -14,6 +15,7 @@ import { GuardianLogo } from '@/components/ui/guardian-logo';
  * @fileOverview The Spectators (Public & Moderated).
  * Languages: EN, DE.
  * Affirmations: 3 words (EN) / 4 words (DE)
+ * Features: Voice Dictation for inclusive resonance.
  */
 
 const CONTENT = {
@@ -38,7 +40,8 @@ const CONTENT = {
     violationTitle: "Pulse Guardian: Violation",
     violationDesc: "Your session in this chat has been paused",
     errorTitle: "Connection Error",
-    errorDesc: "Could not send message"
+    errorDesc: "Could not send message",
+    listening: "Listening..."
   },
   de: {
     guardianNote: "Pulse Guardian: Aktive Überwachung",
@@ -61,7 +64,8 @@ const CONTENT = {
     violationTitle: "Pulse Guardian: Verstoß",
     violationDesc: "Deine Sitzung wurde pausiert hier",
     errorTitle: "Verbindungsfehler",
-    errorDesc: "Nachricht nicht gesendet hier"
+    errorDesc: "Nachricht nicht gesendet hier",
+    listening: "Höre zu..."
   }
 };
 
@@ -77,6 +81,7 @@ export function PartyCircleChat() {
   const [isEntering, setIsEntering] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const [lang, setLang] = useState<'en' | 'de'>('en');
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -167,6 +172,30 @@ export function PartyCircleChat() {
     } finally {
       setIsSending(false);
     }
+  };
+
+  const startDictation = () => {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      toast({ variant: "destructive", title: "Not Supported", description: "Your browser does not support voice dictation." });
+      return;
+    }
+
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = lang === 'de' ? 'de-DE' : 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => setIsListening(false);
+    recognition.onerror = () => setIsListening(false);
+    
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setInput(prev => (prev + ' ' + transcript).trim());
+    };
+
+    recognition.start();
   };
 
   const handleEnterChat = () => {
@@ -283,7 +312,18 @@ export function PartyCircleChat() {
 
       <div className="px-6 py-8 bg-black border-t border-white/5 shrink-0 pb-safe">
         <div className="relative flex items-center max-w-2xl mx-auto gap-3">
-          <input value={input} onChange={(e) => setInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSend()} placeholder={t.placeholder} disabled={isSending} className="flex-1 bg-white/5 border border-white/10 rounded-full py-5 px-8 text-base focus:border-primary transition-all outline-none disabled:opacity-50 text-white" />
+          <div className="relative flex-1">
+            <input value={input} onChange={(e) => setInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSend()} placeholder={isListening ? t.listening : t.placeholder} disabled={isSending} className="w-full bg-white/5 border border-white/10 rounded-full py-5 pl-8 pr-14 text-base focus:border-primary transition-all outline-none disabled:opacity-50 text-white" />
+            <button 
+              onClick={startDictation}
+              className={cn(
+                "absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full transition-all",
+                isListening ? "bg-primary text-white animate-pulse" : "text-white/20 hover:text-primary"
+              )}
+            >
+              {isListening ? <MicOff size={20} /> : <Mic size={20} />}
+            </button>
+          </div>
           <button onClick={handleSend} disabled={!input.trim() || isSending} className="p-4 bg-primary text-white rounded-full disabled:opacity-30 transition-all hover:scale-105 active:scale-95 shadow-lg">{isSending ? <Loader2 className="w-6 h-6 animate-spin" /> : <Send className="w-6 h-6" />}</button>
         </div>
         <p className="text-center text-[8px] text-white/20 uppercase tracking-[0.5em] mt-4 font-black">{t.footer}</p>
