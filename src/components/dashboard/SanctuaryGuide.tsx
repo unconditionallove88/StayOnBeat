@@ -121,7 +121,7 @@ export function SanctuaryGuide({ lang = 'en' }: { lang: 'en' | 'de' }) {
             <div className="text-left">
               <span className="block text-[10px] font-black uppercase text-primary tracking-[0.2em]">
                 {lang === 'en' ? "Sanctuary Guide" : "Sanctuary Begleiter"}
-              </div>
+              </span>
               <p className="text-[9px] font-bold text-white/40 uppercase tracking-widest">
                 {lang === 'en' ? "How to use your tools" : "Wie du deine Tools nutzt"}
               </p>

@@ -4,8 +4,9 @@
 import { useState, useEffect } from 'react';
 import { useFirestore, useUser, addDocumentNonBlocking } from '@/firebase';
 import { collection, serverTimestamp } from 'firebase/firestore';
-import { PenLine, Send, Loader2, ShieldCheck } from 'lucide-react';
+import { PenLine, Send, Loader2, ShieldCheck, Volume2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { textToSpeech } from '@/ai/flows/text-to-speech';
 
 /**
  * @fileOverview Love Letter Component.
@@ -47,6 +48,7 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
   const [isSending, setIsSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [lang, setLang] = useState<'en' | 'de'>('en');
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
@@ -74,6 +76,19 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
     }, 1500);
   };
 
+  const handleVoice = async () => {
+    if (isSpeaking) return;
+    setIsSpeaking(true);
+    try {
+      const { audioDataUri } = await textToSpeech({ text: t.successMsg, lang: lang as any });
+      const audio = new Audio(audioDataUri);
+      audio.onended = () => setIsSpeaking(false);
+      audio.play();
+    } catch (e) {
+      setIsSpeaking(false);
+    }
+  };
+
   if (isSent) {
     return (
       <div className="p-10 text-center animate-in zoom-in duration-500 font-headline flex flex-col items-center gap-8 bg-black min-h-[400px] justify-center">
@@ -84,7 +99,12 @@ export function LoveLetter({ onComplete }: { onComplete?: () => void }) {
           </div>
         </div>
         <div className="space-y-3">
-          <h3 className="text-3xl font-black uppercase tracking-tighter text-white">{t.successTitle}</h3>
+          <div className="flex items-center justify-center gap-3">
+            <h3 className="text-3xl font-black uppercase tracking-tighter text-white">{t.successTitle}</h3>
+            <button onClick={handleVoice} disabled={isSpeaking} className="p-2 bg-white/5 rounded-full border border-white/10 hover:border-primary transition-all disabled:opacity-30">
+              {isSpeaking ? <Loader2 className="w-4 h-4 animate-spin text-primary" /> : <Volume2 className="w-4 h-4 text-primary" />}
+            </button>
+          </div>
           <p className="text-white/60 text-sm font-bold leading-tight max-w-xs mx-auto uppercase tracking-widest italic">
             "{t.affirmation}"
           </p>

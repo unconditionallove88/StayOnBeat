@@ -2,11 +2,12 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Trash2, HeartPulse, CheckCircle2, Heart, ShieldCheck, Timer, Droplets, Zap, Coffee, Moon, ExternalLink, Wind, Volume2 } from 'lucide-react';
+import { ArrowLeft, Trash2, HeartPulse, CheckCircle2, Heart, ShieldCheck, Timer, Droplets, Zap, Coffee, Moon, ExternalLink, Wind, Volume2, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
 import { textToSpeech } from '@/ai/flows/text-to-speech';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
  * @fileOverview Recovery Protocol Page.
@@ -34,7 +35,9 @@ export default function RecoveryView() {
 
     const timer = setInterval(() => {
       setTimeLeft(prev => {
-        const [h, m, s] = prev.split(':').map(Number);
+        const parts = prev.split(':').map(Number);
+        if (parts.length !== 3) return '02:00:00';
+        const [h, m, s] = parts;
         let totalSeconds = h * 3600 + m * 60 + s - 1;
         if (totalSeconds <= 0) return '00:00:00';
         const nh = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
@@ -102,7 +105,7 @@ export default function RecoveryView() {
     setIsSpeaking(true);
     try {
       const text = isFinished ? affirmation : `${t.protocolGenerated}. ${t.timeline}: ${detoxPlan.map(p => `${p.text} at ${p.time}`).join('. ')}`;
-      const { audioDataUri } = await textToSpeech({ text, lang });
+      const { audioDataUri } = await textToSpeech({ text, lang: lang as any });
       const audio = new Audio(audioDataUri);
       audio.onended = () => setIsSpeaking(false);
       audio.play();
@@ -136,57 +139,59 @@ export default function RecoveryView() {
         </div>
       </div>
 
-      <div className="px-6 py-10 max-w-xl mx-auto space-y-12">
-        {isFinished && (
-          <div className="text-center py-10 space-y-6 animate-in fade-in zoom-in duration-1000">
-            <p className="text-2xl font-black uppercase tracking-tighter text-primary leading-tight max-w-[300px] mx-auto">"{affirmation}"</p>
-          </div>
-        )}
+      <ScrollArea className="h-full">
+        <div className="px-6 py-10 max-w-xl mx-auto space-y-12 pb-40">
+          {isFinished && (
+            <div className="text-center py-10 space-y-6 animate-in fade-in zoom-in duration-1000">
+              <p className="text-2xl font-black uppercase tracking-tighter text-primary leading-tight max-w-[300px] mx-auto">"{affirmation}"</p>
+            </div>
+          )}
 
-        <div className="bg-blue-500/10 border border-blue-500/20 p-8 rounded-[2.5rem] flex items-start gap-6">
-          <ShieldCheck className="w-8 h-8 text-blue-400 shrink-0" />
-          <div className="space-y-2">
-            <p className="text-base font-bold text-white/90 leading-tight">{isFinished ? t.secureWipe : t.protocolGenerated}</p>
-            <p className="text-[10px] uppercase font-black text-white/40 tracking-widest">{isFinished ? t.privacyFinalized : t.dataAnalyzed(sessionLogs.length)}</p>
+          <div className="bg-blue-500/10 border border-blue-500/20 p-8 rounded-[2.5rem] flex items-start gap-6">
+            <ShieldCheck className="w-8 h-8 text-blue-400 shrink-0" />
+            <div className="space-y-2">
+              <p className="text-base font-bold text-white/90 leading-tight">{isFinished ? t.secureWipe : t.protocolGenerated}</p>
+              <p className="text-[10px] uppercase font-black text-white/40 tracking-widest">{isFinished ? t.privacyFinalized : t.dataAnalyzed(sessionLogs.length)}</p>
+            </div>
           </div>
-        </div>
 
-        <section className="space-y-6">
-          <div className="flex items-center gap-4 mb-4 px-2"><HeartPulse className="w-6 h-6 text-primary" /><h3 className="text-xl font-black uppercase tracking-tight">{t.timeline}</h3></div>
-          <div className="grid gap-4">
-            {detoxPlan.length > 0 ? (
-              detoxPlan.map((p) => (
-                <div 
-                  key={p.id} 
-                  onClick={() => p.isAction && router.push('/self-care')}
-                  className={cn(
-                    "p-8 rounded-[2.5rem] border border-white/10 bg-white/5 flex flex-col gap-4 group transition-all",
-                    p.isAction ? "border-primary/40 bg-primary/5 cursor-pointer hover:bg-primary/10" : "hover:bg-primary/40"
-                  )}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className={cn("p-3 rounded-2xl bg-white/5", p.color)}><p.icon className="w-6 h-6" /></div>
-                      <div className="flex flex-col"><span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">{p.time}</span><span className="text-xl font-black uppercase text-white">{p.text}</span></div>
+          <section className="space-y-6">
+            <div className="flex items-center gap-4 mb-4 px-2"><HeartPulse className="w-6 h-6 text-primary" /><h3 className="text-xl font-black uppercase tracking-tight">{t.timeline}</h3></div>
+            <div className="grid gap-4">
+              {detoxPlan.length > 0 ? (
+                detoxPlan.map((p) => (
+                  <div 
+                    key={p.id} 
+                    onClick={() => p.isAction && router.push('/self-care')}
+                    className={cn(
+                      "p-8 rounded-[2.5rem] border border-white/10 bg-white/5 flex flex-col gap-4 group transition-all",
+                      p.isAction ? "border-primary/40 bg-primary/5 cursor-pointer hover:bg-primary/10" : "hover:bg-primary/40"
+                    )}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className={cn("p-3 rounded-2xl bg-white/5", p.color)}><p.icon className="w-6 h-6" /></div>
+                        <div className="flex flex-col"><span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">{p.time}</span><span className="text-xl font-black uppercase text-white">{p.text}</span></div>
+                      </div>
+                      {p.isAction ? <Sparkles className="w-5 h-5 text-primary animate-pulse" /> : <CheckCircle2 className="w-5 h-5 text-primary/20 group-hover:text-primary transition-colors" />}
                     </div>
-                    {p.isAction ? <Sparkles className="w-5 h-5 text-primary animate-pulse" /> : <CheckCircle2 className="w-5 h-5 text-primary/20 group-hover:text-primary transition-colors" />}
+                    <p className="text-sm font-bold text-white/60 leading-relaxed pl-2 border-l-2 border-white/10">{p.desc}</p>
                   </div>
-                  <p className="text-sm font-bold text-white/60 leading-relaxed pl-2 border-l-2 border-white/10">{p.desc}</p>
-                </div>
-              ))
-            ) : (
-              <div className="flex flex-col items-center gap-6 py-16 text-white/10 bg-white/5 rounded-[3rem] border-2 border-dashed border-white/5"><Timer className="w-12 h-12 opacity-20" /><p className="text-[10px] font-black uppercase tracking-[0.4em]">{t.noLogs}</p></div>
-            )}
-          </div>
-        </section>
+                ))
+              ) : (
+                <div className="flex flex-col items-center gap-6 py-16 text-white/10 bg-white/5 rounded-[3rem] border-2 border-dashed border-white/5"><Timer className="w-12 h-12 opacity-20" /><p className="text-[10px] font-black uppercase tracking-[0.4em]">{t.noLogs}</p></div>
+              )}
+            </div>
+          </section>
 
-        {!isFinished && (
-          <div className="bg-red-600/5 border border-red-600/20 p-8 rounded-[2.5rem] text-center">
-            <div className="flex justify-center mb-4"><Trash2 size={24} className="text-red-500/40" /></div>
-            <p className="text-[10px] font-black text-red-500/40 uppercase tracking-[0.3em] leading-relaxed max-w-[280px] mx-auto">{t.wipeWarning}</p>
-          </div>
-        )}
-      </div>
+          {!isFinished && (
+            <div className="bg-red-600/5 border border-red-600/20 p-8 rounded-[2.5rem] text-center">
+              <div className="flex justify-center mb-4"><Trash2 size={24} className="text-red-500/40" /></div>
+              <p className="text-[10px] font-black text-red-500/40 uppercase tracking-[0.3em] leading-relaxed max-w-[280px] mx-auto">{t.wipeWarning}</p>
+            </div>
+          )}
+        </div>
+      </ScrollArea>
 
       <footer className="fixed bottom-0 left-0 right-0 h-auto min-h-[120px] py-8 bg-black/95 backdrop-blur-xl border-t border-white/5 flex flex-col items-center justify-center px-6 z-50 gap-4 pb-safe">
         {!isFinished ? (

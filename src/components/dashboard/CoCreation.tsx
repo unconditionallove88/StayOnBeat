@@ -1,11 +1,13 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Sprout, Send, CheckCircle2, Loader2, Globe, ClipboardList, CircleDot, ExternalLink } from 'lucide-react';
+import { Sprout, Send, CheckCircle2, Loader2, Globe, ClipboardList, CircleDot, ExternalLink, Volume2 } from 'lucide-react';
 import { useFirestore, useUser, useDoc, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection, serverTimestamp, doc } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { textToSpeech } from '@/ai/flows/text-to-speech';
 
 /**
  * @fileOverview Co-Creation Component.
@@ -62,6 +64,7 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
@@ -95,6 +98,19 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
     finally { setLoading(false); }
   };
 
+  const handleVoice = async () => {
+    if (isSpeaking) return;
+    setIsSpeaking(true);
+    try {
+      const { audioDataUri } = await textToSpeech({ text: t.successMsg, lang: lang as any });
+      const audio = new Audio(audioDataUri);
+      audio.onended = () => setIsSpeaking(false);
+      audio.play();
+    } catch (e) {
+      setIsSpeaking(false);
+    }
+  };
+
   return (
     <div className="w-full bg-black p-8 font-headline pb-safe">
       {sent ? (
@@ -102,7 +118,12 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
           <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-8 border-2 border-primary/20 shadow-[0_0_40px_rgba(27,77,62,0.1)]">
             <CheckCircle2 size={48} className="text-primary" />
           </div>
-          <h3 className="text-white font-black text-3xl mb-4 uppercase tracking-tighter">{t.successTitle}</h3>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <h3 className="text-white font-black text-3xl uppercase tracking-tighter">{t.successTitle}</h3>
+            <button onClick={handleVoice} disabled={isSpeaking} className="p-2 bg-white/5 rounded-full border border-white/10 hover:border-primary transition-all disabled:opacity-30">
+              {isSpeaking ? <Loader2 className="w-4 h-4 animate-spin text-primary" /> : <Volume2 className="w-4 h-4 text-primary" />}
+            </button>
+          </div>
           <p className="text-white/60 text-base font-bold leading-relaxed max-xs mx-auto mb-10">{t.successMsg}</p>
           <button onClick={onComplete} className="text-[10px] font-black uppercase text-white/20 tracking-[0.4em] hover:text-white transition-colors">
             {lang === 'en' ? "Close Sanctuary" : "Schließen"}

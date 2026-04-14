@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -25,7 +26,8 @@ import {
   Info,
   BookOpen,
   Plus,
-  Minus
+  Minus,
+  Volume2
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -34,6 +36,7 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { StepSomethingToRemember as WisdomProtocol } from '@/components/onboarding/StepSomethingToRemember';
 import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
+import { textToSpeech } from '@/ai/flows/text-to-speech';
 
 const MushroomIcon = ({ className, size = 24 }: { className?: string, size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -104,6 +107,7 @@ export function Step6SubstanceLab({
   const [responsibilityOpen, setResponsibilityOpen] = useState(false);
   const [pendingEntry, setPendingEntry] = useState<any>(null);
   const [lang, setLang] = useState<'en' | 'de'>('en');
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -142,7 +146,7 @@ export function Step6SubstanceLab({
     const substanceName = lang === 'en' ? localizedSub?.name : localizedSub?.deName;
     
     if (activeSubstance.id === 'alcohol') {
-      const activeItems = alcoholCart.filter(c => count > 0);
+      const activeItems = alcoholCart.filter(c => c.count > 0);
       if (activeItems.length === 0) return;
       entry = { id: 'alcohol', name: substanceName, items: activeItems, timestamp: new Date().toISOString() };
     } else {
@@ -152,6 +156,19 @@ export function Step6SubstanceLab({
 
     setPendingEntry(entry);
     setResponsibilityOpen(true);
+  };
+
+  const handleVoiceResonance = async () => {
+    if (isSpeaking) return;
+    setIsSpeaking(true);
+    try {
+      const { audioDataUri } = await textToSpeech({ text: t.responsibility, lang: lang as any });
+      const audio = new Audio(audioDataUri);
+      audio.onended = () => setIsSpeaking(false);
+      audio.play();
+    } catch (e) {
+      setIsSpeaking(false);
+    }
   };
 
   const confirmResponsibility = () => {
@@ -335,9 +352,14 @@ export function Step6SubstanceLab({
             </div>
             
             <div className="space-y-6">
-              <p className="text-xl md:text-2xl font-black uppercase tracking-tighter text-white leading-tight">
-                {t.responsibility}
-              </p>
+              <div className="flex items-center justify-center gap-3">
+                <p className="text-xl md:text-2xl font-black uppercase tracking-tighter text-white leading-tight">
+                  {t.responsibility}
+                </p>
+                <button onClick={handleVoiceResonance} disabled={isSpeaking} className="p-2 bg-white/5 rounded-full border border-white/10 hover:border-primary transition-all disabled:opacity-30">
+                  {isSpeaking ? <Loader2 className="w-4 h-4 animate-spin text-primary" /> : <Volume2 className="w-4 h-4 text-primary" />}
+                </button>
+              </div>
               <div className="w-10 h-1 bg-[#3EB489]/20 rounded-full mx-auto" />
             </div>
 

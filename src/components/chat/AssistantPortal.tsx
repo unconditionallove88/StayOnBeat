@@ -1,11 +1,13 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Heart, Battery, Droplets, Moon, Zap, ArrowRight } from 'lucide-react';
+import { Heart, Battery, Droplets, Moon, Zap, ArrowRight, Volume2, Loader2 } from 'lucide-react';
 import { SupporterIcon } from '@/components/ui/supporter-icon';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { textToSpeech } from '@/ai/flows/text-to-speech';
 
 /**
  * @fileOverview SupporterPortal Component.
@@ -45,6 +47,7 @@ const i18n = {
 export function AssistantPortal({ userProfile }: AssistantPortalProps) {
   const router = useRouter();
   const [lang, setLang] = useState<'en' | 'de'>('en');
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
@@ -52,6 +55,20 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
   }, []);
 
   const t = i18n[lang] || i18n.en;
+
+  const handleVoiceResonance = async () => {
+    if (isSpeaking) return;
+    setIsSpeaking(true);
+    try {
+      const text = `${t.supporter}: ${t.question} ${t.subtitle}`;
+      const { audioDataUri } = await textToSpeech({ text, lang: lang as any });
+      const audio = new Audio(audioDataUri);
+      audio.onended = () => setIsSpeaking(false);
+      audio.play();
+    } catch (e) {
+      setIsSpeaking(false);
+    }
+  };
 
   const phases = [
     { 
@@ -93,9 +110,14 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
 
       <ScrollArea className="flex-1 px-8 relative z-10 touch-pan-y min-h-0">
         <section className="mb-8 pt-4">
-          <div className="flex items-center gap-3 mb-2">
-            <SupporterIcon className="text-emerald-500" size={20} />
-            <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.4em]">{t.supporter}</p>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <SupporterIcon className="text-emerald-500" size={20} />
+              <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.4em]">{t.supporter}</p>
+            </div>
+            <button onClick={handleVoiceResonance} disabled={isSpeaking} className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-primary transition-all disabled:opacity-30">
+              {isSpeaking ? <Loader2 className="w-4 h-4 animate-spin text-primary" /> : <Volume2 className="w-4 h-4 text-primary" />}
+            </button>
           </div>
           <h2 className="text-4xl font-black uppercase tracking-tighter leading-none mb-4">
             {t.question.split(' ').slice(0, -1).join(' ')} <br /> <span className="text-emerald-500">{t.question.split(' ').pop()}</span>
