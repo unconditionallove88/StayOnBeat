@@ -8,13 +8,13 @@ import {
   ChevronLeft, 
   X, 
   Microscope, 
-  RadiatingThirdEye, 
   Watch, 
   PenLine, 
   Shield, 
   Eye,
   Info
 } from 'lucide-react';
+import { RadiatingThirdEye } from '@/components/ui/radiating-third-eye';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
 
