@@ -2,17 +2,33 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Sprout, Send, CheckCircle2, Loader2, Globe, ClipboardList, CircleDot, ExternalLink, Volume2 } from 'lucide-react';
-import { useFirestore, useUser, useDoc, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
-import { collection, serverTimestamp, doc } from 'firebase/firestore';
+import { 
+  Sprout, 
+  Send, 
+  CheckCircle2, 
+  Loader2, 
+  Globe, 
+  ClipboardList, 
+  CircleDot, 
+  ExternalLink, 
+  Volume2,
+  Heart,
+  ZapOff,
+  Sparkles,
+  ShieldCheck,
+  HelpCircle,
+  X
+} from 'lucide-react';
+import { useFirestore, useUser, addDocumentNonBlocking } from '@/firebase';
+import { collection, serverTimestamp } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
-import { useToast } from '@/hooks/use-toast';
 import { textToSpeech } from '@/ai/flows/text-to-speech';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
  * @fileOverview Co-Creation Component.
  * Full localization for EN, DE.
- * Affirmations: 3 words (EN) / 4 words (DE)
+ * Features large resonant icons and specific user-centric prompts.
  */
 
 const i18n = {
@@ -20,11 +36,51 @@ const i18n = {
     title: "Co-Creation",
     subtitle: "Your voice shapes this sanctuary",
     types: [
-      { key: "resonance", label: "What resonates?", placeholder: "What feels right warm or true to you in this app" },
-      { key: "dissonance", label: "Where is the dissonance?", placeholder: "What feels off missing or could be more human" },
-      { key: "evolution", label: "What would you add?", placeholder: "A feature a word a feeling you wish was here" },
-      { key: "safety", label: "Do you feel cared for?", placeholder: "Tell us honestly Feeling cared for is our foundation" },
-      { key: "survey", label: "App Survey 📋", placeholder: "Help us test the sanctuary Your feedback helps us grow" },
+      { 
+        key: "love", 
+        label: "Pure Love", 
+        prompt: "What do you love about this app?", 
+        placeholder: "Tell us what brings you joy warm or true to you in this app",
+        icon: Heart,
+        color: "text-red-400",
+        bg: "bg-red-500/10"
+      },
+      { 
+        key: "dislike", 
+        label: "Dissonance", 
+        prompt: "What do you not like? And why?", 
+        placeholder: "Tell us what feels off missing or could be more human and why it matters",
+        icon: ZapOff,
+        color: "text-amber-400",
+        bg: "bg-amber-500/10"
+      },
+      { 
+        key: "evolution", 
+        label: "Evolution", 
+        prompt: "What would you add?", 
+        placeholder: "A feature a word a feeling you wish was here to help us grow",
+        icon: Sparkles,
+        color: "text-blue-400",
+        bg: "bg-blue-500/10"
+      },
+      { 
+        key: "favorite", 
+        label: "Favorite Tool", 
+        prompt: "Which tool do you love the most?", 
+        placeholder: "Tell us honestly which tool resonates deepest with your needs",
+        icon: ShieldCheck,
+        color: "text-primary",
+        bg: "bg-primary/10"
+      },
+      { 
+        key: "survey", 
+        label: "App Survey", 
+        prompt: "Help us test the sanctuary", 
+        placeholder: "Take our structured survey to help us calibrate the resonance",
+        icon: ClipboardList,
+        color: "text-white",
+        bg: "bg-white/10"
+      },
     ],
     send: "Send from the Heart",
     openSurvey: "Open Sanctuary Survey",
@@ -38,11 +94,51 @@ const i18n = {
     title: "Ko-Kreation",
     subtitle: "Deine Stimme gestaltet diesen Raum",
     types: [
-      { key: "resonance", label: "Was resoniert?", placeholder: "Was fühlt sich richtig warm oder wahr an in dieser App" },
-      { key: "dissonance", label: "Wo ist die Dissonanz?", placeholder: "Was fühlt sich falsch an fehlt oder könnte menschlicher sein" },
-      { key: "evolution", label: "Was würdest du hinzufügen?", placeholder: "Eine Funktion ein Wort ein Gefühl das du dir hier wünschst" },
-      { key: "safety", label: "Fühlst du dich umsorgt?", placeholder: "Sag es uns ehrlich Das Gefühl umsorgt zu werden ist unser Fundament" },
-      { key: "survey", label: "App Umfrage 📋", placeholder: "Hilf uns das Sanctuary zu testen Dein Feedback hilft uns zu wachsen" },
+      { 
+        key: "love", 
+        label: "Pure Liebe", 
+        prompt: "Was liebst du an dieser App?", 
+        placeholder: "Was fühlt sich richtig warm oder wahr an in dieser App",
+        icon: Heart,
+        color: "text-red-400",
+        bg: "bg-red-500/10"
+      },
+      { 
+        key: "dislike", 
+        label: "Dissonanz", 
+        prompt: "Was gefällt dir nicht? Und warum?", 
+        placeholder: "Was fühlt sich falsch an fehlt oder könnte menschlicher sein und warum",
+        icon: ZapOff,
+        color: "text-amber-400",
+        bg: "bg-amber-500/10"
+      },
+      { 
+        key: "evolution", 
+        label: "Evolution", 
+        prompt: "Was würdest du hinzufügen?", 
+        placeholder: "Eine Funktion ein Wort ein Gefühl das du dir hier wünschst",
+        icon: Sparkles,
+        color: "text-blue-400",
+        bg: "bg-blue-500/10"
+      },
+      { 
+        key: "favorite", 
+        label: "Lieblings-Tool", 
+        prompt: "Welches Tool liebst du am meisten?", 
+        placeholder: "Sag es uns ehrlich Welches Tool hilft dir am meisten",
+        icon: ShieldCheck,
+        color: "text-primary",
+        bg: "bg-primary/10"
+      },
+      { 
+        key: "survey", 
+        label: "App Umfrage", 
+        prompt: "Hilf uns das Sanctuary zu testen", 
+        placeholder: "Nimm an unserer Umfrage teil um die Resonanz zu kalibrieren",
+        icon: ClipboardList,
+        color: "text-white",
+        bg: "bg-white/10"
+      },
     ],
     send: "Von Herzen senden",
     openSurvey: "Sanctuary Umfrage öffnen",
@@ -72,7 +168,9 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
   }, []);
 
   const t = i18n[lang] || i18n.en;
-  const isSurvey = t.types[activeType].key === 'survey';
+  const active = t.types[activeType];
+  const isSurvey = active.key === 'survey';
+  const Icon = active.icon;
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,15 +185,18 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
       addDocumentNonBlocking(collection(firestore, "feedback"), {
         userId: user?.uid || "anonymous",
         language: lang,
-        type: t.types[activeType].key,
+        type: active.key,
         message: message.trim(),
         status: "heard",
         createdAt: serverTimestamp(),
       });
       setSent(true);
       setMessage("");
-    } catch (error) { console.error("Feedback error:", error); }
-    finally { setLoading(false); }
+    } catch (error) { 
+      console.error("Feedback error:", error); 
+    } finally { 
+      setLoading(false); 
+    }
   };
 
   const handleVoice = async () => {
@@ -112,71 +213,128 @@ export function CoCreation({ onComplete }: { onComplete?: () => void }) {
   };
 
   return (
-    <div className="w-full bg-black p-8 font-headline pb-safe">
-      {sent ? (
-        <div className="w-full min-h-[400px] flex flex-col items-center justify-center p-10 text-center animate-in fade-in zoom-in-95 duration-500 font-headline bg-black rounded-[3rem]">
-          <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-8 border-2 border-primary/20 shadow-[0_0_40px_rgba(27,77,62,0.1)]">
-            <CheckCircle2 size={48} className="text-primary" />
+    <div className="w-full bg-black flex flex-col font-headline h-full overflow-hidden">
+      <header className="px-8 pt-10 pb-6 border-b border-white/5 shrink-0 bg-black/95 backdrop-blur-xl z-50">
+        <div className="flex items-center justify-between max-w-2xl mx-auto w-full">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10 border border-primary/20">
+              <Sprout size={24} className="text-primary" />
+            </div>
+            <div>
+              <h3 className="text-white font-black text-xl uppercase tracking-tighter leading-none">{t.title}</h3>
+              <p className="text-white/40 text-[9px] font-bold uppercase tracking-widest mt-1">{t.subtitle}</p>
+            </div>
           </div>
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <h3 className="text-white font-black text-3xl uppercase tracking-tighter">{t.successTitle}</h3>
-            <button onClick={handleVoice} disabled={isSpeaking} className="p-2 bg-white/5 rounded-full border border-white/10 hover:border-primary transition-all disabled:opacity-30">
-              {isSpeaking ? <Loader2 className="w-4 h-4 animate-spin text-primary" /> : <Volume2 className="w-4 h-4 text-primary" />}
+          {onComplete && (
+            <button onClick={onComplete} className="p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white">
+              <X size={20} />
             </button>
-          </div>
-          <p className="text-white/60 text-base font-bold leading-relaxed max-xs mx-auto mb-10">{t.successMsg}</p>
-          <button onClick={onComplete} className="text-[10px] font-black uppercase text-white/20 tracking-[0.4em] hover:text-white transition-colors">
-            {lang === 'en' ? "Close Sanctuary" : "Schließen"}
-          </button>
+          )}
         </div>
-      ) : (
-        <>
-          <div className="flex items-start justify-between mb-8">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-primary/10 border border-primary/20"><Sprout size={28} className="text-primary" /></div>
-              <div>
-                <h3 className="text-white font-black text-2xl uppercase tracking-tighter leading-none">{t.title}</h3>
-                <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mt-1.5">{t.subtitle}</p>
-              </div>
-            </div>
-          </div>
+      </header>
 
-          <div className="grid grid-cols-2 gap-3 mb-8">
-            {t.types.map((type, i) => (
-              <button key={type.key} onClick={() => setActiveType(i)} className={cn("p-4 rounded-2xl border-2 text-left transition-all duration-300 h-20 flex flex-col justify-center", activeType === i ? "bg-primary/10 border-primary" : "bg-white/5 border-white/5 hover:border-white/20", type.key === 'survey' && "col-span-2 border-dashed border-primary/40")}>
-                <div className="flex items-center gap-2">
-                  {type.key === 'survey' && <ClipboardList size={14} className={activeType === i ? "text-primary" : "text-white/40"} />}
-                  <span className={cn("text-[10px] font-black uppercase tracking-widest leading-tight block", activeType === i ? "text-primary" : "text-white/40")}>{type.label}</span>
+      <ScrollArea className="flex-1">
+        <div className="p-8 max-w-2xl mx-auto space-y-10 pb-32">
+          {sent ? (
+            <div className="w-full min-h-[400px] flex flex-col items-center justify-center p-10 text-center animate-in fade-in zoom-in-95 duration-500 font-headline">
+              <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-8 border-2 border-primary/20 shadow-[0_0_40px_rgba(27,77,62,0.1)]">
+                <CheckCircle2 size={48} className="text-primary" />
+              </div>
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <h3 className="text-white font-black text-3xl uppercase tracking-tighter">{t.successTitle}</h3>
+                <button onClick={handleVoice} disabled={isSpeaking} className="p-2 bg-white/5 rounded-full border border-white/10 hover:border-primary transition-all disabled:opacity-30">
+                  {isSpeaking ? <Loader2 className="w-4 h-4 animate-spin text-primary" /> : <Volume2 className="w-4 h-4 text-primary" />}
+                </button>
+              </div>
+              <p className="text-white/60 text-base font-bold leading-relaxed max-w-xs mx-auto mb-10">{t.successMsg}</p>
+              <button onClick={() => setSent(false)} className="text-[10px] font-black uppercase text-primary tracking-[0.4em] hover:text-white transition-colors underline underline-offset-8">
+                {t.shareMore}
+              </button>
+            </div>
+          ) : (
+            <>
+              {/* Main Resonant Icon Display */}
+              <div className="flex flex-col items-center text-center space-y-6 py-4 animate-in slide-in-from-bottom-2 duration-500">
+                <div className={cn("w-28 h-28 rounded-[2.5rem] flex items-center justify-center border-2 shadow-2xl transition-all duration-700", active.bg, active.color.replace('text-', 'border-').concat('/30'))}>
+                  <Icon size={56} className={cn("animate-pulse", active.color)} />
                 </div>
-              </button>
-            ))}
-          </div>
-
-          <form onSubmit={handleSend} className="space-y-6">
-            {!isSurvey ? (
-              <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder={t.types[activeType].placeholder} className="w-full h-48 px-6 py-5 rounded-[2rem] border-2 border-white/10 bg-white/5 text-white text-base font-bold outline-none resize-none focus:border-primary transition-all" required />
-            ) : (
-              <div className="w-full h-48 px-8 py-10 rounded-[2rem] border-2 border-dashed border-primary/20 bg-primary/5 flex flex-col items-center justify-center text-center gap-4">
-                <ClipboardList className="text-primary opacity-40" size={40} />
-                <p className="text-white/60 text-sm font-bold uppercase tracking-widest leading-relaxed">
-                  {t.types[activeType].placeholder}
-                </p>
+                <div className="space-y-2">
+                  <h2 className="text-3xl font-black uppercase tracking-tighter text-white leading-none">
+                    {active.prompt}
+                  </h2>
+                  <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/20">
+                    Resonance Phase: {active.label}
+                  </p>
+                </div>
               </div>
-            )}
-            
-            <div className="space-y-4">
-              <button type="submit" disabled={!isSurvey && (loading || !message.trim())} className="w-full h-20 bg-primary text-white rounded-[1.5rem] font-black text-xl uppercase tracking-widest flex items-center justify-center gap-3 transition-all active:scale-[0.98] disabled:opacity-30">
-                {isSurvey ? (
-                  <><ExternalLink size={20} /> {t.openSurvey}</>
+
+              {/* Type Selection Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {t.types.map((type, i) => {
+                  const TypeIcon = type.icon;
+                  const isSelected = activeType === i;
+                  return (
+                    <button 
+                      key={type.key} 
+                      onClick={() => { setActiveType(i); setMessage(""); }} 
+                      className={cn(
+                        "p-4 rounded-2xl border-2 flex flex-col items-center justify-center gap-3 transition-all duration-300 h-24", 
+                        isSelected 
+                          ? `${type.bg} ${type.color.replace('text-', 'border-')} shadow-lg` 
+                          : "bg-white/5 border-white/5 hover:border-white/20"
+                      )}
+                    >
+                      <TypeIcon size={20} className={isSelected ? type.color : "text-white/20"} />
+                      <span className={cn("text-[9px] font-black uppercase tracking-widest text-center leading-none", isSelected ? type.color : "text-white/40")}>
+                        {type.label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <form onSubmit={handleSend} className="space-y-8">
+                {!isSurvey ? (
+                  <div className="space-y-4">
+                    <textarea 
+                      value={message} 
+                      onChange={(e) => setMessage(e.target.value)} 
+                      placeholder={active.placeholder} 
+                      className="w-full h-48 px-8 py-6 rounded-[2.5rem] border-2 border-white/10 bg-white/5 text-white text-lg font-bold outline-none resize-none focus:border-primary transition-all shadow-inner" 
+                      required 
+                    />
+                  </div>
                 ) : (
-                  loading ? <><Loader2 size={24} className="animate-spin" /> {t.sending}</> : <><CircleDot size={20} /> {t.send}</>
+                  <div className="w-full h-48 px-8 py-10 rounded-[2.5rem] border-2 border-dashed border-white/10 bg-white/5 flex flex-col items-center justify-center text-center gap-4">
+                    <ClipboardList className="text-white/20" size={40} />
+                    <p className="text-white/40 text-sm font-bold uppercase tracking-widest leading-relaxed">
+                      {active.placeholder}
+                    </p>
+                  </div>
                 )}
-              </button>
-              <p className="text-center text-[10px] text-primary font-black uppercase tracking-[0.5em]">{t.receivedWithLove}</p>
-            </div>
-          </form>
-        </>
-      )}
+                
+                <div className="space-y-6">
+                  <button 
+                    type="submit" 
+                    disabled={!isSurvey && (loading || !message.trim())} 
+                    className="w-full h-20 bg-[#1b4d3e] text-white rounded-full font-black text-xl uppercase tracking-widest flex items-center justify-center gap-4 transition-all active:scale-[0.98] shadow-2xl shadow-primary/20 disabled:opacity-30"
+                  >
+                    {isSurvey ? (
+                      <><ExternalLink size={24} /> {t.openSurvey}</>
+                    ) : (
+                      loading ? <><Loader2 size={24} className="animate-spin" /> {t.sending}</> : <><CircleDot size={24} /> {t.send}</>
+                    )}
+                  </button>
+                  <div className="flex flex-col items-center gap-2 opacity-40">
+                    <p className="text-center text-[10px] text-primary font-black uppercase tracking-[0.5em]">{t.receivedWithLove}</p>
+                    <div className="w-10 h-1 bg-primary/20 rounded-full" />
+                  </div>
+                </div>
+              </form>
+            </>
+          )}
+        </div>
+      </ScrollArea>
     </div>
   );
 }
