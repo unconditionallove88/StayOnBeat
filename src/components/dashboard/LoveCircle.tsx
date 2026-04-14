@@ -1,202 +1,102 @@
+
 "use client";
 
-import React from "react";
-import { Navigation, Heart, Plus, HeartHandshake, ArrowRight } from "lucide-react";
+import React, { useState } from "react";
+import { Heart, Users, Star, Flame, Sparkles, User, ShieldCheck, Globe, Infinity, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { playHeartbeat } from "@/lib/resonance";
 
 /**
- * @fileOverview Circle of Love Component (The Radiant Unity Orb).
- * Redesigned as a high-fidelity visual representation of the human network.
+ * @fileOverview Circle of Love (State of Love Mandala).
+ * Built on 8 Archetypes: Brother, Mother, Sister, Romantic, Erotic, Friend, Human, Life.
  * Languages: EN (3 words), DE (4 words).
  */
 
-interface Friend {
-  name: string;
-  status: 'steady' | 'elevated' | 'intense';
-  color: string;
-  avatar: string;
-}
+const ARCHETYPES = [
+  { id: 'brother', icon: ShieldCheck, color: "text-blue-400", bg: "bg-blue-500/10", en: "Brotherly Protection Love", de: "Brüderlicher Halt heute hier" },
+  { id: 'mother', icon: Heart, color: "text-rose-400", bg: "bg-rose-500/10", en: "Motherly Care Love", de: "Mütterliche Fürsorge heute hier" },
+  { id: 'sister', icon: User, color: "text-indigo-400", bg: "bg-indigo-500/10", en: "Sisterly Bond Love", de: "Schwesterlicher Schutz heute hier" },
+  { id: 'romantic', icon: Star, color: "text-pink-400", bg: "bg-pink-500/10", en: "Romantic Unity Love", de: "Romantische Nähe heute hier" },
+  { id: 'erotic', icon: Flame, color: "text-orange-500", bg: "bg-orange-500/10", en: "Erotic Fire Love", de: "Erotische Spannung heute hier" },
+  { id: 'friend', icon: Users, color: "text-emerald-400", bg: "bg-emerald-500/10", en: "Friendship Trust Love", de: "Freundschaftlicher Bund heute hier" },
+  { id: 'human', icon: Globe, color: "text-cyan-400", bg: "bg-cyan-500/10", en: "Humanity Unity Love", de: "Menschliche Einheit heute hier" },
+  { id: 'life', icon: Infinity, color: "text-primary", bg: "bg-primary/10", en: "Pure Life Love", de: "Leben ist Liebe heute" },
+];
 
-interface LoveCircleProps {
-  lang?: "en" | "de" | "pt" | "ru";
-  variant?: "dashboard" | "map";
-}
-
-export default function LoveCircle({ 
-  lang = "en",
-  variant = "dashboard"
-}: LoveCircleProps) {
+export default function LoveCircle({ lang = "en", variant = "dashboard" }: { lang?: string, variant?: "dashboard" | "map" }) {
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState(0);
   const isMap = variant === "map";
   
-  // Demo data for visual resonance
-  const circle: Friend[] = [
-    { name: "Sarah", status: "steady", color: "#10B981", avatar: "S" }, 
-    { name: "Max", status: "intense", color: "#DC2626", avatar: "M" },
-    { name: "Marc", status: "elevated", color: "#F59E0B", avatar: "M" }
-  ];
-
-  const handleFriendClick = (friend: Friend) => {
-    if (friend.status !== 'steady') {
-      router.push(`/map?focus=${friend.name.toLowerCase()}&status=${friend.status}`);
-    } else if (!isMap) {
-      router.push('/heart-status');
-    }
-  };
-
-  const worstStatus = circle.reduce((acc, curr) => {
-    if (curr.status === 'intense') return 'intense';
-    if (curr.status === 'elevated' && acc !== 'intense') return 'elevated';
-    return acc;
-  }, 'steady' as 'steady' | 'elevated' | 'intense');
-
-  const circlePulseColor = worstStatus === 'intense' ? "#DC2626" : worstStatus === 'elevated' ? "#F59E0B" : "#10B981";
-
-  const CONTENT = {
-    en: {
-      title: "Love Circle",
-      sub: "Radiant Unity Orb",
-      souls: "Active Souls now",
-      distress: "Care Needed Now",
-      sync: "Collective Resonance Active",
-      enter: "Enter Circle Now"
-    },
-    de: {
-      title: "Circle of Love",
-      sub: "Strahlende Einheit heute",
-      souls: "Verbundene Seelen heute",
-      distress: "Fürsorge wird benötigt",
-      sync: "Gemeinsame Resonanz aktiv",
-      enter: "Circle betreten heute"
-    }
-  };
-
-  const t = CONTENT[lang as 'en'|'de'] || CONTENT.en;
+  const current = ARCHETYPES[activeTab];
+  const t = {
+    en: { title: "State of Love", sub: "Circle of Love", enter: "Enter State Now" },
+    de: { title: "Zustand der Liebe heute", sub: "Circle of Love", enter: "Zustand jetzt betreten hier" }
+  }[lang as 'en'|'de'] || { title: "State of Love", sub: "Circle of Love", enter: "Enter State Now" };
 
   return (
     <div 
       className={cn(
         "relative aspect-square rounded-full flex flex-col items-center justify-center transition-all duration-1000 font-headline overflow-hidden border-2",
         isMap 
-          ? "w-[240px] md:w-[260px] bg-black/60 backdrop-blur-3xl pointer-events-auto shadow-[0_0_60px_rgba(0,0,0,0.8)]" 
-          : "w-full max-w-[400px] mx-auto bg-white/[0.02] shadow-[0_0_80px_rgba(16,185,129,0.05)] cursor-pointer group/orb"
+          ? "w-[280px] md:w-[300px] bg-black/80 backdrop-blur-3xl border-white/5" 
+          : "w-full max-w-[450px] mx-auto bg-white/[0.02] border-white/5 shadow-2xl"
       )}
-      style={{ 
-        borderColor: `${circlePulseColor}30`,
-        boxShadow: isMap ? `0 0 40px ${circlePulseColor}15` : `0 0 100px ${circlePulseColor}05`
-      }}
-      onClick={() => !isMap && router.push('/heart-status')}
+      style={{ boxShadow: `0 0 100px ${current.color.replace('text-', '')}05` }}
     >
-      {/* Immersive Pulse Layer */}
+      {/* Background Archetype Pulse */}
       <div 
-        className="absolute inset-0 opacity-30 animate-pulse-heart pointer-events-none" 
-        style={{ 
-          background: `radial-gradient(circle at center, ${circlePulseColor}22 0%, transparent 70%)`,
-          animationDuration: worstStatus === 'intense' ? '1.5s' : '4s'
-        }} 
+        className="absolute inset-0 opacity-20 animate-pulse-heart pointer-events-none" 
+        style={{ background: `radial-gradient(circle at center, ${current.color.replace('text-', '')}33 0%, transparent 70%)` }} 
       />
-      
-      {!isMap && (
-        <div className="text-center z-10 shrink-0 pt-10 mb-2">
-          <div className="flex flex-col items-center gap-2">
-            <div className={cn(
-              "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-700",
-              worstStatus === 'steady' ? "bg-[#10B981]/10 border border-[#10B981]/30" : 
-              "bg-red-600/10 border border-red-600/30"
-            )}>
-              <HeartHandshake size={18} style={{ color: circlePulseColor }} className="animate-pulse" />
-            </div>
-            <h3 className="text-white text-[10px] font-black uppercase tracking-[0.5em] drop-shadow-md">
-              {t.title}
-            </h3>
-            <p className="text-[8px] font-bold text-[#10B981] uppercase tracking-widest opacity-60">
-              {t.sub}
-            </p>
-          </div>
-        </div>
-      )}
 
-      {/* Interconnected Souls Path */}
-      <div className={cn("flex-1 w-full flex items-center justify-center px-6 z-10 overflow-hidden", isMap ? "pt-4" : "")}>
-        <div className={cn("flex flex-wrap justify-center", isMap ? "gap-3" : "gap-5 md:gap-8")}>
-          {circle.map((person, i) => (
-            <div key={i} className="flex flex-col items-center gap-2 group/node">
-              <button 
-                onClick={(e) => { e.stopPropagation(); handleFriendClick(person); }}
-                className={cn(
-                  "relative rounded-full flex items-center justify-center font-black text-black transition-all duration-700 hover:scale-110 active:scale-95 group/avatar",
-                  isMap ? "w-12 h-12 text-[11px]" : "w-16 h-16 text-xs",
-                )}
-                style={{ 
-                  backgroundColor: person.status === 'intense' ? '#DC2626' : person.status === 'elevated' ? '#F59E0B' : '#10B981',
-                  boxShadow: `0 0 25px ${person.status === 'intense' ? 'rgba(220,38,38,0.4)' : 'rgba(16,185,129,0.2)'}`
-                }}
-              >
-                <div className={cn(
-                  "absolute inset-[-6px] rounded-full border border-white/5 transition-opacity group-hover/node:opacity-100 opacity-40",
-                  person.status !== 'steady' && "border-white/20 animate-ping"
-                )} />
+      <div className="z-10 text-center mb-4 shrink-0 pt-8">
+        <h3 className="text-white text-[10px] font-black uppercase tracking-[0.5em]">{t.title}</h3>
+        <p className="text-primary text-[8px] font-bold uppercase tracking-widest opacity-60 mt-1">{t.sub}</p>
+      </div>
 
-                <span className="group-hover/avatar:scale-110 transition-transform relative z-10 uppercase tracking-tighter">{person.avatar}</span>
-                
-                {person.status !== 'steady' && (
-                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-black rounded-full border border-white/20 flex items-center justify-center shadow-2xl z-20">
-                    <Heart size={10} className="text-white fill-white" />
-                  </div>
-                )}
-              </button>
-              {!isMap && (
-                <span className={cn(
-                  "text-[8px] font-black uppercase tracking-widest transition-colors",
-                  person.status === 'intense' ? "text-red-500" : person.status === 'elevated' ? "text-amber-500" : "text-white/40"
-                )}>
-                  {person.name}
-                </span>
+      {/* Archetype Mandala */}
+      <div className="relative flex-1 w-full flex items-center justify-center pointer-events-auto">
+        {ARCHETYPES.map((arc, i) => {
+          const angle = (i * 360) / ARCHETYPES.length;
+          const radius = isMap ? 85 : 110;
+          const x = Math.cos((angle * Math.PI) / 180) * radius;
+          const y = Math.sin((angle * Math.PI) / 180) * radius;
+          const isActive = activeTab === i;
+
+          return (
+            <button
+              key={arc.id}
+              onClick={() => { playHeartbeat(); setActiveTab(i); }}
+              className={cn(
+                "absolute w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-500 border-2",
+                isActive ? `${arc.bg} ${arc.color.replace('text-', 'border-')} scale-125 shadow-lg` : "bg-black/40 border-white/5 grayscale opacity-40 hover:grayscale-0 hover:opacity-100"
               )}
-            </div>
-          ))}
-          
-          <button 
-            onClick={(e) => { e.stopPropagation(); router.push('/safety-network'); }}
-            className={cn(
-              "rounded-full border-2 border-dashed border-white/10 bg-white/5 flex items-center justify-center text-white/20 hover:text-[#10B981] hover:border-[#10B981]/40 hover:bg-[#10B981]/5 transition-all duration-500",
-              isMap ? "w-12 h-12" : "w-16 h-16"
-            )}
-          >
-            <Plus size={20} />
-          </button>
+              style={{ transform: `translate(${x}px, ${y}px)` }}
+            >
+              <arc.icon className={cn("w-5 h-5 md:w-6 md:h-6", isActive ? arc.color : "text-white/40")} />
+            </button>
+          );
+        })}
+
+        {/* Central Unity Core */}
+        <div className="w-24 h-24 md:w-32 md:h-32 bg-black rounded-full border-4 border-primary/20 flex flex-col items-center justify-center p-4 text-center animate-in zoom-in-50 duration-700">
+          <current.icon className={cn("w-8 h-8 mb-2 animate-pulse", current.color)} />
+          <span className="text-[7px] font-black uppercase tracking-widest text-white leading-tight">
+            {lang === 'de' ? current.de : current.en}
+          </span>
         </div>
       </div>
 
-      {/* Orb Status Footer */}
-      <div className={cn("z-10 shrink-0 w-full", isMap ? "pb-6 px-6" : "pb-10 px-10")}>
-        {worstStatus === 'intense' ? (
-          <button 
-            onClick={(e) => { e.stopPropagation(); router.push('/map?focus=max&status=intense'); }}
-            className={cn(
-              "w-full rounded-2xl flex flex-col items-center justify-center transition-all active:scale-95 group/sos bg-red-600/10 border border-red-600/20 py-3",
-              isMap ? "animate-in slide-in-from-bottom-2" : ""
-            )}
-          >
-            <div className="flex items-center gap-2">
-              <Navigation size={10} className="text-red-500 animate-pulse" />
-              <span className="text-[8px] font-black uppercase tracking-[0.3em] text-red-500">{t.distress}</span>
-            </div>
-          </button>
-        ) : (
-          <div className="text-center flex flex-col items-center gap-2">
-            {!isMap && (
-              <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#10B981] opacity-0 group-hover/orb:opacity-100 transition-opacity flex items-center gap-2">
-                {t.enter} <ArrowRight size={10} />
-              </span>
-            )}
-            <div className="opacity-30 flex flex-col items-center gap-1">
-              <HeartHandshake size={12} className="text-[#10B981]" />
-              <p className="text-[7px] font-black text-white uppercase tracking-[0.6em]">{t.sync}</p>
-            </div>
-          </div>
-        )}
+      <div className="z-10 shrink-0 pb-10 px-8 w-full mt-4">
+        <button 
+          onClick={() => router.push('/heart-status')}
+          className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all group"
+        >
+          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-white/60 group-hover:text-primary">{t.enter}</span>
+          <ArrowRight size={12} className="text-white/20 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+        </button>
       </div>
     </div>
   );

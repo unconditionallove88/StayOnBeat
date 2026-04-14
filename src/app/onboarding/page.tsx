@@ -12,9 +12,10 @@ import { StepPartyGoal } from '@/components/onboarding/StepPartyGoal';
 import { StepSomethingToRemember } from '@/components/onboarding/StepSomethingToRemember';
 import { StepSanctuaryAlarms } from '@/components/onboarding/StepSanctuaryAlarms';
 import { Step9Summary } from '@/components/onboarding/Step8Summary';
+import { StepLaboratoryTesting } from '@/components/onboarding/StepLaboratoryTesting';
 import { SanctuaryGuide } from '@/components/dashboard/SanctuaryGuide';
 import { safeStringify } from '@/lib/safe-storage';
-import { useAuth, useFirestore, signOutAfterRegistration } from '@/firebase';
+import { useAuth, useFirestore } from '@/firebase';
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 
 export type LegalAgreements = {
@@ -99,26 +100,18 @@ export default function Onboarding() {
           }
         }, { merge: true });
       }
-      
-      // Move to interactive guide before final dashboard entry
-      setStep(10);
+      setStep(11); // Interactive guide
     } catch (error) {
       console.error("Onboarding completion error:", error);
     }
   };
 
   const handleFinalRedirect = async () => {
-    const user = auth.currentUser;
-    if (user) {
-      // Logic to finalize and sign out if needed, or redirect
-      router.push("/dashboard");
-    } else {
-      router.push("/auth?welcome=true");
-    }
+    router.push("/dashboard");
   };
 
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col items-center">
+    <main className="min-h-screen bg-black text-white flex flex-col items-center pt-safe pb-safe">
       <div className="w-full max-w-2xl py-8 md:py-16 relative">
         {step === 1 && (
           <Step1ImportantStuff onComplete={(legal) => { updateAndPersist({ legalAgreements: legal }); nextStep(); }} />
@@ -133,22 +126,26 @@ export default function Onboarding() {
         )}
 
         {step === 4 && (
-          <StepSomethingToRemember onBack={prevStep} onComplete={(boundaries) => { updateAndPersist({ sanctuaryBoundaries: boundaries }); nextStep(); }} />
+          <StepLaboratoryTesting onBack={prevStep} onComplete={() => nextStep()} />
         )}
 
         {step === 5 && (
+          <StepSomethingToRemember onBack={prevStep} onComplete={(boundaries) => { updateAndPersist({ sanctuaryBoundaries: boundaries }); nextStep(); }} />
+        )}
+
+        {step === 6 && (
           <StepSanctuaryAlarms onBack={prevStep} onComplete={(alarms) => { updateAndPersist({ sanctuaryAlarms: alarms }); nextStep(); }} />
         )}
         
-        {step === 6 && (
+        {step === 7 && (
           <Step3HealthConditions selected={data.healthConditions} onBack={prevStep} onComplete={(conditions) => { updateAndPersist({ healthConditions: conditions }); nextStep(); }} />
         )}
         
-        {step === 7 && (
+        {step === 8 && (
           <Step4Medications selected={data.medications} onBack={prevStep} onComplete={(meds) => { updateAndPersist({ medications: meds }); nextStep(); }} />
         )}
 
-        {step === 8 && (
+        {step === 9 && (
           <Step6StripeVerify
             onBack={prevStep}
             onComplete={(stripeData) => {
@@ -160,19 +157,19 @@ export default function Onboarding() {
                   last4: stripeData.last4,
                 },
               });
-              setStep(9);
+              setStep(10);
             }}
           />
         )}
 
-        {step === 9 && (
+        {step === 10 && (
           <Step9Summary 
             data={data}
             onComplete={handleOnboardingComplete} 
           />
         )}
 
-        {step === 10 && (
+        {step === 11 && (
           <SanctuaryGuide forceOpen={true} onDismiss={handleFinalRedirect} />
         )}
       </div>
