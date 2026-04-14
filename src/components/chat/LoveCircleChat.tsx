@@ -1,12 +1,14 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Heart, Loader2, Lock, Users, HeartHandshake, Sparkles } from 'lucide-react';
+import { Send, Heart, Loader2, Lock, Users, HeartHandshake, Sparkles, Volume2 } from 'lucide-react';
 import { useFirestore, useUser, useCollection, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection, query, orderBy, limit, serverTimestamp } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
+import { textToSpeech } from '@/ai/flows/text-to-speech';
 
 /**
  * @fileOverview The Holders (Those who hold your heart from afar).
@@ -67,6 +69,7 @@ export function LoveCircleChat() {
   const [groupName, setGroupName] = useState('');
   const [inviteEmail, setInviteEmail] = useState('');
   const [lang, setLang] = useState<'en' | 'de'>('en');
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -75,6 +78,20 @@ export function LoveCircleChat() {
   }, []);
 
   const t = CONTENT[lang] || CONTENT.en;
+
+  const handleVoiceResonance = async () => {
+    if (isSpeaking) return;
+    setIsSpeaking(true);
+    try {
+      const text = `${t.title}. ${t.sub}. ${t.desc}`;
+      const { audioDataUri } = await textToSpeech({ text, lang: lang as any });
+      const audio = new Audio(audioDataUri);
+      audio.onended = () => setIsSpeaking(false);
+      audio.play();
+    } catch (e) {
+      setIsSpeaking(false);
+    }
+  };
 
   const chatQuery = useMemoFirebase(() => {
     if (!firestore || !user?.uid) return null;
@@ -147,7 +164,12 @@ export function LoveCircleChat() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-5xl font-black uppercase tracking-tighter text-white leading-none">{t.title}</h2>
+              <div className="flex items-center justify-center gap-3">
+                <h2 className="text-5xl font-black uppercase tracking-tighter text-white leading-none">{t.title}</h2>
+                <button onClick={handleVoiceResonance} disabled={isSpeaking} className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-[#10B981] transition-all disabled:opacity-30">
+                  {isSpeaking ? <Loader2 className="w-5 h-5 animate-spin text-[#10B981]" /> : <Volume2 className="w-5 h-5 text-[#10B981]" />}
+                </button>
+              </div>
               <p className="text-lg font-bold text-white/60 leading-tight max-sm mx-auto uppercase tracking-widest">
                 {t.desc}
               </p>

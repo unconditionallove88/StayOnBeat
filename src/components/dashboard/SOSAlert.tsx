@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -16,7 +17,8 @@ import {
   CircleDot,
   Radio,
   Sparkles,
-  Eye
+  Eye,
+  AlertTriangle
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -25,9 +27,7 @@ import { playHeartbeat } from '@/lib/resonance';
 
 /**
  * @fileOverview Immediate Help (SOS) Portal.
- * Categorized support pathways with full EN, DE support.
- * Enhanced with "Vision of Love" pathway for grounding.
- * Punctuation-free for resonance.
+ * Enhanced with Mesh Broadcasting to all Circle of Love members.
  */
 
 const CONTENT = {
@@ -44,10 +44,10 @@ const CONTENT = {
       button: "Notify Awareness Team"
     },
     circle: {
-      title: "Circle Alert",
-      sub: "Mutual Care",
-      desc: "Let your inner circle know a moment of connection or assistance is needed via Mesh-Sync",
-      button: "Notify My Circle"
+      title: "Circle Broadcast",
+      sub: "Mesh Mesh Alert",
+      desc: "Instantly alert every member of your Circle of Love via Sovereign Mesh triangulation",
+      button: "Notify All Circle Bonds"
     },
     stillness: {
       title: "Presence Reset",
@@ -64,7 +64,8 @@ const CONTENT = {
     dispatched: "Mesh help request dispatched",
     meshShared: "Mesh Location Shared",
     privacyActive: "Privacy protocols active",
-    returning: (s: number) => `Returning to sanctuary in ${s}s`
+    returning: (s: number) => `Returning to sanctuary in ${s}s`,
+    callDirect: "Call Emergency Directly"
   },
   de: {
     question: "Brauchst du Unterstützung?",
@@ -79,10 +80,10 @@ const CONTENT = {
       button: "Awareness-Team rufen"
     },
     circle: {
-      title: "Circle-Alarm",
-      sub: "Gegenseitige Fürsorge",
-      desc: "Lass deinen inneren Kreis via Mesh-Sync wissen dass Unterstützung gebraucht wird",
-      button: "Meinen Kreis rufen"
+      title: "Circle-Broadcasting",
+      sub: "Mesh Mesh Alarm",
+      desc: "Informiere sofort alle Mitglieder deines Circle of Love via Sovereign Mesh Ortung",
+      button: "Alle im Kreis informieren"
     },
     stillness: {
       title: "Präsenz Reset",
@@ -99,7 +100,8 @@ const CONTENT = {
     dispatched: "Mesh-Anfrage wurde versendet",
     meshShared: "Mesh-Ortung geteilt",
     privacyActive: "Schutzprotokolle sind aktiv",
-    returning: (s: number) => `Rückkehr zum Dashboard in ${s}s`
+    returning: (s: number) => `Rückkehr zum Dashboard in ${s}s`,
+    callDirect: "Notruf direkt anrufen"
   }
 };
 
@@ -151,8 +153,8 @@ export function SOSAlert({ onClose, onVisionOfLove, friendName, friendStatus }: 
     const userRef = doc(firestore, 'users', userUid);
 
     const logMessage = isFriendMode 
-      ? `USER REPORTED DISTRESS FOR FRIEND: ${friendName} (Status: ${friendStatus}) VIA MESH`
-      : `User triggered ${priority === 'urgent' ? 'AWARENESS' : 'FRIENDS'} support alert via Mesh Tactical Grid`;
+      ? `USER REPORTED DISTRESS FOR FRIEND: ${friendName} (Status: ${friendStatus}) VIA MESH BROADCAST`
+      : `User triggered ${priority === 'urgent' ? 'AWARENESS' : 'CIRCLE MESH'} support alert via Mesh Tactical Grid`;
 
     addDocumentNonBlocking(collection(firestore, 'users', userUid, 'sosEvents'), {
       triggeredAt: serverTimestamp(),
@@ -160,7 +162,7 @@ export function SOSAlert({ onClose, onVisionOfLove, friendName, friendStatus }: 
       priority: priority,
       message: logMessage,
       resolvedAt: null,
-      meshData: { triangulated: true, signalStrength: 'high' }
+      meshData: { triangulated: true, signalStrength: 'high', broadcasted: true }
     });
 
     if (!isFriendMode && priority === 'urgent') {
@@ -243,6 +245,14 @@ export function SOSAlert({ onClose, onVisionOfLove, friendName, friendStatus }: 
 
         <ScrollArea className="flex-1 px-6">
           <div className="max-w-md mx-auto w-full pb-32">
+            <div className="mb-6 p-4 bg-red-600/10 border border-red-600/20 rounded-2xl flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <AlertTriangle className="text-red-500" size={20} />
+                <span className="text-[10px] font-black uppercase text-white tracking-widest">{t.callDirect}</span>
+              </div>
+              <button onClick={() => window.open('tel:112')} className="px-4 py-2 bg-red-600 text-white rounded-lg font-black text-[9px] uppercase tracking-widest shadow-lg">Call 112</button>
+            </div>
+
             <Tabs defaultValue="emergency" className="w-full">
               <TabsList className="w-full h-14 bg-white/5 border border-white/10 rounded-full p-1.5 mb-6">
                 <TabsTrigger value="emergency" className="flex-1 rounded-full text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-red-600 data-[state=active]:text-white">

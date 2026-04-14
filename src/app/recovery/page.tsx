@@ -2,7 +2,7 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Trash2, HeartPulse, CheckCircle2, Heart, ShieldCheck, Timer, Droplets, Zap, Coffee, Moon, ExternalLink, Wind, Volume2, Loader2, Sparkles } from 'lucide-react';
+import { ArrowLeft, Trash2, HeartPulse, CheckCircle2, Heart, ShieldCheck, Timer, Droplets, Zap, Coffee, Moon, ExternalLink, Wind, Volume2, Loader2, Sparkles, Stethoscope, BrainCircuit, PhoneCall } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
@@ -52,19 +52,13 @@ export default function RecoveryView() {
 
   const t = {
     en: {
-      integrated: "Integrated", recovery: "Recovery", personalProtocol: "Personalized protocol", activeProtection: "Active Protection", secureWipe: "Session data wiped", protocolGenerated: "Personalized protocol generated", privacyFinalized: "Privacy protocols finalized", dataAnalyzed: (count: number) => `Data analyzed: ${count} entries`, timeline: "Integration Timeline", noLogs: "No logs detected", wipeWarning: "Completing this protocol will permanently wipe session logs and location history", finishBtn: "Complete Session", returnBtn: "Return to Sanctuary", improveBtn: "Help us improve", minutes: "4minutes · anonymous", ritualTitle: "Breath of Love", ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system"
+      integrated: "Integrated", recovery: "Recovery", personalProtocol: "Personalized protocol", activeProtection: "Active Protection", secureWipe: "Session data wiped", protocolGenerated: "Personalized protocol generated", privacyFinalized: "Privacy protocols finalized", dataAnalyzed: (count: number) => `Data analyzed: ${count} entries`, timeline: "Integration Timeline", noLogs: "No logs detected", wipeWarning: "Completing this protocol will permanently wipe session logs and location history", finishBtn: "Complete Session", returnBtn: "Return to Sanctuary", improveBtn: "Help us improve", minutes: "4minutes · anonymous", ritualTitle: "Breath of Love", ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system", gpTitle: "GP Consultation", gpDesc: "Contact your General Practitioner for high-fidelity STD testing and post-session health checks", mentalTitle: "Mental Integration", mentalDesc: "Guidance for paranoia or intense side-effects Return to harmony through presence", emergencyBtn: "Call Emergency Directly"
     },
     de: {
-      integrated: "Integriert", recovery: "Erholung", personalProtocol: "Persönlicher Protokoll", activeProtection: "Aktiver Schutz", secureWipe: "Sitzungsdaten gelöscht hier", protocolGenerated: "Persönliches Protokoll erstellt hier", privacyFinalized: "Schutzprotokolle abgeschlossen hier", dataAnalyzed: (count: number) => `Daten analysiert: ${count} Einträge`, timeline: "Integrations Zeitachse heute", noLogs: "Keine Sitzungsdaten gefunden", wipeWarning: "Der Abschluss dieses Protokolls löscht dauerhaft alle Sitzungsprotokolle und Verläufe", finishBtn: "Session jetzt abschließen", returnBtn: "Zurück zum Sanctuary", improveBtn: "Hilf uns verbessern", minutes: "4 Minuten · anonym", ritualTitle: "Atem der Liebe", ritualDesc: "Führe das Ritual durch um dein Nervensystem sanft zu kalibrieren"
-    },
-    pt: {
-      integrated: "Integrado", recovery: "Recuperação", personalProtocol: "Protocolo personalizado", activeProtection: "Proteção Ativa", secureWipe: "Dados limpos agora", protocolGenerated: "Protocolo personalizado criado", privacyFinalized: "Protocolos finalizados aqui", dataAnalyzed: (count: number) => `Dados analisados: ${count} entradas`, timeline: "Linha do tempo", noLogs: "Sem registros aqui", wipeWarning: "Concluir este protocolo limpará permanentemente todos os registros", finishBtn: "Concluir Sessão Agora", returnBtn: "Voltar ao Santuário", improveBtn: "Ajude-nos a melhorar", minutes: "4 minutos · anônimo", ritualTitle: "Sopro de Amor", ritualDesc: "Realize o ritual de ressonância para recalibrar seu sistema nervoso"
-    },
-    ru: {
-      integrated: "Интегрировано", recovery: "Восстановление", personalProtocol: "Персональный протокол", activeProtection: "Активная защита", secureWipe: "Данные сессии удалены", protocolGenerated: "Протокол сформирован здесь", privacyFinalized: "Протоколы завершены здесь", dataAnalyzed: (count: number) => `Анализ: ${count} записей`, timeline: "График интеграции здесь", noLogs: "Записи не найдены", wipeWarning: "Завершение протокола навсегда удалит все данные сессии", finishBtn: "Завершить сессию сейчас", returnBtn: "Вернуться в пространство", improveBtn: "Помогите нам стать лучше", minutes: "4 минуты · анонимно", ritualTitle: "Дыхание Лювви", ritualDesc: "Выполните ритуал резонанса для восстановления нервной системы"
+      integrated: "Integriert", recovery: "Erholung", personalProtocol: "Persönlicher Protokoll", activeProtection: "Aktiver Schutz", secureWipe: "Sitzungsdaten gelöscht hier", protocolGenerated: "Persönliches Protokoll erstellt hier", privacyFinalized: "Schutzprotokolle abgeschlossen hier", dataAnalyzed: (count: number) => `Daten analysiert: ${count} Einträge`, timeline: "Integrations Zeitachse heute", noLogs: "Keine Sitzungsdaten gefunden", wipeWarning: "Der Abschluss dieses Protokolls löscht dauerhaft alle Sitzungsprotokolle und Verläufe", finishBtn: "Session jetzt abschließen", returnBtn: "Zurück zum Sanctuary", improveBtn: "Hilf uns verbessern", minutes: "4 Minuten · anonym", ritualTitle: "Atem der Liebe", ritualDesc: "Führe das Ritual durch um dein Nervensystem sanft zu kalibrieren", gpTitle: "Praxis-Besuch", gpDesc: "Kontaktiere deinen Hausarzt für STD-Tests und Gesundheitschecks nach der Sitzung", mentalTitle: "Mentale Integration", mentalDesc: "Begleitung bei Paranoia oder intensiven Nebenwirkungen Zurück zur Harmonie finden", emergencyBtn: "Notruf direkt anrufen"
     }
-  }[lang] || {
-    integrated: "Integrated", recovery: "Recovery", personalProtocol: "Personalized protocol", activeProtection: "Active Protection", secureWipe: "Session data wiped", protocolGenerated: "Personalized protocol generated", privacyFinalized: "Privacy protocols finalized", dataAnalyzed: (count: number) => `Data analyzed: ${count} entries`, timeline: "Integration Timeline", noLogs: "No logs detected", wipeWarning: "Completing this protocol will permanently wipe session logs and location history", finishBtn: "Complete Session", returnBtn: "Return to Sanctuary", improveBtn: "Help us improve", minutes: "4minutes · anonymous", ritualTitle: "Breath of Love", ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system"
+  }[lang as 'en'|'de'] || {
+    integrated: "Integrated", recovery: "Recovery", personalProtocol: "Personalized protocol", activeProtection: "Active Protection", secureWipe: "Session data wiped", protocolGenerated: "Personalized protocol generated", privacyFinalized: "Privacy protocols finalized", dataAnalyzed: (count: number) => `Data analyzed: ${count} entries`, timeline: "Integration Timeline", noLogs: "No logs detected", wipeWarning: "Completing this protocol will permanently wipe session logs and location history", finishBtn: "Complete Session", returnBtn: "Return to Sanctuary", improveBtn: "Help us improve", minutes: "4minutes · anonymous", ritualTitle: "Breath of Love", ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system", gpTitle: "GP Consultation", gpDesc: "Contact your General Practitioner for high-fidelity STD testing and post-session health checks", mentalTitle: "Mental Integration", mentalDesc: "Guidance for paranoia or intense side-effects Return to harmony through presence", emergencyBtn: "Call Emergency Directly"
   };
 
   const affirmation = {
@@ -85,6 +79,16 @@ export default function RecoveryView() {
     plan.push({ 
       id: 'h2o', time: "10m", text: "Isotonic Rehydration", 
       desc: "Consume 500ml water with electrolytes to restore mineral balance", icon: Droplets, color: "text-blue-500"
+    });
+
+    plan.push({
+      id: 'mental', time: "1h", text: t.mentalTitle,
+      desc: t.mentalDesc, icon: BrainCircuit, color: "text-purple-400"
+    });
+
+    plan.push({
+      id: 'gp', time: "24h", text: t.gpTitle,
+      desc: t.gpDesc, icon: Stethoscope, color: "text-blue-400"
     });
 
     setDetoxPlan(plan);
@@ -141,6 +145,14 @@ export default function RecoveryView() {
 
       <ScrollArea className="h-full">
         <div className="px-6 py-10 max-w-xl mx-auto space-y-12 pb-40">
+          <div className="bg-red-600/10 border border-red-600/20 p-6 rounded-3xl flex items-center justify-between group">
+            <div className="flex items-center gap-4">
+              <PhoneCall className="text-red-500" size={24} />
+              <p className="text-xs font-black uppercase text-white tracking-widest">{t.emergencyBtn}</p>
+            </div>
+            <button onClick={() => window.open('tel:112')} className="px-6 py-3 bg-red-600 text-white rounded-xl font-black uppercase text-[10px] tracking-widest active:scale-95 transition-all">Call Now</button>
+          </div>
+
           {isFinished && (
             <div className="text-center py-10 space-y-6 animate-in fade-in zoom-in duration-1000">
               <p className="text-2xl font-black uppercase tracking-tighter text-primary leading-tight max-w-[300px] mx-auto">"{affirmation}"</p>

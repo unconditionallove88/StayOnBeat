@@ -27,7 +27,8 @@ import {
   BookOpen,
   Plus,
   Minus,
-  Volume2
+  Volume2,
+  Skull
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -82,6 +83,7 @@ const SUBSTANCES = [
   { id: '2cb', icon: Orbit, name: '2C-B', deName: '2C-B', aliases: ['nexus'], color: 'text-orange-400', isHeavy: true, unit: 'mg', inputType: 'manual' },
   { id: 'psilocybin', icon: MushroomIcon, name: 'Psilocybin', deName: 'Psilocybin', aliases: ['mushrooms', 'shrooms'], color: 'text-emerald-400', isHeavy: false, unit: 'g', inputType: 'manual' },
   { id: 'poppers', icon: Wind, name: 'Poppers', deName: 'Poppers', aliases: ['amyl', 'nitrite'], color: 'text-amber-400', isHeavy: true, unit: 'hits', inputType: 'manual' },
+  { id: 'monkey-dust', icon: Skull, name: 'Monkey Dust', deName: 'Monkey Dust', aliases: ['mdpv', 'bath salts', 'cathinones'], color: 'text-red-500', isHeavy: true, unit: 'mg', inputType: 'manual', note: 'Extreme risk of paranoia and physical agitation.' },
 ];
 
 export function Step6SubstanceLab({ 
@@ -162,9 +164,10 @@ export function Step6SubstanceLab({
     if (isSpeaking) return;
     setIsSpeaking(true);
     try {
-      const { audioDataUri } = await textToSpeech({ text: t.responsibility, lang: lang as any });
+      const text = t.responsibility;
+      const { audioDataUri } = await textToSpeech({ text, lang: lang as any });
       const audio = new Audio(audioDataUri);
-      audio.onended = () => setIsSpeaking(false);
+      audio.onended = () => setIsSpeaking(null);
       audio.play();
     } catch (e) {
       setIsSpeaking(false);
