@@ -17,10 +17,9 @@ import {
   Settings2,
   ChevronDown,
   Radio,
-  PenLine,
-  Wind,
-  Eye,
-  Sparkles
+  Users2,
+  MessageSquareHeart,
+  Globe
 } from 'lucide-react';
 import { SupporterIcon } from '@/components/ui/supporter-icon';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
@@ -33,11 +32,9 @@ import GuardianSimulator from '@/components/dashboard/GuardianSimulator';
 import HeartStatusAura from '@/components/dashboard/HeartStatusAura';
 import { CoCreation } from '@/components/dashboard/CoCreation';
 import { WearablesSync } from '@/components/dashboard/WearablesSync';
-import { LoveLetter } from '@/components/dashboard/LoveLetter';
 import { AssistantPortal as SupporterPortal } from '@/components/chat/AssistantPortal';
 import { VisionOfLove } from '@/components/dashboard/VisionOfLove';
 import { SanctuaryGuide } from '@/components/dashboard/SanctuaryGuide';
-import LoveCircle from '@/components/dashboard/LoveCircle';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUser, useFirestore, useDoc, useMemoFirebase, useAuth } from '@/firebase';
 import { doc } from 'firebase/firestore';
@@ -104,13 +101,23 @@ const AFFIRMATIONS = {
   ]
 };
 
-const TOOLTIPS = {
+const CONTENT = {
   en: { 
-    cocreation: "Co-Creation", supporter: "Supporter", profile: "My Profile", logout: "Step away now", mesh: "Mesh Active", 
+    mesh: "Mesh Active",
+    loveChat: "Love Chat",
+    holders: "The Holders",
+    holdersSub: "Private Bonds",
+    spectators: "The Spectators",
+    spectatorsSub: "Public Care",
     intervention: "Return to presence"
   },
   de: { 
-    cocreation: "Ko-Kreation", supporter: "Unterstützer", profile: "Mein Profil", logout: "Jetzt heraustreten hier", mesh: "Mesh aktiv",
+    mesh: "Mesh aktiv heute",
+    loveChat: "Love Chat heute",
+    holders: "Die Holder heute",
+    holdersSub: "Privater Kreis heute",
+    spectators: "Die Spectator heute",
+    spectatorsSub: "Gemeinsame Fürsorge heute",
     intervention: "Kehre jetzt zurück hier"
   }
 };
@@ -133,7 +140,6 @@ function DashboardContent() {
   const [supporterOpen, setSupporterOpen] = useState(false);
   const [coCreationOpen, setCoCreationOpen] = useState(false);
   const [syncOpen, setSyncOpen] = useState(false);
-  const [loveLetterOpen, setLoveLetterOpen] = useState(false);
   const [visionOfLoveOpen, setVisionOfLoveOpen] = useState(false);
   const [showSOS, setShowSOS] = useState(false);
 
@@ -150,17 +156,9 @@ function DashboardContent() {
       if (!user) router.replace("/auth");
     });
 
-    if (searchParams.get('sync') === 'true') {
-      setSyncOpen(true);
-    }
-
-    if (searchParams.get('vision') === 'true') {
-      setVisionOfLoveOpen(true);
-    }
-
-    if (searchParams.get('sos') === 'true') {
-      setShowSOS(true);
-    }
+    if (searchParams.get('sync') === 'true') setSyncOpen(true);
+    if (searchParams.get('vision') === 'true') setVisionOfLoveOpen(true);
+    if (searchParams.get('sos') === 'true') setShowSOS(true);
 
     return () => unsubscribe();
   }, [auth, router, searchParams]);
@@ -199,22 +197,13 @@ function DashboardContent() {
   if (!mounted || isUserLoading || isProfileLoading) {
     return (
       <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
-        <div className="relative flex items-center justify-center">
-          <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
-          <Heart 
-            size={64} 
-            fill="#1b4d3e" 
-            className="relative z-10 animate-pulse-heart text-[#1b4d3e]" 
-            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #1b4d3e)' }} 
-          />
-        </div>
         <Loader2 className="animate-spin text-primary/20" />
       </div>
     );
   }
 
   const displayName = firestoreProfile?.name || "VALUED SOUL";
-  const t = TOOLTIPS[lang] || TOOLTIPS.en;
+  const t = CONTENT[lang] || CONTENT.en;
 
   return (
     <main className="min-h-screen bg-black text-white flex flex-col h-screen overflow-hidden font-headline">
@@ -255,10 +244,14 @@ function DashboardContent() {
             <PulseGuardianBanner lang={lang} variant="banner" />
           </div>
 
-          <div className="space-y-4 text-center relative">
-            <div className="py-10">
-              <LoveCircle lang={lang} />
-            </div>
+          <div className="space-y-4 text-center relative flex flex-col items-center">
+            <Link href="/heart-status" onClick={() => playHeartbeat()}>
+              <HeartStatusAura 
+                heartRate={simHeartRate} 
+                activeSubstances={activeSubstances} 
+                lang={lang} 
+              />
+            </Link>
             <p className="text-xs font-bold uppercase tracking-widest text-primary px-10 italic">"{affirmation}"</p>
 
             {showShiningLight && (
@@ -277,105 +270,106 @@ function DashboardContent() {
             )}
           </div>
 
-          <div className="space-y-8">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-2xl mx-auto px-4">
+          <div className="space-y-10">
+            {/* Main Tools Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
               <Link 
                 href="/map" 
                 onClick={() => playHeartbeat()}
-                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 hover:border-blue-500/30 transition-all active:scale-95 text-center p-4"
               >
-                <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform">
-                  <RadiatingThirdEye size={32} color="#3b82f6" />
+                <div className="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20">
+                  <RadiatingThirdEye size={28} color="#3b82f6" />
                 </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-black uppercase tracking-tight leading-none">{lang === 'de' ? 'Der Puls' : 'The Pulse'}</p>
-                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Radar</p>
+                <div className="space-y-0.5">
+                  <p className="text-[11px] font-black uppercase tracking-tight">{lang === 'de' ? 'Der Puls' : 'The Pulse'}</p>
+                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest">Radar</p>
                 </div>
               </Link>
 
               <button 
                 onClick={() => handlePortalClick(() => setLabOpen(true))} 
-                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-primary/30 hover:bg-primary/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 hover:border-primary/30 transition-all active:scale-95 text-center p-4"
               >
-                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform">
-                  <Microscope size={32} className="text-white" />
+                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20">
+                  <Microscope size={28} className="text-white" />
                 </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-black uppercase tracking-tight leading-none">{lang === 'de' ? 'Sitzungs-Labor' : 'Pulse Lab'}</p>
-                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest leading-none">Intake</p>
+                <div className="space-y-0.5">
+                  <p className="text-[11px] font-black uppercase tracking-tight">{lang === 'de' ? 'Labor' : 'Pulse Lab'}</p>
+                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest">Intake</p>
                 </div>
               </button>
 
               <button 
                 onClick={() => handlePortalClick(() => setSyncOpen(true))} 
-                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-accent/30 hover:bg-accent/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 hover:border-accent/30 transition-all active:scale-95 text-center p-4"
               >
-                <div className="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center border border-accent/20 group-hover:scale-110 transition-transform">
-                  <Watch size={28} className="text-accent" />
+                <div className="w-12 h-12 bg-accent/10 rounded-2xl flex items-center justify-center border border-accent/20">
+                  <Watch size={24} className="text-accent" />
                 </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-black uppercase tracking-tight leading-none">{lang === 'de' ? 'Vital-Sync' : 'Pulse Sync'}</p>
-                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest leading-none">Mesh Sync</p>
-                </div>
-              </button>
-
-              <button 
-                onClick={() => handlePortalClick(() => loveLetterOpen ? setLoveLetterOpen(false) : setLoveLetterOpen(true))} 
-                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-purple-500/30 hover:bg-purple-500/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
-              >
-                <div className="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center border border-purple-500/20 group-hover:scale-110 transition-transform">
-                  <PenLine size={28} className="text-purple-400" />
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-black uppercase tracking-tight text-white leading-none">{lang === 'de' ? 'Liebesbriefe' : 'Love Letters'}</p>
-                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest leading-none">Future Self</p>
+                <div className="space-y-0.5">
+                  <p className="text-[11px] font-black uppercase tracking-tight">{lang === 'de' ? 'Sync' : 'Pulse Sync'}</p>
+                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest">Mesh</p>
                 </div>
               </button>
 
               <button 
                 onClick={() => handlePortalClick(() => setSupporterOpen(true))}
-                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 hover:border-primary/30 hover:bg-primary/5 transition-all shadow-2xl active:scale-95 group text-center p-6"
+                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 hover:border-primary/30 transition-all active:scale-95 text-center p-4"
               >
-                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform">
-                  <SupporterIcon size={28} className="text-primary" />
+                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20">
+                  <SupporterIcon size={24} className="text-primary" />
                 </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-black uppercase tracking-tight text-white leading-none">{lang === 'de' ? 'Unterstützer' : 'Supporter'}</p>
-                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest leading-none">AI Portal</p>
-                </div>
-              </button>
-
-              <button 
-                onClick={() => handlePortalClick(() => setShowSOS(true))}
-                className="aspect-square rounded-full bg-red-600/10 border border-red-600/20 flex flex-col items-center justify-center gap-4 hover:bg-red-600 transition-all shadow-2xl active:scale-95 group text-center p-6"
-              >
-                <div className="w-14 h-14 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                  <Shield size={28} />
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-black uppercase tracking-tight text-white leading-none group-hover:text-white transition-colors">{lang === 'de' ? 'Sofort-Hilfe' : 'Immediate Help'}</p>
-                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest leading-none group-hover:text-white/60 transition-colors">Mesh SOS</p>
+                <div className="space-y-0.5">
+                  <p className="text-[11px] font-black uppercase tracking-tight">{lang === 'de' ? 'Begleiter' : 'Supporter'}</p>
+                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest">AI Portal</p>
                 </div>
               </button>
             </div>
-          </div>
 
-          <div className="flex justify-center gap-4">
-            <Link 
-              href="/self-care"
-              onClick={() => playHeartbeat()}
-              className="flex items-center gap-3 px-6 py-4 bg-blue-600/10 rounded-full border border-blue-500/20 hover:border-blue-500 transition-all active:scale-95"
-            >
-              <Wind size={18} className="text-blue-400" />
-              <span className="text-[10px] font-black uppercase tracking-widest">{lang === 'de' ? 'Atem der Liebe' : 'Breath of Love'}</span>
-            </Link>
-            <button 
-              onClick={() => handlePortalClick(() => setCoCreationOpen(true))} 
-              className="flex items-center gap-3 px-6 py-4 bg-primary/10 rounded-full border border-primary/20 hover:border-primary transition-all active:scale-95"
-            >
-              <Sprout size={18} className="text-primary" />
-              <span className="text-[10px] font-black uppercase tracking-widest">Co-Creation</span>
-            </button>
+            {/* Love Chat Section */}
+            <div className="space-y-4 max-w-2xl mx-auto">
+              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 text-center">{t.loveChat}</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button 
+                  onClick={() => router.push('/heart-status?chat=holders')}
+                  className="p-6 rounded-[2rem] bg-white/[0.02] border border-white/5 flex items-center gap-5 hover:bg-white/5 hover:border-primary/30 transition-all group"
+                >
+                  <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20">
+                    <Users2 size={28} className="text-primary" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-lg font-black uppercase tracking-tight text-white leading-none">{t.holders}</p>
+                    <p className="text-[8px] font-bold text-primary uppercase tracking-widest mt-1">{t.holdersSub}</p>
+                  </div>
+                </button>
+
+                <button 
+                  onClick={() => router.push('/heart-status?chat=spectators')}
+                  className="p-6 rounded-[2rem] bg-white/[0.02] border border-white/5 flex items-center gap-5 hover:bg-white/5 hover:border-accent/30 transition-all group"
+                >
+                  <div className="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center border border-accent/20">
+                    <Globe size={28} className="text-accent" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-lg font-black uppercase tracking-tight text-white leading-none">{t.spectators}</p>
+                    <p className="text-[8px] font-bold text-accent uppercase tracking-widest mt-1">{t.spectatorsSub}</p>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <div className="flex justify-center pt-4">
+              <button 
+                onClick={() => handlePortalClick(() => setShowSOS(true))}
+                className="w-full max-w-xs h-20 bg-red-600/10 border border-red-600/20 rounded-full flex items-center justify-center gap-4 hover:bg-red-600 transition-all active:scale-95 group shadow-2xl"
+              >
+                <div className="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <Shield size={24} />
+                </div>
+                <span className="text-sm font-black uppercase tracking-widest">{lang === 'de' ? 'Sofort-Hilfe' : 'Immediate Help'}</span>
+              </button>
+            </div>
           </div>
 
           <div className="pt-12">
@@ -391,7 +385,7 @@ function DashboardContent() {
                   )}
                 >
                   <Settings2 size={12} />
-                  {lang === 'de' ? 'Labor-Kalibrierung' : 'Lab Calibration'}
+                  {lang === 'de' ? 'Labor-Kalibrierung heute' : 'Lab Calibration Now'}
                   <ChevronDown className={cn("transition-transform", isSimulatorOpen && "rotate-180")} size={12} />
                 </button>
               </CollapsibleTrigger>
@@ -448,33 +442,6 @@ function DashboardContent() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={coCreationOpen} onOpenChange={setCoCreationOpen}>
-        <DialogContent className="bg-black border-white/10 max-lg p-0 rounded-[2rem] overflow-hidden flex flex-col h-auto max-h-[85dvh] top-[50%] -translate-y-[50%]">
-          <DialogTitle className="sr-only">Co-Creation</DialogTitle>
-          <div className="flex-1 overflow-y-auto">
-            <CoCreation onComplete={() => coCreationOpen && setCoCreationOpen(false)} />
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={syncOpen} onOpenChange={setSyncOpen}>
-        <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85dvh] top-[50%] -translate-y-[50%] shadow-[0_0_80px_rgba(0,0,0,0.9)]">
-          <DialogTitle className="sr-only">Pulse Sync</DialogTitle>
-          <div className="flex-1 overflow-y-auto">
-            <WearablesSync onComplete={() => syncOpen && setSyncOpen(false)} />
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={loveLetterOpen} onOpenChange={setLoveLetterOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[2rem] overflow-hidden flex flex-col h-auto max-h-[85dvh] top-[50%] -translate-y-[50%]">
-          <DialogTitle className="sr-only">Love Letter</DialogTitle>
-          <div className="flex-1 overflow-y-auto">
-            <LoveLetter onComplete={() => loveLetterOpen && setLoveLetterOpen(false)} />
-          </div>
-        </DialogContent>
-      </Dialog>
-
       {visionOfLoveOpen && <VisionOfLove onClose={() => setVisionOfLoveOpen(false)} />}
     </main>
   );
@@ -482,20 +449,7 @@ function DashboardContent() {
 
 export default function Dashboard() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
-        <div className="relative flex items-center justify-center">
-          <div className="absolute inset-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full" />
-          <Heart 
-            size={64} 
-            fill="#1b4d3e" 
-            className="relative z-10 animate-pulse-heart text-[#1b4d3e]" 
-            style={{ filter: 'blur(12px) drop-shadow(0 0 10px #1b4d3e)' }} 
-          />
-        </div>
-        <Loader2 className="animate-spin text-primary/20" />
-      </div>
-    }>
+    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="animate-spin text-primary/20" /></div>}>
       <DashboardContent />
     </Suspense>
   );

@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -8,13 +9,11 @@ interface Props {
   heartRate: number;
   activeSubstances: string[];
   lang?: "en" | "de";
-  mood?: string; 
 }
 
 /**
- * @fileOverview Inner Resonance Visualization (Living Heart Aura).
- * Re-implemented high-fidelity glowing animations.
- * Lovable emerald core #58c55a.
+ * @fileOverview Living Heart Aura Centerpiece.
+ * Tapping this leads to the Inner Resonance / Circle of Love sanctuary.
  */
 export default function HeartStatusAura({ 
   heartRate, 
@@ -27,10 +26,10 @@ export default function HeartStatusAura({
   const isHighRisk = heartRate > 130 || (hasPoppers && heartRate > 100);
   const isElevated = heartRate > 100 || activeSubstances.length > 2;
   
-  const EMERALD = "#58c55a";
-  const stateColor = isHighRisk ? "#DC2626" : isElevated ? "#F59E0B" : EMERALD; 
+  const PRIMARY = "hsl(var(--primary))";
+  const stateColor = isHighRisk ? "#DC2626" : isElevated ? "#F59E0B" : PRIMARY; 
   
-  const loopDuration = isHighRisk ? "2.5s" : isElevated ? "4s" : "6s";
+  const loopDuration = isHighRisk ? "2s" : isElevated ? "3.5s" : "5s";
 
   const labels = {
     en: { resonance: "My Inner Resonance" },
@@ -40,23 +39,23 @@ export default function HeartStatusAura({
   const t = labels[lang as keyof typeof labels] || labels.en;
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 md:p-8 relative font-headline cursor-pointer group animate-in fade-in duration-1000">
-      {/* Outer Glowing Aura */}
+    <div className="flex flex-col items-center justify-center p-4 md:p-8 relative font-headline cursor-pointer group animate-in fade-in duration-1000 active:scale-95 transition-all">
+      {/* Immersive Outer Aura Ring */}
       <div 
-        className="absolute w-64 h-64 md:w-80 md:h-80 rounded-full blur-[100px] transition-all duration-1000" 
+        className="absolute w-64 h-64 md:w-72 md:h-72 rounded-full blur-[80px] transition-all duration-1000 opacity-20" 
         style={{ 
           backgroundColor: stateColor, 
           animation: `aura-pulse-outer ${loopDuration} ease-in-out infinite` 
         }} 
       />
       
-      {/* Interactive Outer Shell */}
+      {/* Tactile Shell */}
       <div 
-        className="relative z-10 w-48 h-48 md:w-56 md:h-56 rounded-full flex items-center justify-center border-2 shadow-2xl transition-all duration-1000 group-hover:scale-105 group-active:scale-95" 
+        className="relative z-10 w-44 h-44 md:w-52 md:h-52 rounded-full flex items-center justify-center border-2 transition-all duration-1000 group-hover:scale-105 group-hover:border-primary/40 shadow-2xl" 
         style={{ 
-          borderColor: `${stateColor}40`, 
-          backgroundColor: `rgba(0,0,0,0.8)`, 
-          boxShadow: `0 0 80px ${stateColor}25` 
+          borderColor: `${stateColor}30`, 
+          backgroundColor: `rgba(0,0,0,0.6)`,
+          boxShadow: `0 0 60px ${stateColor}15`
         }}
       >
         {/* Pulsing Core Heart */}
@@ -67,19 +66,19 @@ export default function HeartStatusAura({
           }}
         >
           <Heart 
-            className="w-24 h-24 md:w-28 md:h-28 transition-all duration-700" 
+            className="w-20 h-20 md:w-24 md:h-24 transition-all duration-700" 
             style={{ 
               color: stateColor, 
               fill: stateColor,
-              filter: `blur(14px) drop-shadow(0 0 25px ${stateColor})`,
-              opacity: 0.8
+              filter: `blur(12px) drop-shadow(0 0 20px ${stateColor})`,
+              opacity: 0.7
             }} 
           />
         </div>
       </div>
 
-      <div className="mt-10 md:mt-12 text-center z-10 space-y-1">
-        <p className="text-white/40 text-[10px] md:text-[11px] uppercase tracking-[0.6em] font-black">
+      <div className="mt-8 text-center z-10 space-y-1">
+        <p className="text-white/30 text-[9px] md:text-[10px] uppercase tracking-[0.6em] font-black group-hover:text-primary transition-colors">
           {t.resonance}
         </p>
       </div>
