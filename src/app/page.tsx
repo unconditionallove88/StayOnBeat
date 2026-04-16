@@ -3,12 +3,13 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Heart, ShieldCheck } from "lucide-react";
+import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
  * @fileOverview High-Fidelity Landing Sanctuary (Entrance).
  * Languages: en (lowercase), de (lowercase).
+ * Updated: Circular entry tabs and integrated slogans.
  */
 
 export default function Home() {
@@ -29,15 +30,13 @@ export default function Home() {
 
   const content = {
     en: { 
-      slogan: "Life is resonant", 
-      valueProp: "Love is everywhere", 
+      slogan: "Love is everywhere", 
       getStarted: "Join the Circle", 
       signIn: "Welcome Home Soul", 
       footer: "Created in harmony" 
     },
     de: { 
-      slogan: "Das Leben ist resonant", 
-      valueProp: "Liebe ist überall hier", 
+      slogan: "Liebe ist überall hier", 
       getStarted: "Werde Teil des Kreises", 
       signIn: "Willkommen Zuhause heute hier", 
       footer: "In Harmonie erschaffen hier" 
@@ -50,6 +49,7 @@ export default function Home() {
     <main className="min-h-screen w-full bg-black text-white flex flex-col items-center justify-between py-12 px-6 overflow-y-auto font-headline relative overflow-hidden pt-safe pb-safe">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 blur-[150px] rounded-full pointer-events-none animate-pulse" />
 
+      {/* Language Toggle */}
       <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-6 py-2.5 rounded-full border border-white/10 z-50 shrink-0 shadow-2xl overflow-x-auto max-w-full no-scrollbar">
         {['en', 'de'].map((l, i) => (
           <div key={l} className="flex items-center gap-4">
@@ -59,7 +59,7 @@ export default function Home() {
         ))}
       </div>
 
-      <div className="flex flex-col items-center w-full max-w-xl text-center flex-1 justify-center py-12 relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+      <div className="flex flex-col items-center w-full max-w-2xl text-center flex-1 justify-center py-12 relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-1000">
         <div className="flex flex-col items-center justify-center mb-16">
           <div className="relative flex items-center justify-center">
             <div className="absolute inset-0 w-48 h-48 bg-primary/10 blur-[80px] rounded-full" />
@@ -76,16 +76,27 @@ export default function Home() {
           <p className="text-primary font-bold mt-4 tracking-[0.3em] uppercase text-[10px] italic opacity-80">{content[lang].slogan}</p>
         </div>
         
-        <div className="w-full max-md space-y-4 mb-16">
-          <div className="flex items-start gap-5 p-8 bg-white/[0.03] rounded-[2.5rem] border border-white/10 text-center group hover:border-primary/30 transition-all shadow-2xl backdrop-blur-sm justify-center">
-            <ShieldCheck className="text-primary mt-1 flex-shrink-0" size={24} />
-            <p className="text-sm font-bold text-white/60 leading-tight uppercase tracking-widest leading-relaxed italic">{content[lang].valueProp}</p>
-          </div>
-        </div>
+        {/* Circular Entry Portals */}
+        <div className="flex flex-col sm:flex-row gap-8 w-full justify-center items-center">
+          <button 
+            onClick={() => router.push('/auth?mode=signup')} 
+            className="w-48 h-48 md:w-56 md:h-56 rounded-full bg-[#1b4d3e] text-white flex flex-col items-center justify-center gap-3 p-6 group transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(27,77,62,0.2)] border-2 border-primary/20 relative"
+          >
+            <div className="absolute inset-0 bg-primary/10 rounded-full blur-xl group-hover:bg-primary/20 transition-all" />
+            <span className="text-lg md:text-xl font-black uppercase tracking-tight leading-none z-10 max-w-[120px]">
+              {content[lang].getStarted}
+            </span>
+          </button>
 
-        <div className="flex flex-col gap-5 w-full max-sm mx-auto">
-          <button onClick={() => router.push('/auth?mode=signup')} className="pill-button w-full bg-[#1b4d3e] text-white text-xl font-black active:scale-95 shadow-lg uppercase tracking-[0.1em] transition-all">{content[lang].getStarted}</button>
-          <button onClick={() => router.push('/auth?mode=signin')} className="pill-button w-full bg-white/[0.03] border-2 border-primary/20 text-primary text-lg font-black active:scale-95 uppercase tracking-[0.1em] backdrop-blur-sm">{content[lang].signIn}</button>
+          <button 
+            onClick={() => router.push('/auth?mode=signin')} 
+            className="w-48 h-48 md:w-56 md:h-56 rounded-full bg-white/[0.03] backdrop-blur-sm border-2 border-primary/20 text-primary flex flex-col items-center justify-center gap-3 p-6 group transition-all hover:scale-105 active:scale-95 shadow-2xl relative"
+          >
+            <div className="absolute inset-0 bg-white/5 rounded-full transition-all group-hover:bg-white/10" />
+            <span className="text-sm md:text-base font-black uppercase tracking-widest leading-tight z-10 max-w-[120px]">
+              {content[lang].signIn}
+            </span>
+          </button>
         </div>
       </div>
 
