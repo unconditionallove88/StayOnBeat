@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -13,14 +12,12 @@ import {
   Shield, 
   Eye,
   Info,
-  CheckCircle2,
-  ArrowRight
+  CheckCircle2
 } from 'lucide-react';
 import { RadiatingThirdEye } from '@/components/ui/radiating-third-eye';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 /**
  * @fileOverview Sanctuary Guide Component (The Handover).
@@ -31,7 +28,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 const STEPS = [
   {
     id: 'radar',
-    title: { en: "The Pulse Radar", de: "Der Puls-Radar" },
+    title: { en: "The Pulse Radar", de: "Der Puls-Radar heute" },
     desc: { 
       en: "Your mesh-based location tracker Shared only with those you love Pulse Guardian monitors your proximity to help stations and friends", 
       de: "Dein Mesh-Ortungssystem heute hier Nur mit deinen Liebsten geteilt Pulse Guardian überwacht deine Nähe" 
@@ -42,16 +39,15 @@ const STEPS = [
     },
     connection: {
       en: "Pulse Guardian: Analyzes proximity alerts and triggers mesh triangulation during distress",
-      de: "Pulse Guardian: Analysiert Standort-Warnungen Und aktiviert die Mesh-Triangulation"
+      de: "Pulse Guardian: Analysiert Standort-Warnungen Und aktiviert die Mesh-Triangulation heute"
     },
     icon: RadiatingThirdEye,
     color: "text-blue-400",
-    bg: "bg-blue-500/10",
-    imageId: "guide-radar"
+    bg: "bg-blue-500/10"
   },
   {
     id: 'lab',
-    title: { en: "Pulse Lab", de: "Sitzungs-Labor" },
+    title: { en: "Pulse Lab", de: "Sitzungs-Labor heute hier" },
     desc: { 
       en: "Log your session intake responsibly Pulse Guardian calibrates your safety thresholds in real-time based on pharmacology", 
       de: "Notiere deine Sitzungs-Aufnahme heute Pulse Guardian kalibriert deine Limits Basierend auf deiner Pharmakologie heute" 
@@ -66,12 +62,11 @@ const STEPS = [
     },
     icon: Microscope,
     color: "text-primary",
-    bg: "bg-primary/10",
-    imageId: "guide-lab"
+    bg: "bg-primary/10"
   },
   {
     id: 'sync',
-    title: { en: "Pulse Sync", de: "Vital-Sync" },
+    title: { en: "Pulse Sync", de: "Vital-Sync heute hier" },
     desc: { 
       en: "Connect your wearable device We monitor your heart rate to ensure your rhythm stays steady against baseline", 
       de: "Verbinde dein Wearable heute hier Wir überwachen deinen Puls heute Damit dein Rhythmus stabil bleibt" 
@@ -82,16 +77,15 @@ const STEPS = [
     },
     connection: {
       en: "Pulse Guardian: Compares live biometric data against pharmacological logs to detect physiological stress",
-      de: "Pulse Guardian: Vergleicht Live-Vitalwerte Mit Labor-Logs zur Stresserkennung"
+      de: "Pulse Guardian: Vergleicht Live-Vitalwerte Mit Labor-Logs zur Stresserkennung heute"
     },
     icon: Watch,
     color: "text-accent",
-    bg: "bg-accent/10",
-    imageId: "guide-sync"
+    bg: "bg-accent/10"
   },
   {
     id: 'letters',
-    title: { en: "Love Letters", de: "Liebesbriefe" },
+    title: { en: "Love Letters", de: "Liebesbriefe heute hier" },
     desc: { 
       en: "A note to your future self Written in light stored in the sanctuary for when you need it", 
       de: "Nachricht an dein zukünftiges Ich In Licht geschrieben heute hier Sicher im Sanctuary verwahrt heute" 
@@ -102,16 +96,15 @@ const STEPS = [
     },
     connection: {
       en: "Pulse Guardian: Surfaces your love letters automatically if post-session paranoia or low resonance is detected",
-      de: "Pulse Guardian: Zeigt Liebesbriefe automatisch Bei Paranoia oder niedriger Resonanz"
+      de: "Pulse Guardian: Zeigt Liebesbriefe automatisch Bei Paranoia oder niedriger Resonanz heute"
     },
     icon: PenLine,
     color: "text-purple-400",
-    bg: "bg-purple-500/10",
-    imageId: "guide-letters"
+    bg: "bg-purple-500/10"
   },
   {
     id: 'supporter',
-    title: { en: "The Supporter", de: "Unterstützer" },
+    title: { en: "The Supporter", de: "Unterstützer heute hier" },
     desc: { 
       en: "Your sentient AI companion Ask anything about safety phases or grounding Available 24/7 within your sanctuary", 
       de: "Dein empathischer KI-Begleiter heute Frage alles über Sicherheit heute Jederzeit im Sanctuary erreichbar heute" 
@@ -126,28 +119,7 @@ const STEPS = [
     },
     icon: Shield,
     color: "text-primary",
-    bg: "bg-primary/10",
-    imageId: "guide-supporter"
-  },
-  {
-    id: 'vision',
-    title: { en: "Vision of Love", de: "Vision der Liebe" },
-    desc: { 
-      en: "A sensory grounding tool Return to harmony through visual and textual resonance when things feel heavy", 
-      de: "Ein sensorisches Erdungs-Tool heute Kehre zur Harmonie zurück heute Wenn die Dinge schwer werden" 
-    },
-    howItWorks: {
-      en: "Enter an immersive visual sequence Designed to recalibrate your nervous system via focused resonance",
-      de: "Betrete eine immersive Sequenz heute Entwickelt um das Nervensystem heute Durch Resonanz sanft zu kalibrieren"
-    },
-    connection: {
-      en: "Pulse Guardian: Triggers the Vision of Love automatically if biological thresholds are breached",
-      de: "Pulse Guardian: Aktiviert Vision der Liebe Bei Überschreitung biologischer Grenzwerte heute"
-    },
-    icon: Eye,
-    color: "text-[#10B981]",
-    bg: "bg-[#10B981]/10",
-    imageId: "guide-vision"
+    bg: "bg-primary/10"
   }
 ];
 
@@ -155,8 +127,6 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
   const [isOpen, setIsOpen] = useState(forceOpen);
   const [currentStep, setCurrentStep] = useState(0);
   const [hasDismissed, setHasDismissed] = useState(false);
-
-  const currentLang = lang.toLowerCase() as 'en' | 'de';
 
   useEffect(() => {
     const dismissed = localStorage.getItem('stayonbeat_guide_dismissed');
@@ -174,7 +144,6 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
 
   const step = STEPS[currentStep];
   const Icon = step.icon;
-  const imageData = PlaceHolderImages.find(img => img.id === step.imageId);
 
   return (
     <div className={cn("w-full", !isOpen && "mb-8")}>
@@ -189,10 +158,10 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
             </div>
             <div className="text-left">
               <span className="block text-[10px] font-black uppercase text-primary tracking-[0.2em]">
-                {currentLang === 'en' ? "Sanctuary Guide Active" : "Sanctuary Begleiter heute hier"}
+                {lang === 'en' ? "Sanctuary Guide Active" : "Sanctuary Begleiter heute hier"}
               </span>
               <p className="text-[9px] font-bold text-white/40 uppercase tracking-widest">
-                {currentLang === 'en' ? "Presentation of tools" : "Vorstellung der Tools heute"}
+                {lang === 'en' ? "How to use your tools" : "Wie du deine Tools nutzt heute"}
               </p>
             </div>
           </div>
@@ -209,10 +178,10 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
               </div>
               <div>
                 <h2 className="text-xl font-black uppercase tracking-tighter text-white">
-                  {currentLang === 'en' ? "Sanctuary Handover" : "Sanctuary Handover heute"}
+                  {lang === 'en' ? "Sanctuary Handover" : "Sanctuary Handover heute"}
                 </h2>
                 <p className="text-[9px] font-black text-primary uppercase tracking-[0.3em]">
-                  {currentLang === 'en' ? `Tool ${currentStep + 1} of ${STEPS.length}` : `Tool ${currentStep + 1} von ${STEPS.length}`}
+                  {lang === 'en' ? `Tool ${currentStep + 1} of ${STEPS.length}` : `Tool ${currentStep + 1} von ${STEPS.length}`}
                 </p>
               </div>
             </div>
@@ -226,40 +195,26 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
           <ScrollArea className="flex-1 relative z-10 px-8">
             <div className="max-w-2xl mx-auto space-y-10 pb-40">
               <div className="space-y-8 animate-in slide-in-from-bottom-4 duration-700">
-                <div className="relative aspect-video rounded-[2.5rem] overflow-hidden border-2 border-white/10 shadow-2xl group bg-[#0a0a0a]">
-                  <img 
-                    src={imageData?.imageUrl || `https://picsum.photos/seed/${step.id}/800/600`} 
-                    alt={step.title[currentLang]} 
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-60" 
-                    data-ai-hint={imageData?.imageHint || "app interface"}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-                  <div className="absolute bottom-8 left-8 flex items-center gap-4">
-                    <div className={cn("w-16 h-16 rounded-2xl flex items-center justify-center border border-white/20 shadow-xl backdrop-blur-md", step.bg)}>
-                      <Icon size={32} className={step.color} />
-                    </div>
-                    <h3 className="text-3xl font-black uppercase tracking-tighter text-white drop-shadow-lg">
-                      {step.title[currentLang]}
-                    </h3>
-                  </div>
+                <div className={cn("w-28 h-28 rounded-[2.5rem] flex items-center justify-center border-2 border-white/10 shadow-2xl transition-all duration-700 mx-auto", step.bg)}>
+                  <Icon size={56} className={step.color} />
                 </div>
 
-                <div className="space-y-8 px-2">
-                  <div className="space-y-3">
-                    <span className="text-[10px] font-black uppercase text-primary tracking-[0.3em]">
-                      What it is
-                    </span>
-                    <p className="text-xl font-bold text-white leading-relaxed uppercase tracking-tight">
-                      {step.desc[currentLang]}
-                    </p>
-                  </div>
+                <div className="text-center space-y-2">
+                  <h3 className="text-3xl font-black uppercase tracking-tighter text-white">
+                    {lang === 'en' ? step.title.en : step.title.de}
+                  </h3>
+                  <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest max-w-[280px] mx-auto">
+                    {lang === 'en' ? step.desc.en : step.desc.de}
+                  </p>
+                </div>
 
+                <div className="space-y-6">
                   <div className="space-y-3">
-                    <span className="text-[10px] font-black uppercase text-blue-400 tracking-[0.3em]">
+                    <span className="text-[10px] font-black uppercase text-blue-400 tracking-[0.3em] block text-center">
                       How it functions
                     </span>
-                    <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest">
-                      {step.howItWorks[currentLang]}
+                    <p className="text-xs font-bold text-white/80 leading-relaxed uppercase tracking-widest text-center px-4">
+                      {lang === 'en' ? step.howItWorks.en : step.howItWorks.de}
                     </p>
                   </div>
 
@@ -271,7 +226,7 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
                       </span>
                     </div>
                     <p className="text-xs font-bold text-white/80 leading-relaxed uppercase tracking-widest italic">
-                      {step.connection[currentLang]}
+                      {lang === 'en' ? step.connection.en : step.connection.de}
                     </p>
                   </div>
                 </div>
@@ -322,7 +277,7 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
                 </div>
               </div>
               <p className="text-center text-[8px] font-black uppercase tracking-[0.5em] text-white/20">
-                End-to-End Encrypted Handover • Created in harmony
+                End-to-End Encrypted Handover
               </p>
             </div>
           </footer>

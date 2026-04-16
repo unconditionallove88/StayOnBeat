@@ -23,12 +23,13 @@ import {
  * @fileOverview PulseGuardianBanner Component.
  * Linguistic purification: Removed "security" and "protection" terminology.
  * Punctuation-free affirmations for resonance.
- * Updated: Created in harmony (EN - 3 words) / In Harmonie erschaffen hier (DE - 4 words).
+ * Updated: Features link to the interactive Sanctuary Guide.
  */
 
 interface PulseGuardianBannerProps {
   lang?: "en" | "de";
   variant?: "banner" | "icon";
+  onOpenGuide?: () => void;
 }
 
 const CONTENT = {
@@ -43,7 +44,8 @@ const CONTENT = {
       { title: "Immediate Help Connection", desc: "Triggers care protocols and the Protection Window if thresholds are breached" },
     ],
     footer: "Created in harmony",
-    tapInfo: "Integrated Intelligence Engine"
+    tapInfo: "Integrated Intelligence Engine",
+    viewGuide: "View Sanctuary Guide"
   },
   de: {
     title: "Pulse Guardian",
@@ -56,13 +58,15 @@ const CONTENT = {
       { title: "Sofort-Hilfe Verbindung", desc: "Aktiviert Fürsorgeprotokolle und das Schutzfenster, falls Schwellenwerte überschritten werden" },
     ],
     footer: "In Harmonie erschaffen hier",
-    tapInfo: "Integrierte Intelligenz Engine"
+    tapInfo: "Integrierte Intelligenz Engine",
+    viewGuide: "Sanctuary Begleiter ansehen"
   }
 };
 
 export default function PulseGuardianBanner({ 
   lang = "en", 
-  variant = "banner" 
+  variant = "banner",
+  onOpenGuide
 }: PulseGuardianBannerProps) {
   const t = CONTENT[lang] || CONTENT.en;
 
@@ -91,6 +95,15 @@ export default function PulseGuardianBanner({
             </div>
           );
         })}
+      </div>
+
+      <div className="mt-8 px-2">
+        <button 
+          onClick={onOpenGuide}
+          className="w-full py-5 bg-white text-black rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg active:scale-95 transition-all"
+        >
+          {t.viewGuide}
+        </button>
       </div>
 
       <div className="mt-12 pt-8 border-t border-white/5 text-center">

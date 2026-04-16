@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from "react";
@@ -25,7 +24,7 @@ import {
 
 /**
  * @fileOverview Organic Circle of Love.
- * Mirroring the main Dashboard Aura in its center.
+ * Adjustments: Organic pulsation and reflective color resonance.
  */
 
 const ARCHETYPES = [

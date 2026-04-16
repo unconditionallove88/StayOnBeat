@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -17,7 +16,9 @@ import {
   ChevronDown,
   Radio,
   Users2,
-  Globe
+  Globe,
+  ArrowRight,
+  MessageCircleHeart
 } from 'lucide-react';
 import { SupporterIcon } from '@/components/ui/supporter-icon';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
@@ -47,55 +48,23 @@ import {
 
 function SkyIcon() {
   const [icon, setIcon] = useState<React.ReactNode>(null);
-
   useEffect(() => {
     const hour = new Date().getHours();
     const isDay = hour >= 6 && hour < 18;
-
     if (icon === null) {
       if (isDay) {
-        setIcon(
-          <div className="relative group flex-shrink-0">
-            <Sun className="w-5 h-5 md:w-7 md:h-7 text-yellow-400 fill-yellow-400" />
-            <div className="absolute inset-0 bg-yellow-400/20 blur-xl rounded-full opacity-30" />
-          </div>
-        );
+        setIcon(<div className="relative group flex-shrink-0"><Sun className="w-5 h-5 md:w-7 md:h-7 text-yellow-400 fill-yellow-400" /><div className="absolute inset-0 bg-yellow-400/20 blur-xl rounded-full opacity-30" /></div>);
       } else {
-        setIcon(
-          <div className="relative flex items-center justify-center flex-shrink-0">
-            <div className="relative">
-              <Moon className="w-4 h-4 md:w-6 md:h-6 text-slate-100 fill-slate-100/10 rotate-[-15deg]" />
-            </div>
-          </div>
-        );
+        setIcon(<div className="relative flex items-center justify-center flex-shrink-0"><div className="relative"><Moon className="w-4 h-4 md:w-6 md:h-6 text-slate-100 fill-slate-100/10 rotate-[-15deg]" /></div></div>);
       }
     }
   }, [icon]);
-
   return icon;
 }
 
 const AFFIRMATIONS = {
-  EN: [
-    "I respect myself", 
-    "I love myself", 
-    "I accept myself", 
-    "Worthy of love", 
-    "I am love", 
-    "I love everyone", 
-    "I forgive myself", 
-    "Life is love"
-  ],
-  DE: [
-    "Ich respektiere mich selbst", 
-    "Ich liebe mich selbst", 
-    "Ich akzeptiere mich selbst", 
-    "Ich verdiene Liebe heute", 
-    "Ich bin pure Liebe", 
-    "Ich liebe alle Menschen", 
-    "Ich vergebe mir selbst", 
-    "Leben ist Liebe heute"
-  ]
+  EN: ["I respect myself", "I love myself", "I accept myself", "Worthy of love", "I am love", "I love everyone", "I forgive myself", "Life is love"],
+  DE: ["Ich respektiere mich selbst", "Ich liebe mich selbst heute hier", "Ich akzeptiere mich selbst heute hier", "Ich verdiene Liebe heute hier", "Ich bin pure Liebe heute hier", "Ich liebe alle Menschen heute hier", "Ich vergebe mir selbst heute hier", "Leben ist Liebe heute hier"]
 };
 
 const CONTENT = {
@@ -106,16 +75,20 @@ const CONTENT = {
     holdersSub: "Private Bonds",
     spectators: "The Spectators",
     spectatorsSub: "Public Care",
-    intervention: "Presence"
+    intervention: "Presence",
+    supporterMain: "AI Supporter Portal",
+    supporterSub: "Your Sentient Companion"
   },
   de: { 
-    mesh: "Mesh aktiv heute",
-    loveChat: "Love Chat heute",
-    holders: "Die Holder heute",
-    holdersSub: "Privater Kreis heute",
-    spectators: "Die Spectator heute",
-    spectatorsSub: "Gemeinsame Fürsorge heute",
-    intervention: "Präsenz heute"
+    mesh: "Mesh aktiv heute hier",
+    loveChat: "Love Chat heute hier",
+    holders: "Die Holder heute hier",
+    holdersSub: "Privater Kreis heute hier",
+    spectators: "Die Spectator heute hier",
+    spectatorsSub: "Gemeinsame Fürsorge heute hier",
+    intervention: "Präsenz heute hier",
+    supporterMain: "Unterstützer heute hier",
+    supporterSub: "Dein empathischer Begleiter heute"
   }
 };
 
@@ -128,6 +101,7 @@ function DashboardContent() {
   const [mounted, setMounted] = useState(false);
   const [affirmation, setAffirmation] = useState("");
   const [lang, setLang] = useState<'en' | 'de'>('en');
+  const [guideOpen, setGuideOpen] = useState(false);
   
   const [simHeartRate, setSimHeartRate] = useState(75);
   const [activeSubstances, setActiveSubstances] = useState<string[]>([]);
@@ -144,20 +118,11 @@ function DashboardContent() {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
     const currentLang = ['en', 'de'].includes(savedLang) ? savedLang : 'en';
     setLang(currentLang);
-
     const pool = AFFIRMATIONS[currentLang.toUpperCase() as keyof typeof AFFIRMATIONS];
     setAffirmation(pool[Math.floor(Math.random() * pool.length)]);
-
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) router.replace("/auth");
-    });
-
-    if (searchParams.get('sync') === 'true') setSyncOpen(true);
-    if (searchParams.get('vision') === 'true') setVisionOfLoveOpen(true);
-    if (searchParams.get('sos') === 'true') setShowSOS(true);
-
+    const unsubscribe = onAuthStateChanged(auth, (user) => { if (!user) router.replace("/auth"); });
     return () => unsubscribe();
-  }, [auth, router, searchParams]);
+  }, [auth, router]);
 
   const userDocRef = useMemoFirebase(() => {
     if (!firestore || !user?.uid) return null;
@@ -166,39 +131,14 @@ function DashboardContent() {
   
   const { data: firestoreProfile, isLoading: isProfileLoading } = useDoc(userDocRef);
 
-  const medicalProfile = {
-    healthConditions: firestoreProfile?.healthConditions || [],
-    medications: firestoreProfile?.medications || []
-  };
-
-  const safetyStatus = checkSafetyStatus(
-    { heartRate: simHeartRate }, 
-    activeSubstances, 
-    firestoreProfile?.pulseBaseline?.restingBPM,
-    medicalProfile
-  );
-
+  const safetyStatus = checkSafetyStatus({ heartRate: simHeartRate }, activeSubstances, firestoreProfile?.pulseBaseline?.restingBPM);
   const isLocked = safetyStatus.isLocked;
-  const cautionThreshold = 110;
-  const isCaution = !isLocked && (simHeartRate > cautionThreshold || (typeof activeSubstances === 'object' && activeSubstances.length >= 3));
-  const guardianStatus: 'safe' | 'caution' | 'locked' = isLocked ? 'locked' : (isCaution ? 'caution' : 'safe');
-
-  const showPresenceIntervention = simHeartRate > 110;
-
-  const handlePortalClick = (action: () => void) => {
-    playHeartbeat();
-    action();
-  };
+  const guardianStatus: 'safe' | 'caution' | 'locked' = isLocked ? 'locked' : (simHeartRate > 110 ? 'caution' : 'safe');
 
   if (!mounted || isUserLoading || isProfileLoading) {
-    return (
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
-        <Loader2 className="animate-spin text-primary/20" />
-      </div>
-    );
+    return (<div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8"><Loader2 className="animate-spin text-primary/20" /></div>);
   }
 
-  const displayName = firestoreProfile?.name || "VALUED SOUL";
   const t = CONTENT[lang] || CONTENT.en;
 
   return (
@@ -207,249 +147,108 @@ function DashboardContent() {
         <header className="flex justify-between items-center max-w-4xl mx-auto w-full gap-4">
           <div className="flex-1 min-w-0">
             <h1 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-3 truncate">
-              <span className="truncate">{lang === 'de' ? `STRAHLE, ${displayName}` : `SHINE, ${displayName}`}</span>
+              <span className="truncate">{lang === 'de' ? `STRAHLE, ${firestoreProfile?.name || "SEELE"}` : `SHINE, ${firestoreProfile?.name || "SOUL"}`}</span>
               <SkyIcon />
             </h1>
-            <div className="flex items-center gap-2 mt-1">
-              <div className="px-2 py-0.5 bg-blue-500/10 border border-blue-500/20 rounded-full flex items-center gap-1.5 animate-in fade-in duration-1000">
-                <Radio size={8} className="text-blue-400 animate-pulse" />
-                <span className="text-[7px] font-black uppercase tracking-widest text-blue-400/80">{t.mesh}</span>
-              </div>
-            </div>
           </div>
-          
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <Link 
-              href="/profile" 
-              onClick={() => playHeartbeat()}
-              className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-primary transition-all active:scale-95"
-            >
-              <User size={20} className="text-white/40" />
-            </Link>
-          </div>
+          <Link href="/profile" className="p-3 bg-white/5 rounded-full border border-white/10"><User size={20} className="text-white/40" /></Link>
         </header>
       </div>
 
       <ScrollArea className="flex-1">
         <div className="max-w-4xl mx-auto px-6 py-8 space-y-12 pb-40 touch-pan-y">
           
-          <SanctuaryGuide lang={lang} />
+          <SanctuaryGuide lang={lang} forceOpen={guideOpen} onDismiss={() => setGuideOpen(false)} />
 
           <div className="space-y-3">
             <GuardianStatusBar status={guardianStatus} heartRate={simHeartRate} lang={lang} />
-            <PulseGuardianBanner lang={lang} variant="banner" />
+            <PulseGuardianBanner lang={lang} variant="banner" onOpenGuide={() => setGuideOpen(true)} />
           </div>
 
           <div className="space-y-4 text-center relative flex flex-col items-center">
-            <Link href="/heart-status" onClick={() => playHeartbeat()}>
-              <HeartStatusAura 
-                heartRate={simHeartRate} 
-                activeSubstances={activeSubstances} 
-                lang={lang} 
-              />
+            <Link href="/heart-status">
+              <HeartStatusAura heartRate={simHeartRate} activeSubstances={activeSubstances} lang={lang} />
             </Link>
             <p className="text-xs font-bold uppercase tracking-widest text-primary px-10 italic">"{affirmation}"</p>
-
-            {showPresenceIntervention && (
-              <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100]">
-                <button 
-                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); handlePortalClick(() => setVisionOfLoveOpen(true)); }}
-                  className="w-24 h-24 bg-[#10B981] rounded-full flex flex-col items-center justify-center border-4 border-white shadow-[0_0_80px_rgba(16,185,129,1)] animate-pulse group relative overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-white/20 animate-ping opacity-30" />
-                  <RadiatingThirdEye size={36} color="white" />
-                  <span className="text-[10px] font-black uppercase text-white tracking-widest mt-1">{t.intervention}</span>
-                </button>
-              </div>
-            )}
           </div>
 
-          <div className="space-y-10">
-            {/* Main Tools Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
-              <Link 
-                href="/map" 
-                onClick={() => playHeartbeat()}
-                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 hover:border-blue-500/30 transition-all active:scale-95 text-center p-4"
-              >
-                <div className="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20">
-                  <RadiatingThirdEye size={28} color="#3b82f6" />
-                </div>
-                <div className="space-y-0.5">
-                  <p className="text-[11px] font-black uppercase tracking-tight">{lang === 'de' ? 'Der Puls' : 'The Pulse'}</p>
-                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest">Radar</p>
-                </div>
-              </Link>
-
-              <button 
-                onClick={() => handlePortalClick(() => setLabOpen(true))} 
-                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 hover:border-primary/30 transition-all active:scale-95 text-center p-4"
-              >
-                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20">
-                  <Microscope size={28} className="text-white" />
-                </div>
-                <div className="space-y-0.5">
-                  <p className="text-[11px] font-black uppercase tracking-tight">{lang === 'de' ? 'Labor' : 'Pulse Lab'}</p>
-                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest">Intake</p>
-                </div>
-              </button>
-
-              <button 
-                onClick={() => handlePortalClick(() => setSyncOpen(true))} 
-                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 hover:border-accent/30 transition-all active:scale-95 text-center p-4"
-              >
-                <div className="w-12 h-12 bg-accent/10 rounded-2xl flex items-center justify-center border border-accent/20">
-                  <Watch size={24} className="text-accent" />
-                </div>
-                <div className="space-y-0.5">
-                  <p className="text-[11px] font-black uppercase tracking-tight">{lang === 'de' ? 'Sync' : 'Pulse Sync'}</p>
-                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest">Mesh</p>
-                </div>
-              </button>
-
-              <button 
-                onClick={() => handlePortalClick(() => setSupporterOpen(true))}
-                className="aspect-square rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-3 hover:border-primary/30 transition-all active:scale-95 text-center p-4"
-              >
-                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20">
-                  <SupporterIcon size={24} className="text-primary" />
-                </div>
-                <div className="space-y-0.5">
-                  <p className="text-[11px] font-black uppercase tracking-tight">{lang === 'de' ? 'Begleiter' : 'Supporter'}</p>
-                  <p className="text-[7px] font-bold text-white/30 uppercase tracking-widest">AI Portal</p>
-                </div>
-              </button>
-            </div>
-
-            {/* Love Chat Section */}
-            <div className="space-y-4 max-w-2xl mx-auto">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 text-center">{t.loveChat}</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <button 
-                  onClick={() => router.push('/heart-status?chat=holders')}
-                  className="p-6 rounded-[2rem] bg-white/[0.02] border border-white/5 flex items-center gap-5 hover:bg-white/5 hover:border-primary/30 transition-all group"
-                >
-                  <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20">
-                    <Users2 size={28} className="text-primary" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-lg font-black uppercase tracking-tight text-white leading-none">{t.holders}</p>
-                    <p className="text-[8px] font-bold text-primary uppercase tracking-widest mt-1">{t.holdersSub}</p>
-                  </div>
-                </button>
-
-                <button 
-                  onClick={() => router.push('/heart-status?chat=spectators')}
-                  className="p-6 rounded-[2rem] bg-white/[0.02] border border-white/5 flex items-center gap-5 hover:bg-white/5 hover:border-accent/30 transition-all group"
-                >
-                  <div className="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center border border-accent/20">
-                    <Globe size={28} className="text-accent" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-lg font-black uppercase tracking-tight text-white leading-none">{t.spectators}</p>
-                    <p className="text-[8px] font-bold text-accent uppercase tracking-widest mt-1">{t.spectatorsSub}</p>
-                  </div>
-                </button>
+          {/* Main Second Tool: Supporter Portal */}
+          <button 
+            onClick={() => { playHeartbeat(); setSupporterOpen(true); }}
+            className="w-full p-8 rounded-[2.5rem] bg-emerald-500/5 border-2 border-emerald-500/20 flex items-center justify-between group hover:bg-emerald-500/10 transition-all shadow-2xl"
+          >
+            <div className="flex items-center gap-6">
+              <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20 shadow-lg group-hover:scale-110 transition-transform">
+                <SupporterIcon size={36} className="text-emerald-500" />
+              </div>
+              <div className="text-left">
+                <h2 className="text-2xl font-black uppercase tracking-tighter text-white leading-none">{t.supporterMain}</h2>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-500/60 mt-2">{t.supporterSub}</p>
               </div>
             </div>
+            <ArrowRight size={24} className="text-emerald-500/40 group-hover:translate-x-2 transition-transform" />
+          </button>
 
-            <div className="flex justify-center pt-4">
-              <button 
-                onClick={() => handlePortalClick(() => setShowSOS(true))}
-                className="w-full max-w-xs h-20 bg-red-600/10 border border-red-600/20 rounded-full flex items-center justify-center gap-4 hover:bg-red-600 transition-all active:scale-95 group shadow-2xl"
-              >
-                <div className="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                  <Shield size={24} />
-                </div>
-                <span className="text-sm font-black uppercase tracking-widest">{lang === 'de' ? 'Sofort-Hilfe' : 'Immediate Help'}</span>
+          {/* Love Chat Grouping */}
+          <div className="space-y-4">
+            <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 text-center">{t.loveChat}</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <button onClick={() => router.push('/heart-status?chat=holders')} className="p-6 rounded-[2rem] bg-white/[0.02] border border-white/5 flex items-center gap-5 hover:bg-white/5 hover:border-primary/30 transition-all group">
+                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20"><Users2 size={28} className="text-primary" /></div>
+                <div className="text-left"><p className="text-lg font-black uppercase tracking-tight text-white leading-none">{t.holders}</p><p className="text-[8px] font-bold text-primary uppercase tracking-widest mt-1">{t.holdersSub}</p></div>
+              </button>
+              <button onClick={() => router.push('/heart-status?chat=spectators')} className="p-6 rounded-[2rem] bg-white/[0.02] border border-white/5 flex items-center gap-5 hover:bg-white/5 hover:border-accent/30 transition-all group">
+                <div className="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center border border-accent/20"><Globe size={28} className="text-accent" /></div>
+                <div className="text-left"><p className="text-lg font-black uppercase tracking-tight text-white leading-none">{t.spectators}</p><p className="text-[8px] font-bold text-accent uppercase tracking-widest mt-1">{t.spectatorsSub}</p></div>
               </button>
             </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            <Link href="/map" className="p-6 rounded-3xl bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-2 hover:border-blue-500/30 transition-all">
+              <RadiatingThirdEye size={24} color="#3b82f6" />
+              <span className="text-[9px] font-black uppercase tracking-widest">Radar</span>
+            </Link>
+            <button onClick={() => setLabOpen(true)} className="p-6 rounded-3xl bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-2 hover:border-primary/30 transition-all">
+              <Microscope size={24} className="text-primary" />
+              <span className="text-[9px] font-black uppercase tracking-widest">Lab</span>
+            </button>
+            <button onClick={() => setSyncOpen(true)} className="p-6 rounded-3xl bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-2 hover:border-accent/30 transition-all">
+              <Watch size={24} className="text-accent" />
+              <span className="text-[9px] font-black uppercase tracking-widest">Sync</span>
+            </button>
           </div>
 
           <div className="pt-12">
             <Collapsible open={isSimulatorOpen} onOpenChange={setIsSimulatorOpen}>
               <CollapsibleTrigger asChild>
-                <button 
-                  onClick={() => playHeartbeat()}
-                  className={cn(
-                    "w-full flex items-center justify-center gap-2 py-4 text-[9px] font-black uppercase transition-all duration-500",
-                    guardianStatus === 'safe' && "text-primary opacity-40 hover:opacity-100",
-                    guardianStatus === 'caution' && "text-[#F59E0B] opacity-80 hover:opacity-100",
-                    guardianStatus === 'locked' && "text-[#DC2626] opacity-100 animate-pulse"
-                  )}
-                >
-                  <Settings2 size={12} />
-                  {lang === 'de' ? 'Labor-Kalibrierung heute' : 'Lab Calibration Now'}
-                  <ChevronDown className={cn("transition-transform", isSimulatorOpen && "rotate-180")} size={12} />
+                <button onClick={() => playHeartbeat()} className="w-full flex items-center justify-center gap-2 py-4 text-[9px] font-black uppercase text-white/20 hover:text-white transition-all">
+                  <Settings2 size={12} /> LAB CALIBRATION <ChevronDown className={cn("transition-transform", isSimulatorOpen && "rotate-180")} size={12} />
                 </button>
               </CollapsibleTrigger>
-              <CollapsibleContent className="pt-4">
-                <GuardianSimulator 
-                  heartRate={simHeartRate} 
-                  setHeartRate={setSimHeartRate}
-                  substanceCount={activeSubstances.length}
-                  setSubstanceCount={(count) => {
-                    const mockSubstances = Array(count).fill('Substance');
-                    if (count >= 1) mockSubstances[0] = 'Alcohol';
-                    if (count >= 2) mockSubstances[1] = 'MDMA';
-                    if (count >= 3) mockSubstances[2] = 'Poppers';
-                    setActiveSubstances(mockSubstances);
-                  }}
-                  lang={lang} 
-                />
-              </CollapsibleContent>
+              <CollapsibleContent className="pt-4"><GuardianSimulator heartRate={simHeartRate} setHeartRate={setSimHeartRate} substanceCount={activeSubstances.length} setSubstanceCount={(count) => setActiveSubstances(Array(count).fill('Substance'))} lang={lang} /></CollapsibleContent>
             </Collapsible>
           </div>
         </div>
       </ScrollArea>
 
-      {showSOS && <SOSAlert onClose={() => setShowSOS(false)} onVisionOfLove={() => { setShowSOS(false); setVisionOfLoveOpen(true); }} />}
-      
       <Dialog open={labOpen} onOpenChange={setLabOpen}>
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[2rem] overflow-hidden flex flex-col h-[95dvh] max-h-[95dvh] sm:h-[90dvh] top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">Pulse Lab</DialogTitle>
-          <PulseLab 
-            userData={{ 
-              ...firestoreProfile, 
-              sessionStatus: { 
-                isLocked, 
-                lastHeartRate: simHeartRate, 
-                lockReason: safetyStatus.lockReason, 
-                unlockAt: safetyStatus.unlockAt 
-              } 
-            }} 
-            onComplete={(logs) => {
-              const names = logs.map((l: any) => l.name);
-              setActiveSubstances(names);
-              setLabOpen(false);
-            }} 
-            showDiary={true} 
-            isLocked={isLocked} 
-          />
+          <PulseLab userData={{ ...firestoreProfile, sessionStatus: { isLocked, lastHeartRate: simHeartRate } }} onComplete={(logs) => { setActiveSubstances(logs.map(l => l.name)); setLabOpen(false); }} showDiary={true} isLocked={isLocked} />
         </DialogContent>
       </Dialog>
 
       <Dialog open={supporterOpen} onOpenChange={setSupporterOpen}>
-        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] max-h-[85dvh] top-[50%] -translate-y-[50%] shadow-[0_0_100px_rgba(0,0,0,0.9)]">
-          <DialogTitle className="sr-only">AI Supporter Portal</DialogTitle>
+        <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] max-h-[85dvh] top-[50%] -translate-y-[50%]">
+          <DialogTitle className="sr-only">Supporter Portal</DialogTitle>
           <SupporterPortal userProfile={firestoreProfile} />
         </DialogContent>
       </Dialog>
-
-      {visionOfLoveOpen && (
-        <VisionOfLove 
-          onClose={() => setVisionOfLoveOpen(false)} 
-          isEmergency={showPresenceIntervention} 
-        />
-      )}
     </main>
   );
 }
 
 export default function Dashboard() {
-  return (
-    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="animate-spin text-primary/20" /></div>}>
-      <DashboardContent />
-    </Suspense>
-  );
+  return (<Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="animate-spin text-primary/20" /></div>}><DashboardContent /></Suspense>);
 }

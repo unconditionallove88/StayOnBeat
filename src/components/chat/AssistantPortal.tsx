@@ -1,18 +1,20 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Heart, Battery, Droplets, Moon, Zap, ArrowRight, Volume2, Loader2 } from 'lucide-react';
+import { Heart, Battery, Droplets, Moon, Zap, ArrowRight, Volume2, Loader2, Target, ShieldCheck } from 'lucide-react';
 import { SupporterIcon } from '@/components/ui/supporter-icon';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { textToSpeech } from '@/ai/flows/text-to-speech';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { StepPartyGoal } from '@/components/onboarding/StepPartyGoal';
+import { Step7GearCheck } from '@/components/onboarding/Step7GearCheck';
 
 /**
  * @fileOverview SupporterPortal Component.
  * Refined terminology: Assistant -> Supporter.
- * Icon: Algiz-inspired human silhouette.
+ * Updated: Enriched icon and "Before" phase sub-tools (Intention, Gear Check).
  */
 
 interface AssistantPortalProps {
@@ -25,6 +27,8 @@ const i18n = {
     supporter: "Supporter",
     question: "How is your inner state?",
     subtitle: "Select your current phase for tailored guidance and love. 🌿",
+    intention: "Your Intention",
+    gearCheck: "Gear Check",
     phases: [
       { title: "Before", desc: "Prepare your body & mind" },
       { title: "During", desc: "Stay safe & connected" },
@@ -33,13 +37,15 @@ const i18n = {
   },
   de: {
     title: "StayOnBeat",
-    supporter: "Unterstützer",
+    supporter: "Unterstützer heute hier",
     question: "Wie ist dein innerer Zustand?",
     subtitle: "Wähle deine aktuelle Phase für maßgeschneiderte Begleitung. 🌿",
+    intention: "Deine Intention heute",
+    gearCheck: "Ausrüstungs Check heute",
     phases: [
-      { title: "Vorher", desc: "Körper & Geist vorbereiten" },
-      { title: "Währenddessen", desc: "Sicher & verbunden bleiben" },
-      { title: "Danach", desc: "Erholen & regenerieren" }
+      { title: "Vorher", desc: "Körper & Geist vorbereiten heute" },
+      { title: "Währenddessen", desc: "Sicher & verbunden bleiben heute" },
+      { title: "Danach", desc: "Erholen & regenerieren heute" }
     ]
   }
 };
@@ -48,6 +54,10 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
   const router = useRouter();
   const [lang, setLang] = useState<'en' | 'de'>('en');
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [activePhase, setActivePhase] = useState<'root' | 'before' | 'during' | 'after'>('root');
+  
+  const [intentionOpen, setIntentionOpen] = useState(false);
+  const [gearOpen, setGearOpen] = useState(false);
 
   useEffect(() => {
     const savedLang = (localStorage.getItem('stayonbeat_lang') || 'EN').toLowerCase() as any;
@@ -70,29 +80,71 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
     }
   };
 
-  const phases = [
-    { 
-      title: t.phases[0].title, 
-      icon: <Battery className="text-emerald-400" size={24} />, 
-      desc: t.phases[0].desc, 
-      color: "bg-emerald-500/5 hover:bg-emerald-500/10 border-emerald-500/20 hover:border-emerald-500/40",
-      action: () => router.push('/before')
-    },
-    { 
-      title: t.phases[1].title, 
-      icon: <Zap className="text-amber-400" size={24} />, 
-      desc: t.phases[1].desc, 
-      color: "bg-amber-500/5 hover:bg-amber-500/10 border-amber-500/20 hover:border-amber-500/40",
-      action: () => router.push('/during')
-    },
-    { 
-      title: t.phases[2].title, 
-      icon: <Moon className="text-indigo-400" size={24} />, 
-      desc: t.phases[2].desc, 
-      color: "bg-indigo-500/5 hover:bg-indigo-500/10 border-indigo-500/20 hover:border-indigo-500/40",
-      action: () => router.push('/recovery')
-    }
-  ];
+  if (activePhase === 'before') {
+    return (
+      <div className="h-full bg-black text-white flex flex-col font-headline relative animate-in fade-in duration-500">
+        <header className="p-8 pb-4 shrink-0 flex items-center justify-between">
+          <button onClick={() => setActivePhase('root')} className="text-white/40 text-[10px] font-black uppercase tracking-widest">Back</button>
+          <div className="flex items-center gap-2">
+            <SupporterIcon className="text-emerald-500" size={16} />
+            <span className="text-xs font-black uppercase tracking-tighter">Before Phase</span>
+          </div>
+        </header>
+
+        <ScrollArea className="flex-1 px-8 pt-4">
+          <div className="space-y-6 pb-20">
+            <h2 className="text-3xl font-black uppercase tracking-tighter leading-none">Preparation <br/><span className="text-emerald-500">Protocols</span></h2>
+            
+            <div className="grid gap-4">
+              <button 
+                onClick={() => setIntentionOpen(true)}
+                className="p-6 rounded-[2rem] bg-emerald-500/5 border border-emerald-500/20 flex items-center gap-4 group"
+              >
+                <div className="p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/20"><Target className="text-emerald-500" /></div>
+                <div className="text-left">
+                  <p className="text-sm font-black uppercase">{t.intention}</p>
+                  <p className="text-[9px] text-white/30 uppercase font-bold">Calibration of focus</p>
+                </div>
+              </button>
+
+              <button 
+                onClick={() => setGearOpen(true)}
+                className="p-6 rounded-[2rem] bg-emerald-500/5 border border-emerald-500/20 flex items-center gap-4 group"
+              >
+                <div className="p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/20"><ShieldCheck className="text-emerald-500" /></div>
+                <div className="text-left">
+                  <p className="text-sm font-black uppercase">{t.gearCheck}</p>
+                  <p className="text-[9px] text-white/30 uppercase font-bold">Sanctuary Kit prep</p>
+                </div>
+              </button>
+
+              <button 
+                onClick={() => router.push('/before')}
+                className="p-6 rounded-[2rem] bg-white/5 border border-white/10 flex items-center justify-between"
+              >
+                <span className="text-xs font-black uppercase tracking-widest">Full Preparation Guide</span>
+                <ArrowRight size={16} />
+              </button>
+            </div>
+          </div>
+        </ScrollArea>
+
+        <Dialog open={intentionOpen} onOpenChange={setIntentionOpen}>
+          <DialogContent className="bg-black border-white/10 p-0 max-w-xl h-[80vh]">
+            <DialogTitle className="sr-only">Intention</DialogTitle>
+            <StepPartyGoal onComplete={() => setIntentionOpen(false)} />
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={gearOpen} onOpenChange={setGearOpen}>
+          <DialogContent className="bg-black border-white/10 p-0 max-w-xl h-[80vh]">
+            <DialogTitle className="sr-only">Gear Check</DialogTitle>
+            <Step7GearCheck onComplete={() => setGearOpen(false)} />
+          </DialogContent>
+        </Dialog>
+      </div>
+    );
+  }
 
   return (
     <div className="h-full bg-black text-white flex flex-col font-headline relative overflow-hidden">
@@ -112,7 +164,7 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
         <section className="mb-8 pt-4">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <SupporterIcon className="text-emerald-500" size={20} />
+              <SupporterIcon className="text-emerald-500" size={24} />
               <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.4em]">{t.supporter}</p>
             </div>
             <button onClick={handleVoiceResonance} disabled={isSpeaking} className="p-3 bg-white/5 rounded-full border border-white/10 hover:border-primary transition-all disabled:opacity-30">
@@ -128,10 +180,14 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
         </section>
 
         <div className="grid gap-4 pb-32">
-          {phases.map((phase) => (
+          {[
+            { id: 'before', title: t.phases[0].title, icon: <Battery className="text-emerald-400" size={24} />, desc: t.phases[0].desc, color: "bg-emerald-500/5 hover:bg-emerald-500/10 border-emerald-500/20 hover:border-emerald-500/40" },
+            { id: 'during', title: t.phases[1].title, icon: <Zap className="text-amber-400" size={24} />, desc: t.phases[1].desc, color: "bg-amber-500/5 hover:bg-amber-500/10 border-amber-500/20 hover:border-amber-500/40" },
+            { id: 'after', title: t.phases[2].title, icon: <Moon className="text-indigo-400" size={24} />, desc: t.phases[2].desc, color: "bg-indigo-500/5 hover:bg-indigo-500/10 border-indigo-500/20 hover:border-indigo-500/40" }
+          ].map((phase) => (
             <button 
               key={phase.title}
-              onClick={phase.action}
+              onClick={() => phase.id === 'before' ? setActivePhase('before') : router.push(`/${phase.id}`)}
               className={cn(
                 "flex items-center p-6 rounded-[2rem] border-2 transition-all active:scale-[0.98] group text-left",
                 phase.color
@@ -149,17 +205,6 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
           ))}
         </div>
       </ScrollArea>
-
-      <footer className="absolute bottom-8 left-8 right-8 z-20 pointer-events-none pb-safe">
-        <div className="bg-zinc-900/80 backdrop-blur-md border border-white/10 p-4 rounded-full flex justify-around items-center shadow-2xl pointer-events-auto">
-          <button onClick={() => router.push('/before')} className="p-3 text-zinc-500 hover:text-blue-400 transition-colors active:scale-90"><Droplets size={24} /></button>
-          <button onClick={() => router.push('/heart-status')} className="relative active:scale-90 transition-transform">
-            <div className="absolute inset-0 bg-emerald-500/20 blur-xl rounded-full animate-pulse" />
-            <div className="relative w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center shadow-lg"><Heart className="text-black" fill="black" size={24} /></div>
-          </button>
-          <button onClick={() => router.push('/before')} className="p-3 text-zinc-500 hover:text-emerald-400 transition-colors active:scale-90"><Battery size={24} /></button>
-        </div>
-      </footer>
     </div>
   );
 }
