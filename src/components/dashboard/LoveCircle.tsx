@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -23,8 +24,9 @@ import {
 } from "@/components/ui/tooltip";
 
 /**
- * @fileOverview Organic Circle of Love.
- * Adjustments: Organic pulsation and reflective color resonance.
+ * @fileOverview Organic Circle of Love (Aura Ring Edition).
+ * Recreated to function as a tender Aura Ring.
+ * Pulsation intensity is subtly linked to BPM (higher BPM = slightly more intense).
  */
 
 const ARCHETYPES = [
@@ -49,19 +51,36 @@ export default function LoveCircle({ lang = "en", variant = "dashboard", heartRa
   const currentLang = lang.toLowerCase() as 'en' | 'de';
 
   const pulseDuration = `${(60 / heartRate).toFixed(2)}s`;
+  
+  // Calculate pulse intensity based on BPM
+  // Higher BPM = more expansion and higher opacity
+  const pulseIntensity = heartRate > 120 ? 0.25 : (heartRate > 90 ? 0.15 : 0.08);
+  const pulseOpacity = heartRate > 120 ? 0.4 : (heartRate > 90 ? 0.25 : 0.15);
 
   return (
     <TooltipProvider delayDuration={0}>
       <div className="w-full max-w-[450px] mx-auto flex flex-col items-center gap-8 font-headline">
         <div className="relative aspect-square w-full rounded-full flex items-center justify-center transition-all duration-1000 overflow-visible">
-          {/* Subtle Ambient Glow (Mirrored) */}
+          
+          {/* Immersive Aura Ring Glow (Less intense by default, scales with BPM) */}
           <div 
-            className="absolute inset-0 rounded-full blur-[100px] opacity-15 transition-all duration-1000" 
+            className="absolute inset-0 rounded-full blur-[100px] transition-all duration-1000" 
             style={{ 
               backgroundColor: 'hsl(var(--primary))',
-              animation: `aura-pulse-outer ${pulseDuration} ease-in-out infinite`
+              opacity: pulseOpacity,
+              transform: `scale(${1 + (pulseIntensity * 0.5)})`,
+              // We use a custom inline animation for the "tender" feel
+              animation: `tender-aura-ring ${pulseDuration} ease-in-out infinite`
             }} 
           />
+          
+          {/* Style for the custom tender animation */}
+          <style jsx>{`
+            @keyframes tender-aura-ring {
+              0%, 100% { transform: scale(1); opacity: ${pulseOpacity}; }
+              50% { transform: scale(${1 + pulseIntensity}); opacity: ${pulseOpacity * 1.5}; }
+            }
+          `}</style>
 
           {/* Archetype Ring */}
           {ARCHETYPES.map((arc, i) => {
@@ -100,7 +119,16 @@ export default function LoveCircle({ lang = "en", variant = "dashboard", heartRa
           })}
 
           {/* Unity Core (Mirror Reflection of Aura Ring) */}
-          <div className="relative w-48 h-48 md:w-56 md:h-56 bg-black rounded-full border-2 border-white/5 flex items-center justify-center p-4 shadow-2xl z-10">
+          <div className="relative w-48 h-48 md:w-56 md:h-56 bg-black rounded-full border-2 border-white/5 flex items-center justify-center p-4 shadow-2xl z-10 overflow-hidden">
+            {/* Ambient inner pulse */}
+            <div 
+              className="absolute inset-0 bg-primary/5 rounded-full transition-all duration-1000"
+              style={{ 
+                animation: `heart-beat-inner ${pulseDuration} ease-in-out infinite`,
+                opacity: heartRate > 110 ? 0.2 : 0.1
+              }}
+            />
+
             {/* Friends Nodes */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               {MOCK_FRIENDS.map((friend, idx) => {
