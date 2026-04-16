@@ -27,7 +27,7 @@ import { playHeartbeat } from '@/lib/resonance';
 
 /**
  * @fileOverview Immediate Help (SOS) Portal.
- * Enhanced with Mesh Broadcasting to all Circle of Love members.
+ * Enhanced with Mesh Broadcasting and Heart Breath integration.
  */
 
 const CONTENT = {
@@ -50,10 +50,10 @@ const CONTENT = {
       button: "Notify All Circle Bonds"
     },
     stillness: {
-      title: "Presence Reset",
-      sub: "Vision of Love Tool",
-      desc: "I love and respect my need for grounding Shift focus to the beauty of life right now",
-      button: "Start Vision of Love Tool"
+      title: "Heart Breath",
+      sub: "Presence Protocol",
+      desc: "I love and respect my need for grounding Shift focus to the physiological sync of the Heart Breath",
+      button: "Start Heart Breath Now"
     },
     connecting: "Negotiating Mesh Handshake...",
     honoring: "Honoring the request for care",
@@ -86,10 +86,10 @@ const CONTENT = {
       button: "Alle im Kreis informieren"
     },
     stillness: {
-      title: "Präsenz Reset",
-      sub: "Vision der Liebe Tool",
-      desc: "Ich achte auf mein Bedürfnis nach Erdung Lenke den Fokus auf die Schönheit jetzt",
-      button: "Vision der Liebe starten"
+      title: "Herz Atem heute",
+      sub: "Präsenz Protokoll heute",
+      desc: "Ich achte auf mein Bedürfnis nach Erdung Lenke den Fokus auf die Synchronisation",
+      button: "Herz Atem jetzt starten"
     },
     connecting: "Mesh-Verbindung wird aufgebaut...",
     honoring: "Die Anfrage wird liebevoll bearbeitet",
@@ -107,12 +107,12 @@ const CONTENT = {
 
 interface SOSAlertProps {
   onClose: () => void;
-  onVisionOfLove?: () => void;
+  onHeartBreath?: () => void;
   friendName?: string;
   friendStatus?: string;
 }
 
-export function SOSAlert({ onClose, onVisionOfLove, friendName, friendStatus }: SOSAlertProps) {
+export function SOSAlert({ onClose, onHeartBreath, friendName, friendStatus }: SOSAlertProps) {
   const auth = useAuth();
   const firestore = useFirestore();
   const router = useRouter();
@@ -141,8 +141,8 @@ export function SOSAlert({ onClose, onVisionOfLove, friendName, friendStatus }: 
     playHeartbeat();
     
     if (priority === 'grounding') {
-      if (onVisionOfLove) onVisionOfLove();
-      else router.push('/self-care');
+      if (onHeartBreath) onHeartBreath();
+      else onClose(); // Logic handled by dashboard caller
       return;
     }
 
@@ -319,7 +319,7 @@ export function SOSAlert({ onClose, onVisionOfLove, friendName, friendStatus }: 
                   <div className="p-6 bg-primary/5 border-2 border-primary/20 rounded-[2rem] space-y-4">
                     <div className="flex items-center gap-4">
                       <div className="p-3 bg-primary/20 rounded-xl">
-                        <Eye className="text-primary" size={24} />
+                        <Wind className="text-primary" size={24} />
                       </div>
                       <div>
                         <p className="text-sm font-black uppercase text-white tracking-tight">{t.stillness.title}</p>

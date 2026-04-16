@@ -35,6 +35,7 @@ import HeartStatusAura from '@/components/dashboard/HeartStatusAura';
 import { WearablesSync } from '@/components/dashboard/WearablesSync';
 import { AssistantPortal as SupporterPortal } from '@/components/chat/AssistantPortal';
 import { VisionOfLove } from '@/components/dashboard/VisionOfLove';
+import { HeartBreath } from '@/components/dashboard/HeartBreath';
 import { SanctuaryGuide } from '@/components/dashboard/SanctuaryGuide';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUser, useFirestore, useDoc, useMemoFirebase, useAuth } from '@/firebase';
@@ -275,9 +276,9 @@ function DashboardContent() {
         </DialogContent>
       </Dialog>
 
-      {/* MERGED EMERGENCY PRESENCE TOOL */}
+      {/* EMERGENCY HEART BREATH TOOL */}
       {emergencyPresenceOpen && (
-        <VisionOfLove isEmergency={true} onClose={() => setEmergencyPresenceOpen(false)} />
+        <HeartBreath lang={lang} onClose={() => setEmergencyPresenceOpen(false)} />
       )}
     </main>
   );
