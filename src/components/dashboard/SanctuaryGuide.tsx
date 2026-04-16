@@ -19,15 +19,13 @@ import {
   Sprout,
   Radio
 } from 'lucide-react';
-import { RadiatingThirdEye } from '@/components/ui/radiating-third-eye';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
  * @fileOverview Sanctuary Guide Component (The Handover).
+ * Redesigned for "Zero-Scroll" presence. All info fits on one screen (PC/Mobile).
  * Explains tool functions and their connection to the Pulse Guardian.
- * Enhanced with Mesh Radar, Grounding Rituals, and Co-creation logic.
  */
 
 const STEPS = [
@@ -213,79 +211,85 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
         <div className="fixed inset-0 z-[5000] bg-black flex flex-col animate-in fade-in duration-500 font-headline pt-safe pb-safe overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 blur-[150px] rounded-full pointer-events-none" />
           
-          <header className="px-8 pt-10 pb-6 flex items-center justify-between shrink-0 relative z-10">
+          <header className="px-6 sm:px-8 pt-6 sm:pt-10 pb-4 flex items-center justify-between shrink-0 relative z-10">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
-                <Sparkles size={24} className="text-primary animate-pulse" />
+              <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                <Sparkles size={20} className="text-primary animate-pulse" />
               </div>
               <div>
-                <h2 className="text-xl font-black uppercase tracking-tighter text-white">
-                  {lang === 'en' ? "Sanctuary Handover" : "Sanctuary Handover heute"}
+                <h2 className="text-lg sm:text-xl font-black uppercase tracking-tighter text-white">
+                  {lang === 'en' ? "Handover" : "Handover heute"}
                 </h2>
-                <p className="text-[9px] font-black text-primary uppercase tracking-[0.3em]">
+                <p className="text-[8px] sm:text-[9px] font-black text-primary uppercase tracking-[0.3em]">
                   {lang === 'en' ? `Tool ${currentStep + 1} of ${STEPS.length}` : `Tool ${currentStep + 1} von ${STEPS.length}`}
                 </p>
               </div>
             </div>
             {!forceOpen && (
-              <button onClick={() => setIsOpen(false)} className="p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white transition-all">
-                <X size={20} />
+              <button onClick={() => setIsOpen(false)} className="p-2 sm:p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-white transition-all">
+                <X size={18} />
               </button>
             )}
           </header>
 
-          <ScrollArea className="flex-1 relative z-10 px-8">
-            <div className="max-w-2xl mx-auto space-y-10 pb-40">
-              <div className="space-y-8 animate-in slide-in-from-bottom-4 duration-700">
-                <div className={cn("w-28 h-28 rounded-[2.5rem] flex items-center justify-center border-2 border-white/10 shadow-2xl transition-all duration-700 mx-auto", step.bg)}>
-                  <Icon size={56} className={step.color} />
-                </div>
+          <main className="flex-1 relative z-10 px-6 sm:px-8 flex flex-col justify-center items-center overflow-hidden">
+            <div className="max-w-xl w-full flex flex-col items-center gap-4 sm:gap-8 animate-in slide-in-from-bottom-4 duration-700 py-4">
+              
+              {/* Central Resonant Icon */}
+              <div className={cn(
+                "w-20 h-20 sm:w-24 sm:h-24 rounded-[2rem] flex items-center justify-center border-2 border-white/10 shadow-2xl transition-all duration-700", 
+                step.bg
+              )}>
+                <Icon size={40} className={cn("sm:w-12 sm:h-12", step.color)} />
+              </div>
 
-                <div className="text-center space-y-2">
-                  <h3 className="text-3xl font-black uppercase tracking-tighter text-white">
-                    {lang === 'en' ? step.title.en : step.title.de}
-                  </h3>
-                  <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest max-w-[280px] mx-auto">
-                    {lang === 'en' ? step.desc.en : step.desc.de}
+              {/* Title & Core Purpose */}
+              <div className="text-center space-y-1 sm:space-y-2">
+                <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-tighter text-white">
+                  {lang === 'en' ? step.title.en : step.title.de}
+                </h3>
+                <p className="text-[11px] sm:text-sm font-bold text-white/60 leading-relaxed uppercase tracking-widest max-w-[280px] sm:max-w-[320px] mx-auto">
+                  {lang === 'en' ? step.desc.en : step.desc.de}
+                </p>
+              </div>
+
+              {/* Functionality & Intelligence Grid */}
+              <div className="w-full space-y-3 sm:space-y-4 max-w-sm">
+                <div className="text-center space-y-1 sm:space-y-2">
+                  <span className="text-[8px] sm:text-[9px] font-black uppercase text-blue-400 tracking-[0.3em]">
+                    How it functions
+                  </span>
+                  <p className="text-[10px] sm:text-xs font-bold text-white/80 leading-relaxed uppercase tracking-widest px-2">
+                    {lang === 'en' ? step.howItWorks.en : step.howItWorks.de}
                   </p>
                 </div>
 
-                <div className="space-y-6">
-                  <div className="space-y-3">
-                    <span className="text-[10px] font-black uppercase text-blue-400 tracking-[0.3em] block text-center">
-                      How it functions
+                <div className="p-5 sm:p-6 bg-primary/5 border-2 border-primary/20 rounded-[2rem] space-y-2">
+                  <div className="flex items-center justify-center gap-2">
+                    <Shield size={14} className="text-primary" />
+                    <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.3em] text-primary">
+                      Guardian Intelligence
                     </span>
-                    <p className="text-xs font-bold text-white/80 leading-relaxed uppercase tracking-widest text-center px-4">
-                      {lang === 'en' ? step.howItWorks.en : step.howItWorks.de}
-                    </p>
                   </div>
-
-                  <div className="p-8 bg-primary/5 border-2 border-primary/20 rounded-[2.5rem] space-y-4">
-                    <div className="flex items-center gap-3">
-                      <Shield size={18} className="text-primary" />
-                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">
-                        Pulse Guardian Intelligence
-                      </span>
-                    </div>
-                    <p className="text-xs font-bold text-white/80 leading-relaxed uppercase tracking-widest italic">
-                      {lang === 'en' ? step.connection.en : step.connection.de}
-                    </p>
-                  </div>
+                  <p className="text-[10px] sm:text-xs font-bold text-white/80 leading-relaxed uppercase tracking-widest italic text-center">
+                    {lang === 'en' ? step.connection.en : step.connection.de}
+                  </p>
                 </div>
               </div>
-            </div>
-          </ScrollArea>
 
-          <footer className="shrink-0 p-8 pt-4 bg-black/90 backdrop-blur-xl border-t border-white/5 relative z-10 pb-safe">
-            <div className="max-w-2xl mx-auto flex flex-col gap-6">
+            </div>
+          </main>
+
+          <footer className="shrink-0 p-6 sm:p-8 bg-black/90 backdrop-blur-xl border-t border-white/5 relative z-10 pb-safe">
+            <div className="max-w-xl mx-auto flex flex-col gap-4 sm:gap-6">
               <div className="flex items-center justify-between">
                 <div className="flex gap-1.5">
                   {STEPS.map((_, i) => (
                     <div 
                       key={i} 
                       className={cn(
-                        "h-1.5 rounded-full transition-all duration-500", 
-                        i === currentStep ? "w-8 bg-primary" : "w-1.5 bg-white/10"
+                        "h-1 rounded-full transition-all duration-500", 
+                        i === currentStep ? "w-6 sm:w-8 bg-primary" : "w-1 bg-white/10"
                       )} 
                     />
                   ))}
@@ -295,30 +299,30 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
                   {currentStep > 0 && (
                     <button 
                       onClick={() => { playHeartbeat(); setCurrentStep(prev => prev - 1); }}
-                      className="p-5 bg-white/5 rounded-2xl border border-white/10 text-white/40 active:scale-95 transition-all"
+                      className="p-3 sm:p-4 bg-white/5 rounded-xl sm:rounded-2xl border border-white/10 text-white/40 active:scale-95 transition-all"
                     >
-                      <ChevronLeft size={24} />
+                      <ChevronLeft size={20} />
                     </button>
                   )}
                   
                   {currentStep < STEPS.length - 1 ? (
                     <button 
                       onClick={() => { playHeartbeat(); setCurrentStep(prev => prev + 1); }}
-                      className="px-10 py-5 bg-primary text-white rounded-2xl font-black uppercase text-xs tracking-widest flex items-center gap-3 shadow-lg shadow-primary/20 active:scale-95 transition-all"
+                      className="px-6 sm:px-8 py-4 sm:py-5 bg-primary text-white rounded-xl sm:rounded-2xl font-black uppercase text-[10px] sm:text-xs tracking-widest flex items-center gap-3 shadow-lg shadow-primary/20 active:scale-95 transition-all"
                     >
-                      Next <ChevronRight size={18} />
+                      Next <ChevronRight size={16} />
                     </button>
                   ) : (
                     <button 
                       onClick={handleDismiss}
-                      className="px-10 py-5 bg-[#1b4d3e] text-white rounded-2xl font-black uppercase text-xs tracking-widest flex items-center gap-3 shadow-lg active:scale-95 transition-all"
+                      className="px-6 sm:px-8 py-4 sm:py-5 bg-[#1b4d3e] text-white rounded-xl sm:rounded-2xl font-black uppercase text-[10px] sm:text-xs tracking-widest flex items-center gap-3 shadow-lg active:scale-95 transition-all"
                     >
-                      Enter Sanctuary <CheckCircle2 size={18} />
+                      Enter <CheckCircle2 size={16} />
                     </button>
                   )}
                 </div>
               </div>
-              <p className="text-center text-[8px] font-black uppercase tracking-[0.5em] text-white/20">
+              <p className="text-center text-[7px] sm:text-[8px] font-black uppercase tracking-[0.5em] text-white/20">
                 End-to-End Encrypted Handover
               </p>
             </div>
