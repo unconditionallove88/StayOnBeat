@@ -11,7 +11,9 @@ import {
   ShieldCheck, 
   Globe, 
   Infinity, 
-  Sparkles
+  Sparkles,
+  Info,
+  ExternalLink
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { playHeartbeat } from "@/lib/resonance";
@@ -22,6 +24,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogHeader,
+} from "@/components/ui/dialog";
 
 /**
  * @fileOverview Organic Circle of Love (Aura Ring Edition).
@@ -30,24 +38,73 @@ import {
  */
 
 const ARCHETYPES = [
-  { id: 'brother', icon: ShieldCheck, color: "text-blue-200", bg: "bg-blue-500/5", en: "Brotherly Protection Love", de: "Brüderlicher Halt heute hier", sentence: "I am protected and held" },
-  { id: 'mother', icon: Heart, color: "text-rose-200", bg: "bg-rose-500/5", en: "Motherly Care Love", de: "Mütterliche Fürsorge heute hier", sentence: "Nurturing love surrounds me" },
-  { id: 'sister', icon: User, color: "text-indigo-200", bg: "bg-indigo-500/5", en: "Sisterly Bond Love", de: "Schwesterliche Bindung heute hier", sentence: "Shared strength in unity" },
-  { id: 'romantic', icon: Star, color: "text-pink-200", bg: "bg-pink-500/5", en: "Romantic Unity Love", de: "Romantische Einheit heute hier", sentence: "Hearts beating as one" },
-  { id: 'erotic', icon: Flame, color: "text-orange-200", bg: "bg-orange-500/5", en: "Erotic Fire Love", de: "Erotisches Feuer heute hier", sentence: "Passion flows through life" },
-  { id: 'friend', icon: Users, color: "text-emerald-200", bg: "bg-emerald-500/5", en: "Friendship Trust Love", de: "Freundschaftliches Vertrauen heute hier", sentence: "Trust is our foundation" },
-  { id: 'human', icon: Globe, color: "text-cyan-200", bg: "bg-cyan-500/5", en: "Humanity Unity Love", de: "Menschliche Einheit heute hier", sentence: "We are all connected" },
-  { id: 'life', icon: Infinity, color: "text-primary", bg: "bg-primary/5", en: "Pure Life Love", de: "Reines Leben heute hier", sentence: "Existence is a gift" },
+  { 
+    id: 'brother', icon: ShieldCheck, color: "text-blue-200", bg: "bg-blue-500/5", 
+    en: "Brotherly Protection Love", de: "Brüderlicher Halt", 
+    sentence: "I am protected and held",
+    explanation: "Brotherly love represents the shield and support we offer one another in a circle of trust. It is the unwavering strength found in shared responsibility.",
+    practice: "Visualize a protective circle around you and your friends. Breath into the feeling of safety and mutual support."
+  },
+  { 
+    id: 'mother', icon: Heart, color: "text-rose-200", bg: "bg-rose-500/5", 
+    en: "Motherly Care Love", de: "Mütterliche Fürsorge", 
+    sentence: "Nurturing love surrounds me",
+    explanation: "Motherly love is the foundation of unconditional care and emotional safety. It is the gentle warmth that heals even the deepest unrest.",
+    practice: "Place a hand over your heart. Say to yourself: 'I am cared for, I am safe, I am enough.' Breathe into that warmth."
+  },
+  { 
+    id: 'sister', icon: User, color: "text-indigo-200", bg: "bg-indigo-500/5", 
+    en: "Sisterly Bond Love", de: "Schwesterliche Bindung", 
+    sentence: "Shared strength in unity",
+    explanation: "Sisterly love is the resonance of equality and shared wisdom. It is about understanding each other's journey without words.",
+    practice: "Reflect on a shared memory with someone you trust. Feel the resonance of that connection in your solar plexus."
+  },
+  { 
+    id: 'romantic', icon: Star, color: "text-pink-200", bg: "bg-pink-500/5", 
+    en: "Romantic Unity Love", de: "Romantische Einheit", 
+    sentence: "Hearts beating as one",
+    explanation: "Romantic love is the spark of intimacy and deep emotional merging. It is the celebration of two souls finding a singular rhythm.",
+    practice: "Synchronize your breathing with the central pulsing heart of this app. Feel the intimacy of this present moment."
+  },
+  { 
+    id: 'erotic', icon: Flame, color: "text-orange-200", bg: "bg-orange-500/5", 
+    en: "Erotic Fire Love", de: "Erotisches Feuer", 
+    sentence: "Passion flows through life",
+    explanation: "Erotic love is the life-force and creative fire of existence. It is the energy that drives us to explore and experience the beauty of life.",
+    practice: "Feel the warmth in your body. Breathe deeply into your abdomen and imagine that energy radiating outward as pure light."
+  },
+  { 
+    id: 'friend', icon: Users, color: "text-emerald-200", bg: "bg-emerald-500/5", 
+    en: "Friendship Trust Love", de: "Freundschaftliches Vertrauen", 
+    sentence: "Trust is our foundation",
+    explanation: "Friendship love is the social mesh that holds us together. It is built on trust, honesty, and the joy of shared experiences.",
+    practice: "Think of a friend who makes you laugh. Send them a mental note of gratitude right now."
+  },
+  { 
+    id: 'human', icon: Globe, color: "text-cyan-200", bg: "bg-cyan-500/5", 
+    en: "Humanity Unity Love", de: "Menschliche Einheit", 
+    sentence: "We are all connected",
+    explanation: "Humanity love is the recognition of our collective heartbeat. It is the ultimate expression of unconditional love for all beings.",
+    practice: "Imagine a thin golden thread connecting you to every person in the party and the world beyond."
+  },
+  { 
+    id: 'life', icon: Infinity, color: "text-primary", bg: "bg-primary/5", 
+    en: "Pure Life Love", de: "Reines Leben", 
+    sentence: "Existence is a gift",
+    explanation: "Life love is the gratitude for the breath in your lungs and the rhythm in your chest. It is the love for the experience of being itself.",
+    practice: "Take a deep breath and say: 'Thank you for this life.' Repeat this three times."
+  },
 ];
 
 const MOCK_FRIENDS = [
-  { id: 'f1', name: 'MAX', hr: 72, state: 'safe' },
-  { id: 'f2', name: 'LUNA', hr: 115, state: 'caution' },
-  { id: 'f3', name: 'SOL', hr: 140, state: 'locked' },
+  { id: 'f1', name: 'MAX', hr: 72, state: 'safe', msg: "Chilling near the bar", dist: "12m" },
+  { id: 'f2', name: 'LUNA', hr: 115, state: 'caution', msg: "Dancing intensely", dist: "45m" },
+  { id: 'f3', name: 'SOL', hr: 140, state: 'locked', msg: "Needs a hydration break", dist: "82m" },
 ];
 
 export default function LoveCircle({ lang = "en", variant = "dashboard", heartRate = 75 }: { lang?: string, variant?: "dashboard" | "map", heartRate?: number }) {
   const [activeArchetype, setActiveArchetype] = useState(7);
+  const [learningArchetype, setLearningArchetype] = useState<any>(null);
   const current = ARCHETYPES[activeArchetype];
   const currentLang = lang.toLowerCase() as 'en' | 'de';
 
@@ -115,11 +172,17 @@ export default function LoveCircle({ lang = "en", variant = "dashboard", heartRa
                     <arc.icon className={cn("w-5 h-5", isActive ? "text-primary" : "text-white/20")} />
                   </button>
                 </TooltipTrigger>
-                <TooltipContent side="top" className="bg-black/95 border-white/10 px-4 py-2 rounded-xl text-center">
+                <TooltipContent side="top" className="bg-black/95 border-white/10 px-4 py-2 rounded-xl text-center space-y-2 max-w-[150px]">
                   <p className="text-[10px] font-black uppercase tracking-widest text-primary">
                     {currentLang === 'de' ? arc.de : arc.en}
                   </p>
                   <p className="text-[8px] text-white/40 font-bold uppercase mt-1 italic">"{arc.sentence}"</p>
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); setLearningArchetype(arc); }}
+                    className="flex items-center gap-1.5 mx-auto text-[7px] font-black text-blue-400 uppercase tracking-widest pt-1 border-t border-white/10 w-full justify-center"
+                  >
+                    {currentLang === 'de' ? 'Mehr erfahren' : 'Learn More'} <ExternalLink size={8} />
+                  </button>
                 </TooltipContent>
               </Tooltip>
             );
@@ -142,27 +205,38 @@ export default function LoveCircle({ lang = "en", variant = "dashboard", heartRa
                 const fRadius = 34; 
                 const fColor = getStateColor(friend.state);
                 return (
-                  <div 
-                    key={friend.id}
-                    className="absolute flex flex-col items-center gap-1"
-                    style={{ 
-                      left: `${50 + fRadius * Math.cos((fAngle * Math.PI) / 180)}%`,
-                      top: `${50 + fRadius * Math.sin((fAngle * Math.PI) / 180)}%`,
-                      transform: 'translate(-50%, -50%)'
-                    }}
-                  >
-                    <div 
-                      className="w-10 h-10 rounded-full border-2 flex items-center justify-center relative backdrop-blur-md transition-all duration-1000"
-                      style={{ 
-                        backgroundColor: `${fColor}15`,
-                        borderColor: `${fColor}40`
-                      }}
-                    >
-                      <div className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ backgroundColor: fColor, animationDuration: pulseDuration }} />
-                      <Heart size={14} fill={fColor} className="text-white/10" style={{ animation: `heart-beat-inner ${pulseDuration} ease-in-out infinite` }} />
-                    </div>
-                    <span className="text-[7px] font-black text-white/40 uppercase tracking-tighter">{friend.name}</span>
-                  </div>
+                  <Tooltip key={friend.id}>
+                    <TooltipTrigger asChild>
+                      <div 
+                        className="absolute flex flex-col items-center gap-1 pointer-events-auto cursor-pointer"
+                        style={{ 
+                          left: `${50 + fRadius * Math.cos((fAngle * Math.PI) / 180)}%`,
+                          top: `${50 + fRadius * Math.sin((fAngle * Math.PI) / 180)}%`,
+                          transform: 'translate(-50%, -50%)'
+                        }}
+                      >
+                        <div 
+                          className="w-10 h-10 rounded-full border-2 flex items-center justify-center relative backdrop-blur-md transition-all duration-1000"
+                          style={{ 
+                            backgroundColor: `${fColor}15`,
+                            borderColor: `${fColor}40`
+                          }}
+                        >
+                          <div className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ backgroundColor: fColor, animationDuration: pulseDuration }} />
+                          <Heart size={14} fill={fColor} className="text-white/10" style={{ animation: `heart-beat-inner ${pulseDuration} ease-in-out infinite` }} />
+                        </div>
+                        <span className="text-[7px] font-black text-white/40 uppercase tracking-tighter">{friend.name}</span>
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent side="top" className="bg-black/95 border-white/10 px-4 py-2 rounded-xl text-center">
+                      <p className="text-[9px] font-black text-white">{friend.name}</p>
+                      <p className="text-[8px] font-bold text-white/40 uppercase mt-1 italic">"{friend.msg}"</p>
+                      <div className="flex items-center justify-center gap-1.5 mt-1 pt-1 border-t border-white/5">
+                        <Radio size={8} className="text-blue-400" />
+                        <span className="text-[7px] font-black text-blue-400 uppercase tracking-widest">{friend.dist} Mesh</span>
+                      </div>
+                    </TooltipContent>
+                  </Tooltip>
                 );
               })}
             </div>
@@ -192,6 +266,43 @@ export default function LoveCircle({ lang = "en", variant = "dashboard", heartRa
           </div>
         </div>
       </div>
+
+      <Dialog open={!!learningArchetype} onOpenChange={() => setLearningArchetype(null)}>
+        <DialogContent className="bg-black border-white/10 max-md p-8 rounded-[3rem] font-headline animate-in zoom-in-95 duration-300">
+          <DialogHeader className="mb-6">
+            <div className="flex items-center gap-4">
+              <div className={cn("p-4 rounded-2xl bg-white/5 border border-white/10", learningArchetype?.color)}>
+                {learningArchetype && <learningArchetype.icon size={32} />}
+              </div>
+              <div>
+                <DialogTitle className="text-2xl font-black uppercase tracking-tighter text-white">
+                  {currentLang === 'de' ? learningArchetype?.de : learningArchetype?.en}
+                </DialogTitle>
+                <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">Wisdom Protocol</p>
+              </div>
+            </div>
+          </DialogHeader>
+          <div className="space-y-8">
+            <div className="space-y-2">
+               <span className="text-[9px] font-black text-primary uppercase tracking-[0.4em]">Explanation</span>
+               <p className="text-sm font-bold text-white/80 leading-relaxed uppercase tracking-widest">{learningArchetype?.explanation}</p>
+            </div>
+            <div className="p-6 bg-primary/5 border border-primary/20 rounded-2xl space-y-3">
+               <div className="flex items-center gap-3">
+                 <Sparkles size={16} className="text-primary" />
+                 <span className="text-[9px] font-black text-primary uppercase tracking-[0.4em]">Development Practice</span>
+               </div>
+               <p className="text-xs font-bold text-white leading-relaxed uppercase tracking-wider italic">{learningArchetype?.practice}</p>
+            </div>
+            <button 
+              onClick={() => setLearningArchetype(null)}
+              className="w-full py-5 bg-white text-black rounded-2xl font-black uppercase text-xs tracking-widest active:scale-95 transition-all"
+            >
+              Continue Calibration
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </TooltipProvider>
   );
 }

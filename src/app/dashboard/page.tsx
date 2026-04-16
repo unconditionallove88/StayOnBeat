@@ -37,6 +37,7 @@ import { AssistantPortal as SupporterPortal } from '@/components/chat/AssistantP
 import { VisionOfLove } from '@/components/dashboard/VisionOfLove';
 import { HeartBreath } from '@/components/dashboard/HeartBreath';
 import { SanctuaryGuide } from '@/components/dashboard/SanctuaryGuide';
+import { SmartAlerts } from '@/components/dashboard/SmartAlerts';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUser, useFirestore, useDoc, useMemoFirebase, useAuth } from '@/firebase';
 import { doc } from 'firebase/firestore';
@@ -82,7 +83,7 @@ const CONTENT = {
   },
   de: { 
     mesh: "Mesh aktiv heute hier",
-    loveChat: "Love Chat heute",
+    loveChat: "Wort der Liebe",
     holders: "Die Holder",
     spectators: "Die Spectator",
     supporterMain: "Unterstützer",
@@ -163,6 +164,8 @@ function DashboardContent() {
             <PulseGuardianBanner lang={lang} variant="banner" onOpenGuide={() => setGuideOpen(true)} />
           </div>
 
+          <SmartAlerts userGoals={firestoreProfile?.goals || []} lang={lang} />
+
           {(guardianStatus === 'caution' || guardianStatus === 'locked') && (
             <div className="flex justify-center animate-in zoom-in duration-500">
                <button 
@@ -187,7 +190,7 @@ function DashboardContent() {
             <div className="flex flex-col items-center gap-4">
               <button 
                 onClick={() => { playHeartbeat(); setSupporterOpen(true); }}
-                className="w-48 h-48 md:w-56 md:h-56 rounded-full bg-emerald-500/5 border-2 border-emerald-500/20 flex flex-col items-center justify-center group hover:bg-emerald-500/10 transition-all shadow-[0_0_50px_rgba(16,185,129,0.1)] relative"
+                className="w-48 h-48 md:w-56 md:h-56 rounded-full bg-emerald-500/5 border-4 border-primary flex flex-col items-center justify-center group hover:bg-emerald-500/10 transition-all shadow-[0_0_50px_rgba(16,185,129,0.1)] relative"
               >
                 <div className="absolute inset-0 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/10 transition-all" />
                 <SupporterIcon size={64} className="text-emerald-500 mb-2 relative z-10" />
@@ -199,10 +202,10 @@ function DashboardContent() {
               {!showLoveChatOptions ? (
                 <button 
                   onClick={() => { playHeartbeat(); setShowLoveChatOptions(true); }}
-                  className="w-40 h-40 rounded-full bg-[#10B981] border-4 border-[#10B981] flex flex-col items-center justify-center group hover:bg-[#10B981]/90 transition-all shadow-[0_0_50px_rgba(16,185,129,0.4)]"
+                  className="w-40 h-40 rounded-full bg-[#1b4d3e] border-4 border-[#10B981] flex flex-col items-center justify-center group hover:bg-[#1b4d3e]/90 transition-all shadow-[0_0_50px_rgba(16,185,129,0.4)]"
                 >
-                  <MessageCircleHeart size={48} className="text-white mb-2" />
-                  <span className="text-xs font-black uppercase tracking-widest text-white">{t.loveChat}</span>
+                  <MessageCircleHeart size={48} className="text-[#10B981] mb-2" />
+                  <span className="text-xs font-black uppercase tracking-widest text-[#10B981]">{t.loveChat}</span>
                 </button>
               ) : (
                 <div className="flex gap-8 animate-in zoom-in-95 duration-500">
@@ -215,7 +218,7 @@ function DashboardContent() {
                   </button>
                   <button 
                     onClick={() => router.push('/heart-status?chat=spectators')}
-                    className="w-32 h-32 rounded-full bg-white/[0.03] border-4 border-[#10B981] flex flex-col items-center justify-center group hover:bg-yellow-500/10 transition-all shadow-xl"
+                    className="w-32 h-32 rounded-full bg-white/[0.03] border-4 border-yellow-400 flex flex-col items-center justify-center group hover:bg-yellow-500/10 transition-all shadow-xl"
                   >
                     <Users2 size={32} className="text-yellow-500 mb-1" />
                     <span className="text-[9px] font-black uppercase tracking-widest text-yellow-500">{t.spectators}</span>
@@ -226,15 +229,15 @@ function DashboardContent() {
             </div>
 
             <div className="flex justify-center gap-6 w-full">
-              <Link href="/map" className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-1 hover:border-blue-500/30 transition-all group">
+              <Link href="/map" className="w-24 h-24 rounded-full bg-white/5 border-4 border-blue-500 flex flex-col items-center justify-center gap-1 hover:border-blue-500/30 transition-all group">
                 <RadiatingThirdEye size={24} color="#3b82f6" />
                 <span className="text-[8px] font-black uppercase tracking-widest text-white/40 group-hover:text-blue-400">Radar</span>
               </Link>
-              <button onClick={() => setLabOpen(true)} className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-1 hover:border-primary/30 transition-all group">
+              <button onClick={() => setLabOpen(true)} className="w-24 h-24 rounded-full bg-white/5 border-4 border-primary flex flex-col items-center justify-center gap-1 hover:border-primary/30 transition-all group">
                 <Microscope size={24} className="text-primary" />
                 <span className="text-[8px] font-black uppercase tracking-widest text-white/40 group-hover:text-primary">Lab</span>
               </button>
-              <button onClick={() => setSyncOpen(true)} className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-1 hover:border-accent/30 transition-all group">
+              <button onClick={() => setSyncOpen(true)} className="w-24 h-24 rounded-full bg-white/5 border-4 border-accent flex flex-col items-center justify-center gap-1 hover:border-accent/30 transition-all group">
                 <Watch size={24} className="text-accent" />
                 <span className="text-[8px] font-black uppercase tracking-widest text-white/40 group-hover:text-accent">Sync</span>
               </button>

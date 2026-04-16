@@ -89,7 +89,7 @@ function InnerHeartContent() {
       visionSub: "Grounding Tool",
       bioPulse: "Biological Pulse",
       bioPulseSub: "Live rhythm",
-      footer: "Sacred Inner Sanctuary"
+      footer: "Love Circle"
     },
     de: {
       title: "Mein Herz heute",
@@ -103,7 +103,7 @@ function InnerHeartContent() {
       visionSub: "Erdungs Tool",
       bioPulse: "Biologischer Puls",
       bioPulseSub: "Rhythmus heute",
-      footer: "Heiliges Inneres Sanctuary"
+      footer: "Liebe Kreis"
     }
   }[lang];
 
@@ -210,7 +210,7 @@ function InnerHeartContent() {
             </div>
           </div>
 
-          <p className="text-[8px] font-black text-white/10 uppercase tracking-[0.5em] text-center">{t.footer}</p>
+          <p className="text-[12px] font-black text-white uppercase tracking-[0.5em] text-center drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">{t.footer}</p>
         </div>
       </ScrollArea>
 
