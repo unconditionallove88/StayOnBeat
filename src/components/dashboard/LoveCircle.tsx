@@ -11,12 +11,9 @@ import {
   ShieldCheck, 
   Globe, 
   Infinity, 
-  Users2,
-  Activity,
   Sparkles
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 import { playHeartbeat } from "@/lib/resonance";
 import { RadiatingThirdEye } from "@/components/ui/radiating-third-eye";
 import {
@@ -28,7 +25,7 @@ import {
 
 /**
  * @fileOverview Organic Circle of Love.
- * Refined with subtle colors and user-friendly resonance sentences.
+ * Mirroring the main Dashboard Aura in its center.
  */
 
 const ARCHETYPES = [
@@ -47,19 +44,24 @@ const MOCK_FRIENDS = [
   { id: 'f2', name: 'LUNA', hr: 88, active: true },
 ];
 
-export default function LoveCircle({ lang = "en", variant = "dashboard" }: { lang?: string, variant?: "dashboard" | "map" }) {
+export default function LoveCircle({ lang = "en", variant = "dashboard", heartRate = 75 }: { lang?: string, variant?: "dashboard" | "map", heartRate?: number }) {
   const [activeArchetype, setActiveArchetype] = useState(7);
   const current = ARCHETYPES[activeArchetype];
   const currentLang = lang.toLowerCase() as 'en' | 'de';
+
+  const pulseDuration = `${(60 / heartRate).toFixed(2)}s`;
 
   return (
     <TooltipProvider delayDuration={0}>
       <div className="w-full max-w-[450px] mx-auto flex flex-col items-center gap-8 font-headline">
         <div className="relative aspect-square w-full rounded-full flex items-center justify-center transition-all duration-1000 overflow-visible">
-          {/* Subtle Ambient Glow */}
+          {/* Subtle Ambient Glow (Mirrored) */}
           <div 
-            className="absolute inset-0 rounded-full blur-[100px] opacity-10 transition-all duration-1000" 
-            style={{ backgroundColor: 'hsl(var(--primary))' }} 
+            className="absolute inset-0 rounded-full blur-[100px] opacity-15 transition-all duration-1000" 
+            style={{ 
+              backgroundColor: 'hsl(var(--primary))',
+              animation: `aura-pulse-outer ${pulseDuration} ease-in-out infinite`
+            }} 
           />
 
           {/* Archetype Ring */}
@@ -76,7 +78,7 @@ export default function LoveCircle({ lang = "en", variant = "dashboard" }: { lan
                     className={cn(
                       "absolute w-12 h-12 rounded-full flex items-center justify-center transition-all duration-500 border-2 z-20 group",
                       isActive 
-                        ? `${arc.bg} border-primary/40 scale-110` 
+                        ? `${arc.bg} border-primary/40 scale-110 shadow-xl` 
                         : "bg-black/40 border-white/5 opacity-40 hover:opacity-100"
                     )}
                     style={{ 
@@ -98,13 +100,13 @@ export default function LoveCircle({ lang = "en", variant = "dashboard" }: { lan
             );
           })}
 
-          {/* Unity Core */}
-          <div className="relative w-48 h-48 md:w-56 md:h-56 bg-black rounded-full border border-white/5 flex items-center justify-center p-4 shadow-2xl z-10">
+          {/* Unity Core (Mirror Reflection of Aura Ring) */}
+          <div className="relative w-48 h-48 md:w-56 md:h-56 bg-black rounded-full border-2 border-white/5 flex items-center justify-center p-4 shadow-2xl z-10">
             {/* Friends Nodes */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               {MOCK_FRIENDS.map((friend, idx) => {
                 const fAngle = (idx * 360) / MOCK_FRIENDS.length + 45;
-                const fRadius = 30; 
+                const fRadius = 32; 
                 return (
                   <div 
                     key={friend.id}
@@ -115,21 +117,26 @@ export default function LoveCircle({ lang = "en", variant = "dashboard" }: { lan
                       transform: 'translate(-50%, -50%)'
                     }}
                   >
-                    <div className="w-7 h-7 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center relative">
-                      <div className="absolute inset-0 bg-primary/20 rounded-full animate-ping" style={{ animationDuration: '2s' }} />
-                      <Sparkles size={10} className="text-primary" />
+                    <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center relative backdrop-blur-sm">
+                      <div className="absolute inset-0 bg-primary/20 rounded-full animate-ping" style={{ animationDuration: pulseDuration }} />
+                      <Sparkles size={11} className="text-primary" />
                     </div>
-                    <span className="text-[6px] font-black text-white/20 uppercase tracking-tighter">{friend.name}</span>
+                    <span className="text-[7px] font-black text-white/20 uppercase tracking-tighter">{friend.name}</span>
                   </div>
                 );
               })}
             </div>
 
             <div className="flex flex-col items-center text-center gap-2 relative z-10">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20 mb-1">
-                <RadiatingThirdEye size={28} color="hsl(var(--primary))" />
+              <div 
+                className="w-20 h-20 rounded-full bg-primary/5 flex items-center justify-center border border-primary/10 mb-1 transition-all"
+                style={{ 
+                  animation: `heart-beat-inner ${pulseDuration} ease-in-out infinite`
+                }}
+              >
+                <RadiatingThirdEye size={36} color="hsl(var(--primary))" className="opacity-80" />
               </div>
-              <p className="text-[8px] font-black uppercase tracking-[0.2em] text-primary/60 leading-none">
+              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary/60 leading-none">
                 {currentLang === 'de' ? current.de : current.en}
               </p>
             </div>

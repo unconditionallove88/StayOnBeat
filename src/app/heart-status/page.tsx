@@ -7,15 +7,11 @@ import LoveCircle from "@/components/dashboard/LoveCircle";
 import { 
   ArrowLeft, 
   Watch, 
-  Info, 
-  RefreshCw, 
-  ChevronRight, 
   PenLine, 
   Wind, 
   Eye, 
-  Users2, 
-  Globe, 
-  Loader2 
+  Loader2,
+  Heart
 } from "lucide-react";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
@@ -32,7 +28,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
  * @fileOverview Inner Resonance Page.
- * Specialized view containing: Circle of Love, Love Letters, Breath, and Vision.
+ * Visual Heart Icon replaces Pulse Baseline.
  */
 
 function InnerHeartContent() {
@@ -73,6 +69,9 @@ function InnerHeartContent() {
   }, [firestore, user?.uid]);
   
   const { data: profile } = useDoc(userDocRef);
+  
+  const currentBPM = profile?.pulseBaseline?.restingBPM || heartRate;
+  const pulseDuration = `${(60 / currentBPM).toFixed(2)}s`;
 
   if (!mounted) return null;
 
@@ -87,9 +86,8 @@ function InnerHeartContent() {
       breathSub: "Ritual Now",
       vision: "Vision of Love",
       visionSub: "Grounding Tool",
-      baseline: "Pulse Baseline",
-      baselineSub: "Your biological zero point",
-      recalibrate: "Recalibrate Baseline",
+      bioPulse: "Biological Pulse",
+      bioPulseSub: "Your live resonance rhythm",
       footer: "Sacred Inner Sanctuary"
     },
     de: {
@@ -102,9 +100,8 @@ function InnerHeartContent() {
       breathSub: "Ritual jetzt hier",
       vision: "Vision der Liebe heute",
       visionSub: "Erdungs Tool heute",
-      baseline: "Puls Basis heute",
-      baselineSub: "Dein biologischer Nullpunkt heute",
-      recalibrate: "Basis neu kalibrieren",
+      bioPulse: "Biologischer Puls",
+      bioPulseSub: "Dein lebendiger Rhythmus heute",
       footer: "Heiliges Inneres Sanctuary"
     }
   }[lang];
@@ -132,7 +129,7 @@ function InnerHeartContent() {
       <ScrollArea className="flex-1">
         <div className="flex flex-col items-center gap-12 max-w-xl mx-auto pb-40">
           
-          <LoveCircle lang={lang} variant="map" />
+          <LoveCircle lang={lang} variant="map" heartRate={currentBPM} />
 
           {/* Emotional Portals Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full px-4">
@@ -176,28 +173,42 @@ function InnerHeartContent() {
             </button>
           </div>
 
-          {/* Baseline Card */}
-          <div className="w-full bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-8 relative overflow-hidden group mx-4">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-[#EBFB3B]/5 blur-3xl -z-10" />
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2.5 bg-[#EBFB3B]/10 rounded-xl border border-[#EBFB3B]/20">
-                <Watch className="text-[#EBFB3B] w-5 h-5" />
-              </div>
-              <div>
-                <span className="block text-[10px] font-black uppercase text-[#EBFB3B] tracking-widest">{t.baseline}</span>
-                <span className="text-[8px] font-bold text-white/30 uppercase tracking-widest">{t.baselineSub}</span>
-              </div>
+          {/* Biometric Resonance Card (Replacing technical baseline) */}
+          <div className="w-full bg-white/[0.02] border border-white/5 rounded-[3rem] p-10 relative overflow-hidden group mx-4 flex flex-col items-center">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none" />
+            
+            <div className="flex flex-col items-center gap-2 mb-8">
+              <span className="block text-[10px] font-black uppercase text-primary tracking-[0.4em]">{t.bioPulse}</span>
+              <span className="text-[8px] font-bold text-white/20 uppercase tracking-widest">{t.bioPulseSub}</span>
             </div>
-            <div className="flex items-end gap-3 mb-6">
-              <span className="text-5xl font-black text-white leading-none">{profile?.pulseBaseline?.restingBPM || '--'}</span>
-              <span className="text-[10px] font-black text-white/20 mb-1 uppercase tracking-widest leading-none">RESTING BPM</span>
+
+            <div className="relative mb-8">
+               {/* Pulse Glow */}
+               <div 
+                 className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-150 transition-all"
+                 style={{ animation: `aura-pulse-outer ${pulseDuration} ease-in-out infinite` }}
+               />
+               {/* Pulsing Biological Heart */}
+               <div 
+                 className="relative w-32 h-32 bg-black/40 rounded-full border-2 border-primary/20 flex items-center justify-center shadow-2xl backdrop-blur-md"
+                 onClick={() => setSyncOpen(true)}
+               >
+                 <Heart 
+                   size={64} 
+                   fill="currentColor" 
+                   className="text-primary transition-all cursor-pointer"
+                   style={{ 
+                     animation: `heart-beat-inner ${pulseDuration} ease-in-out infinite`,
+                     filter: 'blur(8px) drop-shadow(0 0 15px hsl(var(--primary)))'
+                   }} 
+                 />
+               </div>
             </div>
-            <button 
-              onClick={() => setSyncOpen(true)}
-              className="w-full py-4 rounded-xl bg-[#EBFB3B] text-black text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-all"
-            >
-              <RefreshCw size={14} /> {t.recalibrate}
-            </button>
+
+            <div className="flex items-end gap-3">
+              <span className="text-6xl font-black text-white leading-none tracking-tighter tabular-nums">{currentBPM}</span>
+              <span className="text-[10px] font-black text-primary mb-1 uppercase tracking-widest leading-none">BPM</span>
+            </div>
           </div>
 
           <p className="text-[8px] font-black text-white/10 uppercase tracking-[0.5em] text-center">{t.footer}</p>

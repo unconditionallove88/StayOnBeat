@@ -8,17 +8,15 @@ import {
   Heart, 
   User, 
   Loader2, 
-  Sprout, 
+  Microscope, 
   Watch, 
   Shield, 
   Sun, 
   Moon, 
-  Microscope,
   Settings2,
   ChevronDown,
   Radio,
   Users2,
-  MessageSquareHeart,
   Globe
 } from 'lucide-react';
 import { SupporterIcon } from '@/components/ui/supporter-icon';
@@ -30,7 +28,6 @@ import PulseGuardianBanner from '@/components/dashboard/PulseGuardianBanner';
 import GuardianStatusBar from '@/components/dashboard/GuardianStatusBar';
 import GuardianSimulator from '@/components/dashboard/GuardianSimulator';
 import HeartStatusAura from '@/components/dashboard/HeartStatusAura';
-import { CoCreation } from '@/components/dashboard/CoCreation';
 import { WearablesSync } from '@/components/dashboard/WearablesSync';
 import { AssistantPortal as SupporterPortal } from '@/components/chat/AssistantPortal';
 import { VisionOfLove } from '@/components/dashboard/VisionOfLove';
@@ -109,7 +106,7 @@ const CONTENT = {
     holdersSub: "Private Bonds",
     spectators: "The Spectators",
     spectatorsSub: "Public Care",
-    intervention: "Return to presence"
+    intervention: "Presence"
   },
   de: { 
     mesh: "Mesh aktiv heute",
@@ -118,7 +115,7 @@ const CONTENT = {
     holdersSub: "Privater Kreis heute",
     spectators: "Die Spectator heute",
     spectatorsSub: "Gemeinsame Fürsorge heute",
-    intervention: "Kehre jetzt zurück hier"
+    intervention: "Präsenz heute"
   }
 };
 
@@ -138,7 +135,6 @@ function DashboardContent() {
 
   const [labOpen, setLabOpen] = useState(false);
   const [supporterOpen, setSupporterOpen] = useState(false);
-  const [coCreationOpen, setCoCreationOpen] = useState(false);
   const [syncOpen, setSyncOpen] = useState(false);
   const [visionOfLoveOpen, setVisionOfLoveOpen] = useState(false);
   const [showSOS, setShowSOS] = useState(false);
@@ -187,7 +183,7 @@ function DashboardContent() {
   const isCaution = !isLocked && (simHeartRate > cautionThreshold || (typeof activeSubstances === 'object' && activeSubstances.length >= 3));
   const guardianStatus: 'safe' | 'caution' | 'locked' = isLocked ? 'locked' : (isCaution ? 'caution' : 'safe');
 
-  const showShiningLight = simHeartRate > 110;
+  const showPresenceIntervention = simHeartRate > 110;
 
   const handlePortalClick = (action: () => void) => {
     playHeartbeat();
@@ -254,17 +250,15 @@ function DashboardContent() {
             </Link>
             <p className="text-xs font-bold uppercase tracking-widest text-primary px-10 italic">"{affirmation}"</p>
 
-            {showShiningLight && (
+            {showPresenceIntervention && (
               <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100]">
                 <button 
                   onClick={(e) => { e.preventDefault(); e.stopPropagation(); handlePortalClick(() => setVisionOfLoveOpen(true)); }}
-                  className="w-20 h-20 bg-[#10B981] rounded-full flex items-center justify-center border-4 border-white shadow-[0_0_50px_rgba(16,185,129,0.8)] animate-pulse group relative"
+                  className="w-24 h-24 bg-[#10B981] rounded-full flex flex-col items-center justify-center border-4 border-white shadow-[0_0_80px_rgba(16,185,129,1)] animate-pulse group relative overflow-hidden"
                 >
-                  <div className="absolute inset-0 bg-[#10B981] rounded-full animate-ping opacity-40" />
-                  <RadiatingThirdEye size={40} color="white" />
-                  <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-[#10B981] px-4 py-1.5 rounded-full border border-white shadow-lg whitespace-nowrap animate-in slide-in-from-bottom-2 duration-500">
-                    <span className="text-[10px] font-black uppercase text-white tracking-widest">{t.intervention} 🌿</span>
-                  </div>
+                  <div className="absolute inset-0 bg-white/20 animate-ping opacity-30" />
+                  <RadiatingThirdEye size={36} color="white" />
+                  <span className="text-[10px] font-black uppercase text-white tracking-widest mt-1">{t.intervention}</span>
                 </button>
               </div>
             )}
@@ -442,7 +436,12 @@ function DashboardContent() {
         </DialogContent>
       </Dialog>
 
-      {visionOfLoveOpen && <VisionOfLove onClose={() => setVisionOfLoveOpen(false)} />}
+      {visionOfLoveOpen && (
+        <VisionOfLove 
+          onClose={() => setVisionOfLoveOpen(false)} 
+          isEmergency={showPresenceIntervention} 
+        />
+      )}
     </main>
   );
 }

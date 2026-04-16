@@ -2,18 +2,19 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { X, Wind, Eye, Sparkles, ArrowRight } from 'lucide-react';
+import { X, Wind, Eye, Sparkles, ArrowRight, HeartHandshake } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { playHeartbeat } from '@/lib/resonance';
 import { useRouter } from 'next/navigation';
 
 /**
  * @fileOverview "Vision of Love" (Presence & Grounding) Tool.
- * Updated: Integrated into the recovery sequence.
+ * Integrated emergency mode merging Vision and Breath.
  */
 
 interface VisionOfLoveProps {
   onClose: () => void;
+  isEmergency?: boolean;
 }
 
 const CONTENT = {
@@ -24,11 +25,17 @@ const CONTENT = {
     affirmations: [
       "Welcome to Harmony",
       "You are loved",
-      "Back on beat together"
+      "Back on beat together",
+      "Everything is aligning",
+      "You are exactly here"
     ],
     button: "Enter Vision",
     return: "Return to Sanctuary",
-    next: "Next: Breath of Love"
+    next: "Next: Breath of Love",
+    emergencyHeader: "Breath of Love",
+    emergencySub: "Inhale peace • Exhale fear",
+    inhale: "Breathe In Love",
+    exhale: "Breathe Out Love"
   },
   de: {
     title: "Vision der Liebe",
@@ -37,17 +44,23 @@ const CONTENT = {
     affirmations: [
       "Willkommen in Harmonie heute",
       "Du wirst geliebt heute",
-      "Wieder im Takt heute"
+      "Wieder im Takt heute",
+      "Alles fügt sich heute",
+      "Du bist genau hier"
     ],
     button: "Vision öffnen",
     return: "Zum Sanctuary zurückkehren",
-    next: "Weiter: Atem der Liebe"
+    next: "Weiter: Atem der Liebe",
+    emergencyHeader: "Atem der Liebe heute",
+    emergencySub: "Einatmen Frieden • Ausatmen Angst",
+    inhale: "Atme sanft Liebe ein",
+    exhale: "Atme sanft Liebe aus"
   }
 };
 
-export function VisionOfLove({ onClose }: VisionOfLoveProps) {
+export function VisionOfLove({ onClose, isEmergency = false }: VisionOfLoveProps) {
   const router = useRouter();
-  const [mode, setMode] = useState<'intro' | 'beauty'>('intro');
+  const [mode, setMode] = useState<'intro' | 'beauty'>(isEmergency ? 'beauty' : 'intro');
   const [lang, setLang] = useState<'en' | 'de'>('en');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isFading, setIsFading] = useState(false);
@@ -64,7 +77,7 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
         setTimeout(() => {
           setCurrentSlide((prev) => (prev + 1) % CONTENT.en.affirmations.length);
           setIsFading(false);
-        }, 6000);
+        }, 1000);
       }, 6000);
       return () => clearInterval(interval);
     }
@@ -72,13 +85,44 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
 
   const t = CONTENT[lang] || CONTENT.en;
 
+  const renderLetters = (text: string, delayBase: number) => {
+    return text.split('').map((char, i) => (
+      <span 
+        key={i} 
+        style={{ animationDelay: `${delayBase + (i * 0.1)}s` }}
+        className="inline-block animate-letter-fade opacity-0"
+      >
+        {char === ' ' ? '\u00A0' : char}
+      </span>
+    ));
+  };
+
   if (mode === 'beauty') {
     return (
-      <div className="fixed inset-0 bg-[#1b4d3e] z-[1000] flex flex-col font-headline animate-in fade-in duration-1000 overflow-hidden pt-safe pb-safe">
+      <div className={cn(
+        "fixed inset-0 z-[1000] flex flex-col font-headline animate-in fade-in duration-1000 overflow-hidden pt-safe pb-safe",
+        isEmergency ? "bg-[#10B981]" : "bg-[#1b4d3e]"
+      )}>
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-black/20 pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.05)_0%,_transparent_70%)] animate-pulse" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.1)_0%,_transparent_70%)] animate-pulse" />
 
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center p-8 text-center">
+        <header className="relative z-20 px-8 pt-8 flex items-center justify-between">
+           {isEmergency && (
+             <div className="flex flex-col items-start gap-1">
+               <div className="flex items-center gap-2 bg-white/20 px-3 py-1 rounded-full border border-white/30 backdrop-blur-md">
+                 <Wind size={14} className="text-white animate-bounce" />
+                 <span className="text-[10px] font-black uppercase text-white tracking-widest">{t.emergencyHeader}</span>
+               </div>
+               <p className="text-[8px] font-bold text-white/60 uppercase tracking-widest ml-2">{t.emergencySub}</p>
+             </div>
+           )}
+           <button onClick={onClose} className="p-3 bg-white/10 rounded-full border border-white/20 text-white/60 hover:text-white transition-all backdrop-blur-md">
+             <X size={20} />
+           </button>
+        </header>
+
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center p-8 text-center gap-12">
+          {/* Main Affirmation */}
           <div 
             className="transition-all duration-1000 transform"
             style={{ 
@@ -90,24 +134,38 @@ export function VisionOfLove({ onClose }: VisionOfLoveProps) {
               {t.affirmations[currentSlide]}
             </h2>
           </div>
+
+          {/* Merged Breathing Ritual (for Emergency Presence) */}
+          {isEmergency && (
+            <div className="w-full flex flex-col items-center justify-center gap-12 relative min-h-[120px] scale-90 md:scale-100">
+               <div className="absolute text-2xl md:text-3xl font-black uppercase tracking-tighter flex whitespace-nowrap justify-center items-center text-white/90 drop-shadow-lg">
+                 <div className="flex">{renderLetters(t.inhale, 0)}</div>
+               </div>
+               <div className="absolute text-2xl md:text-3xl font-black uppercase tracking-tighter flex whitespace-nowrap justify-center items-center text-white/90 drop-shadow-lg">
+                 <div className="flex">{renderLetters(t.exhale, 4)}</div>
+               </div>
+            </div>
+          )}
         </div>
 
-        <footer className="relative z-10 p-12 flex flex-col items-center gap-6">
+        <footer className="relative z-10 p-12 flex flex-col items-center gap-6 pb-safe">
           <div className="flex gap-2">
             {t.affirmations.map((_, i) => (
               <div key={i} className={cn("w-1.5 h-1.5 rounded-full transition-all duration-500", i === currentSlide ? "bg-white w-6" : "bg-white/20")} />
             ))}
           </div>
           <div className="flex flex-col gap-3 w-full max-w-sm">
-            <button 
-              onClick={() => { playHeartbeat(); router.push('/self-care'); }}
-              className="w-full py-5 bg-white text-black rounded-full font-black uppercase text-[10px] tracking-[0.4em] active:scale-95 transition-all flex items-center justify-center gap-3"
-            >
-              {t.next} <ArrowRight size={14} />
-            </button>
+            {!isEmergency && (
+              <button 
+                onClick={() => { playHeartbeat(); router.push('/self-care'); }}
+                className="w-full py-5 bg-white text-black rounded-full font-black uppercase text-[10px] tracking-[0.4em] active:scale-95 transition-all flex items-center justify-center gap-3 shadow-xl"
+              >
+                {t.next} <ArrowRight size={14} />
+              </button>
+            )}
             <button 
               onClick={() => { playHeartbeat(); onClose(); }}
-              className="px-8 py-3 rounded-full border border-white/20 bg-white/5 backdrop-blur-md text-white font-black uppercase text-[10px] tracking-[0.4em] active:scale-95 transition-all"
+              className="px-8 py-4 rounded-full border border-white/20 bg-black/40 backdrop-blur-md text-white font-black uppercase text-[10px] tracking-[0.4em] active:scale-95 transition-all"
             >
               {t.return}
             </button>
