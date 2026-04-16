@@ -5,14 +5,15 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
 import { doc } from "firebase/firestore";
-import { ArrowLeft, Droplets, Apple, Moon, Battery, ShieldCheck, Heart, Loader2, Microscope, FlaskConical } from "lucide-react";
+import { ArrowLeft, Droplets, Apple, Moon, Battery, ShieldCheck, Heart, Loader2, Microscope, FlaskConical, Info, X, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { playHeartbeat } from "@/lib/resonance";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
 /**
  * @fileOverview Phase: Before (Preparation Protocol).
- * Updated: Included Anonymous Laboratory Testing option.
+ * Updated: Detailed wisdom dialogs for Hydration, Nutrition, Rest, and Essentials.
  */
 
 const CONTENT = {
@@ -27,7 +28,35 @@ const CONTENT = {
     testingAdvice: "Test your substances anonymously at our contract labs for absolute peace of mind",
     button: "I am prepared",
     testingBtn: "Book Anonymous Test",
-    footerAdvice: "Preparation is the first act of self-care Radiate your truth from the inside out"
+    footerAdvice: "Preparation is the first act of self-care Radiate your truth from the inside out",
+    wisdomTitle: "Sanctuary Wisdom",
+    closeBtn: "I understand",
+    details: {
+      hydration: {
+        title: "The Flow of Life",
+        why: "Body & Blood",
+        desc: "You are 60% water Hydration is the fuel for every cellular reaction in your sanctuary Water keeps blood fluid and circulating freely ensuring nutrients reach your heart without strain",
+        kidneys: "Kidney Shield: Your kidneys process every substance Water is their shield helping them flush toxins and maintain mineral harmony"
+      },
+      nutrition: {
+        title: "Physical Resonance",
+        why: "Steady Fuel",
+        desc: "Eat a balanced meal of complex carbohydrates and lean protein 3 to 4 hours before departure This provides a slow-burn energy source for your muscles and brain",
+        energy: "Why it matters: Stable nutrition prevents blood sugar crashes and keeps your physical resonance steady during intense sensory input"
+      },
+      rest: {
+        title: "Nervous System Calibration",
+        why: "Deep Recovery",
+        desc: "Resting allows your nervous system to calibrate and stores essential glycogen for your journey Sleep prepares your mind for expanded resonance",
+        timing: "Circadian Rhythm: Entering rest before 23:00 optimizes your hormonal balance and strengthens your Pulse Baseline for the next day"
+      },
+      essentials: {
+        title: "Mesh Connectivity",
+        why: "Sovereign Link",
+        desc: "A 100% phone charge is your lifeline to the Sovereign Mesh and Circle of Love Connection is your primary safety protocol",
+        sync: "Sync Requirement: Verifying your Pulse baseline ensures the Pulse Guardian can accurately detect physiological stress and protect your heart"
+      }
+    }
   },
   de: {
     title: "Vorbereitung", subtitle: "Von innen heraus strahlen", header: "Bereit zu strahlen?",
@@ -40,7 +69,35 @@ const CONTENT = {
     testingAdvice: "Teste deine Substanzen anonym in unseren Vertragslaboren für vollkommene Sicherheit",
     button: "Ich bin bereit",
     testingBtn: "Anonymen Test buchen",
-    footerAdvice: "Vorbereitung ist der erste Akt der Selbstfürsorge Strahle deine Wahrheit von innen nach außen"
+    footerAdvice: "Vorbereitung ist der erste Akt der Selbstfürsorge Strahle deine Wahrheit von innen nach außen",
+    wisdomTitle: "Sanctuary Weisheit",
+    closeBtn: "Ich verstehe",
+    details: {
+      hydration: {
+        title: "Der Fluss des Lebens",
+        why: "Körper & Blut",
+        desc: "Du bestehst zu 60% aus Wasser Hydrierung ist der Treibstoff für jede zelluläre Reaktion in deinem Körper Wasser hält das Blut flüssig und lässt es frei zirkulieren damit Nährstoffe dein Herz ohne Anstrengung erreichen",
+        kidneys: "Nierenschutz: Deine Nieren verarbeiten jede Substanz Wasser ist ihr Schutzschild und hilft Giftstoffe auszuspülen und das mineralische Gleichgewicht zu halten"
+      },
+      nutrition: {
+        title: "Physische Resonanz",
+        why: "Stabiler Treibstoff",
+        desc: "Iss 3 bis 4 Stunden vor dem Aufbruch eine ausgewogene Mahlzeit aus komplexen Kohlenhydraten und Proteinen Dies bietet eine langsame Energiequelle für Muskeln und Gehirn",
+        energy: "Warum es zählt: Eine stabile Ernährung verhindert Blutzuckerschwankungen und hält deine physische Resonanz bei intensiven Sinneseindrücken stabil"
+      },
+      rest: {
+        title: "Kalibrierung des Nervensystems",
+        why: "Tiefe Erholung heute",
+        desc: "Erholung ermöglicht es deinem Nervensystem sich zu kalibrieren und speichert wichtiges Glykogen für deine Reise Schlaf bereitet deinen Geist auf eine erweiterte Resonanz vor",
+        timing: "Biorhythmus: Ruhe vor 23:00 Uhr optimiert deinen Hormonhaushalt und stärkt deine Pulse-Basis für den nächsten Tag"
+      },
+      essentials: {
+        title: "Mesh Verbindung heute",
+        why: "Souveräner Link heute",
+        desc: "Ein zu 100% geladenes Handy ist deine Lebensader zum Sovereign Mesh und zum Circle of Love Verbindung ist dein wichtigstes Sicherheitsprotokoll heute",
+        sync: "Sync-Pflicht: Die Kalibrierung deiner Pulse-Basis stellt sicher dass der Pulse Guardian physischen Stress genau erkennen und dein Herz schützen kann"
+      }
+    }
   }
 };
 
@@ -50,6 +107,7 @@ export default function BeforePhase() {
   const firestore = useFirestore();
   const [lang, setLang] = useState<'en' | 'de'>('en');
   const [mounted, setMounted] = useState(false);
+  const [selectedWisdom, setSelectedWisdom] = useState<any>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -77,12 +135,56 @@ export default function BeforePhase() {
   const hydrationTarget = Math.round(weight * 0.035 * 10) / 10;
 
   const sections = [
-    { title: t.sections.testing, icon: <FlaskConical className="text-primary" size={24} />, advice: t.testingAdvice, color: "border-primary/40 bg-primary/5", action: () => router.push('/laboratory-test') },
-    { title: t.sections.hydration, icon: <Droplets className="text-blue-400" size={24} />, advice: t.hydrationAdvice(hydrationTarget), color: "border-blue-500/20 bg-blue-500/5" },
-    { title: t.sections.nutrition, icon: <Apple className="text-emerald-400" size={24} />, advice: t.nutritionAdvice, color: "border-emerald-500/20 bg-emerald-500/5" },
-    { title: t.sections.rest, icon: <Moon className="text-purple-400" size={24} />, advice: t.restAdvice, color: "border-purple-500/20 bg-purple-500/5" },
-    { title: t.sections.essentials, icon: <Battery className="text-amber-400" size={24} />, advice: t.essentialsAdvice, color: "border-amber-500/20 bg-amber-500/5" }
+    { 
+      id: 'testing',
+      title: t.sections.testing, 
+      icon: <FlaskConical className="text-primary" size={24} />, 
+      advice: t.testingAdvice, 
+      color: "border-primary/40 bg-primary/5", 
+      action: () => router.push('/laboratory-test') 
+    },
+    { 
+      id: 'hydration',
+      title: t.sections.hydration, 
+      icon: <Droplets className="text-blue-400" size={24} />, 
+      advice: t.hydrationAdvice(hydrationTarget), 
+      color: "border-blue-500/20 bg-blue-500/5",
+      details: t.details.hydration
+    },
+    { 
+      id: 'nutrition',
+      title: t.sections.nutrition, 
+      icon: <Apple className="text-emerald-400" size={24} />, 
+      advice: t.nutritionAdvice, 
+      color: "border-emerald-500/20 bg-emerald-500/5",
+      details: t.details.nutrition
+    },
+    { 
+      id: 'rest',
+      title: t.sections.rest, 
+      icon: <Moon className="text-purple-400" size={24} />, 
+      advice: t.restAdvice, 
+      color: "border-purple-500/20 bg-purple-500/5",
+      details: t.details.rest
+    },
+    { 
+      id: 'essentials',
+      title: t.sections.essentials, 
+      icon: <Battery className="text-amber-400" size={24} />, 
+      advice: t.essentialsAdvice, 
+      color: "border-amber-500/20 bg-amber-500/5",
+      details: t.details.essentials
+    }
   ];
+
+  const handleCardClick = (section: any) => {
+    playHeartbeat();
+    if (section.action) {
+      section.action();
+    } else if (section.details) {
+      setSelectedWisdom({ ...section.details, icon: section.icon, color: section.color });
+    }
+  };
 
   return (
     <main className="min-h-screen bg-black text-white font-headline pb-32 relative overflow-x-hidden pt-safe">
@@ -105,15 +207,22 @@ export default function BeforePhase() {
             {sections.map((section, idx) => (
               <div 
                 key={idx} 
-                onClick={() => { if(section.action) { playHeartbeat(); section.action(); }}}
-                className={cn("p-8 rounded-[2rem] border-2 transition-all group", section.color, section.action && "cursor-pointer hover:scale-[1.02] border-primary")}
+                onClick={() => handleCardClick(section)}
+                className={cn(
+                  "p-8 rounded-[2rem] border-2 transition-all group cursor-pointer hover:scale-[1.02]", 
+                  section.color, 
+                  section.id === 'testing' && "border-primary"
+                )}
               >
                 <div className="flex items-start gap-6">
                   <div className="p-4 rounded-2xl bg-black/40 border border-white/10 shrink-0">{section.icon}</div>
                   <div className="space-y-2">
-                    <h3 className="text-lg font-black uppercase tracking-tight text-white">{section.title}</h3>
+                    <h3 className="text-lg font-black uppercase tracking-tight text-white flex items-center gap-2">
+                      {section.title}
+                      {section.details && <Info size={14} className="text-white/20 group-hover:text-primary transition-colors" />}
+                    </h3>
                     <p className="text-sm font-bold text-white/60 leading-relaxed uppercase tracking-wide">{section.advice}</p>
-                    {section.action && <span className="inline-block mt-2 px-4 py-2 bg-primary text-white text-[9px] font-black uppercase tracking-widest rounded-full">{t.testingBtn}</span>}
+                    {section.id === 'testing' && <span className="inline-block mt-2 px-4 py-2 bg-primary text-white text-[9px] font-black uppercase tracking-widest rounded-full">{t.testingBtn}</span>}
                   </div>
                 </div>
               </div>
@@ -122,8 +231,61 @@ export default function BeforePhase() {
         </div>
       </ScrollArea>
 
+      <Dialog open={!!selectedWisdom} onOpenChange={() => setSelectedWisdom(null)}>
+        <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden flex flex-col font-headline shadow-[0_0_100px_rgba(0,0,0,0.9)]">
+          <DialogTitle className="sr-only">{t.wisdomTitle}</DialogTitle>
+          
+          <div className="p-10 text-center space-y-8">
+            <div className="flex flex-col items-center gap-6">
+              <div className={cn("w-20 h-20 rounded-[2rem] flex items-center justify-center border-2 border-white/10 shadow-2xl transition-all duration-700 bg-white/5")}>
+                {selectedWisdom?.icon && React.cloneElement(selectedWisdom.icon as React.ReactElement, { size: 40 })}
+              </div>
+              <div className="space-y-1">
+                <h3 className="text-3xl font-black uppercase tracking-tighter text-white">{selectedWisdom?.title}</h3>
+                <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em]">{selectedWisdom?.why}</p>
+              </div>
+            </div>
+
+            <div className="space-y-6 text-left">
+              <div className="p-6 bg-white/[0.03] border border-white/5 rounded-3xl space-y-4">
+                <p className="text-sm font-bold text-white/80 leading-relaxed uppercase tracking-widest">
+                  {selectedWisdom?.desc}
+                </p>
+                {selectedWisdom?.kidneys && (
+                  <p className="text-[11px] font-black text-blue-400/80 leading-relaxed uppercase tracking-widest border-t border-white/5 pt-4">
+                    {selectedWisdom.kidneys}
+                  </p>
+                )}
+                {selectedWisdom?.energy && (
+                  <p className="text-[11px] font-black text-emerald-400/80 leading-relaxed uppercase tracking-widest border-t border-white/5 pt-4">
+                    {selectedWisdom.energy}
+                  </p>
+                )}
+                {selectedWisdom?.timing && (
+                  <p className="text-[11px] font-black text-purple-400/80 leading-relaxed uppercase tracking-widest border-t border-white/5 pt-4">
+                    {selectedWisdom.timing}
+                  </p>
+                )}
+                {selectedWisdom?.sync && (
+                  <p className="text-[11px] font-black text-amber-400/80 leading-relaxed uppercase tracking-widest border-t border-white/5 pt-4">
+                    {selectedWisdom.sync}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <button 
+              onClick={() => { playHeartbeat(); setSelectedWisdom(null); }}
+              className="w-full h-16 bg-[#1b4d3e] text-white rounded-2xl font-black uppercase text-xs tracking-widest active:scale-95 transition-all shadow-lg"
+            >
+              {t.closeBtn}
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <footer className="fixed bottom-0 left-0 right-0 h-[100px] bg-black/90 backdrop-blur-xl border-t border-white/5 flex items-center justify-center px-6 z-50 pb-safe">
-        <button onClick={() => router.push("/dashboard")} className="w-full max-sm py-6 bg-[#1b4d3e] text-white rounded-full font-black uppercase text-lg tracking-[0.1em]">{t.button}</button>
+        <button onClick={() => router.push("/dashboard")} className="w-full max-sm py-6 bg-[#1b4d3e] text-white rounded-full font-black uppercase text-lg tracking-[0.1em] shadow-lg shadow-primary/20 active:scale-95 transition-all">{t.button}</button>
       </footer>
     </main>
   );
