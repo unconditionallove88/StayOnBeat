@@ -13,7 +13,11 @@ import {
   Shield, 
   Eye,
   Info,
-  CheckCircle2
+  CheckCircle2,
+  Users2,
+  Wind,
+  Sprout,
+  Radio
 } from 'lucide-react';
 import { RadiatingThirdEye } from '@/components/ui/radiating-third-eye';
 import { cn } from '@/lib/utils';
@@ -23,26 +27,26 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 /**
  * @fileOverview Sanctuary Guide Component (The Handover).
  * Explains tool functions and their connection to the Pulse Guardian.
- * Updated: Fully functional state synchronization and enriched content.
+ * Enhanced with Mesh Radar, Grounding Rituals, and Co-creation logic.
  */
 
 const STEPS = [
   {
     id: 'radar',
-    title: { en: "The Pulse Radar", de: "Der Puls-Radar heute" },
+    title: { en: "Pulse Mesh Radar", de: "Der Puls-Radar heute" },
     desc: { 
-      en: "Your mesh-based location tracker Shared only with those you love Pulse Guardian monitors your proximity to help stations and friends", 
+      en: "Your location tracker shared only with those you love using the Sovereign Mesh triangulation protocol", 
       de: "Dein Mesh-Ortungssystem heute hier Nur mit deinen Liebsten geteilt Pulse Guardian überwacht deine Nähe" 
     },
     howItWorks: {
-      en: "Tap to view friends and awareness hubs within the Sovereign Mesh Grid Toggle privacy to go invisible",
+      en: "View friends and awareness hubs on a tactical grid Toggle privacy to go invisible or broadcast distress via Mesh",
       de: "Tippe um Freunde zu sehen Innerhalb des Sovereign Mesh Grids Schalte Privatsphäre nach Bedarf um"
     },
     connection: {
-      en: "Pulse Guardian: Analyzes proximity alerts and triggers mesh triangulation during distress",
+      en: "Pulse Guardian: Analyzes Mesh triangulation to direct awareness staff to your precise tactical grid location",
       de: "Pulse Guardian: Analysiert Standort-Warnungen Und aktiviert die Mesh-Triangulation heute"
     },
-    icon: RadiatingThirdEye,
+    icon: Radio,
     color: "text-blue-400",
     bg: "bg-blue-500/10"
   },
@@ -54,11 +58,11 @@ const STEPS = [
       de: "Notiere deine Sitzungs-Aufnahme heute Pulse Guardian kalibriert deine Limits Basierend auf deiner Pharmakologie heute" 
     },
     howItWorks: {
-      en: "Select substances and enter amounts The lab assesses risk interactions against your profile",
+      en: "Select substances and enter amounts The lab assesses risk interactions against your pharmacological profile",
       de: "Wähle Substanzen und Mengen aus Das Labor bewertet Interaktions-Risiken Basierend auf deinem Profil heute"
     },
     connection: {
-      en: "Pulse Guardian: Automatically recalculates biological limits for every entry logged",
+      en: "Pulse Guardian: Automatically recalculates biological limits for every entry logged in the lab",
       de: "Pulse Guardian: Berechnet biologische Grenzwerte Bei jedem Eintrag automatisch neu"
     },
     icon: Microscope,
@@ -66,56 +70,94 @@ const STEPS = [
     bg: "bg-primary/10"
   },
   {
-    id: 'sync',
-    title: { en: "Pulse Sync", de: "Vital-Sync heute hier" },
+    id: 'chat',
+    title: { en: "Love Chat", de: "Love Chat heute" },
     desc: { 
-      en: "Connect your wearable device We monitor your heart rate to ensure your rhythm stays steady against baseline", 
-      de: "Verbinde dein Wearable heute hier Wir überwachen deinen Puls heute Damit dein Rhythmus stabil bleibt" 
+      en: "A dual-pathway portal for community resonance and professional awareness support during your journey", 
+      de: "Ein Portal mit zwei Wegen für Gemeinschaft und professionelle Begleitung während deiner Reise" 
     },
     howItWorks: {
-      en: "Sync with Apple Watch or Oura Ring Get real-time biometric feedback during your session",
-      de: "Synchronisiere Apple Watch oder Oura Erhalte Echtzeit-Biometrie-Feedback Während deiner Sitzung heute hier"
+      en: "The Holders is for private circle support while The Spectators is a moderated public space for collective care",
+      de: "Die Holders sind für private Kreise Die Spectators sind ein moderierter öffentlicher Raum für Fürsorge"
     },
     connection: {
-      en: "Pulse Guardian: Compares live biometric data against pharmacological logs to detect physiological stress",
-      de: "Pulse Guardian: Vergleicht Live-Vitalwerte Mit Labor-Logs zur Stresserkennung heute"
+      en: "Pulse Guardian: Monitors communication patterns and provides a fast-track SOS button to awareness staff",
+      de: "Pulse Guardian: Überwacht Kommunikationsmuster Und bietet einen schnellen SOS-Button zum Awareness-Team"
     },
-    icon: Watch,
-    color: "text-accent",
-    bg: "bg-accent/10"
+    icon: Users2,
+    color: "text-[#10B981]",
+    bg: "bg-emerald-500/10"
   },
   {
-    id: 'letters',
-    title: { en: "Love Letters", de: "Liebesbriefe heute hier" },
+    id: 'breath',
+    title: { en: "Breath of Love", de: "Atem der Liebe" },
     desc: { 
-      en: "A note to your future self Written in light stored in the sanctuary for when you need it", 
-      de: "Nachricht an dein zukünftiges Ich In Licht geschrieben heute hier Sicher im Sanctuary verwahrt heute" 
+      en: "A physiological resonance ritual designed to recalibrate your nervous system and stimulate oxytocin", 
+      de: "Ein Ritual zur Neukalibrierung deines Nervensystems Stimuliert Oxytocin und fördert innere Ruhe heute" 
     },
     howItWorks: {
-      en: "Type or dictate a message while you feel radiant We seal it until your recovery phase",
-      de: "Schreibe oder diktiere eine Nachricht Solange du dich strahlend fühlst Wir versiegeln sie für danach"
+      en: "Follow the rhythmic light to synchronize your breathing and return to a steady physiological state",
+      de: "Folge dem rhythmischen Licht Um deinen Atem zu synchronisieren Und in einen stabilen Zustand zu finden"
     },
     connection: {
-      en: "Pulse Guardian: Surfaces your love letters automatically if post-session paranoia or low resonance is detected",
-      de: "Pulse Guardian: Zeigt Liebesbriefe automatisch Bei Paranoia oder niedriger Resonanz heute"
+      en: "Pulse Guardian: Recommends the Breath of Love automatically if elevated heart rate or stress is detected",
+      de: "Pulse Guardian: Empfiehlt den Atem der Liebe Falls ein erhöhter Puls oder Stress erkannt wird heute"
     },
-    icon: PenLine,
-    color: "text-purple-400",
-    bg: "bg-purple-500/10"
+    icon: Wind,
+    color: "text-emerald-400",
+    bg: "bg-emerald-500/5"
+  },
+  {
+    id: 'vision',
+    title: { en: "Vision of Love", de: "Vision der Liebe" },
+    desc: { 
+      en: "A high-fidelity grounding tool using prismatic affirmations to stabilize sensory intensity", 
+      de: "Ein Erdungs-Tool das prismatische Affirmationen nutzt Um sensorische Intensität sanft zu stabilisieren heute" 
+    },
+    howItWorks: {
+      en: "Immerse yourself in visual affirmations designed to reduce paranoia and restore emotional harmony",
+      de: "Tauche ein in visuelle Affirmationen Um Paranoia zu reduzieren Und emotionale Harmonie zu finden heute"
+    },
+    connection: {
+      en: "Pulse Guardian: Triggers the grounding sequence during the recovery phase or upon manual request",
+      de: "Pulse Guardian: Aktiviert die Erdungs-Sequenz Während der Erholungsphase oder bei manuellem Bedarf"
+    },
+    icon: Eye,
+    color: "text-blue-300",
+    bg: "bg-blue-300/10"
+  },
+  {
+    id: 'cocreation',
+    title: { en: "Co-Creation", de: "Ko-Kreation heute hier" },
+    desc: { 
+      en: "Your voice shapes this sanctuary Share resonance and feedback to help us grow with love", 
+      de: "Deine Stimme gestaltet diesen Raum Teile Resonanz und Feedback Um uns beim Wachsen zu helfen heute" 
+    },
+    howItWorks: {
+      en: "Send heart-based messages or participate in app surveys to improve the collective sanctuary experience",
+      de: "Sende herzbasierte Nachrichten Oder nimm an Umfragen teil Um das gemeinsame Erlebnis zu verbessern"
+    },
+    connection: {
+      en: "Pulse Guardian: Aggregates anonymous feedback to evolve intelligence protocols and safety features",
+      de: "Pulse Guardian: Sammelt anonymes Feedback Um Intelligenz-Protokolle und Sicherheit zu entwickeln heute"
+    },
+    icon: Sprout,
+    color: "text-primary",
+    bg: "bg-primary/5"
   },
   {
     id: 'supporter',
     title: { en: "The Supporter", de: "Unterstützer heute hier" },
     desc: { 
-      en: "Your sentient AI companion Ask anything about safety phases or grounding Available 24/7 within your sanctuary", 
+      en: "Your sentient AI companion Ask anything about pharmacological safety or emotional grounding", 
       de: "Dein empathischer KI-Begleiter heute Frage alles über Sicherheit heute Jederzeit im Sanctuary erreichbar heute" 
     },
     howItWorks: {
-      en: "Ask questions via voice or text Select your current phase for tailored guidance",
-      de: "Stelle Fragen per Sprache/Text Wähle deine aktuelle Phase aus Für maßgeschneiderte Begleitung heute hier"
+      en: "Use voice or text to get tailored advice based on your current session phase and intake profile",
+      de: "Nutze Sprache oder Text Für maßgeschneiderte Begleitung Basierend auf deinem aktuellen Profil heute hier"
     },
     connection: {
-      en: "Pulse Guardian: Feeds session context to the Supporter to provide tailored pharmacological safety advice",
+      en: "Pulse Guardian: Feeds real-time session context to the Supporter to ensure advice is medically accurate",
       de: "Pulse Guardian: Teilt Sitzungskontext mit Supporter Für maßgeschneiderte Sicherheitsratschläge heute hier"
     },
     icon: Shield,
@@ -134,7 +176,6 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
     if (dismissed && !forceOpen) setHasDismissed(true);
   }, [forceOpen]);
 
-  // CRITICAL: Update internal state when forceOpen changes
   useEffect(() => {
     if (forceOpen) setIsOpen(true);
   }, [forceOpen]);

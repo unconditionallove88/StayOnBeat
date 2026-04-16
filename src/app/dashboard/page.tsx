@@ -163,7 +163,6 @@ function DashboardContent() {
             <PulseGuardianBanner lang={lang} variant="banner" onOpenGuide={() => setGuideOpen(true)} />
           </div>
 
-          {/* RADIANT EMERGENCY PRESENCE CIRCLE */}
           {(guardianStatus === 'caution' || guardianStatus === 'locked') && (
             <div className="flex justify-center animate-in zoom-in duration-500">
                <button 
@@ -200,26 +199,26 @@ function DashboardContent() {
               {!showLoveChatOptions ? (
                 <button 
                   onClick={() => { playHeartbeat(); setShowLoveChatOptions(true); }}
-                  className="w-40 h-40 rounded-full bg-white/[0.02] border-2 border-primary/20 flex flex-col items-center justify-center group hover:border-primary/40 transition-all shadow-xl"
+                  className="w-40 h-40 rounded-full bg-[#10B981]/10 border-4 border-[#10B981] flex flex-col items-center justify-center group hover:bg-[#10B981]/20 transition-all shadow-[0_0_40px_rgba(16,185,129,0.4)]"
                 >
-                  <MessageCircleHeart size={48} className="text-primary mb-2" />
-                  <span className="text-xs font-black uppercase tracking-widest text-white/60">{t.loveChat}</span>
+                  <MessageCircleHeart size={48} className="text-[#10B981] mb-2" />
+                  <span className="text-xs font-black uppercase tracking-widest text-white">{t.loveChat}</span>
                 </button>
               ) : (
                 <div className="flex gap-8 animate-in zoom-in-95 duration-500">
                   <button 
                     onClick={() => router.push('/heart-status?chat=holders')}
-                    className="w-32 h-32 rounded-full bg-white/[0.03] border-2 border-primary/30 flex flex-col items-center justify-center group hover:bg-primary/10 transition-all"
+                    className="w-32 h-32 rounded-full bg-white/[0.03] border-4 border-[#10B981] flex flex-col items-center justify-center group hover:bg-[#10B981]/10 transition-all shadow-xl"
                   >
-                    <Users2 size={32} className="text-primary mb-1" />
-                    <span className="text-[9px] font-black uppercase tracking-widest text-white/80">{t.holders}</span>
+                    <Users2 size={32} className="text-[#10B981] mb-1" />
+                    <span className="text-[9px] font-black uppercase tracking-widest text-[#10B981]">{t.holders}</span>
                   </button>
                   <button 
                     onClick={() => router.push('/heart-status?chat=spectators')}
-                    className="w-32 h-32 rounded-full bg-white/[0.03] border-2 border-accent/30 flex flex-col items-center justify-center group hover:bg-accent/10 transition-all"
+                    className="w-32 h-32 rounded-full bg-white/[0.03] border-4 border-[#10B981] flex flex-col items-center justify-center group hover:bg-yellow-500/10 transition-all shadow-xl"
                   >
-                    <Globe size={32} className="text-accent mb-1" />
-                    <span className="text-[9px] font-black uppercase tracking-widest text-white/80">{t.spectators}</span>
+                    <Users2 size={32} className="text-yellow-500 mb-1" />
+                    <span className="text-[9px] font-black uppercase tracking-widest text-yellow-500">{t.spectators}</span>
                   </button>
                   <button onClick={() => setShowLoveChatOptions(false)} className="self-center p-3 bg-white/5 rounded-full border border-white/10 text-white/20"><ArrowLeft size={16} /></button>
                 </div>
@@ -276,7 +275,6 @@ function DashboardContent() {
         </DialogContent>
       </Dialog>
 
-      {/* EMERGENCY HEART BREATH TOOL */}
       {emergencyPresenceOpen && (
         <HeartBreath lang={lang} onClose={() => setEmergencyPresenceOpen(false)} />
       )}
