@@ -8,8 +8,7 @@ import { playHeartbeat } from '@/lib/resonance';
 
 /**
  * @fileOverview Heart Breath (Oxytocin Breath) Tool.
- * Designed to stimulate oxytocin production and foster connection.
- * Used as the primary emergency intervention for the "Presence" circle.
+ * Integrated with visual affirmations for unified emergency presence.
  */
 
 interface HeartBreathProps {
@@ -24,11 +23,11 @@ const CONTENT = {
     inhale: "Breathe In Love",
     exhale: "Breathe Out Love",
     affirmations: [
-      "Heart Breath Flow",
-      "Oxytocin Love Sync",
-      "Breathe With Soul",
-      "Connection Is Life",
-      "I Am Home"
+      "Motherly care heals",
+      "Brotherly bonds hold",
+      "Unconditional love always",
+      "Acceptance unites humanity",
+      "Pure presence now"
     ],
     instruction: "Synchronize your breath with the heart",
     return: "Return to Sanctuary"
@@ -39,11 +38,11 @@ const CONTENT = {
     inhale: "Atme sanft Liebe ein",
     exhale: "Atme sanft Liebe aus",
     affirmations: [
-      "Herz Atem fließt heute",
-      "Oxytocin Liebe fließt hier",
-      "Atme mit deiner Seele",
-      "Verbindung ist das Leben",
-      "Ich bin Zuhause heute"
+      "Mütterliche Fürsorge heilt heute",
+      "Brüderliche Bande halten heute",
+      "Bedingungslose Liebe immerzu hier",
+      "Akzeptanz vereint die Menschheit",
+      "Reine Gegenwart jetzt hier"
     ],
     instruction: "Synchronisiere deinen Atem heute",
     return: "Zum Sanctuary zurückkehren"
@@ -62,7 +61,7 @@ export function HeartBreath({ onClose, lang = 'en' }: HeartBreathProps) {
         setCurrentAffirmation((prev) => (prev + 1) % t.affirmations.length);
         setIsFading(false);
       }, 1000);
-    }, 8000);
+    }, 6000); // Swapping every 6s to match oxytocin breathing cycles
     return () => clearInterval(interval);
   }, [t.affirmations.length]);
 
@@ -80,9 +79,20 @@ export function HeartBreath({ onClose, lang = 'en' }: HeartBreathProps) {
 
   return (
     <div className="fixed inset-0 z-[7000] bg-[#050505] flex flex-col font-headline animate-in fade-in duration-1000 overflow-hidden pt-safe pb-safe">
-      {/* Background Radiance */}
+      {/* Background Radiance & Affirmation Layer */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(244,63,94,0.15)_0%,_transparent_70%)] animate-pulse" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+      
+      <div 
+        className="absolute inset-0 flex items-center justify-center p-8 text-center transition-all duration-1000 transform"
+        style={{ 
+          opacity: isFading ? 0 : 0.4,
+          translateY: isFading ? '10px' : '0px'
+        }}
+      >
+        <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter text-rose-500/20 select-none">
+          {t.affirmations[currentAffirmation]}
+        </h2>
+      </div>
 
       <header className="relative z-20 px-8 pt-8 flex items-center justify-between">
         <div className="flex flex-col gap-1">
@@ -115,7 +125,6 @@ export function HeartBreath({ onClose, lang = 'en' }: HeartBreathProps) {
               style={{ filter: 'blur(20px) drop-shadow(0 0 30px #f43f5e)' }} 
             />
             
-            {/* The Breathing Text inside the heart-area */}
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="relative w-full">
                 <div className="absolute inset-0 flex items-center justify-center text-xl md:text-2xl font-black uppercase tracking-tighter text-white drop-shadow-lg">
@@ -129,8 +138,7 @@ export function HeartBreath({ onClose, lang = 'en' }: HeartBreathProps) {
           </div>
         </div>
 
-        {/* Affirmation Layer */}
-        <div className="space-y-4 max-w-sm">
+        <div className="space-y-4 max-w-sm relative z-20">
           <div 
             className="transition-all duration-1000 transform h-20 flex items-center justify-center"
             style={{ 

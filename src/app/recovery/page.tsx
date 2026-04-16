@@ -37,8 +37,7 @@ import { VisionOfLove } from '@/components/dashboard/VisionOfLove';
 
 /**
  * @fileOverview Recovery Protocol Page.
- * Fixed: Imports verified, typos in minutes string resolved.
- * Unified language handling.
+ * Fixed: Maximum update depth loop resolved by moving content outside and fixing dependencies.
  */
 
 const PRACTITIONERS = [
@@ -46,6 +45,41 @@ const PRACTITIONERS = [
   { name: "Mitte Care Center", specialty: "Sexual Health & STD Testing", address: "Prenzlauer Berg, Berlin", urgent: true },
   { name: "Pulse Partner Praxis", specialty: "Internal Medicine", address: "Kreuzberg, Berlin", urgent: false },
 ];
+
+const CONTENT = {
+  en: {
+    integrated: "Integrated", recovery: "Recovery", personalProtocol: "Personalized protocol",
+    activeProtection: "Active Protection", secureWipe: "Session data wiped",
+    protocolGenerated: "Personalized protocol generated", privacyFinalized: "Privacy protocols finalized",
+    dataAnalyzed: (count: number) => `Data analyzed: ${count} entries`,
+    timeline: "Integration Timeline", noLogs: "No logs detected",
+    wipeWarning: "Completing this protocol will permanently wipe session logs and location history",
+    finishBtn: "Complete Session", returnBtn: "Return to Sanctuary",
+    improveBtn: "Help us improve", minutes: "4 minutes · anonymous",
+    ritualTitle: "Breath of Love", ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system",
+    gpTitle: "GP Consultation", gpDesc: "Contact your General Practitioner for high-fidelity STD testing and post-session health checks",
+    mentalTitle: "Mental Integration", mentalDesc: "Guidance for paranoia or intense side-effects Return to harmony through presence",
+    emergencyBtn: "Call Emergency Directly",
+    mentalIntro: "How do you feel?", mentalVision: "Vision of Love (Grounding)", mentalProfessional: "Talk to a Professional", mentalSOS: "SOS - Need Circle Support",
+    gpIntro: "Select a Practitioner", gpUrgent: "Request Urgent Walk-in", gpBook: "Book Appointment", gpPartners: "Sanctuary Partners"
+  },
+  de: {
+    integrated: "Integriert", recovery: "Erholung", personalProtocol: "Persönlicher Protokoll",
+    activeProtection: "Aktiver Schutz", secureWipe: "Sitzungsdaten gelöscht hier",
+    protocolGenerated: "Persönliches Protokoll erstellt hier", privacyFinalized: "Schutzprotokolle abgeschlossen hier",
+    dataAnalyzed: (count: number) => `Daten analysiert: ${count} Einträge`,
+    timeline: "Integrations Zeitachse heute", noLogs: "Keine Sitzungsdaten gefunden",
+    wipeWarning: "Der Abschluss dieses Protokolls löscht dauerhaft alle Sitzungsprotokolle und Verläufe",
+    finishBtn: "Session jetzt abschließen", returnBtn: "Zurück zum Sanctuary",
+    improveBtn: "Hilf uns verbessern", minutes: "4 Minuten · anonym",
+    ritualTitle: "Atem der Liebe", ritualDesc: "Führe das Ritual durch um dein Nervensystem sanft zu kalibrieren",
+    gpTitle: "Praxis-Besuch", gpDesc: "Kontaktiere deinen Hausarzt für STD-Tests und Gesundheitschecks nach der Sitzung",
+    mentalTitle: "Mentale Integration", mentalDesc: "Begleitung bei Paranoia oder intensiven Nebenwirkungen Zurück zur Harmonie finden",
+    emergencyBtn: "Notruf direkt anrufen",
+    mentalIntro: "Wie fühlst du dich?", mentalVision: "Vision der Liebe (Erdung)", mentalProfessional: "Mit Profis sprechen", mentalSOS: "SOS - Hilfe vom Kreis",
+    gpIntro: "Wähle eine Praxis", gpUrgent: "Dringender Besuch (Notfall)", gpBook: "Termin buchen", gpPartners: "Sanctuary Partner"
+  }
+};
 
 export default function RecoveryView() {
   const router = useRouter();
@@ -87,53 +121,7 @@ export default function RecoveryView() {
     return () => clearInterval(timer);
   }, []);
 
-  const t = {
-    en: {
-      integrated: "Integrated", recovery: "Recovery", personalProtocol: "Personalized protocol",
-      activeProtection: "Active Protection", secureWipe: "Session data wiped",
-      protocolGenerated: "Personalized protocol generated", privacyFinalized: "Privacy protocols finalized",
-      dataAnalyzed: (count: number) => `Data analyzed: ${count} entries`,
-      timeline: "Integration Timeline", noLogs: "No logs detected",
-      wipeWarning: "Completing this protocol will permanently wipe session logs and location history",
-      finishBtn: "Complete Session", returnBtn: "Return to Sanctuary",
-      improveBtn: "Help us improve", minutes: "4 minutes · anonymous",
-      ritualTitle: "Breath of Love", ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system",
-      gpTitle: "GP Consultation", gpDesc: "Contact your General Practitioner for high-fidelity STD testing and post-session health checks",
-      mentalTitle: "Mental Integration", mentalDesc: "Guidance for paranoia or intense side-effects Return to harmony through presence",
-      emergencyBtn: "Call Emergency Directly",
-      mentalIntro: "How do you feel?", mentalVision: "Vision of Love (Grounding)", mentalProfessional: "Talk to a Professional", mentalSOS: "SOS - Need Circle Support",
-      gpIntro: "Select a Practitioner", gpUrgent: "Request Urgent Walk-in", gpBook: "Book Appointment", gpPartners: "Sanctuary Partners"
-    },
-    de: {
-      integrated: "Integriert", recovery: "Erholung", personalProtocol: "Persönlicher Protokoll",
-      activeProtection: "Aktiver Schutz", secureWipe: "Sitzungsdaten gelöscht hier",
-      protocolGenerated: "Persönliches Protokoll erstellt hier", privacyFinalized: "Schutzprotokolle abgeschlossen hier",
-      dataAnalyzed: (count: number) => `Daten analysiert: ${count} Einträge`,
-      timeline: "Integrations Zeitachse heute", noLogs: "Keine Sitzungsdaten gefunden",
-      wipeWarning: "Der Abschluss dieses Protokolls löscht dauerhaft alle Sitzungsprotokolle und Verläufe",
-      finishBtn: "Session jetzt abschließen", returnBtn: "Zurück zum Sanctuary",
-      improveBtn: "Hilf uns verbessern", minutes: "4 Minuten · anonym",
-      ritualTitle: "Atem der Liebe", ritualDesc: "Führe das Ritual durch um dein Nervensystem sanft zu kalibrieren",
-      gpTitle: "Praxis-Besuch", gpDesc: "Kontaktiere deinen Hausarzt für STD-Tests und Gesundheitschecks nach der Sitzung",
-      mentalTitle: "Mentale Integration", mentalDesc: "Begleitung bei Paranoia oder intensiven Nebenwirkungen Zurück zur Harmonie finden",
-      emergencyBtn: "Notruf direkt anrufen",
-      mentalIntro: "Wie fühlst du dich?", mentalVision: "Vision der Liebe (Erdung)", mentalProfessional: "Mit Profis sprechen", mentalSOS: "SOS - Hilfe vom Kreis",
-      gpIntro: "Wähle eine Praxis", gpUrgent: "Dringender Besuch (Notfall)", gpBook: "Termin buchen", gpPartners: "Sanctuary Partner"
-    }
-  }[lang] || {
-    integrated: "Integrated", recovery: "Recovery", personalProtocol: "Personalized protocol",
-    activeProtection: "Active Protection", secureWipe: "Session data wiped",
-    protocolGenerated: "Personalized protocol generated", privacyFinalized: "Privacy protocols finalized",
-    dataAnalyzed: (count: number) => `Data analyzed: 0 entries`,
-    timeline: "Integration Timeline", noLogs: "No logs detected",
-    wipeWarning: "Completing this protocol will permanently wipe session logs and location history",
-    finishBtn: "Complete Session", returnBtn: "Return to Sanctuary",
-    improveBtn: "Help us improve", minutes: "4 minutes · anonymous",
-    ritualTitle: "Breath of Love", ritualDesc: "Perform the guided resonance ritual to recalibrate your nervous system",
-    gpTitle: "GP Consultation", gpDesc: "Contact your General Practitioner for high-fidelity STD testing and post-session health checks",
-    mentalTitle: "Mental Integration", mentalDesc: "Guidance for paranoia or intense side-effects Return to harmony through presence",
-    emergencyBtn: "Call Emergency Directly"
-  };
+  const t = CONTENT[lang] || CONTENT.en;
 
   useEffect(() => {
     const plan: any[] = [
@@ -143,7 +131,7 @@ export default function RecoveryView() {
       { id: 'gp', time: "24h", text: t.gpTitle, desc: t.gpDesc, icon: Stethoscope, color: "text-blue-400", action: () => setGPOpen(true) }
     ];
     setDetoxPlan(plan);
-  }, [t, router]);
+  }, [lang, router]); // Fixed dependencies to prevent re-render loop
 
   const handleFinish = () => {
     playHeartbeat();

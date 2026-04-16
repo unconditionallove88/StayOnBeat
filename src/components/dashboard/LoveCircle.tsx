@@ -25,7 +25,7 @@ import {
 
 /**
  * @fileOverview Organic Circle of Love (Aura Ring Edition).
- * Recreated to function as a tender Aura Ring in Dark Green.
+ * Refined for "Tender" resonance: Pulsation intensity only rises with BPM.
  * User heart is RED. Friends are color-coded based on state.
  */
 
@@ -79,8 +79,8 @@ export default function LoveCircle({ lang = "en", variant = "dashboard", heartRa
             }} 
           />
 
-          {/* Shining Circle Contour */}
-          <div className="absolute inset-[-10px] rounded-full border border-primary/20 pointer-events-none opacity-40" />
+          {/* Shining Circle Contour - High Fidelity Shine */}
+          <div className="absolute inset-[-12px] rounded-full border-2 border-primary/40 pointer-events-none opacity-60 shadow-[0_0_20px_rgba(27,77,62,0.4),inset_0_0_20px_rgba(27,77,62,0.4)]" />
           
           <style jsx>{`
             @keyframes tender-aura-ring {

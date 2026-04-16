@@ -199,9 +199,9 @@ function DashboardContent() {
               {!showLoveChatOptions ? (
                 <button 
                   onClick={() => { playHeartbeat(); setShowLoveChatOptions(true); }}
-                  className="w-40 h-40 rounded-full bg-[#10B981]/10 border-4 border-[#10B981] flex flex-col items-center justify-center group hover:bg-[#10B981]/20 transition-all shadow-[0_0_40px_rgba(16,185,129,0.4)]"
+                  className="w-40 h-40 rounded-full bg-[#10B981] border-4 border-[#10B981] flex flex-col items-center justify-center group hover:bg-[#10B981]/90 transition-all shadow-[0_0_50px_rgba(16,185,129,0.4)]"
                 >
-                  <MessageCircleHeart size={48} className="text-[#10B981] mb-2" />
+                  <MessageCircleHeart size={48} className="text-white mb-2" />
                   <span className="text-xs font-black uppercase tracking-widest text-white">{t.loveChat}</span>
                 </button>
               ) : (
