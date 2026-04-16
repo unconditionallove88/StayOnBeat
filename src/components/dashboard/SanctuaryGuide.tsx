@@ -23,7 +23,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 /**
  * @fileOverview Sanctuary Guide Component (The Handover).
  * Explains tool functions and their connection to the Pulse Guardian.
- * Updated: Simpler, less active tab UI.
+ * Updated: Fully functional state synchronization and enriched content.
  */
 
 const STEPS = [
@@ -132,6 +132,11 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
   useEffect(() => {
     const dismissed = localStorage.getItem('stayonbeat_guide_dismissed');
     if (dismissed && !forceOpen) setHasDismissed(true);
+  }, [forceOpen]);
+
+  // CRITICAL: Update internal state when forceOpen changes
+  useEffect(() => {
+    if (forceOpen) setIsOpen(true);
   }, [forceOpen]);
 
   const handleDismiss = () => {
