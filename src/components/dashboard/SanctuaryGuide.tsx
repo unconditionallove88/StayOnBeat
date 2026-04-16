@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -21,8 +22,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
  * @fileOverview Sanctuary Guide Component (The Handover).
- * Explains how each tool functions and its connection to the Pulse Guardian.
- * Fully responsive for iPhone/Android.
+ * Explains tool functions and their connection to the Pulse Guardian.
+ * Updated: Simpler, less active tab UI.
  */
 
 const STEPS = [
@@ -146,26 +147,21 @@ export function SanctuaryGuide({ lang = 'en', forceOpen = false, onDismiss }: { 
   const Icon = step.icon;
 
   return (
-    <div className={cn("w-full", !isOpen && "mb-8")}>
+    <div className={cn("w-full transition-all duration-1000", !isOpen && "mb-6")}>
       {!isOpen ? (
         <button 
           onClick={() => { playHeartbeat(); setIsOpen(true); }}
-          className="w-full flex items-center justify-between p-5 bg-primary/10 border border-primary/20 rounded-[2rem] hover:bg-primary/20 transition-all group animate-in slide-in-from-top duration-700"
+          className="w-full flex items-center justify-between p-4 bg-white/[0.03] border border-white/10 rounded-2xl hover:bg-white/[0.05] transition-all group opacity-60 hover:opacity-100"
         >
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center">
-              <Sparkles className="text-primary animate-pulse" size={20} />
-            </div>
+          <div className="flex items-center gap-3">
+            <Sparkles className="text-white/20" size={16} />
             <div className="text-left">
-              <span className="block text-[10px] font-black uppercase text-primary tracking-[0.2em]">
-                {lang === 'en' ? "Sanctuary Guide Active" : "Sanctuary Begleiter heute hier"}
+              <span className="block text-[9px] font-black uppercase text-white/40 tracking-[0.2em]">
+                {lang === 'en' ? "Sanctuary Guide" : "Sanctuary Begleiter"}
               </span>
-              <p className="text-[9px] font-bold text-white/40 uppercase tracking-widest">
-                {lang === 'en' ? "How to use your tools" : "Wie du deine Tools nutzt heute"}
-              </p>
             </div>
           </div>
-          <ChevronRight size={16} className="text-primary/40 group-hover:translate-x-1 transition-transform" />
+          <ChevronRight size={14} className="text-white/10 group-hover:text-primary transition-colors" />
         </button>
       ) : (
         <div className="fixed inset-0 z-[5000] bg-black flex flex-col animate-in fade-in duration-500 font-headline pt-safe pb-safe overflow-hidden">

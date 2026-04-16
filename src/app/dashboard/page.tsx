@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -18,7 +19,8 @@ import {
   Users2,
   Globe,
   ArrowRight,
-  MessageCircleHeart
+  MessageCircleHeart,
+  ArrowLeft
 } from 'lucide-react';
 import { SupporterIcon } from '@/components/ui/supporter-icon';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
@@ -72,23 +74,15 @@ const CONTENT = {
     mesh: "Mesh Active",
     loveChat: "Love Chat",
     holders: "The Holders",
-    holdersSub: "Private Bonds",
     spectators: "The Spectators",
-    spectatorsSub: "Public Care",
-    intervention: "Presence",
-    supporterMain: "AI Supporter Portal",
-    supporterSub: "Your Sentient Companion"
+    supporterMain: "Supporter",
   },
   de: { 
     mesh: "Mesh aktiv heute hier",
-    loveChat: "Love Chat heute hier",
-    holders: "Die Holder heute hier",
-    holdersSub: "Privater Kreis heute hier",
-    spectators: "Die Spectator heute hier",
-    spectatorsSub: "Gemeinsame Fürsorge heute hier",
-    intervention: "Präsenz heute hier",
-    supporterMain: "Unterstützer heute hier",
-    supporterSub: "Dein empathischer Begleiter heute"
+    loveChat: "Love Chat heute",
+    holders: "Die Holder",
+    spectators: "Die Spectator",
+    supporterMain: "Unterstützer",
   }
 };
 
@@ -110,8 +104,7 @@ function DashboardContent() {
   const [labOpen, setLabOpen] = useState(false);
   const [supporterOpen, setSupporterOpen] = useState(false);
   const [syncOpen, setSyncOpen] = useState(false);
-  const [visionOfLoveOpen, setVisionOfLoveOpen] = useState(false);
-  const [showSOS, setShowSOS] = useState(false);
+  const [showLoveChatOptions, setShowLoveChatOptions] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -172,51 +165,67 @@ function DashboardContent() {
             <p className="text-xs font-bold uppercase tracking-widest text-primary px-10 italic">"{affirmation}"</p>
           </div>
 
-          {/* Main Second Tool: Supporter Portal */}
-          <button 
-            onClick={() => { playHeartbeat(); setSupporterOpen(true); }}
-            className="w-full p-8 rounded-[2.5rem] bg-emerald-500/5 border-2 border-emerald-500/20 flex items-center justify-between group hover:bg-emerald-500/10 transition-all shadow-2xl"
-          >
-            <div className="flex items-center gap-6">
-              <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20 shadow-lg group-hover:scale-110 transition-transform">
-                <SupporterIcon size={36} className="text-emerald-500" />
-              </div>
-              <div className="text-left">
-                <h2 className="text-2xl font-black uppercase tracking-tighter text-white leading-none">{t.supporterMain}</h2>
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-500/60 mt-2">{t.supporterSub}</p>
-              </div>
-            </div>
-            <ArrowRight size={24} className="text-emerald-500/40 group-hover:translate-x-2 transition-transform" />
-          </button>
-
-          {/* Love Chat Grouping */}
-          <div className="space-y-4">
-            <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 text-center">{t.loveChat}</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <button onClick={() => router.push('/heart-status?chat=holders')} className="p-6 rounded-[2rem] bg-white/[0.02] border border-white/5 flex items-center gap-5 hover:bg-white/5 hover:border-primary/30 transition-all group">
-                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20"><Users2 size={28} className="text-primary" /></div>
-                <div className="text-left"><p className="text-lg font-black uppercase tracking-tight text-white leading-none">{t.holders}</p><p className="text-[8px] font-bold text-primary uppercase tracking-widest mt-1">{t.holdersSub}</p></div>
-              </button>
-              <button onClick={() => router.push('/heart-status?chat=spectators')} className="p-6 rounded-[2rem] bg-white/[0.02] border border-white/5 flex items-center gap-5 hover:bg-white/5 hover:border-accent/30 transition-all group">
-                <div className="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center border border-accent/20"><Globe size={28} className="text-accent" /></div>
-                <div className="text-left"><p className="text-lg font-black uppercase tracking-tight text-white leading-none">{t.spectators}</p><p className="text-[8px] font-bold text-accent uppercase tracking-widest mt-1">{t.spectatorsSub}</p></div>
+          {/* Core Circular Tools Section */}
+          <div className="flex flex-col items-center gap-12">
+            
+            {/* Primary Circular Tool: Supporter Portal */}
+            <div className="flex flex-col items-center gap-4">
+              <button 
+                onClick={() => { playHeartbeat(); setSupporterOpen(true); }}
+                className="w-48 h-48 md:w-56 md:h-56 rounded-full bg-emerald-500/5 border-2 border-emerald-500/20 flex flex-col items-center justify-center group hover:bg-emerald-500/10 transition-all shadow-[0_0_50px_rgba(16,185,129,0.1)] relative"
+              >
+                <div className="absolute inset-0 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/10 transition-all" />
+                <SupporterIcon size={64} className="text-emerald-500 mb-2 relative z-10" />
+                <span className="text-lg font-black uppercase tracking-tight text-white relative z-10">{t.supporterMain}</span>
               </button>
             </div>
-          </div>
 
-          <div className="grid grid-cols-3 gap-4">
-            <Link href="/map" className="p-6 rounded-3xl bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-2 hover:border-blue-500/30 transition-all">
-              <RadiatingThirdEye size={24} color="#3b82f6" />
-              <span className="text-[9px] font-black uppercase tracking-widest">Radar</span>
-            </Link>
-            <button onClick={() => setLabOpen(true)} className="p-6 rounded-3xl bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-2 hover:border-primary/30 transition-all">
-              <Microscope size={24} className="text-primary" />
-              <span className="text-[9px] font-black uppercase tracking-widest">Lab</span>
-            </button>
-            <button onClick={() => setSyncOpen(true)} className="p-6 rounded-3xl bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-2 hover:border-accent/30 transition-all">
-              <Watch size={24} className="text-accent" />
-              <span className="text-[9px] font-black uppercase tracking-widest">Sync</span>
-            </button>
+            {/* Circular Love Chat Section */}
+            <div className="flex flex-col items-center gap-6 w-full">
+              {!showLoveChatOptions ? (
+                <button 
+                  onClick={() => { playHeartbeat(); setShowLoveChatOptions(true); }}
+                  className="w-40 h-40 rounded-full bg-white/[0.02] border-2 border-primary/20 flex flex-col items-center justify-center group hover:border-primary/40 transition-all shadow-xl"
+                >
+                  <MessageCircleHeart size={48} className="text-primary mb-2" />
+                  <span className="text-xs font-black uppercase tracking-widest text-white/60">{t.loveChat}</span>
+                </button>
+              ) : (
+                <div className="flex gap-8 animate-in zoom-in-95 duration-500">
+                  <button 
+                    onClick={() => router.push('/heart-status?chat=holders')}
+                    className="w-32 h-32 rounded-full bg-white/[0.03] border-2 border-primary/30 flex flex-col items-center justify-center group hover:bg-primary/10 transition-all"
+                  >
+                    <Users2 size={32} className="text-primary mb-1" />
+                    <span className="text-[9px] font-black uppercase tracking-widest text-white/80">{t.holders}</span>
+                  </button>
+                  <button 
+                    onClick={() => router.push('/heart-status?chat=spectators')}
+                    className="w-32 h-32 rounded-full bg-white/[0.03] border-2 border-accent/30 flex flex-col items-center justify-center group hover:bg-accent/10 transition-all"
+                  >
+                    <Globe size={32} className="text-accent mb-1" />
+                    <span className="text-[9px] font-black uppercase tracking-widest text-white/80">{t.spectators}</span>
+                  </button>
+                  <button onClick={() => setShowLoveChatOptions(false)} className="self-center p-3 bg-white/5 rounded-full border border-white/10 text-white/20"><ArrowLeft size={16} /></button>
+                </div>
+              )}
+            </div>
+
+            {/* Utility Row: Circles */}
+            <div className="flex justify-center gap-6 w-full">
+              <Link href="/map" className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-1 hover:border-blue-500/30 transition-all group">
+                <RadiatingThirdEye size={24} color="#3b82f6" />
+                <span className="text-[8px] font-black uppercase tracking-widest text-white/40 group-hover:text-blue-400">Radar</span>
+              </Link>
+              <button onClick={() => setLabOpen(true)} className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-1 hover:border-primary/30 transition-all group">
+                <Microscope size={24} className="text-primary" />
+                <span className="text-[8px] font-black uppercase tracking-widest text-white/40 group-hover:text-primary">Lab</span>
+              </button>
+              <button onClick={() => setSyncOpen(true)} className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-1 hover:border-accent/30 transition-all group">
+                <Watch size={24} className="text-accent" />
+                <span className="text-[8px] font-black uppercase tracking-widest text-white/40 group-hover:text-accent">Sync</span>
+              </button>
+            </div>
           </div>
 
           <div className="pt-12">
@@ -243,6 +252,13 @@ function DashboardContent() {
         <DialogContent className="bg-black border-white/10 max-w-2xl p-0 rounded-[3rem] overflow-hidden flex flex-col h-[85dvh] max-h-[85dvh] top-[50%] -translate-y-[50%]">
           <DialogTitle className="sr-only">Supporter Portal</DialogTitle>
           <SupporterPortal userProfile={firestoreProfile} />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={syncOpen} onOpenChange={setSyncOpen}>
+        <DialogContent className="bg-black border-white/10 max-md p-0 rounded-[3rem] overflow-hidden flex flex-col h-auto max-h-[85vh] shadow-[0_0_80px_rgba(0,0,0,0.9)]">
+          <DialogTitle className="sr-only">Pulse Sync</DialogTitle>
+          <div className="flex-1 overflow-y-auto"><WearablesSync onComplete={() => setSyncOpen(false)} /></div>
         </DialogContent>
       </Dialog>
     </main>

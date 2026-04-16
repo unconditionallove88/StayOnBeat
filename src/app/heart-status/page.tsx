@@ -29,6 +29,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 /**
  * @fileOverview Inner Resonance Page.
  * Visual Heart Icon replaces Pulse Baseline.
+ * Biological Pulse container transformed into a circle.
  */
 
 function InnerHeartContent() {
@@ -87,7 +88,7 @@ function InnerHeartContent() {
       vision: "Vision of Love",
       visionSub: "Grounding Tool",
       bioPulse: "Biological Pulse",
-      bioPulseSub: "Your live resonance rhythm",
+      bioPulseSub: "Live rhythm",
       footer: "Sacred Inner Sanctuary"
     },
     de: {
@@ -95,13 +96,13 @@ function InnerHeartContent() {
       sub: "Im Aura-Ring heute",
       resonance: "Innere Resonanz heute",
       letters: "Liebesbriefe heute",
-      lettersSub: "Zukünftiges Ich heute",
-      breath: "Atem der Liebe heute",
+      lettersSub: "Zukünftiges Ich",
+      breath: "Atem der Liebe",
       breathSub: "Ritual jetzt hier",
-      vision: "Vision der Liebe heute",
-      visionSub: "Erdungs Tool heute",
+      vision: "Vision der Liebe",
+      visionSub: "Erdungs Tool",
       bioPulse: "Biologischer Puls",
-      bioPulseSub: "Dein lebendiger Rhythmus heute",
+      bioPulseSub: "Rhythmus heute",
       footer: "Heiliges Inneres Sanctuary"
     }
   }[lang];
@@ -173,41 +174,39 @@ function InnerHeartContent() {
             </button>
           </div>
 
-          {/* Biometric Resonance Card (Replacing technical baseline) */}
-          <div className="w-full bg-white/[0.02] border border-white/5 rounded-[3rem] p-10 relative overflow-hidden group mx-4 flex flex-col items-center">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none" />
+          {/* Biometric Resonance Circle */}
+          <div className="w-64 h-64 md:w-80 md:h-80 bg-white/[0.02] border border-white/10 rounded-full p-10 relative overflow-hidden flex flex-col items-center justify-center shadow-2xl group mx-4">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent pointer-events-none" />
             
-            <div className="flex flex-col items-center gap-2 mb-8">
-              <span className="block text-[10px] font-black uppercase text-primary tracking-[0.4em]">{t.bioPulse}</span>
-              <span className="text-[8px] font-bold text-white/20 uppercase tracking-widest">{t.bioPulseSub}</span>
+            <div className="flex flex-col items-center gap-1 mb-6 relative z-10">
+              <span className="block text-[9px] font-black uppercase text-primary tracking-[0.4em]">{t.bioPulse}</span>
+              <span className="text-[7px] font-bold text-white/20 uppercase tracking-widest">{t.bioPulseSub}</span>
             </div>
 
-            <div className="relative mb-8">
-               {/* Pulse Glow */}
+            <div className="relative mb-6">
                <div 
-                 className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-150 transition-all"
+                 className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-150"
                  style={{ animation: `aura-pulse-outer ${pulseDuration} ease-in-out infinite` }}
                />
-               {/* Pulsing Biological Heart */}
                <div 
-                 className="relative w-32 h-32 bg-black/40 rounded-full border-2 border-primary/20 flex items-center justify-center shadow-2xl backdrop-blur-md"
+                 className="relative w-24 h-24 bg-black/60 rounded-full border-2 border-primary/30 flex items-center justify-center shadow-2xl backdrop-blur-md cursor-pointer active:scale-95 transition-all"
                  onClick={() => setSyncOpen(true)}
                >
                  <Heart 
-                   size={64} 
+                   size={48} 
                    fill="currentColor" 
-                   className="text-primary transition-all cursor-pointer"
+                   className="text-primary transition-all"
                    style={{ 
                      animation: `heart-beat-inner ${pulseDuration} ease-in-out infinite`,
-                     filter: 'blur(8px) drop-shadow(0 0 15px hsl(var(--primary)))'
+                     filter: 'blur(6px) drop-shadow(0 0 12px hsl(var(--primary)))'
                    }} 
                  />
                </div>
             </div>
 
-            <div className="flex items-end gap-3">
-              <span className="text-6xl font-black text-white leading-none tracking-tighter tabular-nums">{currentBPM}</span>
-              <span className="text-[10px] font-black text-primary mb-1 uppercase tracking-widest leading-none">BPM</span>
+            <div className="flex items-end gap-2 relative z-10">
+              <span className="text-5xl font-black text-white leading-none tracking-tighter tabular-nums">{currentBPM}</span>
+              <span className="text-[9px] font-black text-primary mb-1 uppercase tracking-widest leading-none">BPM</span>
             </div>
           </div>
 

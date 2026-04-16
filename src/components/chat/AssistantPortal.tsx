@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -14,7 +15,7 @@ import { Step7GearCheck } from '@/components/onboarding/Step7GearCheck';
 /**
  * @fileOverview SupporterPortal Component.
  * Refined terminology: Assistant -> Supporter.
- * Updated: Enriched icon and "Before" phase sub-tools (Intention, Gear Check).
+ * Updated: Correct routing for recovery (after) phase.
  */
 
 interface AssistantPortalProps {
@@ -187,7 +188,11 @@ export function AssistantPortal({ userProfile }: AssistantPortalProps) {
           ].map((phase) => (
             <button 
               key={phase.title}
-              onClick={() => phase.id === 'before' ? setActivePhase('before') : router.push(`/${phase.id}`)}
+              onClick={() => {
+                if (phase.id === 'before') setActivePhase('before');
+                else if (phase.id === 'after') router.push('/recovery');
+                else router.push(`/${phase.id}`);
+              }}
               className={cn(
                 "flex items-center p-6 rounded-[2rem] border-2 transition-all active:scale-[0.98] group text-left",
                 phase.color
