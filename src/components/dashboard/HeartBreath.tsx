@@ -9,6 +9,7 @@ import { playHeartbeat } from '@/lib/resonance';
 /**
  * @fileOverview Heart Breath (Oxytocin Breath) Tool.
  * Integrated with visual affirmations for unified emergency presence.
+ * Updated: Affirmations moved exclusively to background for cleaner focus.
  */
 
 interface HeartBreathProps {
@@ -139,17 +140,6 @@ export function HeartBreath({ onClose, lang = 'en' }: HeartBreathProps) {
         </div>
 
         <div className="space-y-4 max-w-sm relative z-20">
-          <div 
-            className="transition-all duration-1000 transform h-20 flex items-center justify-center"
-            style={{ 
-              opacity: isFading ? 0 : 1,
-              translateY: isFading ? '20px' : '0px'
-            }}
-          >
-            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white leading-tight drop-shadow-xl">
-              {t.affirmations[currentAffirmation]}
-            </h2>
-          </div>
           <p className="text-[10px] font-black text-rose-500/60 uppercase tracking-[0.3em] animate-pulse">
             {t.instruction}
           </p>
