@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -21,9 +22,7 @@ import {
 
 /**
  * @fileOverview PulseGuardianBanner Component.
- * Linguistic purification: Removed "security" and "protection" terminology.
- * Punctuation-free affirmations for resonance.
- * Updated: Features link to the interactive Sanctuary Guide.
+ * Fixed: viewGuide button now correctly triggers the onOpenGuide prop to launch SanctuaryGuide.
  */
 
 interface PulseGuardianBannerProps {
@@ -68,7 +67,13 @@ export default function PulseGuardianBanner({
   variant = "banner",
   onOpenGuide
 }: PulseGuardianBannerProps) {
+  const [open, setOpen] = React.useState(false);
   const t = CONTENT[lang] || CONTENT.en;
+
+  const handleOpenGuide = () => {
+    setOpen(false); // Close the sheet
+    if (onOpenGuide) onOpenGuide();
+  };
 
   const InfoContent = () => (
     <div className="w-full max-md mx-auto pb-12 font-headline relative">
@@ -99,7 +104,7 @@ export default function PulseGuardianBanner({
 
       <div className="mt-8 px-2">
         <button 
-          onClick={onOpenGuide}
+          onClick={handleOpenGuide}
           className="w-full py-5 bg-white text-black rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg active:scale-95 transition-all"
         >
           {t.viewGuide}
@@ -115,7 +120,7 @@ export default function PulseGuardianBanner({
   );
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>

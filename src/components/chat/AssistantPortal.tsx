@@ -14,8 +14,7 @@ import { Step7GearCheck } from '@/components/onboarding/Step7GearCheck';
 
 /**
  * @fileOverview SupporterPortal Component.
- * Refined terminology: Assistant -> Supporter.
- * Updated: Correct routing for recovery (after) phase.
+ * Fixed: Routing for recovery (after) phase now points correctly to /recovery.
  */
 
 interface AssistantPortalProps {

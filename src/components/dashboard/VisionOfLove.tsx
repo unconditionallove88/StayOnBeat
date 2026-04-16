@@ -100,7 +100,7 @@ export function VisionOfLove({ onClose, isEmergency = false }: VisionOfLoveProps
   if (mode === 'beauty') {
     return (
       <div className={cn(
-        "fixed inset-0 z-[1000] flex flex-col font-headline animate-in fade-in duration-1000 overflow-hidden pt-safe pb-safe",
+        "fixed inset-0 z-[6000] flex flex-col font-headline animate-in fade-in duration-1000 overflow-hidden pt-safe pb-safe",
         isEmergency ? "bg-[#10B981]" : "bg-[#1b4d3e]"
       )}>
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-black/20 pointer-events-none" />
@@ -176,7 +176,7 @@ export function VisionOfLove({ onClose, isEmergency = false }: VisionOfLoveProps
   }
 
   return (
-    <div className="fixed inset-0 bg-black z-[1000] flex flex-col items-center justify-center px-8 text-center font-headline animate-in slide-in-from-bottom-4 duration-700 pb-safe pt-safe overflow-hidden">
+    <div className="fixed inset-0 bg-black z-[6000] flex flex-col items-center justify-center px-8 text-center font-headline animate-in slide-in-from-bottom-4 duration-700 pb-safe pt-safe overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/10 blur-[120px] rounded-full pointer-events-none animate-pulse" />
       
       <button 

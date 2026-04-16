@@ -25,8 +25,8 @@ import {
 
 /**
  * @fileOverview Organic Circle of Love (Aura Ring Edition).
- * Recreated to function as a tender Aura Ring.
- * Updated: Shining emerald green contour and procedural intensity.
+ * Recreated to function as a tender Aura Ring in Dark Green.
+ * User heart is RED. Friends are color-coded based on state.
  */
 
 const ARCHETYPES = [
@@ -41,8 +41,9 @@ const ARCHETYPES = [
 ];
 
 const MOCK_FRIENDS = [
-  { id: 'f1', name: 'MAX', hr: 72, active: true },
-  { id: 'f2', name: 'LUNA', hr: 88, active: true },
+  { id: 'f1', name: 'MAX', hr: 72, state: 'safe' },
+  { id: 'f2', name: 'LUNA', hr: 115, state: 'caution' },
+  { id: 'f3', name: 'SOL', hr: 140, state: 'locked' },
 ];
 
 export default function LoveCircle({ lang = "en", variant = "dashboard", heartRate = 75 }: { lang?: string, variant?: "dashboard" | "map", heartRate?: number }) {
@@ -51,9 +52,16 @@ export default function LoveCircle({ lang = "en", variant = "dashboard", heartRa
   const currentLang = lang.toLowerCase() as 'en' | 'de';
 
   const pulseDuration = `${(60 / heartRate).toFixed(2)}s`;
-  
   const pulseIntensity = heartRate > 120 ? 0.35 : (heartRate > 90 ? 0.2 : 0.1);
   const pulseOpacity = heartRate > 120 ? 0.5 : (heartRate > 90 ? 0.3 : 0.2);
+
+  const getStateColor = (state: string) => {
+    switch(state) {
+      case 'locked': return '#DC2626'; // Red
+      case 'caution': return '#F59E0B'; // Yellow
+      default: return '#10B981'; // Green
+    }
+  };
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -73,7 +81,6 @@ export default function LoveCircle({ lang = "en", variant = "dashboard", heartRa
 
           {/* Shining Circle Contour */}
           <div className="absolute inset-[-10px] rounded-full border border-primary/20 pointer-events-none opacity-40" />
-          <div className="absolute inset-[-20px] rounded-full border border-primary/10 pointer-events-none opacity-20" />
           
           <style jsx>{`
             @keyframes tender-aura-ring {
@@ -118,20 +125,22 @@ export default function LoveCircle({ lang = "en", variant = "dashboard", heartRa
             );
           })}
 
-          {/* Unity Core (Mirror Reflection) */}
-          <div className="relative w-48 h-48 md:w-56 md:h-56 bg-black rounded-full border-2 border-primary/20 flex items-center justify-center p-4 shadow-2xl z-10 overflow-hidden">
+          {/* Unity Core (Mirror Reflection) - Background is Dark Green */}
+          <div className="relative w-48 h-48 md:w-56 md:h-56 bg-[#051a14] rounded-full border-2 border-primary/20 flex items-center justify-center p-4 shadow-2xl z-10 overflow-hidden">
             <div 
               className="absolute inset-0 bg-primary/10 rounded-full transition-all duration-1000"
               style={{ 
                 animation: `heart-beat-inner ${pulseDuration} ease-in-out infinite`,
-                opacity: heartRate > 110 ? 0.3 : 0.15
+                opacity: 0.2
               }}
             />
 
+            {/* Friend Resonance Nodes */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               {MOCK_FRIENDS.map((friend, idx) => {
                 const fAngle = (idx * 360) / MOCK_FRIENDS.length + 45;
-                const fRadius = 32; 
+                const fRadius = 34; 
+                const fColor = getStateColor(friend.state);
                 return (
                   <div 
                     key={friend.id}
@@ -142,11 +151,17 @@ export default function LoveCircle({ lang = "en", variant = "dashboard", heartRa
                       transform: 'translate(-50%, -50%)'
                     }}
                   >
-                    <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center relative backdrop-blur-sm">
-                      <div className="absolute inset-0 bg-primary/20 rounded-full animate-ping" style={{ animationDuration: pulseDuration }} />
-                      <Sparkles size={11} className="text-primary" />
+                    <div 
+                      className="w-10 h-10 rounded-full border-2 flex items-center justify-center relative backdrop-blur-md transition-all duration-1000"
+                      style={{ 
+                        backgroundColor: `${fColor}15`,
+                        borderColor: `${fColor}40`
+                      }}
+                    >
+                      <div className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ backgroundColor: fColor, animationDuration: pulseDuration }} />
+                      <Heart size={14} fill={fColor} className="text-white/10" style={{ animation: `heart-beat-inner ${pulseDuration} ease-in-out infinite` }} />
                     </div>
-                    <span className="text-[7px] font-black text-white/20 uppercase tracking-tighter">{friend.name}</span>
+                    <span className="text-[7px] font-black text-white/40 uppercase tracking-tighter">{friend.name}</span>
                   </div>
                 );
               })}
@@ -159,7 +174,16 @@ export default function LoveCircle({ lang = "en", variant = "dashboard", heartRa
                   animation: `heart-beat-inner ${pulseDuration} ease-in-out infinite`
                 }}
               >
-                <RadiatingThirdEye size={36} color="hsl(var(--primary))" className="opacity-80" />
+                {/* User's Central Heart - Radiant RED */}
+                <Heart 
+                  size={48} 
+                  fill="#DC2626" 
+                  className="text-white/20 transition-all duration-700" 
+                  style={{ 
+                    filter: 'blur(4px) drop-shadow(0 0 15px #DC2626)',
+                    opacity: 0.8
+                  }} 
+                />
               </div>
               <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary/60 leading-none">
                 {currentLang === 'de' ? current.de : current.en}

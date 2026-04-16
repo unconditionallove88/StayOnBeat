@@ -20,7 +20,8 @@ import {
   Globe,
   ArrowRight,
   MessageCircleHeart,
-  ArrowLeft
+  ArrowLeft,
+  Sparkles
 } from 'lucide-react';
 import { SupporterIcon } from '@/components/ui/supporter-icon';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
@@ -76,6 +77,7 @@ const CONTENT = {
     holders: "The Holders",
     spectators: "The Spectators",
     supporterMain: "Supporter",
+    presence: "Presence"
   },
   de: { 
     mesh: "Mesh aktiv heute hier",
@@ -83,6 +85,7 @@ const CONTENT = {
     holders: "Die Holder",
     spectators: "Die Spectator",
     supporterMain: "Unterstützer",
+    presence: "Präsenz"
   }
 };
 
@@ -105,6 +108,7 @@ function DashboardContent() {
   const [supporterOpen, setSupporterOpen] = useState(false);
   const [syncOpen, setSyncOpen] = useState(false);
   const [showLoveChatOptions, setShowLoveChatOptions] = useState(false);
+  const [emergencyPresenceOpen, setEmergencyPresenceOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -158,6 +162,19 @@ function DashboardContent() {
             <PulseGuardianBanner lang={lang} variant="banner" onOpenGuide={() => setGuideOpen(true)} />
           </div>
 
+          {/* RADIANT EMERGENCY PRESENCE CIRCLE */}
+          {(guardianStatus === 'caution' || guardianStatus === 'locked') && (
+            <div className="flex justify-center animate-in zoom-in duration-500">
+               <button 
+                 onClick={() => { playHeartbeat(); setEmergencyPresenceOpen(true); }}
+                 className="w-40 h-40 rounded-full bg-red-600 flex flex-col items-center justify-center gap-2 shadow-[0_0_50px_rgba(220,38,38,0.4)] active:scale-95 transition-all border-4 border-white animate-pulse"
+               >
+                 <Sparkles className="text-white" size={32} />
+                 <span className="text-xl font-black uppercase tracking-widest text-white">{t.presence}</span>
+               </button>
+            </div>
+          )}
+
           <div className="space-y-4 text-center relative flex flex-col items-center">
             <Link href="/heart-status">
               <HeartStatusAura heartRate={simHeartRate} activeSubstances={activeSubstances} lang={lang} />
@@ -165,10 +182,8 @@ function DashboardContent() {
             <p className="text-xs font-bold uppercase tracking-widest text-primary px-10 italic">"{affirmation}"</p>
           </div>
 
-          {/* Core Circular Tools Section */}
           <div className="flex flex-col items-center gap-12">
             
-            {/* Primary Circular Tool: Supporter Portal */}
             <div className="flex flex-col items-center gap-4">
               <button 
                 onClick={() => { playHeartbeat(); setSupporterOpen(true); }}
@@ -180,7 +195,6 @@ function DashboardContent() {
               </button>
             </div>
 
-            {/* Circular Love Chat Section */}
             <div className="flex flex-col items-center gap-6 w-full">
               {!showLoveChatOptions ? (
                 <button 
@@ -211,7 +225,6 @@ function DashboardContent() {
               )}
             </div>
 
-            {/* Utility Row: Circles */}
             <div className="flex justify-center gap-6 w-full">
               <Link href="/map" className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-1 hover:border-blue-500/30 transition-all group">
                 <RadiatingThirdEye size={24} color="#3b82f6" />
@@ -261,6 +274,11 @@ function DashboardContent() {
           <div className="flex-1 overflow-y-auto"><WearablesSync onComplete={() => setSyncOpen(false)} /></div>
         </DialogContent>
       </Dialog>
+
+      {/* MERGED EMERGENCY PRESENCE TOOL */}
+      {emergencyPresenceOpen && (
+        <VisionOfLove isEmergency={true} onClose={() => setEmergencyPresenceOpen(false)} />
+      )}
     </main>
   );
 }
