@@ -13,7 +13,8 @@ import {
   Infinity, 
   Sparkles,
   Info,
-  ExternalLink
+  ExternalLink,
+  Radio
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { playHeartbeat } from "@/lib/resonance";
